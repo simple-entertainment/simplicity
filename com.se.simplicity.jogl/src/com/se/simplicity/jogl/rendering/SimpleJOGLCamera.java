@@ -1,9 +1,12 @@
 package com.se.simplicity.jogl.rendering;
 
-// JOGL imports.
 import javax.media.opengl.GL;
 
+import org.apache.log4j.Logger;
+
 import com.se.simplicity.SEInvalidOperationException;
+import com.se.simplicity.jogl.JOGLComponent;
+import com.se.simplicity.picking.Pick;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.scenegraph.Node;
@@ -17,11 +20,64 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * </p>
  * 
  * <p>
- * NEED A DIAGRAM TO EXPLAIN FRUSTUM AND THE RELATIONSHIP TO COMPONENTS IN THE CAMERA.
+ * The viewing frustrum is the shape that contains all components of the <code>SceneGraph</code> displayed when viewing through
+ * a <code>SimpleJOGLCamera</code>. The following diagram shows the 'side' and 'front' views of a viewing frustrum.
+ * </p>
+ * 
+ * <pre>
+ *              _______
+ *       /|    |\     /|
+ *      / |    | \___/ |
+ * _\  |  |    | |   | |
+ *  /  |  |    | |___| |
+ *      \ |    | /   \ |
+ *       \|    |/_____\|
+ *   
+ *   side        front
+ * </pre>
+ * 
+ * <p>
+ * <b>Eye</b>
  * </p>
  * 
  * <p>
- * Copyright (c) 2007, simple entertainment
+ * The eye is the position of the viewer. The 'front' of the frustrum in the context of this explanation is the side of the
+ * frustrum that is closest to the eye. In the 'side' view the eye is shown as the arrow to the left of the frustrum.
+ * </p>
+ * 
+ * <p>
+ * <b>Near Clipping Plane</b>
+ * </p>
+ * 
+ * <p>
+ * The near clipping plane is a plane in the <code>SceneGraph</code> a distance from the eye in front of which the viewer cannot
+ * see i.e. all components of the <code>SceneGraph</code> nearer to the eye than the near clipping plane will be clipped (not
+ * drawn). The area on the near clipping plane that constitutes a face of the frustrum is shown as the short vertical line in the
+ * 'side' view and the smaller rectangle in the 'front' view. This face can be thought of as analogous to the screen and is
+ * referred to as the frame.
+ * </p>
+ * 
+ * <p>
+ * <b>Far Clipping Plane</b>
+ * </p>
+ * 
+ * <p>
+ * The far clipping plane is a plane in the <code>SceneGraph</code> a distance from the eye past which the viewer cannot see
+ * i.e. all components of the <code>SceneGraph</code> further from the eye than the far clipping plane will be clipped (not
+ * drawn). The area on the far clipping plane that constitutes a face of the frustrum is shown as the long vertical line in the
+ * 'side' view and the larger rectangle in the 'front' view.
+ * </p>
+ * 
+ * <p>
+ * <b>Frame Position and Dimensions</b>
+ * </p>
+ * 
+ * <p>
+ * The dimensions of the areas of the clipping planes that are used as faces of the frustrum are calculated automatically by the
+ * <code>SimpleJOGLCamera</code>. The diagonal lines in the diagram extend from the four corners of the far clipping plane to
+ * the four corners of the near clipping plane and finally (by default) converge at the eye. The frame can be moved on the
+ * <code>x</code> and <code>y</code> axis so that the eye no longer resides at this convergence. Also, the aspect ratio of the
+ * frame (4:3 by default) can be changed.
  * </p>
  * 
  * @author simple
@@ -70,12 +126,19 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 	 * The JOGL rendering environment.
 	 * </p>
 	 */
-	protected GL gl;
+	private GL gl;
 
 	/**
 	 * The initialisation status. Determines if this <code>SimpleJOGLCamera</code> is initialised.
 	 */
 	private boolean isInitialised;
+
+	/**
+	 * <p>
+	 * Logs messages associated with this class.
+	 * </p>
+	 */
+	private Logger logger;
 
 	/**
 	 * <p>
@@ -111,6 +174,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 		frameX = 0.0f;
 		frameY = 0.0f;
 		isInitialised = false;
+		logger = Logger.getLogger(getClass().getName());
 		nearClippingDistance = 0.1f;
 		node = null;
 		projectionMode = ProjectionMode.PERSPECTIVE;
@@ -192,7 +256,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 	}
 
 	@Override
-	public final GL getGL()
+	public GL getGL()
 	{
 		return (gl);
 	}
@@ -210,9 +274,26 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 	}
 
 	@Override
-	public final Node getNode()
+	public Node getNode()
 	{
 		return (node);
+	}
+
+	@Override
+	public Camera getPickCamera(final Pick pick)
+	{
+		// Create the Camera to pick with.
+		SimpleJOGLCamera pickCamera = new SimpleJOGLCamera();
+		pickCamera.setFarClippingDistance(getFarClippingDistance());
+		pickCamera.setFrameAspectRatio(getFrameAspectRatio());
+		pickCamera.setFrameWidth(pick.getWidth());
+		pickCamera.setFrameX(pick.getX() - (getFrameWidth() / 2) + getFrameX());
+		pickCamera.setFrameY((getFrameWidth() * getFrameAspectRatio() / 2) - pick.getY() + getFrameY());
+		pickCamera.setGL(getGL());
+		pickCamera.setNearClippingDistance(getNearClippingDistance());
+		pickCamera.setNode(getNode());
+
+		return (pickCamera);
 	}
 
 	/**
@@ -222,13 +303,13 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 	 * 
 	 * @return The projection mode used to render a <code>SceneGraph</code>.
 	 */
-	public final ProjectionMode getProjectionMode()
+	public ProjectionMode getProjectionMode()
 	{
 		return (projectionMode);
 	}
 
 	@Override
-	public final TransformationMatrixf getTransformation()
+	public TransformationMatrixf getTransformation()
 	{
 		if (node == null)
 		{
@@ -249,12 +330,9 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 		{
 			transformation.invert();
 		}
-		catch (SEInvalidOperationException ex)
+		catch (SEInvalidOperationException e)
 		{
-			// TODO Implement log4j
-			// TODO Search for all System.out.println and printStackTrace instances and replace with log4j
-
-			ex.printStackTrace();
+			logger.error("Failed to invert the transformation.", e);
 		}
 
 		return (transformation);
@@ -280,7 +358,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 	}
 
 	@Override
-	public final boolean isInitialised()
+	public boolean isInitialised()
 	{
 		return (isInitialised);
 	}
@@ -361,7 +439,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 	}
 
 	@Override
-	public final void setGL(final GL gl)
+	public void setGL(final GL gl)
 	{
 		this.gl = gl;
 
@@ -369,7 +447,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 	}
 
 	@Override
-	public final void setInitialised(final boolean isInitialised)
+	public void setInitialised(final boolean isInitialised)
 	{
 		this.isInitialised = isInitialised;
 	}
@@ -390,7 +468,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 	}
 
 	@Override
-	public final void setNode(final Node node)
+	public void setNode(final Node node)
 	{
 		this.node = node;
 	}
@@ -402,7 +480,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 	 * 
 	 * @param projectionMode The projection mode used to render a <code>SceneGraph</code>.
 	 */
-	public final void setProjectionMode(final ProjectionMode projectionMode)
+	public void setProjectionMode(final ProjectionMode projectionMode)
 	{
 		this.projectionMode = projectionMode;
 	}

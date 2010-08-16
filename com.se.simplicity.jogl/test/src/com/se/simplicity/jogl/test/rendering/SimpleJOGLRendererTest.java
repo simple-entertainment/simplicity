@@ -18,7 +18,7 @@ import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
  * 
  * @author simple
  */
-public class SimpleJOGLRendererTest extends JOGLRendererTest
+public class SimpleJOGLRendererTest
 {
 	/**
 	 * An instance of the class being unit tested.
@@ -34,7 +34,6 @@ public class SimpleJOGLRendererTest extends JOGLRendererTest
 	public final void before()
 	{
 		testObject = new SimpleJOGLRenderer();
-		setJOGLRenderer(testObject);
 	}
 
 	/**
@@ -42,12 +41,9 @@ public class SimpleJOGLRendererTest extends JOGLRendererTest
 	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderer.init init()}.
 	 * </p>
 	 */
-	@Override
 	@Test
 	public void init()
 	{
-		super.init();
-
 		// TODO include SimpleJOGLRenderer testing
 	}
 
@@ -56,12 +52,9 @@ public class SimpleJOGLRendererTest extends JOGLRendererTest
 	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderer.setCamera setCamera()}.
 	 * </p>
 	 */
-	@Override
 	@Test
 	public void setCamera()
 	{
-		super.setCamera();
-
 		// TODO include SimpleJOGLRenderer testing
 	}
 
@@ -75,6 +68,6 @@ public class SimpleJOGLRendererTest extends JOGLRendererTest
 	@Test(expected = IllegalStateException.class)
 	public void displayNoCamera()
 	{
-		testObject.display();
+		//testObject.;
 	}
 }

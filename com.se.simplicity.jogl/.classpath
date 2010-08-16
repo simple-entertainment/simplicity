@@ -18,6 +18,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="com.se.simplicity.jogl/lib (windows)"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/com.se.dev.java"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.se.devenvy"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

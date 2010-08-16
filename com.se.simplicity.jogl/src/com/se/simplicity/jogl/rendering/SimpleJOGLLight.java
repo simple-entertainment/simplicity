@@ -1,9 +1,11 @@
 package com.se.simplicity.jogl.rendering;
 
-// JOGL imports.
 import javax.media.opengl.GL;
 
+import org.apache.log4j.Logger;
+
 import com.se.simplicity.SEInvalidOperationException;
+import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
 import com.se.simplicity.scenegraph.Node;
@@ -15,10 +17,6 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * <p>
  * A light within a <code>SceneGraph</code> rendered by a JOGL rendering environment. This implementation uses only simple
  * lighting techniques and properties.
- * </p>
- * 
- * <p>
- * Copyright (c) 2007, simple entertainment
  * </p>
  * 
  * @author simple
@@ -59,6 +57,13 @@ public class SimpleJOGLLight implements Light, JOGLComponent
 	 * </p>
 	 */
 	private LightingMode lightingMode;
+	
+	/**
+	 * <p>
+	 * Logs messages associated with this class.
+	 * </p>
+	 */
+	private Logger logger;
 
 	/**
 	 * <p>
@@ -85,6 +90,7 @@ public class SimpleJOGLLight implements Light, JOGLComponent
 		diffuseLight = null;
 		isInitialised = false;
 		lightingMode = LightingMode.SCENE;
+		logger = Logger.getLogger(getClass().getName());
 		node = null;
 		specularLight = null;
 	}
@@ -161,12 +167,9 @@ public class SimpleJOGLLight implements Light, JOGLComponent
 		{
 			transformation.invert();
 		}
-		catch (SEInvalidOperationException ex)
+		catch (SEInvalidOperationException e)
 		{
-			// TODO Implement log4j
-			// TODO Search for all System.out.println and printStackTrace instances and replace with log4j
-
-			ex.printStackTrace();
+			logger.error("Failed to invert the transformation.", e);
 		}
 
 		return (transformation);
@@ -233,7 +236,7 @@ public class SimpleJOGLLight implements Light, JOGLComponent
 	}
 
 	@Override
-	public final void setLightingMode(final LightingMode lightingMode)
+	public void setLightingMode(final LightingMode lightingMode)
 	{
 		this.lightingMode = lightingMode;
 

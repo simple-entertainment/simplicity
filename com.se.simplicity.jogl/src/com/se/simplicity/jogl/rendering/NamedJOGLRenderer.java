@@ -1,13 +1,11 @@
 package com.se.simplicity.jogl.rendering;
 
-// simplicity imports.
 import javax.media.opengl.GL;
 
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.IndexedArrayVG;
+import com.se.simplicity.model.VertexGroup;
 import com.se.simplicity.rendering.DrawingMode;
-import com.se.simplicity.scenegraph.Node;
-import com.se.simplicity.scenegraph.model.ModelNode;
 
 /**
  * <p>
@@ -16,28 +14,24 @@ import com.se.simplicity.scenegraph.model.ModelNode;
  * specific to the <code>VertexGroup</code> implementation.
  * </p>
  * 
- * <p>
- * Copyright (c) 2007, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class NamedJOGLRenderer extends SimpleJOGLRenderer
 {
 	@Override
-	protected void renderArrayVG(ArrayVG vertexGroup)
+	protected void renderArrayVG(final ArrayVG vertexGroup, DrawingMode drawingMode)
 	{
-		if (getDrawingMode() == DrawingMode.EDGES)
+		if (drawingMode == DrawingMode.EDGES)
 		{
-			// renderNamedIAVertexGroupEdges(vertexGroup);
+			// renderArrayVGEdges(vertexGroup);
 		}
-		else if (getDrawingMode() == DrawingMode.FACES)
+		else if (drawingMode == DrawingMode.FACES)
 		{
-			renderArrayVGFaces(vertexGroup);
+			renderArrayVGFaces(vertexGroup, drawingMode);
 		}
-		else if (getDrawingMode() == DrawingMode.VERTICES)
+		else if (drawingMode == DrawingMode.VERTICES)
 		{
-			renderArrayVGVertices(vertexGroup);
+			renderArrayVGVertices(vertexGroup, drawingMode);
 		}
 	}
 
@@ -58,7 +52,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
 	 * 
 	 * @param vertexGroup The <code>ArrayVG</code> to render.
 	 */
-	protected void renderArrayVGFaces(final ArrayVG vertexGroup)
+	protected void renderArrayVGFaces(final ArrayVG vertexGroup, DrawingMode drawingMode)
 	{
 		GL gl = getGL();
 		
@@ -69,7 +63,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
 		for (int triangleIndex = 0; triangleIndex < vertices.length / 9; triangleIndex++)
 		{
 			gl.glPushName(triangleIndex);
-			gl.glBegin(getJOGLDrawingMode());
+			gl.glBegin(getJOGLDrawingMode(drawingMode));
 			{
 				for (int vertexIndex = 0; vertexIndex < 9; vertexIndex += 3)
 				{
@@ -102,7 +96,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
 	 * 
 	 * @param vertexGroup The <code>ArrayVG</code> to render.
 	 */
-	protected void renderArrayVGVertices(final ArrayVG vertexGroup)
+	protected void renderArrayVGVertices(final ArrayVG vertexGroup, DrawingMode drawingMode)
 	{
 		GL gl = getGL();
 		
@@ -117,7 +111,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
 				int vertex = triangleIndex * 9 + vertexIndex;
 
 				gl.glPushName(vertex / 3);
-				gl.glBegin(getJOGLDrawingMode());
+				gl.glBegin(getJOGLDrawingMode(drawingMode));
 				{
 					gl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
 					gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
@@ -129,19 +123,19 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
 		}
 	}
 
-	protected void renderIndexedArrayVG(final IndexedArrayVG vertexGroup)
+	protected void renderIndexedArrayVG(final IndexedArrayVG vertexGroup, DrawingMode drawingMode)
 	{
-		if (getDrawingMode() == DrawingMode.EDGES)
+		if (drawingMode == DrawingMode.EDGES)
 		{
 			// renderNamedIAVertexGroupEdges(vertexGroup);
 		}
-		else if (getDrawingMode() == DrawingMode.FACES)
+		else if (drawingMode == DrawingMode.FACES)
 		{
-			renderIndexedArrayVGFaces(vertexGroup);
+			renderIndexedArrayVGFaces(vertexGroup, drawingMode);
 		}
-		else if (getDrawingMode() == DrawingMode.VERTICES)
+		else if (drawingMode == DrawingMode.VERTICES)
 		{
-			renderIndexedArrayVGVertices(vertexGroup);
+			renderIndexedArrayVGVertices(vertexGroup, drawingMode);
 		}
 	}
 
@@ -163,7 +157,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
 	 * 
 	 * @param vertexGroup The <code>IndexedArrayVG</code> to render.
 	 */
-	protected void renderIndexedArrayVGFaces(final IndexedArrayVG vertexGroup)
+	protected void renderIndexedArrayVGFaces(final IndexedArrayVG vertexGroup, DrawingMode drawingMode)
 	{
 		GL gl = getGL();
 		
@@ -176,7 +170,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
 		for (int triangleIndex = 0; triangleIndex < indices.length / 3; triangleIndex++)
 		{
 			gl.glPushName(triangleIndex);
-			gl.glBegin(getJOGLDrawingMode());
+			gl.glBegin(getJOGLDrawingMode(drawingMode));
 			{
 				for (int vertexIndex = 0; vertexIndex < 9; vertexIndex += 3)
 				{
@@ -210,7 +204,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
 	 * 
 	 * @param vertexGroup The <code>IndexedArrayVG</code> to render.
 	 */
-	protected void renderIndexedArrayVGVertices(final IndexedArrayVG vertexGroup)
+	protected void renderIndexedArrayVGVertices(final IndexedArrayVG vertexGroup, DrawingMode drawingMode)
 	{
 		GL gl = getGL();
 		
@@ -227,7 +221,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
 				vertex = indices[triangleIndex * 3] * 3 + vertexIndex;
 
 				gl.glPushName(vertex / 3);
-				gl.glBegin(getJOGLDrawingMode());
+				gl.glBegin(getJOGLDrawingMode(drawingMode));
 				{
 					gl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
 					gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
@@ -241,19 +235,35 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
 
 	/**
 	 * <p>
-	 * Assigns the ID of the <code>ModelNode</code> being rendered to the rendered elements of the <code>VertexGroup</code>.
+	 * Assigns the hash code of the <code>VertexGroup</code> being rendered as its name.
 	 * </p>
-	 * 
-	 * @param node The <code>ModelNode</code> that contains the <code>VertexGroup</code> to be rendered.
 	 */
 	@Override
-	protected void renderVertexGroup(final ModelNode node)
+	public void renderVertexGroup(final VertexGroup vertexGroup, final DrawingMode drawingMode)
 	{
 		GL gl = getGL();
 		
-		gl.glPushName(node.getID());
+		gl.glPushName(vertexGroup.hashCode());
 
-		super.renderVertexGroup(node);
+		super.renderVertexGroup(vertexGroup, drawingMode);
+
+		gl.glPopName();
+	}
+	
+	/**
+	 * <p>
+	 * Assigns the given name to the <code>VertexGroup</code> being rendered.
+	 * </p>
+	 * 
+	 * @param name The name to assign to the <code>VertexGroup</code> being rendered.
+	 */
+	public void renderVertexGroup(final VertexGroup vertexGroup, final DrawingMode drawingMode, final int name)
+	{
+		GL gl = getGL();
+		
+		gl.glPushName(name);
+
+		super.renderVertexGroup(vertexGroup, drawingMode);
 
 		gl.glPopName();
 	}

@@ -1,9 +1,13 @@
-package com.se.simplicity.jogl.rendering;
+package com.se.simplicity.jogl.viewport;
 
-// JOGL imports.
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.media.opengl.GLCanvas;
-import javax.media.opengl.GLEventListener;
 
+import com.se.simplicity.jogl.engine.JOGLEngine;
+import com.se.simplicity.picking.Picker;
 import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.engine.RenderingEngine;
@@ -12,12 +16,7 @@ import com.se.simplicity.viewport.Viewport;
 /**
  * <p>
  * A viewport on which a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} rendered by a JOGL rendering environment can
- * be displayed. This <code>SimpleJOGLCanvasViewport</code> extends the {@link javax.media.opengl.GLCanvas GLCanvas} class in
- * order to integrate it with the JOGL rendering environment.
- * </p>
- * 
- * <p>
- * Copyright (c) 2007, simple entertainment
+ * be displayed.
  * </p>
  * 
  * @author simple
@@ -61,9 +60,31 @@ public class SimpleJOGLCanvasViewport extends GLCanvas implements Viewport
 	{
 		super();
 
-		camera = null;
-		pickingEngine = null;
-		renderingEngine = null;
+		this.camera = null;
+		this.pickingEngine = null;
+		this.renderingEngine = null;
+	}
+	
+	/**
+	 * TODO refactor
+	 */
+	public void applyMousePicking(PickingEngine pickingEngine)
+	{
+//		if (this.viewport != viewport)
+//		{
+//			this.viewport = viewport;
+//
+//			((Component) viewport).addMouseListener(new MouseAdapter()
+//			{
+//				public void mouseClicked(final MouseEvent event)
+//				{
+//					if (event.getButton() == MouseEvent.BUTTON1)
+//					{
+//						pickingEngine.pick(event.getX(), event.getY(), 2, 2);
+//					}
+//				}
+//			});
+//		}
 	}
 
 	@Override
@@ -104,16 +125,22 @@ public class SimpleJOGLCanvasViewport extends GLCanvas implements Viewport
 	}
 
 	@Override
+	public void setHeight(final int height)
+	{
+		setSize(getWidth(), height);
+	}
+
+	@Override
 	public void setPickingEngine(final PickingEngine pickingEngine)
 	{
 		if (this.pickingEngine != null)
 		{
-			removeGLEventListener((GLEventListener) this.pickingEngine);
+			removeGLEventListener((JOGLEngine) this.pickingEngine);
 		}
 
 		this.pickingEngine = pickingEngine;
 
-		addGLEventListener((GLEventListener) pickingEngine);
+		addGLEventListener((JOGLEngine) pickingEngine);
 	}
 
 	@Override
@@ -121,19 +148,17 @@ public class SimpleJOGLCanvasViewport extends GLCanvas implements Viewport
 	{
 		if (this.renderingEngine != null)
 		{
-			removeGLEventListener((GLEventListener) this.renderingEngine);
+			removeGLEventListener((JOGLEngine) this.renderingEngine);
 		}
 
 		this.renderingEngine = renderingEngine;
 
-		addGLEventListener((GLEventListener) renderingEngine);
+		addGLEventListener((JOGLEngine) renderingEngine);
 	}
 
 	@Override
-	public void setHeight(int height)
-	{ }
-
-	@Override
-	public void setWidth(int width)
-	{ }
+	public void setWidth(final int width)
+	{
+		setSize(width, getHeight());
+	}
 }

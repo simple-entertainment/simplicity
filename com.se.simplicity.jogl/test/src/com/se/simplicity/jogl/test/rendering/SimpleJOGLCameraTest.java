@@ -7,10 +7,6 @@ package com.se.simplicity.jogl.test.rendering;
  * Unit tests for the class {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera SimpleJOGLCamera}.
  * </p>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleJOGLCameraTest
