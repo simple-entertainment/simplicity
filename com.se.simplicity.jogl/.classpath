@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" output="test/bin" path="test/src"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/com.se.simplicity"/>
+	<classpathentry exported="true" kind="lib" path="lib (linux)/jogl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="com.se.simplicity.jogl/lib (linux)"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib (linux)/gluegen-rt.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="com.se.simplicity.jogl/lib (linux)"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib (windows)/jogl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="com.se.simplicity.jogl/lib (windows)"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.se.dev.java"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
