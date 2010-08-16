@@ -3,7 +3,6 @@ package com.se.simplicity.test.model;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.se.simplicity.SEInvalidOperationException;
@@ -12,10 +11,6 @@ import com.se.simplicity.model.IndexedArrayVG;
 /**
  * <p>
  * Unit tests for the class {@link com.se.simplicity.model.IndexedArrayVGTest IndexedArrayVGTest}.
- * </p>
- * 
- * <p>
- * Copyright (c) 2009, simple entertainment
  * </p>
  * 
  * @author simple
@@ -49,9 +44,46 @@ public class IndexedArrayVGTest
 	 * </p>
 	 */
 	@Test
-	@Ignore("Not implemented")
 	public void createEdgeSubsetVG()
-	{}
+	{
+		IndexedArrayVG subsetVG = (IndexedArrayVG) testObject.createEdgeSubsetVG(0);
+
+		int[] subsetIndices = subsetVG.getIndices();
+
+		assertEquals(2, subsetIndices.length, 0);
+		assertEquals(0, subsetIndices[0], 0);
+		assertEquals(1, subsetIndices[1], 0);
+
+		float[] subsetColours = subsetVG.getColours();
+
+		assertEquals(6, subsetColours.length, 0);
+		assertEquals(1.0f, subsetColours[0], 0.0f);
+		assertEquals(0.0f, subsetColours[1], 0.0f);
+		assertEquals(0.0f, subsetColours[2], 0.0f);
+		assertEquals(0.0f, subsetColours[3], 0.0f);
+		assertEquals(1.0f, subsetColours[4], 0.0f);
+		assertEquals(0.0f, subsetColours[5], 0.0f);
+
+		float[] subsetNormals = subsetVG.getNormals();
+
+		assertEquals(6, subsetNormals.length, 0);
+		assertEquals(-0.5f, subsetNormals[0], 0.0f);
+		assertEquals(-0.5f, subsetNormals[1], 0.0f);
+		assertEquals(0.0f, subsetNormals[2], 0.0f);
+		assertEquals(-0.5f, subsetNormals[3], 0.0f);
+		assertEquals(0.5f, subsetNormals[4], 0.0f);
+		assertEquals(0.0f, subsetNormals[5], 0.0f);
+
+		float[] subsetVertices = subsetVG.getVertices();
+
+		assertEquals(6, subsetVertices.length, 0);
+		assertEquals(-1.0f, subsetVertices[0], 0.0f);
+		assertEquals(-1.0f, subsetVertices[1], 0.0f);
+		assertEquals(0.0f, subsetVertices[2], 0.0f);
+		assertEquals(-1.0f, subsetVertices[3], 0.0f);
+		assertEquals(1.0f, subsetVertices[4], 0.0f);
+		assertEquals(0.0f, subsetVertices[5], 0.0f);
+	}
 
 	/**
 	 * <p>
@@ -155,7 +187,6 @@ public class IndexedArrayVGTest
 	 * @throws SEInvalidOperationException Thrown by the method being unit tested.
 	 */
 	@Test
-	@Ignore("Not implemented")
 	public void mergeWithParent() throws SEInvalidOperationException
 	{
 		IndexedArrayVG subsetVG = (IndexedArrayVG) testObject.createFaceSubsetVG(0);
@@ -232,7 +263,6 @@ public class IndexedArrayVGTest
 	 * @throws SEInvalidOperationException Thrown by the method being unit tested.
 	 */
 	@Test(expected = SEInvalidOperationException.class)
-	@Ignore("Not implemented")
 	public void mergeWithParentNotSubset() throws SEInvalidOperationException
 	{
 		testObject.mergeWithParent();

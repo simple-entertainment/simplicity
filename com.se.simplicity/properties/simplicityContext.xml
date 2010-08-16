@@ -1,0 +1,10 @@
+<beans>
+	<bean id="renderer" abstract="true"/>
+	<bean id="picker" abstract="true"/>
+	<bean id="viewport" abstract="true" scope="prototype">
+		<property name="renderer" ref="renderer"/>
+		<property name="picker" ref="picker"/>
+	</bean>
+	<bean id="light" abstract="true" scope="prototype">
+	<bean id="camera" abstract="true" scope="prototype">
+</beans>

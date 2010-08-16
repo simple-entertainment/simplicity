@@ -15,10 +15,6 @@ package com.se.simplicity.vector;
  * ----------------
  * </pre>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleTranslationVectorf4 extends SimpleVectorf4 implements TranslationVectorf

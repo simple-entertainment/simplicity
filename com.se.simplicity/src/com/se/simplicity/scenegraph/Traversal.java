@@ -6,10 +6,6 @@ package com.se.simplicity.scenegraph;
  * {@link com.se.simplicity.scenegraph.Node Node}s are traversed is specific to each implementation.
  * </p>
  * 
- * <p>
- * Copyright (c) 2007, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public interface Traversal

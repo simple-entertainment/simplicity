@@ -9,10 +9,6 @@ import com.se.simplicity.scenegraph.SimpleNode;
  * A simple implementation of a {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode}.
  * </p>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleModelNode extends SimpleNode implements ModelNode

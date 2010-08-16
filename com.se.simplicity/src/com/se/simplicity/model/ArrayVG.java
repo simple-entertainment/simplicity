@@ -3,7 +3,6 @@ package com.se.simplicity.model;
 import java.io.Serializable;
 
 import com.se.simplicity.SEInvalidOperationException;
-import com.se.simplicity.SENotSupportedException;
 
 /**
  * <p>
@@ -109,9 +108,7 @@ public class ArrayVG implements VertexGroup, Serializable
 	@Override
 	public VertexGroup createEdgeSubsetVG(final int index)
 	{
-		// TODO Implement
-
-		throw new SENotSupportedException("This method has not been implemented yet.");
+		return createSubsetVG(index, 2);
 	}
 
 	@Override
@@ -214,7 +211,7 @@ public class ArrayVG implements VertexGroup, Serializable
 			throw new SEInvalidOperationException("Cannot merge this Vertex Group because it is not a subset.");
 		}
 
-		System.arraycopy(colours, 0, ((ArrayVG) parent).getColours(), indexWithinParent, colours.length);
+		System.arraycopy(colours, 0, ((ArrayVG) parent).getColours(), indexWithinParent * 3, colours.length);
 		System.arraycopy(normals, 0, ((ArrayVG) parent).getNormals(), indexWithinParent, normals.length);
 		System.arraycopy(vertices, 0, ((ArrayVG) parent).getVertices(), indexWithinParent, vertices.length);
 	}

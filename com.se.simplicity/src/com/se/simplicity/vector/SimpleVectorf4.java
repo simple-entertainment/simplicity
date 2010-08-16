@@ -7,10 +7,6 @@ import java.io.Serializable;
  * A 4 dimensional vector that stores its data in a <code>float</code> array.
  * </p>
  * 
- * <p>
- * Copyright (c) 2007, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleVectorf4 extends ArrayBackedObjectf implements Vectorf, Serializable

@@ -12,10 +12,6 @@ import com.se.simplicity.scenegraph.SimpleNode;
  * Unit tests for the class {@link com.se.simplicity.scenegraph.SimpleNode SimpleNode}.
  * </p>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleNodeTest

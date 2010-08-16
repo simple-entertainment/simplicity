@@ -1,6 +1,5 @@
 package com.se.simplicity.rendering;
 
-// simplicity imports.
 import com.se.simplicity.picking.Pick;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.vector.TransformationMatrixf;
@@ -8,14 +7,6 @@ import com.se.simplicity.vector.TransformationMatrixf;
 /**
  * <p>
  * A viewpoint within a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
- * </p>
- * 
- * <p>
- * TODO NEED A DIAGRAM TO EXPLAIN FRUSTUM AND THE RELATIONSHIP TO COMPONENTS IN THE CAMERA.
- * </p>
- * 
- * <p>
- * Copyright (c) 2007, simple entertainment
  * </p>
  * 
  * @author simple
@@ -39,27 +30,25 @@ public interface Camera
 	 * orientation.
 	 */
 	Node getNode();
-	
+
 	/**
 	 * <p>
-	 * Retrieves a picking viewpoint using this <code>Camera</code> as the viewpoint shown by the <code>Viewport</code> to which
-	 * the pick was registered.
+	 * Retrieves a picking viewpoint adapted from this <code>Camera</code>'s viewpoint.
 	 * </p>
 	 * 
-	 * @param viewport The <code>Viewport</code> to which the pick was registered.
 	 * @param pick The pick to create the viewpoint for.
 	 * 
 	 * @return The picking viewpoint.
 	 */
-	Camera getPickCamera(Viewport viewport, Pick pick);
+	Camera getPickCamera(Pick pick);
 
 	/**
 	 * <p>
 	 * Retrieves the absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Camera</code>.
 	 * </p>
 	 * 
-	 * @return The absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Camera</code>, or
-	 * null if the {@link com.se.simplicity.scenegraph.Node Node} does not exist.
+	 * @return The absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Camera</code>,
+	 * or null if the {@link com.se.simplicity.scenegraph.Node Node} does not exist.
 	 */
 	TransformationMatrixf getTransformation();
 

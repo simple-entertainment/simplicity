@@ -17,7 +17,7 @@ import com.se.simplicity.SENotSupportedException;
  * --------------------
  *  xy | yy | zy | ty |
  * --------------------
- *  xz | yz | zx | tz |
+ *  xz | yz | zz | tz |
  * --------------------
  *  xw | yw | zw | tw |
  * --------------------
@@ -31,10 +31,6 @@ import com.se.simplicity.SENotSupportedException;
  * <p>
  * It is stored in column-major format. This means the first four indices of the array represent the first column of the
  * <code>SimpleTransformationMatrixf44</code>, the second four represent the second column etc.
- * </p>
- * 
- * <p>
- * Copyright (c) 2009, simple entertainment
  * </p>
  * 
  * @author simple

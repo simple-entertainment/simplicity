@@ -6,10 +6,6 @@ import java.io.Serializable;
  * <p>
  * An object which stores its data in a <code>float</code> array.
  * </p>
- * 
- * <p>
- * Copyright (c) 2007, simple entertainment
- * </p>
  *
  * @author simple
  */

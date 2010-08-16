@@ -9,10 +9,6 @@ import com.se.simplicity.scenegraph.Node;
  * A {@link com.se.simplicity.scenegraph.Node Node} that contains a {@link com.se.simplicity.model.VertexGroup VertexGroup}.
  * </p>
  * 
- * <p>
- * Copyright (c) 2007, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public interface ModelNode extends Node

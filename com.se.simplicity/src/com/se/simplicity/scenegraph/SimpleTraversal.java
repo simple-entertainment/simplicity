@@ -8,10 +8,6 @@ import java.util.List;
  * A simple traversal that traverses {@link com.se.simplicity.scenegraph.Node Node}s in a prefix order.
  * </p>
  * 
- * <p>
- * Copyright (c) 2007, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleTraversal implements Traversal

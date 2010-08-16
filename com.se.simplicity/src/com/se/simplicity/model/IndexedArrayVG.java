@@ -2,7 +2,7 @@ package com.se.simplicity.model;
 
 import java.io.Serializable;
 
-import com.se.simplicity.SENotSupportedException;
+import com.se.simplicity.SEInvalidOperationException;
 
 /**
  * <p>
@@ -53,7 +53,7 @@ public class IndexedArrayVG implements VertexGroup, Serializable
 
 	/**
 	 * <p>
-	 * The index in the parent <code>IndexedArrayVG</code> from which the data in this <code>IndexedArrayVG</code> was copied.
+	 * The index of the vertex in the parent <code>IndexedArrayVG</code> from which the data in this <code>IndexedArrayVG</code> was copied.
 	 * </p>
 	 */
 	private int indexWithinParent;
@@ -131,10 +131,10 @@ public class IndexedArrayVG implements VertexGroup, Serializable
 	
 	/**
 	 * <p>
-	 * Retrieves the index in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
+	 * Retrieves the index of the vertex in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
 	 * </p>
 	 * 
-	 * @return The index in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
+	 * @return The index of the vertex in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
 	 */
 	public int getIndexWithinParent()
 	{
@@ -187,6 +187,19 @@ public class IndexedArrayVG implements VertexGroup, Serializable
 	public void setColours(final float[] colours)
 	{
 		this.colours = colours;
+	}
+	
+	/**
+	 * <p>
+	 * Sets the index of the vertex in the parent <code>IndexedArrayVG</code> from which the data in this <code>IndexedArrayVG</code> was copied.
+	 * </p>
+	 * 
+	 * @param indexWithinParent The index of the vertex in the parent <code>IndexedArrayVG</code> from which the data in this <code>IndexedArrayVG</code> was
+	 * copied.
+	 */
+	public void setIndexWithinParent(final int indexWithinParent)
+	{
+		this.indexWithinParent = indexWithinParent;
 	}
 
 	/**
@@ -243,6 +256,7 @@ public class IndexedArrayVG implements VertexGroup, Serializable
 		}
 
 		IndexedArrayVG subsetVertexGroup = new IndexedArrayVG(this);
+		subsetVertexGroup.setIndexWithinParent(index);
 		subsetVertexGroup.setIndices(subsetIndices);
 		subsetVertexGroup.setColours(subsetColours);
 		subsetVertexGroup.setNormals(subsetNormals);
@@ -254,9 +268,7 @@ public class IndexedArrayVG implements VertexGroup, Serializable
 	@Override
 	public VertexGroup createEdgeSubsetVG(final int index)
 	{
-		// TODO Implement
-		
-		throw new SENotSupportedException("This method has not been implemented yet.");
+		return createSubsetVG(index, 2);
 	}
 
 	@Override
@@ -284,10 +296,20 @@ public class IndexedArrayVG implements VertexGroup, Serializable
 	}
 
 	@Override
-	public void mergeWithParent()
+	public void mergeWithParent() throws SEInvalidOperationException
 	{
-		// TODO Implement
+		if (!isSubset)
+		{
+			throw new SEInvalidOperationException("Cannot merge this Vertex Group because it is not a subset.");
+		}
 		
-		throw new SENotSupportedException("This method has not been implemented yet.");
+		for (int currentIndex = 0; currentIndex < indices.length; currentIndex++)
+		{
+			int parentCopyIndex = ((IndexedArrayVG) parent).getIndices()[indexWithinParent + currentIndex];
+			
+			System.arraycopy(colours, indices[currentIndex] * 3, ((IndexedArrayVG) parent).getColours(), parentCopyIndex * 3, 3);
+			System.arraycopy(normals, indices[currentIndex] * 3, ((IndexedArrayVG) parent).getNormals(), parentCopyIndex * 3, 3);
+			System.arraycopy(vertices, indices[currentIndex] * 3, ((IndexedArrayVG) parent).getVertices(), parentCopyIndex * 3, 3);
+		}
 	}
 }

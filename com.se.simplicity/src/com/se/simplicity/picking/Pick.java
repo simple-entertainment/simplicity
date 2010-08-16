@@ -2,8 +2,8 @@ package com.se.simplicity.picking;
 
 /**
  * <p>
- * The position and area for a {@link com.se.simplicity.picking.Picker Picker} to pick in a
- * {@link com.se.simplicity.rendering.Viewport Viewport}.
+ * The position and area for a {@link com.se.simplicity.picking.Picker Picker} to pick. A <code>Pick</code> generally represents
+ * a subset of a {@link com.se.simplicity.rendering.Camera Camera}'s frame.
  * </p>
  * 
  * @author simple
@@ -12,126 +12,124 @@ public class Pick
 {
 	/**
 	 * <p>
-	 * The height of the area on the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * The height of the area being picked.
 	 * </p>
 	 */
-	private int height;
+	private float height;
 
 	/**
 	 * <p>
-	 * The width of the area on the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * The width of the area being picked.
 	 * </p>
 	 */
-	private int width;
+	private float width;
 
 	/**
 	 * <p>
-	 * The position on the <code>x</code> axis of the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * The position on the <code>x</code> axis being picked.
 	 * </p>
 	 */
-	private int x;
+	private float x;
 
 	/**
 	 * <p>
-	 * The position on the <code>y</code> axis of the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * The position on the <code>y</code> axis being picked.
 	 * </p>
 	 */
-	private int y;
+	private float y;
 
 	/**
 	 * <p>
-	 * Retrieves the height of the area on the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * Retrieves the height of the area being picked.
 	 * </p>
 	 * 
-	 * @return The height of the area on the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * @return The height of the area being picked.
 	 */
-	public int getHeight()
+	public float getHeight()
 	{
 		return height;
 	}
 
 	/**
 	 * <p>
-	 * Retrieves the width of the area on the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * Retrieves the width of the area being picked.
 	 * </p>
 	 * 
-	 * @return The width of the area on the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * @return The width of the area being picked.
 	 */
-	public int getWidth()
+	public float getWidth()
 	{
 		return width;
 	}
 
 	/**
 	 * <p>
-	 * Retrieves the position on the <code>x</code> axis of the {@link com.se.simplicity.rendering.Viewport Viewport} being
-	 * picked.
+	 * Retrieves the position on the <code>x</code> axis being picked.
 	 * </p>
 	 * 
-	 * @return The position on the <code>x</code> axis of the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * @return The position on the <code>x</code> axis being picked.
 	 */
-	public int getX()
+	public float getX()
 	{
 		return x;
 	}
 
 	/**
 	 * <p>
-	 * Retrieves the position on the <code>y</code> axis of the {@link com.se.simplicity.rendering.Viewport Viewport} being
-	 * picked.
+	 * Retrieves the position on the <code>y</code> axis being picked.
 	 * </p>
 	 * 
-	 * @return The position on the <code>y</code> axis of the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * @return The position on the <code>y</code> axis being picked.
 	 */
-	public int getY()
+	public float getY()
 	{
 		return y;
 	}
 
 	/**
 	 * <p>
-	 * Sets the height of the area on the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * Sets the height of the area being picked.
 	 * </p>
 	 * 
-	 * @param height The height of the area on the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * @param height The height of the area being picked.
 	 */
-	public void setHeight(final int height)
+	public void setHeight(final float height)
 	{
 		this.height = height;
 	}
 
 	/**
 	 * <p>
-	 * Sets the width of the area on the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * Sets the width of the area being picked.
 	 * </p>
 	 * 
-	 * @param width The height of the area on the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * @param width The height of the area being picked.
 	 */
-	public void setWidth(final int width)
+	public void setWidth(final float width)
 	{
 		this.width = width;
 	}
 
 	/**
 	 * <p>
-	 * Sets the position on the <code>x</code> axis of the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * Sets the position on the <code>x</code> axis being picked.
 	 * </p>
 	 * 
-	 * @param x The position on the <code>x</code> axis of the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * @param x The position on the <code>x</code> axis being picked.
 	 */
-	public void setX(final int x)
+	public void setX(final float x)
 	{
 		this.x = x;
 	}
 
 	/**
 	 * <p>
-	 * Sets the position on the <code>y</code> axis of the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * Sets the position on the <code>y</code> axis being picked.
 	 * </p>
 	 * 
-	 * @param y The position on the <code>y</code> axis of the {@link com.se.simplicity.rendering.Viewport Viewport} being picked.
+	 * @param y The position on the <code>y</code> axis being picked.
 	 */
-	public void setY(final int y)
+	public void setY(final float y)
 	{
 		this.y = y;
 	}

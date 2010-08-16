@@ -9,10 +9,6 @@ import com.se.simplicity.scenegraph.model.SimpleModelNode;
  * Standard reusable node hierarchies for test purposes.
  * </p>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class NodeHierarchy

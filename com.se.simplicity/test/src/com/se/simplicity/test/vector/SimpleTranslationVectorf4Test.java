@@ -12,10 +12,6 @@ import com.se.simplicity.vector.SimpleTranslationVectorf4;
  * Unit tests for the class {@link com.se.simplicity.vector.SimpleTranslationVectorf4 SimpleTranslationVectorf4}.
  * </p>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleTranslationVectorf4Test

@@ -7,10 +7,6 @@ import com.se.simplicity.SEInvalidOperationException;
  * A 4x4 dimensional matrix that stores its data in a <code>float</code> array.
  * </p>
  * 
- * <p>
- * Copyright (c) 2007, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleMatrixf44 extends ArrayBackedObjectf implements Matrixf

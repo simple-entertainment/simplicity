@@ -9,10 +9,6 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * A light within a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
  * </p>
  * 
- * <p>
- * Copyright (c) 2007, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public interface Light

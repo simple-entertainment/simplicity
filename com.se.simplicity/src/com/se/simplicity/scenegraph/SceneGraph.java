@@ -7,10 +7,6 @@ package com.se.simplicity.scenegraph;
  * of calling methods on its components directly. This ensures that the management of those components is not undermined.
  * </p>
  * 
- * <p>
- * Copyright (c) 2007, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public interface SceneGraph

@@ -5,10 +5,6 @@ package com.se.simplicity.vector;
  * A transformation matrix that stores its data in a <code>float</code> array.
  * </p>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public interface TransformationMatrixf extends Matrixf

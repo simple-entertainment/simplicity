@@ -5,10 +5,6 @@ package com.se.simplicity.vector;
  * A 4 dimensional colour vector that stores its data in a <code>float</code> array.
  * </p>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleRGBColourVectorf4 extends SimpleVectorf4 implements RGBColourVectorf

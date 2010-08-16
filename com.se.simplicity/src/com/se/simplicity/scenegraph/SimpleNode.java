@@ -1,22 +1,16 @@
 package com.se.simplicity.scenegraph;
 
-// J2SE imports.
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-// simplicity imports.
-import com.se.simplicity.SENotSupportedException;
+import com.se.simplicity.model.BoundingVolume;
 import com.se.simplicity.vector.SimpleTransformationMatrixf44;
 import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
  * <p>
  * A component of a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
- * </p>
- * 
- * <p>
- * Copyright (c) 2007, simple entertainment
  * </p>
  * 
  * @author simple
@@ -29,14 +23,12 @@ public class SimpleNode implements Node, Serializable
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * TODO Create type for bounding volumes.
-	 * 
 	 * <p>
 	 * A volume containing all the {@link com.se.simplicity.model.VertexGroup VertexGroup}s within the subgraph of which this
 	 * <code>SimpleNode</code> is the root.
 	 * </p>
 	 */
-	private Object bounds;
+	private BoundingVolume bounds;
 
 	/**
 	 * <p>
@@ -114,11 +106,9 @@ public class SimpleNode implements Node, Serializable
 	}
 
 	@Override
-	public Object getBounds()
+	public BoundingVolume getBounds()
 	{
-		// TODO Implement
-
-		throw new SENotSupportedException("This method has not been implemented yet.");
+		return (bounds);
 	}
 
 	@Override
@@ -216,11 +206,9 @@ public class SimpleNode implements Node, Serializable
 	}
 
 	@Override
-	public void setBounds(Object bounds)
+	public void setBounds(final BoundingVolume bounds)
 	{
-		// TODO Implement
-
-		throw new SENotSupportedException("This method has not been implemented yet.");
+		this.bounds = bounds;
 	}
 
 	@Override

@@ -12,10 +12,6 @@ import com.se.simplicity.vector.SimpleMatrixf44;
  * Unit tests for the class {@link com.se.simplicity.vector.SimpleMatrixf44 SimpleMatrixf44}.
  * </p>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleMatrixf44Test

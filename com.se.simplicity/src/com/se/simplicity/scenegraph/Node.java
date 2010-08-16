@@ -1,18 +1,13 @@
 package com.se.simplicity.scenegraph;
 
-// J2SE imports.
 import java.util.List;
 
-// simplicity imports.
+import com.se.simplicity.model.BoundingVolume;
 import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
  * <p>
  * A component of a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
- * </p>
- * 
- * <p>
- * Copyright (c) 2007, simple entertainment
  * </p>
  * 
  * @author simple
@@ -37,7 +32,7 @@ public interface Node
 	 * @return A volume containing all the {@link com.se.simplicity.model.VertexGroup VertexGroup}s within the subgraph of which
 	 * this <code>Node</code> is the root.
 	 */
-	Object getBounds();
+	BoundingVolume getBounds();
 	
 	/**
 	 * <p>
@@ -153,7 +148,7 @@ public interface Node
 	 * 
 	 * @param bounds This <code>Node</code>'s new bounding volume.
 	 */
-	void setBounds(final Object bounds);
+	void setBounds(final BoundingVolume bounds);
 
 	/**
 	 * <p>

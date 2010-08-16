@@ -5,10 +5,6 @@ package com.se.simplicity.vector;
  * A colour vector that stores its data in a <code>float</code> array.
  * </p>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public interface RGBColourVectorf extends Vectorf

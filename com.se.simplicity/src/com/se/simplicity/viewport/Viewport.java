@@ -1,6 +1,8 @@
-package com.se.simplicity.rendering;
+package com.se.simplicity.viewport;
 
-import com.se.simplicity.picking.Picker;
+import com.se.simplicity.picking.engine.PickingEngine;
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.engine.RenderingEngine;
 
 /**
  * <p>
@@ -10,10 +12,6 @@ import com.se.simplicity.picking.Picker;
  * <p>
  * Implementors of this interface should be GUI objects that are able to display the rendered
  * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
- * </p>
- * 
- * <p>
- * Copyright (c) 2007, simple entertainment
  * </p>
  * 
  * @author simple
@@ -37,7 +35,7 @@ public interface Viewport
 	 * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is viewed.
 	 */
 	Camera getCamera();
-	
+
 	/**
 	 * <p>
 	 * Retrieves the height of this <code>Viewport</code>.
@@ -49,24 +47,26 @@ public interface Viewport
 
 	/**
 	 * <p>
-	 * Retrieves the {@link com.se.simplicity.picking.Picker Picker} with which the
+	 * Retrieves the {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the
 	 * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
 	 * 
-	 * @return The {@link com.se.simplicity.picking.Picker Picker} with which the
+	 * @return The {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the
 	 * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
 	 * </p>
 	 */
-	Picker getPicker();
+	PickingEngine getPickingEngine();
 
 	/**
 	 * <p>
-	 * Retrieves the {@link com.se.simplicity.rendering.Renderer Renderer} that renders to this <code>Viewport</code>.
+	 * Retrieves the {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that is used to render this
+	 * <code>Viewport</code>.
 	 * </p>
 	 * 
-	 * @return The {@link com.se.simplicity.rendering.Renderer Renderer} that renders to this <code>Viewport</code>.
+	 * @return The {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that is used to render this
+	 * <code>Viewport</code>.
 	 */
-	Renderer getRenderer();
-	
+	RenderingEngine getRenderingEngine();
+
 	/**
 	 * <p>
 	 * Retrieves the width of this <code>Viewport</code>.
@@ -86,42 +86,44 @@ public interface Viewport
 	 * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is viewed.
 	 */
 	void setCamera(Camera camera);
-	
+
 	/**
 	 * <p>
 	 * Sets the height of this <code>Viewport</code>.
 	 * </p>
 	 * 
-	 * @param The height of this <code>Viewport</code>.
+	 * @param height The height of this <code>Viewport</code>.
 	 */
 	void setHeight(int height);
 
 	/**
 	 * <p>
-	 * Sets the {@link com.se.simplicity.picking.Picker Picker} with which the {@link com.se.simplicity.scenegraph.SceneGraph
-	 * SceneGraph} is picked.
+	 * Sets the {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the
+	 * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
 	 * 
-	 * @param picker The {@link com.se.simplicity.picking.Picker Picker} with which the
+	 * @param pickingEngine The {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the
 	 * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
 	 * </p>
 	 */
-	void setPicker(Picker picker);
+	void setPickingEngine(PickingEngine pickingEngine);
 
 	/**
 	 * <p>
-	 * Sets the {@link com.se.simplicity.rendering.Renderer Renderer} that renders to this <code>Viewport</code>.
+	 * Sets the {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that is used to render this
+	 * <code>Viewport</code>.
 	 * </p>
 	 * 
-	 * @param renderer The {@link com.se.simplicity.rendering.Renderer Renderer} that renders to this <code>Viewport</code>.
+	 * @param renderingEngine The {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that is used to
+	 * render this <code>Viewport</code>.
 	 */
-	void setRenderer(Renderer renderer);
-	
+	void setRenderingEngine(RenderingEngine renderingEngine);
+
 	/**
 	 * <p>
 	 * Sets the width of this <code>Viewport</code>.
 	 * </p>
 	 * 
-	 * @param The width of this <code>Viewport</code>.
+	 * @param width The width of this <code>Viewport</code>.
 	 */
 	void setWidth(int width);
 }

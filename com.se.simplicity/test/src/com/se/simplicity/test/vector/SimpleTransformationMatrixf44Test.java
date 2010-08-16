@@ -15,10 +15,6 @@ import com.se.simplicity.vector.SimpleVectorf4;
  * Unit tests for the class {@link com.se.simplicity.vector.SimpleTransformationMatrixf44 SimpleTransformationMatrixf44}.
  * </p>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleTransformationMatrixf44Test

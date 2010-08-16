@@ -13,10 +13,6 @@ import com.se.simplicity.vector.SimpleVectorf4;
  * Unit tests for the class {@link com.se.simplicity.vector.SimpleVectorf4 SimpleVectorf4}.
  * </p>
  * 
- * <p>
- * Copyright (c) 2009, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public class SimpleVectorf4Test

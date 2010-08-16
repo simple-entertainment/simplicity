@@ -5,10 +5,6 @@ package com.se.simplicity.rendering;
  * The lighting mode used to render a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}. The modes are as follows:
  * </p>
  * 
- * <p>
- * Copyright (c) 2008, simple entertainment
- * </p>
- * 
  * @author simple
  */
 public enum LightingMode
