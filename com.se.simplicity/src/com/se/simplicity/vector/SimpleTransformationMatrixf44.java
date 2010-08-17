@@ -1,7 +1,5 @@
 package com.se.simplicity.vector;
 
-import com.se.simplicity.SENotSupportedException;
-
 /**
  * <p>
  * A 4x4 transformation matrix that stores its data in a <code>float</code> array.
@@ -75,25 +73,19 @@ public class SimpleTransformationMatrixf44 extends SimpleMatrixf44 implements Tr
 	@Override
 	public float getXAxisRotation()
 	{
-		// TODO Implement
-		
-		throw new SENotSupportedException("This method has not been implemented yet.");
+		return ((float) Math.atan2(getArray()[6], getArray()[10]));
 	}
 
 	@Override
 	public float getYAxisRotation()
 	{
-		// TODO Implement
-		
-		throw new SENotSupportedException("This method has not been implemented yet.");
+	    return ((float) -Math.asin(getArray()[2]));
 	}
 
 	@Override
 	public float getZAxisRotation()
 	{
-		// TODO Implement
-		
-		throw new SENotSupportedException("This method has not been implemented yet.");
+	    return ((float) Math.atan2(getArray()[1], getArray()[0]));
 	}
 
 	@Override
@@ -168,25 +160,19 @@ public class SimpleTransformationMatrixf44 extends SimpleMatrixf44 implements Tr
 	@Override
 	public void setXAxisRotation(final float angle)
 	{
-		// TODO Implement
-		
-		throw new SENotSupportedException("This method has not been implemented yet.");
+	    rotate(angle - getXAxisRotation(), new SimpleVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 
 	@Override
 	public void setYAxisRotation(final float angle)
 	{
-		// TODO Implement
-		
-		throw new SENotSupportedException("This method has not been implemented yet.");
+	    rotate(angle - getYAxisRotation(), new SimpleVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
 	}
 
 	@Override
 	public void setZAxisRotation(final float angle)
 	{
-		// TODO Implement
-		
-		throw new SENotSupportedException("This method has not been implemented yet.");
+	    rotate(angle - getZAxisRotation(), new SimpleVectorf4(0.0f, 0.0f, 1.0f, 1.0f));
 	}
 
 	@Override

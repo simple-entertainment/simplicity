@@ -15,8 +15,6 @@ import com.se.simplicity.SENotSupportedException;
  * correct number of advancements have been made for the time this <code>SimpleCompositeEngine</code> has been running. 
  * </p>
  * 
- * TODO create debugging aspect
- * 
  * @author simple
  */
 public class SimpleCompositeEngine implements CompositeEngine

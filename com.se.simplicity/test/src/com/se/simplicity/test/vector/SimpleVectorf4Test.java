@@ -66,13 +66,13 @@ public class SimpleVectorf4Test
 	@Test
 	public void crossProduct()
 	{
-		testObject.crossProductRight(new SimpleVectorf4(4.0f, 2.0f, 7.5f, 3.9f));
+		testObject.crossProductRight(new SimpleVectorf4(3.0f, 2.0f, 1.0f, 0.0f));
 
 		float[] array = testObject.getArray();
 
-		assertEquals(-3.0f, array[0], 0.0f);
-		assertEquals(0.0f, array[1], 0.0f);
-		assertEquals(-4.5f, array[2], 0.0f);
+		assertEquals(-4.0f, array[0], 0.0f);
+		assertEquals(8.0f, array[1], 0.0f);
+		assertEquals(-4.0f, array[2], 0.0f);
 		assertEquals(1.0f, array[3], 0.0f);
 	}
 
