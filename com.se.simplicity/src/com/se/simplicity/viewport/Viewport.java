@@ -1,7 +1,6 @@
 package com.se.simplicity.viewport;
 
 import com.se.simplicity.picking.engine.PickingEngine;
-import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 
 /**
@@ -24,17 +23,6 @@ public interface Viewport
 	 * </p>
 	 */
 	void displaySceneGraph();
-
-	/**
-	 * <p>
-	 * Retrieves the {@link com.se.simplicity.rendering.Camera Camera} through which the
-	 * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is viewed.
-	 * </p>
-	 * 
-	 * @return The {@link com.se.simplicity.rendering.Camera Camera} through which the
-	 * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is viewed.
-	 */
-	Camera getCamera();
 
 	/**
 	 * <p>
@@ -75,17 +63,6 @@ public interface Viewport
 	 * @return The width of this <code>Viewport</code>.
 	 */
 	int getWidth();
-
-	/**
-	 * <p>
-	 * Sets the {@link com.se.simplicity.rendering.Camera Camera} through which the
-	 * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is viewed.
-	 * </p>
-	 * 
-	 * @param camera The {@link com.se.simplicity.rendering.Camera Camera} through which the
-	 * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is viewed.
-	 */
-	void setCamera(Camera camera);
 
 	/**
 	 * <p>
