@@ -183,7 +183,6 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
 
 			for (Light light : lights)
 			{
-				((JOGLComponent) light).setGL(gl);
 				light.apply();
 			}
 
