@@ -66,15 +66,6 @@ public interface Viewport
 
 	/**
 	 * <p>
-	 * Sets the height of this <code>Viewport</code>.
-	 * </p>
-	 * 
-	 * @param height The height of this <code>Viewport</code>.
-	 */
-	void setHeight(int height);
-
-	/**
-	 * <p>
 	 * Sets the {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the
 	 * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
 	 * 
@@ -94,13 +85,14 @@ public interface Viewport
 	 * render this <code>Viewport</code>.
 	 */
 	void setRenderingEngine(RenderingEngine renderingEngine);
-
+	
 	/**
-	 * <p>
-	 * Sets the width of this <code>Viewport</code>.
-	 * </p>
-	 * 
-	 * @param width The width of this <code>Viewport</code>.
-	 */
-	void setWidth(int width);
+     * <p>
+     * Sets the size of this <code>Viewport</code>.
+     * </p>
+     * 
+     * @param width The width of this <code>Viewport</code>.
+     * @param height The height of this <code>Viewport</code>.
+     */
+    int setSize(int width, int height);
 }
