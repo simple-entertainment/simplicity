@@ -1,7 +1,7 @@
 package com.se.simplicity.jogl.test.rendering;
 
+import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
 import static org.junit.Assert.assertEquals;
@@ -13,7 +13,6 @@ import javax.media.opengl.GL;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.devenvy.mocks.MockObject.MethodCall;
 import com.se.simplicity.SEInvalidOperationException;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.jogl.test.mocks.MockGL;
