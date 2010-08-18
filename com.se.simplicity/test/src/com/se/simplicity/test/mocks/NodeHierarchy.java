@@ -83,9 +83,12 @@ public class NodeHierarchy
 		node6 = null;
 		node7 = null;
 		
+		node1.setID(0);
 		node1.addChild(node2);
 		{
+		    node2.setID(1);
 			node2.addChild(node3);
+			node3.setID(2);
 		}
 		
 		// A white triangle.
@@ -122,18 +125,25 @@ public class NodeHierarchy
 		node6 = new SimpleNode();
 		node7 = new SimpleNode();
 
+		node1.setID(0);
 		node1.addChild(node2);
 		{
+		    node2.setID(1);
 			node2.addChild(node3);
+			node3.setID(2);
 		}
 
 		node1.addChild(node4);
 		{
+		    node4.setID(3);
 			node4.addChild(node5);
+			node5.setID(4);
 			node4.addChild(node6);
+			node6.setID(5);
 		}
 
 		node1.addChild(node7);
+		node7.setID(6);
 		
 		// A white triangle.
 		ArrayVG vertexGroup = new ArrayVG();
