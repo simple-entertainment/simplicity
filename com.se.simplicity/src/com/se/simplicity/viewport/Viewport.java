@@ -94,5 +94,5 @@ public interface Viewport
      * @param width The width of this <code>Viewport</code>.
      * @param height The height of this <code>Viewport</code>.
      */
-    int setSize(int width, int height);
+    void setSize(int width, int height);
 }
