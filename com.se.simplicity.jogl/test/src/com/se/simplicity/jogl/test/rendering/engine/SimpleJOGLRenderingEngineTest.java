@@ -9,11 +9,11 @@ import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import javax.media.opengl.GL;
-
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.jogl.rendering.SimpleJOGLLight;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
@@ -21,281 +21,303 @@ import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.test.mocks.MockGL;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.scenegraph.SceneGraph;
+import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.test.mocks.NodeHierarchy;
 
 /**
- * TODO repair tests
- * 
  * <p>
- * Unit tests for the class {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine SimpleJOGLRenderingEngine}.
+ * Unit tests for the class {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine SimpleJOGLRenderingEngine}.
  * </p>
  * 
  * @author simple
  */
 public class SimpleJOGLRenderingEngineTest
 {
-	/**
-	 * An instance of the class being unit tested.
-	 */
-	private SimpleJOGLRenderingEngine testObject;
+    /**
+     * An instance of the class being unit tested.
+     */
+    private SimpleJOGLRenderingEngine testObject;
 
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine.addLight addLight()}.
-	 * </p>
-	 */
-	@Test
-	public void addLight()
-	{
-		SimpleJOGLLight mockLight = createMock(SimpleJOGLLight.class);
-		
-		mockLight.setGL(null);
-		replay(mockLight);
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.addLight addLight()}.
+     * </p>
+     */
+    @Test
+    public void addLight()
+    {
+        SimpleJOGLLight mockLight = createMock(SimpleJOGLLight.class);
 
-		testObject.addLight(mockLight);
+        mockLight.setGL(null);
+        replay(mockLight);
 
-		assertTrue(testObject.getLights().contains(mockLight));
+        testObject.addLight(mockLight);
 
-		verify(mockLight);
-	}
+        assertTrue(testObject.getLights().contains(mockLight));
 
-	/**
-	 * <p>
-	 * Setup to perform before each unit test.
-	 * </p>
-	 */
-	@Before
-	public void before()
-	{
-		testObject = new SimpleJOGLRenderingEngine();
-	}
+        verify(mockLight);
+    }
 
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine.display display()}, specifically the
-	 * application of the <code>Camera</code> and <code>Lights</code>.
-	 * </p>
-	 */
-	@Test
-	public void displayApplyCameraLights()
-	{
-		MockGL mockGL = new MockGL();
-		
-		SimpleJOGLCamera mockCamera = createNiceMock(SimpleJOGLCamera.class);
-		SimpleJOGLLight mockLight = createNiceMock(SimpleJOGLLight.class);
-		
-		testObject.setGL(mockGL);
-		testObject.setCamera(mockCamera);
-		testObject.addLight(mockLight);
-		testObject.setSceneGraph(createMock(SceneGraph.class));
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.advance advance()}, specifically the application
+     * of the <code>Camera</code> and <code>Lights</code>.
+     * </p>
+     */
+    @Test
+    public void advanceApplyCameraLights()
+    {
+        MockGL mockGL = new MockGL();
 
-		reset(mockCamera, mockLight);
-		mockCamera.apply();
-		mockLight.apply();
-		replay(mockCamera, mockLight);
-		
-		//testObject.display();
-		
-		verify(mockCamera, mockLight);
-	}
+        SimpleJOGLCamera mockCamera = createNiceMock(SimpleJOGLCamera.class);
+        SimpleJOGLLight mockLight = createNiceMock(SimpleJOGLLight.class);
 
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine.display display()}, specifically clearing
-	 * before rendering.
-	 * </p>
-	 */
-	@Test
-	public void displayClearing()
-	{		
-		MockGL mockGL = new MockGL();
+        testObject.setGL(mockGL);
+        testObject.setCamera(mockCamera);
+        testObject.addLight(mockLight);
+        testObject.setSceneGraph(createMock(SceneGraph.class));
 
-		NodeHierarchy nodes = new NodeHierarchy();
-		nodes.setBasicNodeHierarchy();
+        mockGL.reset();
+        reset(mockCamera, mockLight);
+        mockCamera.apply();
+        mockLight.apply();
+        replay(mockCamera, mockLight);
 
-		SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        testObject.advance();
 
-		testObject.setGL(mockGL);
-		testObject.setCamera(createMock(SimpleJOGLCamera.class));
-		testObject.addLight(createMock(SimpleJOGLLight.class));
-		testObject.setSceneGraph(mockSceneGraph);
+        verify(mockCamera, mockLight);
+    }
 
-		// Test with clearing enabled.
-		reset(mockSceneGraph);
-		expect(mockSceneGraph.getRoot()).andReturn(nodes.node1);
-		replay(mockSceneGraph);
-		
-		//testObject.display();
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.advance advance()}, specifically clearing before
+     * rendering.
+     * </p>
+     */
+    @Test
+    public void advanceClearing()
+    {
+        MockGL mockGL = new MockGL();
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setBasicNodeHierarchy();
 
-		assertEquals(1, mockGL.getMethodCallCountIgnoreParams("glClear"), 0);
-		assertTrue(mockGL.getMethodCallCountIgnoreParams("glBegin") > 0);
-		assertTrue(mockGL.methodCallOrderCheckIgnoreParams(0, "glClear", 0, "glBegin"));
+        testObject.setGL(mockGL);
+        testObject.setRenderer(createMock(SimpleJOGLRenderer.class));
+        testObject.setCamera(createMock(SimpleJOGLCamera.class));
+        testObject.addLight(createMock(SimpleJOGLLight.class));
+        testObject.setSceneGraph(mockSceneGraph);
 
-		// Test with clearing disabled.
-		testObject.setClearsBeforeRender(false);
-		//mockGL.clearMethodCalls();
-		
-		reset(mockSceneGraph);
-		expect(mockSceneGraph.getRoot()).andReturn(nodes.node1);
-		replay(mockSceneGraph);
-		
-		//testObject.display();
+        // Test with clearing enabled.
+        mockGL.reset();
+        reset(mockSceneGraph);
+        expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
+        replay(mockSceneGraph);
 
-		assertEquals(0, mockGL.getMethodCallCountIgnoreParams("glClear"), 0);
-	}
+        testObject.advance();
 
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine.display display()} with the special
-	 * condition that the {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine SimpleJOGLRenderingEngine} being tested does not
-	 * have a {@link com.se.simplicity.rendering.Camera Camera} to view the {@link com.se.simplicity.scenegraph.SceneGraph
-	 * SceneGraph} through.
-	 * </p>
-	 */
-	@Test(expected = IllegalStateException.class)
-	public void displayNoCamera()
-	{
-		//testObject.display();
-	}
+        assertEquals(1, mockGL.getMethodCallCountIgnoreParams("glClear"), 0);
 
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine.display display()} with the special
-	 * condition that the {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine SimpleJOGLRenderingEngine} being tested does not
-	 * have a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} to render.
-	 * </p>
-	 */
-	@Test(expected = IllegalStateException.class)
-	public void displayNoSceneGraph()
-	{
-		testObject.setCamera(createMock(SimpleJOGLCamera.class));
+        // Test with clearing disabled.
+        testObject.setClearsBeforeRender(false);
 
-		//testObject.display();
-	}
+        mockGL.reset();
 
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine.display display()}, specifically the number
-	 * of calls to <code>glPushMatrix</code>, <code>glPopMatrix</code> and <code>glMultMatrix</code>.
-	 * </p>
-	 */
-	@Test
-	public void displayPopPushMatrixMult()
-	{
-		MockGL mockGL = new MockGL();
+        testObject.advance();
 
-		NodeHierarchy nodes = new NodeHierarchy();
-		nodes.setStandardNodeHierarchy();
+        assertEquals(0, mockGL.getMethodCallCountIgnoreParams("glClear"), 0);
+    }
 
-		SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.advance advance()} with the special condition
+     * that the {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine SimpleJOGLRenderingEngine} being tested does not have a
+     * {@link com.se.simplicity.rendering.Camera Camera} to view the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} through.
+     * </p>
+     */
+    @Test(expected = IllegalStateException.class)
+    public void advanceNoCamera()
+    {
+        testObject.advance();
+    }
 
-		testObject.setGL(mockGL);
-		testObject.setCamera(createMock(SimpleJOGLCamera.class));
-		testObject.addLight(createMock(SimpleJOGLLight.class));
-		testObject.setSceneGraph(mockSceneGraph);
-		
-		reset(mockSceneGraph);
-		expect(mockSceneGraph.getRoot()).andReturn(nodes.node1);
-		replay(mockSceneGraph);
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.advance advance()} with the special condition
+     * that the {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine SimpleJOGLRenderingEngine} being tested does not have a
+     * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} to render.
+     * </p>
+     */
+    @Test(expected = IllegalStateException.class)
+    public void advanceNoSceneGraph()
+    {
+        testObject.setCamera(createMock(SimpleJOGLCamera.class));
 
-		//testObject.display();
+        testObject.advance();
+    }
 
-		assertEquals(8, mockGL.getMethodCallCountIgnoreParams("glPushMatrix"), 0);
-		assertEquals(8, mockGL.getMethodCallCountIgnoreParams("glPopMatrix"), 0);
-		assertEquals(7, mockGL.getMethodCallCountIgnoreParams("glMultMatrixf"), 0);
-	}
-	
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine.display display()}, specifically the ???.
-	 * </p>
-	 */
-	@Test
-	public void displayRenderArrayVG()
-	{
-		// TODO implement test
-	}
-	
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine.display display()}, specifically the ???.
-	 * </p>
-	 */
-	@Test
-	public void displayRenderIndexedArrayVG()
-	{
-		// TODO implement test
-	}
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.advance advance()}, specifically the number of
+     * calls to <code>glPushMatrix</code>, <code>glPopMatrix</code> and <code>glMultMatrix</code>.
+     * </p>
+     */
+    @Test
+    public void advancePopPushMatrixMult()
+    {
+        MockGL mockGL = new MockGL();
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setStandardNodeHierarchy();
 
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine.init init()}.
-	 * </p>
-	 */
-	@Test
-	public void init()
-	{
-		MockGL mockGL = new MockGL();
+        testObject.setGL(mockGL);
+        testObject.setRenderer(createMock(SimpleJOGLRenderer.class));
+        testObject.setCamera(createMock(SimpleJOGLCamera.class));
+        testObject.addLight(createMock(SimpleJOGLLight.class));
+        testObject.setSceneGraph(mockSceneGraph);
 
-		SimpleJOGLCamera mockCamera = createMock(SimpleJOGLCamera.class);
-		SimpleJOGLLight mockLight1 = createMock(SimpleJOGLLight.class);
-		SimpleJOGLLight mockLight2 = createMock(SimpleJOGLLight.class);
+        mockGL.reset();
+        reset(mockSceneGraph);
+        expect(mockSceneGraph.getRoot()).andReturn(nodes.node1);
+        replay(mockSceneGraph);
 
-		testObject.setGL(mockGL);
-		testObject.setCamera(mockCamera);
-		testObject.addLight(mockLight1);
-		testObject.addLight(mockLight2);
+        testObject.advance();
 
-		reset(mockCamera, mockLight1, mockLight2);
-		mockCamera.setGL(mockGL);
-		mockLight1.setGL(mockGL);
-		mockLight2.setGL(mockGL);
-		replay(mockCamera, mockLight1, mockLight2);
+        assertEquals(8, mockGL.getMethodCallCountIgnoreParams("glPushMatrix"), 0);
+        assertEquals(8, mockGL.getMethodCallCountIgnoreParams("glPopMatrix"), 0);
+        assertEquals(7, mockGL.getMethodCallCountIgnoreParams("glMultMatrixf"), 0);
+    }
 
-		testObject.init();
+    /**
+     * <p>
+     * Setup to perform before each unit test.
+     * </p>
+     */
+    @Before
+    public void before()
+    {
+        testObject = new SimpleJOGLRenderingEngine();
+    }
 
-		verify(mockCamera, mockLight1, mockLight2);
-	}
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.init init()}.
+     * </p>
+     */
+    @Test
+    public void init()
+    {
+        MockGL mockGL = new MockGL();
 
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine.setCamera setCamera()}.
-	 * </p>
-	 */
-	@Test
-	public void setCamera()
-	{
-		SimpleJOGLCamera mockCamera = createMock(SimpleJOGLCamera.class);
-		
-		mockCamera.setGL(null);
-		replay();
+        SimpleJOGLRenderer mockRenderer = createMock(SimpleJOGLRenderer.class);
+        SimpleJOGLCamera mockCamera = createMock(SimpleJOGLCamera.class);
+        SimpleJOGLLight mockLight1 = createMock(SimpleJOGLLight.class);
+        SimpleJOGLLight mockLight2 = createMock(SimpleJOGLLight.class);
 
-		testObject.setCamera(mockCamera);
-		
-		verify();
-		assertEquals(mockCamera, testObject.getCamera());
-	}
+        testObject.setGL(mockGL);
+        testObject.setRenderer(mockRenderer);
+        testObject.setCamera(mockCamera);
+        testObject.addLight(mockLight1);
+        testObject.addLight(mockLight2);
 
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderingEngine.setDrawingMode setDrawingMode()}.
-	 * </p>
-	 */
-	@Test
-	public void setDrawingMode()
-	{
-		testObject.setGL(new MockGL());
+        reset(mockRenderer, mockCamera, mockLight1, mockLight2);
+        mockRenderer.setGL(mockGL);
+        mockCamera.setGL(mockGL);
+        mockLight1.setGL(mockGL);
+        mockLight2.setGL(mockGL);
+        replay(mockRenderer, mockCamera, mockLight1, mockLight2);
 
-		testObject.setDrawingMode(DrawingMode.EDGES);
+        testObject.init();
 
-		assertEquals(GL.GL_LINE_LOOP, testObject.getJOGLDrawingMode(), 0);
+        verify(mockRenderer, mockCamera, mockLight1, mockLight2);
+    }
 
-		testObject.setDrawingMode(DrawingMode.FACES);
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.renderSceneGraph renderSceneGraph()}.
+     * </p>
+     */
+    @Test
+    public void renderSceneGraph()
+    {
+        MockGL mockGL = new MockGL();
+        SimpleJOGLRenderer mockRenderer = createMock(SimpleJOGLRenderer.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setStandardNodeHierarchy();
 
-		assertEquals(GL.GL_TRIANGLES, testObject.getJOGLDrawingMode(), 0);
+        testObject.setGL(mockGL);
+        testObject.setRenderer(mockRenderer);
+        testObject.setSceneGraph(mockSceneGraph);
 
-		testObject.setDrawingMode(DrawingMode.VERTICES);
+        mockGL.reset();
+        reset(mockRenderer, mockSceneGraph);
+        mockRenderer.renderVertexGroup(((ModelNode) nodes.node3).getVertexGroup(), DrawingMode.FACES);
+        expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
+        replay(mockRenderer, mockSceneGraph);
 
-		assertEquals(GL.GL_POINTS, testObject.getJOGLDrawingMode(), 0);
-	}
+        testObject.renderSceneGraph();
+
+        verify(mockRenderer);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.renderSceneGraph renderSceneGraph()} with the
+     * special condition that the {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine} being tested uses a
+     * {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer}.
+     * </p>
+     */
+    @Test
+    public void renderSceneGraphNamed()
+    {
+        MockGL mockGL = new MockGL();
+        NamedJOGLRenderer mockRenderer = createMock(NamedJOGLRenderer.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setStandardNodeHierarchy();
+
+        testObject.setGL(mockGL);
+        testObject.setRenderer(mockRenderer);
+        testObject.setSceneGraph(mockSceneGraph);
+
+        mockGL.reset();
+        reset(mockRenderer, mockSceneGraph);
+        mockRenderer.renderVertexGroup(((ModelNode) nodes.node3).getVertexGroup(), DrawingMode.FACES, 2);
+        expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
+        replay(mockRenderer, mockSceneGraph);
+
+        testObject.renderSceneGraph();
+
+        verify(mockRenderer);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.run run()}.
+     * </p>
+     */
+    @Test
+    @Ignore("May need to use aspect to test")
+    public void run()
+    {}
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.setCamera setCamera()}.
+     * </p>
+     */
+    @Test
+    public void setCamera()
+    {
+        SimpleJOGLCamera mockCamera = createMock(SimpleJOGLCamera.class);
+
+        mockCamera.setGL(null);
+        replay();
+
+        testObject.setCamera(mockCamera);
+
+        verify();
+        assertEquals(mockCamera, testObject.getCamera());
+    }
 }

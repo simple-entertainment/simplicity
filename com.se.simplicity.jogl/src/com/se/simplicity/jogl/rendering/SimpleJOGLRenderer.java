@@ -11,136 +11,137 @@ import com.se.simplicity.rendering.Renderer;
 
 /**
  * <p>
- * This implementation uses only simple rendering techniques and properties.
+ * Renders a {@link com.se.simplicity.model.VertexGroup VertexGroup} in a JOGL environment. This implementation uses only simple rendering techniques
+ * and properties.
  * </p>
  * 
  * @author simple
  */
 public class SimpleJOGLRenderer implements Renderer, JOGLComponent
 {
-	/**
-	 * <p>
-	 * The JOGL rendering environment.
-	 * </p>
-	 */
-	private GL gl;
-	
-	@Override
-	public GL getGL()
-	{
-		return (gl);
-	}
+    /**
+     * <p>
+     * The JOGL rendering environment.
+     * </p>
+     */
+    private GL gl;
 
-	/**
-	 * <p>
-	 * Sets the JOGL drawing mode used to render the <code>SceneGraph</code>.
-	 * </p>
-	 */
-	protected int getJOGLDrawingMode(final DrawingMode drawingMode)
-	{
-		int joglDrawingMode = -1;
+    @Override
+    public GL getGL()
+    {
+        return (gl);
+    }
 
-		if (drawingMode == DrawingMode.VERTICES)
-		{
-			gl.glPointSize(2.0f);
-			joglDrawingMode = GL.GL_POINTS;
-		}
-		else if (drawingMode == DrawingMode.EDGES)
-		{
-			joglDrawingMode = GL.GL_LINE_LOOP;
-		}
-		else if (drawingMode == DrawingMode.FACES)
-		{
-			joglDrawingMode = GL.GL_TRIANGLES;
-		}
+    /**
+     * <p>
+     * Sets the JOGL drawing mode used to render the <code>SceneGraph</code>.
+     * </p>
+     */
+    protected int getJOGLDrawingMode(final DrawingMode drawingMode)
+    {
+        int joglDrawingMode = -1;
 
-		return (joglDrawingMode);
-	}
+        if (drawingMode == DrawingMode.VERTICES)
+        {
+            gl.glPointSize(2.0f);
+            joglDrawingMode = GL.GL_POINTS;
+        }
+        else if (drawingMode == DrawingMode.EDGES)
+        {
+            joglDrawingMode = GL.GL_LINE_LOOP;
+        }
+        else if (drawingMode == DrawingMode.FACES)
+        {
+            joglDrawingMode = GL.GL_TRIANGLES;
+        }
 
-	/**
-	 * <p>
-	 * Renders an <code>ArrayVG</code>.
-	 * </p>
-	 * 
-	 * @param vertexGroup The <code>ArrayVG</code> to render.
-	 */
-	protected void renderArrayVG(final ArrayVG vertexGroup, DrawingMode drawingMode)
-	{
-		float[] colours = vertexGroup.getColours();
-		float[] normals = vertexGroup.getNormals();
-		float[] vertices = vertexGroup.getVertices();
+        return (joglDrawingMode);
+    }
 
-		for (int triangleIndex = 0; triangleIndex < vertices.length / 9; triangleIndex++)
-		{
-			gl.glBegin(getJOGLDrawingMode(drawingMode));
-			{
-				for (int vertexIndex = 0; vertexIndex < 9; vertexIndex += 3)
-				{
-					int vertex = triangleIndex * 9 + vertexIndex;
+    /**
+     * <p>
+     * Renders an <code>ArrayVG</code>.
+     * </p>
+     * 
+     * @param vertexGroup The <code>ArrayVG</code> to render.
+     */
+    protected void renderArrayVG(final ArrayVG vertexGroup, DrawingMode drawingMode)
+    {
+        float[] colours = vertexGroup.getColours();
+        float[] normals = vertexGroup.getNormals();
+        float[] vertices = vertexGroup.getVertices();
 
-					gl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
-					gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
-					gl.glVertex3f(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
-				}
-			}
-			gl.glEnd();
-		}
-	}
+        for (int triangleIndex = 0; triangleIndex < vertices.length / 9; triangleIndex++)
+        {
+            gl.glBegin(getJOGLDrawingMode(drawingMode));
+            {
+                for (int vertexIndex = 0; vertexIndex < 9; vertexIndex += 3)
+                {
+                    int vertex = triangleIndex * 9 + vertexIndex;
 
-	/**
-	 * <p>
-	 * Renders an <code>IndexedArrayVG</code>.
-	 * </p>
-	 * 
-	 * @param vertexGroup The <code>IndexedArrayVG</code> to render.
-	 */
-	protected void renderIndexedArrayVG(final IndexedArrayVG vertexGroup, DrawingMode drawingMode)
-	{
-		int[] indices = vertexGroup.getIndices();
-		float[] colours = vertexGroup.getColours();
-		float[] normals = vertexGroup.getNormals();
-		float[] vertices = vertexGroup.getVertices();
-		int vertex;
+                    gl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
+                    gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
+                    gl.glVertex3f(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+                }
+            }
+            gl.glEnd();
+        }
+    }
 
-		for (int triangleIndex = 0; triangleIndex < indices.length / 3; triangleIndex++)
-		{
-			gl.glBegin(getJOGLDrawingMode(drawingMode));
-			{
-				for (int vertexIndex = 0; vertexIndex < 9; vertexIndex += 3)
-				{
-					vertex = indices[triangleIndex * 3] * 3 + vertexIndex;
+    /**
+     * <p>
+     * Renders an <code>IndexedArrayVG</code>.
+     * </p>
+     * 
+     * @param vertexGroup The <code>IndexedArrayVG</code> to render.
+     */
+    protected void renderIndexedArrayVG(final IndexedArrayVG vertexGroup, DrawingMode drawingMode)
+    {
+        int[] indices = vertexGroup.getIndices();
+        float[] colours = vertexGroup.getColours();
+        float[] normals = vertexGroup.getNormals();
+        float[] vertices = vertexGroup.getVertices();
+        int vertex;
 
-					gl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
-					gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
-					gl.glVertex3f(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
-				}
-			}
-			gl.glEnd();
-		}
-	}
+        for (int triangleIndex = 0; triangleIndex < indices.length / 3; triangleIndex++)
+        {
+            gl.glBegin(getJOGLDrawingMode(drawingMode));
+            {
+                for (int vertexIndex = 0; vertexIndex < 9; vertexIndex += 3)
+                {
+                    vertex = indices[triangleIndex * 3] * 3 + vertexIndex;
 
-	/**
-	 * <p>
-	 * Renders a <code>VertexGroup</code>.
-	 * </p>
-	 * 
-	 * @param node The <code>ModelNode</code> that contains the <code>VertexGroup</code> to be rendered.
-	 */
-	public void renderVertexGroup(final VertexGroup vertexGroup, final DrawingMode drawingMode)
-	{
-		if (vertexGroup instanceof ArrayVG)
-		{
-			renderArrayVG((ArrayVG) vertexGroup, drawingMode);
-		}
-		else if (vertexGroup instanceof IndexedArrayVG)
-		{
-			renderIndexedArrayVG((IndexedArrayVG) vertexGroup, drawingMode);
-		}
-	}
+                    gl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
+                    gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
+                    gl.glVertex3f(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+                }
+            }
+            gl.glEnd();
+        }
+    }
 
-	@Override
-	public void setGL(GL gl)
-	{
-		this.gl = gl;
-	}
+    /**
+     * <p>
+     * Renders a <code>VertexGroup</code>.
+     * </p>
+     * 
+     * @param node The <code>ModelNode</code> that contains the <code>VertexGroup</code> to be rendered.
+     */
+    public void renderVertexGroup(final VertexGroup vertexGroup, final DrawingMode drawingMode)
+    {
+        if (vertexGroup instanceof ArrayVG)
+        {
+            renderArrayVG((ArrayVG) vertexGroup, drawingMode);
+        }
+        else if (vertexGroup instanceof IndexedArrayVG)
+        {
+            renderIndexedArrayVG((IndexedArrayVG) vertexGroup, drawingMode);
+        }
+    }
+
+    @Override
+    public void setGL(GL gl)
+    {
+        this.gl = gl;
+    }
 }

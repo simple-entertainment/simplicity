@@ -2,16 +2,17 @@ package com.se.simplicity.jogl.test.picking.engine;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.createNiceMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
+import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.picking.Pick;
 import com.se.simplicity.picking.Picker;
 import com.se.simplicity.picking.event.PickEvent;
@@ -19,10 +20,9 @@ import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scenegraph.SceneGraph;
+import com.se.simplicity.viewport.Viewport;
 
 /**
- * TODO Implement a set of tests
- * 
  * <p>
  * Unit tests for the class {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine SimpleJOGLPickingEngine}.
  * </p>
@@ -31,141 +31,240 @@ import com.se.simplicity.scenegraph.SceneGraph;
  */
 public class SimpleJOGLPickingEngineTest
 {
-	/**
-	 * An instance of the class being unit tested.
-	 */
-	private SimpleJOGLPickingEngine testObject;
-	
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()}.
-	 * </p>
-	 */
-	@Test
-	public void advance()
-	{
-		Picker mockPicker = createNiceMock(Picker.class);
+    /**
+     * An instance of the class being unit tested.
+     */
+    private SimpleJOGLPickingEngine testObject;
 
-		testObject.setPicker(mockPicker);
-		testObject.pick(5, 10, 15, 20);
-		testObject.pick(10, 20, 30, 40);
-		
-		reset(mockPicker);
-		expect(mockPicker.pickSceneGraph(null, null, testObject.getPicks().get(0)));
-		expect(mockPicker.pickSceneGraph(null, null, testObject.getPicks().get(1)));
-		replay(mockPicker);
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()}.
+     * </p>
+     */
+    @Test
+    public void advance()
+    {
+        Picker mockPicker = createMock(Picker.class);
 
-		testObject.advance();
-		
-		verify(mockPicker);
-	}
-	
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()} with the special
-	 * condition that the {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine SimpleJOGLPickingEngine} being tested
-	 * does not have any outstanding picks to perform.
-	 * </p>
-	 */
-	@Test
-	public void advanceNoPicks()
-	{
-		Picker mockPicker = createMock(Picker.class);
+        testObject.setPicker(mockPicker);
+        testObject.pick(5, 10, 15, 20);
+        testObject.pick(10, 20, 30, 40);
 
-		testObject.setPicker(mockPicker);
-		
-		reset(mockPicker);
-		expect(mockPicker.pickSceneGraph(null, null, null)).andReturn(null);
-		replay(mockPicker);
+        reset(mockPicker);
+        expect(mockPicker.pickSceneGraph(null, null, testObject.getPicks().get(0))).andReturn(null);
+        expect(mockPicker.pickSceneGraph(null, null, testObject.getPicks().get(1))).andReturn(null);
+        replay(mockPicker);
 
-		testObject.advance();
-		
-		verify(mockPicker);
-	}
-	
-	/**
-	 * <p>
-	 * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()} with the special
-	 * condition that the {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine SimpleJOGLPickingEngine} being tested
-	 * is related to a Rendering Engine.
-	 * </p>
-	 */
-	@Test
-	public void advanceRenderingEngine()
-	{
-		Picker mockPicker = createNiceMock(Picker.class);
-		RenderingEngine mockRenderingEngine = createNiceMock(RenderingEngine.class);
-		SceneGraph mockSceneGraph = createNiceMock(SceneGraph.class);
-		Camera mockCamera = createNiceMock(Camera.class);
+        testObject.advance();
 
-		testObject.setPicker(mockPicker);
-		testObject.setRenderingEngine(mockRenderingEngine);
-		testObject.pick(5, 10, 15, 20);
-		testObject.pick(10, 20, 30, 40);
-		
-		reset(mockPicker, mockRenderingEngine);
-		expect(mockRenderingEngine.getSceneGraph()).andReturn(mockSceneGraph);
-		expect(mockRenderingEngine.getCamera()).andReturn(mockCamera);
-		expect(mockPicker.pickSceneGraph(null, null, testObject.getPicks().get(0)));
-		expect(mockPicker.pickSceneGraph(null, null, testObject.getPicks().get(1)));
-		replay(mockPicker, mockRenderingEngine);
+        verify(mockPicker);
+    }
 
-		testObject.advance();
-		
-		assertEquals(testObject.getSceneGraph(), mockSceneGraph);
-		assertEquals(testObject.getCamera(), mockCamera);
-		
-		verify(mockPicker, mockRenderingEngine);
-	}
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()} with the special
+     * condition that the {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine SimpleJOGLPickingEngine} being tested
+     * does not have any outstanding picks to perform.
+     * </p>
+     */
+    @Test
+    public void advanceNoPicks()
+    {
+        Picker mockPicker = createMock(Picker.class);
 
-	/**
-	 * <p>
-	 * Setup to perform before each unit test.
-	 * </p>
-	 */
-	@Before
-	public void before()
-	{
-		testObject = new SimpleJOGLPickingEngine();
-	}
+        testObject.setPicker(mockPicker);
 
-	/**
-	 * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPickingEngine.firePickEvent firePickEvent()}.
-	 */
-	@Test
-	public void firePickEvent()
-	{
-		PickListener mockPickListener1 = createMock(PickListener.class);
-		PickListener mockPickListener2 = createMock(PickListener.class);
-		PickEvent mockPickEvent = createMock(PickEvent.class);
+        reset(mockPicker);
+        replay(mockPicker);
 
-		testObject.addPickListener(mockPickListener1);
-		testObject.addPickListener(mockPickListener2);
+        testObject.advance();
 
-		reset(mockPickListener1, mockPickListener2);
-		mockPickListener1.scenePicked(mockPickEvent);
-		mockPickListener2.scenePicked(mockPickEvent);
-		replay(mockPickListener1, mockPickListener2);
+        verify(mockPicker);
+    }
 
-		testObject.firePickEvent(mockPickEvent);
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()} with the special
+     * condition that the {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine SimpleJOGLPickingEngine} being tested is
+     * related to a Rendering Engine.
+     * </p>
+     */
+    @Test
+    public void advanceRenderingEngine()
+    {
+        Picker mockPicker = createMock(Picker.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Camera mockCamera = createMock(Camera.class);
 
-		verify(mockPickListener1, mockPickListener2);
-	}
+        testObject.setPicker(mockPicker);
+        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.pick(5, 10, 15, 20);
+        testObject.pick(10, 20, 30, 40);
 
-	/**
-	 * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPickingEngine.pick pick()}.
-	 */
-	@Test
-	public void pick()
-	{
-		testObject.pick(5, 10, 15, 20);
+        reset(mockPicker, mockRenderingEngine);
+        expect(mockRenderingEngine.getSceneGraph()).andReturn(mockSceneGraph);
+        expect(mockRenderingEngine.getCamera()).andReturn(mockCamera);
+        expect(mockPicker.pickSceneGraph(mockSceneGraph, mockCamera, testObject.getPicks().get(0))).andReturn(null);
+        expect(mockPicker.pickSceneGraph(mockSceneGraph, mockCamera, testObject.getPicks().get(1))).andReturn(null);
+        replay(mockPicker, mockRenderingEngine);
 
-		assertEquals(1, testObject.getPicks().size(), 0);
+        testObject.advance();
 
-		Pick pick = testObject.getPicks().get(0);
-		assertEquals(5, pick.getX(), 0);
-		assertEquals(10, pick.getY(), 0);
-		assertEquals(15, pick.getWidth(), 0);
-		assertEquals(20, pick.getHeight(), 0);
-	}
+        assertEquals(testObject.getSceneGraph(), mockSceneGraph);
+        assertEquals(testObject.getCamera(), mockCamera);
+
+        verify(mockPicker, mockRenderingEngine);
+    }
+
+    /**
+     * <p>
+     * Setup to perform before each unit test.
+     * </p>
+     */
+    @Before
+    public void before()
+    {
+        testObject = new SimpleJOGLPickingEngine();
+    }
+
+    /**
+     * Unit test the method
+     * {@link com.se.simplicity.jogl.picking.SimpleJOGLPickingEngine.convertPickCoordinatesFromViewportToSceneGraph
+     * convertPickCoordinatesFromViewportToSceneGraph()}.
+     */
+    @Test
+    public void convertPickCoordinatesFromViewportToSceneGraph()
+    {
+        Pick mockPick = createMock(Pick.class);
+        Viewport mockViewport = createMock(Viewport.class);
+        SimpleJOGLCamera mockCamera = createMock(SimpleJOGLCamera.class);
+
+        expect(mockPick.getX()).andStubReturn(100f);
+        expect(mockPick.getY()).andStubReturn(100f);
+        expect(mockPick.getWidth()).andStubReturn(2.0f);
+        expect(mockPick.getHeight()).andStubReturn(2.0f);
+
+        expect(mockViewport.getWidth()).andStubReturn(200);
+        expect(mockViewport.getHeight()).andStubReturn(200);
+
+        expect(mockCamera.getFrameWidth()).andStubReturn(0.1f);
+        expect(mockCamera.getFrameAspectRatio()).andStubReturn(0.75f);
+
+        mockPick.setX(0.05f);
+        mockPick.setY(0.05f * 0.75f);
+        mockPick.setWidth(0.1f / 100);
+        mockPick.setHeight((0.1f * 0.75f) / 100);
+
+        testObject.setCamera(mockCamera);
+
+        replay(mockPick, mockViewport, mockCamera);
+
+        testObject.convertPickCoordinatesFromViewportToSceneGraph(mockViewport, mockPick);
+
+        verify(mockPick);
+    }
+
+    /**
+     * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPickingEngine.firePickEvent firePickEvent()}.
+     */
+    @Test
+    public void firePickEvent()
+    {
+        PickListener mockPickListener1 = createMock(PickListener.class);
+        PickListener mockPickListener2 = createMock(PickListener.class);
+        PickEvent mockPickEvent = createMock(PickEvent.class);
+
+        testObject.addPickListener(mockPickListener1);
+        testObject.addPickListener(mockPickListener2);
+
+        reset(mockPickListener1, mockPickListener2);
+        mockPickListener1.scenePicked(mockPickEvent);
+        mockPickListener2.scenePicked(mockPickEvent);
+        replay(mockPickListener1, mockPickListener2);
+
+        testObject.firePickEvent(mockPickEvent);
+
+        verify(mockPickListener1, mockPickListener2);
+    }
+
+    /**
+     * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPickingEngine.pick pick()}.
+     */
+    @Test
+    public void pick()
+    {
+        testObject.pick(5, 10, 15, 20);
+
+        assertEquals(1, testObject.getPicks().size(), 0);
+
+        Pick pick0 = testObject.getPicks().get(0);
+        assertEquals(5, pick0.getX(), 0);
+        assertEquals(10, pick0.getY(), 0);
+        assertEquals(15, pick0.getWidth(), 0);
+        assertEquals(20, pick0.getHeight(), 0);
+
+        Pick mockPick = createMock(Pick.class);
+
+        testObject.pick(mockPick);
+
+        assertEquals(2, testObject.getPicks().size(), 0);
+        assertEquals(mockPick, testObject.getPicks().get(1));
+    }
+
+    /**
+     * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPickingEngine.pickViewport pickViewport()}.
+     */
+    @Test
+    public void pickViewport()
+    {
+        Viewport mockViewport = createMock(Viewport.class);
+        SimpleJOGLCamera mockCamera = createMock(SimpleJOGLCamera.class);
+
+        expect(mockViewport.getHeight()).andStubReturn(200);
+        expect(mockViewport.getWidth()).andStubReturn(200);
+
+        expect(mockCamera.getFrameWidth()).andStubReturn(0.1f);
+        expect(mockCamera.getFrameAspectRatio()).andStubReturn(0.75f);
+
+        replay(mockViewport, mockCamera);
+
+        testObject.setCamera(mockCamera);
+
+        testObject.pickViewport(mockViewport, 100, 100, 2, 2);
+
+        assertEquals(1, testObject.getPicks().size(), 0);
+
+        Pick pick0 = testObject.getPicks().get(0);
+        assertEquals(0.05f, pick0.getX(), 0);
+        assertEquals(0.0375f, pick0.getY(), 0);
+        assertEquals(0.001f, pick0.getWidth(), 0);
+        assertEquals(0.00075f, pick0.getHeight(), 0);
+
+        Pick pick = new Pick();
+        pick.setX(50);
+        pick.setY(150);
+        pick.setWidth(2);
+        pick.setHeight(2);
+
+        testObject.pickViewport(mockViewport, pick);
+
+        assertEquals(2, testObject.getPicks().size(), 0);
+
+        Pick pick1 = testObject.getPicks().get(1);
+        assertEquals(0.025f, pick1.getX(), 0);
+        assertEquals(0.05625f, pick1.getY(), 0.0001f);
+        assertEquals(0.001f, pick1.getWidth(), 0);
+        assertEquals(0.00075f, pick1.getHeight(), 0);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine.run run()}.
+     * </p>
+     */
+    @Test
+    @Ignore("May need to use aspect to test")
+    public void run()
+    {}
 }

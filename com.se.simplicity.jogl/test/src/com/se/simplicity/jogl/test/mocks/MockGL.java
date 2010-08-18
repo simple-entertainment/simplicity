@@ -663,7 +663,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glColor3f(float arg0, float arg1, float arg2)
 	{
-		// Stub method only.
+	    addMethodCall("glColor3f", new Object[] {arg0, arg1, arg2});
 		
 	}
 
@@ -1935,7 +1935,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glDisable(int arg0)
 	{
-		// Stub method only.
+		addMethodCall("glDisable", new Object[] {arg0});
 		
 	}
 
@@ -2194,7 +2194,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glEnable(int arg0)
 	{
-		// Stub method only.
+		addMethodCall("glEnable", new Object[] {arg0});
 		
 	}
 
@@ -2243,7 +2243,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glEnd()
 	{
-		// Stub method only.
+		addMethodCall("glEnd", null);
 		
 	}
 
@@ -2950,7 +2950,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glFrustum(double arg0, double arg1, double arg2, double arg3, double arg4, double arg5)
 	{
-		// Stub method only.
+		addMethodCall("glFrustum", new Object[] {arg0, arg1, arg2, arg3, arg4, arg5});
 		
 	}
 
@@ -6008,21 +6008,21 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glLightf(int arg0, int arg1, float arg2)
 	{
-		// Stub method only.
+	    // Stub method only.
 		
 	}
 
 	@Override
 	public void glLightfv(int arg0, int arg1, FloatBuffer arg2)
 	{
-		// Stub method only.
+	    // Stub method only.
 		
 	}
 
 	@Override
 	public void glLightfv(int arg0, int arg1, float[] arg2, int arg3)
 	{
-		// Stub method only.
+	    addMethodCall("glLightfv", new Object[] {arg0, arg1, arg2});
 		
 	}
 
@@ -6127,7 +6127,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glLoadIdentity()
 	{
-		// Stub method only.
+		addMethodCall("glLoadIdentity", null);
 		
 	}
 
@@ -6521,7 +6521,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glMatrixMode(int arg0)
 	{
-		// Stub method only.
+	    addMethodCall("glMatrixMode", new Object[] {arg0});
 		
 	}
 
@@ -7185,7 +7185,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glNormal3f(float arg0, float arg1, float arg2)
 	{
-		// Stub method only.
+	    addMethodCall("glNormal3f", new Object[] {arg0, arg1, arg2});
 		
 	}
 
@@ -7857,7 +7857,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glPopName()
 	{
-		// Stub method only.
+	    addMethodCall("glPopName", null);
 		
 	}
 
@@ -8340,7 +8340,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glPushName(int arg0)
 	{
-		// Stub method only.
+	    addMethodCall("glPushName", new Object[] {arg0});
 		
 	}
 
@@ -11653,7 +11653,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glVertex3f(float arg0, float arg1, float arg2)
 	{
-		// Stub method only.
+		addMethodCall("glVertex3f", new Object[] {arg0, arg1, arg2});
 		
 	}
 

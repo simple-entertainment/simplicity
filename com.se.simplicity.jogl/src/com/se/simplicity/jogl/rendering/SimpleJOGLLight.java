@@ -203,6 +203,8 @@ public class SimpleJOGLLight implements Light, JOGLComponent
 			gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE);
 			gl.glEnable(GL.GL_LIGHT0);
 		}
+		
+		isInitialised = true;
 	}
 
 	@Override
