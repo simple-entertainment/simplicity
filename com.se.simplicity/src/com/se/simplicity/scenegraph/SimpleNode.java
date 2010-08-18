@@ -92,6 +92,7 @@ public class SimpleNode implements Node, Serializable
 	{
 		children = new ArrayList<Node>();
 		collidable = true;
+		id = 0;
 		modifiable = true;
 		parent = null;
 		transformation = new SimpleTransformationMatrixf44();
