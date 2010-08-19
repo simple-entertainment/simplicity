@@ -161,6 +161,15 @@ public interface RenderingEngine extends Engine
 	void setDrawingMode(DrawingMode drawingMode);
 
 	/**
+     * <p>
+     * Sets the {@link com.se.simplicity.rendering.Light Light}s in this <code>RenderingEngine</code>.
+     * <p>
+     * 
+     * @param lights The {@link com.se.simplicity.rendering.Light Light}s in this <code>RenderingEngine</code>.
+     */
+    void setLights(List<Light> lights);
+	
+	/**
 	 * <p>
 	 * Sets the {@link com.se.simplicity.rendering.Renderer Renderer} that renders
 	 * {@link com.se.simplicity.model.VertexGroup VertexGroup}s for this <code>RenderingEngine</code>.
