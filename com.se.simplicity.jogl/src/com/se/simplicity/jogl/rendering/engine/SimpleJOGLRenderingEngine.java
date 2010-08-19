@@ -237,6 +237,18 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     }
 
     @Override
+    public int getPreferredFrequency()
+    {
+        return (preferredFrequency);
+    }
+
+    @Override
+    public Renderer getRenderer()
+    {
+        return (renderer);
+    }
+
+    @Override
     public SceneGraph getSceneGraph()
     {
         return (sceneGraph);
@@ -323,6 +335,20 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     }
 
     @Override
+    public void run()
+    {
+        init();
+
+        while (!Thread.interrupted())
+        {
+            sleep();
+            advance();
+        }
+
+        destroy();
+    }
+
+    @Override
     public void setCamera(final Camera camera)
     {
         ((JOGLComponent) camera).setGL(getGL());
@@ -351,15 +377,14 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     }
 
     @Override
-    public void setSceneGraph(final SceneGraph sceneGraph)
+    public void setLights(List<Light> lights)
     {
-        this.sceneGraph = sceneGraph;
-    }
+        for (Light light : lights)
+        {
+            ((JOGLComponent) light).setGL(getGL());
+        }
 
-    @Override
-    public int getPreferredFrequency()
-    {
-        return (preferredFrequency);
+        this.lights = lights;
     }
 
     @Override
@@ -369,31 +394,17 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     }
 
     @Override
-    public void run()
-    {
-        init();
-
-        while (!Thread.interrupted())
-        {
-            sleep();
-            advance();
-        }
-
-        destroy();
-    }
-
-    @Override
-    public Renderer getRenderer()
-    {
-        return (renderer);
-    }
-
-    @Override
     public void setRenderer(Renderer renderer)
     {
         ((JOGLComponent) renderer).setGL(getGL());
 
         this.renderer = renderer;
+    }
+
+    @Override
+    public void setSceneGraph(final SceneGraph sceneGraph)
+    {
+        this.sceneGraph = sceneGraph;
     }
 
     /**
