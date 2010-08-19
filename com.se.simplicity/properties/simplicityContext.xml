@@ -1,10 +1,31 @@
-<beans>
-	<bean id="renderer" abstract="true"/>
-	<bean id="picker" abstract="true"/>
-	<bean id="viewport" abstract="true" scope="prototype">
-		<property name="renderer" ref="renderer"/>
-		<property name="picker" ref="picker"/>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<!-- Rendering -->
+	<bean id="renderer" abstract="true" scope="prototype" />
+	<bean id="camera" abstract="true" scope="prototype" />
+	<bean id="light" abstract="true" scope="prototype" />
+	<bean id="renderingEngine" abstract="true" scope="prototype">
+		<property name="renderer" ref="renderer" />
+		<property name="camera" ref="camera" />
+		<property name="lights">
+			<list>
+				<ref bean="light" />
+			</list>
+		</property>
 	</bean>
-	<bean id="light" abstract="true" scope="prototype">
-	<bean id="camera" abstract="true" scope="prototype">
+	
+	<!-- Picking -->
+	<bean id="picker" abstract="true" scope="prototype" />
+	<bean id="pickingEngine" abstract="true" scope="prototype" />
+	
+	<!-- Viewing -->
+	<bean id="viewport" abstract="true" scope="prototype">
+		<property name="renderingEngine" ref="renderingEngine" />
+		<property name="pickingEngine" ref="pickingEngine" />
+	</bean>
+	
 </beans>
