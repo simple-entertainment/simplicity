@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<!-- Rendering -->
+	<bean id="camera" scope="prototype" class="com.se.simplicity.jogl.rendering.SimpleJOGLCamera" />
+	<bean id="light" scope="prototype" class="com.se.simplicity.jogl.rendering.SimpleJOGLLight" />
+	
+	<bean id="renderer" class="com.se.simplicity.jogl.rendering.SimpleJOGLRenderer" />
+	<bean id="renderingEngine"  class="com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine">
+		<property name="renderer" ref="renderer" />
+	</bean>
+	
+	<!-- Picking -->
+	<bean id="picker" class="com.se.simplicity.jogl.picking.SimpleJOGLPicker" />
+	<bean id="pickingEngine" class="com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine" />
+	
+	<!-- Viewing -->
+	<bean id="viewport" scope="prototype" class="com.se.simplicity.jogl.viewport.SimpleJOGLViewport">
+		<property name="renderingEngine" ref="renderingEngine" />
+		<property name="pickingEngine" ref="pickingEngine" />
+	</bean>
+	
+</beans>
