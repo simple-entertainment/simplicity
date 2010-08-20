@@ -1,3 +1,14 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.jogl.test.picking.engine;
 
 import static org.easymock.EasyMock.expect;
@@ -27,7 +38,7 @@ import com.se.simplicity.viewport.Viewport;
  * Unit tests for the class {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine SimpleJOGLPickingEngine}.
  * </p>
  * 
- * @author simple
+ * @author Gary Buyn
  */
 public class SimpleJOGLPickingEngineTest
 {
@@ -62,9 +73,9 @@ public class SimpleJOGLPickingEngineTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()} with the special
-     * condition that the {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine SimpleJOGLPickingEngine} being tested
-     * does not have any outstanding picks to perform.
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()} with the special condition that the
+     * {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine SimpleJOGLPickingEngine} being tested does not have any outstanding picks to
+     * perform.
      * </p>
      */
     @Test
@@ -84,9 +95,8 @@ public class SimpleJOGLPickingEngineTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()} with the special
-     * condition that the {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine SimpleJOGLPickingEngine} being tested is
-     * related to a Rendering Engine.
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()} with the special condition that the
+     * {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine SimpleJOGLPickingEngine} being tested is related to a Rendering Engine.
      * </p>
      */
     @Test
@@ -129,8 +139,7 @@ public class SimpleJOGLPickingEngineTest
     }
 
     /**
-     * Unit test the method
-     * {@link com.se.simplicity.jogl.picking.SimpleJOGLPickingEngine.convertPickCoordinatesFromViewportToSceneGraph
+     * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPickingEngine.convertPickCoordinatesFromViewportToSceneGraph
      * convertPickCoordinatesFromViewportToSceneGraph()}.
      */
     @Test

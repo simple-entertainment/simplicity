@@ -1,4 +1,19 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.jogl.rendering;
+
+import static com.se.simplicity.model.ModelConstants.CNV_ITEMS_IN_FACE;
+import static com.se.simplicity.model.ModelConstants.ITEMS_IN_CNV;
+import static com.se.simplicity.model.ModelConstants.VERTICES_IN_A_FACE;
 
 import javax.media.opengl.GL;
 
@@ -15,7 +30,7 @@ import com.se.simplicity.rendering.Renderer;
  * and properties.
  * </p>
  * 
- * @author simple
+ * @author Gary Buyn
  */
 public class SimpleJOGLRenderer implements Renderer, JOGLComponent
 {
@@ -34,8 +49,12 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
 
     /**
      * <p>
-     * Sets the JOGL drawing mode used to render the <code>SceneGraph</code>.
+     * Retrieves the JOGL drawing mode used to render the <code>VertexGroup</code>.
      * </p>
+     * 
+     * @param drawingMode The <code>DrawingMode</code> to retrieve the JOGL drawing mode for.
+     * 
+     * @return The JOGL drawing mode used to render the <code>VertexGroup</code>.
      */
     protected int getJOGLDrawingMode(final DrawingMode drawingMode)
     {
@@ -64,20 +83,21 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
      * </p>
      * 
      * @param vertexGroup The <code>ArrayVG</code> to render.
+     * @param drawingMode The <code>DrawingMode</code> used to render the <code>ArrayVG</code>.
      */
-    protected void renderArrayVG(final ArrayVG vertexGroup, DrawingMode drawingMode)
+    protected void renderArrayVG(final ArrayVG vertexGroup, final DrawingMode drawingMode)
     {
         float[] colours = vertexGroup.getColours();
         float[] normals = vertexGroup.getNormals();
         float[] vertices = vertexGroup.getVertices();
 
-        for (int triangleIndex = 0; triangleIndex < vertices.length / 9; triangleIndex++)
+        for (int faceIndex = 0; faceIndex < vertices.length / CNV_ITEMS_IN_FACE; faceIndex++)
         {
             gl.glBegin(getJOGLDrawingMode(drawingMode));
             {
-                for (int vertexIndex = 0; vertexIndex < 9; vertexIndex += 3)
+                for (int vertexIndex = 0; vertexIndex < CNV_ITEMS_IN_FACE; vertexIndex += ITEMS_IN_CNV)
                 {
-                    int vertex = triangleIndex * 9 + vertexIndex;
+                    int vertex = faceIndex * CNV_ITEMS_IN_FACE + vertexIndex;
 
                     gl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
                     gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
@@ -94,8 +114,9 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
      * </p>
      * 
      * @param vertexGroup The <code>IndexedArrayVG</code> to render.
+     * @param drawingMode The <code>DrawingMode</code> used to render the <code>IndexedArrayVG</code>.
      */
-    protected void renderIndexedArrayVG(final IndexedArrayVG vertexGroup, DrawingMode drawingMode)
+    protected void renderIndexedArrayVG(final IndexedArrayVG vertexGroup, final DrawingMode drawingMode)
     {
         int[] indices = vertexGroup.getIndices();
         float[] colours = vertexGroup.getColours();
@@ -103,13 +124,13 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
         float[] vertices = vertexGroup.getVertices();
         int vertex;
 
-        for (int triangleIndex = 0; triangleIndex < indices.length / 3; triangleIndex++)
+        for (int faceIndex = 0; faceIndex < indices.length / VERTICES_IN_A_FACE; faceIndex++)
         {
             gl.glBegin(getJOGLDrawingMode(drawingMode));
             {
-                for (int vertexIndex = 0; vertexIndex < 9; vertexIndex += 3)
+                for (int vertexIndex = 0; vertexIndex < CNV_ITEMS_IN_FACE; vertexIndex += ITEMS_IN_CNV)
                 {
-                    vertex = indices[triangleIndex * 3] * 3 + vertexIndex;
+                    vertex = indices[faceIndex * VERTICES_IN_A_FACE] * ITEMS_IN_CNV + vertexIndex;
 
                     gl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
                     gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
@@ -125,7 +146,8 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
      * Renders a <code>VertexGroup</code>.
      * </p>
      * 
-     * @param node The <code>ModelNode</code> that contains the <code>VertexGroup</code> to be rendered.
+     * @param vertexGroup The <code>VertexGroup</code> to render.
+     * @param drawingMode The <code>DrawingMode</code> to render the <code>VertexGroup</code> with.
      */
     public void renderVertexGroup(final VertexGroup vertexGroup, final DrawingMode drawingMode)
     {
@@ -140,8 +162,8 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
     }
 
     @Override
-    public void setGL(GL gl)
+    public void setGL(final GL newGl)
     {
-        this.gl = gl;
+        gl = newGl;
     }
 }

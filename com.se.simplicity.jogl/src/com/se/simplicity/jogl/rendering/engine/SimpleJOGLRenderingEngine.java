@@ -1,3 +1,14 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.jogl.rendering.engine;
 
 import java.util.ArrayList;
@@ -28,10 +39,17 @@ import com.se.simplicity.vector.SimpleVectorf4;
  * rendering techniques and properties.
  * </p>
  * 
- * @author simple
+ * @author Gary Buyn
  */
 public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEngine
 {
+    /**
+     * <p>
+     * The number of milliseconds in a second.
+     * </p>
+     */
+    private static final double MILLISECONDS_IN_A_SECOND = 1000.0;
+
     /**
      * <p>
      * The {@link com.se.simplicity.rendering.Camera Camera} through which the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} will be
@@ -286,7 +304,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
 
         // Enable model data arrays.
         gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
-        
+
         isInitialised = true;
     }
 
@@ -349,62 +367,62 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     }
 
     @Override
-    public void setCamera(final Camera camera)
+    public void setCamera(final Camera newCamera)
     {
-        ((JOGLComponent) camera).setGL(getGL());
+        ((JOGLComponent) newCamera).setGL(getGL());
 
-        this.camera = camera;
+        camera = newCamera;
     }
 
     @Override
-    public void setClearingColour(final SimpleVectorf4 clearingColour)
+    public void setClearingColour(final SimpleVectorf4 newClearingColour)
     {
-        this.clearingColour = clearingColour;
-        
+        clearingColour = newClearingColour;
+
         isInitialised = false;
     }
 
     @Override
-    public void setClearsBeforeRender(final boolean clearsBeforeRender)
+    public void setClearsBeforeRender(final boolean newClearsBeforeRender)
     {
-        this.clearsBeforeRender = clearsBeforeRender;
+        clearsBeforeRender = newClearsBeforeRender;
     }
 
     @Override
-    public void setDrawingMode(final DrawingMode drawingMode)
+    public void setDrawingMode(final DrawingMode newDrawingMode)
     {
-        this.drawingMode = drawingMode;
+        drawingMode = newDrawingMode;
     }
 
     @Override
-    public void setLights(List<Light> lights)
+    public void setLights(final List<Light> newLights)
     {
-        for (Light light : lights)
+        for (Light light : newLights)
         {
             ((JOGLComponent) light).setGL(getGL());
         }
 
-        this.lights = lights;
+        this.lights = newLights;
     }
 
     @Override
-    public void setPreferredFrequency(int preferredFrequency)
+    public void setPreferredFrequency(final int newPreferredFrequency)
     {
-        this.preferredFrequency = preferredFrequency;
+        preferredFrequency = newPreferredFrequency;
     }
 
     @Override
-    public void setRenderer(Renderer renderer)
+    public void setRenderer(final Renderer newRenderer)
     {
-        ((JOGLComponent) renderer).setGL(getGL());
+        ((JOGLComponent) newRenderer).setGL(getGL());
 
-        this.renderer = renderer;
+        renderer = newRenderer;
     }
 
     @Override
-    public void setSceneGraph(final SceneGraph sceneGraph)
+    public void setSceneGraph(final SceneGraph newSceneGraph)
     {
-        this.sceneGraph = sceneGraph;
+        sceneGraph = newSceneGraph;
     }
 
     /**
@@ -416,7 +434,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     {
         try
         {
-            Thread.sleep((long) 1000.0 / preferredFrequency);
+            Thread.sleep((long) MILLISECONDS_IN_A_SECOND / preferredFrequency);
         }
         catch (InterruptedException e)
         {

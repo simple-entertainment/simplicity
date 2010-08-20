@@ -1,3 +1,14 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.vector;
 
 /**
@@ -15,108 +26,109 @@ package com.se.simplicity.vector;
  * ----------------
  * </pre>
  * 
- * @author simple
+ * @author Gary Buyn
  */
 public class SimpleTranslationVectorf4 extends SimpleVectorf4 implements TranslationVectorf
 {
-	/**
-	 * The version of this class.
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * <p>
-	 * Creates an instance of <code>SimpleTranslationVectorf4</code>.
-	 * </p>
-	 */
-	public SimpleTranslationVectorf4()
-	{
-		super();
-	}
-	
-	/**
-	 * <p>
-	 * Creates an instance of <code>SimpleTranslationVectorf4</code>.
-	 * </p>
-	 * 
-	 * @param f0 The x element of this <code>SimpleTranslationVectorf4</code>.
-	 * @param f1 The y element of this <code>SimpleTranslationVectorf4</code>.
-	 * @param f2 The z element of this <code>SimpleTranslationVectorf4</code>.
-	 * @param f3 The w element of this <code>SimpleTranslationVectorf4</code>.
-	 */
-	public SimpleTranslationVectorf4(final float f0, final float f1, final float f2, final float f3)
-	{
-		super(f0, f1, f2, f3);
-	}
-	
-	/**
-	 * <p>
-	 * Creates an instance of <code>SimpleTranslationVectorf4</code>.
-	 * </p>
-	 * 
-	 * @param array An array containing the initial elements of this <code>SimpleTranslationVectorf4</code>.
-	 */
-	public SimpleTranslationVectorf4(final float[] array)
-	{
-		super(array);
-	}
-	
-	@Override
-	public float getW()
-	{
-		return (getArray()[3]);
-	}
+    /**
+     * The version of this class.
+     */
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public float getX()
-	{
-		return (getArray()[0]);
-	}
+    /**
+     * <p>
+     * Creates an instance of <code>SimpleTranslationVectorf4</code>.
+     * </p>
+     */
+    public SimpleTranslationVectorf4()
+    {
+        super();
+    }
 
-	public float getY()
-	{
-		return (getArray()[1]);
-	}
+    /**
+     * <p>
+     * Creates an instance of <code>SimpleTranslationVectorf4</code>.
+     * </p>
+     * 
+     * @param f0 The x element of this <code>SimpleTranslationVectorf4</code>.
+     * @param f1 The y element of this <code>SimpleTranslationVectorf4</code>.
+     * @param f2 The z element of this <code>SimpleTranslationVectorf4</code>.
+     * @param f3 The w element of this <code>SimpleTranslationVectorf4</code>.
+     */
+    public SimpleTranslationVectorf4(final float f0, final float f1, final float f2, final float f3)
+    {
+        super(f0, f1, f2, f3);
+    }
 
-	@Override
-	public float getZ()
-	{
-		return (getArray()[2]);
-	}
+    /**
+     * <p>
+     * Creates an instance of <code>SimpleTranslationVectorf4</code>.
+     * </p>
+     * 
+     * @param array An array containing the initial elements of this <code>SimpleTranslationVectorf4</code>.
+     */
+    public SimpleTranslationVectorf4(final float[] array)
+    {
+        super(array);
+    }
 
-	@Override
-	public void setX(final float x)
-	{
-		getArray()[0] = x;
-	}
+    @Override
+    public float getW()
+    {
+        return (getArray()[3]);
+    }
 
-	@Override
-	public void setY(final float y)
-	{
-		getArray()[1] = y;
-	}
+    @Override
+    public float getX()
+    {
+        return (getArray()[0]);
+    }
 
-	@Override
-	public void setZ(final float z)
-	{
-		getArray()[2] = z;
-	}
+    @Override
+    public float getY()
+    {
+        return (getArray()[1]);
+    }
 
-	@Override
-	public void translateX(final float x)
-	{
-		getArray()[0] += x;
-	}
+    @Override
+    public float getZ()
+    {
+        return (getArray()[2]);
+    }
 
-	@Override
-	public void translateY(final float y)
-	{
-		getArray()[1] += y;
-	}
+    @Override
+    public void setX(final float x)
+    {
+        getArray()[0] = x;
+    }
 
-	@Override
-	public void translateZ(final float z)
-	{
-		getArray()[2] += z;
-	}
+    @Override
+    public void setY(final float y)
+    {
+        getArray()[1] = y;
+    }
+
+    @Override
+    public void setZ(final float z)
+    {
+        getArray()[2] = z;
+    }
+
+    @Override
+    public void translateX(final float x)
+    {
+        getArray()[0] += x;
+    }
+
+    @Override
+    public void translateY(final float y)
+    {
+        getArray()[1] += y;
+    }
+
+    @Override
+    public void translateZ(final float z)
+    {
+        getArray()[2] += z;
+    }
 }

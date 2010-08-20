@@ -1,3 +1,14 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.jogl.picking;
 
 import java.nio.ByteBuffer;
@@ -22,219 +33,230 @@ import com.se.simplicity.scenegraph.model.ModelNode;
  * Picks from a JOGL rendering environment. This implementation uses only simple picking techniques and properties.
  * </p>
  * 
- * @author simple
+ * @author Gary Buyn
  */
 public class SimpleJOGLPicker implements Picker, JOGLComponent
 {
-	/**
-	 * <p>
-	 * The JOGL rendering environment.
-	 * </p>
-	 */
-	private GL gl;
+    /**
+     * <p>
+     * The default select buffer capacity.
+     * </p>
+     */
+    private static final int DEFAULT_SELECT_BUFFER_CAPACITY = 2048;
 
-	/**
-	 * <p>
-	 * The <code>RenderingEngine</code> that renders the <code>SceneGraph</code> to determine which components will be picked.
-	 * </p>
-	 */
-	private RenderingEngine renderingEngine;
+    /**
+     * <p>
+     * The length of the header information for each hit in the select buffer.
+     * </p>
+     */
+    private static final int SELECT_BUFFER_HIT_HEADER_LENGTH = 3;
 
-	/**
-	 * <p>
-	 * The select buffer used by the JOGL rendering environment. Holds details of picked <code>SceneGraph</code> components.
-	 * </p>
-	 */
-	private IntBuffer selectBuffer;
+    /**
+     * <p>
+     * The JOGL rendering environment.
+     * </p>
+     */
+    private GL gl;
 
-	/**
-	 * <p>
-	 * The capacity of the select buffer used by the JOGL rendering environment. This capacity determines how much hit data can be
-	 * retrieved when picking a <code>SceneGraph</code>.
-	 * </p>
-	 */
-	private int selectBufferCapacity;
+    /**
+     * <p>
+     * The <code>RenderingEngine</code> that renders the <code>SceneGraph</code> to determine which components will be picked.
+     * </p>
+     */
+    private RenderingEngine renderingEngine;
 
-	/**
-	 * <p>
-	 * Creates an instance of <code>SimpleJOGLPicker</code>.
-	 * </p>
-	 */
-	public SimpleJOGLPicker()
-	{
-		this.selectBufferCapacity = 2048;
-	}
+    /**
+     * <p>
+     * The select buffer used by the JOGL rendering environment. Holds details of picked <code>SceneGraph</code> components.
+     * </p>
+     */
+    private IntBuffer selectBuffer;
 
-	/**
-	 * <p>
-	 * Creates a <code>PickEvent</code> for the given select buffer.
-	 * </p>
-	 * 
-	 * <p>
-	 * It is assumed that names 1..n-1 in the select buffer correspond to the unique identifiers of <code>ModelNode</code>s
-	 * containing the picked components of the <code>SceneGraph</code> and that name n in the select buffer corresponds to the
-	 * subset (face/edge/vertex) of the component that was actually picked.
-	 * </p>
-	 * 
-	 * @param selectBuffer The select buffer to create a <code>PickEvent</code> for.
-	 * 
-	 * @return A <code>PickEvent</code> for the given select buffer.
-	 */
-	protected PickEvent createPickEvent(final IntBuffer selectBuffer)
-	{
-		PickEvent event = new PickEvent();
-		int bufferIndex = 0;
+    /**
+     * <p>
+     * The capacity of the select buffer used by the JOGL rendering environment. This capacity determines how much hit data can be retrieved when
+     * picking a <code>SceneGraph</code>.
+     * </p>
+     */
+    private int selectBufferCapacity;
 
-		while (bufferIndex < selectBuffer.capacity() && selectBuffer.get(bufferIndex) != 0)
-		{
-			Object[] hit = new Object[selectBuffer.get(bufferIndex)];
-			bufferIndex += 3;
+    /**
+     * <p>
+     * Creates an instance of <code>SimpleJOGLPicker</code>.
+     * </p>
+     */
+    public SimpleJOGLPicker()
+    {
+        this.selectBufferCapacity = DEFAULT_SELECT_BUFFER_CAPACITY;
+    }
 
-			for (int nameIndex = 0; nameIndex < hit.length; nameIndex++)
-			{
-				if (nameIndex + 1 == hit.length)
-				{
-					hit[nameIndex] = getSubsetVG(((ModelNode) hit[nameIndex - 1]).getVertexGroup(), selectBuffer.get(bufferIndex));
-				}
-				else
-				{
-					hit[nameIndex] = renderingEngine.getSceneGraph().getNode(selectBuffer.get(bufferIndex));
-				}
+    /**
+     * <p>
+     * Creates a <code>PickEvent</code> for the given select buffer.
+     * </p>
+     * 
+     * <p>
+     * It is assumed that names 1..n-1 in the select buffer correspond to the unique identifiers of <code>ModelNode</code>s containing the picked
+     * components of the <code>SceneGraph</code> and that name n in the select buffer corresponds to the subset (face/edge/vertex) of the component
+     * that was actually picked.
+     * </p>
+     * 
+     * @param pickedSelectBuffer The select buffer to create a <code>PickEvent</code> for.
+     * 
+     * @return A <code>PickEvent</code> for the given select buffer.
+     */
+    protected PickEvent createPickEvent(final IntBuffer pickedSelectBuffer)
+    {
+        PickEvent event = new PickEvent();
+        int bufferIndex = 0;
 
-				bufferIndex++;
-			}
+        while (bufferIndex < pickedSelectBuffer.capacity() && pickedSelectBuffer.get(bufferIndex) != 0)
+        {
+            Object[] hit = new Object[pickedSelectBuffer.get(bufferIndex)];
+            bufferIndex += SELECT_BUFFER_HIT_HEADER_LENGTH;
 
-			event.addHit(hit);
-		}
+            for (int nameIndex = 0; nameIndex < hit.length; nameIndex++)
+            {
+                if (nameIndex + 1 == hit.length)
+                {
+                    hit[nameIndex] = getSubsetVG(((ModelNode) hit[nameIndex - 1]).getVertexGroup(), pickedSelectBuffer.get(bufferIndex));
+                }
+                else
+                {
+                    hit[nameIndex] = renderingEngine.getSceneGraph().getNode(pickedSelectBuffer.get(bufferIndex));
+                }
 
-		return (event);
-	}
+                bufferIndex++;
+            }
 
-	@Override
-	public GL getGL()
-	{
-		return (gl);
-	}
+            event.addHit(hit);
+        }
 
-	/**
-	 * <p>
-	 * Retrieves the <code>RenderingEngine</code> that renders the <code>SceneGraph</code> to determine which components will
-	 * be picked.
-	 * </p>
-	 * 
-	 * @return The <code>RenderingEngine</code> that renders the <code>SceneGraph</code> to determine which components will be
-	 * picked.
-	 */
-	public RenderingEngine getRenderingEngine()
-	{
-		return renderingEngine;
-	}
+        return (event);
+    }
 
-	/**
-	 * <p>
-	 * Retrieves the capacity of the select buffer used by the JOGL rendering environment.
-	 * </p>
-	 * 
-	 * @return The capacity of the select buffer used by the JOGL rendering environment.
-	 */
-	public int getSelectBufferCapacity()
-	{
-		return (selectBufferCapacity);
-	}
+    @Override
+    public GL getGL()
+    {
+        return (gl);
+    }
 
-	/**
-	 * <p>
-	 * Retrieves a subset vertex group containing the rendered primitive at the given index of the given <code>VertexGroup</code>.
-	 * </p>
-	 * 
-	 * @param vertexGroup The <code>VertexGroup</code> to create the subset from.
-	 * @param index The index of the rendered primitive to contain in the subset.
-	 * 
-	 * @return A subset vertex group containing the rendered primitive at the given index of the given <code>VertexGroup</code>.
-	 */
-	protected VertexGroup getSubsetVG(final VertexGroup vertexGroup, final int index)
-	{
-		VertexGroup subsetVertexGroup = null;
+    /**
+     * <p>
+     * Retrieves the <code>RenderingEngine</code> that renders the <code>SceneGraph</code> to determine which components will be picked.
+     * </p>
+     * 
+     * @return The <code>RenderingEngine</code> that renders the <code>SceneGraph</code> to determine which components will be picked.
+     */
+    public RenderingEngine getRenderingEngine()
+    {
+        return renderingEngine;
+    }
 
-		if (renderingEngine.getDrawingMode() == DrawingMode.VERTICES)
-		{
-			subsetVertexGroup = vertexGroup.createVertexSubsetVG(index);
-		}
-		else if (renderingEngine.getDrawingMode() == DrawingMode.EDGES)
-		{
-			subsetVertexGroup = vertexGroup.createEdgeSubsetVG(index);
-		}
-		else if (renderingEngine.getDrawingMode() == DrawingMode.FACES)
-		{
-			subsetVertexGroup = vertexGroup.createFaceSubsetVG(index);
-		}
+    /**
+     * <p>
+     * Retrieves the capacity of the select buffer used by the JOGL rendering environment.
+     * </p>
+     * 
+     * @return The capacity of the select buffer used by the JOGL rendering environment.
+     */
+    public int getSelectBufferCapacity()
+    {
+        return (selectBufferCapacity);
+    }
 
-		return (subsetVertexGroup);
-	}
+    /**
+     * <p>
+     * Retrieves a subset vertex group containing the rendered primitive at the given index of the given <code>VertexGroup</code>.
+     * </p>
+     * 
+     * @param vertexGroup The <code>VertexGroup</code> to create the subset from.
+     * @param index The index of the rendered primitive to contain in the subset.
+     * 
+     * @return A subset vertex group containing the rendered primitive at the given index of the given <code>VertexGroup</code>.
+     */
+    protected VertexGroup getSubsetVG(final VertexGroup vertexGroup, final int index)
+    {
+        VertexGroup subsetVertexGroup = null;
 
-	/**
-	 * <p>
-	 * Initialises the select buffer used by the JOGL rendering environment with the correct capacity.
-	 * </p>
-	 */
-	protected void initSelectBuffer()
-	{
-		selectBuffer = ByteBuffer.allocateDirect(selectBufferCapacity << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
-		gl.glSelectBuffer(selectBuffer.capacity(), selectBuffer);
-	}
+        if (renderingEngine.getDrawingMode() == DrawingMode.VERTICES)
+        {
+            subsetVertexGroup = vertexGroup.createVertexSubsetVG(index);
+        }
+        else if (renderingEngine.getDrawingMode() == DrawingMode.EDGES)
+        {
+            subsetVertexGroup = vertexGroup.createEdgeSubsetVG(index);
+        }
+        else if (renderingEngine.getDrawingMode() == DrawingMode.FACES)
+        {
+            subsetVertexGroup = vertexGroup.createFaceSubsetVG(index);
+        }
 
-	@Override
-	public PickEvent pickSceneGraph(SceneGraph sceneGraph, Camera camera, Pick pick)
-	{
-		Camera pickCamera = camera.getPickCamera(pick);
+        return (subsetVertexGroup);
+    }
 
-		gl.glRenderMode(GL.GL_SELECT);
+    /**
+     * <p>
+     * Initialises the select buffer used by the JOGL rendering environment with the correct capacity.
+     * </p>
+     */
+    protected void initSelectBuffer()
+    {
+        selectBuffer = ByteBuffer.allocateDirect(selectBufferCapacity << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
+        gl.glSelectBuffer(selectBuffer.capacity(), selectBuffer);
+    }
 
-		renderingEngine.setSceneGraph(sceneGraph);
-		renderingEngine.setCamera(pickCamera);
-		renderingEngine.advance();
+    @Override
+    public PickEvent pickSceneGraph(final SceneGraph sceneGraph, final Camera camera, final Pick pick)
+    {
+        Camera pickCamera = camera.getPickCamera(pick);
 
-		gl.glRenderMode(GL.GL_RENDER);
+        gl.glRenderMode(GL.GL_SELECT);
 
-		return (createPickEvent(selectBuffer));
-	}
+        renderingEngine.setSceneGraph(sceneGraph);
+        renderingEngine.setCamera(pickCamera);
+        renderingEngine.advance();
 
-	@Override
-	public void setGL(GL gl)
-	{
-		this.gl = gl;
+        gl.glRenderMode(GL.GL_RENDER);
 
-		initSelectBuffer();
-	}
+        return (createPickEvent(selectBuffer));
+    }
 
-	/**
-	 * <p>
-	 * Sets the <code>RenderingEngine</code> that renders the <code>SceneGraph</code> to determine which components will be
-	 * picked.
-	 * </p>
-	 * 
-	 * @param renderingEngine The <code>RenderingEngine</code> that renders the <code>SceneGraph</code> to determine which
-	 * components will be picked.
-	 */
-	public void setRenderingEngine(RenderingEngine renderingEngine)
-	{
-		this.renderingEngine = renderingEngine;
-	}
+    @Override
+    public void setGL(final GL newGl)
+    {
+        gl = newGl;
 
-	/**
-	 * <p>
-	 * Sets the capacity of the select buffer used by the JOGL rendering environment.
-	 * </p>
-	 * 
-	 * @param selectBufferCapacity The capacity of the select buffer used by the JOGL rendering environment.
-	 */
-	public void setSelectBufferCapacity(final int selectBufferCapacity)
-	{
-		this.selectBufferCapacity = selectBufferCapacity;
+        initSelectBuffer();
+    }
 
-		if (gl != null)
-		{
-			initSelectBuffer();
-		}
-	}
+    /**
+     * <p>
+     * Sets the <code>RenderingEngine</code> that renders the <code>SceneGraph</code> to determine which components will be picked.
+     * </p>
+     * 
+     * @param newRenderingEngine The <code>RenderingEngine</code> that renders the <code>SceneGraph</code> to determine which components will be
+     * picked.
+     */
+    public void setRenderingEngine(final RenderingEngine newRenderingEngine)
+    {
+        renderingEngine = newRenderingEngine;
+    }
+
+    /**
+     * <p>
+     * Sets the capacity of the select buffer used by the JOGL rendering environment.
+     * </p>
+     * 
+     * @param newSelectBufferCapacity The capacity of the select buffer used by the JOGL rendering environment.
+     */
+    public void setSelectBufferCapacity(final int newSelectBufferCapacity)
+    {
+        selectBufferCapacity = newSelectBufferCapacity;
+
+        if (gl != null)
+        {
+            initSelectBuffer();
+        }
+    }
 }

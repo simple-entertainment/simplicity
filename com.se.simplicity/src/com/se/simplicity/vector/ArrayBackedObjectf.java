@@ -1,3 +1,14 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.vector;
 
 import java.io.Serializable;
@@ -7,7 +18,7 @@ import java.io.Serializable;
  * An object which stores its data in a <code>float</code> array.
  * </p>
  * 
- * @author simple
+ * @author Gary Buyn
  */
 public abstract class ArrayBackedObjectf implements Serializable
 {
@@ -28,27 +39,30 @@ public abstract class ArrayBackedObjectf implements Serializable
      * Returns true if the argument is not null, is of the type <code>ArrayBackedObjectf</code> and has an array the same size with the same contents.
      * </p>
      * 
-     * @param 
+     * @param other The object to compare this <code>ArrayBackedObjectf</code> to.
+     * 
+     * @return True if this <code>ArrayBackedObjectf</code> is equal to the object given, false otherwise.
      */
-    public boolean equals(Object other)
+    @Override
+    public boolean equals(final Object other)
     {
         if (other == null)
         {
             return (false);
         }
-        
+
         if (!(other instanceof ArrayBackedObjectf))
         {
             return (false);
         }
-        
+
         ArrayBackedObjectf otherArrayBackedObjectf = (ArrayBackedObjectf) other;
-        
+
         if (array.length != otherArrayBackedObjectf.getArray().length)
         {
             return (false);
         }
-        
+
         for (int index = 0; index < array.length; index++)
         {
             if (array[index] != otherArrayBackedObjectf.getArray()[index])
@@ -56,7 +70,7 @@ public abstract class ArrayBackedObjectf implements Serializable
                 return (false);
             }
         }
-        
+
         return (true);
     }
 
@@ -92,10 +106,10 @@ public abstract class ArrayBackedObjectf implements Serializable
      * Sets the array that contains the data for this object.
      * </p>
      * 
-     * @param array The array that contains the data for this object.
+     * @param newArray The array that contains the data for this object.
      */
-    public void setArray(final float[] array)
+    public void setArray(final float[] newArray)
     {
-        this.array = array;
+        array = newArray;
     }
 }

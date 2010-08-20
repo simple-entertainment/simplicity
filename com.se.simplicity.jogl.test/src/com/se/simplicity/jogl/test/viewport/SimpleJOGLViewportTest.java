@@ -1,3 +1,14 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.jogl.test.viewport;
 
 import static org.easymock.classextension.EasyMock.createMock;
@@ -14,6 +25,13 @@ import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.test.mocks.MockGL;
 import com.se.simplicity.jogl.viewport.SimpleJOGLViewport;
 
+/**
+ * <p>
+ * Unit tests for the class {@link com.se.simplicity.jogl.viewport.SimpleJOGLViewport SimpleJOGLViewport}.
+ * </p>
+ * 
+ * @author Gary Buyn
+ */
 public class SimpleJOGLViewportTest
 {
     /**
@@ -149,7 +167,7 @@ public class SimpleJOGLViewportTest
     {
         MockGL mockGl = new MockGL();
         SimpleJOGLRenderingEngine mockRenderingEngine = createMock(SimpleJOGLRenderingEngine.class);
-        
+
         testObject.setGL(mockGl);
 
         reset(mockRenderingEngine);
@@ -170,13 +188,13 @@ public class SimpleJOGLViewportTest
     public void setSize()
     {
         MockGL mockGl = new MockGL();
-        
+
         testObject.setGL(mockGl);
-        
+
         mockGl.reset();
-        
+
         testObject.setSize(200, 200);
-        
+
         assertEquals(1, mockGl.getMethodCallCount("glViewport", new Object[] {0, 0, 200, 200}), 0);
     }
 }

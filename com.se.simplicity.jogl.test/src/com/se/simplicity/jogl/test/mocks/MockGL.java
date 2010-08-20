@@ -1,3 +1,14 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.jogl.test.mocks;
 
 import java.nio.Buffer;
@@ -14,14727 +25,14783 @@ import com.se.devenvy.mocks.MockObject;
 
 public class MockGL extends MockObject implements GL
 {
-	@Override
-	public Object getExtension(String arg0)
-	{
-		// Stub method only.
-		return null;
-	}
-
-	@Override
-	public Object getPlatformGLExtensions()
-	{
-		// Stub method only.
-		return null;
-	}
-
-	@Override
-	public void glAccum(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glActiveStencilFaceEXT(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glActiveTexture(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glActiveVaryingNV(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glActiveVaryingNV(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public ByteBuffer glAllocateMemoryNV(int arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		return null;
-	}
-
-	@Override
-	public void glAlphaFragmentOp1ATI(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glAlphaFragmentOp2ATI(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glAlphaFragmentOp3ATI(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8,
-			int arg9, int arg10, int arg11)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glAlphaFunc(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glApplyTextureEXT(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public boolean glAreProgramsResidentNV(int arg0, IntBuffer arg1, ByteBuffer arg2)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glAreProgramsResidentNV(int arg0, int[] arg1, int arg2, byte[] arg3, int arg4)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glAreTexturesResident(int arg0, IntBuffer arg1, ByteBuffer arg2)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glAreTexturesResident(int arg0, int[] arg1, int arg2, byte[] arg3, int arg4)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public void glArrayElement(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glArrayObjectATI(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glAsyncMarkerSGIX(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glAttachObjectARB(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glAttachShader(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBegin(int arg0)
-	{
-		addMethodCall("glBegin", new Object[] {arg0});
-		
-	}
-
-	@Override
-	public void glBeginFragmentShaderATI()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBeginOcclusionQueryNV(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBeginQuery(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBeginQueryARB(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBeginTransformFeedbackNV(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBeginVertexShaderEXT()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindAttribLocation(int arg0, int arg1, String arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindAttribLocationARB(int arg0, int arg1, String arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindBuffer(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindBufferARB(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindBufferBaseNV(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindBufferOffsetNV(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindBufferRangeNV(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindFragDataLocationEXT(int arg0, int arg1, ByteBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindFragDataLocationEXT(int arg0, int arg1, byte[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindFragmentShaderATI(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindFramebufferEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glBindLightParameterEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glBindMaterialParameterEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glBindParameterEXT(int arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glBindProgramARB(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindProgramNV(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindRenderbufferEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glBindTexGenParameterEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glBindTexture(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glBindTextureUnitParameterEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glBindVertexArrayAPPLE(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBindVertexShaderEXT(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBitmap(int arg0, int arg1, float arg2, float arg3, float arg4, float arg5, ByteBuffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBitmap(int arg0, int arg1, float arg2, float arg3, float arg4, float arg5, long arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBitmap(int arg0, int arg1, float arg2, float arg3, float arg4, float arg5, byte[] arg6, int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBlendColor(float arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBlendEquation(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBlendEquationSeparate(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBlendEquationSeparateEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBlendFunc(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBlendFuncSeparate(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBlendFuncSeparateEXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBlendFuncSeparateINGR(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBlitFramebufferEXT(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8,
-			int arg9)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBufferData(int arg0, int arg1, Buffer arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBufferDataARB(int arg0, int arg1, Buffer arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBufferParameteriAPPLE(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glBufferRegionEnabled()
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glBufferSubData(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glBufferSubDataARB(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCallList(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCallLists(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glCheckFramebufferStatusEXT(int arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glClampColorARB(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClear(int arg0)
-	{
-		addMethodCall("glClear", new Object[] {arg0});
-		
-	}
-
-	@Override
-	public void glClearAccum(float arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClearColor(float arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClearColorIiEXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClearColorIuiEXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClearDepth(double arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClearDepthdNV(double arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClearIndex(float arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClearStencil(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClientActiveTexture(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClientActiveVertexStreamATI(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClipPlane(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glClipPlane(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3b(byte arg0, byte arg1, byte arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3bv(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3bv(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3d(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3f(float arg0, float arg1, float arg2)
-	{
-	    addMethodCall("glColor3f", new Object[] {arg0, arg1, arg2});
-		
-	}
-
-	@Override
-	public void glColor3fVertex3fSUN(float arg0, float arg1, float arg2, float arg3, float arg4, float arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3fVertex3fvSUN(FloatBuffer arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3fVertex3fvSUN(float[] arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3hNV(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3hvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3hvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3i(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3s(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3ub(byte arg0, byte arg1, byte arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3ubv(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3ubv(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3ui(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3uiv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3uiv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3us(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3usv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor3usv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4b(byte arg0, byte arg1, byte arg2, byte arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4bv(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4bv(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4d(double arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4f(float arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4fNormal3fVertex3fSUN(float arg0, float arg1, float arg2, float arg3, float arg4, float arg5, float arg6,
-			float arg7, float arg8, float arg9)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4fNormal3fVertex3fvSUN(FloatBuffer arg0, FloatBuffer arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4fNormal3fVertex3fvSUN(float[] arg0, int arg1, float[] arg2, int arg3, float[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4hNV(short arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4hvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4hvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4i(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4s(short arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4ub(byte arg0, byte arg1, byte arg2, byte arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4ubVertex2fSUN(byte arg0, byte arg1, byte arg2, byte arg3, float arg4, float arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4ubVertex2fvSUN(ByteBuffer arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4ubVertex2fvSUN(byte[] arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4ubVertex3fSUN(byte arg0, byte arg1, byte arg2, byte arg3, float arg4, float arg5, float arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4ubVertex3fvSUN(ByteBuffer arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4ubVertex3fvSUN(byte[] arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4ubv(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4ubv(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4ui(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4uiv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4uiv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4us(short arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4usv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColor4usv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorFragmentOp1ATI(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorFragmentOp2ATI(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8,
-			int arg9)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorFragmentOp3ATI(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8,
-			int arg9, int arg10, int arg11, int arg12)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorMask(boolean arg0, boolean arg1, boolean arg2, boolean arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorMaskIndexedEXT(int arg0, boolean arg1, boolean arg2, boolean arg3, boolean arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorMaterial(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorPointer(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorPointer(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorSubTable(int arg0, int arg1, int arg2, int arg3, int arg4, Buffer arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorSubTable(int arg0, int arg1, int arg2, int arg3, int arg4, long arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorTable(int arg0, int arg1, int arg2, int arg3, int arg4, Buffer arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorTable(int arg0, int arg1, int arg2, int arg3, int arg4, long arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorTableEXT(int arg0, int arg1, int arg2, int arg3, int arg4, Buffer arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorTableParameterfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorTableParameterfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorTableParameteriv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glColorTableParameteriv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCombinerInputNV(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCombinerOutputNV(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, boolean arg7,
-			boolean arg8, boolean arg9)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCombinerParameterfNV(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCombinerParameterfvNV(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCombinerParameterfvNV(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCombinerParameteriNV(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCombinerParameterivNV(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCombinerParameterivNV(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCombinerStageParameterfvNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCombinerStageParameterfvNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompileShader(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompileShaderARB(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexImage1D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, Buffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexImage1D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, long arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexImage2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, Buffer arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexImage2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, long arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexImage3D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, Buffer arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexImage3D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, long arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexSubImage1D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, Buffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexSubImage1D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, long arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexSubImage2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
-			Buffer arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexSubImage2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
-			long arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexSubImage3D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
-			int arg8, int arg9, Buffer arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCompressedTexSubImage3D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
-			int arg8, int arg9, long arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glConvolutionFilter1D(int arg0, int arg1, int arg2, int arg3, int arg4, Buffer arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glConvolutionFilter1D(int arg0, int arg1, int arg2, int arg3, int arg4, long arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glConvolutionFilter2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, Buffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glConvolutionFilter2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, long arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glConvolutionParameterf(int arg0, int arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glConvolutionParameterfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glConvolutionParameterfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glConvolutionParameteri(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glConvolutionParameteriv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glConvolutionParameteriv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCopyColorSubTable(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCopyColorTable(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCopyConvolutionFilter1D(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCopyConvolutionFilter2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCopyPixels(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCopyTexImage1D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCopyTexImage2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCopyTexSubImage1D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCopyTexSubImage2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCopyTexSubImage3D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glCreateProgram()
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glCreateProgramObjectARB()
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glCreateShader(int arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glCreateShaderObjectARB(int arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glCullFace(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCullParameterdvEXT(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCullParameterdvEXT(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCullParameterfvEXT(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCullParameterfvEXT(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glCurrentPaletteMatrixARB(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeformSGIX(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeformationMap3dSGIX(int arg0, double arg1, double arg2, int arg3, int arg4, double arg5, double arg6,
-			int arg7, int arg8, double arg9, double arg10, int arg11, int arg12, DoubleBuffer arg13)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeformationMap3dSGIX(int arg0, double arg1, double arg2, int arg3, int arg4, double arg5, double arg6,
-			int arg7, int arg8, double arg9, double arg10, int arg11, int arg12, double[] arg13, int arg14)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeformationMap3fSGIX(int arg0, float arg1, float arg2, int arg3, int arg4, float arg5, float arg6, int arg7,
-			int arg8, float arg9, float arg10, int arg11, int arg12, FloatBuffer arg13)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeformationMap3fSGIX(int arg0, float arg1, float arg2, int arg3, int arg4, float arg5, float arg6, int arg7,
-			int arg8, float arg9, float arg10, int arg11, int arg12, float[] arg13, int arg14)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteAsyncMarkersSGIX(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteBufferRegion(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteBuffers(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteBuffers(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteBuffersARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteBuffersARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteFencesAPPLE(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteFencesAPPLE(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteFencesNV(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteFencesNV(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteFragmentShaderATI(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteFramebuffersEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteFramebuffersEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteLists(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteObjectARB(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteOcclusionQueriesNV(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteOcclusionQueriesNV(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteProgram(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteProgramsARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteProgramsARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteProgramsNV(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteProgramsNV(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteQueries(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteQueries(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteQueriesARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteQueriesARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteRenderbuffersEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteRenderbuffersEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteShader(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteTextures(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteTextures(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteVertexArraysAPPLE(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteVertexArraysAPPLE(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDeleteVertexShaderEXT(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDepthBoundsEXT(double arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDepthBoundsdNV(double arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDepthFunc(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDepthMask(boolean arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDepthRange(double arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDepthRangedNV(double arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDetachObjectARB(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDetachShader(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDetailTexFuncSGIS(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDetailTexFuncSGIS(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDisable(int arg0)
-	{
-		addMethodCall("glDisable", new Object[] {arg0});
-		
-	}
-
-	@Override
-	public void glDisableClientState(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDisableIndexedEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDisableVariantClientStateEXT(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDisableVertexAttribAPPLE(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDisableVertexAttribArray(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDisableVertexAttribArrayARB(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawArrays(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawArraysInstancedEXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawBuffer(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawBufferRegion(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawBuffers(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawBuffers(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawBuffersARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawBuffersARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawBuffersATI(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawBuffersATI(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawElementArrayAPPLE(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawElementArrayATI(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawElements(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawElements(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawElementsInstancedEXT(int arg0, int arg1, int arg2, Buffer arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawMeshArraysSUN(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawPixels(int arg0, int arg1, int arg2, int arg3, Buffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawPixels(int arg0, int arg1, int arg2, int arg3, long arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawRangeElementArrayAPPLE(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawRangeElementArrayATI(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawRangeElements(int arg0, int arg1, int arg2, int arg3, int arg4, Buffer arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glDrawRangeElements(int arg0, int arg1, int arg2, int arg3, int arg4, long arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEdgeFlag(boolean arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEdgeFlagPointer(int arg0, Buffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEdgeFlagPointer(int arg0, long arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEdgeFlagv(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEdgeFlagv(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glElementPointerAPPLE(int arg0, Buffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glElementPointerATI(int arg0, Buffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glElementPointerATI(int arg0, long arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEnable(int arg0)
-	{
-		addMethodCall("glEnable", new Object[] {arg0});
-		
-	}
-
-	@Override
-	public void glEnableClientState(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEnableIndexedEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEnableVariantClientStateEXT(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEnableVertexAttribAPPLE(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEnableVertexAttribArray(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEnableVertexAttribArrayARB(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEnd()
-	{
-		addMethodCall("glEnd", null);
-		
-	}
-
-	@Override
-	public void glEndFragmentShaderATI()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEndList()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEndOcclusionQueryNV()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEndQuery(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEndQueryARB(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEndTransformFeedbackNV()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEndVertexShaderEXT()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord1d(double arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord1dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord1dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord1f(float arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord1fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord1fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord2d(double arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord2dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord2dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord2f(float arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord2fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalCoord2fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalMapsNV(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalMesh1(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalMesh2(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalPoint1(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glEvalPoint2(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glExecuteProgramNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glExecuteProgramNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glExtractComponentEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFeedbackBuffer(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFinalCombinerInputNV(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFinish()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glFinishAsyncSGIX(IntBuffer arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glFinishAsyncSGIX(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glFinishFenceAPPLE(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFinishFenceNV(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFinishObjectAPPLE(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFinishRenderAPPLE()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFinishTextureSUNX()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFlush()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFlushMappedBufferRangeAPPLE(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFlushPixelDataRangeNV(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFlushRasterSGIX()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFlushRenderAPPLE()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFlushVertexArrayRangeAPPLE(int arg0, Buffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFlushVertexArrayRangeNV()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordPointer(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordPointer(int arg0, int arg1, long arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordPointerEXT(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordPointerEXT(int arg0, int arg1, long arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordd(double arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoorddEXT(double arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoorddv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoorddv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoorddvEXT(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoorddvEXT(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordf(float arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordfEXT(float arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordfv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordfv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordfvEXT(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordfvEXT(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordhNV(short arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordhvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogCoordhvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogFuncSGIS(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogFuncSGIS(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogf(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogfv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogfv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogi(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogiv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFogiv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentColorMaterialSGIX(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightModelfSGIX(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightModelfvSGIX(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightModelfvSGIX(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightModeliSGIX(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightModelivSGIX(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightModelivSGIX(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightfSGIX(int arg0, int arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightfvSGIX(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightfvSGIX(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightiSGIX(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightivSGIX(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentLightivSGIX(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentMaterialfSGIX(int arg0, int arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentMaterialfvSGIX(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentMaterialfvSGIX(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentMaterialiSGIX(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentMaterialivSGIX(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFragmentMaterialivSGIX(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFrameZoomSGIX(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFramebufferRenderbufferEXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFramebufferTexture1DEXT(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFramebufferTexture2DEXT(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFramebufferTexture3DEXT(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFramebufferTextureEXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFramebufferTextureFaceEXT(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFramebufferTextureLayerEXT(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFreeObjectBufferATI(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFrontFace(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glFrustum(double arg0, double arg1, double arg2, double arg3, double arg4, double arg5)
-	{
-		addMethodCall("glFrustum", new Object[] {arg0, arg1, arg2, arg3, arg4, arg5});
-		
-	}
-
-	@Override
-	public int glGenAsyncMarkersSGIX(int arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGenBuffers(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenBuffers(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenBuffersARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenBuffersARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenFencesAPPLE(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenFencesAPPLE(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenFencesNV(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenFencesNV(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glGenFragmentShadersATI(int arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGenFramebuffersEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenFramebuffersEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glGenLists(int arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGenOcclusionQueriesNV(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenOcclusionQueriesNV(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenProgramsARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenProgramsARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenProgramsNV(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenProgramsNV(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenQueries(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenQueries(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenQueriesARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenQueriesARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenRenderbuffersEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenRenderbuffersEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glGenSymbolsEXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGenTextures(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenTextures(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenVertexArraysAPPLE(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGenVertexArraysAPPLE(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glGenVertexShadersEXT(int arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGenerateMipmapEXT(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetActiveAttrib(int arg0, int arg1, int arg2, IntBuffer arg3, IntBuffer arg4, IntBuffer arg5, ByteBuffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetActiveAttrib(int arg0, int arg1, int arg2, int[] arg3, int arg4, int[] arg5, int arg6, int[] arg7, int arg8,
-			byte[] arg9, int arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetActiveAttribARB(int arg0, int arg1, int arg2, IntBuffer arg3, IntBuffer arg4, IntBuffer arg5, ByteBuffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetActiveAttribARB(int arg0, int arg1, int arg2, int[] arg3, int arg4, int[] arg5, int arg6, int[] arg7,
-			int arg8, byte[] arg9, int arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetActiveUniform(int arg0, int arg1, int arg2, IntBuffer arg3, IntBuffer arg4, IntBuffer arg5, ByteBuffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetActiveUniform(int arg0, int arg1, int arg2, int[] arg3, int arg4, int[] arg5, int arg6, int[] arg7,
-			int arg8, byte[] arg9, int arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetActiveUniformARB(int arg0, int arg1, int arg2, IntBuffer arg3, IntBuffer arg4, IntBuffer arg5,
-			ByteBuffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetActiveUniformARB(int arg0, int arg1, int arg2, int[] arg3, int arg4, int[] arg5, int arg6, int[] arg7,
-			int arg8, byte[] arg9, int arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetActiveVaryingNV(int arg0, int arg1, int arg2, IntBuffer arg3, IntBuffer arg4, IntBuffer arg5, ByteBuffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetActiveVaryingNV(int arg0, int arg1, int arg2, int[] arg3, int arg4, int[] arg5, int arg6, int[] arg7,
-			int arg8, byte[] arg9, int arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetArrayObjectfvATI(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetArrayObjectfvATI(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetArrayObjectivATI(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetArrayObjectivATI(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetAttachedObjectsARB(int arg0, int arg1, IntBuffer arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetAttachedObjectsARB(int arg0, int arg1, int[] arg2, int arg3, int[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetAttachedShaders(int arg0, int arg1, IntBuffer arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetAttachedShaders(int arg0, int arg1, int[] arg2, int arg3, int[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glGetAttribLocation(int arg0, String arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glGetAttribLocationARB(int arg0, String arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGetBooleanIndexedvEXT(int arg0, int arg1, ByteBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetBooleanIndexedvEXT(int arg0, int arg1, byte[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetBooleanv(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetBooleanv(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetBufferParameteriv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetBufferParameteriv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetBufferParameterivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetBufferParameterivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetBufferSubData(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetBufferSubDataARB(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetClipPlane(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetClipPlane(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetColorTable(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetColorTable(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetColorTableEXT(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetColorTableParameterfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetColorTableParameterfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetColorTableParameterfvEXT(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetColorTableParameterfvEXT(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetColorTableParameteriv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetColorTableParameteriv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetColorTableParameterivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetColorTableParameterivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCombinerInputParameterfvNV(int arg0, int arg1, int arg2, int arg3, FloatBuffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCombinerInputParameterfvNV(int arg0, int arg1, int arg2, int arg3, float[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCombinerInputParameterivNV(int arg0, int arg1, int arg2, int arg3, IntBuffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCombinerInputParameterivNV(int arg0, int arg1, int arg2, int arg3, int[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCombinerOutputParameterfvNV(int arg0, int arg1, int arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCombinerOutputParameterfvNV(int arg0, int arg1, int arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCombinerOutputParameterivNV(int arg0, int arg1, int arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCombinerOutputParameterivNV(int arg0, int arg1, int arg2, int[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCombinerStageParameterfvNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCombinerStageParameterfvNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCompressedTexImage(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetCompressedTexImage(int arg0, int arg1, long arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetConvolutionFilter(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetConvolutionFilter(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetConvolutionParameterfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetConvolutionParameterfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetConvolutionParameteriv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetConvolutionParameteriv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetDetailTexFuncSGIS(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetDetailTexFuncSGIS(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetDoublev(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetDoublev(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glGetError()
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGetFenceivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFenceivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFinalCombinerInputParameterfvNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFinalCombinerInputParameterfvNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFinalCombinerInputParameterivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFinalCombinerInputParameterivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFloatv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFloatv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFogFuncSGIS(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFogFuncSGIS(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glGetFragDataLocationEXT(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glGetFragDataLocationEXT(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGetFragmentLightfvSGIX(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFragmentLightfvSGIX(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFragmentLightivSGIX(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFragmentLightivSGIX(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFragmentMaterialfvSGIX(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFragmentMaterialfvSGIX(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFragmentMaterialivSGIX(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFragmentMaterialivSGIX(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFramebufferAttachmentParameterivEXT(int arg0, int arg1, int arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetFramebufferAttachmentParameterivEXT(int arg0, int arg1, int arg2, int[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glGetHandleARB(int arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGetHistogram(int arg0, boolean arg1, int arg2, int arg3, Buffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetHistogram(int arg0, boolean arg1, int arg2, int arg3, long arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetHistogramParameterfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetHistogramParameterfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetHistogramParameteriv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetHistogramParameteriv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetImageTransformParameterfvHP(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetImageTransformParameterfvHP(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetImageTransformParameterivHP(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetImageTransformParameterivHP(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetInfoLogARB(int arg0, int arg1, IntBuffer arg2, ByteBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetInfoLogARB(int arg0, int arg1, int[] arg2, int arg3, byte[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glGetInstrumentsSGIX()
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGetIntegerIndexedvEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetIntegerIndexedvEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetIntegerv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetIntegerv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetInvariantBooleanvEXT(int arg0, int arg1, ByteBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetInvariantBooleanvEXT(int arg0, int arg1, byte[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetInvariantFloatvEXT(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetInvariantFloatvEXT(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetInvariantIntegervEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetInvariantIntegervEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetLightfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetLightfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetLightiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetLightiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetListParameterfvSGIX(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetListParameterfvSGIX(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetListParameterivSGIX(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetListParameterivSGIX(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetLocalConstantBooleanvEXT(int arg0, int arg1, ByteBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetLocalConstantBooleanvEXT(int arg0, int arg1, byte[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetLocalConstantFloatvEXT(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetLocalConstantFloatvEXT(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetLocalConstantIntegervEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetLocalConstantIntegervEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapAttribParameterfvNV(int arg0, int arg1, int arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapAttribParameterfvNV(int arg0, int arg1, int arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapAttribParameterivNV(int arg0, int arg1, int arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapAttribParameterivNV(int arg0, int arg1, int arg2, int[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapControlPointsNV(int arg0, int arg1, int arg2, int arg3, int arg4, boolean arg5, Buffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapParameterfvNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapParameterfvNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapParameterivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapParameterivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapdv(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapdv(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMapiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMaterialfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMaterialfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMaterialiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMaterialiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMinmax(int arg0, boolean arg1, int arg2, int arg3, Buffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMinmax(int arg0, boolean arg1, int arg2, int arg3, long arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMinmaxParameterfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMinmaxParameterfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMinmaxParameteriv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetMinmaxParameteriv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetObjectBufferfvATI(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetObjectBufferfvATI(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetObjectBufferivATI(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetObjectBufferivATI(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetObjectParameterfvARB(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetObjectParameterfvARB(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetObjectParameterivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetObjectParameterivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetOcclusionQueryivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetOcclusionQueryivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetOcclusionQueryuivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetOcclusionQueryuivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelMapfv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelMapfv(int arg0, long arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelMapfv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelMapuiv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelMapuiv(int arg0, long arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelMapuiv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelMapusv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelMapusv(int arg0, long arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelMapusv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelTexGenParameterfvSGIS(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelTexGenParameterfvSGIS(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelTexGenParameterivSGIS(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPixelTexGenParameterivSGIS(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPolygonStipple(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPolygonStipple(long arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetPolygonStipple(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramEnvParameterIivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramEnvParameterIivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramEnvParameterIuivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramEnvParameterIuivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramEnvParameterdvARB(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramEnvParameterdvARB(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramEnvParameterfvARB(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramEnvParameterfvARB(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramInfoLog(int arg0, int arg1, IntBuffer arg2, ByteBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramInfoLog(int arg0, int arg1, int[] arg2, int arg3, byte[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramLocalParameterIivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramLocalParameterIivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramLocalParameterIuivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramLocalParameterIuivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramLocalParameterdvARB(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramLocalParameterdvARB(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramLocalParameterfvARB(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramLocalParameterfvARB(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramNamedParameterdvNV(int arg0, int arg1, String arg2, DoubleBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramNamedParameterdvNV(int arg0, int arg1, String arg2, double[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramNamedParameterfvNV(int arg0, int arg1, String arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramNamedParameterfvNV(int arg0, int arg1, String arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramParameterdvNV(int arg0, int arg1, int arg2, DoubleBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramParameterdvNV(int arg0, int arg1, int arg2, double[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramParameterfvNV(int arg0, int arg1, int arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramParameterfvNV(int arg0, int arg1, int arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramStringARB(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramStringNV(int arg0, int arg1, ByteBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramStringNV(int arg0, int arg1, byte[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetProgramivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjecti64vEXT(int arg0, int arg1, LongBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjecti64vEXT(int arg0, int arg1, long[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjectiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjectiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjectivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjectivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjectui64vEXT(int arg0, int arg1, LongBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjectui64vEXT(int arg0, int arg1, long[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjectuiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjectuiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjectuivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryObjectuivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetQueryivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetRenderbufferParameterivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetRenderbufferParameterivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetSeparableFilter(int arg0, int arg1, int arg2, Buffer arg3, Buffer arg4, Buffer arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetSeparableFilter(int arg0, int arg1, int arg2, long arg3, long arg4, long arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetShaderInfoLog(int arg0, int arg1, IntBuffer arg2, ByteBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetShaderInfoLog(int arg0, int arg1, int[] arg2, int arg3, byte[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetShaderSource(int arg0, int arg1, IntBuffer arg2, ByteBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetShaderSource(int arg0, int arg1, int[] arg2, int arg3, byte[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetShaderSourceARB(int arg0, int arg1, IntBuffer arg2, ByteBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetShaderSourceARB(int arg0, int arg1, int[] arg2, int arg3, byte[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetShaderiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetShaderiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetSharpenTexFuncSGIS(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetSharpenTexFuncSGIS(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public String glGetString(int arg0)
-	{
-		// Stub method only.
-		return null;
-	}
-
-	@Override
-	public void glGetTexBumpParameterfvATI(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexBumpParameterfvATI(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexBumpParameterivATI(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexBumpParameterivATI(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexEnvfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexEnvfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexEnviv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexEnviv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexFilterFuncSGIS(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexFilterFuncSGIS(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexGendv(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexGendv(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexGenfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexGenfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexGeniv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexGeniv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexImage(int arg0, int arg1, int arg2, int arg3, Buffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexImage(int arg0, int arg1, int arg2, int arg3, long arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexLevelParameterfv(int arg0, int arg1, int arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexLevelParameterfv(int arg0, int arg1, int arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexLevelParameteriv(int arg0, int arg1, int arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexLevelParameteriv(int arg0, int arg1, int arg2, int[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexParameterIivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexParameterIivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexParameterIuivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexParameterIuivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexParameterfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexParameterfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexParameteriv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTexParameteriv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTrackMatrixivNV(int arg0, int arg1, int arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTrackMatrixivNV(int arg0, int arg1, int arg2, int[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTransformFeedbackVaryingNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetTransformFeedbackVaryingNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glGetUniformBufferSizeEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glGetUniformLocation(int arg0, String arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glGetUniformLocationARB(int arg0, String arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glGetUniformOffsetEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGetUniformfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetUniformfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetUniformfvARB(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetUniformfvARB(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetUniformiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetUniformiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetUniformivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetUniformivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetUniformuivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetUniformuivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVariantArrayObjectfvATI(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVariantArrayObjectfvATI(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVariantArrayObjectivATI(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVariantArrayObjectivATI(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVariantBooleanvEXT(int arg0, int arg1, ByteBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVariantBooleanvEXT(int arg0, int arg1, byte[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVariantFloatvEXT(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVariantFloatvEXT(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVariantIntegervEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVariantIntegervEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glGetVaryingLocationNV(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glGetVaryingLocationNV(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glGetVertexAttribArrayObjectfvATI(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribArrayObjectfvATI(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribArrayObjectivATI(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribArrayObjectivATI(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribIivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribIivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribIuivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribIuivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribdv(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribdv(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribdvARB(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribdvARB(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribdvNV(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribdvNV(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribfvARB(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribfvARB(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribfvNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribfvNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGetVertexAttribivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGlobalAlphaFactorbSUN(byte arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGlobalAlphaFactordSUN(double arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGlobalAlphaFactorfSUN(float arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGlobalAlphaFactoriSUN(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGlobalAlphaFactorsSUN(short arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGlobalAlphaFactorubSUN(byte arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGlobalAlphaFactoruiSUN(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glGlobalAlphaFactorusSUN(short arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glHint(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glHintPGI(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glHistogram(int arg0, int arg1, int arg2, boolean arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIglooInterfaceSGIX(int arg0, Buffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glImageTransformParameterfHP(int arg0, int arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glImageTransformParameterfvHP(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glImageTransformParameterfvHP(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glImageTransformParameteriHP(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glImageTransformParameterivHP(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glImageTransformParameterivHP(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexFuncEXT(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexMask(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexMaterialEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexPointer(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexd(double arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexdv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexdv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexf(float arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexfv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexfv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexi(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexiv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexiv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexs(short arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexsv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexsv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexub(byte arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexubv(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glIndexubv(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glInitNames()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glInsertComponentEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glInstrumentsBufferSGIX(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glInstrumentsBufferSGIX(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glInterleavedArrays(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glInterleavedArrays(int arg0, int arg1, long arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public boolean glIsAsyncMarkerSGIX(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsBuffer(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsBufferARB(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsEnabled(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsEnabledIndexedEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsFenceAPPLE(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsFenceNV(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsFramebufferEXT(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsList(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsObjectBufferATI(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsOcclusionQueryNV(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsProgram(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsProgramARB(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsProgramNV(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsQuery(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsQueryARB(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsRenderbufferEXT(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsShader(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsTexture(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsVariantEnabledEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsVertexArrayAPPLE(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glIsVertexAttribEnabledAPPLE(int arg0, int arg1)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public void glLightEnviSGIX(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLightModelf(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLightModelfv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLightModelfv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLightModeli(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLightModeliv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLightModeliv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLightf(int arg0, int arg1, float arg2)
-	{
-	    // Stub method only.
-		
-	}
-
-	@Override
-	public void glLightfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-	    // Stub method only.
-		
-	}
-
-	@Override
-	public void glLightfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-	    addMethodCall("glLightfv", new Object[] {arg0, arg1, arg2});
-		
-	}
-
-	@Override
-	public void glLighti(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLightiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLightiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLineStipple(int arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLineWidth(float arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLinkProgram(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLinkProgramARB(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glListBase(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glListParameterfSGIX(int arg0, int arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glListParameterfvSGIX(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glListParameterfvSGIX(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glListParameteriSGIX(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glListParameterivSGIX(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glListParameterivSGIX(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLoadIdentity()
-	{
-		addMethodCall("glLoadIdentity", null);
-		
-	}
-
-	@Override
-	public void glLoadIdentityDeformationMapSGIX(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLoadMatrixd(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLoadMatrixd(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLoadMatrixf(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLoadMatrixf(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLoadName(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLoadProgramNV(int arg0, int arg1, int arg2, String arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLoadTransposeMatrixd(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLoadTransposeMatrixd(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLoadTransposeMatrixf(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLoadTransposeMatrixf(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLockArraysEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glLogicOp(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMap1d(int arg0, double arg1, double arg2, int arg3, int arg4, DoubleBuffer arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMap1d(int arg0, double arg1, double arg2, int arg3, int arg4, double[] arg5, int arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMap1f(int arg0, float arg1, float arg2, int arg3, int arg4, FloatBuffer arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMap1f(int arg0, float arg1, float arg2, int arg3, int arg4, float[] arg5, int arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMap2d(int arg0, double arg1, double arg2, int arg3, int arg4, double arg5, double arg6, int arg7, int arg8,
-			DoubleBuffer arg9)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMap2d(int arg0, double arg1, double arg2, int arg3, int arg4, double arg5, double arg6, int arg7, int arg8,
-			double[] arg9, int arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMap2f(int arg0, float arg1, float arg2, int arg3, int arg4, float arg5, float arg6, int arg7, int arg8,
-			FloatBuffer arg9)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMap2f(int arg0, float arg1, float arg2, int arg3, int arg4, float arg5, float arg6, int arg7, int arg8,
-			float[] arg9, int arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public ByteBuffer glMapBuffer(int arg0, int arg1)
-	{
-		// Stub method only.
-		return null;
-	}
-
-	@Override
-	public ByteBuffer glMapBufferARB(int arg0, int arg1)
-	{
-		// Stub method only.
-		return null;
-	}
-
-	@Override
-	public void glMapControlPointsNV(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, boolean arg7,
-			Buffer arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapGrid1d(int arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapGrid1f(int arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapGrid2d(int arg0, double arg1, double arg2, int arg3, double arg4, double arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapGrid2f(int arg0, float arg1, float arg2, int arg3, float arg4, float arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapParameterfvNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapParameterfvNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapParameterivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapParameterivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapVertexAttrib1dAPPLE(int arg0, int arg1, double arg2, double arg3, int arg4, int arg5, DoubleBuffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapVertexAttrib1dAPPLE(int arg0, int arg1, double arg2, double arg3, int arg4, int arg5, double[] arg6, int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapVertexAttrib1fAPPLE(int arg0, int arg1, float arg2, float arg3, int arg4, int arg5, FloatBuffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapVertexAttrib1fAPPLE(int arg0, int arg1, float arg2, float arg3, int arg4, int arg5, float[] arg6, int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapVertexAttrib2dAPPLE(int arg0, int arg1, double arg2, double arg3, int arg4, int arg5, double arg6,
-			double arg7, int arg8, int arg9, DoubleBuffer arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapVertexAttrib2dAPPLE(int arg0, int arg1, double arg2, double arg3, int arg4, int arg5, double arg6,
-			double arg7, int arg8, int arg9, double[] arg10, int arg11)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapVertexAttrib2fAPPLE(int arg0, int arg1, float arg2, float arg3, int arg4, int arg5, float arg6, float arg7,
-			int arg8, int arg9, FloatBuffer arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMapVertexAttrib2fAPPLE(int arg0, int arg1, float arg2, float arg3, int arg4, int arg5, float arg6, float arg7,
-			int arg8, int arg9, float[] arg10, int arg11)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMaterialf(int arg0, int arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMaterialfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMaterialfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMateriali(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMaterialiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMaterialiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMatrixIndexPointerARB(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMatrixIndexPointerARB(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMatrixIndexubvARB(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMatrixIndexubvARB(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMatrixIndexuivARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMatrixIndexuivARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMatrixIndexusvARB(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMatrixIndexusvARB(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMatrixMode(int arg0)
-	{
-	    addMethodCall("glMatrixMode", new Object[] {arg0});
-		
-	}
-
-	@Override
-	public void glMinmax(int arg0, int arg1, boolean arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultMatrixd(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultMatrixd(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultMatrixf(FloatBuffer arg0)
-	{
-		addMethodCall("glMultMatrixf", new Object[] {arg0});
-	}
-
-	@Override
-	public void glMultMatrixf(float[] arg0, int arg1)
-	{
-		addMethodCall("glMultMatrixf", new Object[] {arg0, arg1});
-	}
-
-	@Override
-	public void glMultTransposeMatrixd(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultTransposeMatrixd(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultTransposeMatrixf(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultTransposeMatrixf(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawArrays(int arg0, IntBuffer arg1, IntBuffer arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawArrays(int arg0, int[] arg1, int arg2, int[] arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawArraysEXT(int arg0, IntBuffer arg1, IntBuffer arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawArraysEXT(int arg0, int[] arg1, int arg2, int[] arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawElementArrayAPPLE(int arg0, IntBuffer arg1, IntBuffer arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawElementArrayAPPLE(int arg0, int[] arg1, int arg2, int[] arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawElements(int arg0, IntBuffer arg1, int arg2, Buffer[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawElements(int arg0, int[] arg1, int arg2, int arg3, Buffer[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawElementsEXT(int arg0, IntBuffer arg1, int arg2, Buffer[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawElementsEXT(int arg0, int[] arg1, int arg2, int arg3, Buffer[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawRangeElementArrayAPPLE(int arg0, int arg1, int arg2, IntBuffer arg3, IntBuffer arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiDrawRangeElementArrayAPPLE(int arg0, int arg1, int arg2, int[] arg3, int arg4, int[] arg5, int arg6,
-			int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiModeDrawArraysIBM(IntBuffer arg0, IntBuffer arg1, IntBuffer arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiModeDrawArraysIBM(int[] arg0, int arg1, int[] arg2, int arg3, int[] arg4, int arg5, int arg6, int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiModeDrawElementsIBM(IntBuffer arg0, IntBuffer arg1, int arg2, Buffer[] arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiModeDrawElementsIBM(int[] arg0, int arg1, int[] arg2, int arg3, int arg4, Buffer[] arg5, int arg6, int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1d(int arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1dv(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1dv(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1f(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1fv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1fv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1hNV(int arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1hvNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1hvNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1i(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1iv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1iv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1s(int arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1sv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord1sv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2d(int arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2dv(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2dv(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2f(int arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2fv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2fv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2hNV(int arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2hvNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2hvNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2i(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2iv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2iv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2s(int arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2sv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord2sv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3d(int arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3dv(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3dv(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3f(int arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3fv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3fv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3hNV(int arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3hvNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3hvNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3i(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3iv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3iv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3s(int arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3sv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord3sv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4d(int arg0, double arg1, double arg2, double arg3, double arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4dv(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4dv(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4f(int arg0, float arg1, float arg2, float arg3, float arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4fv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4fv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4hNV(int arg0, short arg1, short arg2, short arg3, short arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4hvNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4hvNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4i(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4iv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4iv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4s(int arg0, short arg1, short arg2, short arg3, short arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4sv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glMultiTexCoord4sv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glNewBufferRegion(int arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glNewList(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glNewObjectBufferATI(int arg0, Buffer arg1, int arg2)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glNormal3b(byte arg0, byte arg1, byte arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3bv(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3bv(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3d(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3f(float arg0, float arg1, float arg2)
-	{
-	    addMethodCall("glNormal3f", new Object[] {arg0, arg1, arg2});
-		
-	}
-
-	@Override
-	public void glNormal3fVertex3fSUN(float arg0, float arg1, float arg2, float arg3, float arg4, float arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3fVertex3fvSUN(FloatBuffer arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3fVertex3fvSUN(float[] arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3hNV(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3hvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3hvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3i(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3s(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormal3sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalPointer(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalPointer(int arg0, int arg1, long arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3bATI(int arg0, byte arg1, byte arg2, byte arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3bvATI(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3bvATI(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3dATI(int arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3dvATI(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3dvATI(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3fATI(int arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3fvATI(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3fvATI(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3iATI(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3ivATI(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3ivATI(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3sATI(int arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3svATI(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glNormalStream3svATI(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glOrtho(double arg0, double arg1, double arg2, double arg3, double arg4, double arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPNTrianglesfATI(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPNTrianglesiATI(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPassTexCoordATI(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPassThrough(float arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelDataRangeNV(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelMapfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelMapfv(int arg0, int arg1, long arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelMapfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelMapuiv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelMapuiv(int arg0, int arg1, long arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelMapuiv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelMapusv(int arg0, int arg1, ShortBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelMapusv(int arg0, int arg1, long arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelMapusv(int arg0, int arg1, short[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelStoref(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelStorei(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTexGenParameterfSGIS(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTexGenParameterfvSGIS(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTexGenParameterfvSGIS(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTexGenParameteriSGIS(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTexGenParameterivSGIS(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTexGenParameterivSGIS(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTexGenSGIX(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTransferf(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTransferi(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTransformParameterfEXT(int arg0, int arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTransformParameterfvEXT(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTransformParameterfvEXT(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTransformParameteriEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTransformParameterivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelTransformParameterivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPixelZoom(float arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterf(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterfARB(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterfEXT(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterfSGIS(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterfv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterfv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterfvARB(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterfvARB(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterfvEXT(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterfvEXT(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterfvSGIS(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterfvSGIS(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameteri(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameteriNV(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameteriv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameteriv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterivNV(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointParameterivNV(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPointSize(float arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glPollAsyncSGIX(IntBuffer arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glPollAsyncSGIX(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glPollInstrumentsSGIX(IntBuffer arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public int glPollInstrumentsSGIX(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glPolygonMode(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPolygonOffset(float arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPolygonStipple(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPolygonStipple(long arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPolygonStipple(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPopAttrib()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPopClientAttrib()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPopMatrix()
-	{
-		addMethodCall("glPopMatrix", null);
-		
-	}
-
-	@Override
-	public void glPopName()
-	{
-	    addMethodCall("glPopName", null);
-		
-	}
-
-	@Override
-	public void glPrimitiveRestartIndexNV(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPrimitiveRestartNV()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPrioritizeTextures(int arg0, IntBuffer arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPrioritizeTextures(int arg0, int[] arg1, int arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramBufferParametersIivNV(int arg0, int arg1, int arg2, int arg3, IntBuffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramBufferParametersIivNV(int arg0, int arg1, int arg2, int arg3, int[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramBufferParametersIuivNV(int arg0, int arg1, int arg2, int arg3, IntBuffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramBufferParametersIuivNV(int arg0, int arg1, int arg2, int arg3, int[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramBufferParametersfvNV(int arg0, int arg1, int arg2, int arg3, FloatBuffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramBufferParametersfvNV(int arg0, int arg1, int arg2, int arg3, float[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameter4dARB(int arg0, int arg1, double arg2, double arg3, double arg4, double arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameter4dvARB(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameter4dvARB(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameter4fARB(int arg0, int arg1, float arg2, float arg3, float arg4, float arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameter4fvARB(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameter4fvARB(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameterI4iNV(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameterI4ivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameterI4ivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameterI4uiNV(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameterI4uivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameterI4uivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameters4fvEXT(int arg0, int arg1, int arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParameters4fvEXT(int arg0, int arg1, int arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParametersI4ivNV(int arg0, int arg1, int arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParametersI4ivNV(int arg0, int arg1, int arg2, int[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParametersI4uivNV(int arg0, int arg1, int arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramEnvParametersI4uivNV(int arg0, int arg1, int arg2, int[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameter4dARB(int arg0, int arg1, double arg2, double arg3, double arg4, double arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameter4dvARB(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameter4dvARB(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameter4fARB(int arg0, int arg1, float arg2, float arg3, float arg4, float arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameter4fvARB(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameter4fvARB(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameterI4iNV(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameterI4ivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameterI4ivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameterI4uiNV(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameterI4uivNV(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameterI4uivNV(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameters4fvEXT(int arg0, int arg1, int arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParameters4fvEXT(int arg0, int arg1, int arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParametersI4ivNV(int arg0, int arg1, int arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParametersI4ivNV(int arg0, int arg1, int arg2, int[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParametersI4uivNV(int arg0, int arg1, int arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramLocalParametersI4uivNV(int arg0, int arg1, int arg2, int[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramNamedParameter4dNV(int arg0, int arg1, String arg2, double arg3, double arg4, double arg5, double arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramNamedParameter4dvNV(int arg0, int arg1, String arg2, DoubleBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramNamedParameter4dvNV(int arg0, int arg1, String arg2, double[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramNamedParameter4fNV(int arg0, int arg1, String arg2, float arg3, float arg4, float arg5, float arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramNamedParameter4fvNV(int arg0, int arg1, String arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramNamedParameter4fvNV(int arg0, int arg1, String arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramParameter4dNV(int arg0, int arg1, double arg2, double arg3, double arg4, double arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramParameter4dvNV(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramParameter4dvNV(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramParameter4fNV(int arg0, int arg1, float arg2, float arg3, float arg4, float arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramParameter4fvNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramParameter4fvNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramParameteriEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramParameters4dvNV(int arg0, int arg1, int arg2, DoubleBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramParameters4dvNV(int arg0, int arg1, int arg2, double[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramParameters4fvNV(int arg0, int arg1, int arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramParameters4fvNV(int arg0, int arg1, int arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramStringARB(int arg0, int arg1, int arg2, String arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glProgramVertexLimitNV(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPushAttrib(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPushClientAttrib(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glPushMatrix()
-	{
-		addMethodCall("glPushMatrix", null);
-		
-	}
-
-	@Override
-	public void glPushName(int arg0)
-	{
-	    addMethodCall("glPushName", new Object[] {arg0});
-		
-	}
-
-	@Override
-	public void glRasterPos2d(double arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos2dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos2dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos2f(float arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos2fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos2fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos2i(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos2iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos2iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos2s(short arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos2sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos2sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3d(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3f(float arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3i(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3s(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos3sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4d(double arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4f(float arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4i(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4s(short arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRasterPos4sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReadBuffer(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReadBufferRegion(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReadInstrumentsSGIX(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReadPixels(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, Buffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReadPixels(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, long arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRectd(double arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRectdv(DoubleBuffer arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRectdv(double[] arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRectf(float arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRectfv(FloatBuffer arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRectfv(float[] arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRecti(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRectiv(IntBuffer arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRectiv(int[] arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRects(short arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRectsv(ShortBuffer arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRectsv(short[] arg0, int arg1, short[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReferencePlaneSGIX(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReferencePlaneSGIX(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public int glRenderMode(int arg0)
-	{
-		// Stub method only.
-		return 0;
-	}
-
-	@Override
-	public void glRenderbufferStorageEXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRenderbufferStorageMultisampleCoverageNV(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRenderbufferStorageMultisampleEXT(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiColor3fVertex3fSUN(int arg0, float arg1, float arg2, float arg3, float arg4, float arg5,
-			float arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiColor3fVertex3fvSUN(IntBuffer arg0, FloatBuffer arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiColor3fVertex3fvSUN(int[] arg0, int arg1, float[] arg2, int arg3, float[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiColor4fNormal3fVertex3fSUN(int arg0, float arg1, float arg2, float arg3, float arg4,
-			float arg5, float arg6, float arg7, float arg8, float arg9, float arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiColor4fNormal3fVertex3fvSUN(IntBuffer arg0, FloatBuffer arg1, FloatBuffer arg2,
-			FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiColor4fNormal3fVertex3fvSUN(int[] arg0, int arg1, float[] arg2, int arg3, float[] arg4,
-			int arg5, float[] arg6, int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiColor4ubVertex3fSUN(int arg0, byte arg1, byte arg2, byte arg3, byte arg4, float arg5,
-			float arg6, float arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiColor4ubVertex3fvSUN(IntBuffer arg0, ByteBuffer arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiColor4ubVertex3fvSUN(int[] arg0, int arg1, byte[] arg2, int arg3, float[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiNormal3fVertex3fSUN(int arg0, float arg1, float arg2, float arg3, float arg4, float arg5,
-			float arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiNormal3fVertex3fvSUN(IntBuffer arg0, FloatBuffer arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiNormal3fVertex3fvSUN(int[] arg0, int arg1, float[] arg2, int arg3, float[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fSUN(int arg0, float arg1, float arg2, float arg3, float arg4,
-			float arg5, float arg6, float arg7, float arg8, float arg9, float arg10, float arg11, float arg12)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN(IntBuffer arg0, FloatBuffer arg1, FloatBuffer arg2,
-			FloatBuffer arg3, FloatBuffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN(int[] arg0, int arg1, float[] arg2, int arg3,
-			float[] arg4, int arg5, float[] arg6, int arg7, float[] arg8, int arg9)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiTexCoord2fNormal3fVertex3fSUN(int arg0, float arg1, float arg2, float arg3, float arg4,
-			float arg5, float arg6, float arg7, float arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiTexCoord2fNormal3fVertex3fvSUN(IntBuffer arg0, FloatBuffer arg1, FloatBuffer arg2,
-			FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiTexCoord2fNormal3fVertex3fvSUN(int[] arg0, int arg1, float[] arg2, int arg3, float[] arg4,
-			int arg5, float[] arg6, int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiTexCoord2fVertex3fSUN(int arg0, float arg1, float arg2, float arg3, float arg4, float arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiTexCoord2fVertex3fvSUN(IntBuffer arg0, FloatBuffer arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiTexCoord2fVertex3fvSUN(int[] arg0, int arg1, float[] arg2, int arg3, float[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiVertex3fSUN(int arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiVertex3fvSUN(IntBuffer arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glReplacementCodeuiVertex3fvSUN(int[] arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRequestResidentProgramsNV(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRequestResidentProgramsNV(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glResetHistogram(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glResetMinmax(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glResizeBuffersMESA()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRotated(double arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glRotatef(float arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSampleCoverage(float arg0, boolean arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSampleMapATI(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSampleMaskEXT(float arg0, boolean arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSampleMaskSGIS(float arg0, boolean arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSamplePatternEXT(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSamplePatternSGIS(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glScaled(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glScalef(float arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glScissor(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3b(byte arg0, byte arg1, byte arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3bEXT(byte arg0, byte arg1, byte arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3bv(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3bv(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3bvEXT(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3bvEXT(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3d(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3dEXT(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3dvEXT(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3dvEXT(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3f(float arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3fEXT(float arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3fvEXT(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3fvEXT(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3hNV(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3hvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3hvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3i(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3iEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3ivEXT(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3ivEXT(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3s(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3sEXT(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3svEXT(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3svEXT(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3ub(byte arg0, byte arg1, byte arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3ubEXT(byte arg0, byte arg1, byte arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3ubv(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3ubv(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3ubvEXT(ByteBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3ubvEXT(byte[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3ui(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3uiEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3uiv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3uiv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3uivEXT(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3uivEXT(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3us(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3usEXT(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3usv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3usv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3usvEXT(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColor3usvEXT(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColorPointer(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColorPointer(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColorPointerEXT(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSecondaryColorPointerEXT(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSelectBuffer(int arg0, IntBuffer arg1)
-	{
-		addMethodCall("glSelectBuffer", new Object[] {arg0, arg1});
-	}
-
-	@Override
-	public void glSeparableFilter2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, Buffer arg6, Buffer arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSeparableFilter2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, long arg6, long arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSetFenceAPPLE(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSetFenceNV(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSetFragmentShaderConstantATI(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSetFragmentShaderConstantATI(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSetInvariantEXT(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSetLocalConstantEXT(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glShadeModel(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glShaderOp1EXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glShaderOp2EXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glShaderOp3EXT(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glShaderSource(int arg0, int arg1, String[] arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glShaderSource(int arg0, int arg1, String[] arg2, int[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glShaderSourceARB(int arg0, int arg1, String[] arg2, IntBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glShaderSourceARB(int arg0, int arg1, String[] arg2, int[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSharpenTexFuncSGIS(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSharpenTexFuncSGIS(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSpriteParameterfSGIX(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSpriteParameterfvSGIX(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSpriteParameterfvSGIX(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSpriteParameteriSGIX(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSpriteParameterivSGIX(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSpriteParameterivSGIX(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStartInstrumentsSGIX()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStencilClearTagEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStencilFunc(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStencilFuncSeparate(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStencilFuncSeparateATI(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStencilMask(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStencilMaskSeparate(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStencilOp(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStencilOpSeparate(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStencilOpSeparateATI(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStopInstrumentsSGIX(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glStringMarkerGREMEDY(int arg0, Buffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSwapAPPLE()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glSwizzleEXT(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTagSampleBufferSGIX()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTbufferMask3DFX(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public boolean glTestFenceAPPLE(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glTestFenceNV(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glTestObjectAPPLE(int arg0, int arg1)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public void glTexBufferEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexBumpParameterfvATI(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexBumpParameterfvATI(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexBumpParameterivATI(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexBumpParameterivATI(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1d(double arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1f(float arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1hNV(short arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1hvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1hvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1i(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1s(short arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord1sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2d(double arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2f(float arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fColor3fVertex3fSUN(float arg0, float arg1, float arg2, float arg3, float arg4, float arg5,
-			float arg6, float arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fColor3fVertex3fvSUN(FloatBuffer arg0, FloatBuffer arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fColor3fVertex3fvSUN(float[] arg0, int arg1, float[] arg2, int arg3, float[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fColor4fNormal3fVertex3fSUN(float arg0, float arg1, float arg2, float arg3, float arg4, float arg5,
-			float arg6, float arg7, float arg8, float arg9, float arg10, float arg11)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fColor4fNormal3fVertex3fvSUN(FloatBuffer arg0, FloatBuffer arg1, FloatBuffer arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fColor4fNormal3fVertex3fvSUN(float[] arg0, int arg1, float[] arg2, int arg3, float[] arg4, int arg5,
-			float[] arg6, int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fColor4ubVertex3fSUN(float arg0, float arg1, byte arg2, byte arg3, byte arg4, byte arg5, float arg6,
-			float arg7, float arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fColor4ubVertex3fvSUN(FloatBuffer arg0, ByteBuffer arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fColor4ubVertex3fvSUN(float[] arg0, int arg1, byte[] arg2, int arg3, float[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fNormal3fVertex3fSUN(float arg0, float arg1, float arg2, float arg3, float arg4, float arg5,
-			float arg6, float arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fNormal3fVertex3fvSUN(FloatBuffer arg0, FloatBuffer arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fNormal3fVertex3fvSUN(float[] arg0, int arg1, float[] arg2, int arg3, float[] arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fVertex3fSUN(float arg0, float arg1, float arg2, float arg3, float arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fVertex3fvSUN(FloatBuffer arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fVertex3fvSUN(float[] arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2hNV(short arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2hvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2hvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2i(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2s(short arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord2sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3d(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3f(float arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3hNV(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3hvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3hvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3i(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3s(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord3sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4d(double arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4f(float arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4fColor4fNormal3fVertex4fSUN(float arg0, float arg1, float arg2, float arg3, float arg4, float arg5,
-			float arg6, float arg7, float arg8, float arg9, float arg10, float arg11, float arg12, float arg13, float arg14)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4fColor4fNormal3fVertex4fvSUN(FloatBuffer arg0, FloatBuffer arg1, FloatBuffer arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4fColor4fNormal3fVertex4fvSUN(float[] arg0, int arg1, float[] arg2, int arg3, float[] arg4, int arg5,
-			float[] arg6, int arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4fVertex4fSUN(float arg0, float arg1, float arg2, float arg3, float arg4, float arg5, float arg6,
-			float arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4fVertex4fvSUN(FloatBuffer arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4fVertex4fvSUN(float[] arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4hNV(short arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4hvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4hvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4i(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4s(short arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoord4sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoordPointer(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexCoordPointer(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexEnvf(int arg0, int arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexEnvfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexEnvfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexEnvi(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexEnviv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexEnviv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexFilterFuncSGIS(int arg0, int arg1, int arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexFilterFuncSGIS(int arg0, int arg1, int arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexGend(int arg0, int arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexGendv(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexGendv(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexGenf(int arg0, int arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexGenfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexGenfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexGeni(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexGeniv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexGeniv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexImage1D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, Buffer arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexImage1D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, long arg7)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexImage2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, Buffer arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexImage2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, long arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexImage3D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, Buffer arg9)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexImage3D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, long arg9)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexImage4DSGIS(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8,
-			int arg9, Buffer arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexParameterIivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexParameterIivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexParameterIuivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexParameterIuivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexParameterf(int arg0, int arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexParameterfv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexParameterfv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexParameteri(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexParameteriv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexParameteriv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexSubImage1D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, Buffer arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexSubImage1D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, long arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexSubImage2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, Buffer arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexSubImage2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, long arg8)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexSubImage3D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8,
-			int arg9, Buffer arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexSubImage3D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8,
-			int arg9, long arg10)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTexSubImage4DSGIS(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8,
-			int arg9, int arg10, int arg11, Buffer arg12)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTextureColorMaskSGIS(boolean arg0, boolean arg1, boolean arg2, boolean arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTextureLightEXT(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTextureMaterialEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTextureNormalEXT(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTextureRangeAPPLE(int arg0, int arg1, Buffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTrackMatrixNV(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTransformFeedbackAttribsNV(int arg0, IntBuffer arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTransformFeedbackAttribsNV(int arg0, int[] arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTransformFeedbackVaryingsNV(int arg0, int arg1, IntBuffer arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTransformFeedbackVaryingsNV(int arg0, int arg1, int[] arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTranslated(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glTranslatef(float arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1f(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1fARB(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1fv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1fv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1fvARB(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1fvARB(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1i(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1iARB(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1iv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1iv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1ivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1ivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1uiEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1uivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform1uivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2f(int arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2fARB(int arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2fv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2fv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2fvARB(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2fvARB(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2i(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2iARB(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2iv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2iv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2ivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2ivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2uiEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2uivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform2uivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3f(int arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3fARB(int arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3fv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3fv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3fvARB(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3fvARB(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3i(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3iARB(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3iv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3iv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3ivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3ivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3uiEXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3uivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform3uivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4f(int arg0, float arg1, float arg2, float arg3, float arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4fARB(int arg0, float arg1, float arg2, float arg3, float arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4fv(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4fv(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4fvARB(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4fvARB(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4i(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4iARB(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4iv(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4iv(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4ivARB(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4ivARB(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4uiEXT(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4uivEXT(int arg0, int arg1, IntBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniform4uivEXT(int arg0, int arg1, int[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformBufferEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix2fv(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix2fv(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix2fvARB(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix2fvARB(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix2x3fv(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix2x3fv(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix2x4fv(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix2x4fv(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix3fv(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix3fv(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix3fvARB(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix3fvARB(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix3x2fv(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix3x2fv(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix3x4fv(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix3x4fv(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix4fv(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix4fv(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix4fvARB(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix4fvARB(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix4x2fv(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix4x2fv(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix4x3fv(int arg0, int arg1, boolean arg2, FloatBuffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUniformMatrix4x3fv(int arg0, int arg1, boolean arg2, float[] arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUnlockArraysEXT()
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public boolean glUnmapBuffer(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean glUnmapBufferARB(int arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public void glUpdateObjectBufferATI(int arg0, int arg1, int arg2, Buffer arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUseProgram(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glUseProgramObjectARB(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glValidateProgram(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glValidateProgramARB(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantArrayObjectATI(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantPointerEXT(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantPointerEXT(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantbvEXT(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantbvEXT(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantdvEXT(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantdvEXT(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantfvEXT(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantfvEXT(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantivEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantivEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantsvEXT(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantsvEXT(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantubvEXT(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantubvEXT(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantuivEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantuivEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantusvEXT(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVariantusvEXT(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2d(double arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2f(float arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2hNV(short arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2hvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2hvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2i(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2s(short arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex2sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3d(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3f(float arg0, float arg1, float arg2)
-	{
-		addMethodCall("glVertex3f", new Object[] {arg0, arg1, arg2});
-		
-	}
-
-	@Override
-	public void glVertex3fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3hNV(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3hvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3hvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3i(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3s(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex3sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4d(double arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4f(float arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4hNV(short arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4hvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4hvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4i(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4s(short arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertex4sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexArrayParameteriAPPLE(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexArrayRangeAPPLE(int arg0, Buffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexArrayRangeNV(int arg0, Buffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1d(int arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1dARB(int arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1dNV(int arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1dv(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1dv(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1dvARB(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1dvARB(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1dvNV(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1dvNV(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1f(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1fARB(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1fNV(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1fv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1fv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1fvARB(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1fvARB(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1fvNV(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1fvNV(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1hNV(int arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1hvNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1hvNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1s(int arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1sARB(int arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1sNV(int arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1sv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1sv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1svARB(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1svARB(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1svNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib1svNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2d(int arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2dARB(int arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2dNV(int arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2dv(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2dv(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2dvARB(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2dvARB(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2dvNV(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2dvNV(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2f(int arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2fARB(int arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2fNV(int arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2fv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2fv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2fvARB(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2fvARB(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2fvNV(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2fvNV(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2hNV(int arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2hvNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2hvNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2s(int arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2sARB(int arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2sNV(int arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2sv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2sv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2svARB(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2svARB(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2svNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib2svNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3d(int arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3dARB(int arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3dNV(int arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3dv(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3dv(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3dvARB(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3dvARB(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3dvNV(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3dvNV(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3f(int arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3fARB(int arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3fNV(int arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3fv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3fv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3fvARB(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3fvARB(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3fvNV(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3fvNV(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3hNV(int arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3hvNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3hvNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3s(int arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3sARB(int arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3sNV(int arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3sv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3sv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3svARB(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3svARB(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3svNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib3svNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Nbv(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Nbv(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NbvARB(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NbvARB(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Niv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Niv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NivARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NivARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Nsv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Nsv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NsvARB(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NsvARB(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Nub(int arg0, byte arg1, byte arg2, byte arg3, byte arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NubARB(int arg0, byte arg1, byte arg2, byte arg3, byte arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Nubv(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Nubv(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NubvARB(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NubvARB(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Nuiv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Nuiv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NuivARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NuivARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Nusv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4Nusv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NusvARB(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4NusvARB(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4bv(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4bv(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4bvARB(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4bvARB(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4d(int arg0, double arg1, double arg2, double arg3, double arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4dARB(int arg0, double arg1, double arg2, double arg3, double arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4dNV(int arg0, double arg1, double arg2, double arg3, double arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4dv(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4dv(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4dvARB(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4dvARB(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4dvNV(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4dvNV(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4f(int arg0, float arg1, float arg2, float arg3, float arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4fARB(int arg0, float arg1, float arg2, float arg3, float arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4fNV(int arg0, float arg1, float arg2, float arg3, float arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4fv(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4fv(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4fvARB(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4fvARB(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4fvNV(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4fvNV(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4hNV(int arg0, short arg1, short arg2, short arg3, short arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4hvNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4hvNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4iv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4iv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4ivARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4ivARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4s(int arg0, short arg1, short arg2, short arg3, short arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4sARB(int arg0, short arg1, short arg2, short arg3, short arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4sNV(int arg0, short arg1, short arg2, short arg3, short arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4sv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4sv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4svARB(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4svARB(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4svNV(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4svNV(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4ubNV(int arg0, byte arg1, byte arg2, byte arg3, byte arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4ubv(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4ubv(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4ubvARB(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4ubvARB(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4ubvNV(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4ubvNV(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4uiv(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4uiv(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4uivARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4uivARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4usv(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4usv(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4usvARB(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttrib4usvARB(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribArrayObjectATI(int arg0, int arg1, int arg2, boolean arg3, int arg4, int arg5, int arg6)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI1iEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI1ivEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI1ivEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI1uiEXT(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI1uivEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI1uivEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI2iEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI2ivEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI2ivEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI2uiEXT(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI2uivEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI2uivEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI3iEXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI3ivEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI3ivEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI3uiEXT(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI3uivEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI3uivEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4bvEXT(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4bvEXT(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4iEXT(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4ivEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4ivEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4svEXT(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4svEXT(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4ubvEXT(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4ubvEXT(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4uiEXT(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4uivEXT(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4uivEXT(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4usvEXT(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribI4usvEXT(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribIPointerEXT(int arg0, int arg1, int arg2, int arg3, Buffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribPointer(int arg0, int arg1, int arg2, boolean arg3, int arg4, Buffer arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribPointer(int arg0, int arg1, int arg2, boolean arg3, int arg4, long arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribPointerARB(int arg0, int arg1, int arg2, boolean arg3, int arg4, Buffer arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribPointerARB(int arg0, int arg1, int arg2, boolean arg3, int arg4, long arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribPointerNV(int arg0, int arg1, int arg2, int arg3, Buffer arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribPointerNV(int arg0, int arg1, int arg2, int arg3, long arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs1dvNV(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs1dvNV(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs1fvNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs1fvNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs1hvNV(int arg0, int arg1, ShortBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs1hvNV(int arg0, int arg1, short[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs1svNV(int arg0, int arg1, ShortBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs1svNV(int arg0, int arg1, short[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs2dvNV(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs2dvNV(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs2fvNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs2fvNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs2hvNV(int arg0, int arg1, ShortBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs2hvNV(int arg0, int arg1, short[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs2svNV(int arg0, int arg1, ShortBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs2svNV(int arg0, int arg1, short[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs3dvNV(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs3dvNV(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs3fvNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs3fvNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs3hvNV(int arg0, int arg1, ShortBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs3hvNV(int arg0, int arg1, short[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs3svNV(int arg0, int arg1, ShortBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs3svNV(int arg0, int arg1, short[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs4dvNV(int arg0, int arg1, DoubleBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs4dvNV(int arg0, int arg1, double[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs4fvNV(int arg0, int arg1, FloatBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs4fvNV(int arg0, int arg1, float[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs4hvNV(int arg0, int arg1, ShortBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs4hvNV(int arg0, int arg1, short[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs4svNV(int arg0, int arg1, ShortBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs4svNV(int arg0, int arg1, short[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs4ubvNV(int arg0, int arg1, ByteBuffer arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexAttribs4ubvNV(int arg0, int arg1, byte[] arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexBlendARB(int arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexBlendEnvfATI(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexBlendEnviATI(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexPointer(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexPointer(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1dATI(int arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1dvATI(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1dvATI(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1fATI(int arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1fvATI(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1fvATI(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1iATI(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1ivATI(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1ivATI(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1sATI(int arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1svATI(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream1svATI(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2dATI(int arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2dvATI(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2dvATI(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2fATI(int arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2fvATI(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2fvATI(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2iATI(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2ivATI(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2ivATI(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2sATI(int arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2svATI(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream2svATI(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3dATI(int arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3dvATI(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3dvATI(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3fATI(int arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3fvATI(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3fvATI(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3iATI(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3ivATI(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3ivATI(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3sATI(int arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3svATI(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream3svATI(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4dATI(int arg0, double arg1, double arg2, double arg3, double arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4dvATI(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4dvATI(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4fATI(int arg0, float arg1, float arg2, float arg3, float arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4fvATI(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4fvATI(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4iATI(int arg0, int arg1, int arg2, int arg3, int arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4ivATI(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4ivATI(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4sATI(int arg0, short arg1, short arg2, short arg3, short arg4)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4svATI(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexStream4svATI(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexWeightPointerEXT(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexWeightPointerEXT(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexWeightfEXT(float arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexWeightfvEXT(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexWeightfvEXT(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexWeighthNV(short arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexWeighthvNV(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glVertexWeighthvNV(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glViewport(int arg0, int arg1, int arg2, int arg3)
-	{
-		addMethodCall("glViewport", new Object[] {arg0, arg1, arg2, arg3});
-		
-	}
-
-	@Override
-	public void glWeightPointerARB(int arg0, int arg1, int arg2, Buffer arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightPointerARB(int arg0, int arg1, int arg2, long arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightbvARB(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightbvARB(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightdvARB(int arg0, DoubleBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightdvARB(int arg0, double[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightfvARB(int arg0, FloatBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightfvARB(int arg0, float[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightivARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightivARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightsvARB(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightsvARB(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightubvARB(int arg0, ByteBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightubvARB(int arg0, byte[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightuivARB(int arg0, IntBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightuivARB(int arg0, int[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightusvARB(int arg0, ShortBuffer arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWeightusvARB(int arg0, short[] arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2d(double arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2dARB(double arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2dMESA(double arg0, double arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2dvARB(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2dvARB(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2dvMESA(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2dvMESA(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2f(float arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2fARB(float arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2fMESA(float arg0, float arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2fvARB(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2fvARB(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2fvMESA(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2fvMESA(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2i(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2iARB(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2iMESA(int arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2ivARB(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2ivARB(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2ivMESA(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2ivMESA(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2s(short arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2sARB(short arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2sMESA(short arg0, short arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2svARB(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2svARB(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2svMESA(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos2svMESA(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3d(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3dARB(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3dMESA(double arg0, double arg1, double arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3dv(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3dv(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3dvARB(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3dvARB(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3dvMESA(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3dvMESA(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3f(float arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3fARB(float arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3fMESA(float arg0, float arg1, float arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3fv(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3fv(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3fvARB(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3fvARB(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3fvMESA(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3fvMESA(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3i(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3iARB(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3iMESA(int arg0, int arg1, int arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3iv(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3iv(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3ivARB(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3ivARB(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3ivMESA(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3ivMESA(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3s(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3sARB(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3sMESA(short arg0, short arg1, short arg2)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3sv(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3sv(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3svARB(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3svARB(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3svMESA(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos3svMESA(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4dMESA(double arg0, double arg1, double arg2, double arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4dvMESA(DoubleBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4dvMESA(double[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4fMESA(float arg0, float arg1, float arg2, float arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4fvMESA(FloatBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4fvMESA(float[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4iMESA(int arg0, int arg1, int arg2, int arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4ivMESA(IntBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4ivMESA(int[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4sMESA(short arg0, short arg1, short arg2, short arg3)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4svMESA(ShortBuffer arg0)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWindowPos4svMESA(short[] arg0, int arg1)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public void glWriteMaskEXT(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
-	{
-		// Stub method only.
-		
-	}
-
-	@Override
-	public boolean isExtensionAvailable(String arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public boolean isFunctionAvailable(String arg0)
-	{
-		// Stub method only.
-		return false;
-	}
-
-	@Override
-	public void setSwapInterval(int arg0)
-	{
-		// Stub method only.
-		
-	}
+    @Override
+    public Object getExtension(final String arg0)
+    {
+        // Stub method only.
+        return null;
+    }
+
+    @Override
+    public Object getPlatformGLExtensions()
+    {
+        // Stub method only.
+        return null;
+    }
+
+    @Override
+    public void glAccum(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glActiveStencilFaceEXT(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glActiveTexture(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glActiveVaryingNV(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glActiveVaryingNV(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public ByteBuffer glAllocateMemoryNV(final int arg0, final float arg1, final float arg2, final float arg3)
+    {
+        // Stub method only.
+        return null;
+    }
+
+    @Override
+    public void glAlphaFragmentOp1ATI(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glAlphaFragmentOp2ATI(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glAlphaFragmentOp3ATI(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8, final int arg9, final int arg10, final int arg11)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glAlphaFunc(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glApplyTextureEXT(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public boolean glAreProgramsResidentNV(final int arg0, final IntBuffer arg1, final ByteBuffer arg2)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glAreProgramsResidentNV(final int arg0, final int[] arg1, final int arg2, final byte[] arg3, final int arg4)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glAreTexturesResident(final int arg0, final IntBuffer arg1, final ByteBuffer arg2)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glAreTexturesResident(final int arg0, final int[] arg1, final int arg2, final byte[] arg3, final int arg4)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public void glArrayElement(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glArrayObjectATI(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glAsyncMarkerSGIX(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glAttachObjectARB(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glAttachShader(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBegin(final int arg0)
+    {
+        addMethodCall("glBegin", new Object[] {arg0});
+
+    }
+
+    @Override
+    public void glBeginFragmentShaderATI()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBeginOcclusionQueryNV(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBeginQuery(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBeginQueryARB(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBeginTransformFeedbackNV(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBeginVertexShaderEXT()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindAttribLocation(final int arg0, final int arg1, final String arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindAttribLocationARB(final int arg0, final int arg1, final String arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindBuffer(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindBufferARB(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindBufferBaseNV(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindBufferOffsetNV(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindBufferRangeNV(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindFragDataLocationEXT(final int arg0, final int arg1, final ByteBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindFragDataLocationEXT(final int arg0, final int arg1, final byte[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindFragmentShaderATI(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindFramebufferEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glBindLightParameterEXT(final int arg0, final int arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glBindMaterialParameterEXT(final int arg0, final int arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glBindParameterEXT(final int arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glBindProgramARB(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindProgramNV(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindRenderbufferEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glBindTexGenParameterEXT(final int arg0, final int arg1, final int arg2)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glBindTexture(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glBindTextureUnitParameterEXT(final int arg0, final int arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glBindVertexArrayAPPLE(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBindVertexShaderEXT(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBitmap(final int arg0, final int arg1, final float arg2, final float arg3, final float arg4, final float arg5, final ByteBuffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBitmap(final int arg0, final int arg1, final float arg2, final float arg3, final float arg4, final float arg5, final long arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBitmap(final int arg0, final int arg1, final float arg2, final float arg3, final float arg4, final float arg5, final byte[] arg6,
+            final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBlendColor(final float arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBlendEquation(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBlendEquationSeparate(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBlendEquationSeparateEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBlendFunc(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBlendFuncSeparate(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBlendFuncSeparateEXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBlendFuncSeparateINGR(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBlitFramebufferEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8, final int arg9)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBufferData(final int arg0, final int arg1, final Buffer arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBufferDataARB(final int arg0, final int arg1, final Buffer arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBufferParameteriAPPLE(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glBufferRegionEnabled()
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glBufferSubData(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glBufferSubDataARB(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCallList(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCallLists(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glCheckFramebufferStatusEXT(final int arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glClampColorARB(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClear(final int arg0)
+    {
+        addMethodCall("glClear", new Object[] {arg0});
+
+    }
+
+    @Override
+    public void glClearAccum(final float arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClearColor(final float arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClearColorIiEXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClearColorIuiEXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClearDepth(final double arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClearDepthdNV(final double arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClearIndex(final float arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClearStencil(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClientActiveTexture(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClientActiveVertexStreamATI(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClipPlane(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glClipPlane(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3b(final byte arg0, final byte arg1, final byte arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3bv(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3bv(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3d(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3f(final float arg0, final float arg1, final float arg2)
+    {
+        addMethodCall("glColor3f", new Object[] {arg0, arg1, arg2});
+
+    }
+
+    @Override
+    public void glColor3fVertex3fSUN(final float arg0, final float arg1, final float arg2, final float arg3, final float arg4, final float arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3fVertex3fvSUN(FloatBuffer arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3fVertex3fvSUN(final float[] arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3fv(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3hNV(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3hvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3hvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3i(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3s(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3ub(final byte arg0, final byte arg1, final byte arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3ubv(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3ubv(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3ui(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3uiv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3uiv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3us(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3usv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor3usv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4b(final byte arg0, final byte arg1, final byte arg2, final byte arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4bv(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4bv(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4d(final double arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4f(final float arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4fNormal3fVertex3fSUN(final float arg0, final float arg1, final float arg2, final float arg3, final float arg4,
+            final float arg5, final float arg6, final float arg7, float arg8, final float arg9)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4fNormal3fVertex3fvSUN(FloatBuffer arg0, final FloatBuffer arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4fNormal3fVertex3fvSUN(final float[] arg0, final int arg1, final float[] arg2, final int arg3, final float[] arg4,
+            final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4fv(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4hNV(final short arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4hvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4hvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4i(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4s(final short arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4ub(final byte arg0, final byte arg1, final byte arg2, final byte arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4ubVertex2fSUN(final byte arg0, final byte arg1, final byte arg2, final byte arg3, final float arg4, final float arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4ubVertex2fvSUN(final ByteBuffer arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4ubVertex2fvSUN(final byte[] arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4ubVertex3fSUN(final byte arg0, final byte arg1, final byte arg2, final byte arg3, final float arg4, final float arg5,
+            final float arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4ubVertex3fvSUN(final ByteBuffer arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4ubVertex3fvSUN(final byte[] arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4ubv(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4ubv(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4ui(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4uiv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4uiv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4us(final short arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4usv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColor4usv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorFragmentOp1ATI(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorFragmentOp2ATI(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8, final int arg9)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorFragmentOp3ATI(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8, final int arg9, final int arg10, final int arg11, final int arg12)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorMask(final boolean arg0, final boolean arg1, final boolean arg2, final boolean arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorMaskIndexedEXT(final int arg0, final boolean arg1, final boolean arg2, final boolean arg3, final boolean arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorMaterial(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorPointer(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorPointer(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorSubTable(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final Buffer arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorSubTable(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final long arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorTable(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final Buffer arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorTable(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final long arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorTableEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final Buffer arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorTableParameterfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorTableParameterfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorTableParameteriv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glColorTableParameteriv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCombinerInputNV(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCombinerOutputNV(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final boolean arg7, final boolean arg8, final boolean arg9)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCombinerParameterfNV(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCombinerParameterfvNV(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCombinerParameterfvNV(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCombinerParameteriNV(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCombinerParameterivNV(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCombinerParameterivNV(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCombinerStageParameterfvNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCombinerStageParameterfvNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompileShader(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompileShaderARB(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexImage1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final Buffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexImage1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final long arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexImage2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final int arg6, final Buffer arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexImage2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final int arg6, final long arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexImage3D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final int arg6, final int arg7, final Buffer arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexImage3D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final int arg6, final int arg7, final long arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexSubImage1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final Buffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexSubImage1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final long arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexSubImage2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final int arg6, final int arg7, final Buffer arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexSubImage2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final int arg6, final int arg7, final long arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexSubImage3D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final int arg6, final int arg7, final int arg8, final int arg9, Buffer arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCompressedTexSubImage3D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final int arg6, final int arg7, final int arg8, final int arg9, long arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glConvolutionFilter1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final Buffer arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glConvolutionFilter1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final long arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glConvolutionFilter2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final Buffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glConvolutionFilter2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final long arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glConvolutionParameterf(final int arg0, final int arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glConvolutionParameterfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glConvolutionParameterfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glConvolutionParameteri(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glConvolutionParameteriv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glConvolutionParameteriv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCopyColorSubTable(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCopyColorTable(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCopyConvolutionFilter1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCopyConvolutionFilter2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCopyPixels(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCopyTexImage1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCopyTexImage2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCopyTexSubImage1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCopyTexSubImage2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCopyTexSubImage3D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glCreateProgram()
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glCreateProgramObjectARB()
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glCreateShader(final int arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glCreateShaderObjectARB(final int arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glCullFace(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCullParameterdvEXT(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCullParameterdvEXT(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCullParameterfvEXT(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCullParameterfvEXT(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glCurrentPaletteMatrixARB(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeformSGIX(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeformationMap3dSGIX(final int arg0, final double arg1, final double arg2, final int arg3, final int arg4, final double arg5,
+            final double arg6, final int arg7, final int arg8, double arg9, final double arg10, final int arg11, final int arg12,
+            final DoubleBuffer arg13)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeformationMap3dSGIX(final int arg0, final double arg1, final double arg2, final int arg3, final int arg4, final double arg5,
+            final double arg6, final int arg7, final int arg8, double arg9, final double arg10, final int arg11, final int arg12,
+            final double[] arg13, final int arg14)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeformationMap3fSGIX(final int arg0, final float arg1, final float arg2, final int arg3, final int arg4, final float arg5,
+            final float arg6, final int arg7, final int arg8, final float arg9, float arg10, final int arg11, final int arg12, final FloatBuffer arg13)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeformationMap3fSGIX(final int arg0, final float arg1, final float arg2, final int arg3, final int arg4, final float arg5,
+            final float arg6, final int arg7, final int arg8, final float arg9, float arg10, final int arg11, final int arg12, final float[] arg13,
+            final int arg14)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteAsyncMarkersSGIX(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteBufferRegion(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteBuffers(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteBuffers(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteBuffersARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteBuffersARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteFencesAPPLE(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteFencesAPPLE(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteFencesNV(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteFencesNV(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteFragmentShaderATI(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteFramebuffersEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteFramebuffersEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteLists(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteObjectARB(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteOcclusionQueriesNV(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteOcclusionQueriesNV(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteProgram(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteProgramsARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteProgramsARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteProgramsNV(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteProgramsNV(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteQueries(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteQueries(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteQueriesARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteQueriesARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteRenderbuffersEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteRenderbuffersEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteShader(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteTextures(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteTextures(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteVertexArraysAPPLE(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteVertexArraysAPPLE(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDeleteVertexShaderEXT(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDepthBoundsEXT(final double arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDepthBoundsdNV(final double arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDepthFunc(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDepthMask(final boolean arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDepthRange(final double arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDepthRangedNV(final double arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDetachObjectARB(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDetachShader(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDetailTexFuncSGIS(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDetailTexFuncSGIS(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDisable(final int arg0)
+    {
+        addMethodCall("glDisable", new Object[] {arg0});
+
+    }
+
+    @Override
+    public void glDisableClientState(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDisableIndexedEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDisableVariantClientStateEXT(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDisableVertexAttribAPPLE(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDisableVertexAttribArray(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDisableVertexAttribArrayARB(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawArrays(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawArraysInstancedEXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawBuffer(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawBufferRegion(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawBuffers(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawBuffers(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawBuffersARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawBuffersARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawBuffersATI(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawBuffersATI(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawElementArrayAPPLE(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawElementArrayATI(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawElements(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawElements(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawElementsInstancedEXT(final int arg0, final int arg1, final int arg2, final Buffer arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawMeshArraysSUN(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawPixels(final int arg0, final int arg1, final int arg2, final int arg3, final Buffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawPixels(final int arg0, final int arg1, final int arg2, final int arg3, final long arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawRangeElementArrayAPPLE(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawRangeElementArrayATI(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawRangeElements(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final Buffer arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glDrawRangeElements(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final long arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEdgeFlag(final boolean arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEdgeFlagPointer(final int arg0, final Buffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEdgeFlagPointer(final int arg0, final long arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEdgeFlagv(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEdgeFlagv(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glElementPointerAPPLE(final int arg0, final Buffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glElementPointerATI(final int arg0, final Buffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glElementPointerATI(final int arg0, final long arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEnable(final int arg0)
+    {
+        addMethodCall("glEnable", new Object[] {arg0});
+
+    }
+
+    @Override
+    public void glEnableClientState(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEnableIndexedEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEnableVariantClientStateEXT(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEnableVertexAttribAPPLE(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEnableVertexAttribArray(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEnableVertexAttribArrayARB(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEnd()
+    {
+        addMethodCall("glEnd", null);
+
+    }
+
+    @Override
+    public void glEndFragmentShaderATI()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEndList()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEndOcclusionQueryNV()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEndQuery(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEndQueryARB(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEndTransformFeedbackNV()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEndVertexShaderEXT()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord1d(final double arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord1dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord1dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord1f(final float arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord1fv(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord1fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord2d(final double arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord2dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord2dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord2f(final float arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord2fv(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalCoord2fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalMapsNV(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalMesh1(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalMesh2(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalPoint1(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glEvalPoint2(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glExecuteProgramNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glExecuteProgramNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glExtractComponentEXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFeedbackBuffer(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFinalCombinerInputNV(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFinish()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glFinishAsyncSGIX(final IntBuffer arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glFinishAsyncSGIX(final int[] arg0, final int arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glFinishFenceAPPLE(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFinishFenceNV(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFinishObjectAPPLE(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFinishRenderAPPLE()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFinishTextureSUNX()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFlush()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFlushMappedBufferRangeAPPLE(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFlushPixelDataRangeNV(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFlushRasterSGIX()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFlushRenderAPPLE()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFlushVertexArrayRangeAPPLE(final int arg0, final Buffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFlushVertexArrayRangeNV()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordPointer(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordPointer(final int arg0, final int arg1, final long arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordPointerEXT(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordPointerEXT(final int arg0, final int arg1, final long arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordd(final double arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoorddEXT(final double arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoorddv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoorddv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoorddvEXT(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoorddvEXT(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordf(final float arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordfEXT(final float arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordfv(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordfv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordfvEXT(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordfvEXT(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordhNV(final short arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordhvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogCoordhvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogFuncSGIS(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogFuncSGIS(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogf(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogfv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogfv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogi(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogiv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFogiv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentColorMaterialSGIX(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightModelfSGIX(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightModelfvSGIX(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightModelfvSGIX(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightModeliSGIX(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightModelivSGIX(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightModelivSGIX(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightfSGIX(final int arg0, final int arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightfvSGIX(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightfvSGIX(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightiSGIX(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightivSGIX(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentLightivSGIX(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentMaterialfSGIX(final int arg0, final int arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentMaterialfvSGIX(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentMaterialfvSGIX(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentMaterialiSGIX(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentMaterialivSGIX(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFragmentMaterialivSGIX(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFrameZoomSGIX(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFramebufferRenderbufferEXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFramebufferTexture1DEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFramebufferTexture2DEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFramebufferTexture3DEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFramebufferTextureEXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFramebufferTextureFaceEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFramebufferTextureLayerEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFreeObjectBufferATI(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFrontFace(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glFrustum(final double arg0, final double arg1, final double arg2, final double arg3, final double arg4, final double arg5)
+    {
+        addMethodCall("glFrustum", new Object[] {arg0, arg1, arg2, arg3, arg4, arg5});
+
+    }
+
+    @Override
+    public final int glGenAsyncMarkersSGIX(final int arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGenBuffers(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenBuffers(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenBuffersARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenBuffersARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenFencesAPPLE(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenFencesAPPLE(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenFencesNV(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenFencesNV(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glGenFragmentShadersATI(final int arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGenFramebuffersEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenFramebuffersEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glGenLists(final int arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGenOcclusionQueriesNV(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenOcclusionQueriesNV(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenProgramsARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenProgramsARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenProgramsNV(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenProgramsNV(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenQueries(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenQueries(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenQueriesARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenQueriesARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenRenderbuffersEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenRenderbuffersEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glGenSymbolsEXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGenTextures(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenTextures(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenVertexArraysAPPLE(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGenVertexArraysAPPLE(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glGenVertexShadersEXT(final int arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGenerateMipmapEXT(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetActiveAttrib(final int arg0, final int arg1, final int arg2, final IntBuffer arg3, final IntBuffer arg4, final IntBuffer arg5,
+            final ByteBuffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetActiveAttrib(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4, final int[] arg5, final int arg6,
+            final int[] arg7, final int arg8, final byte[] arg9, final int arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetActiveAttribARB(final int arg0, final int arg1, final int arg2, final IntBuffer arg3, final IntBuffer arg4,
+            final IntBuffer arg5, final ByteBuffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetActiveAttribARB(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4, final int[] arg5,
+            final int arg6, final int[] arg7, final int arg8, final byte[] arg9, final int arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetActiveUniform(final int arg0, final int arg1, final int arg2, final IntBuffer arg3, final IntBuffer arg4, final IntBuffer arg5,
+            final ByteBuffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetActiveUniform(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4, final int[] arg5,
+            final int arg6, final int[] arg7, final int arg8, final byte[] arg9, final int arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetActiveUniformARB(final int arg0, final int arg1, final int arg2, final IntBuffer arg3, final IntBuffer arg4,
+            final IntBuffer arg5, final ByteBuffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetActiveUniformARB(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4, final int[] arg5,
+            final int arg6, final int[] arg7, final int arg8, final byte[] arg9, final int arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetActiveVaryingNV(final int arg0, final int arg1, final int arg2, final IntBuffer arg3, final IntBuffer arg4,
+            final IntBuffer arg5, final ByteBuffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetActiveVaryingNV(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4, final int[] arg5,
+            final int arg6, final int[] arg7, final int arg8, final byte[] arg9, final int arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetArrayObjectfvATI(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetArrayObjectfvATI(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetArrayObjectivATI(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetArrayObjectivATI(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetAttachedObjectsARB(final int arg0, final int arg1, final IntBuffer arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetAttachedObjectsARB(final int arg0, final int arg1, final int[] arg2, final int arg3, final int[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetAttachedShaders(final int arg0, final int arg1, final IntBuffer arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetAttachedShaders(final int arg0, final int arg1, final int[] arg2, final int arg3, final int[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glGetAttribLocation(final int arg0, final String arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glGetAttribLocationARB(final int arg0, final String arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGetBooleanIndexedvEXT(final int arg0, final int arg1, final ByteBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetBooleanIndexedvEXT(final int arg0, final int arg1, final byte[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetBooleanv(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetBooleanv(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetBufferParameteriv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetBufferParameteriv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetBufferParameterivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetBufferParameterivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetBufferSubData(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetBufferSubDataARB(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetClipPlane(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetClipPlane(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetColorTable(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetColorTable(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetColorTableEXT(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetColorTableParameterfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetColorTableParameterfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetColorTableParameterfvEXT(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetColorTableParameterfvEXT(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetColorTableParameteriv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetColorTableParameteriv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetColorTableParameterivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetColorTableParameterivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCombinerInputParameterfvNV(final int arg0, final int arg1, final int arg2, final int arg3, final FloatBuffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCombinerInputParameterfvNV(final int arg0, final int arg1, final int arg2, final int arg3, final float[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCombinerInputParameterivNV(final int arg0, final int arg1, final int arg2, final int arg3, final IntBuffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCombinerInputParameterivNV(final int arg0, final int arg1, final int arg2, final int arg3, final int[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCombinerOutputParameterfvNV(final int arg0, final int arg1, final int arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCombinerOutputParameterfvNV(final int arg0, final int arg1, final int arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCombinerOutputParameterivNV(final int arg0, final int arg1, final int arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCombinerOutputParameterivNV(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCombinerStageParameterfvNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCombinerStageParameterfvNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCompressedTexImage(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetCompressedTexImage(final int arg0, final int arg1, final long arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetConvolutionFilter(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetConvolutionFilter(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetConvolutionParameterfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetConvolutionParameterfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetConvolutionParameteriv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetConvolutionParameteriv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetDetailTexFuncSGIS(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetDetailTexFuncSGIS(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetDoublev(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetDoublev(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glGetError()
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGetFenceivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFenceivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFinalCombinerInputParameterfvNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFinalCombinerInputParameterfvNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFinalCombinerInputParameterivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFinalCombinerInputParameterivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFloatv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFloatv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFogFuncSGIS(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFogFuncSGIS(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glGetFragDataLocationEXT(final int arg0, final ByteBuffer arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glGetFragDataLocationEXT(final int arg0, final byte[] arg1, final int arg2)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGetFragmentLightfvSGIX(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFragmentLightfvSGIX(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFragmentLightivSGIX(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFragmentLightivSGIX(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFragmentMaterialfvSGIX(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFragmentMaterialfvSGIX(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFragmentMaterialivSGIX(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFragmentMaterialivSGIX(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFramebufferAttachmentParameterivEXT(final int arg0, final int arg1, final int arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetFramebufferAttachmentParameterivEXT(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glGetHandleARB(final int arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGetHistogram(final int arg0, final boolean arg1, final int arg2, final int arg3, final Buffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetHistogram(final int arg0, final boolean arg1, final int arg2, final int arg3, final long arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetHistogramParameterfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetHistogramParameterfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetHistogramParameteriv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetHistogramParameteriv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetImageTransformParameterfvHP(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetImageTransformParameterfvHP(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetImageTransformParameterivHP(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetImageTransformParameterivHP(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetInfoLogARB(final int arg0, final int arg1, final IntBuffer arg2, final ByteBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetInfoLogARB(final int arg0, final int arg1, final int[] arg2, final int arg3, final byte[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glGetInstrumentsSGIX()
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGetIntegerIndexedvEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetIntegerIndexedvEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetIntegerv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetIntegerv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetInvariantBooleanvEXT(final int arg0, final int arg1, final ByteBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetInvariantBooleanvEXT(final int arg0, final int arg1, final byte[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetInvariantFloatvEXT(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetInvariantFloatvEXT(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetInvariantIntegervEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetInvariantIntegervEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetLightfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetLightfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetLightiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetLightiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetListParameterfvSGIX(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetListParameterfvSGIX(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetListParameterivSGIX(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetListParameterivSGIX(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetLocalConstantBooleanvEXT(final int arg0, final int arg1, final ByteBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetLocalConstantBooleanvEXT(final int arg0, final int arg1, final byte[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetLocalConstantFloatvEXT(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetLocalConstantFloatvEXT(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetLocalConstantIntegervEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetLocalConstantIntegervEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapAttribParameterfvNV(final int arg0, final int arg1, final int arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapAttribParameterfvNV(final int arg0, final int arg1, final int arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapAttribParameterivNV(final int arg0, final int arg1, final int arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapAttribParameterivNV(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapControlPointsNV(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final boolean arg5,
+            final Buffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapParameterfvNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapParameterfvNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapParameterivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapParameterivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapdv(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapdv(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMapiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMaterialfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMaterialfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMaterialiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMaterialiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMinmax(final int arg0, final boolean arg1, final int arg2, final int arg3, final Buffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMinmax(final int arg0, final boolean arg1, final int arg2, final int arg3, final long arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMinmaxParameterfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMinmaxParameterfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMinmaxParameteriv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetMinmaxParameteriv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetObjectBufferfvATI(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetObjectBufferfvATI(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetObjectBufferivATI(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetObjectBufferivATI(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetObjectParameterfvARB(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetObjectParameterfvARB(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetObjectParameterivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetObjectParameterivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetOcclusionQueryivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetOcclusionQueryivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetOcclusionQueryuivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetOcclusionQueryuivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelMapfv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelMapfv(final int arg0, final long arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelMapfv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelMapuiv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelMapuiv(final int arg0, final long arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelMapuiv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelMapusv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelMapusv(final int arg0, final long arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelMapusv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelTexGenParameterfvSGIS(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelTexGenParameterfvSGIS(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelTexGenParameterivSGIS(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPixelTexGenParameterivSGIS(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPolygonStipple(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPolygonStipple(final long arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetPolygonStipple(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramEnvParameterIivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramEnvParameterIivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramEnvParameterIuivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramEnvParameterIuivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramEnvParameterdvARB(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramEnvParameterdvARB(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramEnvParameterfvARB(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramEnvParameterfvARB(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramInfoLog(final int arg0, final int arg1, final IntBuffer arg2, final ByteBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramInfoLog(final int arg0, final int arg1, final int[] arg2, final int arg3, final byte[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramLocalParameterIivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramLocalParameterIivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramLocalParameterIuivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramLocalParameterIuivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramLocalParameterdvARB(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramLocalParameterdvARB(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramLocalParameterfvARB(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramLocalParameterfvARB(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramNamedParameterdvNV(final int arg0, final int arg1, final String arg2, final DoubleBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramNamedParameterdvNV(final int arg0, final int arg1, final String arg2, final double[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramNamedParameterfvNV(final int arg0, final int arg1, final String arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramNamedParameterfvNV(final int arg0, final int arg1, final String arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramParameterdvNV(final int arg0, final int arg1, final int arg2, final DoubleBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramParameterdvNV(final int arg0, final int arg1, final int arg2, final double[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramParameterfvNV(final int arg0, final int arg1, final int arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramParameterfvNV(final int arg0, final int arg1, final int arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramStringARB(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramStringNV(final int arg0, final int arg1, final ByteBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramStringNV(final int arg0, final int arg1, final byte[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetProgramivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjecti64vEXT(final int arg0, final int arg1, LongBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjecti64vEXT(final int arg0, final int arg1, final long[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjectiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjectiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjectivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjectivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjectui64vEXT(final int arg0, final int arg1, LongBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjectui64vEXT(final int arg0, final int arg1, final long[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjectuiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjectuiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjectuivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryObjectuivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetQueryivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetRenderbufferParameterivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetRenderbufferParameterivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetSeparableFilter(final int arg0, final int arg1, final int arg2, final Buffer arg3, final Buffer arg4, final Buffer arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetSeparableFilter(final int arg0, final int arg1, final int arg2, final long arg3, final long arg4, final long arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetShaderInfoLog(final int arg0, final int arg1, final IntBuffer arg2, final ByteBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetShaderInfoLog(final int arg0, final int arg1, final int[] arg2, final int arg3, final byte[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetShaderSource(final int arg0, final int arg1, final IntBuffer arg2, final ByteBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetShaderSource(final int arg0, final int arg1, final int[] arg2, final int arg3, final byte[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetShaderSourceARB(final int arg0, final int arg1, final IntBuffer arg2, final ByteBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetShaderSourceARB(final int arg0, final int arg1, final int[] arg2, final int arg3, final byte[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetShaderiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetShaderiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetSharpenTexFuncSGIS(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetSharpenTexFuncSGIS(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final String glGetString(final int arg0)
+    {
+        // Stub method only.
+        return null;
+    }
+
+    @Override
+    public void glGetTexBumpParameterfvATI(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexBumpParameterfvATI(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexBumpParameterivATI(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexBumpParameterivATI(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexEnvfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexEnvfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexEnviv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexEnviv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexFilterFuncSGIS(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexFilterFuncSGIS(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexGendv(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexGendv(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexGenfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexGenfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexGeniv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexGeniv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexImage(final int arg0, final int arg1, final int arg2, final int arg3, final Buffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexImage(final int arg0, final int arg1, final int arg2, final int arg3, final long arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexLevelParameterfv(final int arg0, final int arg1, final int arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexLevelParameterfv(final int arg0, final int arg1, final int arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexLevelParameteriv(final int arg0, final int arg1, final int arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexLevelParameteriv(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexParameterIivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexParameterIivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexParameterIuivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexParameterIuivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexParameterfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexParameterfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexParameteriv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTexParameteriv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTrackMatrixivNV(final int arg0, final int arg1, final int arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTrackMatrixivNV(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTransformFeedbackVaryingNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetTransformFeedbackVaryingNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glGetUniformBufferSizeEXT(final int arg0, final int arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glGetUniformLocation(final int arg0, final String arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glGetUniformLocationARB(final int arg0, final String arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glGetUniformOffsetEXT(final int arg0, final int arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGetUniformfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetUniformfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetUniformfvARB(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetUniformfvARB(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetUniformiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetUniformiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetUniformivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetUniformivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetUniformuivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetUniformuivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVariantArrayObjectfvATI(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVariantArrayObjectfvATI(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVariantArrayObjectivATI(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVariantArrayObjectivATI(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVariantBooleanvEXT(final int arg0, final int arg1, final ByteBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVariantBooleanvEXT(final int arg0, final int arg1, final byte[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVariantFloatvEXT(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVariantFloatvEXT(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVariantIntegervEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVariantIntegervEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glGetVaryingLocationNV(final int arg0, final ByteBuffer arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glGetVaryingLocationNV(final int arg0, final byte[] arg1, final int arg2)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glGetVertexAttribArrayObjectfvATI(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribArrayObjectfvATI(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribArrayObjectivATI(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribArrayObjectivATI(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribIivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribIivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribIuivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribIuivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribdv(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribdv(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribdvARB(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribdvARB(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribdvNV(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribdvNV(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribfvARB(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribfvARB(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribfvNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribfvNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGetVertexAttribivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGlobalAlphaFactorbSUN(final byte arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGlobalAlphaFactordSUN(final double arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGlobalAlphaFactorfSUN(final float arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGlobalAlphaFactoriSUN(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGlobalAlphaFactorsSUN(final short arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGlobalAlphaFactorubSUN(final byte arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGlobalAlphaFactoruiSUN(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glGlobalAlphaFactorusSUN(final short arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glHint(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glHintPGI(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glHistogram(final int arg0, final int arg1, final int arg2, final boolean arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIglooInterfaceSGIX(final int arg0, final Buffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glImageTransformParameterfHP(final int arg0, final int arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glImageTransformParameterfvHP(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glImageTransformParameterfvHP(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glImageTransformParameteriHP(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glImageTransformParameterivHP(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glImageTransformParameterivHP(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexFuncEXT(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexMask(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexMaterialEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexPointer(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexd(final double arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexdv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexdv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexf(final float arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexfv(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexfv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexi(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexiv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexiv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexs(final short arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexsv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexsv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexub(final byte arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexubv(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glIndexubv(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glInitNames()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glInsertComponentEXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glInstrumentsBufferSGIX(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glInstrumentsBufferSGIX(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glInterleavedArrays(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glInterleavedArrays(final int arg0, final int arg1, final long arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public boolean glIsAsyncMarkerSGIX(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsBuffer(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsBufferARB(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsEnabled(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsEnabledIndexedEXT(final int arg0, final int arg1)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsFenceAPPLE(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsFenceNV(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsFramebufferEXT(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsList(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsObjectBufferATI(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsOcclusionQueryNV(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsProgram(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsProgramARB(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsProgramNV(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsQuery(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsQueryARB(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsRenderbufferEXT(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsShader(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsTexture(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsVariantEnabledEXT(final int arg0, final int arg1)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsVertexArrayAPPLE(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glIsVertexAttribEnabledAPPLE(final int arg0, final int arg1)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public void glLightEnviSGIX(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLightModelf(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLightModelfv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLightModelfv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLightModeli(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLightModeliv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLightModeliv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLightf(final int arg0, final int arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLightfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLightfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+        addMethodCall("glLightfv", new Object[] {arg0, arg1, arg2});
+
+    }
+
+    @Override
+    public void glLighti(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLightiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLightiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLineStipple(final int arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLineWidth(final float arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLinkProgram(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLinkProgramARB(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glListBase(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glListParameterfSGIX(final int arg0, final int arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glListParameterfvSGIX(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glListParameterfvSGIX(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glListParameteriSGIX(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glListParameterivSGIX(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glListParameterivSGIX(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLoadIdentity()
+    {
+        addMethodCall("glLoadIdentity", null);
+
+    }
+
+    @Override
+    public void glLoadIdentityDeformationMapSGIX(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLoadMatrixd(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLoadMatrixd(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLoadMatrixf(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLoadMatrixf(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLoadName(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLoadProgramNV(final int arg0, final int arg1, final int arg2, final String arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLoadTransposeMatrixd(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLoadTransposeMatrixd(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLoadTransposeMatrixf(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLoadTransposeMatrixf(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLockArraysEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glLogicOp(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMap1d(final int arg0, final double arg1, final double arg2, final int arg3, final int arg4, final DoubleBuffer arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMap1d(final int arg0, final double arg1, final double arg2, final int arg3, final int arg4, final double[] arg5, final int arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMap1f(final int arg0, final float arg1, final float arg2, final int arg3, final int arg4, final FloatBuffer arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMap1f(final int arg0, final float arg1, final float arg2, final int arg3, final int arg4, final float[] arg5, final int arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMap2d(final int arg0, final double arg1, final double arg2, final int arg3, final int arg4, final double arg5, final double arg6,
+            final int arg7, final int arg8, final DoubleBuffer arg9)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMap2d(final int arg0, final double arg1, final double arg2, final int arg3, final int arg4, final double arg5, final double arg6,
+            final int arg7, final int arg8, final double[] arg9, final int arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMap2f(final int arg0, final float arg1, final float arg2, final int arg3, final int arg4, final float arg5, final float arg6,
+            final int arg7, final int arg8, final FloatBuffer arg9)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMap2f(final int arg0, final float arg1, final float arg2, final int arg3, final int arg4, final float arg5, final float arg6,
+            final int arg7, final int arg8, final float[] arg9, final int arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public ByteBuffer glMapBuffer(final int arg0, final int arg1)
+    {
+        // Stub method only.
+        return null;
+    }
+
+    @Override
+    public ByteBuffer glMapBufferARB(final int arg0, final int arg1)
+    {
+        // Stub method only.
+        return null;
+    }
+
+    @Override
+    public void glMapControlPointsNV(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final boolean arg7, final Buffer arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapGrid1d(final int arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapGrid1f(final int arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapGrid2d(final int arg0, final double arg1, final double arg2, final int arg3, final double arg4, final double arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapGrid2f(final int arg0, final float arg1, final float arg2, final int arg3, final float arg4, final float arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapParameterfvNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapParameterfvNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapParameterivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapParameterivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapVertexAttrib1dAPPLE(final int arg0, final int arg1, final double arg2, final double arg3, final int arg4, final int arg5,
+            final DoubleBuffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapVertexAttrib1dAPPLE(final int arg0, final int arg1, final double arg2, final double arg3, final int arg4, final int arg5,
+            final double[] arg6, final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapVertexAttrib1fAPPLE(final int arg0, final int arg1, final float arg2, final float arg3, final int arg4, final int arg5,
+            final FloatBuffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapVertexAttrib1fAPPLE(final int arg0, final int arg1, final float arg2, final float arg3, final int arg4, final int arg5,
+            final float[] arg6, final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapVertexAttrib2dAPPLE(final int arg0, final int arg1, final double arg2, final double arg3, final int arg4, final int arg5,
+            final double arg6, final double arg7, final int arg8, final int arg9, final DoubleBuffer arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapVertexAttrib2dAPPLE(final int arg0, final int arg1, final double arg2, final double arg3, final int arg4, final int arg5,
+            final double arg6, final double arg7, final int arg8, final int arg9, final double[] arg10, final int arg11)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapVertexAttrib2fAPPLE(final int arg0, final int arg1, final float arg2, final float arg3, final int arg4, final int arg5,
+            final float arg6, final float arg7, final int arg8, final int arg9, FloatBuffer arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMapVertexAttrib2fAPPLE(final int arg0, final int arg1, final float arg2, final float arg3, final int arg4, final int arg5,
+            final float arg6, final float arg7, final int arg8, final int arg9, float[] arg10, final int arg11)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMaterialf(final int arg0, final int arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMaterialfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMaterialfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMateriali(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMaterialiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMaterialiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMatrixIndexPointerARB(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMatrixIndexPointerARB(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMatrixIndexubvARB(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMatrixIndexubvARB(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMatrixIndexuivARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMatrixIndexuivARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMatrixIndexusvARB(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMatrixIndexusvARB(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMatrixMode(final int arg0)
+    {
+        addMethodCall("glMatrixMode", new Object[] {arg0});
+
+    }
+
+    @Override
+    public void glMinmax(final int arg0, final int arg1, final boolean arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultMatrixd(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultMatrixd(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultMatrixf(FloatBuffer arg0)
+    {
+        addMethodCall("glMultMatrixf", new Object[] {arg0});
+    }
+
+    @Override
+    public void glMultMatrixf(final float[] arg0, final int arg1)
+    {
+        addMethodCall("glMultMatrixf", new Object[] {arg0, arg1});
+    }
+
+    @Override
+    public void glMultTransposeMatrixd(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultTransposeMatrixd(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultTransposeMatrixf(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultTransposeMatrixf(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawArrays(final int arg0, final IntBuffer arg1, final IntBuffer arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawArrays(final int arg0, final int[] arg1, final int arg2, final int[] arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawArraysEXT(final int arg0, final IntBuffer arg1, final IntBuffer arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawArraysEXT(final int arg0, final int[] arg1, final int arg2, final int[] arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawElementArrayAPPLE(final int arg0, final IntBuffer arg1, final IntBuffer arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawElementArrayAPPLE(final int arg0, final int[] arg1, final int arg2, final int[] arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawElements(final int arg0, final IntBuffer arg1, final int arg2, final Buffer[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawElements(final int arg0, final int[] arg1, final int arg2, final int arg3, final Buffer[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawElementsEXT(final int arg0, final IntBuffer arg1, final int arg2, final Buffer[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawElementsEXT(final int arg0, final int[] arg1, final int arg2, final int arg3, final Buffer[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawRangeElementArrayAPPLE(final int arg0, final int arg1, final int arg2, final IntBuffer arg3, final IntBuffer arg4,
+            final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiDrawRangeElementArrayAPPLE(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4, final int[] arg5,
+            final int arg6, final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiModeDrawArraysIBM(final IntBuffer arg0, final IntBuffer arg1, final IntBuffer arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiModeDrawArraysIBM(final int[] arg0, final int arg1, final int[] arg2, final int arg3, final int[] arg4, final int arg5,
+            final int arg6, final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiModeDrawElementsIBM(final IntBuffer arg0, final IntBuffer arg1, final int arg2, final Buffer[] arg3, final int arg4,
+            final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiModeDrawElementsIBM(final int[] arg0, final int arg1, final int[] arg2, final int arg3, final int arg4, final Buffer[] arg5,
+            final int arg6, final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1d(final int arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1dv(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1dv(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1f(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1fv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1fv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1hNV(final int arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1hvNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1hvNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1i(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1iv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1iv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1s(final int arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1sv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord1sv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2d(final int arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2dv(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2dv(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2f(final int arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2fv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2fv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2hNV(final int arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2hvNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2hvNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2i(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2iv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2iv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2s(final int arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2sv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord2sv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3d(final int arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3dv(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3dv(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3f(final int arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3fv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3fv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3hNV(final int arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3hvNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3hvNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3i(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3iv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3iv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3s(final int arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3sv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord3sv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4d(final int arg0, final double arg1, final double arg2, final double arg3, final double arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4dv(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4dv(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4f(final int arg0, final float arg1, final float arg2, final float arg3, final float arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4fv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4fv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4hNV(final int arg0, final short arg1, final short arg2, final short arg3, final short arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4hvNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4hvNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4i(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4iv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4iv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4s(final int arg0, final short arg1, final short arg2, final short arg3, final short arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4sv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glMultiTexCoord4sv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glNewBufferRegion(final int arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glNewList(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glNewObjectBufferATI(final int arg0, final Buffer arg1, final int arg2)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glNormal3b(final byte arg0, final byte arg1, final byte arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3bv(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3bv(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3d(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3f(final float arg0, final float arg1, final float arg2)
+    {
+        addMethodCall("glNormal3f", new Object[] {arg0, arg1, arg2});
+
+    }
+
+    @Override
+    public void glNormal3fVertex3fSUN(final float arg0, final float arg1, final float arg2, final float arg3, final float arg4, final float arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3fVertex3fvSUN(FloatBuffer arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3fVertex3fvSUN(final float[] arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3fv(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3hNV(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3hvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3hvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3i(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3s(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormal3sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalPointer(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalPointer(final int arg0, final int arg1, final long arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3bATI(final int arg0, final byte arg1, final byte arg2, final byte arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3bvATI(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3bvATI(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3dATI(final int arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3dvATI(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3dvATI(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3fATI(final int arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3fvATI(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3fvATI(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3iATI(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3ivATI(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3ivATI(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3sATI(final int arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3svATI(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glNormalStream3svATI(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glOrtho(final double arg0, final double arg1, final double arg2, final double arg3, final double arg4, final double arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPNTrianglesfATI(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPNTrianglesiATI(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPassTexCoordATI(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPassThrough(final float arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelDataRangeNV(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelMapfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelMapfv(final int arg0, final int arg1, final long arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelMapfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelMapuiv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelMapuiv(final int arg0, final int arg1, final long arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelMapuiv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelMapusv(final int arg0, final int arg1, final ShortBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelMapusv(final int arg0, final int arg1, final long arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelMapusv(final int arg0, final int arg1, final short[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelStoref(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelStorei(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTexGenParameterfSGIS(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTexGenParameterfvSGIS(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTexGenParameterfvSGIS(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTexGenParameteriSGIS(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTexGenParameterivSGIS(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTexGenParameterivSGIS(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTexGenSGIX(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTransferf(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTransferi(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTransformParameterfEXT(final int arg0, final int arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTransformParameterfvEXT(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTransformParameterfvEXT(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTransformParameteriEXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTransformParameterivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelTransformParameterivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPixelZoom(final float arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterf(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterfARB(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterfEXT(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterfSGIS(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterfv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterfv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterfvARB(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterfvARB(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterfvEXT(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterfvEXT(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterfvSGIS(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterfvSGIS(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameteri(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameteriNV(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameteriv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameteriv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterivNV(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointParameterivNV(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPointSize(final float arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glPollAsyncSGIX(final IntBuffer arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glPollAsyncSGIX(final int[] arg0, final int arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glPollInstrumentsSGIX(final IntBuffer arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public final int glPollInstrumentsSGIX(final int[] arg0, final int arg1)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glPolygonMode(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPolygonOffset(final float arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPolygonStipple(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPolygonStipple(final long arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPolygonStipple(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPopAttrib()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPopClientAttrib()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPopMatrix()
+    {
+        addMethodCall("glPopMatrix", null);
+
+    }
+
+    @Override
+    public void glPopName()
+    {
+        addMethodCall("glPopName", null);
+
+    }
+
+    @Override
+    public void glPrimitiveRestartIndexNV(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPrimitiveRestartNV()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPrioritizeTextures(final int arg0, final IntBuffer arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPrioritizeTextures(final int arg0, final int[] arg1, final int arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramBufferParametersIivNV(final int arg0, final int arg1, final int arg2, final int arg3, final IntBuffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramBufferParametersIivNV(final int arg0, final int arg1, final int arg2, final int arg3, final int[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramBufferParametersIuivNV(final int arg0, final int arg1, final int arg2, final int arg3, final IntBuffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramBufferParametersIuivNV(final int arg0, final int arg1, final int arg2, final int arg3, final int[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramBufferParametersfvNV(final int arg0, final int arg1, final int arg2, final int arg3, final FloatBuffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramBufferParametersfvNV(final int arg0, final int arg1, final int arg2, final int arg3, final float[] arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameter4dARB(final int arg0, final int arg1, final double arg2, final double arg3, final double arg4, final double arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameter4dvARB(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameter4dvARB(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameter4fARB(final int arg0, final int arg1, final float arg2, final float arg3, final float arg4, final float arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameter4fvARB(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameter4fvARB(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameterI4iNV(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameterI4ivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameterI4ivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameterI4uiNV(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameterI4uivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameterI4uivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameters4fvEXT(final int arg0, final int arg1, final int arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParameters4fvEXT(final int arg0, final int arg1, final int arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParametersI4ivNV(final int arg0, final int arg1, final int arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParametersI4ivNV(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParametersI4uivNV(final int arg0, final int arg1, final int arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramEnvParametersI4uivNV(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameter4dARB(final int arg0, final int arg1, final double arg2, final double arg3, final double arg4,
+            final double arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameter4dvARB(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameter4dvARB(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameter4fARB(final int arg0, final int arg1, final float arg2, final float arg3, final float arg4, final float arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameter4fvARB(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameter4fvARB(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameterI4iNV(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameterI4ivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameterI4ivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameterI4uiNV(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameterI4uivNV(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameterI4uivNV(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameters4fvEXT(final int arg0, final int arg1, final int arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParameters4fvEXT(final int arg0, final int arg1, final int arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParametersI4ivNV(final int arg0, final int arg1, final int arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParametersI4ivNV(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParametersI4uivNV(final int arg0, final int arg1, final int arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramLocalParametersI4uivNV(final int arg0, final int arg1, final int arg2, final int[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramNamedParameter4dNV(final int arg0, final int arg1, final String arg2, final double arg3, final double arg4,
+            final double arg5, final double arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramNamedParameter4dvNV(final int arg0, final int arg1, final String arg2, final DoubleBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramNamedParameter4dvNV(final int arg0, final int arg1, final String arg2, final double[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramNamedParameter4fNV(final int arg0, final int arg1, final String arg2, final float arg3, final float arg4, final float arg5,
+            final float arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramNamedParameter4fvNV(final int arg0, final int arg1, final String arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramNamedParameter4fvNV(final int arg0, final int arg1, final String arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramParameter4dNV(final int arg0, final int arg1, final double arg2, final double arg3, final double arg4, final double arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramParameter4dvNV(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramParameter4dvNV(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramParameter4fNV(final int arg0, final int arg1, final float arg2, final float arg3, final float arg4, final float arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramParameter4fvNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramParameter4fvNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramParameteriEXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramParameters4dvNV(final int arg0, final int arg1, final int arg2, final DoubleBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramParameters4dvNV(final int arg0, final int arg1, final int arg2, final double[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramParameters4fvNV(final int arg0, final int arg1, final int arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramParameters4fvNV(final int arg0, final int arg1, final int arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramStringARB(final int arg0, final int arg1, final int arg2, final String arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glProgramVertexLimitNV(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPushAttrib(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPushClientAttrib(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glPushMatrix()
+    {
+        addMethodCall("glPushMatrix", null);
+
+    }
+
+    @Override
+    public void glPushName(final int arg0)
+    {
+        addMethodCall("glPushName", new Object[] {arg0});
+
+    }
+
+    @Override
+    public void glRasterPos2d(final double arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos2dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos2dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos2f(final float arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos2fv(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos2fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos2i(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos2iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos2iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos2s(final short arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos2sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos2sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3d(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3f(final float arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3fv(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3i(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3s(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos3sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4d(final double arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4f(final float arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4fv(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4i(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4s(final short arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRasterPos4sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReadBuffer(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReadBufferRegion(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReadInstrumentsSGIX(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReadPixels(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final Buffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReadPixels(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final long arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRectd(final double arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRectdv(final DoubleBuffer arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRectdv(final double[] arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRectf(final float arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRectfv(FloatBuffer arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRectfv(final float[] arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRecti(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRectiv(final IntBuffer arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRectiv(final int[] arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRects(final short arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRectsv(final ShortBuffer arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRectsv(final short[] arg0, final int arg1, final short[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReferencePlaneSGIX(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReferencePlaneSGIX(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public final int glRenderMode(final int arg0)
+    {
+        // Stub method only.
+        return 0;
+    }
+
+    @Override
+    public void glRenderbufferStorageEXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRenderbufferStorageMultisampleCoverageNV(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4,
+            final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRenderbufferStorageMultisampleEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiColor3fVertex3fSUN(final int arg0, final float arg1, final float arg2, final float arg3, final float arg4,
+            final float arg5, final float arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiColor3fVertex3fvSUN(final IntBuffer arg0, final FloatBuffer arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiColor3fVertex3fvSUN(final int[] arg0, final int arg1, final float[] arg2, final int arg3, final float[] arg4,
+            final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiColor4fNormal3fVertex3fSUN(final int arg0, final float arg1, final float arg2, final float arg3, final float arg4,
+            final float arg5, final float arg6, float arg7, final float arg8, final float arg9, final float arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiColor4fNormal3fVertex3fvSUN(final IntBuffer arg0, final FloatBuffer arg1, final FloatBuffer arg2,
+            final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiColor4fNormal3fVertex3fvSUN(final int[] arg0, final int arg1, final float[] arg2, final int arg3,
+            final float[] arg4, final int arg5, final float[] arg6, final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiColor4ubVertex3fSUN(final int arg0, final byte arg1, final byte arg2, final byte arg3, final byte arg4,
+            final float arg5, final float arg6, final float arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiColor4ubVertex3fvSUN(final IntBuffer arg0, final ByteBuffer arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiColor4ubVertex3fvSUN(final int[] arg0, final int arg1, final byte[] arg2, final int arg3, final float[] arg4,
+            final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiNormal3fVertex3fSUN(final int arg0, final float arg1, final float arg2, final float arg3, final float arg4,
+            final float arg5, final float arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiNormal3fVertex3fvSUN(final IntBuffer arg0, final FloatBuffer arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiNormal3fVertex3fvSUN(final int[] arg0, final int arg1, final float[] arg2, final int arg3, final float[] arg4,
+            final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fSUN(final int arg0, final float arg1, final float arg2, final float arg3,
+            final float arg4, final float arg5, float arg6, final float arg7, final float arg8, final float arg9, final float arg10,
+            final float arg11, final float arg12)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN(final IntBuffer arg0, final FloatBuffer arg1, final FloatBuffer arg2,
+            final FloatBuffer arg3, FloatBuffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN(final int[] arg0, final int arg1, final float[] arg2, final int arg3,
+            final float[] arg4, final int arg5, float[] arg6, final int arg7, final float[] arg8, final int arg9)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiTexCoord2fNormal3fVertex3fSUN(final int arg0, final float arg1, final float arg2, final float arg3,
+            final float arg4, final float arg5, final float arg6, float arg7, final float arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiTexCoord2fNormal3fVertex3fvSUN(final IntBuffer arg0, final FloatBuffer arg1, final FloatBuffer arg2,
+            final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiTexCoord2fNormal3fVertex3fvSUN(final int[] arg0, final int arg1, final float[] arg2, final int arg3,
+            final float[] arg4, final int arg5, final float[] arg6, final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiTexCoord2fVertex3fSUN(final int arg0, final float arg1, final float arg2, final float arg3, final float arg4,
+            final float arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiTexCoord2fVertex3fvSUN(final IntBuffer arg0, final FloatBuffer arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiTexCoord2fVertex3fvSUN(final int[] arg0, final int arg1, final float[] arg2, final int arg3, final float[] arg4,
+            final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiVertex3fSUN(final int arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiVertex3fvSUN(final IntBuffer arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glReplacementCodeuiVertex3fvSUN(final int[] arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRequestResidentProgramsNV(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRequestResidentProgramsNV(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glResetHistogram(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glResetMinmax(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glResizeBuffersMESA()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRotated(final double arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glRotatef(final float arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSampleCoverage(final float arg0, final boolean arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSampleMapATI(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSampleMaskEXT(final float arg0, final boolean arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSampleMaskSGIS(final float arg0, final boolean arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSamplePatternEXT(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSamplePatternSGIS(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glScaled(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glScalef(final float arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glScissor(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3b(final byte arg0, final byte arg1, final byte arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3bEXT(final byte arg0, final byte arg1, final byte arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3bv(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3bv(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3bvEXT(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3bvEXT(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3d(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3dEXT(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3dvEXT(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3dvEXT(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3f(final float arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3fEXT(final float arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3fv(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3fvEXT(FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3fvEXT(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3hNV(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3hvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3hvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3i(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3iEXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3ivEXT(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3ivEXT(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3s(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3sEXT(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3svEXT(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3svEXT(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3ub(final byte arg0, final byte arg1, final byte arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3ubEXT(final byte arg0, final byte arg1, final byte arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3ubv(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3ubv(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3ubvEXT(final ByteBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3ubvEXT(final byte[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3ui(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3uiEXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3uiv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3uiv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3uivEXT(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3uivEXT(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3us(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3usEXT(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3usv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3usv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3usvEXT(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColor3usvEXT(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColorPointer(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColorPointer(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColorPointerEXT(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSecondaryColorPointerEXT(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSelectBuffer(final int arg0, final IntBuffer arg1)
+    {
+        addMethodCall("glSelectBuffer", new Object[] {arg0, arg1});
+    }
+
+    @Override
+    public void glSeparableFilter2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5,
+            final Buffer arg6, final Buffer arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSeparableFilter2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final long arg6,
+            final long arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSetFenceAPPLE(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSetFenceNV(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSetFragmentShaderConstantATI(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSetFragmentShaderConstantATI(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSetInvariantEXT(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSetLocalConstantEXT(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glShadeModel(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glShaderOp1EXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glShaderOp2EXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glShaderOp3EXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glShaderSource(final int arg0, final int arg1, final String[] arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glShaderSource(final int arg0, final int arg1, final String[] arg2, final int[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glShaderSourceARB(final int arg0, final int arg1, final String[] arg2, final IntBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glShaderSourceARB(final int arg0, final int arg1, final String[] arg2, final int[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSharpenTexFuncSGIS(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSharpenTexFuncSGIS(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSpriteParameterfSGIX(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSpriteParameterfvSGIX(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSpriteParameterfvSGIX(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSpriteParameteriSGIX(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSpriteParameterivSGIX(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSpriteParameterivSGIX(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStartInstrumentsSGIX()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStencilClearTagEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStencilFunc(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStencilFuncSeparate(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStencilFuncSeparateATI(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStencilMask(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStencilMaskSeparate(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStencilOp(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStencilOpSeparate(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStencilOpSeparateATI(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStopInstrumentsSGIX(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glStringMarkerGREMEDY(final int arg0, final Buffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSwapAPPLE()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glSwizzleEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTagSampleBufferSGIX()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTbufferMask3DFX(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public boolean glTestFenceAPPLE(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glTestFenceNV(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glTestObjectAPPLE(final int arg0, final int arg1)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public void glTexBufferEXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexBumpParameterfvATI(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexBumpParameterfvATI(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexBumpParameterivATI(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexBumpParameterivATI(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1d(final double arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1f(final float arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1fv(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1hNV(final short arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1hvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1hvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1i(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1s(final short arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord1sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2d(final double arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2f(final float arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fColor3fVertex3fSUN(final float arg0, final float arg1, final float arg2, final float arg3, final float arg4,
+            final float arg5, final float arg6, final float arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fColor3fVertex3fvSUN(final FloatBuffer arg0, final FloatBuffer arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fColor3fVertex3fvSUN(final float[] arg0, final int arg1, final float[] arg2, final int arg3, final float[] arg4,
+            final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fColor4fNormal3fVertex3fSUN(final float arg0, final float arg1, final float arg2, final float arg3, final float arg4,
+            final float arg5, final float arg6, float arg7, final float arg8, final float arg9, final float arg10, final float arg11)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fColor4fNormal3fVertex3fvSUN(final FloatBuffer arg0, final FloatBuffer arg1, final FloatBuffer arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fColor4fNormal3fVertex3fvSUN(final float[] arg0, final int arg1, final float[] arg2, final int arg3, final float[] arg4,
+            final int arg5, final float[] arg6, final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fColor4ubVertex3fSUN(final float arg0, final float arg1, final byte arg2, final byte arg3, final byte arg4,
+            final byte arg5, final float arg6, final float arg7, final float arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fColor4ubVertex3fvSUN(final FloatBuffer arg0, final ByteBuffer arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fColor4ubVertex3fvSUN(final float[] arg0, final int arg1, final byte[] arg2, final int arg3, final float[] arg4,
+            final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fNormal3fVertex3fSUN(final float arg0, final float arg1, final float arg2, final float arg3, final float arg4,
+            final float arg5, final float arg6, final float arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fNormal3fVertex3fvSUN(final FloatBuffer arg0, final FloatBuffer arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fNormal3fVertex3fvSUN(final float[] arg0, final int arg1, final float[] arg2, final int arg3, final float[] arg4,
+            final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fVertex3fSUN(final float arg0, final float arg1, final float arg2, final float arg3, final float arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fVertex3fvSUN(final FloatBuffer arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fVertex3fvSUN(final float[] arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fv(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2hNV(final short arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2hvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2hvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2i(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2s(final short arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord2sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3d(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3f(final float arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3fv(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3hNV(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3hvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3hvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3i(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3s(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord3sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4d(final double arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4f(final float arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4fColor4fNormal3fVertex4fSUN(final float arg0, final float arg1, final float arg2, final float arg3, final float arg4,
+            final float arg5, final float arg6, float arg7, final float arg8, final float arg9, final float arg10, final float arg11,
+            final float arg12, final float arg13, final float arg14)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4fColor4fNormal3fVertex4fvSUN(final FloatBuffer arg0, final FloatBuffer arg1, final FloatBuffer arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4fColor4fNormal3fVertex4fvSUN(final float[] arg0, final int arg1, final float[] arg2, final int arg3, final float[] arg4,
+            final int arg5, final float[] arg6, final int arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4fVertex4fSUN(final float arg0, final float arg1, final float arg2, final float arg3, final float arg4, final float arg5,
+            final float arg6, final float arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4fVertex4fvSUN(final FloatBuffer arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4fVertex4fvSUN(final float[] arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4fv(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4hNV(final short arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4hvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4hvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4i(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4s(final short arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoord4sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoordPointer(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexCoordPointer(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexEnvf(final int arg0, final int arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexEnvfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexEnvfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexEnvi(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexEnviv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexEnviv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexFilterFuncSGIS(final int arg0, final int arg1, final int arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexFilterFuncSGIS(final int arg0, final int arg1, final int arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexGend(final int arg0, final int arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexGendv(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexGendv(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexGenf(final int arg0, final int arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexGenfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexGenfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexGeni(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexGeniv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexGeniv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexImage1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final Buffer arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexImage1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final long arg7)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexImage2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final Buffer arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexImage2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final long arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexImage3D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8, final Buffer arg9)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexImage3D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8, final long arg9)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexImage4DSGIS(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8, final int arg9, final Buffer arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexParameterIivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexParameterIivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexParameterIuivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexParameterIuivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexParameterf(final int arg0, final int arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexParameterfv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexParameterfv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexParameteri(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexParameteriv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexParameteriv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexSubImage1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final Buffer arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexSubImage1D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final long arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexSubImage2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final Buffer arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexSubImage2D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final long arg8)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexSubImage3D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8, final int arg9, final Buffer arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexSubImage3D(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8, final int arg9, final long arg10)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTexSubImage4DSGIS(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5, final int arg6,
+            final int arg7, final int arg8, final int arg9, final int arg10, final int arg11, final Buffer arg12)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTextureColorMaskSGIS(final boolean arg0, final boolean arg1, final boolean arg2, final boolean arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTextureLightEXT(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTextureMaterialEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTextureNormalEXT(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTextureRangeAPPLE(final int arg0, final int arg1, final Buffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTrackMatrixNV(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTransformFeedbackAttribsNV(final int arg0, final IntBuffer arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTransformFeedbackAttribsNV(final int arg0, final int[] arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTransformFeedbackVaryingsNV(final int arg0, final int arg1, final IntBuffer arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTransformFeedbackVaryingsNV(final int arg0, final int arg1, final int[] arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTranslated(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glTranslatef(final float arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1f(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1fARB(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1fv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1fv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1fvARB(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1fvARB(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1i(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1iARB(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1iv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1iv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1ivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1ivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1uiEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1uivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform1uivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2f(final int arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2fARB(final int arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2fv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2fv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2fvARB(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2fvARB(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2i(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2iARB(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2iv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2iv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2ivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2ivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2uiEXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2uivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform2uivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3f(final int arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3fARB(final int arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3fv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3fv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3fvARB(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3fvARB(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3i(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3iARB(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3iv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3iv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3ivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3ivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3uiEXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3uivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform3uivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4f(final int arg0, final float arg1, final float arg2, final float arg3, final float arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4fARB(final int arg0, final float arg1, final float arg2, final float arg3, final float arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4fv(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4fv(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4fvARB(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4fvARB(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4i(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4iARB(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4iv(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4iv(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4ivARB(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4ivARB(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4uiEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4uivEXT(final int arg0, final int arg1, final IntBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniform4uivEXT(final int arg0, final int arg1, final int[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformBufferEXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix2fv(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix2fv(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix2fvARB(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix2fvARB(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix2x3fv(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix2x3fv(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix2x4fv(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix2x4fv(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix3fv(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix3fv(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix3fvARB(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix3fvARB(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix3x2fv(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix3x2fv(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix3x4fv(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix3x4fv(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix4fv(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix4fv(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix4fvARB(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix4fvARB(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix4x2fv(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix4x2fv(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix4x3fv(final int arg0, final int arg1, final boolean arg2, final FloatBuffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUniformMatrix4x3fv(final int arg0, final int arg1, final boolean arg2, final float[] arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUnlockArraysEXT()
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public boolean glUnmapBuffer(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean glUnmapBufferARB(final int arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public void glUpdateObjectBufferATI(final int arg0, final int arg1, final int arg2, final Buffer arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUseProgram(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glUseProgramObjectARB(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glValidateProgram(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glValidateProgramARB(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantArrayObjectATI(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantPointerEXT(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantPointerEXT(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantbvEXT(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantbvEXT(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantdvEXT(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantdvEXT(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantfvEXT(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantfvEXT(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantivEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantivEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantsvEXT(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantsvEXT(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantubvEXT(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantubvEXT(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantuivEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantuivEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantusvEXT(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVariantusvEXT(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2d(final double arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2f(final float arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2fv(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2hNV(final short arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2hvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2hvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2i(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2s(final short arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex2sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3d(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3f(final float arg0, final float arg1, final float arg2)
+    {
+        addMethodCall("glVertex3f", new Object[] {arg0, arg1, arg2});
+
+    }
+
+    @Override
+    public void glVertex3fv(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3hNV(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3hvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3hvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3i(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3s(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex3sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4d(final double arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4f(final float arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4fv(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4hNV(final short arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4hvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4hvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4i(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4s(final short arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertex4sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexArrayParameteriAPPLE(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexArrayRangeAPPLE(final int arg0, final Buffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexArrayRangeNV(final int arg0, final Buffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1d(final int arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1dARB(final int arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1dNV(final int arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1dv(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1dv(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1dvARB(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1dvARB(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1dvNV(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1dvNV(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1f(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1fARB(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1fNV(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1fv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1fv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1fvARB(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1fvARB(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1fvNV(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1fvNV(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1hNV(final int arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1hvNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1hvNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1s(final int arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1sARB(final int arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1sNV(final int arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1sv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1sv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1svARB(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1svARB(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1svNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib1svNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2d(final int arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2dARB(final int arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2dNV(final int arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2dv(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2dv(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2dvARB(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2dvARB(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2dvNV(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2dvNV(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2f(final int arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2fARB(final int arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2fNV(final int arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2fv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2fv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2fvARB(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2fvARB(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2fvNV(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2fvNV(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2hNV(final int arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2hvNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2hvNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2s(final int arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2sARB(final int arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2sNV(final int arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2sv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2sv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2svARB(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2svARB(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2svNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib2svNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3d(final int arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3dARB(final int arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3dNV(final int arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3dv(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3dv(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3dvARB(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3dvARB(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3dvNV(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3dvNV(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3f(final int arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3fARB(final int arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3fNV(final int arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3fv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3fv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3fvARB(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3fvARB(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3fvNV(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3fvNV(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3hNV(final int arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3hvNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3hvNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3s(final int arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3sARB(final int arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3sNV(final int arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3sv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3sv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3svARB(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3svARB(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3svNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib3svNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Nbv(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Nbv(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NbvARB(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NbvARB(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Niv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Niv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NivARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NivARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Nsv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Nsv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NsvARB(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NsvARB(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Nub(final int arg0, final byte arg1, final byte arg2, final byte arg3, final byte arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NubARB(final int arg0, final byte arg1, final byte arg2, final byte arg3, final byte arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Nubv(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Nubv(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NubvARB(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NubvARB(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Nuiv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Nuiv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NuivARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NuivARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Nusv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4Nusv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NusvARB(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4NusvARB(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4bv(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4bv(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4bvARB(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4bvARB(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4d(final int arg0, final double arg1, final double arg2, final double arg3, final double arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4dARB(final int arg0, final double arg1, final double arg2, final double arg3, final double arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4dNV(final int arg0, final double arg1, final double arg2, final double arg3, final double arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4dv(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4dv(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4dvARB(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4dvARB(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4dvNV(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4dvNV(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4f(final int arg0, final float arg1, final float arg2, final float arg3, final float arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4fARB(final int arg0, final float arg1, final float arg2, final float arg3, final float arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4fNV(final int arg0, final float arg1, final float arg2, final float arg3, final float arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4fv(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4fv(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4fvARB(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4fvARB(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4fvNV(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4fvNV(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4hNV(final int arg0, final short arg1, final short arg2, final short arg3, final short arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4hvNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4hvNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4iv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4iv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4ivARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4ivARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4s(final int arg0, final short arg1, final short arg2, final short arg3, final short arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4sARB(final int arg0, final short arg1, final short arg2, final short arg3, final short arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4sNV(final int arg0, final short arg1, final short arg2, final short arg3, final short arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4sv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4sv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4svARB(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4svARB(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4svNV(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4svNV(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4ubNV(final int arg0, final byte arg1, final byte arg2, final byte arg3, final byte arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4ubv(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4ubv(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4ubvARB(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4ubvARB(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4ubvNV(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4ubvNV(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4uiv(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4uiv(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4uivARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4uivARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4usv(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4usv(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4usvARB(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttrib4usvARB(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribArrayObjectATI(final int arg0, final int arg1, final int arg2, final boolean arg3, final int arg4, final int arg5,
+            final int arg6)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI1iEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI1ivEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI1ivEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI1uiEXT(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI1uivEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI1uivEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI2iEXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI2ivEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI2ivEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI2uiEXT(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI2uivEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI2uivEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI3iEXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI3ivEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI3ivEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI3uiEXT(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI3uivEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI3uivEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4bvEXT(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4bvEXT(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4iEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4ivEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4ivEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4svEXT(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4svEXT(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4ubvEXT(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4ubvEXT(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4uiEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4uivEXT(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4uivEXT(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4usvEXT(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribI4usvEXT(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribIPointerEXT(final int arg0, final int arg1, final int arg2, final int arg3, final Buffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribPointer(final int arg0, final int arg1, final int arg2, final boolean arg3, final int arg4, final Buffer arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribPointer(final int arg0, final int arg1, final int arg2, final boolean arg3, final int arg4, final long arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribPointerARB(final int arg0, final int arg1, final int arg2, final boolean arg3, final int arg4, final Buffer arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribPointerARB(final int arg0, final int arg1, final int arg2, final boolean arg3, final int arg4, final long arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribPointerNV(final int arg0, final int arg1, final int arg2, final int arg3, final Buffer arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribPointerNV(final int arg0, final int arg1, final int arg2, final int arg3, final long arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs1dvNV(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs1dvNV(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs1fvNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs1fvNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs1hvNV(final int arg0, final int arg1, final ShortBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs1hvNV(final int arg0, final int arg1, final short[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs1svNV(final int arg0, final int arg1, final ShortBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs1svNV(final int arg0, final int arg1, final short[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs2dvNV(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs2dvNV(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs2fvNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs2fvNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs2hvNV(final int arg0, final int arg1, final ShortBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs2hvNV(final int arg0, final int arg1, final short[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs2svNV(final int arg0, final int arg1, final ShortBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs2svNV(final int arg0, final int arg1, final short[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs3dvNV(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs3dvNV(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs3fvNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs3fvNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs3hvNV(final int arg0, final int arg1, final ShortBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs3hvNV(final int arg0, final int arg1, final short[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs3svNV(final int arg0, final int arg1, final ShortBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs3svNV(final int arg0, final int arg1, final short[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs4dvNV(final int arg0, final int arg1, final DoubleBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs4dvNV(final int arg0, final int arg1, final double[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs4fvNV(final int arg0, final int arg1, final FloatBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs4fvNV(final int arg0, final int arg1, final float[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs4hvNV(final int arg0, final int arg1, final ShortBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs4hvNV(final int arg0, final int arg1, final short[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs4svNV(final int arg0, final int arg1, final ShortBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs4svNV(final int arg0, final int arg1, final short[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs4ubvNV(final int arg0, final int arg1, final ByteBuffer arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexAttribs4ubvNV(final int arg0, final int arg1, final byte[] arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexBlendARB(final int arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexBlendEnvfATI(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexBlendEnviATI(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexPointer(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexPointer(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1dATI(final int arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1dvATI(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1dvATI(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1fATI(final int arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1fvATI(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1fvATI(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1iATI(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1ivATI(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1ivATI(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1sATI(final int arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1svATI(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream1svATI(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2dATI(final int arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2dvATI(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2dvATI(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2fATI(final int arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2fvATI(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2fvATI(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2iATI(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2ivATI(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2ivATI(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2sATI(final int arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2svATI(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream2svATI(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3dATI(final int arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3dvATI(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3dvATI(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3fATI(final int arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3fvATI(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3fvATI(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3iATI(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3ivATI(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3ivATI(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3sATI(final int arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3svATI(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream3svATI(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4dATI(final int arg0, final double arg1, final double arg2, final double arg3, final double arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4dvATI(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4dvATI(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4fATI(final int arg0, final float arg1, final float arg2, final float arg3, final float arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4fvATI(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4fvATI(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4iATI(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4ivATI(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4ivATI(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4sATI(final int arg0, final short arg1, final short arg2, final short arg3, final short arg4)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4svATI(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexStream4svATI(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexWeightPointerEXT(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexWeightPointerEXT(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexWeightfEXT(final float arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexWeightfvEXT(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexWeightfvEXT(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexWeighthNV(final short arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexWeighthvNV(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glVertexWeighthvNV(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glViewport(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+        addMethodCall("glViewport", new Object[] {arg0, arg1, arg2, arg3});
+
+    }
+
+    @Override
+    public void glWeightPointerARB(final int arg0, final int arg1, final int arg2, final Buffer arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightPointerARB(final int arg0, final int arg1, final int arg2, final long arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightbvARB(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightbvARB(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightdvARB(final int arg0, final DoubleBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightdvARB(final int arg0, final double[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightfvARB(final int arg0, final FloatBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightfvARB(final int arg0, final float[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightivARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightivARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightsvARB(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightsvARB(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightubvARB(final int arg0, final ByteBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightubvARB(final int arg0, final byte[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightuivARB(final int arg0, final IntBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightuivARB(final int arg0, final int[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightusvARB(final int arg0, final ShortBuffer arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWeightusvARB(final int arg0, final short[] arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2d(final double arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2dARB(final double arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2dMESA(final double arg0, final double arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2dvARB(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2dvARB(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2dvMESA(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2dvMESA(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2f(final float arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2fARB(final float arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2fMESA(final float arg0, final float arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2fv(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2fvARB(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2fvARB(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2fvMESA(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2fvMESA(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2i(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2iARB(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2iMESA(final int arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2ivARB(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2ivARB(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2ivMESA(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2ivMESA(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2s(final short arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2sARB(final short arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2sMESA(final short arg0, final short arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2svARB(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2svARB(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2svMESA(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos2svMESA(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3d(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3dARB(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3dMESA(final double arg0, final double arg1, final double arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3dv(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3dv(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3dvARB(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3dvARB(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3dvMESA(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3dvMESA(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3f(final float arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3fARB(final float arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3fMESA(final float arg0, final float arg1, final float arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3fv(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3fv(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3fvARB(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3fvARB(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3fvMESA(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3fvMESA(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3i(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3iARB(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3iMESA(final int arg0, final int arg1, final int arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3iv(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3iv(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3ivARB(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3ivARB(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3ivMESA(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3ivMESA(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3s(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3sARB(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3sMESA(final short arg0, final short arg1, final short arg2)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3sv(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3sv(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3svARB(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3svARB(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3svMESA(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos3svMESA(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4dMESA(final double arg0, final double arg1, final double arg2, final double arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4dvMESA(final DoubleBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4dvMESA(final double[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4fMESA(final float arg0, final float arg1, final float arg2, final float arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4fvMESA(final FloatBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4fvMESA(final float[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4iMESA(final int arg0, final int arg1, final int arg2, final int arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4ivMESA(final IntBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4ivMESA(final int[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4sMESA(final short arg0, final short arg1, final short arg2, final short arg3)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4svMESA(final ShortBuffer arg0)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWindowPos4svMESA(final short[] arg0, final int arg1)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public void glWriteMaskEXT(final int arg0, final int arg1, final int arg2, final int arg3, final int arg4, final int arg5)
+    {
+    // Stub method only.
+
+    }
+
+    @Override
+    public boolean isExtensionAvailable(final String arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public boolean isFunctionAvailable(final String arg0)
+    {
+        // Stub method only.
+        return false;
+    }
+
+    @Override
+    public void setSwapInterval(final int arg0)
+    {
+    // Stub method only.
+
+    }
 
 }

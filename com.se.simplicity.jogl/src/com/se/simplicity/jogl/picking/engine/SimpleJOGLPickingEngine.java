@@ -1,3 +1,14 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.jogl.picking.engine;
 
 import java.util.ArrayList;
@@ -23,10 +34,17 @@ import com.se.simplicity.viewport.Viewport;
  * picking techniques and properties.
  * </p>
  * 
- * @author simple
+ * @author Gary Buyn
  */
 public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
 {
+    /**
+     * <p>
+     * The number of milliseconds in a second.
+     * </p>
+     */
+    private static final double MILLISECONDS_IN_A_SECOND = 1000.0;
+
     /**
      * The viewpoint that will be adapted to create the picking viewpoint.
      */
@@ -135,12 +153,13 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
      */
     public Pick convertPickCoordinatesFromViewportToSceneGraph(final Viewport viewport, final Pick pick)
     {
-        SimpleJOGLCamera camera = (SimpleJOGLCamera) this.camera;
+        SimpleJOGLCamera simpleJoglCamera = (SimpleJOGLCamera) this.camera;
 
-        pick.setHeight((float) pick.getHeight() / (float) viewport.getHeight() * (camera.getFrameWidth() * camera.getFrameAspectRatio()));
-        pick.setWidth((float) pick.getWidth() / (float) viewport.getWidth() * camera.getFrameWidth());
-        pick.setX(((float) pick.getX() / (float) viewport.getWidth() * camera.getFrameWidth()));
-        pick.setY(((float) pick.getY() / (float) viewport.getHeight() * (camera.getFrameWidth() * camera.getFrameAspectRatio())));
+        pick.setHeight((float) pick.getHeight() / (float) viewport.getHeight()
+                * (simpleJoglCamera.getFrameWidth() * simpleJoglCamera.getFrameAspectRatio()));
+        pick.setWidth((float) pick.getWidth() / (float) viewport.getWidth() * simpleJoglCamera.getFrameWidth());
+        pick.setX(((float) pick.getX() / (float) viewport.getWidth() * simpleJoglCamera.getFrameWidth()));
+        pick.setY(((float) pick.getY() / (float) viewport.getHeight() * (simpleJoglCamera.getFrameWidth() * simpleJoglCamera.getFrameAspectRatio())));
 
         return (pick);
     }
@@ -265,21 +284,21 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     }
 
     @Override
-    public void setCamera(final Camera camera)
+    public void setCamera(final Camera newCamera)
     {
-        this.camera = camera;
+        camera = newCamera;
     }
 
     @Override
-    public void setPicker(Picker picker)
+    public void setPicker(final Picker newPicker)
     {
-        this.picker = picker;
+        picker = newPicker;
     }
 
     @Override
-    public void setPreferredFrequency(int preferredFrequency)
+    public void setPreferredFrequency(final int newPreferredFrequency)
     {
-        this.preferredFrequency = preferredFrequency;
+        preferredFrequency = newPreferredFrequency;
     }
 
     /**
@@ -290,17 +309,17 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
      * every time it advances.
      * </p>
      * 
-     * @param renderingEngine The <code>RenderingEngine</code> whos <code>SceneGraph</code> and <code>Camera</code> are used when picking.
+     * @param newRenderingEngine The <code>RenderingEngine</code> whos <code>SceneGraph</code> and <code>Camera</code> are used when picking.
      */
-    public void setRenderingEngine(final RenderingEngine renderingEngine)
+    public void setRenderingEngine(final RenderingEngine newRenderingEngine)
     {
-        this.renderingEngine = renderingEngine;
+        renderingEngine = newRenderingEngine;
     }
 
     @Override
-    public void setSceneGraph(final SceneGraph sceneGraph)
+    public void setSceneGraph(final SceneGraph newSceneGraph)
     {
-        this.sceneGraph = sceneGraph;
+        sceneGraph = newSceneGraph;
     }
 
     /**
@@ -312,7 +331,7 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     {
         try
         {
-            Thread.sleep((long) 1000.0 / preferredFrequency);
+            Thread.sleep((long) MILLISECONDS_IN_A_SECOND / preferredFrequency);
         }
         catch (InterruptedException e)
         {

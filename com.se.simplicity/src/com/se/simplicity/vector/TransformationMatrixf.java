@@ -1,3 +1,14 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.vector;
 
 /**
@@ -5,92 +16,92 @@ package com.se.simplicity.vector;
  * A transformation matrix that stores its data in a <code>float</code> array.
  * </p>
  * 
- * @author simple
+ * @author Gary Buyn
  */
 public interface TransformationMatrixf extends Matrixf
 {
-	/**
-	 * <p>
-	 * Retrieves the translation portion of this <code>TransformationMatrixf</code>.
-	 * </p>
-	 * 
-	 * @return The translation portion of this <code>TransformationMatrixf</code>.
-	 */
-	TranslationVectorf getTranslation();
+    /**
+     * <p>
+     * Retrieves the translation portion of this <code>TransformationMatrixf</code>.
+     * </p>
+     * 
+     * @return The translation portion of this <code>TransformationMatrixf</code>.
+     */
+    TranslationVectorf getTranslation();
 
-	/**
-	 *<p>
-	 *Retrieves the x axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 *</p>
-	 * 
-	 * @return The x axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 */
-	float getXAxisRotation();
-	
-	/**
-	 *<p>
-	 *Retrieves the y axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 *</p>
-	 * 
-	 * @return The y axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 */
-	float getYAxisRotation();
-	
-	/**
-	 *<p>
-	 *Retrieves the z axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 *</p>
-	 * 
-	 * @return The z axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 */
-	float getZAxisRotation();
+    /**
+     *<p>
+     * Retrieves the x axis rotation of this <code>TransformationMatrixf</code> in radians.
+     *</p>
+     * 
+     * @return The x axis rotation of this <code>TransformationMatrixf</code> in radians.
+     */
+    float getXAxisRotation();
 
-	/**
-	 * <p>
-	 * Rotates this <code>TransformationMatrixf</code> by the angle given about the axis given.
-	 * </p>
-	 * 
-	 * @param angle The angle to rotate this <code>TransformationMatrixf</code>.
-	 * @param axis The axis to rotate this <code>TransformationMatrixf</code> about.
-	 */
-	void rotate(float angle, Vectorf axis);
-	
-	/**
-	 * <p>
-	 * Sets the translation portion of this <code>TransformationMatrixf</code>.
-	 * </p>
-	 * 
-	 * @param translation The translation portion of this <code>TransformationMatrixf</code>.
-	 */
-	void setTranslation(TranslationVectorf translation);
-	
-	/**
-	 * Sets the x axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 * 
-	 * @param angle The x axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 */
-	void setXAxisRotation(float angle);
-	
-	/**
-	 * Sets the y axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 * 
-	 * @param angle The y axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 */
-	void setYAxisRotation(float angle);
-	
-	/**
-	 * Sets the z axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 * 
-	 * @param angle The z axis rotation of this <code>TransformationMatrixf</code> in radians.
-	 */
-	void setZAxisRotation(float angle);
+    /**
+     *<p>
+     * Retrieves the y axis rotation of this <code>TransformationMatrixf</code> in radians.
+     *</p>
+     * 
+     * @return The y axis rotation of this <code>TransformationMatrixf</code> in radians.
+     */
+    float getYAxisRotation();
 
-	/**
-	 * <p>
-	 * Translates this <code>TransformationMatrixf</code> by the translation given.
-	 * </p>
-	 * 
-	 * @param translation The translation to translate this <code>TransformationMatrixf</code> by.
-	 */
-	void translate(TranslationVectorf translation);
+    /**
+     *<p>
+     * Retrieves the z axis rotation of this <code>TransformationMatrixf</code> in radians.
+     *</p>
+     * 
+     * @return The z axis rotation of this <code>TransformationMatrixf</code> in radians.
+     */
+    float getZAxisRotation();
+
+    /**
+     * <p>
+     * Rotates this <code>TransformationMatrixf</code> by the angle given about the axis given.
+     * </p>
+     * 
+     * @param angle The angle to rotate this <code>TransformationMatrixf</code>.
+     * @param axis The axis to rotate this <code>TransformationMatrixf</code> about.
+     */
+    void rotate(float angle, Vectorf axis);
+
+    /**
+     * <p>
+     * Sets the translation portion of this <code>TransformationMatrixf</code>.
+     * </p>
+     * 
+     * @param translation The translation portion of this <code>TransformationMatrixf</code>.
+     */
+    void setTranslation(TranslationVectorf translation);
+
+    /**
+     * Sets the x axis rotation of this <code>TransformationMatrixf</code> in radians.
+     * 
+     * @param angle The x axis rotation of this <code>TransformationMatrixf</code> in radians.
+     */
+    void setXAxisRotation(float angle);
+
+    /**
+     * Sets the y axis rotation of this <code>TransformationMatrixf</code> in radians.
+     * 
+     * @param angle The y axis rotation of this <code>TransformationMatrixf</code> in radians.
+     */
+    void setYAxisRotation(float angle);
+
+    /**
+     * Sets the z axis rotation of this <code>TransformationMatrixf</code> in radians.
+     * 
+     * @param angle The z axis rotation of this <code>TransformationMatrixf</code> in radians.
+     */
+    void setZAxisRotation(float angle);
+
+    /**
+     * <p>
+     * Translates this <code>TransformationMatrixf</code> by the translation given.
+     * </p>
+     * 
+     * @param translation The translation to translate this <code>TransformationMatrixf</code> by.
+     */
+    void translate(TranslationVectorf translation);
 }
