@@ -13991,7 +13991,7 @@ public class MockGL extends MockObject implements GL
 	@Override
 	public void glViewport(int arg0, int arg1, int arg2, int arg3)
 	{
-		// Stub method only.
+		addMethodCall("glViewport", new Object[] {arg0, arg1, arg2, arg3});
 		
 	}
 
