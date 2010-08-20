@@ -4,5 +4,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/com.se.devenvy"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.se.simplicity"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.se.simplicity.jogl"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.se.simplicity.test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
