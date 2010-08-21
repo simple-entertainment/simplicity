@@ -12,6 +12,7 @@
 package com.se.simplicity.test.mocks;
 
 import com.se.simplicity.model.ArrayVG;
+import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SimpleNode;
 import com.se.simplicity.scenegraph.model.SimpleModelNode;
 
@@ -29,49 +30,49 @@ public class NodeHierarchy
      * The first node of the hierarchy.
      * </p>
      */
-    public SimpleNode node1;
+    public Node node1;
 
     /**
      * <p>
      * The second node of the hierarchy.
      * </p>
      */
-    public SimpleNode node2;
+    public Node node2;
 
     /**
      * <p>
      * The third node of the hierarchy.
      * </p>
      */
-    public SimpleNode node3;
+    public Node node3;
 
     /**
      * <p>
      * The fourth node of the hierarchy.
      * </p>
      */
-    public SimpleNode node4;
+    public Node node4;
 
     /**
      * <p>
      * The fifth node of the hierarchy.
      * </p>
      */
-    public SimpleNode node5;
+    public Node node5;
 
     /**
      * <p>
      * The sixth node of the hierarchy.
      * </p>
      */
-    public SimpleNode node6;
+    public Node node6;
 
     /**
      * <p>
      * The seventh node of the hierarchy.
      * </p>
      */
-    public SimpleNode node7;
+    public Node node7;
 
     /**
      * <p>
