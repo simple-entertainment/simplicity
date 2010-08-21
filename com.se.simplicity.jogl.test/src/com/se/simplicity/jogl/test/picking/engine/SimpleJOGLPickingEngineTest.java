@@ -30,7 +30,6 @@ import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.engine.RenderingEngine;
-import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.viewport.Viewport;
 
 /**
@@ -56,15 +55,19 @@ public class SimpleJOGLPickingEngineTest
     public void advance()
     {
         Picker mockPicker = createMock(Picker.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+        Camera mockCamera = createMock(Camera.class);
 
         testObject.setPicker(mockPicker);
+        testObject.setRenderingEngine(mockRenderingEngine);
         testObject.pick(5, 10, 15, 20);
         testObject.pick(10, 20, 30, 40);
 
         reset(mockPicker);
-        expect(mockPicker.pickSceneGraph(null, null, testObject.getPicks().get(0))).andReturn(null);
-        expect(mockPicker.pickSceneGraph(null, null, testObject.getPicks().get(1))).andReturn(null);
-        replay(mockPicker);
+        expect(mockRenderingEngine.getCamera()).andStubReturn(mockCamera);
+        expect(mockPicker.pickScene(null, mockCamera, testObject.getPicks().get(0))).andReturn(null);
+        expect(mockPicker.pickScene(null, mockCamera, testObject.getPicks().get(1))).andReturn(null);
+        replay(mockPicker, mockRenderingEngine);
 
         testObject.advance();
 
@@ -91,40 +94,6 @@ public class SimpleJOGLPickingEngineTest
         testObject.advance();
 
         verify(mockPicker);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()} with the special condition that the
-     * {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine SimpleJOGLPickingEngine} being tested is related to a Rendering Engine.
-     * </p>
-     */
-    @Test
-    public void advanceRenderingEngine()
-    {
-        Picker mockPicker = createMock(Picker.class);
-        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-        Camera mockCamera = createMock(Camera.class);
-
-        testObject.setPicker(mockPicker);
-        testObject.setRenderingEngine(mockRenderingEngine);
-        testObject.pick(5, 10, 15, 20);
-        testObject.pick(10, 20, 30, 40);
-
-        reset(mockPicker, mockRenderingEngine);
-        expect(mockRenderingEngine.getSceneGraph()).andReturn(mockSceneGraph);
-        expect(mockRenderingEngine.getCamera()).andReturn(mockCamera);
-        expect(mockPicker.pickSceneGraph(mockSceneGraph, mockCamera, testObject.getPicks().get(0))).andReturn(null);
-        expect(mockPicker.pickSceneGraph(mockSceneGraph, mockCamera, testObject.getPicks().get(1))).andReturn(null);
-        replay(mockPicker, mockRenderingEngine);
-
-        testObject.advance();
-
-        assertEquals(testObject.getSceneGraph(), mockSceneGraph);
-        assertEquals(testObject.getCamera(), mockCamera);
-
-        verify(mockPicker, mockRenderingEngine);
     }
 
     /**

@@ -25,7 +25,7 @@ import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.engine.RenderingEngine;
-import com.se.simplicity.scenegraph.SceneGraph;
+import com.se.simplicity.scene.Scene;
 import com.se.simplicity.viewport.Viewport;
 
 /**
@@ -94,13 +94,6 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
 
     /**
      * <p>
-     * The <code>SceneGraph</code> whose components will be picked.
-     * </p>
-     */
-    private SceneGraph sceneGraph;
-
-    /**
-     * <p>
      * Creates an instance of <code>JOGLPickingEngine</code>.
      * </p>
      */
@@ -125,17 +118,10 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
             return;
         }
 
-        // Update the Scene Graph and Camera to reflect the Rendering Engine if this Picking Engine is using one.
-        if (renderingEngine != null)
-        {
-            sceneGraph = renderingEngine.getSceneGraph();
-            camera = renderingEngine.getCamera();
-        }
-
         // For every pick.
         for (Pick pick : picks)
         {
-            firePickEvent(picker.pickSceneGraph(sceneGraph, camera, pick));
+            firePickEvent(picker.pickScene(null, renderingEngine.getCamera(), pick));
         }
 
         picks.clear();
@@ -214,9 +200,9 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     }
 
     @Override
-    public SceneGraph getSceneGraph()
+    public Scene getScene()
     {
-        return (sceneGraph);
+        return (null);
     }
 
     @Override
@@ -317,10 +303,8 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     }
 
     @Override
-    public void setSceneGraph(final SceneGraph newSceneGraph)
-    {
-        sceneGraph = newSceneGraph;
-    }
+    public void setScene(final Scene newScene)
+    {}
 
     /**
      * <p>

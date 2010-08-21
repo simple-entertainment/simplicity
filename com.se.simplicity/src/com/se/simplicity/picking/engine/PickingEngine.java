@@ -19,7 +19,7 @@ import com.se.simplicity.picking.Picker;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.rendering.Camera;
-import com.se.simplicity.scenegraph.SceneGraph;
+import com.se.simplicity.scene.Scene;
 import com.se.simplicity.viewport.Viewport;
 
 /**
@@ -95,12 +95,12 @@ public interface PickingEngine extends Engine
 
     /**
      * <p>
-     * Retrieves the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} whose components will be picked.
+     * Retrieves the {@link com.se.simplicity.scene.Scene Scene} to be picked.
      * </p>
      * 
-     * @return The {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} whose components will be picked.
+     * @return The <code>Scene</code> to be picked.
      */
-    SceneGraph getSceneGraph();
+    Scene getScene();
 
     /**
      * <p>
@@ -154,20 +154,20 @@ public interface PickingEngine extends Engine
      * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
      * </p>
      * 
-     * @param listener A {@link com.se.simplicity.picking.event.PickListener PickListener} that was to be invoked when a
+     * @param newListener A {@link com.se.simplicity.picking.event.PickListener PickListener} that was to be invoked when a
      * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
      */
-    void removePickListener(PickListener listener);
+    void removePickListener(PickListener newListener);
 
     /**
      * <p>
      * Sets the viewpoint that will be adapted to create the picking viewpoint.
      * </p>
      * 
-     * @param camera The viewpoint that will be adapted to create the picking viewpoint. The {@link com.se.simplicity.rendering.Camera Camera} given
-     * will not be modified when creating the picking viewpoint.
+     * @param newCamera The viewpoint that will be adapted to create the picking viewpoint. The {@link com.se.simplicity.rendering.Camera Camera}
+     * given will not be modified when creating the picking viewpoint.
      */
-    void setCamera(Camera camera);
+    void setCamera(Camera newCamera);
 
     /**
      * <p>
@@ -175,17 +175,17 @@ public interface PickingEngine extends Engine
      * <code>PickingEngine</code>.
      * </p>
      * 
-     * @param picker The {@link com.se.simplicity.picking.Picker Picker} that picks the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} for
-     * this <code>PickingEngine</code>.
+     * @param newPicker The {@link com.se.simplicity.picking.Picker Picker} that picks the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}
+     * for this <code>PickingEngine</code>.
      */
-    void setPicker(Picker picker);
+    void setPicker(Picker newPicker);
 
     /**
      * <p>
-     * Sets the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} whose components will be picked.
+     * Sets the {@link com.se.simplicity.scene.Scene Scene} to be picked.
      * </p>
      * 
-     * @param sceneGraph The {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} whose components will be picked.
+     * @param newScene The <code>Scene</code> to be picked.
      */
-    void setSceneGraph(SceneGraph sceneGraph);
+    void setScene(Scene newScene);
 }

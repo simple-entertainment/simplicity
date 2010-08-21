@@ -50,7 +50,7 @@ public class SimpleJOGLPickerTest
      */
     @Test
     @Ignore("Need to know about the select buffer contents")
-    public void pickSceneGraph()
+    public void pickScene()
     {
     // TODO implement SimpleJOGLPicker tests
     }

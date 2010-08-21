@@ -13,13 +13,12 @@ package com.se.simplicity.picking;
 
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.rendering.Camera;
-import com.se.simplicity.scenegraph.SceneGraph;
+import com.se.simplicity.scene.Scene;
 
 /**
  * <p>
- * Picks {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}s. The {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked based
- * on a {@link com.se.simplicity.rendering.Camera Camera} and a {@link com.se.simplicity.picking.Pick Pick} that generally represents a subset of the
- * {@link com.se.simplicity.rendering.Camera Camera}'s frame.
+ * Picks {@link com.se.simplicity.scene.Scene Scene}s. The <code>Scene</code> is picked based on a {@link com.se.simplicity.rendering.Camera Camera}
+ * and a {@link com.se.simplicity.picking.Pick Pick} that generally represents a subset of the <code>Camera</code>'s frame.
  * </p>
  * 
  * @author Gary Buyn
@@ -28,15 +27,15 @@ public interface Picker
 {
     /**
      * <p>
-     * Picks a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} using the given {@link com.se.simplicity.picking.Pick Pick} and basing the
-     * {@link com.se.simplicity.picking.Pick Pick} on the given {@link com.se.simplicity.rendering.Camera Camera}.
+     * Picks a {@link com.se.simplicity.scene.Scene Scene} using the given {@link com.se.simplicity.picking.Pick Pick} and basing the
+     * <code>Pick</code> on the given {@link com.se.simplicity.rendering.Camera Camera}.
      * </p>
      * 
-     * @param sceneGraph The {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} to pick.
-     * @param camera The {@link com.se.simplicity.rendering.Camera Camera} to base the pick on.
-     * @param pick The {@link com.se.simplicity.picking.Pick Pick} to apply to the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * @param scene The <code>Scene</code> to pick.
+     * @param camera The <code>Camera</code> to base the pick on.
+     * @param pick The <code>Pick</code> to apply to the <code>Scene</code>.
      * 
-     * @return An event containing any picked compoonents of the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * @return An event containing any picked components of the <code>Scene</code>.
      */
-    PickEvent pickSceneGraph(SceneGraph sceneGraph, Camera camera, Pick pick);
+    PickEvent pickScene(Scene scene, Camera camera, Pick pick);
 }

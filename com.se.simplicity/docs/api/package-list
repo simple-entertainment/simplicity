@@ -1,0 +1,12 @@
+com.se.simplicity
+com.se.simplicity.engine
+com.se.simplicity.model
+com.se.simplicity.picking
+com.se.simplicity.picking.engine
+com.se.simplicity.picking.event
+com.se.simplicity.rendering
+com.se.simplicity.rendering.engine
+com.se.simplicity.scenegraph
+com.se.simplicity.scenegraph.model
+com.se.simplicity.vector
+com.se.simplicity.viewport

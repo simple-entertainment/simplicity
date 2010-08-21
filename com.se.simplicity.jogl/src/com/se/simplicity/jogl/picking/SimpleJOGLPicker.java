@@ -25,7 +25,7 @@ import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.engine.RenderingEngine;
-import com.se.simplicity.scenegraph.SceneGraph;
+import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.model.ModelNode;
 
 /**
@@ -123,7 +123,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
                 }
                 else
                 {
-                    hit[nameIndex] = renderingEngine.getSceneGraph().getNode(pickedSelectBuffer.get(bufferIndex));
+                    hit[nameIndex] = renderingEngine.getScene().getSceneGraph().getNode(pickedSelectBuffer.get(bufferIndex));
                 }
 
                 bufferIndex++;
@@ -207,13 +207,12 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
     }
 
     @Override
-    public PickEvent pickSceneGraph(final SceneGraph sceneGraph, final Camera camera, final Pick pick)
+    public PickEvent pickScene(final Scene scene, final Camera camera, final Pick pick)
     {
         Camera pickCamera = camera.getPickCamera(pick);
 
         gl.glRenderMode(GL.GL_SELECT);
 
-        renderingEngine.setSceneGraph(sceneGraph);
         renderingEngine.setCamera(pickCamera);
         renderingEngine.advance();
 

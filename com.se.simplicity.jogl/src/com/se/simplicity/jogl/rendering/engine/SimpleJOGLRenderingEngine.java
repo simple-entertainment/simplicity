@@ -26,6 +26,7 @@ import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.rendering.engine.RenderingEngine;
+import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.scenegraph.SimpleTraversal;
@@ -122,7 +123,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
      * The {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} to be rendered.
      * </p>
      */
-    private SceneGraph sceneGraph;
+    private Scene scene;
 
     /**
      * <p>
@@ -138,15 +139,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
         isInitialised = false;
         lights = new ArrayList<Light>();
         logger = Logger.getLogger(getClass().getName());
-        sceneGraph = null;
-    }
-
-    @Override
-    public void addLight(final Light light)
-    {
-        ((JOGLComponent) light).setGL(getGL());
-
-        lights.add(light);
+        scene = null;
     }
 
     @Override
@@ -156,12 +149,12 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
 
         if (camera == null)
         {
-            throw new IllegalStateException("This Renderer does not have a Camera to view the SceneGraph through.");
+            throw new IllegalStateException("This Rendering Engine does not have a Camera to view the Scene through.");
         }
 
-        if (sceneGraph == null)
+        if (scene == null)
         {
-            throw new IllegalStateException("This Renderer does not have a SceneGraph to display.");
+            throw new IllegalStateException("This Rendering Engine does not have a Scene to render.");
         }
 
         if (!isInitialised)
@@ -249,12 +242,6 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     }
 
     @Override
-    public List<Light> getLights()
-    {
-        return (lights);
-    }
-
-    @Override
     public int getPreferredFrequency()
     {
         return (preferredFrequency);
@@ -267,30 +254,15 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     }
 
     @Override
-    public SceneGraph getSceneGraph()
+    public Scene getScene()
     {
-        return (sceneGraph);
+        return (scene);
     }
 
     @Override
     public void init()
     {
         GL gl = getGL();
-
-        if (renderer != null)
-        {
-            ((JOGLComponent) renderer).setGL(gl);
-        }
-
-        if (camera != null)
-        {
-            ((JOGLComponent) camera).setGL(gl);
-        }
-
-        for (Light light : lights)
-        {
-            ((JOGLComponent) light).setGL(gl);
-        }
 
         // Initialise the JOGL state.
         gl.glEnable(GL.GL_CULL_FACE);
@@ -311,6 +283,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     @Override
     public void renderSceneGraph()
     {
+        SceneGraph sceneGraph = scene.getSceneGraph();
         GL gl = getGL();
 
         // For every node in the traversal of the scene.
@@ -369,8 +342,6 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     @Override
     public void setCamera(final Camera newCamera)
     {
-        ((JOGLComponent) newCamera).setGL(getGL());
-
         camera = newCamera;
     }
 
@@ -395,14 +366,19 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     }
 
     @Override
-    public void setLights(final List<Light> newLights)
+    public void setGL(final GL newGl)
     {
-        for (Light light : newLights)
+        super.setGL(newGl);
+
+        if (renderer != null)
         {
-            ((JOGLComponent) light).setGL(getGL());
+            ((JOGLComponent) renderer).setGL(newGl);
         }
 
-        this.lights = newLights;
+        if (scene != null)
+        {
+            ((JOGLComponent) scene).setGL(newGl);
+        }
     }
 
     @Override
@@ -420,9 +396,11 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     }
 
     @Override
-    public void setSceneGraph(final SceneGraph newSceneGraph)
+    public void setScene(final Scene newScene)
     {
-        sceneGraph = newSceneGraph;
+        ((JOGLComponent) newScene).setGL(getGL());
+
+        scene = newScene;
     }
 
     /**
