@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<import resource="editorView.xml" />
+	<import resource="simplicityJoglContext.xml" />
+
+	<!-- Detail -->
+	<bean id="detailController" scope="prototype"
+		class="com.se.simplicity.editor.controller.detail.DetailController">
+		<!--<property name="model" ref="scene" />-->
+		<!--<property name="view" ref="detailView" />-->
+	</bean>
+
+	<!-- Scene -->
+	<bean id="visualSceneController" scope="prototype"
+		class="com.se.simplicity.editor.controller.scene.visual.VisualSceneController">
+		<property name="model" ref="viewport" />
+		<property name="view" ref="visualSceneView" />
+	</bean>
+
+	<!-- Outline -->
+	<bean id="outlineController" scope="prototype"
+		class="com.se.simplicity.editor.controller.outline.OutlineController">
+		<property name="model" ref="renderingEngine" />
+		<property name="view" ref="outlineView" />
+	</bean>
+
+</beans>

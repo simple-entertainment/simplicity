@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension 
+   		point="org.eclipse.ui.views">
+      <category
+            name="Simple Eddy"
+            id="com.se.simplicity.editor.view">
+      </category>
+      <view
+            category="com.se.simplicity.editor.view"
+            class="com.se.simplicity.editor.controller.outline.OutlineView"
+            icon="icons/sample.gif"
+            id="com.se.simplicity.editor.controller.outline.OutlineView"
+            name="Scene Outline">
+      </view>
+      <view
+            category="com.se.simplicity.editor.view"
+            class="com.se.simplicity.editor.controller.detail.DetailView"
+            icon="icons/sample.gif"
+            id="com.se.simplicity.editor.controller.detail.DetailView"
+            name="Node Details">
+      </view>
+  </extension>
+  
+  <extension
+        point="org.eclipse.ui.editors">
+      <editor
+            class="com.se.simplicity.editor.controller.scene.visual.VisualSceneEditor"
+            contributorClass="com.se.simplicity.editor.controller.scene.visual.VisualSceneEditorContributor"
+            default="false"
+            extensions="sss"
+            icon="icons/sample.gif"
+            id="com.se.simplicity.editor.controller.scene.visual.VisualSceneEditor"
+            name="Visual Scene Editor">
+  	 </editor>
+      <editor
+            class="com.se.simplicity.editor.controller.scene.SceneEditor"
+            contributorClass="com.se.simplicity.editor.controller.scene.SceneEditorContributor"
+            default="true"
+            extensions="sss"
+            icon="icons/sample.gif"
+            id="com.se.simplicity.editor.controller.scene.SceneEditor"
+            name="Scene Editor">
+      </editor>
+  </extension>
+  
+</plugin>

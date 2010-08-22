@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Simple Eddy Plug-in
+Bundle-SymbolicName: com.se.simplicity.editor;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: com.se.simplicity.editor.Activator
+Bundle-Vendor: SE
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: bin,
+ properties,
+ lib/com.se.simplicity.jar,
+ lib/com.se.simplicity.jogl.jar,
+ lib/commons-logging.jar,
+ lib/gluegen-rt.jar,
+ lib/jogl.jar,
+ lib/log4j-1.2.15.jar,
+ lib/org.eclipse.swt.gtk.linux.x86_3.5.1.v3555a.jar,
+ lib/spring.jar
