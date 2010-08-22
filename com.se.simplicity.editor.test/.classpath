@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.se.simplicity.editor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.se.simplicity.jogl"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.se.devenvy"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.se.simplicity.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.se.simplicity.jogl.test"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
