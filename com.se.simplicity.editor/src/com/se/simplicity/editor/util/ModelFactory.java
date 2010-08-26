@@ -35,97 +35,103 @@ import com.se.simplicity.scenegraph.model.SimpleModelNode;
  * 
  * @author Gary Buyn
  */
-public class ModelFactory
+public final class ModelFactory
 {
-	/**
-	 * <p>
-	 * Creates an internal model structure from an .OBJ file.
-	 * </p>
-	 * 
-	 * </p>
-	 * The model described in the .OBJ file must be constructed entirely from triangle polygons.
-	 * </p>
-	 * 
-	 * @param file The .OBJ file to create an internal model structure for.
-	 * 
-	 * @throws IOException Thrown if the filename is invalid.
-	 * 
-	 * @return The internal model structure.
-	 */
-	public static Model importOBJFile(File file) throws IOException
-	{		
-		// Open the file for reading with a buffer.
-		BufferedReader reader = new BufferedReader(new FileReader(file));
+    /**
+     * <p>
+     * Creates an instance of <code>ModelFactory</code>.
+     * </p>
+     */
+    private ModelFactory()
+    {}
 
-		// Read the vertices and normals from the file into lists.
-		String currentLine;
-		String splitLine[];
-		ArrayList<float[]> vertexList = new ArrayList<float[]>();
-		ArrayList<float[]> normalList = new ArrayList<float[]>();
-		int faces = 0;
-		while ((currentLine = reader.readLine()) != null)
-		{
-			splitLine = currentLine.split(" ");
+    /**
+     * <p>
+     * Creates an internal model structure from an .OBJ file.
+     * </p>
+     * 
+     * <p>
+     * The model described in the .OBJ file must be constructed entirely from triangle polygons.
+     * </p>
+     * 
+     * @param file The .OBJ file to create an internal model structure for.
+     * 
+     * @throws IOException Thrown if the filename is invalid.
+     * 
+     * @return The internal model structure.
+     */
+    public static Model importOBJFile(final File file) throws IOException
+    {
+        // Open the file for reading with a buffer.
+        BufferedReader reader = new BufferedReader(new FileReader(file));
 
-			if (splitLine[0].compareTo("v") == 0)
-			{
-				vertexList.add(new float[] { Float.parseFloat(splitLine[1]), Float.parseFloat(splitLine[2]),
-						Float.parseFloat(splitLine[3]) });
-			}
-			else if (splitLine[0].compareTo("vn") == 0)
-			{
-				normalList.add(new float[] { Float.parseFloat(splitLine[1]), Float.parseFloat(splitLine[2]),
-						Float.parseFloat(splitLine[3]) });
-			}
-			else if (splitLine[0].compareTo("f") == 0)
-			{
-				faces++;
-			}
-		}
+        // Read the vertices and normals from the file into lists.
+        String currentLine;
+        String[] splitLine;
+        ArrayList<float[]> vertexList = new ArrayList<float[]>();
+        ArrayList<float[]> normalList = new ArrayList<float[]>();
+        int faces = 0;
+        while ((currentLine = reader.readLine()) != null)
+        {
+            splitLine = currentLine.split(" ");
 
-		// Create the arrays for vertices, normals and triangles.
-		float[] vertices = new float[faces * 9];
-		float[] normals = new float[faces * 9];
-		float[] colours = new float[faces * 9];
+            if (splitLine[0].compareTo("v") == 0)
+            {
+                vertexList.add(new float[] {Float.parseFloat(splitLine[1]), Float.parseFloat(splitLine[2]), Float.parseFloat(splitLine[3])});
+            }
+            else if (splitLine[0].compareTo("vn") == 0)
+            {
+                normalList.add(new float[] {Float.parseFloat(splitLine[1]), Float.parseFloat(splitLine[2]), Float.parseFloat(splitLine[3])});
+            }
+            else if (splitLine[0].compareTo("f") == 0)
+            {
+                faces++;
+            }
+        }
 
-		// Read the faces from the file and populate the arrays.
-		reader = new BufferedReader(new FileReader(file));
+        // Create the arrays for vertices, normals and triangles.
+        float[] vertices = new float[faces * 9];
+        float[] normals = new float[faces * 9];
+        float[] colours = new float[faces * 9];
 
-		int vertex = 0;
-		String splitIndices[];
-		while ((currentLine = reader.readLine()) != null)
-		{
-			splitLine = currentLine.split(" ");
+        // Read the faces from the file and populate the arrays.
+        reader = new BufferedReader(new FileReader(file));
 
-			if (splitLine[0].compareTo("f") == 0)
-			{
-				for (int index = 1; index < splitLine.length; index++)
-				{
-					splitIndices = splitLine[index].split("/");
+        int vertex = 0;
+        String[] splitIndices;
+        while ((currentLine = reader.readLine()) != null)
+        {
+            splitLine = currentLine.split(" ");
 
-					System.arraycopy(vertexList.get(Integer.parseInt(splitIndices[0]) - 1), 0, vertices, vertex, 3);
-					System.arraycopy(normalList.get(Integer.parseInt(splitIndices[2]) - 1), 0, normals, vertex, 3);
-					colours[vertex] = 1.0f;
-					colours[vertex + 1] = 1.0f;
-					colours[vertex + 2] = 1.0f;
+            if (splitLine[0].compareTo("f") == 0)
+            {
+                for (int index = 1; index < splitLine.length; index++)
+                {
+                    splitIndices = splitLine[index].split("/");
 
-					vertex += 3;
-				}
-			}
-		}
+                    System.arraycopy(vertexList.get(Integer.parseInt(splitIndices[0]) - 1), 0, vertices, vertex, 3);
+                    System.arraycopy(normalList.get(Integer.parseInt(splitIndices[2]) - 1), 0, normals, vertex, 3);
+                    colours[vertex] = 1.0f;
+                    colours[vertex + 1] = 1.0f;
+                    colours[vertex + 2] = 1.0f;
 
-		// Build the internal model structure.
-		ArrayVG vertexGroup = new ArrayVG();
-		vertexGroup.setVertices(vertices);
-		vertexGroup.setNormals(normals);
-		vertexGroup.setColours(colours);
-		
-		ModelNode root = new SimpleModelNode();
-		root.setVertexGroup(vertexGroup);
-		SimpleModel model = new SimpleModel();
-		model.setRoot(root);
-		root.setModel(model);
+                    vertex += 3;
+                }
+            }
+        }
 
-		return (model);
-	}
+        // Build the internal model structure.
+        ArrayVG vertexGroup = new ArrayVG();
+        vertexGroup.setVertices(vertices);
+        vertexGroup.setNormals(normals);
+        vertexGroup.setColours(colours);
+
+        ModelNode root = new SimpleModelNode();
+        root.setVertexGroup(vertexGroup);
+        SimpleModel model = new SimpleModel();
+        model.setRoot(root);
+        root.setModel(model);
+
+        return (model);
+    }
 }
