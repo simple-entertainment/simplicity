@@ -9,24 +9,29 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.controller.scene.visual;
+package com.se.simplicity.editor.ui.editors;
 
+import javax.media.opengl.GLContext;
+
+import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.widgets.Display;
 
-import com.se.simplicity.editor.view.scene.visual.VisualSceneView;
 import com.se.simplicity.viewport.Viewport;
 
 public class VisualSceneDisplayer implements Runnable
 {
     private Display display;
 
+    private GLContext glContext;
+
     private Viewport model;
 
-    private VisualSceneView view;
+    private GLCanvas view;
 
-    public VisualSceneDisplayer(Display display, Viewport model, VisualSceneView view)
+    public VisualSceneDisplayer(Display display, Viewport model, GLCanvas view, GLContext glContext)
     {
         this.display = display;
+        this.glContext = glContext;
         this.model = model;
         this.view = view;
     }
@@ -38,12 +43,12 @@ public class VisualSceneDisplayer implements Runnable
             if (!view.isDisposed())
             {
                 view.setCurrent();
-                view.getGLContext().makeCurrent();
+                glContext.makeCurrent();
 
-                model.displaySceneGraph();
+                model.displayScene();
 
                 view.swapBuffers();
-                view.getGLContext().release();
+                glContext.release();
 
                 display.asyncExec(this);
             }

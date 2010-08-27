@@ -1,24 +1,16 @@
-package com.se.simplicity.editor.controller.scene;
+package com.se.simplicity.editor.ui.editors;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
-
-import com.se.simplicity.editor.controller.scene.visual.VisualSceneEditor;
 
 /**
  * An example showing how to create a multi-page editor. This example has 3 pages:
@@ -28,25 +20,16 @@ import com.se.simplicity.editor.controller.scene.visual.VisualSceneEditor;
  * <li>page 2 shows the words in page 0 in sorted order
  * </ul>
  */
-public class SceneEditor extends MultiPageEditorPart implements IResourceChangeListener
+public class SceneEditor extends MultiPageEditorPart
 {
     private TextEditor sourceEditor;
 
     private VisualSceneEditor visualEditor;
 
     /**
-     * Creates a multi-page editor example.
-     */
-    public SceneEditor()
-    {
-        super();
-        ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-    }
-
-    /**
      * Creates page 0 of the multi-page editor, which contains a text editor.
      */
-    void createVisualPage()
+    public void createVisualPage()
     {
         try
         {
@@ -63,7 +46,7 @@ public class SceneEditor extends MultiPageEditorPart implements IResourceChangeL
     /**
      * Creates page 1 of the multi-page editor, which allows you to change the font used in page 2.
      */
-    void createSourcePage()
+    public void createSourcePage()
     {
         try
         {
@@ -87,16 +70,6 @@ public class SceneEditor extends MultiPageEditorPart implements IResourceChangeL
     }
 
     /**
-     * The <code>MultiPageEditorPart</code> implementation of this <code>IWorkbenchPart</code> method disposes all nested editors. Subclasses may
-     * extend.
-     */
-    public void dispose()
-    {
-        ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
-        super.dispose();
-    }
-
-    /**
      * Saves the multi-page editor's document.
      */
     public void doSave(IProgressMonitor monitor)
@@ -115,6 +88,11 @@ public class SceneEditor extends MultiPageEditorPart implements IResourceChangeL
         setPageText(0, editor.getTitle());
         setInput(editor.getEditorInput());
     }
+    
+    public VisualSceneEditor getVisualPage()
+    {
+        return (visualEditor);
+    }
 
     /*
      * (non-Javadoc) Method declared on IEditorPart
@@ -128,12 +106,14 @@ public class SceneEditor extends MultiPageEditorPart implements IResourceChangeL
     /**
      * The <code>MultiPageEditorExample</code> implementation of this method checks that the input is an instance of <code>IFileEditorInput</code>.
      */
-    public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException
+    public void init(IEditorSite site, IEditorInput input) throws PartInitException
     {
-        if (!(editorInput instanceof IFileEditorInput))
+        if (!(input instanceof IFileEditorInput))
             throw new PartInitException("Invalid Input: Must be IFileEditorInput");
 
-        super.init(site, editorInput);
+        super.init(site, input);
+        
+        setPartName(input.getName());
     }
 
     /*
@@ -148,30 +128,10 @@ public class SceneEditor extends MultiPageEditorPart implements IResourceChangeL
      * Calculates the contents of page 2 when the it is activated.
      */
     protected void pageChange(int newPageIndex)
-    {}
-
-    /**
-     * Closes all project files on project close.
-     */
-    public void resourceChanged(final IResourceChangeEvent event)
     {
-        if (event.getType() == IResourceChangeEvent.PRE_CLOSE)
+        if (newPageIndex == 0)
         {
-            Display.getDefault().asyncExec(new Runnable()
-            {
-                public void run()
-                {
-                    IWorkbenchPage[] pages = getSite().getWorkbenchWindow().getPages();
-                    for (int i = 0; i < pages.length; i++)
-                    {
-                        if (((FileEditorInput) sourceEditor.getEditorInput()).getFile().getProject().equals(event.getResource()))
-                        {
-                            IEditorPart editorPart = pages[i].findEditor(sourceEditor.getEditorInput());
-                            pages[i].closeEditor(editorPart, true);
-                        }
-                    }
-                }
-            });
+            visualEditor.update();
         }
     }
 }

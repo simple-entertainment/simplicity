@@ -9,29 +9,36 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.controller.outline;
+package com.se.simplicity.editor.ui.views;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.part.ViewPart;
 
-import com.se.simplicity.editor.controller.ViewPartController;
-import com.se.simplicity.editor.model.scene.MetaData;
-import com.se.simplicity.editor.model.scene.MetaDataNode;
+import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
-import com.se.simplicity.rendering.engine.RenderingEngine;
+import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.scenegraph.SimpleTraversal;
+import com.se.simplicity.util.metadata.MetaData;
+import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 
-public class OutlineController implements ViewPartController
+public class SceneOutlineView extends ViewPart
 {
-    private RenderingEngine model;
+    private Tree tree;
 
-    private Tree view;
+    @Override
+    public void createPartControl(final Composite parent)
+    {
+        tree = new Tree(parent, SWT.NONE);
+    }
 
     protected TreeItem createTreeItem(final Widget parent, final Node node)
     {
@@ -58,70 +65,53 @@ public class OutlineController implements ViewPartController
     }
 
     @Override
-    public void init(final Composite parent)
-    {
-        view.setParent(parent);
-
-        update();
-    }
-
-    @Override
     public void setFocus()
     {}
 
-    @Override
-    public void setModel(final Object newModel)
-    {
-        this.model = (RenderingEngine) newModel;
-    }
-
-    @Override
-    public void setView(final Object newView)
-    {
-        this.view = (Tree) newView;
-    }
-
-    @Override
     public void update()
     {
-        view.removeAll();
+        IEditorPart activeEditor = getViewSite().getPage().getActiveEditor();
+        String sceneId = ((IFileEditorInput) activeEditor.getEditorInput()).getFile().getFullPath().toString();
+        Scene model = SceneManager.getSceneManager().getScene(sceneId);
 
-        if (model.getScene() != null)
+        tree.removeAll();
+
+        if (model != null)
         {
-            updateCameras();
-            updateLights();
-            updateSceneGraph();
+            updateCameras(model);
+            updateLights(model);
+            updateSceneGraph(model);
         }
     }
 
-    protected void updateCameras()
+    protected void updateCameras(Scene model)
     {
-        for (Camera camera : model.getScene().getCameras())
+        for (Camera camera : model.getCameras())
         {
-            TreeItem treeItem = new TreeItem(view, SWT.NONE);
+            TreeItem treeItem = new TreeItem(tree, SWT.NONE);
             treeItem.setText((String) ((MetaData) camera).getAttribute("name"));
         }
     }
 
-    protected void updateLights()
+    protected void updateLights(Scene model)
     {
-        for (Light light : model.getScene().getLights())
+        for (Light light : model.getLights())
         {
-            TreeItem treeItem = new TreeItem(view, SWT.NONE);
+            TreeItem treeItem = new TreeItem(tree, SWT.NONE);
             treeItem.setText((String) ((MetaData) light).getAttribute("name"));
         }
     }
 
-    protected void updateSceneGraph()
+    protected void updateSceneGraph(Scene model)
     {
-        SceneGraph sceneGraph = model.getScene().getSceneGraph();
+        SceneGraph sceneGraph = model.getSceneGraph();
 
         if (sceneGraph != null)
         {
             SimpleTraversal traversal = new SimpleTraversal(sceneGraph.getRoot());
             Node parentNode = traversal.getNextNode();
 
-            TreeItem parentItem = createTreeItem(view, parentNode);
+            TreeItem parentItem = createTreeItem(tree, parentNode);
             TreeItem currentItem = parentItem;
 
             while (traversal.hasMoreNodes())

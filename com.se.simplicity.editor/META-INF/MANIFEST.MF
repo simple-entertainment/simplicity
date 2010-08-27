@@ -10,13 +10,16 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  org.eclipse.core.resources,
  org.eclipse.ui.editors,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ org.eclipse.ui.console,
+ org.eclipse.jdt.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: bin,
  properties,
  lib/com.se.simplicity.jar,
  lib/com.se.simplicity.jogl.jar,
+ lib/com.se.simplicity.util.jar,
  lib/commons-logging.jar,
  lib/gluegen-rt.jar,
  lib/jogl.jar,

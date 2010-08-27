@@ -9,32 +9,51 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.controller.scene.visual;
+package com.se.simplicity.editor.ui.editors;
 
-import java.io.File;
+import javax.media.opengl.GLContext;
+import javax.media.opengl.GLDrawableFactory;
 
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.opengl.GLCanvas;
+import org.eclipse.swt.opengl.GLData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.EditorPart;
 
-import com.se.simplicity.editor.controller.EditorPartController;
-import com.se.simplicity.editor.model.scene.SceneFactory;
-import com.se.simplicity.editor.view.scene.visual.VisualSceneView;
+import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.jogl.JOGLComponent;
+import com.se.simplicity.jogl.viewport.SimpleJOGLViewport;
 import com.se.simplicity.vector.SimpleTranslationVectorf4;
-import com.se.simplicity.viewport.Viewport;
 
-public class VisualSceneController implements EditorPartController
+public class VisualSceneEditor extends EditorPart
 {
-    private Viewport model;
+    private GLCanvas view;
 
-    private VisualSceneView view;
+    private SimpleJOGLViewport model;
 
     @Override
-    public void init(Composite parent)
+    public void createPartControl(final Composite parent)
     {
-        view.setParent(parent);
+        GLData data = new GLData();
+        data.doubleBuffer = true;
+        view = new GLCanvas(parent, SWT.NONE, data);
+
+        view.setCurrent();
+        GLContext glContext = GLDrawableFactory.getFactory().createExternalGLContext();
+        ((JOGLComponent) model).setGL(glContext.getGL());
+
+        view.addControlListener(new VisualSceneControlListener(model, view));
+        view.addMouseListener(new VisualSceneMouseListener(model, view));
+
+        Display display = view.getShell().getDisplay();
+        display.asyncExec(new VisualSceneDisplayer(display, model, view, glContext));
 
         // FOR TESTING PURPOSES ONLY // TODO remove
         // model.getPickingEngine().addPickListener(new PickAdapter()
@@ -59,27 +78,40 @@ public class VisualSceneController implements EditorPartController
     }
 
     @Override
-    public void init(final IEditorSite site, final IEditorInput input)
+    public void doSave(final IProgressMonitor monitor)
     {
-        ((JOGLComponent) model).setGL(view.getGLContext().getGL());
+    // TODO Auto-generated method stub
 
-        view.addControlListener(new VisualSceneControlListener(model, view));
-        view.addMouseListener(new VisualSceneMouseListener(model, view));
+    }
+
+    @Override
+    public void doSaveAs()
+    {
+    // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void init(final IEditorSite site, final IEditorInput input) throws PartInitException
+    {
+        setSite(site);
+        setInput(input);
+        setPartName(input.getName());
+
+        IFileEditorInput fileInput = (IFileEditorInput) input;
+        String filePath = fileInput.getFile().getFullPath().toString();
 
         try
         {
-            model.getRenderingEngine().setScene(SceneFactory.loadFromSourceFile(new File("/home/simple/workspace/com.se.simplicity.editor/samples/triangle.xml")));//input.getName())));
+            SceneManager.getSceneManager().addSceneDefinition(fileInput);
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            LogFactory.getLog(getClass()).error("Failed to load scene from file '" + filePath + "'.", e);
+            throw new PartInitException("Failed to load scene from file '" + filePath + "'.", e);
         }
 
-        // FOR TESTING PURPOSES ONLY // TODO remove
-        model.getRenderingEngine().setCamera(model.getRenderingEngine().getScene().getCameras().get(0));
-
-        Display display = view.getShell().getDisplay();
-        display.asyncExec(new VisualSceneDisplayer(display, model, view));
+        model = (SimpleJOGLViewport) SceneManager.getSceneManager().getViewportToScene(filePath);
 
         // FOR TESTING PURPOSES ONLY // TODO remove
         new Thread(new Runnable()
@@ -104,22 +136,28 @@ public class VisualSceneController implements EditorPartController
     }
 
     @Override
+    public boolean isDirty()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isSaveAsAllowed()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
     public void setFocus()
-    {}
-
-    @Override
-    public void setModel(final Object newModel)
     {
-        model = (Viewport) newModel;
+    // TODO Auto-generated method stub
+
     }
 
-    @Override
-    public void setView(final Object newView)
-    {
-        view = (VisualSceneView) newView;
-    }
-
-    @Override
     public void update()
-    {}
+    {
+    // SceneFactory.updateFromSource(scene, source);
+    }
 }

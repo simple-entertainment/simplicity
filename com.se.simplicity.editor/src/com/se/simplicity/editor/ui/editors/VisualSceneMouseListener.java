@@ -9,21 +9,21 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.controller.scene.visual;
+package com.se.simplicity.editor.ui.editors;
 
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.opengl.GLCanvas;
 
-import com.se.simplicity.editor.view.scene.visual.VisualSceneView;
 import com.se.simplicity.viewport.Viewport;
 
 public class VisualSceneMouseListener extends MouseAdapter
 {
     private Viewport model;
 
-    private VisualSceneView view;
+    private GLCanvas view;
 
-    public VisualSceneMouseListener(Viewport model, VisualSceneView view)
+    public VisualSceneMouseListener(Viewport model, GLCanvas view)
     {
         this.model = model;
         this.view = view;

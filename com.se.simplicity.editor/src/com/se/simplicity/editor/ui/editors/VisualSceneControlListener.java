@@ -9,23 +9,23 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.controller.scene.visual;
+package com.se.simplicity.editor.ui.editors;
 
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.opengl.GLCanvas;
 
-import com.se.simplicity.editor.model.scene.MetaDataCamera;
-import com.se.simplicity.editor.view.scene.visual.VisualSceneView;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
+import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.viewport.Viewport;
 
 public class VisualSceneControlListener extends ControlAdapter
 {
     private Viewport model;
 
-    private VisualSceneView view;
+    private GLCanvas view;
 
-    public VisualSceneControlListener(Viewport model, VisualSceneView view)
+    public VisualSceneControlListener(Viewport model, GLCanvas view)
     {
         this.model = model;
         this.view = view;

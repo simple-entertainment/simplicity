@@ -6,20 +6,20 @@
    		point="org.eclipse.ui.views">
       <category
             name="Simple Eddy"
-            id="com.se.simplicity.editor.view">
+            id="com.se.simplicity.editor.views">
       </category>
       <view
-            category="com.se.simplicity.editor.view"
-            class="com.se.simplicity.editor.controller.outline.OutlineView"
+            category="com.se.simplicity.editor.views"
+            class="com.se.simplicity.editor.ui.views.SceneOutlineView"
             icon="icons/sample.gif"
-            id="com.se.simplicity.editor.controller.outline.OutlineView"
+            id="com.se.simplicity.editor.ui.views.SceneOutlineView"
             name="Scene Outline">
       </view>
       <view
-            category="com.se.simplicity.editor.view"
-            class="com.se.simplicity.editor.controller.detail.DetailView"
+            category="com.se.simplicity.editor.views"
+            class="com.se.simplicity.editor.ui.views.NodeDetailView"
             icon="icons/sample.gif"
-            id="com.se.simplicity.editor.controller.detail.DetailView"
+            id="com.se.simplicity.editor.ui.views.NodeDetailView"
             name="Node Details">
       </view>
   </extension>
@@ -27,23 +27,30 @@
   <extension
         point="org.eclipse.ui.editors">
       <editor
-            class="com.se.simplicity.editor.controller.scene.visual.VisualSceneEditor"
-            contributorClass="com.se.simplicity.editor.controller.scene.visual.VisualSceneEditorContributor"
+            class="com.se.simplicity.editor.ui.editors.VisualSceneEditor"
             default="false"
             extensions="sss"
             icon="icons/sample.gif"
-            id="com.se.simplicity.editor.controller.scene.visual.VisualSceneEditor"
+            id="com.se.simplicity.editor.ui.editors.VisualSceneEditor"
             name="Visual Scene Editor">
   	 </editor>
       <editor
-            class="com.se.simplicity.editor.controller.scene.SceneEditor"
-            contributorClass="com.se.simplicity.editor.controller.scene.SceneEditorContributor"
+            class="com.se.simplicity.editor.ui.editors.SceneEditor"
             default="true"
             extensions="sss"
             icon="icons/sample.gif"
-            id="com.se.simplicity.editor.controller.scene.SceneEditor"
+            id="com.se.simplicity.editor.ui.editors.SceneEditor"
             name="Scene Editor">
       </editor>
+  </extension>
+  <extension
+        point="org.eclipse.ui.perspectives">
+     <perspective
+           class="com.se.simplicity.editor.ui.perspectives.EditorPerspective"
+           icon="icons/releng_gears.gif"
+           id="com.se.simplicity.editor.ui.perspectives.EditorPerspective"
+           name="Simple Eddy">
+     </perspective>
   </extension>
   
 </plugin>
