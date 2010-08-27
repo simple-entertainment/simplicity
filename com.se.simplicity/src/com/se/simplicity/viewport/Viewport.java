@@ -16,12 +16,11 @@ import com.se.simplicity.rendering.engine.RenderingEngine;
 
 /**
  * <p>
- * A viewport on which a rendered {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} can be displayed.
+ * A viewport on which a rendered {@link com.se.simplicity.scene.Scene Scene} can be displayed.
  * </p>
  * 
  * <p>
- * Implementors of this interface should be GUI objects that are able to display the rendered {@link com.se.simplicity.scenegraph.SceneGraph
- * SceneGraph}.
+ * Implementors of this interface should be GUI objects that are able to display the rendered {@link com.se.simplicity.scene.Scene Scene}.
  * </p>
  * 
  * @author Gary Buyn
@@ -30,10 +29,10 @@ public interface Viewport
 {
     /**
      * <p>
-     * Displays the rendered {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} on this <code>Viewport</code>.
+     * Displays the rendered {@link com.se.simplicity.scene.Scene Scene} on this <code>Viewport</code>.
      * </p>
      */
-    void displaySceneGraph();
+    void displayScene();
 
     /**
      * <p>
@@ -46,11 +45,11 @@ public interface Viewport
 
     /**
      * <p>
-     * Retrieves the {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the
-     * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
+     * Retrieves the {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the {@link com.se.simplicity.scenegraph.Scene
+     * Scene} is picked.
      * 
-     * @return The {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the {@link com.se.simplicity.scenegraph.SceneGraph
-     * SceneGraph} is picked.
+     * @return The {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the {@link com.se.simplicity.scene.Scene Scene} is
+     * picked.
      * </p>
      */
     PickingEngine getPickingEngine();
@@ -75,11 +74,11 @@ public interface Viewport
 
     /**
      * <p>
-     * Sets the {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the {@link com.se.simplicity.scenegraph.SceneGraph
-     * SceneGraph} is picked.
+     * Sets the {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the {@link com.se.simplicity.scene.Scene Scene} is
+     * picked.
      * 
      * @param pickingEngine The {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the
-     * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
+     * {@link com.se.simplicity.scene.Scene Scene} is picked.
      * </p>
      */
     void setPickingEngine(PickingEngine pickingEngine);
