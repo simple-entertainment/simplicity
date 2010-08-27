@@ -69,7 +69,7 @@ public class SimpleJOGLViewportTest
         mockPickingEngine.advance();
         replay(mockRenderingEngine, mockPickingEngine);
 
-        testObject.displaySceneGraph();
+        testObject.displayScene();
 
         verify(mockRenderingEngine, mockPickingEngine);
     }
@@ -92,7 +92,7 @@ public class SimpleJOGLViewportTest
         mockRenderingEngine.advance();
         replay(mockRenderingEngine);
 
-        testObject.displaySceneGraph();
+        testObject.displayScene();
 
         verify(mockRenderingEngine);
     }
@@ -107,7 +107,7 @@ public class SimpleJOGLViewportTest
     @Test(expected = IllegalStateException.class)
     public void displaySceneGraphNoRenderingEngine()
     {
-        testObject.displaySceneGraph();
+        testObject.displayScene();
     }
 
     /**
