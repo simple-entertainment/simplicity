@@ -20,7 +20,7 @@ import com.se.simplicity.viewport.Viewport;
 
 /**
  * <p>
- * A viewport on which a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} rendered by a JOGL rendering environment can be displayed.
+ * A viewport on which a {@link com.se.simplicity.scene.Scene Scene} rendered by a JOGL rendering environment can be displayed.
  * </p>
  * 
  * @author Gary Buyn
@@ -76,7 +76,7 @@ public class SimpleJOGLViewport implements Viewport, JOGLComponent
     }
 
     @Override
-    public void displaySceneGraph()
+    public void displayScene()
     {
         if (pickingEngine != null)
         {
