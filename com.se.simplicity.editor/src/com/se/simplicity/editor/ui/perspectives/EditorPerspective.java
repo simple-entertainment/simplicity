@@ -25,7 +25,7 @@ public class EditorPerspective implements IPerspectiveFactory
      * The percentage of the page width to cover with the <code>NodeDetailView</code>.
      * </p>
      */
-    private static final float NODE_DETAIL_PERCENTAGE = 0.75f;
+    private static final float COMPONENT_DETAIL_PERCENTAGE = 0.75f;
 
     /**
      * <p>
@@ -60,14 +60,14 @@ public class EditorPerspective implements IPerspectiveFactory
      */
     protected void addViews(final IPageLayout factory)
     {
-        IFolderLayout topLeft = factory.createFolder("topLeft", IPageLayout.LEFT, NODE_DETAIL_PERCENTAGE, factory.getEditorArea());
+        IFolderLayout topLeft = factory.createFolder("topLeft", IPageLayout.LEFT, PROJECT_EXPLORER_PERCENTAGE, factory.getEditorArea());
         topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
 
         IFolderLayout bottomLeft = factory.createFolder("bottomLeft", IPageLayout.BOTTOM, SCENE_OUTLINE_PERCENTAGE, "topLeft");
         bottomLeft.addView("com.se.simplicity.editor.ui.views.SceneOutlineView");
 
-        IFolderLayout bottom = factory.createFolder("bottomRight", IPageLayout.BOTTOM, PROJECT_EXPLORER_PERCENTAGE, factory.getEditorArea());
-        bottom.addView("com.se.simplicity.editor.ui.views.NodeDetailView");
+        IFolderLayout bottom = factory.createFolder("bottomRight", IPageLayout.BOTTOM, COMPONENT_DETAIL_PERCENTAGE, factory.getEditorArea());
+        bottom.addView("com.se.simplicity.editor.ui.views.SceneComponentDetailView");
     }
 
     @Override
