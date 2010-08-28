@@ -72,7 +72,9 @@ public class VisualSceneEditor extends EditorPart
         GLContext glContext = GLDrawableFactory.getFactory().createExternalGLContext();
         ((JOGLComponent) viewport).setGL(glContext.getGL());
 
-        canvas.addControlListener(new VisualSceneControlListener(viewport, canvas));
+        VisualSceneControlListener controlListener = new VisualSceneControlListener(viewport, canvas);
+        controlListener.setCameraAspectRatioSyncronised(true);
+        canvas.addControlListener(controlListener);
         canvas.addMouseListener(new VisualSceneMouseListener(viewport, canvas));
 
         Display display = canvas.getShell().getDisplay();
