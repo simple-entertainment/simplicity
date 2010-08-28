@@ -13,19 +13,24 @@ package com.se.simplicity.editor.internal;
 
 /**
  * <p>
- * Listens for {@link com.se.simplicity.editor.internal.SceneChangedEvent SceneChangedEvent}s.
+ * The type of a {@link com.se.simplicity.editor.internal.SceneChangedEvent SceneChangedEvent}.
  * </p>
  * 
  * @author Gary Buyn
  */
-public interface SceneChangedListener
+public enum SceneChangedEventType
 {
     /**
      * <p>
-     * Responds to a {@link com.se.simplicity.editor.internal.SceneChangedEvent SceneChangedEvent}.
+     * The <code>Scene</code> has been modified.
      * </p>
-     * 
-     * @param event The <code>SceneChangedEvent</code> to respond to.
      */
-    void sceneChanged(SceneChangedEvent event);
+    MODIFIED,
+
+    /**
+     * <p>
+     * The <code>Scene</code> has been made active.
+     * </p>
+     */
+    ACTIVATED
 }

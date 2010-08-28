@@ -16,10 +16,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.ViewPart;
 
+import com.se.simplicity.editor.internal.SceneChangedEvent;
+import com.se.simplicity.editor.internal.SceneChangedEventType;
+import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
@@ -30,16 +31,56 @@ import com.se.simplicity.scenegraph.SimpleTraversal;
 import com.se.simplicity.util.metadata.MetaData;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 
-public class SceneOutlineView extends ViewPart
+/**
+ * <p>
+ * An eclipse view that displays a tree outline of the contents of the <code>Scene</code> displayed in the active editor (if there is one).
+ * </p>
+ * 
+ * @author Gary Buyn
+ */
+public class SceneOutlineView extends ViewPart implements SceneChangedListener
 {
+    /**
+     * <p>
+     * The tree outline of the contents of the <code>Scene</code> displayed in the active editor (if there is one).
+     * </p>
+     */
     private Tree tree;
+
+    /**
+     * <p>
+     * Creates an instance of <code>SceneOutlineView</code>.
+     * </p>
+     */
+    public SceneOutlineView()
+    {
+        super();
+
+        SceneManager.getSceneManager().addSceneChangedListener(this);
+    }
 
     @Override
     public void createPartControl(final Composite parent)
     {
         tree = new Tree(parent, SWT.NONE);
+
+        Scene scene = SceneManager.getSceneManager().getActiveScene();
+        if (scene != null)
+        {
+            update(scene);
+        }
     }
 
+    /**
+     * <p>
+     * Creates a <code>TreeItem</code> for the given parent and <code>Node</code>.
+     * </p>
+     * 
+     * @param parent The parent of the <code>TreeItem</code> to be created.
+     * @param node The <code>Node</code> the <code>TreeItem</code> represents.
+     * 
+     * @return A <code>TreeItem</code> for the given parent and <code>Node</code>.
+     */
     protected TreeItem createTreeItem(final Widget parent, final Node node)
     {
         TreeItem treeItem;
@@ -65,46 +106,101 @@ public class SceneOutlineView extends ViewPart
     }
 
     @Override
+    public void dispose()
+    {
+        SceneManager.getSceneManager().removeSceneChangedListener(this);
+
+        super.dispose();
+    }
+
+    /**
+     * <p>
+     * Retrieves the tree outline of the contents of the <code>Scene</code> displayed in the active editor (if there is one).
+     * </p>
+     * 
+     * @return The tree outline of the contents of the <code>Scene</code> displayed in the active editor (if there is one).
+     */
+    public Tree getTree()
+    {
+        return (tree);
+    }
+
+    @Override
+    public void sceneChanged(final SceneChangedEvent event)
+    {
+        Scene scene = event.getScene();
+
+        if (event.getType() == SceneChangedEventType.ACTIVATED)
+        {
+            tree.removeAll();
+        }
+
+        update(scene);
+    }
+
+    @Override
     public void setFocus()
     {}
 
-    public void update()
+    /**
+     * <p>
+     * Updates the contents of the tree outline to reflect the given <code>Scene</code>.
+     * </p>
+     * 
+     * @param scene The <code>Scene</code> the contents of the tree outline will be updated to reflect.
+     */
+    public void update(final Scene scene)
     {
-        IEditorPart activeEditor = getViewSite().getPage().getActiveEditor();
-        String sceneId = ((IFileEditorInput) activeEditor.getEditorInput()).getFile().getFullPath().toString();
-        Scene model = SceneManager.getSceneManager().getScene(sceneId);
-
-        tree.removeAll();
-
-        if (model != null)
+        if (scene != null)
         {
-            updateCameras(model);
-            updateLights(model);
-            updateSceneGraph(model);
+            updateCameras(scene);
+            updateLights(scene);
+            updateSceneGraph(scene);
         }
     }
 
-    protected void updateCameras(Scene model)
+    /**
+     * <p>
+     * Updates the <code>Camera</code> contents of the tree outline to reflect the given <code>Scene</code>.
+     * </p>
+     * 
+     * @param scene The <code>Scene</code> the <code>Camera</code> contents of the tree outline will be updated to reflect.
+     */
+    protected void updateCameras(final Scene scene)
     {
-        for (Camera camera : model.getCameras())
+        for (Camera camera : scene.getCameras())
         {
             TreeItem treeItem = new TreeItem(tree, SWT.NONE);
             treeItem.setText((String) ((MetaData) camera).getAttribute("name"));
         }
     }
 
-    protected void updateLights(Scene model)
+    /**
+     * <p>
+     * Updates the <code>Light</code> contents of the tree outline to reflect the given <code>Scene</code>.
+     * </p>
+     * 
+     * @param scene The <code>Scene</code> the <code>Light</code> contents of the tree outline will be updated to reflect.
+     */
+    protected void updateLights(final Scene scene)
     {
-        for (Light light : model.getLights())
+        for (Light light : scene.getLights())
         {
             TreeItem treeItem = new TreeItem(tree, SWT.NONE);
             treeItem.setText((String) ((MetaData) light).getAttribute("name"));
         }
     }
 
-    protected void updateSceneGraph(Scene model)
+    /**
+     * <p>
+     * Updates the <code>SceneGraph</code> contents of the tree outline to reflect the given <code>Scene</code>.
+     * </p>
+     * 
+     * @param scene The <code>Scene</code> the <code>SceneGraph</code> contents of the tree outline will be updated to reflect.
+     */
+    protected void updateSceneGraph(final Scene scene)
     {
-        SceneGraph sceneGraph = model.getSceneGraph();
+        SceneGraph sceneGraph = scene.getSceneGraph();
 
         if (sceneGraph != null)
         {

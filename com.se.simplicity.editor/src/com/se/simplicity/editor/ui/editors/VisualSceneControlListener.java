@@ -19,25 +19,88 @@ import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.viewport.Viewport;
 
+/**
+ * <p>
+ * Listens for resize events on a 3D canvas and updates the <code>Viewport</code> and <code>Camera</code> to reflect the change in size.
+ * </p>
+ * 
+ * @author Gary Buyn
+ */
 public class VisualSceneControlListener extends ControlAdapter
 {
-    private Viewport model;
+    /**
+     * <p>
+     * The 3D canvas whose size has changed.
+     * </p>
+     */
+    private GLCanvas canvas;
 
-    private GLCanvas view;
+    /**
+     * <p>
+     * Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>Viewport</code>'s aspect ratio.
+     * </p>
+     */
+    private boolean cameraAspectRatioSyncronised;
 
-    public VisualSceneControlListener(Viewport model, GLCanvas view)
+    /**
+     * <p>
+     * The <code>Viewport</code> to update to reflect the change in size.
+     * </p>
+     */
+    private Viewport viewport;
+
+    /**
+     * <p>
+     * Creates an instance of <code>VisualSceneControlListener</code>.
+     * </p>
+     * 
+     * @param newViewport The <code>Viewport</code> to update to reflect the change in size.
+     * @param newCanvas The 3D canvas whose size has changed.
+     */
+    public VisualSceneControlListener(final Viewport newViewport, final GLCanvas newCanvas)
     {
-        this.model = model;
-        this.view = view;
+        viewport = newViewport;
+        canvas = newCanvas;
+
+        cameraAspectRatioSyncronised = false;
     }
 
+    @Override
     public void controlResized(final ControlEvent event)
     {
-        model.setSize(view.getBounds().width, view.getBounds().height);
+        viewport.setSize(canvas.getBounds().width, canvas.getBounds().height);
 
-        // TODO Specific to only one camera type!
-        SimpleJOGLCamera camera = (SimpleJOGLCamera) ((MetaDataCamera) model.getRenderingEngine().getCamera()).getWrappedCamera();
-        camera.setFrameAspectRatio((view.getBounds().height * 1.0f) / (view.getBounds().width * 1.0f));
-        camera.setFrameWidth(view.getBounds().width / 1000.0f);
+        if (cameraAspectRatioSyncronised)
+        {
+            // TODO Specific to only one camera type!
+            SimpleJOGLCamera camera = (SimpleJOGLCamera) ((MetaDataCamera) viewport.getRenderingEngine().getCamera()).getWrappedCamera();
+            camera.setFrameAspectRatio((canvas.getBounds().height * 1.0f) / (canvas.getBounds().width * 1.0f));
+        }
+    }
+
+    /**
+     * <p>
+     * Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>Viewport</code>'s aspect ratio.
+     * </p>
+     * 
+     * @return True if the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>Viewport</code>'s aspect ratio, false
+     * otherwise.
+     */
+    public boolean isCameraAspectRatioSyncronised()
+    {
+        return (cameraAspectRatioSyncronised);
+    }
+
+    /**
+     * <p>
+     * Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>Viewport</code>'s aspect ratio.
+     * </p>
+     * 
+     * @param newCameraAspectRatioSyncronised Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the
+     * <code>Viewport</code>'s aspect ratio.
+     */
+    public void setCameraAspectRatioSyncronised(final boolean newCameraAspectRatioSyncronised)
+    {
+        cameraAspectRatioSyncronised = newCameraAspectRatioSyncronised;
     }
 }

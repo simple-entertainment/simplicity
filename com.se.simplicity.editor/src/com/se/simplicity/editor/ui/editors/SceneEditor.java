@@ -1,6 +1,16 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.editor.ui.editors;
 
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.ui.IEditorInput;
@@ -9,42 +19,41 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
 /**
- * An example showing how to create a multi-page editor. This example has 3 pages:
- * <ul>
- * <li>page 0 contains a nested text editor.
- * <li>page 1 allows you to change the font used in page 2
- * <li>page 2 shows the words in page 0 in sorted order
- * </ul>
+ * A multi-page eclipse editor that displays a <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment on the first page and
+ * the serialised source representation in an XML editor on the second page.
+ * 
+ * @author Gary Buyn
  */
 public class SceneEditor extends MultiPageEditorPart
 {
+    /**
+     * <p>
+     * The XML editor that displays the serialised source representation of the <code>Scene</code>.
+     * </p>
+     */
     private TextEditor sourceEditor;
 
+    /**
+     * <p>
+     * The editor that displays the <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment.
+     * </p>
+     */
     private VisualSceneEditor visualEditor;
 
-    /**
-     * Creates page 0 of the multi-page editor, which contains a text editor.
-     */
-    public void createVisualPage()
+    @Override
+    protected void createPages()
     {
-        try
-        {
-            visualEditor = new VisualSceneEditor();
-            int index = addPage(visualEditor, getEditorInput());
-            setPageText(index, "Visual");
-        }
-        catch (PartInitException e)
-        {
-            ErrorDialog.openError(getSite().getShell(), "Error creating nested text editor", null, e.getStatus());
-        }
+        createVisualPage();
+        createSourcePage();
     }
 
     /**
-     * Creates page 1 of the multi-page editor, which allows you to change the font used in page 2.
+     * <p>
+     * Adds the source editor to the next available page within this multi-page editor.
+     * </p>
      */
     public void createSourcePage()
     {
@@ -56,31 +65,36 @@ public class SceneEditor extends MultiPageEditorPart
         }
         catch (PartInitException e)
         {
-            ErrorDialog.openError(getSite().getShell(), "Error creating nested text editor", null, e.getStatus());
+            ErrorDialog.openError(getSite().getShell(), "Error creating nested source editor", null, e.getStatus());
         }
     }
 
     /**
-     * Creates the pages of the multi-page editor.
+     * <p>
+     * Adds the visual editor to the next available page within this multi-page editor.
+     * </p>
      */
-    protected void createPages()
+    public void createVisualPage()
     {
-        createVisualPage();
-        createSourcePage();
+        try
+        {
+            visualEditor = new VisualSceneEditor();
+            int index = addPage(visualEditor, getEditorInput());
+            setPageText(index, "Visual");
+        }
+        catch (PartInitException e)
+        {
+            ErrorDialog.openError(getSite().getShell(), "Error creating nested visual editor", null, e.getStatus());
+        }
     }
 
-    /**
-     * Saves the multi-page editor's document.
-     */
-    public void doSave(IProgressMonitor monitor)
+    @Override
+    public void doSave(final IProgressMonitor monitor)
     {
         getEditor(0).doSave(monitor);
     }
 
-    /**
-     * Saves the multi-page editor's document as another file. Also updates the text for page 0's tab, and updates this multi-page editor's input to
-     * correspond to the nested editor's.
-     */
+    @Override
     public void doSaveAs()
     {
         IEditorPart editor = getEditor(0);
@@ -88,50 +102,40 @@ public class SceneEditor extends MultiPageEditorPart
         setPageText(0, editor.getTitle());
         setInput(editor.getEditorInput());
     }
-    
-    public VisualSceneEditor getVisualPage()
-    {
-        return (visualEditor);
-    }
 
-    /*
-     * (non-Javadoc) Method declared on IEditorPart
-     */
-    public void gotoMarker(IMarker marker)
-    {
-        setActivePage(0);
-        IDE.gotoMarker(getEditor(0), marker);
-    }
-
-    /**
-     * The <code>MultiPageEditorExample</code> implementation of this method checks that the input is an instance of <code>IFileEditorInput</code>.
-     */
-    public void init(IEditorSite site, IEditorInput input) throws PartInitException
+    @Override
+    public void init(final IEditorSite site, final IEditorInput input) throws PartInitException
     {
         if (!(input instanceof IFileEditorInput))
+        {
             throw new PartInitException("Invalid Input: Must be IFileEditorInput");
+        }
 
         super.init(site, input);
-        
+
         setPartName(input.getName());
     }
 
-    /*
-     * (non-Javadoc) Method declared on IEditorPart.
-     */
+    @Override
     public boolean isSaveAsAllowed()
     {
-        return true;
+        return (false);
     }
 
-    /**
-     * Calculates the contents of page 2 when the it is activated.
-     */
-    protected void pageChange(int newPageIndex)
+    @Override
+    protected void pageChange(final int newPageIndex)
     {
-        if (newPageIndex == 0)
-        {
-            visualEditor.update();
-        }
+//        if (isDirtySinceLastPageChange)
+//        {
+//            if (newPageIndex == 0)
+//            {
+//                SceneFactory.updateFromSource(SceneManager.getSceneManager().getScene(id), ((IFileEditorInput) getEditorInput()).getFile()
+//                        .getContents());
+//            }
+//
+//            SceneManager.getSceneManager().notifySceneModified(id);
+//
+//            isDirtySinceLastPageChange = false;
+//        }
     }
 }

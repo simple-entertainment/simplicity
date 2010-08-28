@@ -17,23 +17,56 @@ import org.eclipse.swt.opengl.GLCanvas;
 
 import com.se.simplicity.viewport.Viewport;
 
+/**
+ * <p>
+ * Listens for mouse events on a 3D canvas and registers picks against the <code>Viewport</code> (if a <code>PickingEngine</code> exists).
+ * </p>
+ * 
+ * @author Gary Buyn
+ */
 public class VisualSceneMouseListener extends MouseAdapter
 {
-    private Viewport model;
+    /**
+     * <p>
+     * The <code>Viewport</code> this to register picks against.
+     * </p>
+     */
+    private Viewport viewport;
 
-    private GLCanvas view;
+    /**
+     * <p>
+     * The 3D canvas to listen for mouse events from.
+     * </p>
+     */
+    private GLCanvas canvas;
 
-    public VisualSceneMouseListener(Viewport model, GLCanvas view)
+    /**
+     * <p>
+     * Creates an instance of <code>VisualSceneMouseListener</code>.
+     * </p>
+     * 
+     * 
+     * @param newViewport The <code>Viewport</code> this to register picks again
+     * @param newCanvas The 3D canvas to listen for mouse events from.
+     */
+    public VisualSceneMouseListener(final Viewport newViewport, final GLCanvas newCanvas)
     {
-        this.model = model;
-        this.view = view;
+        viewport = newViewport;
+        canvas = newCanvas;
     }
-    
+
+    /**
+     * <p>
+     * Responds to a button 1 mouse event by registering a pick against the <code>Viewport</code> (if a <code>PickingEngine</code> exists).
+     * </p>
+     * 
+     * @param event The event to respond to.
+     */
     public void mouseClicked(final MouseEvent event)
     {
-        if (event.button == 1 && model.getPickingEngine() != null)
+        if (event.button == 1 && viewport.getPickingEngine() != null)
         {
-            model.getPickingEngine().pickViewport(model, event.x, event.y, view.getBounds().width, view.getBounds().height);
+            viewport.getPickingEngine().pickViewport(viewport, event.x, event.y, canvas.getBounds().width, canvas.getBounds().height);
         }
     }
 }

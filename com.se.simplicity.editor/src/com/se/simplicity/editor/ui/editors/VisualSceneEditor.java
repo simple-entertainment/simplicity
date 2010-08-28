@@ -30,65 +30,85 @@ import org.eclipse.ui.part.EditorPart;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.viewport.SimpleJOGLViewport;
-import com.se.simplicity.vector.SimpleTranslationVectorf4;
 
+/**
+ * <p>
+ * An eclipse editor that displays a <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment.
+ * </p>
+ * 
+ * @author Gary Buyn
+ */
 public class VisualSceneEditor extends EditorPart
 {
-    private GLCanvas view;
+    /**
+     * <p>
+     * The 3D canvas the <code>Scene</code> will be displayed visually on.
+     * </p>
+     */
+    private GLCanvas canvas;
 
-    private SimpleJOGLViewport model;
+    /**
+     * <p>
+     * The name of the scene this editor is displaying.
+     * </p>
+     */
+    private String sceneName;
+
+    /**
+     * <p>
+     * The <code>Viewport</code> to the <code>Scene</code> that will be drawn to the 3D canvas.
+     * </p>
+     */
+    private SimpleJOGLViewport viewport;
 
     @Override
     public void createPartControl(final Composite parent)
     {
         GLData data = new GLData();
         data.doubleBuffer = true;
-        view = new GLCanvas(parent, SWT.NONE, data);
+        canvas = new GLCanvas(parent, SWT.NONE, data);
 
-        view.setCurrent();
+        canvas.setCurrent();
         GLContext glContext = GLDrawableFactory.getFactory().createExternalGLContext();
-        ((JOGLComponent) model).setGL(glContext.getGL());
+        ((JOGLComponent) viewport).setGL(glContext.getGL());
 
-        view.addControlListener(new VisualSceneControlListener(model, view));
-        view.addMouseListener(new VisualSceneMouseListener(model, view));
+        canvas.addControlListener(new VisualSceneControlListener(viewport, canvas));
+        canvas.addMouseListener(new VisualSceneMouseListener(viewport, canvas));
 
-        Display display = view.getShell().getDisplay();
-        display.asyncExec(new VisualSceneDisplayer(display, model, view, glContext));
-
-        // FOR TESTING PURPOSES ONLY // TODO remove
-        // model.getPickingEngine().addPickListener(new PickAdapter()
-        // {
-        // public void scenePicked(PickEvent event)
-        // {
-        // for (int hitIndex = 0; hitIndex < event.getHitCount(); hitIndex++)
-        // {
-        // ModelNode node = (ModelNode) event.getHit(hitIndex)[event.getHit(hitIndex).length - 2];
-        //
-        // float[] colours = ((ArrayVG) node.getVertexGroup()).getColours();
-        //
-        // for (int index = 0; index < colours.length; index += 3)
-        // {
-        // colours[index] = Color.yellow.getRed();
-        // colours[index + 1] = Color.yellow.getGreen();
-        // colours[index + 2] = Color.yellow.getBlue();
-        // }
-        // }
-        // }
-        // });
+        Display display = canvas.getShell().getDisplay();
+        display.asyncExec(new VisualSceneDisplayer(display, viewport, canvas, glContext));
     }
 
     @Override
     public void doSave(final IProgressMonitor monitor)
-    {
-    // TODO Auto-generated method stub
-
-    }
+    {}
 
     @Override
     public void doSaveAs()
-    {
-    // TODO Auto-generated method stub
+    {}
 
+    /**
+     * <p>
+     * Retrieves the 3D canvas the <code>Scene</code> will be displayed visually on.
+     * </p>
+     * 
+     * @return The 3D canvas the <code>Scene</code> will be displayed visually on.
+     */
+    public GLCanvas getCanvas()
+    {
+        return (canvas);
+    }
+
+    /**
+     * <p>
+     * Retrieves the <code>Viewport</code> to the <code>Scene</code> that will be drawn to the 3D canvas.
+     * </p>
+     * 
+     * @return The <code>Viewport</code> to the <code>Scene</code> that will be drawn to the 3D canvas.
+     */
+    public SimpleJOGLViewport getViewport()
+    {
+        return (viewport);
     }
 
     @Override
@@ -99,7 +119,7 @@ public class VisualSceneEditor extends EditorPart
         setPartName(input.getName());
 
         IFileEditorInput fileInput = (IFileEditorInput) input;
-        String filePath = fileInput.getFile().getFullPath().toString();
+        sceneName = fileInput.getFile().getFullPath().toString();
 
         try
         {
@@ -107,57 +127,30 @@ public class VisualSceneEditor extends EditorPart
         }
         catch (Exception e)
         {
-            LogFactory.getLog(getClass()).error("Failed to load scene from file '" + filePath + "'.", e);
-            throw new PartInitException("Failed to load scene from file '" + filePath + "'.", e);
+            LogFactory.getLog(getClass()).error("Failed to load scene from file '" + sceneName + "'.", e);
+            throw new PartInitException("Failed to load scene from file '" + sceneName + "'.", e);
         }
 
-        model = (SimpleJOGLViewport) SceneManager.getSceneManager().getViewportToScene(filePath);
+        viewport = (SimpleJOGLViewport) SceneManager.getSceneManager().getViewportToScene(sceneName);
 
-        // FOR TESTING PURPOSES ONLY // TODO remove
-        new Thread(new Runnable()
-        {
-            public void run()
-            {
-                while (true)
-                {
-                    model.getRenderingEngine().getScene().getSceneGraph().getNode(3).getTransformation().rotate((float) (1.0f * Math.PI / 180.0f),
-                            new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-                    try
-                    {
-                        Thread.sleep(16);
-                    }
-                    catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
+        SceneManager.getSceneManager().setActiveScene(sceneName);
     }
 
     @Override
     public boolean isDirty()
     {
-        // TODO Auto-generated method stub
-        return false;
+        return (false);
     }
 
     @Override
     public boolean isSaveAsAllowed()
     {
-        // TODO Auto-generated method stub
-        return false;
+        return (false);
     }
 
     @Override
     public void setFocus()
     {
-    // TODO Auto-generated method stub
-
-    }
-
-    public void update()
-    {
-    // SceneFactory.updateFromSource(scene, source);
+        SceneManager.getSceneManager().setActiveScene(sceneName);
     }
 }

@@ -18,36 +18,80 @@ import org.eclipse.swt.widgets.Display;
 
 import com.se.simplicity.viewport.Viewport;
 
+/**
+ * <p>
+ * Continually renders a <code>Viewport</code> to a 3D canvas using the JOGL rendering environment. Renders are executed as asynchronous display calls
+ * ( {@link org.eclipse.swt.widgets.Display#asyncExec(Runnable) Display.asyncExec(Runnable)}) until the canvas is disposed.
+ * </p>
+ * 
+ * @author Gary Buyn
+ */
 public class VisualSceneDisplayer implements Runnable
 {
+    /**
+     * <p>
+     * The 3D canvas to render the <code>Viewport</code> to.
+     * </p>
+     */
+    private GLCanvas canvas;
+
+    /**
+     * <p>
+     * The display to request asynchronous calls against.
+     * </p>
+     */
     private Display display;
 
+    /**
+     * <p>
+     * The <code>GLContext</code> to use when rendering the <code>Viewport</code>.
+     * </p>
+     */
     private GLContext glContext;
 
-    private Viewport model;
+    /**
+     * <p>
+     * The <code>Viewport</code> to render.
+     * </p>
+     */
+    private Viewport viewport;
 
-    private GLCanvas view;
-
-    public VisualSceneDisplayer(Display display, Viewport model, GLCanvas view, GLContext glContext)
+    /**
+     * <p>
+     * Creates an instance of <code>VisualSceneDisplayer</code>.
+     * </p>
+     * 
+     * @param newDisplay The display to request asynchronous calls against.
+     * @param newViewport The <code>Viewport</code> to render.
+     * @param newCanvas The 3D canvas to render the <code>Viewport</code> to.
+     * @param newGlContext The <code>GLContext</code> to use when rendering the <code>Viewport</code>.
+     */
+    public VisualSceneDisplayer(final Display newDisplay, final Viewport newViewport, final GLCanvas newCanvas, final GLContext newGlContext)
     {
-        this.display = display;
-        this.glContext = glContext;
-        this.model = model;
-        this.view = view;
+        canvas = newCanvas;
+        display = newDisplay;
+        glContext = newGlContext;
+        viewport = newViewport;
     }
 
+    /**
+     * <p>
+     * Continually renders a <code>Viewport</code> to a 3D canvas using the JOGL rendering environment. Renders are executed as asynchronous display
+     * calls ( {@link org.eclipse.swt.widgets.Display#asyncExec(Runnable) Display.asyncExec(Runnable)}) until the canvas is disposed.
+     * </p>
+     */
     public void run()
     {
         try
         {
-            if (!view.isDisposed())
+            if (!canvas.isDisposed())
             {
-                view.setCurrent();
+                canvas.setCurrent();
                 glContext.makeCurrent();
 
-                model.displayScene();
+                viewport.displayScene();
 
-                view.swapBuffers();
+                canvas.swapBuffers();
                 glContext.release();
 
                 display.asyncExec(this);
