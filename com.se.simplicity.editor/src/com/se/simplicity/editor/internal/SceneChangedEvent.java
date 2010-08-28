@@ -12,6 +12,7 @@
 package com.se.simplicity.editor.internal;
 
 import com.se.simplicity.scene.Scene;
+import com.se.simplicity.scenegraph.Node;
 
 /**
  * <p>
@@ -39,14 +40,23 @@ public class SceneChangedEvent
 
     /**
      * <p>
+     * The <code>Node</code> that has changed (if the event is <code>Node</code> specific).
+     * </p>
+     */
+    private Node node;
+
+    /**
+     * <p>
      * Creates an instance of <code>SceneChangedEvent</code>.
      * </p>
      * 
      * @param newScene The <code>Scene</code> that has changed.
+     * @param newNode The <code>Node</code> that has changed (if the event is <code>Node</code> specific).
      * @param newType The type of change that has been made to the <code>Scene</code>.
      */
-    public SceneChangedEvent(final Scene newScene, final SceneChangedEventType newType)
+    public SceneChangedEvent(final Scene newScene, final Node newNode, final SceneChangedEventType newType)
     {
+        node = newNode;
         scene = newScene;
         type = newType;
     }
@@ -61,6 +71,18 @@ public class SceneChangedEvent
     public Scene getScene()
     {
         return (scene);
+    }
+
+    /**
+     * <p>
+     * Retrieves the <code>Node</code> that has changed (if the event is <code>Node</code> specific).
+     * </p>
+     * 
+     * @return The <code>Node</code> that has changed, or null if the event is not <code>Node</code> specific.
+     */
+    public Node getNode()
+    {
+        return (node);
     }
 
     /**

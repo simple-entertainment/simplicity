@@ -29,6 +29,7 @@ import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
+import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SimpleNode;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.util.metadata.scene.MetaDataScene;
@@ -66,6 +67,13 @@ public final class SceneManager
 
     /**
      * <p>
+     * The currently active <code>Node</code>.
+     * </p>
+     */
+    private Node activeNode;
+
+    /**
+     * <p>
      * The currently active <code>Scene</code>.
      * </p>
      */
@@ -93,6 +101,7 @@ public final class SceneManager
      */
     private SceneManager()
     {
+        activeNode = null;
         activeScene = null;
         sceneChangedListeners = new ArrayList<SceneChangedListener>();
         scenes = new HashMap<String, Scene>();
@@ -157,17 +166,30 @@ public final class SceneManager
      * {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s.
      * </p>
      * 
-     * @param id The id of the <code>Scene</code> to fire the event for.
+     * @param scene The <code>Scene</code> to fire the event for.
+     * @param node The <code>Node</code> to fire the event for (if the event is <code>Node</code> specific).
      * @param type The type of event to fire.
      */
-    protected void fireSceneModifiedEvent(final String id, final SceneChangedEventType type)
+    protected void fireSceneChangedEvent(final Scene scene, final Node node, final SceneChangedEventType type)
     {
-        SceneChangedEvent event = new SceneChangedEvent(scenes.get(id), type);
+        SceneChangedEvent event = new SceneChangedEvent(scene, node, type);
 
         for (SceneChangedListener listener : sceneChangedListeners)
         {
             listener.sceneChanged(event);
         }
+    }
+
+    /**
+     * <p>
+     * Retrieves the currently active <code>Node</code>.
+     * </p>
+     * 
+     * @return The currently active <code>Node</code>.
+     */
+    public Node getActiveNode()
+    {
+        return (activeNode);
     }
 
     /**
@@ -318,6 +340,19 @@ public final class SceneManager
 
     /**
      * <p>
+     * Notifies all registered {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s that the <code>Node</code> with
+     * the given ID in the currently active <code>Scene</code> has been modified.
+     * </p>
+     * 
+     * @param id The ID of the <code>Node</code> the <code>SceneChangedListener</code>s will be notified about.
+     */
+    public void notifyNodeModified(final int id)
+    {
+        fireSceneChangedEvent(activeScene, activeScene.getSceneGraph().getNode(id), SceneChangedEventType.NODE_MODIFIED);
+    }
+
+    /**
+     * <p>
      * Notifies all registered {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s that the <code>Scene</code> with
      * the given ID has been modified.
      * </p>
@@ -326,7 +361,7 @@ public final class SceneManager
      */
     public void notifySceneModified(final String id)
     {
-        fireSceneModifiedEvent(id, SceneChangedEventType.MODIFIED);
+        fireSceneChangedEvent(scenes.get(id), null, SceneChangedEventType.SCENE_MODIFIED);
     }
 
     /**
@@ -349,9 +384,23 @@ public final class SceneManager
      */
     public void reset()
     {
+        activeNode = null;
         activeScene = null;
         sceneChangedListeners = new ArrayList<SceneChangedListener>();
         scenes = new HashMap<String, Scene>();
+    }
+
+    /**
+     * <p>
+     * Sets the currently active <code>Node</code>.
+     * </p>
+     * 
+     * @param id The currently active <code>Node</code>.
+     */
+    public void setActiveNode(final int id)
+    {
+        activeNode = activeScene.getSceneGraph().getNode(id);
+        fireSceneChangedEvent(activeScene, activeNode, SceneChangedEventType.NODE_ACTIVATED);
     }
 
     /**
@@ -364,6 +413,6 @@ public final class SceneManager
     public void setActiveScene(final String id)
     {
         activeScene = scenes.get(id);
-        fireSceneModifiedEvent(id, SceneChangedEventType.ACTIVATED);
+        fireSceneChangedEvent(activeScene, null, SceneChangedEventType.SCENE_ACTIVATED);
     }
 }

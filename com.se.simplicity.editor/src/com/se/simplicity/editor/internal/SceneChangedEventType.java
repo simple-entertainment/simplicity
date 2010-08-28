@@ -22,15 +22,29 @@ public enum SceneChangedEventType
 {
     /**
      * <p>
+     * A <code>Node</code> has been modified.
+     * </p>
+     */
+    NODE_MODIFIED,
+
+    /**
+     * <p>
+     * A <code>Node</code> has been made active.
+     * </p>
+     */
+    NODE_ACTIVATED,
+
+    /**
+     * <p>
      * The <code>Scene</code> has been modified.
      * </p>
      */
-    MODIFIED,
+    SCENE_MODIFIED,
 
     /**
      * <p>
      * The <code>Scene</code> has been made active.
      * </p>
      */
-    ACTIVATED
+    SCENE_ACTIVATED
 }
