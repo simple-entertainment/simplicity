@@ -11,6 +11,9 @@
  */
 package com.se.simplicity.editor.ui.views;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
@@ -33,13 +36,20 @@ import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 
 /**
  * <p>
- * An eclipse view that displays a tree outline of the contents of the <code>Scene</code> displayed in the active editor (if there is one).
+ * An eclipse view that displays a tree outline of the contents of the currently active <code>Scene</code> (if there is one).
  * </p>
  * 
  * @author Gary Buyn
  */
 public class SceneOutlineView extends ViewPart implements SceneChangedListener
 {
+    /**
+     * <p>
+     * A map from <code>TreeItem</code> to <code>Scene</code> components. Used for notifications of changes in active <code>Node</code>.
+     * </p>
+     */
+    private Map<TreeItem, Object> sceneComponents;
+
     /**
      * <p>
      * The tree outline of the contents of the <code>Scene</code> displayed in the active editor (if there is one).
@@ -62,7 +72,10 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
     @Override
     public void createPartControl(final Composite parent)
     {
+        sceneComponents = new HashMap<TreeItem, Object>();
         tree = new Tree(parent, SWT.NONE);
+
+        tree.addSelectionListener(new SceneOutlineSelectionListener(sceneComponents));
 
         Scene scene = SceneManager.getSceneManager().getActiveScene();
         if (scene != null)
@@ -102,6 +115,8 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
             treeItem.setText("Node" + node.getID());
         }
 
+        sceneComponents.put(treeItem, node);
+
         return (treeItem);
     }
 
@@ -130,12 +145,17 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
     {
         Scene scene = event.getScene();
 
-        if (event.getType() == SceneChangedEventType.ACTIVATED)
+        if (event.getType() == SceneChangedEventType.SCENE_ACTIVATED)
         {
             tree.removeAll();
-        }
+            sceneComponents.clear();
 
-        update(scene);
+            update(scene);
+        }
+        else if (event.getType() == SceneChangedEventType.SCENE_MODIFIED)
+        {
+            update(scene);
+        }
     }
 
     @Override
@@ -172,6 +192,8 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
         {
             TreeItem treeItem = new TreeItem(tree, SWT.NONE);
             treeItem.setText((String) ((MetaData) camera).getAttribute("name"));
+
+            sceneComponents.put(treeItem, camera);
         }
     }
 
@@ -188,6 +210,8 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
         {
             TreeItem treeItem = new TreeItem(tree, SWT.NONE);
             treeItem.setText((String) ((MetaData) light).getAttribute("name"));
+
+            sceneComponents.put(treeItem, light);
         }
     }
 
