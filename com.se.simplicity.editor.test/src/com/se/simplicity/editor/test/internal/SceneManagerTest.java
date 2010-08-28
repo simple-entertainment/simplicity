@@ -39,6 +39,7 @@ import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
 import com.se.simplicity.scene.Scene;
+import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.util.metadata.scene.MetaDataScene;
@@ -313,6 +314,36 @@ public class SceneManagerTest
 
     /**
      * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyNodeModified(int) notifyNodeModified(int)}.
+     * </p>
+     */
+    @Test
+    public void notifyNodeModified()
+    {
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node mockNode = createMock(Node.class);
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
+        replay(mockScene, mockSceneGraph);
+
+        testObject.addSceneDefinition(mockScene, "test");
+        testObject.setActiveScene("test");
+        testObject.addSceneChangedListener(mockListener);
+
+        org.easymock.classextension.EasyMock.reset(mockListener);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockListener);
+
+        testObject.notifyNodeModified(0);
+
+        verify(mockListener);
+    }
+
+    /**
+     * <p>
      * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifySceneModified(String) notifySceneModified(String)}.
      * </p>
      */
@@ -341,19 +372,60 @@ public class SceneManagerTest
     @Test
     public void reset()
     {
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node mockNode = createMock(Node.class);
+
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
+        replay(mockScene, mockSceneGraph);
+
         testObject.addSceneChangedListener(createMock(SceneChangedListener.class));
-        testObject.addSceneDefinition(createMock(Scene.class), "test");
+        testObject.addSceneDefinition(mockScene, "test");
         testObject.setActiveScene("test");
+        testObject.setActiveNode(0);
 
         assertEquals(1, testObject.getSceneChangedListeners().size(), 0);
         assertNotNull(testObject.getScene("test"));
         assertNotNull(testObject.getActiveScene());
+        assertNotNull(testObject.getActiveNode());
 
         testObject.reset();
 
         assertEquals(0, testObject.getSceneChangedListeners().size(), 0);
         assertNull(testObject.getScene("test"));
         assertNull(testObject.getActiveScene());
+        assertNull(testObject.getActiveNode());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setActiveNode(int) setActiveNode(int)}.
+     * </p>
+     */
+    @Test
+    public void setActiveNode()
+    {
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node mockNode = createMock(Node.class);
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
+        replay(mockScene, mockSceneGraph);
+
+        testObject.addSceneDefinition(mockScene, "test");
+        testObject.setActiveScene("test");
+        testObject.addSceneChangedListener(mockListener);
+
+        org.easymock.classextension.EasyMock.reset(mockListener);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockListener);
+
+        testObject.setActiveNode(0);
+
+        verify(mockListener);
     }
 
     /**
