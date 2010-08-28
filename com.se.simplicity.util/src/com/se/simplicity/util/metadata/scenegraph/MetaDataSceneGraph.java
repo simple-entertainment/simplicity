@@ -30,8 +30,9 @@ import com.se.simplicity.util.metadata.MetaData;
  * 
  * <p>
  * NOTE: All <code>Node</code>s within a <code>MetaDataSceneGraph</code> must be <code>MetaDataNode</code>s (except for the internally managed nodes
- * e.g. the root node). Using the {@link com.se.simplicity.util.metadata.scenegraph.MetaDataSceneGraph#addSubgraph addSubgraph(Node)} and (TODO add other
- * method) methods, it will ensure that all the <code>Node</code>s added are wrapped with <code>MetaDataNode</code>s if necessary.
+ * e.g. the root node). Using the {@link com.se.simplicity.util.metadata.scenegraph.MetaDataSceneGraph#addSubgraph(Node) addSubgraph(Node)} and
+ * {@link com.se.simplicity.util.metadata.scenegraph.MetaDataSceneGraph#addSubgraph(Node, Node) addSubgraph(Node, Node)} methods, it will ensure that
+ * all the <code>Node</code>s added are wrapped with <code>MetaDataNode</code>s if necessary.
  * </p>
  * 
  * @author Gary Buyn
