@@ -24,5 +24,4 @@ Bundle-ClassPath: bin,
  lib/gluegen-rt.jar,
  lib/jogl.jar,
  lib/log4j-1.2.15.jar,
- lib/org.eclipse.swt.gtk.linux.x86_3.5.1.v3555a.jar,
  lib/spring.jar
