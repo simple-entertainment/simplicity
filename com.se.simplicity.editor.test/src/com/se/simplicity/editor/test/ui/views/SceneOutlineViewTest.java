@@ -165,7 +165,7 @@ public class SceneOutlineViewTest
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
         expect(mockEvent.getScene()).andReturn(mockScene);
-        expect(mockEvent.getType()).andReturn(SceneChangedEventType.ACTIVATED);
+        expect(mockEvent.getType()).andReturn(SceneChangedEventType.SCENE_ACTIVATED);
         expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
         expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
@@ -198,7 +198,7 @@ public class SceneOutlineViewTest
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
         expect(mockEvent.getScene()).andReturn(mockScene);
-        expect(mockEvent.getType()).andReturn(SceneChangedEventType.MODIFIED);
+        expect(mockEvent.getType()).andReturn(SceneChangedEventType.SCENE_MODIFIED);
         expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
         expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
@@ -231,7 +231,7 @@ public class SceneOutlineViewTest
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
         expect(mockEvent.getScene()).andReturn(mockScene);
-        expect(mockEvent.getType()).andReturn(SceneChangedEventType.MODIFIED);
+        expect(mockEvent.getType()).andReturn(SceneChangedEventType.SCENE_MODIFIED);
         expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
         expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
@@ -244,7 +244,7 @@ public class SceneOutlineViewTest
 
         reset(mockEvent);
         expect(mockEvent.getScene()).andReturn(mockScene);
-        expect(mockEvent.getType()).andReturn(SceneChangedEventType.ACTIVATED);
+        expect(mockEvent.getType()).andReturn(SceneChangedEventType.SCENE_ACTIVATED);
         replay(mockEvent);
 
         testObject.sceneChanged(mockEvent);
