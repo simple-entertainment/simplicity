@@ -32,6 +32,8 @@ import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.scenegraph.SimpleTraversal;
 import com.se.simplicity.util.metadata.MetaData;
+import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
+import com.se.simplicity.util.metadata.rendering.MetaDataLight;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 
 /**
@@ -154,7 +156,25 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
     {
         Scene scene = event.getScene();
 
-        if (event.getType() == SceneChangedEventType.NODE_MODIFIED)
+        if (event.getType() == SceneChangedEventType.CAMERA_MODIFIED)
+        {
+            if (event.getSceneComponent() instanceof MetaDataCamera)
+            {
+                MetaDataCamera camera = (MetaDataCamera) event.getSceneComponent();
+                TreeItem treeItem = treeItems.get(event.getSceneComponent());
+                treeItem.setText((String) camera.getAttribute("name"));
+            }
+        }
+        else if (event.getType() == SceneChangedEventType.LIGHT_MODIFIED)
+        {
+            if (event.getSceneComponent() instanceof MetaDataLight)
+            {
+                MetaDataLight light = (MetaDataLight) event.getSceneComponent();
+                TreeItem treeItem = treeItems.get(event.getSceneComponent());
+                treeItem.setText((String) light.getAttribute("name"));
+            }
+        }
+        else if (event.getType() == SceneChangedEventType.NODE_MODIFIED)
         {
             if (event.getSceneComponent() instanceof MetaDataNode)
             {

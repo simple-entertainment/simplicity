@@ -117,5 +117,7 @@ public class LightViewListener implements ModifyListener
         {
             activeLight.setNode(activeScene.getSceneGraph().getNode(Integer.parseInt(value)));
         }
+
+        SceneManager.getSceneManager().notifyLightModified(activeLight);
     }
 }

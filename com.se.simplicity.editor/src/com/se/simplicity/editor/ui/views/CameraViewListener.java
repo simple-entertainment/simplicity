@@ -117,5 +117,7 @@ public class CameraViewListener implements ModifyListener
         {
             activeCamera.setNode(activeScene.getSceneGraph().getNode(Integer.parseInt(value)));
         }
+
+        SceneManager.getSceneManager().notifyCameraModified(activeCamera);
     }
 }
