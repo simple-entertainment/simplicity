@@ -77,7 +77,7 @@ public class SceneOutlineSelectionListener implements SelectionListener
 
             if (sceneComponent instanceof Node)
             {
-                SceneManager.getSceneManager().setActiveNode(((Node) sceneComponent).getID());
+                SceneManager.getSceneManager().setActiveNode((Node) sceneComponent);
             }
         }
     }
