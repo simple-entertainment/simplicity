@@ -65,7 +65,7 @@ public class CameraViewTest
      * </p>
      */
     @Test
-    public void nodeView()
+    public void cameraView()
     {
         testObject = new CameraView(new Shell(), SWT.NONE);
 
