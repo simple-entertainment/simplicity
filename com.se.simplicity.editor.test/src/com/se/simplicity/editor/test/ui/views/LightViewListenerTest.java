@@ -109,7 +109,7 @@ public class LightViewListenerTest
         testObject.modifyText(modifyEvent);
 
         // Verify results.
-        // verify(mockListener);
+        verify(mockListener);
 
         assertEquals("Test", light.getAttribute("name"));
     }
@@ -158,7 +158,7 @@ public class LightViewListenerTest
         testObject.modifyText(modifyEvent);
 
         // Verify results.
-        // verify(mockListener);
+        verify(mockListener);
     }
 
     /**
@@ -208,7 +208,7 @@ public class LightViewListenerTest
         testObject.modifyText(modifyEvent);
 
         // Verify results.
-        // verify(mockListener);
+        verify(mockListener);
 
         assertNotNull(light.getNode());
     }
