@@ -42,6 +42,7 @@ import com.se.simplicity.scenegraph.SimpleTraversal;
 import com.se.simplicity.test.mocks.NodeHierarchy;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
+import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataSceneGraph;
 
 /**
@@ -151,11 +152,57 @@ public class SceneOutlineViewTest
     /**
      * <p>
      * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneOutlineView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)}
-     * with the special condition that the event is of type 'ACTIVATED'.
+     * with the special condition that the event is of type 'NODE_MODIFIED'.
      * </p>
      */
     @Test
-    public void sceneChangedActivated()
+    public void sceneChangedNodeModified()
+    {
+        // Create dependencies.
+        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        MetaDataNode mockNode = createMock(MetaDataNode.class);
+
+        // Dictate correct behaviour.
+        expect(mockEvent.getScene()).andStubReturn(mockScene);
+        expect(mockEvent.getSceneComponent()).andStubReturn(mockNode);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_MODIFIED);
+        expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
+        expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getRoot()).andStubReturn(mockNode);
+        expect(mockNode.hasChildren()).andStubReturn(false);
+        expect(mockNode.getID()).andStubReturn(0);
+        expect(mockNode.getAttribute("name")).andReturn("Node0");
+        expect(mockNode.getAttribute("name")).andReturn("Test");
+        replay(mockEvent, mockScene, mockSceneGraph, mockNode);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
+
+        // Verify test environment.
+        Tree tree = testObject.getTree();
+
+        assertEquals("Node0", tree.getItem(0).getText());
+
+        // Perform test.
+        testObject.sceneChanged(mockEvent);
+
+        // Verify results.
+        assertEquals("Test", tree.getItem(0).getText());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneOutlineView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)}
+     * with the special condition that the event is of type 'SCENE_ACTIVATED'.
+     * </p>
+     */
+    @Test
+    public void sceneChangedSceneActivated()
     {
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         Scene mockScene = createMock(Scene.class);
@@ -164,8 +211,8 @@ public class SceneOutlineViewTest
 
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
-        expect(mockEvent.getScene()).andReturn(mockScene);
-        expect(mockEvent.getType()).andReturn(SceneChangedEventType.SCENE_ACTIVATED);
+        expect(mockEvent.getScene()).andStubReturn(mockScene);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.SCENE_ACTIVATED);
         expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
         expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
@@ -184,11 +231,11 @@ public class SceneOutlineViewTest
     /**
      * <p>
      * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneOutlineView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)}
-     * with the special condition that the event is of type 'MODIFIED'.
+     * with the special condition that the event is of type 'SCENE_MODIFIED'.
      * </p>
      */
     @Test
-    public void sceneChangedModified()
+    public void sceneChangedSceneModified()
     {
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         Scene mockScene = createMock(Scene.class);
@@ -197,8 +244,8 @@ public class SceneOutlineViewTest
 
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
-        expect(mockEvent.getScene()).andReturn(mockScene);
-        expect(mockEvent.getType()).andReturn(SceneChangedEventType.SCENE_MODIFIED);
+        expect(mockEvent.getScene()).andStubReturn(mockScene);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.SCENE_MODIFIED);
         expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
         expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
@@ -217,11 +264,11 @@ public class SceneOutlineViewTest
     /**
      * <p>
      * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneOutlineView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)}
-     * with the special condition that the events are of type 'MODIFIED' followed by type 'ACTIVATED'.
+     * with the special condition that the events are of type 'SCENE_MODIFIED' followed by type 'SCENE_ACTIVATED'.
      * </p>
      */
     @Test
-    public void sceneChangedModifiedActivated()
+    public void sceneChangedSceneModifiedActivated()
     {
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         Scene mockScene = createMock(Scene.class);
@@ -230,8 +277,8 @@ public class SceneOutlineViewTest
 
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
-        expect(mockEvent.getScene()).andReturn(mockScene);
-        expect(mockEvent.getType()).andReturn(SceneChangedEventType.SCENE_MODIFIED);
+        expect(mockEvent.getScene()).andStubReturn(mockScene);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.SCENE_MODIFIED);
         expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
         expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
@@ -243,8 +290,8 @@ public class SceneOutlineViewTest
         testObject.sceneChanged(mockEvent);
 
         reset(mockEvent);
-        expect(mockEvent.getScene()).andReturn(mockScene);
-        expect(mockEvent.getType()).andReturn(SceneChangedEventType.SCENE_ACTIVATED);
+        expect(mockEvent.getScene()).andStubReturn(mockScene);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.SCENE_ACTIVATED);
         replay(mockEvent);
 
         testObject.sceneChanged(mockEvent);
