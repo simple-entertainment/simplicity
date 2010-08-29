@@ -180,7 +180,6 @@ public class VisualSceneEditorTest
         replay(mockInput, mockFile, mockPath);
 
         testObject.init(mockSite, mockInput);
-        SceneManager.getSceneManager().setActiveScene(null);
 
         testObject.setFocus();
 

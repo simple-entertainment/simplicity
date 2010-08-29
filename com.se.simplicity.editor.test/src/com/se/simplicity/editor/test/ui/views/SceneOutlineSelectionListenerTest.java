@@ -23,6 +23,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.SceneChangedEvent;
@@ -46,6 +47,17 @@ public class SceneOutlineSelectionListenerTest
      * An instance of the class being unit tested.
      */
     private SceneOutlineSelectionListener testObject;
+
+    /**
+     * <p>
+     * Setup to perform before each unit test.
+     * </p>
+     */
+    @Before
+    public void before()
+    {
+        SceneManager.getSceneManager().reset();
+    }
 
     /**
      * <p>
