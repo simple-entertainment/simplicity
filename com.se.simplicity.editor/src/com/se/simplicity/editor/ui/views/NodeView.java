@@ -191,17 +191,17 @@ public class NodeView extends Composite implements SceneChangedListener
 
         collidable = new Button(translation, SWT.CHECK);
         collidable.setText("Collidable");
-        // collidable.addModifyListener(nodeModifyListener);
+        collidable.addSelectionListener(nodeListener);
         widgetBindings.put(collidable, "collidable");
 
         modifiable = new Button(translation, SWT.CHECK);
         modifiable.setText("Modifiable");
-        // modifiable.addModifyListener(nodeModifyListener);
+        modifiable.addSelectionListener(nodeListener);
         widgetBindings.put(modifiable, "modifiable");
 
         visible = new Button(translation, SWT.CHECK);
         visible.setText("Visible");
-        // visible.addModifyListener(nodeModifyListener);
+        visible.addSelectionListener(nodeListener);
         widgetBindings.put(visible, "visible");
     }
 
@@ -301,9 +301,9 @@ public class NodeView extends Composite implements SceneChangedListener
             translateY.setText(Float.toString(transformation.getTranslation().getY()));
             translateZ.setText(Float.toString(transformation.getTranslation().getZ()));
 
-            rotateX.setText(Float.toString(transformation.getXAxisRotation()));
-            rotateY.setText(Float.toString(transformation.getYAxisRotation()));
-            rotateZ.setText(Float.toString(transformation.getZAxisRotation()));
+            rotateX.setText(Float.toString(transformation.getXAxisRotation() * 180.0f / (float) Math.PI));
+            rotateY.setText(Float.toString(transformation.getYAxisRotation() * 180.0f / (float) Math.PI));
+            rotateZ.setText(Float.toString(transformation.getZAxisRotation() * 180.0f / (float) Math.PI));
 
             nodeListener.enable();
         }

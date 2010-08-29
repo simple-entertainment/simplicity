@@ -15,11 +15,16 @@ import java.util.Map;
 
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
+import com.se.simplicity.vector.TransformationMatrixf;
 import com.se.simplicity.vector.TranslationVectorf;
 
 /**
@@ -29,7 +34,7 @@ import com.se.simplicity.vector.TranslationVectorf;
  * 
  * @author Gary Buyn
  */
-public class NodeViewListener implements ModifyListener
+public class NodeViewListener implements ModifyListener, SelectionListener
 {
     /**
      * <p>
@@ -103,12 +108,100 @@ public class NodeViewListener implements ModifyListener
 
         Node activeNode = SceneManager.getSceneManager().getActiveNode();
 
-        if (widgetBindings.get(e.widget).startsWith("translate"))
+        if (widgetBindings.get(e.widget).startsWith("rotate"))
+        {
+            setNodeRotation(activeNode, e.widget);
+        }
+        else if (widgetBindings.get(e.widget).startsWith("translate"))
         {
             setNodeTranslation(activeNode, e.widget);
         }
+        else
+        {
+            setNodeNonBooleanProperty(activeNode, e.widget);
+        }
 
         SceneManager.getSceneManager().notifyNodeModified(activeNode.getID());
+    }
+
+    /**
+     * <p>
+     * Sets a boolean property of a <code>Node</code> in response to a change in the value held by a <code>Button</code>.
+     * </p>
+     * 
+     * @param button The <code>Button</code> whose value has changed.
+     */
+    protected void setNodeBooleanProperty(final Button button)
+    {
+        if (!enabled)
+        {
+            return;
+        }
+
+        Node activeNode = SceneManager.getSceneManager().getActiveNode();
+
+        if (widgetBindings.get(button).equals("collidable"))
+        {
+            activeNode.setCollidable(button.getSelection());
+        }
+        else if (widgetBindings.get(button).equals("modifiable"))
+        {
+            activeNode.setModifiable(button.getSelection());
+        }
+        else if (widgetBindings.get(button).equals("visible"))
+        {
+            activeNode.setVisible(button.getSelection());
+        }
+
+        SceneManager.getSceneManager().notifyNodeModified(activeNode.getID());
+    }
+
+    /**
+     * <p>
+     * Sets a non-boolean property of a <code>Node</code> in response to a change in the value held by a <code>Widget</code>.
+     * </p>
+     * 
+     * @param node The <code>Node</code> to set the non-boolean property of.
+     * @param widget The <code>Widget</code> whose value has changed.
+     */
+    protected void setNodeNonBooleanProperty(final Node node, final Widget widget)
+    {
+        String value = ((Text) widget).getText();
+
+        if (widgetBindings.get(widget).equals("name"))
+        {
+            if (node instanceof MetaDataNode)
+            {
+                ((MetaDataNode) node).setAttribute("name", value);
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Sets the rotation of a <code>Node</code> in response to a change in the value held by a <code>Widget</code>.
+     * </p>
+     * 
+     * @param node The <code>Node</code> to rotate.
+     * @param widget The <code>Widget</code> whose value has changed.
+     */
+    protected void setNodeRotation(final Node node, final Widget widget)
+    {
+        TransformationMatrixf transformation = node.getTransformation();
+        float value = (float) (Float.parseFloat(((Text) widget).getText()) * Math.PI / 180.0f);
+
+        if (widgetBindings.get(widget).equals("rotateX"))
+        {
+            transformation.setXAxisRotation(value);
+        }
+        else if (widgetBindings.get(widget).equals("rotateY"))
+        {
+            transformation.setYAxisRotation(value);
+        }
+        else if (widgetBindings.get(widget).equals("rotateZ"))
+        {
+            transformation.setZAxisRotation(value);
+        }
     }
 
     /**
@@ -122,20 +215,33 @@ public class NodeViewListener implements ModifyListener
     protected void setNodeTranslation(final Node node, final Widget widget)
     {
         TranslationVectorf translation = node.getTransformation().getTranslation();
+        float value = Float.parseFloat(((Text) widget).getText());
 
         if (widgetBindings.get(widget).equals("translateX"))
         {
-            translation.setX(Float.parseFloat(((Text) widget).getText()));
+            translation.setX(value);
         }
         else if (widgetBindings.get(widget).equals("translateY"))
         {
-            translation.setY(Float.parseFloat(((Text) widget).getText()));
+            translation.setY(value);
         }
         else if (widgetBindings.get(widget).equals("translateZ"))
         {
-            translation.setZ(Float.parseFloat(((Text) widget).getText()));
+            translation.setZ(value);
         }
 
         node.getTransformation().setTranslation(translation);
+    }
+
+    @Override
+    public void widgetDefaultSelected(final SelectionEvent e)
+    {
+        setNodeBooleanProperty((Button) e.widget);
+    }
+
+    @Override
+    public void widgetSelected(final SelectionEvent e)
+    {
+        setNodeBooleanProperty((Button) e.widget);
     }
 }
