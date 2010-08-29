@@ -25,6 +25,7 @@ import org.junit.Test;
 import com.se.simplicity.editor.internal.SceneChangedEvent;
 import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.ui.views.CameraView;
 import com.se.simplicity.editor.ui.views.NodeView;
 import com.se.simplicity.editor.ui.views.SceneComponentView;
 
@@ -104,7 +105,7 @@ public class SceneComponentViewTest
         testObject.sceneChanged(mockEvent);
 
         // Verify test.
-        assertTrue(((StackLayout) testObject.getParent().getLayout()).topControl instanceof Composite);
+        assertTrue(((StackLayout) testObject.getParent().getLayout()).topControl instanceof CameraView);
     }
 
     /**
