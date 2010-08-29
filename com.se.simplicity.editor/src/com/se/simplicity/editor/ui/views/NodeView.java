@@ -72,7 +72,7 @@ public class NodeView extends Composite implements SceneChangedListener
      * Listens for changes to displayed properties of a <code>Node</code> (or its sub-components).
      * </p>
      */
-    private NodeViewListener nodeListener;
+    private NodeViewListener nodeViewListener;
 
     /**
      * <p>
@@ -146,7 +146,7 @@ public class NodeView extends Composite implements SceneChangedListener
         widgetBindings = new HashMap<Widget, String>();
 
         SceneManager.getSceneManager().addSceneChangedListener(this);
-        nodeListener = new NodeViewListener(widgetBindings);
+        nodeViewListener = new NodeViewListener(widgetBindings);
 
         setLayout(new GridLayout(4, false));
 
@@ -169,13 +169,13 @@ public class NodeView extends Composite implements SceneChangedListener
         Label labelId = new Label(translation, SWT.NONE);
         labelId.setText("ID");
         id = new Text(translation, SWT.READ_ONLY);
-        id.addModifyListener(nodeListener);
+        id.addModifyListener(nodeViewListener);
         widgetBindings.put(id, "id");
 
         Label labelName = new Label(translation, SWT.NONE);
         labelName.setText("Name");
         name = new Text(translation, SWT.NONE);
-        name.addModifyListener(nodeListener);
+        name.addModifyListener(nodeViewListener);
         widgetBindings.put(name, "name");
     }
 
@@ -191,17 +191,17 @@ public class NodeView extends Composite implements SceneChangedListener
 
         collidable = new Button(translation, SWT.CHECK);
         collidable.setText("Collidable");
-        collidable.addSelectionListener(nodeListener);
+        collidable.addSelectionListener(nodeViewListener);
         widgetBindings.put(collidable, "collidable");
 
         modifiable = new Button(translation, SWT.CHECK);
         modifiable.setText("Modifiable");
-        modifiable.addSelectionListener(nodeListener);
+        modifiable.addSelectionListener(nodeViewListener);
         widgetBindings.put(modifiable, "modifiable");
 
         visible = new Button(translation, SWT.CHECK);
         visible.setText("Visible");
-        visible.addSelectionListener(nodeListener);
+        visible.addSelectionListener(nodeViewListener);
         widgetBindings.put(visible, "visible");
     }
 
@@ -218,19 +218,19 @@ public class NodeView extends Composite implements SceneChangedListener
         Label labelX = new Label(rotation, SWT.NONE);
         labelX.setText("X");
         rotateX = new Text(rotation, SWT.NONE);
-        rotateX.addModifyListener(nodeListener);
+        rotateX.addModifyListener(nodeViewListener);
         widgetBindings.put(rotateX, "rotateX");
 
         Label labelY = new Label(rotation, SWT.NONE);
         labelY.setText("Y");
         rotateY = new Text(rotation, SWT.NONE);
-        rotateY.addModifyListener(nodeListener);
+        rotateY.addModifyListener(nodeViewListener);
         widgetBindings.put(rotateY, "rotateY");
 
         Label labelZ = new Label(rotation, SWT.NONE);
         labelZ.setText("Z");
         rotateZ = new Text(rotation, SWT.NONE);
-        rotateZ.addModifyListener(nodeListener);
+        rotateZ.addModifyListener(nodeViewListener);
         widgetBindings.put(rotateZ, "rotateZ");
     }
 
@@ -247,19 +247,19 @@ public class NodeView extends Composite implements SceneChangedListener
         Label labelX = new Label(translation, SWT.NONE);
         labelX.setText("X");
         translateX = new Text(translation, SWT.NONE);
-        translateX.addModifyListener(nodeListener);
+        translateX.addModifyListener(nodeViewListener);
         widgetBindings.put(translateX, "translateX");
 
         Label labelY = new Label(translation, SWT.NONE);
         labelY.setText("Y");
         translateY = new Text(translation, SWT.NONE);
-        translateY.addModifyListener(nodeListener);
+        translateY.addModifyListener(nodeViewListener);
         widgetBindings.put(translateY, "translateY");
 
         Label labelZ = new Label(translation, SWT.NONE);
         labelZ.setText("Z");
         translateZ = new Text(translation, SWT.NONE);
-        translateZ.addModifyListener(nodeListener);
+        translateZ.addModifyListener(nodeViewListener);
         widgetBindings.put(translateZ, "translateZ");
     }
 
@@ -276,7 +276,7 @@ public class NodeView extends Composite implements SceneChangedListener
     {
         if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
         {
-            nodeListener.disable();
+            nodeViewListener.disable();
 
             Node node = (Node) event.getSceneComponent();
 
@@ -305,7 +305,7 @@ public class NodeView extends Composite implements SceneChangedListener
             rotateY.setText(Float.toString(transformation.getYAxisRotation() * 180.0f / (float) Math.PI));
             rotateZ.setText(Float.toString(transformation.getZAxisRotation() * 180.0f / (float) Math.PI));
 
-            nodeListener.enable();
+            nodeViewListener.enable();
         }
     }
 }
