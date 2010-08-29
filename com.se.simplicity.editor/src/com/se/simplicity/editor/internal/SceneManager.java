@@ -448,7 +448,7 @@ public final class SceneManager
         }
 
         activeCamera = camera;
-        fireSceneChangedEvent(activeScene, activeCamera, SceneChangedEventType.NODE_ACTIVATED);
+        fireSceneChangedEvent(activeScene, activeCamera, SceneChangedEventType.CAMERA_ACTIVATED);
     }
 
     /**
@@ -466,7 +466,7 @@ public final class SceneManager
         }
 
         activeLight = light;
-        fireSceneChangedEvent(activeScene, activeLight, SceneChangedEventType.NODE_ACTIVATED);
+        fireSceneChangedEvent(activeScene, activeLight, SceneChangedEventType.LIGHT_ACTIVATED);
     }
 
     /**
