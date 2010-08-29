@@ -118,9 +118,9 @@ public class NodeViewTest
         expect(mockNode.isModifiable()).andStubReturn(true);
         expect(mockNode.isVisible()).andStubReturn(true);
         expect(mockNode.getTransformation()).andStubReturn(mockTransformation);
-        expect(mockTransformation.getXAxisRotation()).andStubReturn(90.0f);
-        expect(mockTransformation.getYAxisRotation()).andStubReturn(180.0f);
-        expect(mockTransformation.getZAxisRotation()).andStubReturn(270.0f);
+        expect(mockTransformation.getXAxisRotation()).andStubReturn(90.0f * (float) Math.PI / 180.0f);
+        expect(mockTransformation.getYAxisRotation()).andStubReturn(180.0f * (float) Math.PI / 180.0f);
+        expect(mockTransformation.getZAxisRotation()).andStubReturn(270.0f * (float) Math.PI / 180.0f);
         expect(mockTransformation.getTranslation()).andStubReturn(mockTranslation);
         expect(mockTranslation.getX()).andStubReturn(5.0f);
         expect(mockTranslation.getY()).andStubReturn(10.0f);
