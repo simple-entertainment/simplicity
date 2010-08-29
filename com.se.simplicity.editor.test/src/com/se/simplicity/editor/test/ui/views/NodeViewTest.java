@@ -30,9 +30,7 @@ import com.se.simplicity.editor.internal.SceneChangedEvent;
 import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.views.NodeView;
-import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
-import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.vector.TransformationMatrixf;
 import com.se.simplicity.vector.TranslationVectorf;
 
@@ -100,19 +98,14 @@ public class NodeViewTest
     {
         // Create dependencies.
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
-
-        Scene mockScene = createMock(Scene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         Node mockNode = createMock(Node.class);
 
         TransformationMatrixf mockTransformation = createMock(TransformationMatrixf.class);
         TranslationVectorf mockTranslation = createMock(TranslationVectorf.class);
 
         // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andReturn(mockNode);
-        expect(mockEvent.getType()).andReturn(SceneChangedEventType.NODE_ACTIVATED);
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
+        expect(mockEvent.getSceneComponent()).andStubReturn(mockNode);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_ACTIVATED);
         expect(mockNode.getID()).andStubReturn(0);
         expect(mockNode.isCollidable()).andStubReturn(true);
         expect(mockNode.isModifiable()).andStubReturn(true);
@@ -125,12 +118,7 @@ public class NodeViewTest
         expect(mockTranslation.getX()).andStubReturn(5.0f);
         expect(mockTranslation.getY()).andStubReturn(10.0f);
         expect(mockTranslation.getZ()).andStubReturn(15.0f);
-        replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockTransformation, mockTranslation);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
-        SceneManager.getSceneManager().setActiveNode(mockNode);
+        replay(mockEvent, mockNode, mockTransformation, mockTranslation);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
