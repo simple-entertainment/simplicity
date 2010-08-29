@@ -45,7 +45,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
 {
     /**
      * <p>
-     * A map from <code>TreeItem</code> to <code>Scene</code> components. Used for notifications of changes in active <code>Node</code>.
+     * A map from <code>TreeItem</code> to scene components. Used for sending notifications of changes in active scene components.
      * </p>
      */
     private Map<TreeItem, Object> sceneComponents;
@@ -56,6 +56,13 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
      * </p>
      */
     private Tree tree;
+
+    /**
+     * <p>
+     * A map from scene components to <code>TreeItem</code>. Used for receiving notifications of changes in active scene components.
+     * </p>
+     */
+    private Map<Object, TreeItem> treeItems;
 
     /**
      * <p>
@@ -74,6 +81,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
     {
         sceneComponents = new HashMap<TreeItem, Object>();
         tree = new Tree(parent, SWT.NONE);
+        treeItems = new HashMap<Object, TreeItem>();
 
         tree.addSelectionListener(new SceneOutlineSelectionListener(sceneComponents));
 
@@ -116,6 +124,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
         }
 
         sceneComponents.put(treeItem, node);
+        treeItems.put(node, treeItem);
 
         return (treeItem);
     }
@@ -145,7 +154,16 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
     {
         Scene scene = event.getScene();
 
-        if (event.getType() == SceneChangedEventType.SCENE_ACTIVATED)
+        if (event.getType() == SceneChangedEventType.NODE_MODIFIED)
+        {
+            if (event.getSceneComponent() instanceof MetaDataNode)
+            {
+                MetaDataNode node = (MetaDataNode) event.getSceneComponent();
+                TreeItem treeItem = treeItems.get(event.getSceneComponent());
+                treeItem.setText((String) node.getAttribute("name"));
+            }
+        }
+        else if (event.getType() == SceneChangedEventType.SCENE_ACTIVATED)
         {
             tree.removeAll();
             sceneComponents.clear();
@@ -194,6 +212,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
             treeItem.setText((String) ((MetaData) camera).getAttribute("name"));
 
             sceneComponents.put(treeItem, camera);
+            treeItems.put(camera, treeItem);
         }
     }
 
@@ -212,6 +231,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
             treeItem.setText((String) ((MetaData) light).getAttribute("name"));
 
             sceneComponents.put(treeItem, light);
+            treeItems.put(light, treeItem);
         }
     }
 
