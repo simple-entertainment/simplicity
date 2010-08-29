@@ -17,6 +17,7 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.swt.events.SelectionEvent;
@@ -30,6 +31,8 @@ import com.se.simplicity.editor.internal.SceneChangedEvent;
 import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.views.SceneOutlineSelectionListener;
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.Light;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
@@ -57,6 +60,94 @@ public class SceneOutlineSelectionListenerTest
     public void before()
     {
         SceneManager.getSceneManager().reset();
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneOutlineSelectionListener#widgetSelected(SelectionEvent)
+     * widgetSelected(SelectionEvent)} with the special condition that the widget selected maps to a <code>Camera</code>.
+     * </p>
+     */
+    @Test
+    public void widgetSelectedCamera()
+    {
+        // Create dependencies.
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+        TreeItem mockTreeItem = createMock(TreeItem.class);
+
+        Scene mockScene = createMock(Scene.class);
+        Camera mockCamera = createMock(Camera.class);
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(mockCamera);
+
+        HashMap<TreeItem, Object> map = new HashMap<TreeItem, Object>();
+        map.put(mockTreeItem, mockCamera);
+
+        Event event = new Event();
+        event.widget = createMock(Tree.class);
+        event.item = mockTreeItem;
+        SelectionEvent selectionEvent = new SelectionEvent(event);
+
+        // Initialise test environment.
+        testObject = new SceneOutlineSelectionListener(map);
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addSceneChangedListener(mockListener);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockScene, mockListener);
+
+        // Perform test.
+        testObject.widgetSelected(selectionEvent);
+
+        // Verify results.
+        verify(mockListener);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneOutlineSelectionListener#widgetSelected(SelectionEvent)
+     * widgetSelected(SelectionEvent)} with the special condition that the widget selected maps to a <code>Light</code>.
+     * </p>
+     */
+    @Test
+    public void widgetSelectedLight()
+    {
+        // Create dependencies.
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+        TreeItem mockTreeItem = createMock(TreeItem.class);
+
+        Scene mockScene = createMock(Scene.class);
+        Light mockLight = createMock(Light.class);
+        ArrayList<Light> lights = new ArrayList<Light>();
+        lights.add(mockLight);
+
+        HashMap<TreeItem, Object> map = new HashMap<TreeItem, Object>();
+        map.put(mockTreeItem, mockLight);
+
+        Event event = new Event();
+        event.widget = createMock(Tree.class);
+        event.item = mockTreeItem;
+        SelectionEvent selectionEvent = new SelectionEvent(event);
+
+        // Initialise test environment.
+        testObject = new SceneOutlineSelectionListener(map);
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addSceneChangedListener(mockListener);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getLights()).andStubReturn(lights);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockScene, mockListener);
+
+        // Perform test.
+        testObject.widgetSelected(selectionEvent);
+
+        // Verify results.
+        verify(mockListener);
     }
 
     /**
