@@ -26,6 +26,7 @@ import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.viewport.SimpleJOGLViewport;
 import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
@@ -67,6 +68,20 @@ public final class SceneManager
 
     /**
      * <p>
+     * The currently active <code>Camera</code>.
+     * </p>
+     */
+    private Camera activeCamera;
+
+    /**
+     * <p>
+     * The currently active <code>Light</code>.
+     * </p>
+     */
+    private Light activeLight;
+
+    /**
+     * <p>
      * The currently active <code>Node</code>.
      * </p>
      */
@@ -101,6 +116,8 @@ public final class SceneManager
      */
     private SceneManager()
     {
+        activeCamera = null;
+        activeLight = null;
         activeNode = null;
         activeScene = null;
         sceneChangedListeners = new ArrayList<SceneChangedListener>();
@@ -167,17 +184,41 @@ public final class SceneManager
      * </p>
      * 
      * @param scene The <code>Scene</code> to fire the event for.
-     * @param node The <code>Node</code> to fire the event for (if the event is <code>Node</code> specific).
+     * @param sceneComponent The component to fire the event for (if the event is component specific).
      * @param type The type of event to fire.
      */
-    protected void fireSceneChangedEvent(final Scene scene, final Node node, final SceneChangedEventType type)
+    protected void fireSceneChangedEvent(final Scene scene, final Object sceneComponent, final SceneChangedEventType type)
     {
-        SceneChangedEvent event = new SceneChangedEvent(scene, node, type);
+        SceneChangedEvent event = new SceneChangedEvent(scene, sceneComponent, type);
 
         for (SceneChangedListener listener : sceneChangedListeners)
         {
             listener.sceneChanged(event);
         }
+    }
+
+    /**
+     * <p>
+     * Retrieves the currently active <code>Camera</code>.
+     * </p>
+     * 
+     * @return The currently active <code>Camera</code>.
+     */
+    public Camera getActiveCamera()
+    {
+        return (activeCamera);
+    }
+
+    /**
+     * <p>
+     * Retrieves the currently active <code>Light</code>.
+     * </p>
+     * 
+     * @return The currently active <code>Light</code>.
+     */
+    public Light getActiveLight()
+    {
+        return (activeLight);
     }
 
     /**
@@ -384,6 +425,8 @@ public final class SceneManager
      */
     public void reset()
     {
+        activeCamera = null;
+        activeLight = null;
         activeNode = null;
         activeScene = null;
         sceneChangedListeners = new ArrayList<SceneChangedListener>();
@@ -392,14 +435,55 @@ public final class SceneManager
 
     /**
      * <p>
+     * Sets the currently active <code>Camera</code>.
+     * </p>
+     * 
+     * @param camera The currently active <code>Camera</code>.
+     */
+    public void setActiveCamera(final Camera camera)
+    {
+        if (!activeScene.getCameras().contains(camera))
+        {
+            throw new IllegalArgumentException("Invalid Camera: The Camera must be in the active Scene.");
+        }
+
+        activeCamera = camera;
+        fireSceneChangedEvent(activeScene, activeCamera, SceneChangedEventType.NODE_ACTIVATED);
+    }
+
+    /**
+     * <p>
+     * Sets the currently active <code>Light</code>.
+     * </p>
+     * 
+     * @param light The currently active <code>Light</code>.
+     */
+    public void setActiveLight(final Light light)
+    {
+        if (!activeScene.getLights().contains(light))
+        {
+            throw new IllegalArgumentException("Invalid Light: The Light must be in the active Scene.");
+        }
+
+        activeLight = light;
+        fireSceneChangedEvent(activeScene, activeLight, SceneChangedEventType.NODE_ACTIVATED);
+    }
+
+    /**
+     * <p>
      * Sets the currently active <code>Node</code>.
      * </p>
      * 
-     * @param id The currently active <code>Node</code>.
+     * @param node The currently active <code>Node</code>.
      */
-    public void setActiveNode(final int id)
+    public void setActiveNode(final Node node)
     {
-        activeNode = activeScene.getSceneGraph().getNode(id);
+        if (activeScene.getSceneGraph().getNode(node.getID()) != node)
+        {
+            throw new IllegalArgumentException("Invalid Node: The Node must be in the active Scene.");
+        }
+
+        activeNode = node;
         fireSceneChangedEvent(activeScene, activeNode, SceneChangedEventType.NODE_ACTIVATED);
     }
 
@@ -412,6 +496,11 @@ public final class SceneManager
      */
     public void setActiveScene(final String id)
     {
+        if (scenes.get(id) == null)
+        {
+            throw new IllegalArgumentException("Invalid Scene: The Scene must already be managed by this Scene Manager.");
+        }
+
         activeScene = scenes.get(id);
         fireSceneChangedEvent(activeScene, null, SceneChangedEventType.SCENE_ACTIVATED);
     }
