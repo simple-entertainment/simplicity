@@ -35,7 +35,7 @@ public class SceneComponentView extends ViewPart implements SceneChangedListener
      * The <code>Control</code> to display when a <code>Camera</code> is activated.
      * </p>
      */
-    private Composite cameraView;
+    private CameraView cameraView;
 
     /**
      * <p>
@@ -76,7 +76,7 @@ public class SceneComponentView extends ViewPart implements SceneChangedListener
         parent = newParent;
         parent.setLayout(new StackLayout());
 
-        cameraView = new Composite(parent, SWT.NONE);
+        cameraView = new CameraView(parent, SWT.NONE);
         lightView = new Composite(parent, SWT.NONE);
         nodeView = new NodeView(parent, SWT.NONE);
     }
