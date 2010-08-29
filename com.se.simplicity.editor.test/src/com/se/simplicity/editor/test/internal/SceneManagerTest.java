@@ -317,7 +317,127 @@ public class SceneManagerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyNodeModified(int) notifyNodeModified(int)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyCameraModified(Camera) notifyCameraModified(Camera)}.
+     * </p>
+     */
+    @Test
+    public void notifyCameraModified()
+    {
+        Scene mockScene = createMock(Scene.class);
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        Camera mockCamera = createMock(Camera.class);
+        cameras.add(mockCamera);
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        replay(mockScene);
+
+        testObject.addSceneDefinition(mockScene, "test");
+        testObject.setActiveScene("test");
+        testObject.addSceneChangedListener(mockListener);
+
+        org.easymock.classextension.EasyMock.reset(mockListener);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockListener);
+
+        testObject.notifyCameraModified(mockCamera);
+
+        verify(mockListener);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyCameraModified(Camera) notifyCameraModified(Camera)} with the
+     * special condition that the <code>Camera</code> is not in the active <code>Scene</code>.
+     * </p>
+     */
+    @Test
+    public void notifyCameraModifiedNotInScene()
+    {
+        Scene mockScene = createMock(Scene.class);
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        Camera mockCamera = createMock(Camera.class);
+        cameras.add(mockCamera);
+
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        replay(mockScene);
+
+        testObject.addSceneDefinition(mockScene, "test");
+        testObject.setActiveScene("test");
+
+        try
+        {
+            testObject.notifyCameraModified(mockCamera);
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals("Invalid Camera: The Camera must be in the active Scene.", e.getMessage());
+        }
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyLightModified(Light) notifyLightModified(Light)}.
+     * </p>
+     */
+    @Test
+    public void notifyLightModified()
+    {
+        Scene mockScene = createMock(Scene.class);
+        ArrayList<Light> lights = new ArrayList<Light>();
+        Light mockLight = createMock(Light.class);
+        lights.add(mockLight);
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        expect(mockScene.getLights()).andStubReturn(lights);
+        replay(mockScene);
+
+        testObject.addSceneDefinition(mockScene, "test");
+        testObject.setActiveScene("test");
+        testObject.addSceneChangedListener(mockListener);
+
+        org.easymock.classextension.EasyMock.reset(mockListener);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockListener);
+
+        testObject.notifyLightModified(mockLight);
+
+        verify(mockListener);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyLightModified(Light) notifyLightModified(Light)} with the
+     * special condition that the <code>Light</code> is not in the active <code>Scene</code>.
+     * </p>
+     */
+    @Test
+    public void notifyLightModifiedNotInScene()
+    {
+        Scene mockScene = createMock(Scene.class);
+        ArrayList<Light> lights = new ArrayList<Light>();
+        Light mockLight = createMock(Light.class);
+        lights.add(mockLight);
+
+        expect(mockScene.getLights()).andStubReturn(lights);
+        replay(mockScene);
+
+        testObject.addSceneDefinition(mockScene, "test");
+        testObject.setActiveScene("test");
+
+        try
+        {
+            testObject.notifyLightModified(mockLight);
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals("Invalid Light: The Light must be in the active Scene.", e.getMessage());
+        }
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyNodeModified(Node) notifyNodeModified(Node)}.
      * </p>
      */
     @Test
@@ -340,9 +460,38 @@ public class SceneManagerTest
         mockListener.sceneChanged((SceneChangedEvent) anyObject());
         replay(mockListener);
 
-        testObject.notifyNodeModified(0);
+        testObject.notifyNodeModified(mockNode);
 
         verify(mockListener);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyNodeModified(Node) notifyNodeModified(Node)} with the special
+     * condition that the <code>Node</code> is not in the active <code>Scene</code>..
+     * </p>
+     */
+    @Test
+    public void notifyNodeModifiedNotInScene()
+    {
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node mockNode = createMock(Node.class);
+
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        replay(mockScene);
+
+        testObject.addSceneDefinition(mockScene, "test");
+        testObject.setActiveScene("test");
+
+        try
+        {
+            testObject.notifyNodeModified(mockNode);
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals("Invalid Node: The Node must be in the active Scene.", e.getMessage());
+        }
     }
 
     /**
@@ -365,6 +514,25 @@ public class SceneManagerTest
         testObject.notifySceneModified("test");
 
         verify(mockListener);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifySceneModified(String) notifySceneModified(String)} with the
+     * special condition that the <code>Scene</code> is not managed by the <code>SceneManager</code>..
+     * </p>
+     */
+    @Test
+    public void notifySceneModifiedNotManaged()
+    {
+        try
+        {
+            testObject.notifySceneModified("test");
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals("Invalid Scene: The Scene must already be managed by this Scene Manager.", e.getMessage());
+        }
     }
 
     /**
@@ -514,7 +682,7 @@ public class SceneManagerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setActiveCamera(Camera) setActiveCamera(Camera)} with the special
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setActiveLight(Light) setActiveLight(Light)} with the special
      * condition that the <code>Light</code> is not in the active <code>Scene</code>.
      * </p>
      */
