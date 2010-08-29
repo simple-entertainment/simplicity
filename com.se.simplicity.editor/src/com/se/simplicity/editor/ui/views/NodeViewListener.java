@@ -121,7 +121,7 @@ public class NodeViewListener implements ModifyListener, SelectionListener
             setNodeNonBooleanProperty(activeNode, e.widget);
         }
 
-        SceneManager.getSceneManager().notifyNodeModified(activeNode.getID());
+        SceneManager.getSceneManager().notifyNodeModified(activeNode);
     }
 
     /**
@@ -153,7 +153,7 @@ public class NodeViewListener implements ModifyListener, SelectionListener
             activeNode.setVisible(button.getSelection());
         }
 
-        SceneManager.getSceneManager().notifyNodeModified(activeNode.getID());
+        SceneManager.getSceneManager().notifyNodeModified(activeNode);
     }
 
     /**

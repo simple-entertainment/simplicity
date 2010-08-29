@@ -381,15 +381,56 @@ public final class SceneManager
 
     /**
      * <p>
-     * Notifies all registered {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s that the <code>Node</code> with
-     * the given ID in the currently active <code>Scene</code> has been modified.
+     * Notifies all registered {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s that the given <code>Camera</code>
+     * in the currently active <code>Scene</code> has been modified.
      * </p>
      * 
-     * @param id The ID of the <code>Node</code> the <code>SceneChangedListener</code>s will be notified about.
+     * @param camera The <code>Camera</code> the <code>SceneChangedListener</code>s will be notified about.
      */
-    public void notifyNodeModified(final int id)
+    public void notifyCameraModified(final Camera camera)
     {
-        fireSceneChangedEvent(activeScene, activeScene.getSceneGraph().getNode(id), SceneChangedEventType.NODE_MODIFIED);
+        if (!activeScene.getCameras().contains(camera))
+        {
+            throw new IllegalArgumentException("Invalid Camera: The Camera must be in the active Scene.");
+        }
+
+        fireSceneChangedEvent(activeScene, camera, SceneChangedEventType.CAMERA_MODIFIED);
+    }
+
+    /**
+     * <p>
+     * Notifies all registered {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s that the given <code>Light</code>
+     * in the currently active <code>Scene</code> has been modified.
+     * </p>
+     * 
+     * @param light The <code>Light</code> the <code>SceneChangedListener</code>s will be notified about.
+     */
+    public void notifyLightModified(final Light light)
+    {
+        if (!activeScene.getLights().contains(light))
+        {
+            throw new IllegalArgumentException("Invalid Light: The Light must be in the active Scene.");
+        }
+
+        fireSceneChangedEvent(activeScene, light, SceneChangedEventType.LIGHT_MODIFIED);
+    }
+
+    /**
+     * <p>
+     * Notifies all registered {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s that the given <code>Node</code>
+     * in the currently active <code>Scene</code> has been modified.
+     * </p>
+     * 
+     * @param node The <code>Node</code> the <code>SceneChangedListener</code>s will be notified about.
+     */
+    public void notifyNodeModified(final Node node)
+    {
+        if (activeScene.getSceneGraph().getNode(node.getID()) != node)
+        {
+            throw new IllegalArgumentException("Invalid Node: The Node must be in the active Scene.");
+        }
+
+        fireSceneChangedEvent(activeScene, node, SceneChangedEventType.NODE_MODIFIED);
     }
 
     /**
@@ -402,6 +443,11 @@ public final class SceneManager
      */
     public void notifySceneModified(final String id)
     {
+        if (scenes.get(id) == null)
+        {
+            throw new IllegalArgumentException("Invalid Scene: The Scene must already be managed by this Scene Manager.");
+        }
+
         fireSceneChangedEvent(scenes.get(id), null, SceneChangedEventType.SCENE_MODIFIED);
     }
 

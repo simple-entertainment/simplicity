@@ -22,17 +22,31 @@ public enum SceneChangedEventType
 {
     /**
      * <p>
-     * A <code>Camera</code> has been modified.
+     * A <code>Camera</code> has been made active.
      * </p>
      */
     CAMERA_ACTIVATED,
 
     /**
      * <p>
-     * A <code>Light</code> has been modified.
+     * A <code>Camera</code> has been modified.
+     * </p>
+     */
+    CAMERA_MODIFIED,
+
+    /**
+     * <p>
+     * A <code>Light</code> has been made active.
      * </p>
      */
     LIGHT_ACTIVATED,
+
+    /**
+     * <p>
+     * A <code>Light</code> has been modified.
+     * </p>
+     */
+    LIGHT_MODIFIED,
 
     /**
      * <p>
