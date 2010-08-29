@@ -22,17 +22,17 @@ public class EditorPerspective implements IPerspectiveFactory
 {
     /**
      * <p>
-     * The percentage of the page width to cover with the <code>NodeDetailView</code>.
-     * </p>
-     */
-    private static final float COMPONENT_DETAIL_PERCENTAGE = 0.75f;
-
-    /**
-     * <p>
      * The percentage of the page width to cover with the Project Explorer view.
      * </p>
      */
     private static final float PROJECT_EXPLORER_PERCENTAGE = 0.25f;
+
+    /**
+     * <p>
+     * The percentage of the page width to cover with the <code>SceneComponentView</code>.
+     * </p>
+     */
+    private static final float SCENE_COMPONENT_PERCENTAGE = 0.75f;
 
     /**
      * <p>
@@ -66,8 +66,8 @@ public class EditorPerspective implements IPerspectiveFactory
         IFolderLayout bottomLeft = factory.createFolder("bottomLeft", IPageLayout.BOTTOM, SCENE_OUTLINE_PERCENTAGE, "topLeft");
         bottomLeft.addView("com.se.simplicity.editor.ui.views.SceneOutlineView");
 
-        IFolderLayout bottom = factory.createFolder("bottomRight", IPageLayout.BOTTOM, COMPONENT_DETAIL_PERCENTAGE, factory.getEditorArea());
-        bottom.addView("com.se.simplicity.editor.ui.views.SceneComponentDetailView");
+        IFolderLayout bottom = factory.createFolder("bottomRight", IPageLayout.BOTTOM, SCENE_COMPONENT_PERCENTAGE, factory.getEditorArea());
+        bottom.addView("com.se.simplicity.editor.ui.views.SceneComponentView");
     }
 
     @Override
