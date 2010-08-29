@@ -18,6 +18,8 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.Light;
 import com.se.simplicity.scenegraph.Node;
 
 /**
@@ -75,7 +77,15 @@ public class SceneOutlineSelectionListener implements SelectionListener
         {
             Object sceneComponent = sceneComponents.get((TreeItem) e.item);
 
-            if (sceneComponent instanceof Node)
+            if (sceneComponent instanceof Camera)
+            {
+                SceneManager.getSceneManager().setActiveCamera((Camera) sceneComponent);
+            }
+            else if (sceneComponent instanceof Light)
+            {
+                SceneManager.getSceneManager().setActiveLight((Light) sceneComponent);
+            }
+            else if (sceneComponent instanceof Node)
             {
                 SceneManager.getSceneManager().setActiveNode((Node) sceneComponent);
             }
