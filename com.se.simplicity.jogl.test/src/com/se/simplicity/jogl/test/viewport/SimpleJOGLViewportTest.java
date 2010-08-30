@@ -56,33 +56,7 @@ public class SimpleJOGLViewportTest
      * </p>
      */
     @Test
-    public void displaySceneGraph()
-    {
-        SimpleJOGLRenderingEngine mockRenderingEngine = createMock(SimpleJOGLRenderingEngine.class);
-        SimpleJOGLPickingEngine mockPickingEngine = createMock(SimpleJOGLPickingEngine.class);
-
-        testObject.setRenderingEngine(mockRenderingEngine);
-        testObject.setPickingEngine(mockPickingEngine);
-
-        reset(mockRenderingEngine, mockPickingEngine);
-        mockRenderingEngine.advance();
-        mockPickingEngine.advance();
-        replay(mockRenderingEngine, mockPickingEngine);
-
-        testObject.displayScene();
-
-        verify(mockRenderingEngine, mockPickingEngine);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.viewport.SimpleJOGLViewport.displaySceneGraph displaySceneGraph()} with the special
-     * condition that the {@link com.se.simplicity.jogl.viewport.SimpleJOGLViewport SimpleJOGLViewport} being tested does not have a
-     * <code>PickingEngine</code>.
-     * </p>
-     */
-    @Test
-    public void displaySceneGraphNoPickingEngine()
+    public void displayScene()
     {
         SimpleJOGLRenderingEngine mockRenderingEngine = createMock(SimpleJOGLRenderingEngine.class);
 
@@ -105,7 +79,7 @@ public class SimpleJOGLViewportTest
      * </p>
      */
     @Test(expected = IllegalStateException.class)
-    public void displaySceneGraphNoRenderingEngine()
+    public void displaySceneNoRenderingEngine()
     {
         testObject.displayScene();
     }
@@ -120,41 +94,16 @@ public class SimpleJOGLViewportTest
     {
         MockGL mockGl = new MockGL();
         SimpleJOGLRenderingEngine mockRenderingEngine = createMock(SimpleJOGLRenderingEngine.class);
-        SimpleJOGLPickingEngine mockPickingEngine = createMock(SimpleJOGLPickingEngine.class);
 
         testObject.setRenderingEngine(mockRenderingEngine);
-        testObject.setPickingEngine(mockPickingEngine);
 
-        reset(mockRenderingEngine, mockPickingEngine);
+        reset(mockRenderingEngine);
         mockRenderingEngine.setGL(mockGl);
-        mockPickingEngine.setGL(mockGl);
-        replay(mockRenderingEngine, mockPickingEngine);
+        replay(mockRenderingEngine);
 
         testObject.setGL(mockGl);
 
-        verify(mockRenderingEngine, mockPickingEngine);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.viewport.SimpleJOGLViewport.setPickingEngine setPickingEngine()}.
-     * </p>
-     */
-    @Test
-    public void setPickingEngine()
-    {
-        MockGL mockGl = new MockGL();
-        SimpleJOGLPickingEngine mockPickingEngine = createMock(SimpleJOGLPickingEngine.class);
-
-        testObject.setGL(mockGl);
-
-        reset(mockPickingEngine);
-        mockPickingEngine.setGL(mockGl);
-        replay(mockPickingEngine);
-
-        testObject.setPickingEngine(mockPickingEngine);
-
-        verify(mockPickingEngine);
+        verify(mockRenderingEngine);
     }
 
     /**
