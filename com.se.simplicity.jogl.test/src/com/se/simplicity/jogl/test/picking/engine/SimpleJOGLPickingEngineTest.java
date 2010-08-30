@@ -114,17 +114,19 @@ public class SimpleJOGLPickingEngineTest
         Scene mockScene = createMock(Scene.class);
         Camera mockCamera = createMock(Camera.class);
 
+        expect(mockRenderingEngine.getScene()).andStubReturn(mockScene);
+        expect(mockRenderingEngine.getCamera()).andStubReturn(mockCamera);
+        replay(mockRenderingEngine);
+
         testObject.setPicker(mockPicker);
         testObject.setRenderingEngine(mockRenderingEngine);
         testObject.pick(5, 10, 15, 20);
         testObject.pick(10, 20, 30, 40);
 
         reset(mockPicker);
-        expect(mockRenderingEngine.getScene()).andStubReturn(mockScene);
-        expect(mockRenderingEngine.getCamera()).andStubReturn(mockCamera);
         expect(mockPicker.pickScene(mockScene, mockCamera, testObject.getPicks().get(0))).andReturn(null);
         expect(mockPicker.pickScene(mockScene, mockCamera, testObject.getPicks().get(1))).andReturn(null);
-        replay(mockPicker, mockRenderingEngine);
+        replay(mockPicker);
 
         testObject.advance();
 
@@ -322,5 +324,32 @@ public class SimpleJOGLPickingEngineTest
         testObject.setPicker(mockPicker);
 
         verify(mockPicker);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine#setRenderingEngine(RenderingEngine)
+     * setRenderingEngine(RenderingEngine)}.
+     * </p>
+     */
+    @Test
+    public void setRenderingEngine()
+    {
+        // Create dependencies.
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+        Scene mockScene = createMock(Scene.class);
+        Camera mockCamera = createMock(Camera.class);
+
+        // Dictate correct behaviour.
+        expect(mockRenderingEngine.getScene()).andStubReturn(mockScene);
+        expect(mockRenderingEngine.getCamera()).andStubReturn(mockCamera);
+        replay(mockRenderingEngine);
+
+        // Perform test.
+        testObject.setRenderingEngine(mockRenderingEngine);
+
+        // Verify test results.
+        assertEquals(mockScene, testObject.getScene());
+        assertEquals(mockCamera, testObject.getCamera());
     }
 }
