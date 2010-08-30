@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -118,6 +119,13 @@ public class NodeView extends Composite implements SceneChangedListener
 
     /**
      * <p>
+     * Displays the type of a <code>Node</code>.
+     * </p>
+     */
+    private Text type;
+
+    /**
+     * <p>
      * Displays the 'visible' property of a <code>Node</code>.
      * </p>
      */
@@ -154,6 +162,7 @@ public class NodeView extends Composite implements SceneChangedListener
         addPropertyWidgets();
         addTranslationWidgets();
         addRotationWidgets();
+        addReflectiveWidgets();
     }
 
     /**
@@ -203,6 +212,29 @@ public class NodeView extends Composite implements SceneChangedListener
         visible.setText("Visible");
         visible.addSelectionListener(nodeViewListener);
         widgetBindings.put(visible, "visible");
+    }
+
+    /**
+     * <p>
+     * Adds widgets for reflected properties of a <code>Node</code>.
+     * </p>
+     */
+    protected void addReflectiveWidgets()
+    {
+        Composite translation = new Composite(this, SWT.NONE);
+
+        GridData gridData = new GridData();
+        gridData.horizontalAlignment = SWT.FILL;
+        gridData.horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
+        translation.setLayoutData(gridData);
+        translation.setLayout(new GridLayout(2, false));
+
+        Label labelType = new Label(translation, SWT.NONE);
+        labelType.setText("Type");
+        type = new Text(translation, SWT.READ_ONLY);
+        type.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        type.addModifyListener(nodeViewListener);
+        widgetBindings.put(type, "type");
     }
 
     /**
@@ -304,6 +336,15 @@ public class NodeView extends Composite implements SceneChangedListener
             rotateX.setText(Float.toString(transformation.getXAxisRotation() * 180.0f / (float) Math.PI));
             rotateY.setText(Float.toString(transformation.getYAxisRotation() * 180.0f / (float) Math.PI));
             rotateZ.setText(Float.toString(transformation.getZAxisRotation() * 180.0f / (float) Math.PI));
+
+            if (node instanceof MetaDataNode)
+            {
+                type.setText((String) ((MetaDataNode) node).getWrappedNode().getClass().getName());
+            }
+            else
+            {
+                type.setText(node.getClass().getName());
+            }
 
             nodeViewListener.enable();
         }
