@@ -339,6 +339,9 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     public void setRenderingEngine(final RenderingEngine newRenderingEngine)
     {
         renderingEngine = newRenderingEngine;
+
+        scene = renderingEngine.getScene();
+        camera = renderingEngine.getCamera();
     }
 
     @Override
