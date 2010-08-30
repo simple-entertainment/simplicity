@@ -11,7 +11,6 @@
  */
 package com.se.simplicity.viewport;
 
-import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 
 /**
@@ -45,17 +44,6 @@ public interface Viewport
 
     /**
      * <p>
-     * Retrieves the {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the {@link com.se.simplicity.scenegraph.Scene
-     * Scene} is picked.
-     * 
-     * @return The {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the {@link com.se.simplicity.scene.Scene Scene} is
-     * picked.
-     * </p>
-     */
-    PickingEngine getPickingEngine();
-
-    /**
-     * <p>
      * Retrieves the {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that is used to render this <code>Viewport</code>.
      * </p>
      * 
@@ -71,17 +59,6 @@ public interface Viewport
      * @return The width of this <code>Viewport</code>.
      */
     int getWidth();
-
-    /**
-     * <p>
-     * Sets the {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the {@link com.se.simplicity.scene.Scene Scene} is
-     * picked.
-     * 
-     * @param pickingEngine The {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} with which the
-     * {@link com.se.simplicity.scene.Scene Scene} is picked.
-     * </p>
-     */
-    void setPickingEngine(PickingEngine pickingEngine);
 
     /**
      * <p>
