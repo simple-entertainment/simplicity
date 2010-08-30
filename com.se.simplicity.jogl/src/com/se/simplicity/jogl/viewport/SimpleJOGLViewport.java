@@ -14,7 +14,6 @@ package com.se.simplicity.jogl.viewport;
 import javax.media.opengl.GL;
 
 import com.se.simplicity.jogl.JOGLComponent;
-import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.viewport.Viewport;
 
