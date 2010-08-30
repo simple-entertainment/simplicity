@@ -14,8 +14,11 @@ package com.se.simplicity.jogl.picking.engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.media.opengl.GL;
+
 import org.apache.log4j.Logger;
 
+import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.engine.JOGLEngine;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.picking.Pick;
@@ -299,8 +302,21 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     }
 
     @Override
+    public void setGL(final GL newGl)
+    {
+        super.setGL(newGl);
+
+        if (picker != null)
+        {
+            ((JOGLComponent) picker).setGL(getGL());
+        }
+    }
+
+    @Override
     public void setPicker(final Picker newPicker)
     {
+        ((JOGLComponent) newPicker).setGL(getGL());
+
         picker = newPicker;
     }
 
@@ -314,8 +330,8 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
      * <p>
      * Sets the <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking. The ability to set a
      * <code>RenderingEngine</code> is a convenience as in most cases picking will be associated with a particular rendered image. This
-     * <code>SimpleJOGLPickingEngine</code> synchronises the <code>Scene</code> and <code>Camera</code> from the <code>RenderingEngine</code>
-     * every time it advances if one is provided.
+     * <code>SimpleJOGLPickingEngine</code> synchronises the <code>Scene</code> and <code>Camera</code> from the <code>RenderingEngine</code> every
+     * time it advances if one is provided.
      * </p>
      * 
      * @param newRenderingEngine The <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking.
