@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.test.mocks.MockGL;
 import com.se.simplicity.jogl.viewport.SimpleJOGLViewport;
