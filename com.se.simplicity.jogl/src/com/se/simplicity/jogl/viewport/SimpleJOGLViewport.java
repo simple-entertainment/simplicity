@@ -43,14 +43,6 @@ public class SimpleJOGLViewport implements Viewport, JOGLComponent
 
     /**
      * <p>
-     * The <code>PickingEngine</code> used to pick fomr this <code>SimpleJOGLViewport</code>.
-     * TODO Should this be here???
-     * </p>
-     */
-    private PickingEngine pickingEngine;
-
-    /**
-     * <p>
      * The <code>RenderingEngine</code> used to render this <code>SimpleJOGLViewport</code>.
      * </p>
      */
@@ -78,11 +70,6 @@ public class SimpleJOGLViewport implements Viewport, JOGLComponent
     @Override
     public void displayScene()
     {
-        if (pickingEngine != null)
-        {
-            pickingEngine.advance();
-        }
-
         try
         {
             renderingEngine.advance();
@@ -106,12 +93,6 @@ public class SimpleJOGLViewport implements Viewport, JOGLComponent
     }
 
     @Override
-    public PickingEngine getPickingEngine()
-    {
-        return (pickingEngine);
-    }
-
-    @Override
     public RenderingEngine getRenderingEngine()
     {
         return (renderingEngine);
@@ -128,23 +109,10 @@ public class SimpleJOGLViewport implements Viewport, JOGLComponent
     {
         gl = newGl;
 
-        if (pickingEngine != null)
-        {
-            ((JOGLComponent) pickingEngine).setGL(newGl);
-        }
-
         if (renderingEngine != null)
         {
             ((JOGLComponent) renderingEngine).setGL(newGl);
         }
-    }
-
-    @Override
-    public void setPickingEngine(final PickingEngine newPickingEngine)
-    {
-        ((JOGLComponent) newPickingEngine).setGL(gl);
-
-        pickingEngine = newPickingEngine;
     }
 
     @Override
