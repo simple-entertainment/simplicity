@@ -69,14 +69,12 @@ public class SimpleJOGLViewport implements Viewport, JOGLComponent
     @Override
     public void displayScene()
     {
-        try
+        if (renderingEngine == null)
         {
-            renderingEngine.advance();
+            throw new IllegalStateException("This Viewport must have a Rendering Engine before it can display the Scene");
         }
-        catch (NullPointerException e)
-        {
-            throw new IllegalStateException("This Viewport must have a Rendering Engine before it can displlay the Scene Graph", e);
-        }
+
+        renderingEngine.advance();
     }
 
     @Override
