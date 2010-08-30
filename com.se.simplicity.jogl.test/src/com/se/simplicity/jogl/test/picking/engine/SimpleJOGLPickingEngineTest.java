@@ -30,6 +30,7 @@ import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.engine.RenderingEngine;
+import com.se.simplicity.scene.Scene;
 import com.se.simplicity.viewport.Viewport;
 
 /**
@@ -55,19 +56,19 @@ public class SimpleJOGLPickingEngineTest
     public void advance()
     {
         Picker mockPicker = createMock(Picker.class);
-        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+        Scene mockScene = createMock(Scene.class);
         Camera mockCamera = createMock(Camera.class);
 
         testObject.setPicker(mockPicker);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.setScene(mockScene);
+        testObject.setCamera(mockCamera);
         testObject.pick(5, 10, 15, 20);
         testObject.pick(10, 20, 30, 40);
 
         reset(mockPicker);
-        expect(mockRenderingEngine.getCamera()).andStubReturn(mockCamera);
-        expect(mockPicker.pickScene(null, mockCamera, testObject.getPicks().get(0))).andReturn(null);
-        expect(mockPicker.pickScene(null, mockCamera, testObject.getPicks().get(1))).andReturn(null);
-        replay(mockPicker, mockRenderingEngine);
+        expect(mockPicker.pickScene(mockScene, mockCamera, testObject.getPicks().get(0))).andReturn(null);
+        expect(mockPicker.pickScene(mockScene, mockCamera, testObject.getPicks().get(1))).andReturn(null);
+        replay(mockPicker);
 
         testObject.advance();
 
@@ -90,6 +91,37 @@ public class SimpleJOGLPickingEngineTest
 
         reset(mockPicker);
         replay(mockPicker);
+
+        testObject.advance();
+
+        verify(mockPicker);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLPickingEngine.advance advance()} with the special condition that a
+     * <code>RenderingEngine</code> is specified.
+     * </p>
+     */
+    @Test
+    public void advanceRenderer()
+    {
+        Picker mockPicker = createMock(Picker.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+        Scene mockScene = createMock(Scene.class);
+        Camera mockCamera = createMock(Camera.class);
+
+        testObject.setPicker(mockPicker);
+        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.pick(5, 10, 15, 20);
+        testObject.pick(10, 20, 30, 40);
+
+        reset(mockPicker);
+        expect(mockRenderingEngine.getScene()).andStubReturn(mockScene);
+        expect(mockRenderingEngine.getCamera()).andStubReturn(mockCamera);
+        expect(mockPicker.pickScene(mockScene, mockCamera, testObject.getPicks().get(0))).andReturn(null);
+        expect(mockPicker.pickScene(mockScene, mockCamera, testObject.getPicks().get(1))).andReturn(null);
+        replay(mockPicker, mockRenderingEngine);
 
         testObject.advance();
 
