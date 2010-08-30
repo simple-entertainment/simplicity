@@ -30,14 +30,21 @@ import com.se.simplicity.viewport.Viewport;
 
 /**
  * <p>
- * Manages the picking of a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} in a JOGL environment. This implementation uses only simple
- * picking techniques and properties.
+ * Manages the picking of a {@link com.se.simplicity.scene.Scene Scene} in a JOGL environment. This implementation uses only simple picking techniques
+ * and properties.
  * </p>
  * 
  * @author Gary Buyn
  */
 public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
 {
+    /**
+     * <p>
+     * The default preferred frequency (advancements per second) of this <code>SimpleJOGLPickingEngine</code>.
+     * </p>
+     */
+    private static final int DEFAULT_PREFERRED_FREQUENCY = 24;
+
     /**
      * <p>
      * The number of milliseconds in a second.
@@ -52,7 +59,7 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
 
     /**
      * <p>
-     * The <code>PickListener</code>s to be invoked when a <code>SceneGraph</code> is picked.
+     * The <code>PickListener</code>s to be invoked when a <code>Scene</code> is picked.
      * </p>
      */
     private List<PickListener> listeners;
@@ -66,14 +73,14 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
 
     /**
      * <p>
-     * The <code>Picker</code> that picks the <code>SceneGraph</code> for this <code>SimpleJOGLPickingEngine</code>.
+     * The <code>Picker</code> that picks the <code>Scene</code> for this <code>SimpleJOGLPickingEngine</code>.
      * </p>
      */
     private Picker picker;
 
     /**
      * <p>
-     * The outstanding picks to be performed against a <code>SceneGraph</code>.
+     * The outstanding picks to be performed against a <code>Scene</code>.
      * </p>
      */
     private List<Pick> picks;
@@ -87,10 +94,15 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
 
     /**
      * <p>
-     * The <code>RenderingEngine</code> whos <code>SceneGraph</code> and <code>Camera</code> are used when picking.
+     * A <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking.
      * </p>
      */
     private RenderingEngine renderingEngine;
+
+    /**
+     * The <code>Scene</code> to pick.
+     */
+    private Scene scene;
 
     /**
      * <p>
@@ -99,9 +111,14 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
      */
     public SimpleJOGLPickingEngine()
     {
+        camera = null;
         listeners = new ArrayList<PickListener>();
         logger = Logger.getLogger(getClass().getName());
+        picker = null;
         picks = new ArrayList<Pick>();
+        preferredFrequency = DEFAULT_PREFERRED_FREQUENCY;
+        renderingEngine = null;
+        scene = null;
     }
 
     @Override
@@ -118,10 +135,16 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
             return;
         }
 
+        if (renderingEngine != null)
+        {
+            scene = renderingEngine.getScene();
+            camera = renderingEngine.getCamera();
+        }
+
         // For every pick.
         for (Pick pick : picks)
         {
-            firePickEvent(picker.pickScene(null, renderingEngine.getCamera(), pick));
+            firePickEvent(picker.pickScene(scene, camera, pick));
         }
 
         picks.clear();
@@ -189,10 +212,10 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
 
     /**
      * <p>
-     * Retrieves the <code>RenderingEngine</code> whos <code>SceneGraph</code> and <code>Camera</code> are used when picking.
+     * Retrieves the <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking.
      * </p>
      * 
-     * @return The <code>RenderingEngine</code> whos <code>SceneGraph</code> and <code>Camera</code> are used when picking.
+     * @return The <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking.
      */
     public RenderingEngine getRenderingEngine()
     {
@@ -202,7 +225,7 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     @Override
     public Scene getScene()
     {
-        return (null);
+        return (scene);
     }
 
     @Override
@@ -289,13 +312,13 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
 
     /**
      * <p>
-     * Sets the <code>RenderingEngine</code> who's <code>SceneGraph</code> and <code>Camera</code> are used when picking. The ability to set a
+     * Sets the <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking. The ability to set a
      * <code>RenderingEngine</code> is a convenience as in most cases picking will be associated with a particular rendered image. This
-     * <code>SimpleJOGLPickingEngine</code> synchronises the <code>SceneGraph</code> and <code>Camera</code> from the <code>RenderingEngine</code>
-     * every time it advances.
+     * <code>SimpleJOGLPickingEngine</code> synchronises the <code>Scene</code> and <code>Camera</code> from the <code>RenderingEngine</code>
+     * every time it advances if one is provided.
      * </p>
      * 
-     * @param newRenderingEngine The <code>RenderingEngine</code> whos <code>SceneGraph</code> and <code>Camera</code> are used when picking.
+     * @param newRenderingEngine The <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking.
      */
     public void setRenderingEngine(final RenderingEngine newRenderingEngine)
     {
@@ -304,7 +327,9 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
 
     @Override
     public void setScene(final Scene newScene)
-    {}
+    {
+        scene = newScene;
+    }
 
     /**
      * <p>
