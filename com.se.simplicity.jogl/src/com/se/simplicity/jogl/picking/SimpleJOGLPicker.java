@@ -217,7 +217,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
 
         gl.glRenderMode(GL.GL_SELECT);
 
-        renderingEngine.renderSceneGraph();
+        renderingEngine.advance();
 
         gl.glRenderMode(GL.GL_RENDER);
 
