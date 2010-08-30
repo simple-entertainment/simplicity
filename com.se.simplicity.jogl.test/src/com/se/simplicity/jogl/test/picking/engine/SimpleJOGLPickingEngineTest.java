@@ -18,14 +18,17 @@ import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
+import javax.media.opengl.GL;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
+import com.se.simplicity.jogl.test.mocks.MockGL;
 import com.se.simplicity.picking.Pick;
-import com.se.simplicity.picking.Picker;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.rendering.Camera;
@@ -55,7 +58,7 @@ public class SimpleJOGLPickingEngineTest
     @Test
     public void advance()
     {
-        Picker mockPicker = createMock(Picker.class);
+        SimpleJOGLPicker mockPicker = createMock(SimpleJOGLPicker.class);
         Scene mockScene = createMock(Scene.class);
         Camera mockCamera = createMock(Camera.class);
 
@@ -85,7 +88,7 @@ public class SimpleJOGLPickingEngineTest
     @Test
     public void advanceNoPicks()
     {
-        Picker mockPicker = createMock(Picker.class);
+        SimpleJOGLPicker mockPicker = createMock(SimpleJOGLPicker.class);
 
         testObject.setPicker(mockPicker);
 
@@ -106,7 +109,7 @@ public class SimpleJOGLPickingEngineTest
     @Test
     public void advanceRenderer()
     {
-        Picker mockPicker = createMock(Picker.class);
+        SimpleJOGLPicker mockPicker = createMock(SimpleJOGLPicker.class);
         RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
         Scene mockScene = createMock(Scene.class);
         Camera mockCamera = createMock(Camera.class);
@@ -277,4 +280,47 @@ public class SimpleJOGLPickingEngineTest
     @Ignore("May need to use aspect to test")
     public void run()
     {}
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine#setGL(GL) setGL(GL)}.
+     * </p>
+     */
+    @Test
+    public void setGL()
+    {
+        MockGL mockGl = new MockGL();
+        SimpleJOGLPicker mockPicker = createMock(SimpleJOGLPicker.class);
+
+        testObject.setPicker(mockPicker);
+
+        reset(mockPicker);
+        mockPicker.setGL(mockGl);
+        replay(mockPicker);
+
+        testObject.setGL(mockGl);
+
+        verify(mockPicker);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine#setPicker(Picker) setPicker(Picker)}.
+     * </p>
+     */
+    @Test
+    public void setPicker()
+    {
+        MockGL mockGl = new MockGL();
+        SimpleJOGLPicker mockPicker = createMock(SimpleJOGLPicker.class);
+
+        testObject.setGL(mockGl);
+
+        mockPicker.setGL(mockGl);
+        replay(mockPicker);
+
+        testObject.setPicker(mockPicker);
+
+        verify(mockPicker);
+    }
 }
