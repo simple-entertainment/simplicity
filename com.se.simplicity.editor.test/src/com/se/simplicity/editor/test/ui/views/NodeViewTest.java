@@ -142,6 +142,9 @@ public class NodeViewTest
         assertEquals("", ((Text) rotationWidgets[3]).getText());
         assertEquals("", ((Text) rotationWidgets[5]).getText());
 
+        Control[] reflectiveWidgets = ((Composite) sections[4]).getChildren();
+        assertEquals("", ((Text) reflectiveWidgets[1]).getText());
+
         // Perform test.
         testObject.sceneChanged(mockEvent);
 
@@ -160,5 +163,7 @@ public class NodeViewTest
         assertEquals("90.0", ((Text) rotationWidgets[1]).getText());
         assertEquals("180.0", ((Text) rotationWidgets[3]).getText());
         assertEquals("270.0", ((Text) rotationWidgets[5]).getText());
+
+        assertEquals("$Proxy5", ((Text) reflectiveWidgets[1]).getText());
     }
 }
