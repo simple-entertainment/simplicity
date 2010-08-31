@@ -56,21 +56,21 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      * The JOGL rendering environment.
      * </p>
      */
-    private GL gl;
+    private GL fGl;
 
     /**
      * <p>
      * The <code>RenderingEngine</code> that renders the <code>Scene</code> to determine which components will be picked.
      * </p>
      */
-    private RenderingEngine renderingEngine;
+    private RenderingEngine fRenderingEngine;
 
     /**
      * <p>
      * The select buffer used by the JOGL rendering environment. Holds details of picked <code>SceneGraph</code> components.
      * </p>
      */
-    private IntBuffer selectBuffer;
+    private IntBuffer fSelectBuffer;
 
     /**
      * <p>
@@ -78,7 +78,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      * picking a <code>Scene</code>.
      * </p>
      */
-    private int selectBufferCapacity;
+    private int fSelectBufferCapacity;
 
     /**
      * <p>
@@ -87,7 +87,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      */
     public SimpleJOGLPicker()
     {
-        this.selectBufferCapacity = DEFAULT_SELECT_BUFFER_CAPACITY;
+        this.fSelectBufferCapacity = DEFAULT_SELECT_BUFFER_CAPACITY;
     }
 
     /**
@@ -110,20 +110,20 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
         PickEvent event = new PickEvent();
         int bufferIndex = 0;
 
-        while (bufferIndex < selectBuffer.capacity() && selectBuffer.get(bufferIndex) != 0)
+        while (bufferIndex < fSelectBuffer.capacity() && fSelectBuffer.get(bufferIndex) != 0)
         {
-            Object[] hit = new Object[selectBuffer.get(bufferIndex)];
+            Object[] hit = new Object[fSelectBuffer.get(bufferIndex)];
             bufferIndex += SELECT_BUFFER_HIT_HEADER_LENGTH;
 
             for (int nameIndex = 0; nameIndex < hit.length; nameIndex++)
             {
                 if (nameIndex + 1 == hit.length)
                 {
-                    hit[nameIndex] = getSubsetVG(((ModelNode) hit[nameIndex - 1]).getVertexGroup(), selectBuffer.get(bufferIndex));
+                    hit[nameIndex] = getSubsetVG(((ModelNode) hit[nameIndex - 1]).getVertexGroup(), fSelectBuffer.get(bufferIndex));
                 }
                 else
                 {
-                    hit[nameIndex] = scene.getSceneGraph().getNode(selectBuffer.get(bufferIndex));
+                    hit[nameIndex] = scene.getSceneGraph().getNode(fSelectBuffer.get(bufferIndex));
                 }
 
                 bufferIndex++;
@@ -138,7 +138,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
     @Override
     public GL getGL()
     {
-        return (gl);
+        return (fGl);
     }
 
     /**
@@ -150,7 +150,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      */
     public RenderingEngine getRenderingEngine()
     {
-        return renderingEngine;
+        return fRenderingEngine;
     }
 
     /**
@@ -162,7 +162,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      */
     public int getSelectBufferCapacity()
     {
-        return (selectBufferCapacity);
+        return (fSelectBufferCapacity);
     }
 
     /**
@@ -179,15 +179,15 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
     {
         VertexGroup subsetVertexGroup = null;
 
-        if (renderingEngine.getDrawingMode() == DrawingMode.VERTICES)
+        if (fRenderingEngine.getDrawingMode() == DrawingMode.VERTICES)
         {
             subsetVertexGroup = vertexGroup.createVertexSubsetVG(index);
         }
-        else if (renderingEngine.getDrawingMode() == DrawingMode.EDGES)
+        else if (fRenderingEngine.getDrawingMode() == DrawingMode.EDGES)
         {
             subsetVertexGroup = vertexGroup.createEdgeSubsetVG(index);
         }
-        else if (renderingEngine.getDrawingMode() == DrawingMode.FACES)
+        else if (fRenderingEngine.getDrawingMode() == DrawingMode.FACES)
         {
             subsetVertexGroup = vertexGroup.createFaceSubsetVG(index);
         }
@@ -202,37 +202,40 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      */
     protected void initSelectBuffer()
     {
-        selectBuffer = ByteBuffer.allocateDirect(selectBufferCapacity << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
-        gl.glSelectBuffer(selectBuffer.capacity(), selectBuffer);
+        fSelectBuffer = ByteBuffer.allocateDirect(fSelectBufferCapacity << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
+        fGl.glSelectBuffer(fSelectBuffer.capacity(), fSelectBuffer);
     }
 
     @Override
     public PickEvent pickScene(final Scene scene, final Camera camera, final Pick pick)
     {
-        Scene originalScene = renderingEngine.getScene();
-        Camera originalCamera = renderingEngine.getCamera();
+        Scene originalScene = fRenderingEngine.getScene();
+        Camera originalCamera = fRenderingEngine.getCamera();
 
-        renderingEngine.setScene(scene);
-        renderingEngine.setCamera(camera.getPickCamera(pick));
+        fRenderingEngine.setScene(scene);
+        fRenderingEngine.setCamera(camera.getPickCamera(pick));
 
-        gl.glRenderMode(GL.GL_SELECT);
+        fGl.glRenderMode(GL.GL_SELECT);
 
-        renderingEngine.advance();
+        fRenderingEngine.advance();
 
-        gl.glRenderMode(GL.GL_RENDER);
+        fGl.glRenderMode(GL.GL_RENDER);
 
-        renderingEngine.setScene(originalScene);
-        renderingEngine.setCamera(originalCamera);
+        fRenderingEngine.setScene(originalScene);
+        fRenderingEngine.setCamera(originalCamera);
 
         return (createPickEvent(scene));
     }
 
     @Override
-    public void setGL(final GL newGl)
+    public void setGL(final GL gl)
     {
-        gl = newGl;
+        fGl = gl;
 
-        initSelectBuffer();
+        if (fGl != null)
+        {
+            initSelectBuffer();
+        }
     }
 
     /**
@@ -240,11 +243,11 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      * Sets the <code>RenderingEngine</code> that renders the <code>Scene</code> to determine which components will be picked.
      * </p>
      * 
-     * @param newRenderingEngine The <code>RenderingEngine</code> that renders the <code>Scene</code> to determine which components will be picked.
+     * @param renderingEngine The <code>RenderingEngine</code> that renders the <code>Scene</code> to determine which components will be picked.
      */
-    public void setRenderingEngine(final RenderingEngine newRenderingEngine)
+    public void setRenderingEngine(final RenderingEngine renderingEngine)
     {
-        renderingEngine = newRenderingEngine;
+        fRenderingEngine = renderingEngine;
     }
 
     /**
@@ -252,13 +255,13 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      * Sets the capacity of the select buffer used by the JOGL rendering environment.
      * </p>
      * 
-     * @param newSelectBufferCapacity The capacity of the select buffer used by the JOGL rendering environment.
+     * @param selectBufferCapacity The capacity of the select buffer used by the JOGL rendering environment.
      */
-    public void setSelectBufferCapacity(final int newSelectBufferCapacity)
+    public void setSelectBufferCapacity(final int selectBufferCapacity)
     {
-        selectBufferCapacity = newSelectBufferCapacity;
+        fSelectBufferCapacity = selectBufferCapacity;
 
-        if (gl != null)
+        if (fGl != null)
         {
             initSelectBuffer();
         }

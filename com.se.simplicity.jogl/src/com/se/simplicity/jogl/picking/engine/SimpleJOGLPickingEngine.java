@@ -58,14 +58,14 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     /**
      * The viewpoint that will be adapted to create the picking viewpoint.
      */
-    private Camera camera;
+    private Camera fCamera;
 
     /**
      * <p>
      * The <code>PickListener</code>s to be invoked when a <code>Scene</code> is picked.
      * </p>
      */
-    private List<PickListener> listeners;
+    private List<PickListener> fListeners;
 
     /**
      * <p>
@@ -79,33 +79,33 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
      * The <code>Picker</code> that picks the <code>Scene</code> for this <code>SimpleJOGLPickingEngine</code>.
      * </p>
      */
-    private Picker picker;
+    private Picker fPicker;
 
     /**
      * <p>
      * The outstanding picks to be performed against a <code>Scene</code>.
      * </p>
      */
-    private List<Pick> picks;
+    private List<Pick> fPicks;
 
     /**
      * <p>
      * The preferred frequency (advancements per second) of this <code>SimpleJOGLPickingEngine</code>.
      * </p>
      */
-    private int preferredFrequency;
+    private int fPreferredFrequency;
 
     /**
      * <p>
      * A <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking.
      * </p>
      */
-    private RenderingEngine renderingEngine;
+    private RenderingEngine fRenderingEngine;
 
     /**
      * The <code>Scene</code> to pick.
      */
-    private Scene scene;
+    private Scene fScene;
 
     /**
      * <p>
@@ -114,43 +114,43 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
      */
     public SimpleJOGLPickingEngine()
     {
-        camera = null;
-        listeners = new ArrayList<PickListener>();
+        fCamera = null;
+        fListeners = new ArrayList<PickListener>();
         logger = Logger.getLogger(getClass().getName());
-        picker = null;
-        picks = new ArrayList<Pick>();
-        preferredFrequency = DEFAULT_PREFERRED_FREQUENCY;
-        renderingEngine = null;
-        scene = null;
+        fPicker = null;
+        fPicks = new ArrayList<Pick>();
+        fPreferredFrequency = DEFAULT_PREFERRED_FREQUENCY;
+        fRenderingEngine = null;
+        fScene = null;
     }
 
     @Override
     public void addPickListener(final PickListener listener)
     {
-        listeners.add(listener);
+        fListeners.add(listener);
     }
 
     @Override
     public void advance()
     {
-        if (picks.isEmpty())
+        if (fPicks.isEmpty())
         {
             return;
         }
 
-        if (renderingEngine != null)
+        if (fRenderingEngine != null)
         {
-            scene = renderingEngine.getScene();
-            camera = renderingEngine.getCamera();
+            fScene = fRenderingEngine.getScene();
+            fCamera = fRenderingEngine.getCamera();
         }
 
         // For every pick.
-        for (Pick pick : picks)
+        for (Pick pick : fPicks)
         {
-            firePickEvent(picker.pickScene(scene, camera, pick));
+            firePickEvent(fPicker.pickScene(fScene, fCamera, pick));
         }
 
-        picks.clear();
+        fPicks.clear();
     }
 
     /**
@@ -165,7 +165,7 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
      */
     public Pick convertPickCoordinatesFromViewportToSceneGraph(final Dimension viewportSize, final Pick pick)
     {
-        SimpleJOGLCamera simpleJoglCamera = (SimpleJOGLCamera) this.camera;
+        SimpleJOGLCamera simpleJoglCamera = (SimpleJOGLCamera) this.fCamera;
 
         pick.setHeight((float) pick.getHeight() / (float) viewportSize.height
                 * (simpleJoglCamera.getFrameWidth() * simpleJoglCamera.getFrameAspectRatio()));
@@ -183,7 +183,7 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     @Override
     public void firePickEvent(final PickEvent event)
     {
-        for (PickListener listener : listeners)
+        for (PickListener listener : fListeners)
         {
             listener.scenePicked(event);
         }
@@ -192,25 +192,25 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     @Override
     public Camera getCamera()
     {
-        return (camera);
+        return (fCamera);
     }
 
     @Override
     public Picker getPicker()
     {
-        return (picker);
+        return (fPicker);
     }
 
     @Override
     public List<Pick> getPicks()
     {
-        return (picks);
+        return (fPicks);
     }
 
     @Override
     public int getPreferredFrequency()
     {
-        return (preferredFrequency);
+        return (fPreferredFrequency);
     }
 
     /**
@@ -222,13 +222,13 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
      */
     public RenderingEngine getRenderingEngine()
     {
-        return (renderingEngine);
+        return (fRenderingEngine);
     }
 
     @Override
     public Scene getScene()
     {
-        return (scene);
+        return (fScene);
     }
 
     @Override
@@ -250,7 +250,7 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     @Override
     public void pick(final Pick pick)
     {
-        picks.add(pick);
+        fPicks.add(pick);
     }
 
     @Override
@@ -268,13 +268,13 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     @Override
     public void pickViewport(final Dimension viewportSize, final Pick pick)
     {
-        picks.add(convertPickCoordinatesFromViewportToSceneGraph(viewportSize, pick));
+        fPicks.add(convertPickCoordinatesFromViewportToSceneGraph(viewportSize, pick));
     }
 
     @Override
     public void removePickListener(final PickListener listener)
     {
-        listeners.remove(listener);
+        fListeners.remove(listener);
     }
 
     @Override
@@ -296,34 +296,34 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     }
 
     @Override
-    public void setCamera(final Camera newCamera)
+    public void setCamera(final Camera camera)
     {
-        camera = newCamera;
+        fCamera = camera;
     }
 
     @Override
-    public void setGL(final GL newGl)
+    public void setGL(final GL gl)
     {
-        super.setGL(newGl);
+        super.setGL(gl);
 
-        if (picker != null)
+        if (fPicker != null)
         {
-            ((JOGLComponent) picker).setGL(getGL());
+            ((JOGLComponent) fPicker).setGL(getGL());
         }
     }
 
     @Override
-    public void setPicker(final Picker newPicker)
+    public void setPicker(final Picker picker)
     {
-        ((JOGLComponent) newPicker).setGL(getGL());
+        fPicker = picker;
 
-        picker = newPicker;
+        ((JOGLComponent) fPicker).setGL(getGL());
     }
 
     @Override
-    public void setPreferredFrequency(final int newPreferredFrequency)
+    public void setPreferredFrequency(final int preferredFrequency)
     {
-        preferredFrequency = newPreferredFrequency;
+        fPreferredFrequency = preferredFrequency;
     }
 
     /**
@@ -334,20 +334,20 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
      * time it advances if one is provided.
      * </p>
      * 
-     * @param newRenderingEngine The <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking.
+     * @param renderingEngine The <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking.
      */
-    public void setRenderingEngine(final RenderingEngine newRenderingEngine)
+    public void setRenderingEngine(final RenderingEngine renderingEngine)
     {
-        renderingEngine = newRenderingEngine;
+        fRenderingEngine = renderingEngine;
 
-        scene = renderingEngine.getScene();
-        camera = renderingEngine.getCamera();
+        fScene = fRenderingEngine.getScene();
+        fCamera = fRenderingEngine.getCamera();
     }
 
     @Override
-    public void setScene(final Scene newScene)
+    public void setScene(final Scene scene)
     {
-        scene = newScene;
+        fScene = scene;
     }
 
     /**
@@ -359,7 +359,7 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     {
         try
         {
-            Thread.sleep((long) MILLISECONDS_IN_A_SECOND / preferredFrequency);
+            Thread.sleep((long) MILLISECONDS_IN_A_SECOND / fPreferredFrequency);
         }
         catch (InterruptedException e)
         {
