@@ -11,15 +11,17 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
+import java.awt.Dimension;
+
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.opengl.GLCanvas;
+import org.eclipse.swt.widgets.Control;
 
-import com.se.simplicity.viewport.Viewport;
+import com.se.simplicity.picking.engine.PickingEngine;
 
 /**
  * <p>
- * Listens for mouse events on a 3D canvas and registers picks against the <code>Viewport</code> (if a <code>PickingEngine</code> exists).
+ * Listens for mouse events on a 3D canvas and picks the <code>SceneGraph</code> displayed on it.
  * </p>
  * 
  * @author Gary Buyn
@@ -28,45 +30,33 @@ public class VisualSceneMouseListener extends MouseAdapter
 {
     /**
      * <p>
-     * The <code>Viewport</code> this to register picks against.
+     * The <code>PickingEngine</code> to register picks with.
      * </p>
      */
-    private Viewport viewport;
-
-    /**
-     * <p>
-     * The 3D canvas to listen for mouse events from.
-     * </p>
-     */
-    private GLCanvas canvas;
+    private PickingEngine fPickingEngine;
 
     /**
      * <p>
      * Creates an instance of <code>VisualSceneMouseListener</code>.
      * </p>
      * 
-     * 
-     * @param newViewport The <code>Viewport</code> this to register picks again
-     * @param newCanvas The 3D canvas to listen for mouse events from.
+     * @param newPickingEngine The <code>PickingEngine</code> to register picks with.
      */
-    public VisualSceneMouseListener(final Viewport newViewport, final GLCanvas newCanvas)
+    public VisualSceneMouseListener(final PickingEngine newPickingEngine)
     {
-        viewport = newViewport;
-        canvas = newCanvas;
+        fPickingEngine = newPickingEngine;
     }
 
-    /**
-     * <p>
-     * Responds to a button 1 mouse event by registering a pick against the <code>Viewport</code> (if a <code>PickingEngine</code> exists).
-     * </p>
-     * 
-     * @param event The event to respond to.
-     */
-    public void mouseClicked(final MouseEvent event)
+    @Override
+    public void mouseUp(final MouseEvent event)
     {
-        if (event.button == 1 && viewport.getPickingEngine() != null)
+        if (event.button == 1)
         {
-            viewport.getPickingEngine().pickViewport(viewport, event.x, event.y, canvas.getBounds().width, canvas.getBounds().height);
+            Dimension viewportSize = new Dimension();
+            viewportSize.width = ((Control) event.widget).getBounds().x;
+            viewportSize.height = ((Control) event.widget).getBounds().y;
+
+            fPickingEngine.pickViewport(viewportSize, event.x, event.y, 5, 5);
         }
     }
 }
