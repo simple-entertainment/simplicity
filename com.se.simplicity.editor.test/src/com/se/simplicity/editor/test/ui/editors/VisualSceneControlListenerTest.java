@@ -15,16 +15,18 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
 
+import java.awt.Dimension;
+
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.opengl.GLCanvas;
 import org.junit.Test;
 
 import com.se.simplicity.editor.ui.editors.VisualSceneControlListener;
-import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
-import com.se.simplicity.rendering.engine.RenderingEngine;
-import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
-import com.se.simplicity.viewport.Viewport;
+import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
+import com.se.simplicity.rendering.Camera;
 
 /**
  * <p>
@@ -49,49 +51,65 @@ public class VisualSceneControlListenerTest
     @Test
     public void controlResized()
     {
+        // Create dependencies.
+        SimpleJOGLRenderingEngine renderingEngine = new SimpleJOGLRenderingEngine();
         GLCanvas mockCanvas = createMock(GLCanvas.class);
-        Viewport mockViewport = createMock(Viewport.class);
         Rectangle rectangle = new Rectangle(0, 0, 200, 200);
 
+        // Dictate correct behaviour.
         expect(mockCanvas.getBounds()).andStubReturn(rectangle);
-        mockViewport.setSize(200, 200);
-        replay(mockCanvas, mockViewport);
+        replay(mockCanvas);
 
-        testObject = new VisualSceneControlListener(mockViewport, mockCanvas);
+        // Initialise test environment.
+        testObject = new VisualSceneControlListener(mockCanvas);
+        testObject.addRenderingEngine(renderingEngine);
+
+        // Perform test.
         testObject.controlResized(null);
 
-        verify(mockViewport);
+        // Verify test results.
+        Dimension dimension = renderingEngine.getViewportSize();
+
+        assertEquals(200, dimension.width, 0);
+        assertEquals(200, dimension.height, 0);
     }
 
     /**
      * <p>
      * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneControlListener#controlResized(ControlEvent)
      * controlResized(ControlEvent)} with the special condition that the current <code>Camera</code>'s aspect ratio should be synchronised with the
-     * <code>Viewport</code>'s aspect ratio.
+     * <code>RenderingEngine</code>'s aspect ratio.
      * </p>
      */
     @Test
     public void controlResizedCameraAspectRatioSynchronised()
     {
+        // Create dependencies.
+        SimpleJOGLRenderingEngine renderingEngine = new SimpleJOGLRenderingEngine();
         GLCanvas mockCanvas = createMock(GLCanvas.class);
-        Viewport mockViewport = createMock(Viewport.class);
         Rectangle rectangle = new Rectangle(0, 0, 200, 200);
-        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
-        MetaDataCamera mockMetaDataCamera = createMock(MetaDataCamera.class);
-        SimpleJOGLCamera mockWrappedCamera = createMock(SimpleJOGLCamera.class);
+        Camera mockCamera = createMock(Camera.class);
+        renderingEngine.setCamera(mockCamera);
 
+        // Dictate correct behaviour.
         expect(mockCanvas.getBounds()).andStubReturn(rectangle);
-        mockViewport.setSize(200, 200);
-        expect(mockViewport.getRenderingEngine()).andStubReturn(mockRenderingEngine);
-        expect(mockRenderingEngine.getCamera()).andStubReturn(mockMetaDataCamera);
-        expect(mockMetaDataCamera.getWrappedCamera()).andStubReturn(mockWrappedCamera);
-        mockWrappedCamera.setFrameAspectRatio(1.0f);
-        replay(mockCanvas, mockViewport, mockRenderingEngine, mockMetaDataCamera, mockWrappedCamera);
+        mockCamera.setFrameAspectRatio(1.0f);
+        replay(mockCanvas, mockCamera);
 
-        testObject = new VisualSceneControlListener(mockViewport, mockCanvas);
+        // Initialise test environment.
+        testObject = new VisualSceneControlListener(mockCanvas);
         testObject.setCameraAspectRatioSyncronised(true);
+        testObject.addRenderingEngine(renderingEngine);
+
+        // Perform test.
         testObject.controlResized(null);
 
-        verify(mockViewport, mockWrappedCamera);
+        // Verify test results.
+        verify(mockCamera);
+
+        Dimension dimension = renderingEngine.getViewportSize();
+
+        assertEquals(200, dimension.width, 0);
+        assertEquals(200, dimension.height, 0);
     }
 }
