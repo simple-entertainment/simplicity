@@ -232,10 +232,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
     {
         fGl = gl;
 
-        if (fGl != null)
-        {
-            initSelectBuffer();
-        }
+        initSelectBuffer();
     }
 
     /**
