@@ -148,6 +148,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
         fLights = new ArrayList<Light>();
         fLogger = Logger.getLogger(getClass().getName());
         fScene = null;
+        fViewportSize = null;
     }
 
     @Override
