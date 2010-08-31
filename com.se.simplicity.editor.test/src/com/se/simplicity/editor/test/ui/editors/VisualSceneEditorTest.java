@@ -34,6 +34,7 @@ import org.junit.Test;
 
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.editors.VisualSceneEditor;
+import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 
 /**
  * <p>
@@ -89,7 +90,7 @@ public class VisualSceneEditorTest
 
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
-        assertNotNull(testObject.getViewport().getGL());
+        assertNotNull(((SimpleJOGLRenderingEngine) testObject.getRenderingEngine()).getGL());
     }
 
     /**
@@ -118,7 +119,7 @@ public class VisualSceneEditorTest
 
         testObject.init(mockSite, mockInput);
 
-        assertNotNull(testObject.getViewport());
+        assertNotNull(testObject.getRenderingEngine());
         assertNotNull(SceneManager.getSceneManager().getActiveScene());
     }
 
