@@ -24,6 +24,13 @@ public interface Renderer
 {
     /**
      * <p>
+     * Initialises the rendering environment.
+     * </p>
+     */
+    void init();
+
+    /**
+     * <p>
      * Renders the given {@link com.se.simplicity.rendering.VertexGroup VertexGroup} with the given {@link com.se.simplicity.rendering.DrawingMode
      * DrawingMode}.
      * </p>
