@@ -125,75 +125,75 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
      * The distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
      * </p>
      */
-    private float farClippingDistance;
+    private float fFarClippingDistance;
 
     /**
      * <p>
      * The aspect ratio of the frame. An aspect ratio of 3:4 is stored as 3 / 4 (0.75).
      * </p>
      */
-    private float frameAspectRatio;
+    private float fFrameAspectRatio;
 
     /**
      * <p>
      * The width of the frame.
      * </p>
      */
-    private float frameWidth;
+    private float fFrameWidth;
 
     /**
      * <p>
      * The location of the frame on the <code>x</code> axis relative to the location and orientation of this <code>SimpleJOGLCamera</code>.
      * </p>
      */
-    private float frameX;
+    private float fFrameX;
 
     /**
      * <p>
      * The location of the frame on the <code>y</code> axis relative to the location and orientation of this <code>SimpleJOGLCamera</code>.
      * </p>
      */
-    private float frameY;
+    private float fFrameY;
 
     /**
      * <p>
      * The JOGL rendering environment.
      * </p>
      */
-    private GL gl;
+    private GL fGl;
 
     /**
      * The initialisation status. Determines if this <code>SimpleJOGLCamera</code> is initialised.
      */
-    private boolean isInitialised;
+    private boolean fIsInitialised;
 
     /**
      * <p>
      * Logs messages associated with this class.
      * </p>
      */
-    private Logger logger;
+    private Logger fLogger;
 
     /**
      * <p>
      * The distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
      * </p>
      */
-    private float nearClippingDistance;
+    private float fNearClippingDistance;
 
     /**
      * <p>
      * The <code>Node</code> that represents this <code>SimpleJOGLCamera</code>'s location and orientation.
      * </p>
      */
-    private Node node;
+    private Node fNode;
 
     /**
      * <p>
      * The projection mode used to render a <code>SceneGraph</code>.
      * </p>
      */
-    private ProjectionMode projectionMode;
+    private ProjectionMode fProjectionMode;
 
     /**
      * <p>
@@ -202,39 +202,33 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
      */
     public SimpleJOGLCamera()
     {
-        farClippingDistance = DEFAULT_FAR_CLIPPING_PLANE;
-        frameAspectRatio = DEFAULT_FRAME_ASPECT_RATIO;
-        frameWidth = DEFAULT_FRAME_WIDTH;
-        frameX = 0.0f;
-        frameY = 0.0f;
-        isInitialised = false;
-        logger = Logger.getLogger(getClass().getName());
-        nearClippingDistance = DEFAULT_NEAR_CLIPPING_PLANE;
-        node = null;
-        projectionMode = ProjectionMode.PERSPECTIVE;
+        fFarClippingDistance = DEFAULT_FAR_CLIPPING_PLANE;
+        fFrameAspectRatio = DEFAULT_FRAME_ASPECT_RATIO;
+        fFrameWidth = DEFAULT_FRAME_WIDTH;
+        fFrameX = 0.0f;
+        fFrameY = 0.0f;
+        fIsInitialised = false;
+        fLogger = Logger.getLogger(getClass().getName());
+        fNearClippingDistance = DEFAULT_NEAR_CLIPPING_PLANE;
+        fNode = null;
+        fProjectionMode = ProjectionMode.PERSPECTIVE;
     }
 
     @Override
     public void apply()
     {
-        if (!isInitialised)
+        if (!fIsInitialised)
         {
             init();
         }
 
-        gl.glMultMatrixf(((SimpleTransformationMatrixf44) getTransformation()).getArray(), 0);
+        fGl.glMultMatrixf(((SimpleTransformationMatrixf44) getTransformation()).getArray(), 0);
     }
 
-    /**
-     * <p>
-     * Retrieves the distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
-     * </p>
-     * 
-     * @return The distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
-     */
+    @Override
     public float getFarClippingDistance()
     {
-        return (farClippingDistance);
+        return (fFarClippingDistance);
     }
 
     /**
@@ -242,71 +236,58 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
      * Retrieves the aspect ratio of the frame.
      * </p>
      * 
+     * <p>
+     * Internally this <code>SimpleJOGLCamera</code> maintains a width and aspect ratio for the frame instead of a width and height. This methods is
+     * provided for direct manipulation of the aspect ratio.
+     * </p>
+     * 
      * @return The aspect ratio of the frame.
      */
     public float getFrameAspectRatio()
     {
-        return (frameAspectRatio);
+        return (fFrameAspectRatio);
     }
 
-    /**
-     * <p>
-     * Retrieves the width of the frame.
-     * </p>
-     * 
-     * @return The width of the frame.
-     */
+    @Override
+    public float getFrameHeight()
+    {
+        return (fFrameWidth * fFrameAspectRatio);
+    }
+
+    @Override
     public float getFrameWidth()
     {
-        return (frameWidth);
+        return (fFrameWidth);
     }
 
-    /**
-     * <p>
-     * Retrieves the location of the frame on the <code>x</code> axis relative to the location and orientation of this <code>SimpleJOGLCamera</code>.
-     * </p>
-     * 
-     * @return The location of the frame on the <code>x</code> axis relative to the location and orientation of this <code>SimpleJOGLCamera</code>.
-     */
+    @Override
     public float getFrameX()
     {
-        return (frameX);
+        return (fFrameX);
     }
 
-    /**
-     * <p>
-     * Retrieves the location of the frame on the <code>y</code> axis relative to the location and orientation of this <code>SimpleJOGLCamera</code>.
-     * </p>
-     * 
-     * @return The location of the frame on the <code>y</code> axis relative to the location and orientation of this <code>SimpleJOGLCamera</code>.
-     */
+    @Override
     public float getFrameY()
     {
-        return (frameY);
+        return (fFrameY);
     }
 
     @Override
     public GL getGL()
     {
-        return (gl);
+        return (fGl);
     }
 
-    /**
-     * <p>
-     * Retrieves the distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
-     * </p>
-     * 
-     * @return The distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
-     */
+    @Override
     public float getNearClippingDistance()
     {
-        return (nearClippingDistance);
+        return (fNearClippingDistance);
     }
 
     @Override
     public Node getNode()
     {
-        return (node);
+        return (fNode);
     }
 
     @Override
@@ -326,28 +307,22 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
         return (pickCamera);
     }
 
-    /**
-     * <p>
-     * Retrieves the projection mode used to render a <code>SceneGraph</code>.
-     * </p>
-     * 
-     * @return The projection mode used to render a <code>SceneGraph</code>.
-     */
+    @Override
     public ProjectionMode getProjectionMode()
     {
-        return (projectionMode);
+        return (fProjectionMode);
     }
 
     @Override
     public TransformationMatrixf getTransformation()
     {
-        if (node == null)
+        if (fNode == null)
         {
             return (null);
         }
 
         TransformationMatrixf transformation = new SimpleTransformationMatrixf44();
-        Node currentNode = node;
+        Node currentNode = fNode;
 
         while (currentNode != null)
         {
@@ -362,7 +337,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
         }
         catch (SEInvalidOperationException e)
         {
-            logger.error("Failed to invert the transformation.", e);
+            fLogger.error("Failed to invert the transformation.", e);
         }
 
         return (transformation);
@@ -371,40 +346,34 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
     @Override
     public void init()
     {
-        if (projectionMode == null)
+        if (fProjectionMode == null)
         {
             throw new IllegalStateException("This Camera must have a projection mode to be initialised.");
         }
 
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        fGl.glMatrixMode(GL.GL_PROJECTION);
 
-        gl.glLoadIdentity();
-        gl.glFrustum(-frameWidth / 2 + frameX, frameWidth / 2 + frameX, -frameWidth * frameAspectRatio / 2 + frameY, frameWidth * frameAspectRatio
-                / 2 + frameY, nearClippingDistance, farClippingDistance);
+        fGl.glLoadIdentity();
+        fGl.glFrustum(-fFrameWidth / 2 + fFrameX, fFrameWidth / 2 + fFrameX, -fFrameWidth * fFrameAspectRatio / 2 + fFrameY, fFrameWidth
+                * fFrameAspectRatio / 2 + fFrameY, fNearClippingDistance, fFarClippingDistance);
 
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        fGl.glMatrixMode(GL.GL_MODELVIEW);
 
-        isInitialised = true;
+        fIsInitialised = true;
     }
 
     @Override
     public boolean isInitialised()
     {
-        return (isInitialised);
+        return (fIsInitialised);
     }
 
-    /**
-     * <p>
-     * Sets the distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
-     * </p>
-     * 
-     * @param newFarClippingDistance The distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
-     */
-    public void setFarClippingDistance(final float newFarClippingDistance)
+    @Override
+    public void setFarClippingDistance(final float farClippingDistance)
     {
-        farClippingDistance = newFarClippingDistance;
+        fFarClippingDistance = farClippingDistance;
 
-        isInitialised = false;
+        fIsInitialised = false;
     }
 
     /**
@@ -412,102 +381,81 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
      * Sets the aspect ratio of the frame. An aspect ratio of 3:4 is stored as 3 / 4 (0.75).
      * </p>
      * 
-     * @param newFrameAspectRatio The aspect ratio of the frame. An aspect ratio of 3:4 is stored as 3 / 4 (0.75).
-     */
-    public void setFrameAspectRatio(final float newFrameAspectRatio)
-    {
-        frameAspectRatio = newFrameAspectRatio;
-
-        isInitialised = false;
-    }
-
-    /**
      * <p>
-     * Sets the width of the frame.
+     * Internally this <code>SimpleJOGLCamera</code> maintains a width and aspect ratio for the frame instead of a width and height. This methods is
+     * provided for direct manipulation of the aspect ratio.
      * </p>
      * 
-     * @param newFrameWidth The width of the frame.
+     * @param frameAspectRatio The aspect ratio of the frame. An aspect ratio of 3:4 is stored as 3 / 4 (0.75).
      */
-    public void setFrameWidth(final float newFrameWidth)
+    public void setFrameAspectRatio(final float frameAspectRatio)
     {
-        frameWidth = newFrameWidth;
+        fFrameAspectRatio = frameAspectRatio;
 
-        isInitialised = false;
-    }
-
-    /**
-     * <p>
-     * Sets the location of the frame on the <code>x</code> axis relative to the location and orientation of this <code>SimpleJOGLCamera</code>.
-     * </p>
-     * 
-     * @param newFrameX The location of the frame on the <code>x</code> axis relative to the location and orientation of this
-     * <code>SimpleJOGLCamera</code>.
-     */
-    public void setFrameX(final float newFrameX)
-    {
-        frameX = newFrameX;
-
-        isInitialised = false;
-    }
-
-    /**
-     * <p>
-     * Sets the location of the frame on the <code>y</code> axis relative to the location and orientation of this <code>SimpleJOGLCamera</code>.
-     * </p>
-     * 
-     * @param newFrameY The location of the frame on the <code>y</code> axis relative to the location and orientation of this
-     * <code>SimpleJOGLCamera</code>.
-     */
-    public void setFrameY(final float newFrameY)
-    {
-        frameY = newFrameY;
-
-        isInitialised = false;
+        fIsInitialised = false;
     }
 
     @Override
-    public void setGL(final GL newGl)
+    public void setFrameHeight(final float frameHeight)
     {
-        gl = newGl;
-
-        isInitialised = false;
+        fFrameAspectRatio = frameHeight / fFrameWidth;
     }
 
     @Override
-    public void setInitialised(final boolean newIsInitialised)
+    public void setFrameWidth(final float frameWidth)
     {
-        isInitialised = newIsInitialised;
-    }
+        fFrameWidth = frameWidth;
 
-    /**
-     * <p>
-     * Sets the distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
-     * </p>
-     * 
-     * @param newNearClippingDistance The distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
-     */
-    public void setNearClippingDistance(final float newNearClippingDistance)
-    {
-        nearClippingDistance = newNearClippingDistance;
-
-        isInitialised = false;
+        fIsInitialised = false;
     }
 
     @Override
-    public void setNode(final Node newNode)
+    public void setFrameX(final float frameX)
     {
-        node = newNode;
+        fFrameX = frameX;
+
+        fIsInitialised = false;
     }
 
-    /**
-     * <p>
-     * Sets the projection mode used to render a <code>SceneGraph</code>.
-     * </p>
-     * 
-     * @param newProjectionMode The projection mode used to render a <code>SceneGraph</code>.
-     */
-    public void setProjectionMode(final ProjectionMode newProjectionMode)
+    @Override
+    public void setFrameY(final float frameY)
     {
-        projectionMode = newProjectionMode;
+        fFrameY = frameY;
+
+        fIsInitialised = false;
+    }
+
+    @Override
+    public void setGL(final GL gl)
+    {
+        fGl = gl;
+
+        fIsInitialised = false;
+    }
+
+    @Override
+    public void setInitialised(final boolean isInitialised)
+    {
+        fIsInitialised = isInitialised;
+    }
+
+    @Override
+    public void setNearClippingDistance(final float nearClippingDistance)
+    {
+        fNearClippingDistance = nearClippingDistance;
+
+        fIsInitialised = false;
+    }
+
+    @Override
+    public void setNode(final Node node)
+    {
+        fNode = node;
+    }
+
+    @Override
+    public void setProjectionMode(final ProjectionMode projectionMode)
+    {
+        fProjectionMode = projectionMode;
     }
 }
