@@ -11,6 +11,8 @@
  */
 package com.se.simplicity.rendering.engine;
 
+import java.awt.Dimension;
+
 import com.se.simplicity.engine.Engine;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.DrawingMode;
@@ -98,6 +100,15 @@ public interface RenderingEngine extends Engine
 
     /**
      * <p>
+     * Retrieves the size of the viewport (the area on which the {@link com.se.simplicity.scene.Scene Scene} will be rendered).
+     * </p>
+     * 
+     * @return The size of the viewport.
+     */
+    Dimension getViewportSize();
+
+    /**
+     * <p>
      * Renders the {@link com.se.simplicity.scene.Scene Scene}.
      * </p>
      * 
@@ -113,36 +124,36 @@ public interface RenderingEngine extends Engine
      * Sets the {@link com.se.simplicity.rendering.Camera Camera} through which the {@link com.se.simplicity.scene.Scene Scene} will be rendered.
      * </p>
      * 
-     * @param newCamera The <code>Camera</code> through which the <code>Scene</code> will be rendered.
+     * @param camera The <code>Camera</code> through which the <code>Scene</code> will be rendered.
      */
-    void setCamera(Camera newCamera);
+    void setCamera(Camera camera);
 
     /**
      * <p>
      * Sets the colour to clear the buffer with before rendering.
      * </p>
      * 
-     * @param newClearingColour The colour to clear the buffer with before rendering.
+     * @param clearingColour The colour to clear the buffer with before rendering.
      */
-    void setClearingColour(SimpleVectorf4 newClearingColour);
+    void setClearingColour(SimpleVectorf4 clearingColour);
 
     /**
      * <p>
      * Sets the clearing mode. Determines if the screen buffer is cleared before rendering.
      * </p>
      * 
-     * @param newClearsBeforeRender Determines if the screen buffer is cleared before rendering.
+     * @param clearsBeforeRender Determines if the screen buffer is cleared before rendering.
      */
-    void setClearsBeforeRender(boolean newClearsBeforeRender);
+    void setClearsBeforeRender(boolean clearsBeforeRender);
 
     /**
      * <p>
      * Sets the drawing mode used to render the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
      * </p>
      * 
-     * @param newDrawingMode The drawing mode used to render the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * @param drawingMode The drawing mode used to render the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
      */
-    void setDrawingMode(DrawingMode newDrawingMode);
+    void setDrawingMode(DrawingMode drawingMode);
 
     /**
      * <p>
@@ -150,17 +161,26 @@ public interface RenderingEngine extends Engine
      * <code>RenderingEngine</code>.
      * </p>
      * 
-     * @param newRenderer The {@link com.se.simplicity.rendering.Renderer Renderer} that renders {@link com.se.simplicity.model.VertexGroup
-     * VertexGroup}s for this <code>RenderingEngine</code>.
+     * @param renderer The {@link com.se.simplicity.rendering.Renderer Renderer} that renders {@link com.se.simplicity.model.VertexGroup VertexGroup}s
+     * for this <code>RenderingEngine</code>.
      */
-    void setRenderer(Renderer newRenderer);
+    void setRenderer(Renderer renderer);
 
     /**
      * <p>
      * Sets the {@link com.se.simplicity.scene.Scene Scene} to be rendered.
      * </p>
      * 
-     * @param newScene The {@link com.se.simplicity.scene.Scene Scene} to be rendered.
+     * @param scene The {@link com.se.simplicity.scene.Scene Scene} to be rendered.
      */
-    void setScene(Scene newScene);
+    void setScene(Scene scene);
+
+    /**
+     * <p>
+     * Sets the size of the viewport (the area on which the {@link com.se.simplicity.scene.Scene Scene} will be rendered).
+     * </p>
+     * 
+     * @param viewportSize The size of the viewport.
+     */
+    void setViewportSize(Dimension viewportSize);
 }

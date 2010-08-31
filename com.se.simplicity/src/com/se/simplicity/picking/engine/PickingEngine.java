@@ -11,6 +11,7 @@
  */
 package com.se.simplicity.picking.engine;
 
+import java.awt.Dimension;
 import java.util.List;
 
 import com.se.simplicity.engine.Engine;
@@ -20,7 +21,6 @@ import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scene.Scene;
-import com.se.simplicity.viewport.Viewport;
 
 /**
  * <p>
@@ -127,26 +127,26 @@ public interface PickingEngine extends Engine
 
     /**
      * <p>
-     * Registers a pick at the given location of a {@link com.se.simplicity.viewport.Viewport Viewport} with the given dimensions.
+     * Registers a pick at the given location of a viewport with the given dimensions.
      * </p>
      * 
-     * @param viewport The {@link com.se.simplicity.viewport.Viewport Viewport} to pick.
-     * @param x The position on the <code>x</code> axis of the {@link com.se.simplicity.viewport.Viewport Viewport} to pick.
-     * @param y The position on the <code>y</code> axis of the {@link com.se.simplicity.viewport.Viewport Viewport} to pick.
-     * @param width The width of the area on the {@link com.se.simplicity.viewport.Viewport Viewport} to pick.
-     * @param height The height of the area on the {@link com.se.simplicity.viewport.Viewport Viewport} to pick.
+     * @param viewportSize The size of the viewport.
+     * @param x The position on the <code>x</code> axis of the viewport to pick.
+     * @param y The position on the <code>y</code> axis of the viewport to pick.
+     * @param width The width of the area on the viewport to pick.
+     * @param height The height of the area on the viewport to pick.
      */
-    void pickViewport(Viewport viewport, int x, int y, int width, int height);
+    void pickViewport(Dimension viewportSize, int x, int y, int width, int height);
 
     /**
      * <p>
-     * Registers a pick at the given location and area of a {@link com.se.simplicity.viewport.Viewport Viewport}.
+     * Registers a pick at the given location and area of a viewport.
      * </p>
      * 
-     * @param viewport The {@link com.se.simplicity.viewport.Viewport Viewport} to pick.
-     * @param pick The position and area of the {@link com.se.simplicity.viewport.Viewport Viewport} to pick.
+     * @param viewportSize The size of the viewport.
+     * @param pick The position and area of the viewport to pick.
      */
-    void pickViewport(Viewport viewport, Pick pick);
+    void pickViewport(Dimension viewportSize, Pick pick);
 
     /**
      * <p>
