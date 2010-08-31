@@ -11,8 +11,8 @@
  */
 package com.se.simplicity.editor.test.ui.editors;
 
+import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
@@ -25,7 +25,8 @@ import org.junit.Test;
 
 import com.se.simplicity.editor.ui.editors.VisualSceneAdvancer;
 import com.se.simplicity.picking.engine.PickingEngine;
-import com.se.simplicity.viewport.Viewport;
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.engine.RenderingEngine;
 
 /**
  * <p>
@@ -49,27 +50,40 @@ public class VisualSceneAdvancerTest
     @Test
     public void run()
     {
+        // Create dependencies.
         Display mockDisplay = createMock(Display.class);
-        Viewport mockViewport = createMock(Viewport.class);
-        PickingEngine mockPickingEngine = createMock(PickingEngine.class);
         GLCanvas mockCanvas = createMock(GLCanvas.class);
         GLContext mockGlContext = createMock(GLContext.class);
 
-        testObject = new VisualSceneAdvancer(mockDisplay, mockViewport, mockPickingEngine, mockCanvas, mockGlContext);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+        Camera mockCamera = createMock(Camera.class);
+        PickingEngine mockPickingEngine = createMock(PickingEngine.class);
 
-        reset(mockDisplay, mockViewport, mockCanvas, mockGlContext);
-        expect(mockCanvas.isDisposed()).andReturn(false);
+        // Setup test environment.
+        testObject = new VisualSceneAdvancer(mockDisplay, mockCanvas, mockGlContext);
+        testObject.addEngine(mockRenderingEngine);
+        testObject.addEngine(mockPickingEngine);
+
+        // Dictate correct behaviour.
+        reset(mockDisplay, mockCanvas, mockGlContext);
+        expect(mockCanvas.isDisposed()).andStubReturn(false);
         mockCanvas.setCurrent();
-        expect(mockGlContext.makeCurrent()).andReturn(0);
+        expect(mockGlContext.makeCurrent()).andStubReturn(0);
+
+        expect(mockRenderingEngine.getCamera()).andReturn(mockCamera);
+        mockCamera.setInitialised(false);
+        mockRenderingEngine.advance();
         mockPickingEngine.advance();
-        mockViewport.displayScene();
+
         mockCanvas.swapBuffers();
         mockGlContext.release();
         mockDisplay.asyncExec(testObject);
-        replay(mockDisplay, mockViewport, mockPickingEngine, mockCanvas, mockGlContext);
+        replay(mockDisplay, mockCanvas, mockGlContext, mockRenderingEngine, mockCamera, mockPickingEngine);
 
+        // Perform test.
         testObject.run();
 
-        verify(mockDisplay, mockViewport, mockPickingEngine);
+        // Verify test results.
+        verify(mockRenderingEngine, mockCamera, mockPickingEngine);
     }
 }
