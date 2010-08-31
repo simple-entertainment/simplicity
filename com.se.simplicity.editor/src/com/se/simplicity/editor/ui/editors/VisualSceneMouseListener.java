@@ -53,8 +53,8 @@ public class VisualSceneMouseListener extends MouseAdapter
         if (event.button == 1)
         {
             Dimension viewportSize = new Dimension();
-            viewportSize.width = ((Control) event.widget).getBounds().x;
-            viewportSize.height = ((Control) event.widget).getBounds().y;
+            viewportSize.width = ((Control) event.widget).getBounds().width;
+            viewportSize.height = ((Control) event.widget).getBounds().height;
 
             fPickingEngine.pickViewport(viewportSize, event.x, event.y, 5, 5);
         }
