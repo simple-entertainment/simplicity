@@ -13,11 +13,14 @@ package com.se.simplicity.editor.ui.editors;
 
 import java.awt.Dimension;
 
-import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.widgets.Control;
 
 import com.se.simplicity.picking.engine.PickingEngine;
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.vector.SimpleTranslationVectorf4;
 
 /**
  * <p>
@@ -26,7 +29,7 @@ import com.se.simplicity.picking.engine.PickingEngine;
  * 
  * @author Gary Buyn
  */
-public class VisualSceneMouseListener extends MouseAdapter
+public class VisualSceneMouseListener implements MouseListener, MouseWheelListener
 {
     /**
      * <p>
@@ -37,15 +40,31 @@ public class VisualSceneMouseListener extends MouseAdapter
 
     /**
      * <p>
+     * The <code>Camera</code> being used to view the <code>Scene</code>.
+     * </p>
+     */
+    private Camera fViewingCamera;
+
+    /**
+     * <p>
      * Creates an instance of <code>VisualSceneMouseListener</code>.
      * </p>
      * 
      * @param newPickingEngine The <code>PickingEngine</code> to register picks with.
      */
-    public VisualSceneMouseListener(final PickingEngine newPickingEngine)
+    public VisualSceneMouseListener(final PickingEngine newPickingEngine, final Camera viewingCamera)
     {
         fPickingEngine = newPickingEngine;
+        fViewingCamera = viewingCamera;
     }
+
+    @Override
+    public void mouseDoubleClick(final MouseEvent event)
+    {}
+
+    @Override
+    public void mouseDown(final MouseEvent event)
+    {}
 
     @Override
     public void mouseUp(final MouseEvent event)
@@ -58,5 +77,11 @@ public class VisualSceneMouseListener extends MouseAdapter
 
             fPickingEngine.pickViewport(viewportSize, event.x, event.y, 5, 5);
         }
+    }
+
+    @Override
+    public void mouseScrolled(final MouseEvent event)
+    {
+        fViewingCamera.getNode().getTransformation().translate(new SimpleTranslationVectorf4(0.0f, 0.0f, event.count * -1.0f, 1.0f));
     }
 }

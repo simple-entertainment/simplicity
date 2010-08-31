@@ -107,8 +107,10 @@ public class VisualSceneEditor extends EditorPart
         controlListener.addRenderingEngine(pickerRenderingEngine);
         fCanvas.addControlListener(controlListener);
 
-        // Setup picking.
-        fCanvas.addMouseListener(new VisualSceneMouseListener(fPickingEngine));
+        // Setup mouse interaction.
+        VisualSceneMouseListener mouseListener = new VisualSceneMouseListener(fPickingEngine, fViewingCamera);
+        fCanvas.addMouseListener(mouseListener);
+        fCanvas.addMouseWheelListener(mouseListener);
         fPickingEngine.addPickListener(new VisualScenePickListener());
 
         // Continually display the Scene.
