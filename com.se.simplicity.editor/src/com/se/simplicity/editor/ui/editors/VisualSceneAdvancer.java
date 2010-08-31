@@ -11,18 +11,22 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.media.opengl.GLContext;
 
 import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.widgets.Display;
 
-import com.se.simplicity.picking.engine.PickingEngine;
-import com.se.simplicity.viewport.Viewport;
+import com.se.simplicity.engine.Engine;
+import com.se.simplicity.rendering.engine.RenderingEngine;
 
 /**
  * <p>
- * Continually renders a <code>Viewport</code> to a 3D canvas using the JOGL rendering environment. Renders are executed as asynchronous display calls
- * ( {@link org.eclipse.swt.widgets.Display#asyncExec(Runnable) Display.asyncExec(Runnable)}) until the canvas is disposed.
+ * Continually advances the contained engines, rendering to a 3D canvas using the JOGL rendering environment. Advances are executed as asynchronous
+ * display calls ( {@link org.eclipse.swt.widgets.Display#asyncExec(Runnable) Display.asyncExec(Runnable)}). Advances are halted once the canvas is
+ * disposed.
  * </p>
  * 
  * @author Gary Buyn
@@ -31,7 +35,7 @@ public class VisualSceneAdvancer implements Runnable
 {
     /**
      * <p>
-     * The 3D canvas to render the <code>Viewport</code> to.
+     * The 3D canvas to render to.
      * </p>
      */
     private GLCanvas canvas;
@@ -45,24 +49,17 @@ public class VisualSceneAdvancer implements Runnable
 
     /**
      * <p>
-     * The <code>GLContext</code> to use when rendering the <code>Viewport</code>.
+     * The <code>GLContext</code> to use when rendering.
      * </p>
      */
     private GLContext glContext;
 
     /**
      * <p>
-     * The <code>PickingEngine</code> to pick the Scene with.
+     * The <code>Engine</code>s to advance.
      * </p>
      */
-    private PickingEngine pickingEngine;
-
-    /**
-     * <p>
-     * The <code>Viewport</code> to render.
-     * </p>
-     */
-    private Viewport viewport;
+    private List<Engine> engines;
 
     /**
      * <p>
@@ -70,25 +67,35 @@ public class VisualSceneAdvancer implements Runnable
      * </p>
      * 
      * @param newDisplay The display to request asynchronous calls against.
-     * @param newViewport The <code>Viewport</code> to render.
-     * @param newPickingEngine The <code>PickingEngine</code> to pick the Scene with.
-     * @param newCanvas The 3D canvas to render the <code>Viewport</code> to.
-     * @param newGlContext The <code>GLContext</code> to use when rendering the <code>Viewport</code>.
+     * @param newCanvas The 3D canvas to render to.
+     * @param newGlContext The <code>GLContext</code> to use when rendering.
      */
-    public VisualSceneAdvancer(final Display newDisplay, final Viewport newViewport, final PickingEngine newPickingEngine, final GLCanvas newCanvas,
-            final GLContext newGlContext)
+    public VisualSceneAdvancer(final Display newDisplay, final GLCanvas newCanvas, final GLContext newGlContext)
     {
         canvas = newCanvas;
         display = newDisplay;
         glContext = newGlContext;
-        pickingEngine = newPickingEngine;
-        viewport = newViewport;
+
+        engines = new ArrayList<Engine>();
     }
 
     /**
      * <p>
-     * Continually renders a <code>Viewport</code> to a 3D canvas using the JOGL rendering environment. Renders are executed as asynchronous display
-     * calls ( {@link org.eclipse.swt.widgets.Display#asyncExec(Runnable) Display.asyncExec(Runnable)}) until the canvas is disposed.
+     * Adds the given <code>Engine</code> to the <code>Engine</code>s to be advanced.
+     * </p>
+     * 
+     * @param engine The <code>Engine</code> to be advanced.
+     */
+    public void addEngine(final Engine engine)
+    {
+        engines.add(engine);
+    }
+
+    /**
+     * <p>
+     * Continually advances the contained engines, rendering to a 3D canvas using the JOGL rendering environment. Advances are executed as
+     * asynchronous display calls ( {@link org.eclipse.swt.widgets.Display#asyncExec(Runnable) Display.asyncExec(Runnable)}). Advances are halted once
+     * the canvas is disposed.
      * </p>
      */
     public void run()
@@ -100,8 +107,16 @@ public class VisualSceneAdvancer implements Runnable
                 canvas.setCurrent();
                 glContext.makeCurrent();
 
-                pickingEngine.advance();
-                viewport.displayScene();
+                for (Engine engine : engines)
+                {
+                    // TODO find a better way to do this
+                    if (engine instanceof RenderingEngine)
+                    {
+                        ((RenderingEngine) engine).getCamera().setInitialised(false);
+                    }
+
+                    engine.advance();
+                }
 
                 canvas.swapBuffers();
                 glContext.release();
