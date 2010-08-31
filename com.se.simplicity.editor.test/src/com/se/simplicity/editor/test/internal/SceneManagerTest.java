@@ -35,18 +35,19 @@ import org.junit.Test;
 import com.se.simplicity.editor.internal.SceneChangedEvent;
 import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
+import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
+import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
+import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.util.metadata.scene.MetaDataScene;
-import com.se.simplicity.viewport.Viewport;
 
 /**
  * <p>
@@ -153,31 +154,53 @@ public class SceneManagerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getViewportToScene(String) getViewportToScene(String)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getPickingEngineForScene(String) getPickingEngineForScene(String)}.
      * </p>
      */
     @Test
-    public void getViewportToScene()
+    public void getPickingEngineForScene()
     {
         SimpleJOGLScene scene = new SimpleJOGLScene();
 
         testObject.addSceneDefinition(scene, "test");
 
-        Viewport viewport = testObject.getViewportToScene("test");
+        SimpleJOGLPickingEngine pickingEngine = testObject.getPickingEngineForScene("test");
 
-        assertEquals(scene, viewport.getRenderingEngine().getScene());
-        assertNotNull(viewport.getRenderingEngine().getRenderer());
+        assertEquals(scene, pickingEngine.getScene());
+        assertNotNull(pickingEngine.getPicker());
+        assertTrue(pickingEngine.getPicker() instanceof SimpleJOGLPicker);
+        assertNotNull(((SimpleJOGLPicker) pickingEngine.getPicker()).getRenderingEngine());
+        assertNotNull(((SimpleJOGLPicker) pickingEngine.getPicker()).getRenderingEngine().getRenderer());
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getViewportToScene(String) getViewportToScene(String)} with the
-     * special condition that the <code>Scene</code> is a <code>MetaDataScene</code> with the 'preferredRenderingEngine' and 'preferredRenderer'
-     * attributes set.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getRenderingEngineForScene(String)
+     * getRenderingEngineForScene(String)}.
      * </p>
      */
     @Test
-    public void getViewportToSceneMetaDataScene()
+    public void getRenderingEngineForScene()
+    {
+        SimpleJOGLScene scene = new SimpleJOGLScene();
+
+        testObject.addSceneDefinition(scene, "test");
+
+        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
+
+        assertEquals(scene, renderingEngine.getScene());
+        assertNotNull(renderingEngine.getRenderer());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getRenderingEngineForScene(String)
+     * getRenderingEngineForScene(String)} with the special condition that the <code>Scene</code> is a <code>MetaDataScene</code> with the
+     * 'preferredRenderingEngine' and 'preferredRenderer' attributes set.
+     * </p>
+     */
+    @Test
+    public void getRenderingEngineForSceneMetaDataScene()
     {
         MetaDataScene scene = new MetaDataScene(new SimpleJOGLScene());
         MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
@@ -190,21 +213,21 @@ public class SceneManagerTest
         expect(mockCamera.getAttribute("default")).andStubReturn("true");
         replay(mockCamera);
 
-        Viewport viewport = testObject.getViewportToScene("test");
+        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
 
-        assertTrue(viewport.getRenderingEngine() instanceof SimpleJOGLRenderingEngine);
-        assertTrue(viewport.getRenderingEngine().getRenderer() instanceof SimpleJOGLRenderer);
+        assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
+        assertTrue(renderingEngine.getRenderer() instanceof SimpleJOGLRenderer);
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getViewportToScene(String) getViewportToScene(String)} with the
-     * special condition that the <code>Scene</code> is a <code>MetaDataScene</code> with the 'preferredRenderingEngine' and 'preferredRenderer'
-     * attributes set but the 'preferredRenderingEngine' attribute is set to an invalid value.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getRenderingEngineForScene(String)
+     * getRenderingEngineForScene(String)} with the special condition that the <code>Scene</code> is a <code>MetaDataScene</code> with the
+     * 'preferredRenderingEngine' and 'preferredRenderer' attributes set but the 'preferredRenderingEngine' attribute is set to an invalid value.
      * </p>
      */
     @Test
-    public void getViewportToSceneMetaDataSceneInvalidRenderingEngine()
+    public void getRenderingEngineForSceneMetaDataSceneInvalidRenderingEngine()
     {
         MetaDataScene scene = new MetaDataScene(new SimpleJOGLScene());
         MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
@@ -217,21 +240,21 @@ public class SceneManagerTest
         expect(mockCamera.getAttribute("default")).andStubReturn("true");
         replay(mockCamera);
 
-        Viewport viewport = testObject.getViewportToScene("test");
+        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
 
-        assertTrue(viewport.getRenderingEngine() instanceof SimpleJOGLRenderingEngine);
-        assertTrue(viewport.getRenderingEngine().getRenderer() instanceof SimpleJOGLRenderer);
+        assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
+        assertTrue(renderingEngine.getRenderer() instanceof SimpleJOGLRenderer);
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getViewportToScene(String) getViewportToScene(String)} with the
-     * special condition that the <code>Scene</code> is a <code>MetaDataScene</code> with the 'preferredRenderingEngine' and 'preferredRenderer'
-     * attributes set but the 'preferredRenderer' attribute is set to an invalid value.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getRenderingEngineForScene(String)
+     * getRenderingEngineForScene(String)} with the special condition that the <code>Scene</code> is a <code>MetaDataScene</code> with the
+     * 'preferredRenderingEngine' and 'preferredRenderer' attributes set but the 'preferredRenderer' attribute is set to an invalid value.
      * </p>
      */
     @Test
-    public void getViewportToSceneMetaDataSceneInvalidRenderer()
+    public void getRenderingEngineForSceneMetaDataSceneInvalidRenderer()
     {
         MetaDataScene scene = new MetaDataScene(new SimpleJOGLScene());
         MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
@@ -244,10 +267,10 @@ public class SceneManagerTest
         expect(mockCamera.getAttribute("default")).andStubReturn("true");
         replay(mockCamera);
 
-        Viewport viewport = testObject.getViewportToScene("test");
+        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
 
-        assertTrue(viewport.getRenderingEngine() instanceof SimpleJOGLRenderingEngine);
-        assertTrue(viewport.getRenderingEngine().getRenderer() instanceof SimpleJOGLRenderer);
+        assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
+        assertTrue(renderingEngine.getRenderer() instanceof SimpleJOGLRenderer);
     }
 
     /**
