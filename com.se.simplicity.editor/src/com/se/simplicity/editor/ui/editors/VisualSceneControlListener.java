@@ -11,17 +11,20 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.opengl.GLCanvas;
 
-import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
-import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
-import com.se.simplicity.viewport.Viewport;
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.engine.RenderingEngine;
 
 /**
  * <p>
- * Listens for resize events on a 3D canvas and updates the <code>Viewport</code> and <code>Camera</code> to reflect the change in size.
+ * Listens for resize events on a 3D canvas and updates the <code>RenderingEngine</code>s and <code>Camera</code>s to reflect the change in size.
  * </p>
  * 
  * @author Gary Buyn
@@ -33,74 +36,89 @@ public class VisualSceneControlListener extends ControlAdapter
      * The 3D canvas whose size has changed.
      * </p>
      */
-    private GLCanvas canvas;
+    private GLCanvas fCanvas;
 
     /**
      * <p>
-     * Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>Viewport</code>'s aspect ratio.
+     * Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>RenderingEngine</code>'s aspect ratio.
      * </p>
      */
-    private boolean cameraAspectRatioSyncronised;
+    private boolean fCameraAspectRatioSyncronised;
 
     /**
      * <p>
-     * The <code>Viewport</code> to update to reflect the change in size.
+     * The <code>RenderingEngine</code>s to update to reflect the change in viewport size.
      * </p>
      */
-    private Viewport viewport;
+    private List<RenderingEngine> fRenderingEngines;
 
     /**
      * <p>
      * Creates an instance of <code>VisualSceneControlListener</code>.
      * </p>
      * 
-     * @param newViewport The <code>Viewport</code> to update to reflect the change in size.
-     * @param newCanvas The 3D canvas whose size has changed.
+     * @param canvas The 3D canvas whose size has changed.
      */
-    public VisualSceneControlListener(final Viewport newViewport, final GLCanvas newCanvas)
+    public VisualSceneControlListener(final GLCanvas canvas)
     {
-        viewport = newViewport;
-        canvas = newCanvas;
+        fCanvas = canvas;
 
-        cameraAspectRatioSyncronised = false;
+        fCameraAspectRatioSyncronised = false;
+        fRenderingEngines = new ArrayList<RenderingEngine>();
+    }
+
+    /**
+     * <p>
+     * Adds the given <code>RenderingEngine</code> to the <code>RenderingEngine</code>s to be updated.
+     * </p>
+     * 
+     * @param renderingEngine The <code>RenderingEngine</code> to be updated.
+     */
+    public void addRenderingEngine(final RenderingEngine renderingEngine)
+    {
+        fRenderingEngines.add(renderingEngine);
     }
 
     @Override
     public void controlResized(final ControlEvent event)
     {
-        viewport.setSize(canvas.getBounds().width, canvas.getBounds().height);
-
-        if (cameraAspectRatioSyncronised)
+        for (RenderingEngine renderingEngine : fRenderingEngines)
         {
-            // TODO Specific to only one camera type!
-            SimpleJOGLCamera camera = (SimpleJOGLCamera) ((MetaDataCamera) viewport.getRenderingEngine().getCamera()).getWrappedCamera();
-            camera.setFrameAspectRatio((canvas.getBounds().height * 1.0f) / (canvas.getBounds().width * 1.0f));
+            Dimension viewportSize = new Dimension();
+            viewportSize.setSize(fCanvas.getBounds().width, fCanvas.getBounds().height);
+            renderingEngine.setViewportSize(viewportSize);
+
+            Camera camera = renderingEngine.getCamera();
+            if (fCameraAspectRatioSyncronised && camera != null)
+            {
+                camera.setFrameAspectRatio((float) fCanvas.getBounds().height / (float) fCanvas.getBounds().width);
+            }
         }
     }
 
     /**
      * <p>
-     * Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>Viewport</code>'s aspect ratio.
+     * Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>RenderingEngine</code>'s aspect ratio.
      * </p>
      * 
-     * @return True if the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>Viewport</code>'s aspect ratio, false
-     * otherwise.
+     * @return True if the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>RenderingEngine</code>'s aspect ratio,
+     * false otherwise.
      */
     public boolean isCameraAspectRatioSyncronised()
     {
-        return (cameraAspectRatioSyncronised);
+        return (fCameraAspectRatioSyncronised);
     }
 
     /**
      * <p>
-     * Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>Viewport</code>'s aspect ratio.
+     * Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the <code>RenderingEngine</code>'s aspect ratio.
      * </p>
      * 
-     * @param newCameraAspectRatioSyncronised Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the
-     * <code>Viewport</code>'s aspect ratio.
+     * @param cameraAspectRatioSyncronised Determines whether the current <code>Camera</code>'s aspect ratio should be synchronised with the
+     * <code>RenderingEngine</code>'s aspect ratio.
      */
-    public void setCameraAspectRatioSyncronised(final boolean newCameraAspectRatioSyncronised)
+    public void setCameraAspectRatioSyncronised(final boolean cameraAspectRatioSyncronised)
     {
-        cameraAspectRatioSyncronised = newCameraAspectRatioSyncronised;
+        fCameraAspectRatioSyncronised = cameraAspectRatioSyncronised;
     }
 }
