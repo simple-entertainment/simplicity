@@ -221,8 +221,15 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
 
         fGl.glRenderMode(GL.GL_RENDER);
 
-        fRenderingEngine.setScene(originalScene);
-        fRenderingEngine.setCamera(originalCamera);
+        if (originalScene != null)
+        {
+            fRenderingEngine.setScene(originalScene);
+        }
+
+        if (originalCamera != null)
+        {
+            fRenderingEngine.setCamera(originalCamera);
+        }
 
         return (createPickEvent(scene));
     }
