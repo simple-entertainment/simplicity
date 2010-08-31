@@ -16,6 +16,8 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
+import java.awt.Dimension;
+
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.opengl.GLCanvas;
@@ -24,7 +26,6 @@ import org.junit.Test;
 
 import com.se.simplicity.editor.ui.editors.VisualSceneMouseListener;
 import com.se.simplicity.picking.engine.PickingEngine;
-import com.se.simplicity.viewport.Viewport;
 
 /**
  * <p>
@@ -42,23 +43,20 @@ public class VisualSceneMouseListenerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneMouseListener#mouseClicked(MouseEvent) mouseClicked(MouseEvent)}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneMouseListener#mouseUp(MouseEvent) mouseUp(MouseEvent)}.
      * </p>
      */
     @Test
-    public void mouseClicked()
+    public void mouseUp()
     {
+        // Create dependencies.
         GLCanvas mockCanvas = createMock(GLCanvas.class);
-        Viewport mockViewport = createMock(Viewport.class);
         PickingEngine mockPickingEngine = createMock(PickingEngine.class);
         Rectangle rectangle = new Rectangle(0, 0, 200, 200);
 
-        expect(mockViewport.getPickingEngine()).andStubReturn(mockPickingEngine);
-        expect(mockCanvas.getBounds()).andStubReturn(rectangle);
-        mockPickingEngine.pickViewport(mockViewport, 100, 100, 200, 200);
-        replay(mockCanvas, mockViewport, mockPickingEngine);
-
-        testObject = new VisualSceneMouseListener(mockViewport, mockCanvas);
+        Dimension dimension = new Dimension();
+        dimension.width = 200;
+        dimension.height = 200;
 
         Event event = new Event();
         event.widget = mockCanvas;
@@ -66,35 +64,19 @@ public class VisualSceneMouseListenerTest
         mouseEvent.button = 1;
         mouseEvent.x = 100;
         mouseEvent.y = 100;
-        testObject.mouseClicked(mouseEvent);
 
+        // Dictate correct behaviour.
+        expect(mockCanvas.getBounds()).andStubReturn(rectangle);
+        mockPickingEngine.pickViewport(dimension, 100, 100, 5, 5);
+        replay(mockCanvas, mockPickingEngine);
+
+        // Initialise test environment.
+        testObject = new VisualSceneMouseListener(mockPickingEngine);
+
+        // Perform test.
+        testObject.mouseUp(mouseEvent);
+
+        // Verify test results.
         verify(mockPickingEngine);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneMouseListener#mouseClicked(MouseEvent) mouseClicked(MouseEvent)}.
-     * </p>
-     */
-    @Test
-    public void mouseClickedNoPickingEngine()
-    {
-        GLCanvas mockCanvas = createMock(GLCanvas.class);
-        Viewport mockViewport = createMock(Viewport.class);
-        Rectangle rectangle = new Rectangle(0, 0, 200, 200);
-
-        expect(mockViewport.getPickingEngine()).andStubReturn(null);
-        expect(mockCanvas.getBounds()).andStubReturn(rectangle);
-        replay(mockCanvas, mockViewport);
-
-        testObject = new VisualSceneMouseListener(mockViewport, mockCanvas);
-
-        Event event = new Event();
-        event.widget = mockCanvas;
-        MouseEvent mouseEvent = new MouseEvent(event);
-        mouseEvent.button = 1;
-        mouseEvent.x = 100;
-        mouseEvent.y = 100;
-        testObject.mouseClicked(mouseEvent);
     }
 }
