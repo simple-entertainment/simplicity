@@ -28,6 +28,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.util.SceneFactory;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
@@ -110,6 +111,7 @@ public class VisualSceneEditor extends EditorPart
         // Setup mouse interaction.
         VisualSceneMouseListener mouseListener = new VisualSceneMouseListener(fPickingEngine, fViewingCamera);
         fCanvas.addMouseListener(mouseListener);
+        fCanvas.addMouseMoveListener(mouseListener);
         fCanvas.addMouseWheelListener(mouseListener);
         fPickingEngine.addPickListener(new VisualScenePickListener());
 
@@ -180,6 +182,9 @@ public class VisualSceneEditor extends EditorPart
         fPickingEngine.setCamera(fViewingCamera);
 
         SceneManager.getSceneManager().setActiveScene(fSceneName);
+
+        // TODO temporary
+        SceneFactory.addXSceneAtOrigin(SceneManager.getSceneManager().getActiveScene().getSceneGraph());
     }
 
     /**

@@ -15,7 +15,9 @@ import java.awt.Dimension;
 
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.MouseWheelListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 
 import com.se.simplicity.picking.engine.PickingEngine;
@@ -29,8 +31,22 @@ import com.se.simplicity.vector.SimpleTranslationVectorf4;
  * 
  * @author Gary Buyn
  */
-public class VisualSceneMouseListener implements MouseListener, MouseWheelListener
+public class VisualSceneMouseListener implements MouseListener, MouseMoveListener, MouseWheelListener
 {
+    /**
+     * <p>
+     * Determines if mouse button 1 is currently down.
+     * </p>
+     */
+    private boolean fMouseButton1Down;
+
+    /**
+     * <p>
+     * The last position the mouse was at (only updated while mouse button 1 is down). 
+     * </p>
+     */
+    private Point fMouseButton1DownPoint;
+
     /**
      * <p>
      * The <code>PickingEngine</code> to register picks with.
@@ -51,6 +67,7 @@ public class VisualSceneMouseListener implements MouseListener, MouseWheelListen
      * </p>
      * 
      * @param newPickingEngine The <code>PickingEngine</code> to register picks with.
+     * @param viewingCamera The <code>Camera</code> being used to view the <code>Scene</code>.
      */
     public VisualSceneMouseListener(final PickingEngine newPickingEngine, final Camera viewingCamera)
     {
@@ -64,18 +81,28 @@ public class VisualSceneMouseListener implements MouseListener, MouseWheelListen
 
     @Override
     public void mouseDown(final MouseEvent event)
-    {}
-
-    @Override
-    public void mouseUp(final MouseEvent event)
     {
         if (event.button == 1)
         {
-            Dimension viewportSize = new Dimension();
-            viewportSize.width = ((Control) event.widget).getBounds().width;
-            viewportSize.height = ((Control) event.widget).getBounds().height;
+            fMouseButton1DownPoint = null;
+            fMouseButton1Down = true;
+        }
+    }
 
-            fPickingEngine.pickViewport(viewportSize, event.x, event.y, 5, 5);
+    @Override
+    public void mouseMove(final MouseEvent event)
+    {
+        if (fMouseButton1Down)
+        {
+            if (fMouseButton1DownPoint != null)
+            {
+                fViewingCamera.getNode().getParent().getTransformation().rotate((float) ((event.x - fMouseButton1DownPoint.x) * Math.PI / 180.0f) * -1.0f,
+                        new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
+                fViewingCamera.getNode().getParent().getTransformation().rotate((float) ((event.y - fMouseButton1DownPoint.y) * Math.PI / 180.0f) * -1.0f,
+                        new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
+            }
+
+            fMouseButton1DownPoint = new Point(event.x, event.y);
         }
     }
 
@@ -83,5 +110,20 @@ public class VisualSceneMouseListener implements MouseListener, MouseWheelListen
     public void mouseScrolled(final MouseEvent event)
     {
         fViewingCamera.getNode().getTransformation().translate(new SimpleTranslationVectorf4(0.0f, 0.0f, event.count * -1.0f, 1.0f));
+    }
+
+    @Override
+    public void mouseUp(final MouseEvent event)
+    {
+        if (event.button == 1)
+        {
+            fMouseButton1Down = false;
+
+            Dimension viewportSize = new Dimension();
+            viewportSize.width = ((Control) event.widget).getBounds().width;
+            viewportSize.height = ((Control) event.widget).getBounds().height;
+
+            fPickingEngine.pickViewport(viewportSize, event.x, event.y, 5, 5);
+        }
     }
 }
