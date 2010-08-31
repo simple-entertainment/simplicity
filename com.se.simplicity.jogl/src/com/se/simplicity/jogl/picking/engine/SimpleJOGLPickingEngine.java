@@ -140,8 +140,15 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
 
         if (fRenderingEngine != null)
         {
-            fScene = fRenderingEngine.getScene();
-            fCamera = fRenderingEngine.getCamera();
+            if (fRenderingEngine.getScene() != null)
+            {
+                fScene = fRenderingEngine.getScene();
+            }
+
+            if (fRenderingEngine.getCamera() != null)
+            {
+                fCamera = fRenderingEngine.getCamera();
+            }
         }
 
         // For every pick.
@@ -340,8 +347,15 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     {
         fRenderingEngine = renderingEngine;
 
-        fScene = fRenderingEngine.getScene();
-        fCamera = fRenderingEngine.getCamera();
+        if (fRenderingEngine.getScene() != null)
+        {
+            fScene = fRenderingEngine.getScene();
+        }
+
+        if (fRenderingEngine.getCamera() != null)
+        {
+            fCamera = fRenderingEngine.getCamera();
+        }
     }
 
     @Override
