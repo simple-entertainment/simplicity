@@ -114,7 +114,18 @@ public class SimpleJOGLCameraTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera.getPickCamera getPickCamera()}.
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera#getFrameHeight() getFrameHeight()}.
+     * </p>
+     */
+    @Test
+    public void getFrameHeight()
+    {
+        assertEquals(0.1f * 0.75f, testObject.getFrameHeight(), 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera#getPickCamera() getPickCamera()}.
      * </p>
      */
     @Test
@@ -142,7 +153,7 @@ public class SimpleJOGLCameraTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera.getTransformation getTransformation()}.
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera#getTransformation() getTransformation()}.
      * </p>
      * 
      * @throws SEInvalidOperationException Thrown by the setup of a helper object.
@@ -176,8 +187,8 @@ public class SimpleJOGLCameraTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera.getTransformation getTransformation()} with the special condition
-     * that the {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera SimpleJOGLCamera} being tested does not have a <code>Node</code>.
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera#getTransformation() getTransformation()} with the special
+     * condition that the {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera SimpleJOGLCamera} being tested does not have a <code>Node</code>.
      * </p>
      */
     @Test
@@ -188,7 +199,7 @@ public class SimpleJOGLCameraTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera.init init()}.
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera#init() init()}.
      * </p>
      */
     @Test
@@ -207,5 +218,19 @@ public class SimpleJOGLCameraTest
                 1000.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glFrustum", new Object[] {-0.05f, 0.05f, -0.0375f, 0.0375f, 0.1f, 1000.0f}, 0, "glMatrixMode",
                 new Object[] {GL.GL_MODELVIEW}));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLCamera#setFrameHeight(float) setFrameHeight(float)}.
+     * </p>
+     */
+    @Test
+    public void setFrameHeight()
+    {
+        testObject.setFrameHeight(0.1f);
+
+        assertEquals(1.0f, testObject.getFrameAspectRatio(), 0.0f);
+        assertEquals(0.1f, testObject.getFrameHeight(), 0.0f);
     }
 }
