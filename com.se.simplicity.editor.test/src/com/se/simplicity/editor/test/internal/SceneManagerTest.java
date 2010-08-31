@@ -160,19 +160,13 @@ public class SceneManagerTest
     public void getViewportToScene()
     {
         SimpleJOGLScene scene = new SimpleJOGLScene();
-        MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
-        scene.addCamera(mockCamera);
 
         testObject.addSceneDefinition(scene, "test");
-
-        expect(mockCamera.getAttribute("default")).andStubReturn("true");
-        replay(mockCamera);
 
         Viewport viewport = testObject.getViewportToScene("test");
 
         assertEquals(scene, viewport.getRenderingEngine().getScene());
         assertNotNull(viewport.getRenderingEngine().getRenderer());
-        assertEquals(scene.getCameras().get(0), viewport.getRenderingEngine().getCamera());
     }
 
     /**
@@ -254,65 +248,6 @@ public class SceneManagerTest
 
         assertTrue(viewport.getRenderingEngine() instanceof SimpleJOGLRenderingEngine);
         assertTrue(viewport.getRenderingEngine().getRenderer() instanceof SimpleJOGLRenderer);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getViewportToScene(String) getViewportToScene(String)} with the
-     * special condition that the <code>Scene</code> does not have any <code>Camera</code>s.
-     * </p>
-     */
-    @Test
-    public void getViewportToSceneNoCameras()
-    {
-        SimpleJOGLScene scene = new SimpleJOGLScene();
-        scene.setSceneGraph(createMock(SceneGraph.class));
-
-        testObject.addSceneDefinition(scene, "test");
-
-        Viewport viewport = testObject.getViewportToScene("test");
-
-        assertNotNull(viewport.getRenderingEngine().getCamera());
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getViewportToScene(String) getViewportToScene(String)} with the
-     * special condition that the <code>Scene</code> does not have any <code>MetaDataCamera</code>s with the 'default' attribute set to true.
-     * </p>
-     */
-    @Test
-    public void getViewportToSceneNoDefaultCameras()
-    {
-        SimpleJOGLScene scene = new SimpleJOGLScene();
-        scene.addCamera(createMock(MetaDataCamera.class));
-        scene.setSceneGraph(createMock(SceneGraph.class));
-
-        testObject.addSceneDefinition(scene, "test");
-
-        Viewport viewport = testObject.getViewportToScene("test");
-
-        assertEquals(scene.getCameras().get(0), viewport.getRenderingEngine().getCamera());
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getViewportToScene(String) getViewportToScene(String)} with the
-     * special condition that the <code>Scene</code> does not have any <code>MetaDataCamera</code>s.
-     * </p>
-     */
-    @Test
-    public void getViewportToSceneNoMetaDataCameras()
-    {
-        SimpleJOGLScene scene = new SimpleJOGLScene();
-        scene.addCamera(createMock(SimpleJOGLCamera.class));
-        scene.setSceneGraph(createMock(SceneGraph.class));
-
-        testObject.addSceneDefinition(scene, "test");
-
-        Viewport viewport = testObject.getViewportToScene("test");
-
-        assertEquals(scene.getCameras().get(0), viewport.getRenderingEngine().getCamera());
     }
 
     /**
