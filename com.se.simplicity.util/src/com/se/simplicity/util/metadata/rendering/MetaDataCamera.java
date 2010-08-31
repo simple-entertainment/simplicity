@@ -245,4 +245,16 @@ public class MetaDataCamera implements Camera, JOGLComponent, MetaData
     {
         camera.setProjectionMode(projectionMode);
     }
+
+    @Override
+    public float getFrameAspectRatio()
+    {
+        return (camera.getFrameAspectRatio());
+    }
+
+    @Override
+    public void setFrameAspectRatio(final float frameAspectRatio)
+    {
+        camera.setFrameAspectRatio(frameAspectRatio);
+    }
 }
