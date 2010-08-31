@@ -19,6 +19,7 @@ import javax.media.opengl.GL;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.picking.Pick;
 import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.util.metadata.MetaData;
 import com.se.simplicity.vector.TransformationMatrixf;
@@ -90,9 +91,45 @@ public class MetaDataCamera implements Camera, JOGLComponent, MetaData
     }
 
     @Override
+    public float getFarClippingDistance()
+    {
+        return (camera.getFarClippingDistance());
+    }
+
+    @Override
+    public float getFrameHeight()
+    {
+        return (camera.getFrameHeight());
+    }
+
+    @Override
+    public float getFrameWidth()
+    {
+        return (camera.getFrameWidth());
+    }
+
+    @Override
+    public float getFrameX()
+    {
+        return (camera.getFrameX());
+    }
+
+    @Override
+    public float getFrameY()
+    {
+        return (camera.getFrameY());
+    }
+
+    @Override
     public GL getGL()
     {
         return (((JOGLComponent) camera).getGL());
+    }
+
+    @Override
+    public float getNearClippingDistance()
+    {
+        return (camera.getNearClippingDistance());
     }
 
     @Override
@@ -105,6 +142,12 @@ public class MetaDataCamera implements Camera, JOGLComponent, MetaData
     public Camera getPickCamera(final Pick pick)
     {
         return (camera.getPickCamera(pick));
+    }
+
+    @Override
+    public ProjectionMode getProjectionMode()
+    {
+        return (camera.getProjectionMode());
     }
 
     @Override
@@ -144,20 +187,62 @@ public class MetaDataCamera implements Camera, JOGLComponent, MetaData
     }
 
     @Override
-    public void setGL(final GL newGl)
+    public void setFarClippingDistance(final float farClippingDistance)
     {
-        ((JOGLComponent) camera).setGL(newGl);
+        camera.setFarClippingDistance(farClippingDistance);
     }
 
     @Override
-    public void setInitialised(final boolean newInitialised)
+    public void setFrameHeight(final float frameHeight)
     {
-        camera.setInitialised(newInitialised);
+        camera.setFrameHeight(frameHeight);
     }
 
     @Override
-    public void setNode(final Node newNode)
+    public void setFrameWidth(final float frameWidth)
     {
-        camera.setNode(newNode);
+        camera.setFrameWidth(frameWidth);
+    }
+
+    @Override
+    public void setFrameX(final float frameX)
+    {
+        camera.setFrameX(frameX);
+    }
+
+    @Override
+    public void setFrameY(final float frameY)
+    {
+        camera.setFrameY(frameY);
+    }
+
+    @Override
+    public void setGL(final GL gl)
+    {
+        ((JOGLComponent) camera).setGL(gl);
+    }
+
+    @Override
+    public void setInitialised(final boolean initialised)
+    {
+        camera.setInitialised(initialised);
+    }
+
+    @Override
+    public void setNearClippingDistance(final float nearClippingDistance)
+    {
+        camera.setNearClippingDistance(nearClippingDistance);
+    }
+
+    @Override
+    public void setNode(final Node node)
+    {
+        camera.setNode(node);
+    }
+
+    @Override
+    public void setProjectionMode(final ProjectionMode projectionMode)
+    {
+        camera.setProjectionMode(projectionMode);
     }
 }
