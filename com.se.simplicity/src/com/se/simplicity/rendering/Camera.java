@@ -33,6 +33,60 @@ public interface Camera
 
     /**
      * <p>
+     * Retrieves the distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     * </p>
+     * 
+     * @return The distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     */
+    float getFarClippingDistance();
+
+    /**
+     * <p>
+     * Retrieves the height of the frame.
+     * </p>
+     * 
+     * @return The height of the frame.
+     */
+    float getFrameHeight();
+
+    /**
+     * <p>
+     * Retrieves the width of the frame.
+     * </p>
+     * 
+     * @return The width of the frame.
+     */
+    float getFrameWidth();
+
+    /**
+     * <p>
+     * Retrieves the location of the frame on the <code>x</code> axis relative to the location and orientation of this <code>Camera</code>.
+     * </p>
+     * 
+     * @return The location of the frame on the <code>x</code> axis relative to the location and orientation of this <code>Camera</code>.
+     */
+    float getFrameX();
+
+    /**
+     * <p>
+     * Retrieves the location of the frame on the <code>y</code> axis relative to the location and orientation of this <code>Camera</code>.
+     * </p>
+     * 
+     * @return The location of the frame on the <code>y</code> axis relative to the location and orientation of this <code>Camera</code>.
+     */
+    float getFrameY();
+
+    /**
+     * <p>
+     * Retrieves the distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     * </p>
+     * 
+     * @return The distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     */
+    float getNearClippingDistance();
+
+    /**
+     * <p>
      * Retrieves the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Camera</code>'s location and orientation.
      * </p>
      * 
@@ -50,6 +104,15 @@ public interface Camera
      * @return The picking viewpoint.
      */
     Camera getPickCamera(Pick pick);
+
+    /**
+     * <p>
+     * Retrieves the projection mode used to render a <code>Scene</code>.
+     * </p>
+     * 
+     * @return The projection mode used to render a <code>Scene</code>.
+     */
+    ProjectionMode getProjectionMode();
 
     /**
      * <p>
@@ -79,6 +142,51 @@ public interface Camera
 
     /**
      * <p>
+     * Sets the distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     * </p>
+     * 
+     * @param farClippingDistance The distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     */
+    void setFarClippingDistance(float farClippingDistance);
+
+    /**
+     * <p>
+     * Sets the height of the frame.
+     * </p>
+     * 
+     * @param frameHeight The height of the frame.
+     */
+    void setFrameHeight(float frameHeight);
+
+    /**
+     * <p>
+     * Sets the width of the frame.
+     * </p>
+     * 
+     * @param frameWidth The width of the frame.
+     */
+    void setFrameWidth(float frameWidth);
+
+    /**
+     * <p>
+     * Sets the location of the frame on the <code>x</code> axis relative to the location and orientation of this <code>Camera</code>.
+     * </p>
+     * 
+     * @param frameX The location of the frame on the <code>x</code> axis relative to the location and orientation of this <code>Camera</code>.
+     */
+    void setFrameX(float frameX);
+
+    /**
+     * <p>
+     * Sets the location of the frame on the <code>y</code> axis relative to the location and orientation of this <code>Camera</code>.
+     * </p>
+     * 
+     * @param frameY The location of the frame on the <code>y</code> axis relative to the location and orientation of this <code>Camera</code>.
+     */
+    void setFrameY(float frameY);
+
+    /**
+     * <p>
      * Sets the initialisation status.
      * </p>
      * 
@@ -88,10 +196,28 @@ public interface Camera
 
     /**
      * <p>
+     * Sets the distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     * </p>
+     * 
+     * @param nearClippingDistance The distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     */
+    void setNearClippingDistance(float nearClippingDistance);
+
+    /**
+     * <p>
      * Sets the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Camera</code>'s location and orientation.
      * </p>
      * 
      * @param node The {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Camera</code>'s location and orientation.
      */
     void setNode(Node node);
+
+    /**
+     * <p>
+     * Sets the projection mode used to render a <code>Scene</code>.
+     * </p>
+     * 
+     * @param projectionMode The projection mode used to render a <code>Scene</code>.
+     */
+    void setProjectionMode(ProjectionMode projectionMode);
 }
