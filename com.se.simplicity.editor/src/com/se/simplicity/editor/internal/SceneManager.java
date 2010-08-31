@@ -338,44 +338,6 @@ public final class SceneManager
         }
         renderingEngine.setRenderer(renderer);
 
-        // Initialise current Camera.
-        for (Camera camera : scene.getCameras())
-        {
-            if (camera instanceof MetaDataCamera)
-            {
-                String isDefault = (String) ((MetaDataCamera) camera).getAttribute("default");
-
-                if (isDefault != null && isDefault.equals("true"))
-                {
-                    renderingEngine.setCamera(camera);
-                    break;
-                }
-            }
-        }
-        // If default Camera was not found.
-        if (renderingEngine.getCamera() == null)
-        {
-            LogFactory.getLog(getClass()).warn("Default Camera not found, defaulting to the first Camera found.");
-
-            // If no Cameras exist.
-            if (scene.getCameras().isEmpty())
-            {
-                LogFactory.getLog(getClass()).warn("No Cameras found, creating a default Camera.");
-
-                // Create new Camera and add it to the Scene.
-                MetaDataCamera camera = new MetaDataCamera(new SimpleJOGLCamera());
-                camera.setAttribute("name", "Camera0");
-                SimpleNode node = new SimpleNode();
-                node.getTransformation().translate(new SimpleTranslationVectorf4(0.0f, 0.0f, 10000.0f, 1.0f));
-                camera.setNode(node);
-
-                scene.addCamera(camera);
-                scene.getSceneGraph().addSubgraph(node);
-            }
-
-            renderingEngine.setCamera(scene.getCameras().get(0));
-        }
-
         return (viewport);
     }
 
