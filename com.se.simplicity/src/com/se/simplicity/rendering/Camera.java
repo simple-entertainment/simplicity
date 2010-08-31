@@ -42,6 +42,15 @@ public interface Camera
 
     /**
      * <p>
+     * Retrieves the aspect ratio of the frame.
+     * </p>
+     * 
+     * @return The aspect ratio of the frame.
+     */
+    float getFrameAspectRatio();
+
+    /**
+     * <p>
      * Retrieves the height of the frame.
      * </p>
      * 
@@ -148,6 +157,15 @@ public interface Camera
      * @param farClippingDistance The distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
      */
     void setFarClippingDistance(float farClippingDistance);
+
+    /**
+     * <p>
+     * Sets the aspect ratio of the frame.
+     * </p>
+     * 
+     * @param frameAspectRatio The aspect ratio of the frame.
+     */
+    void setFrameAspectRatio(float frameAspectRatio);
 
     /**
      * <p>
