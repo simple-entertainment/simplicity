@@ -231,18 +231,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
         return (fFarClippingDistance);
     }
 
-    /**
-     * <p>
-     * Retrieves the aspect ratio of the frame.
-     * </p>
-     * 
-     * <p>
-     * Internally this <code>SimpleJOGLCamera</code> maintains a width and aspect ratio for the frame instead of a width and height. This methods is
-     * provided for direct manipulation of the aspect ratio.
-     * </p>
-     * 
-     * @return The aspect ratio of the frame.
-     */
+    @Override
     public float getFrameAspectRatio()
     {
         return (fFrameAspectRatio);
@@ -378,16 +367,13 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 
     /**
      * <p>
-     * Sets the aspect ratio of the frame. An aspect ratio of 3:4 is stored as 3 / 4 (0.75).
+     * Sets the aspect ratio of the frame. An aspect ratio of 3:4 is stored as 3 / 4 (0.75). When setting the aspect ratio the frame width is left
+     * unchanged. Only the height is changed to meet the new aspect ratio.
      * </p>
      * 
-     * <p>
-     * Internally this <code>SimpleJOGLCamera</code> maintains a width and aspect ratio for the frame instead of a width and height. This methods is
-     * provided for direct manipulation of the aspect ratio.
-     * </p>
-     * 
-     * @param frameAspectRatio The aspect ratio of the frame. An aspect ratio of 3:4 is stored as 3 / 4 (0.75).
+     * @param frameAspectRatio The aspect ratio of the frame.
      */
+    @Override
     public void setFrameAspectRatio(final float frameAspectRatio)
     {
         fFrameAspectRatio = frameAspectRatio;
