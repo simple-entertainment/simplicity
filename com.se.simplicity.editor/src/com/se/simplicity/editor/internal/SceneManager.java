@@ -21,22 +21,19 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IFileEditorInput;
 
-import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
+import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
+import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
+import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
-import com.se.simplicity.jogl.viewport.SimpleJOGLViewport;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
-import com.se.simplicity.scenegraph.SimpleNode;
-import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.util.metadata.scene.MetaDataScene;
 import com.se.simplicity.util.scene.SceneFactory;
-import com.se.simplicity.vector.SimpleTranslationVectorf4;
-import com.se.simplicity.viewport.Viewport;
 
 /**
  * <p>
@@ -275,16 +272,43 @@ public final class SceneManager
 
     /**
      * <p>
-     * Retrieves a new <code>Viewport</code> to the <code>Scene</code> with the given ID.
+     * Retrieves a new <code>PickingEngine</code> for the <code>Scene</code> with the given ID.
      * </p>
      * 
-     * @param id The ID of the <code>Scene</code> to retrieve a new <code>Viewport</code> to.
+     * @param id The ID of the <code>Scene</code> to retrieve a new <code>PickingEngine</code> for.
      * 
-     * @return A new <code>Viewport</code> to the <code>Scene</code> with the given ID.
+     * @return A new <code>PickingEngine</code> for the <code>Scene</code> with the given ID.
      */
-    public Viewport getViewportToScene(final String id)
+    public SimpleJOGLPickingEngine getPickingEngineForScene(final String id)
     {
-        SimpleJOGLViewport viewport = new SimpleJOGLViewport();
+        Scene scene = scenes.get(id);
+
+        SimpleJOGLPickingEngine pickingEngine = new SimpleJOGLPickingEngine();
+        SimpleJOGLPicker picker = new SimpleJOGLPicker();
+        SimpleJOGLRenderingEngine renderingEngine = new SimpleJOGLRenderingEngine();
+        NamedJOGLRenderer renderer = new NamedJOGLRenderer();
+
+        pickingEngine.setPicker(picker);
+        pickingEngine.setScene(scene);
+        picker.setRenderingEngine(renderingEngine);
+        renderingEngine.setRenderer(renderer);
+
+        return (pickingEngine);
+    }
+
+    /**
+     * <p>
+     * Retrieves a new <code>RenderingEngine</code> for the <code>Scene</code> with the given ID. Instantiates the preferred
+     * <code>RenderingEngine</code> and <code>Renderer</code> types if the <code>Scene</code> specifies them and they are available to be
+     * instantiated.
+     * </p>
+     * 
+     * @param id The ID of the <code>Scene</code> to retrieve a new <code>RenderingEngine</code> for.
+     * 
+     * @return A new <code>RenderingEngine</code> for the <code>Scene</code> with the given ID.
+     */
+    public RenderingEngine getRenderingEngineForScene(final String id)
+    {
         Scene scene = scenes.get(id);
 
         // Retrieve preferred rendering environment if one is available.
@@ -315,7 +339,6 @@ public final class SceneManager
                 renderingEngine = new SimpleJOGLRenderingEngine();
             }
         }
-        viewport.setRenderingEngine(renderingEngine);
         renderingEngine.setScene(scene);
 
         // Initialise Renderer.
@@ -338,7 +361,7 @@ public final class SceneManager
         }
         renderingEngine.setRenderer(renderer);
 
-        return (viewport);
+        return (renderingEngine);
     }
 
     /**
