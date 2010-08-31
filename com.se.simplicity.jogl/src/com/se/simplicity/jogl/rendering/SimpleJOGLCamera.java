@@ -315,7 +315,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
 
         while (currentNode != null)
         {
-            transformation.multiplyRight(currentNode.getTransformation());
+            transformation.multiplyLeft(currentNode.getTransformation());
 
             currentNode = currentNode.getParent();
         }
