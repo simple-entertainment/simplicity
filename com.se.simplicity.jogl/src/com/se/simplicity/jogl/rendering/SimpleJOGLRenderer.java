@@ -77,6 +77,18 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
         return (joglDrawingMode);
     }
 
+    @Override
+    public void init()
+    {
+        // Initialise the JOGL state.
+        gl.glEnable(GL.GL_CULL_FACE);
+        gl.glEnable(GL.GL_DEPTH_TEST);
+        gl.glFrontFace(GL.GL_CCW);
+
+        // Enable model data arrays.
+        gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
+    }
+
     /**
      * <p>
      * Renders an <code>ArrayVG</code>.

@@ -278,21 +278,17 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     {
         GL gl = getGL();
 
-        // Initialise the JOGL state.
-        // gl.glEnable(GL.GL_CULL_FACE);
-        gl.glEnable(GL.GL_DEPTH_TEST);
-        gl.glFrontFace(GL.GL_CCW);
+        setClearingColour(fClearingColour);
 
         // Initialise modelview matrix.
         gl.glMatrixMode(GL.GL_MODELVIEW);
 
-        setClearingColour(fClearingColour);
-
-        // Enable model data arrays.
-        gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
-
-        // Set viewport size.
         gl.glViewport(0, 0, fViewportSize.width, fViewportSize.height);
+
+        if (fRenderer != null)
+        {
+            fRenderer.init();
+        }
 
         fIsInitialised = true;
     }
