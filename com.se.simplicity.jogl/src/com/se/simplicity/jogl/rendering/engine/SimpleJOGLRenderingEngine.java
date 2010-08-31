@@ -11,6 +11,7 @@
  */
 package com.se.simplicity.jogl.rendering.engine;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,14 +58,14 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
      * rendered.
      * </p>
      */
-    private Camera camera;
+    private Camera fCamera;
 
     /**
      * <p>
      * The colour to clear the screen buffer with before rendering.
      * </p>
      */
-    private SimpleVectorf4 clearingColour;
+    private SimpleVectorf4 fClearingColour;
 
     /**
      * <p>
@@ -73,42 +74,49 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
      * 
      * @return True if the screen buffer is cleared before rendering, false otherwise.
      */
-    private boolean clearsBeforeRender;
+    private boolean fClearsBeforeRender;
 
     /**
      * <p>
      * The drawing mode used to render the <code>SceneGraph</code>.
      * </p>
      */
-    private DrawingMode drawingMode;
+    private DrawingMode fDrawingMode;
+
+    /**
+     * <p>
+     * The size of the viewport.
+     * </p>
+     */
+    private Dimension fViewportSize;
 
     /**
      * <p>
      * The initialisation status. Determines if this <code>Renderer</code> is initialised.
      * </p>
      */
-    private boolean isInitialised;
+    private boolean fIsInitialised;
 
     /**
      * <p>
      * The {@link com.se.simplicity.rendering.Light Light}s within this <code>SimpleJOGLRenderer</code>.
      * </p>
      */
-    private List<Light> lights;
+    private List<Light> fLights;
 
     /**
      * <p>
      * Logs messages associated with this class.
      * </p>
      */
-    private Logger logger;
+    private Logger fLogger;
 
     /**
      * <p>
      * The preferred frequency (advancements per second) of this <code>SimpleJOGLRenderingEngine</code>.
      * </p>
      */
-    private int preferredFrequency;
+    private int fPreferredFrequency;
 
     /**
      * <p>
@@ -116,14 +124,14 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
      * <code>SimpleJOGLRenderingEngine</code>.
      * </p>
      */
-    private Renderer renderer;
+    private Renderer fRenderer;
 
     /**
      * <p>
      * The {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} to be rendered.
      * </p>
      */
-    private Scene scene;
+    private Scene fScene;
 
     /**
      * <p>
@@ -132,14 +140,14 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
      */
     public SimpleJOGLRenderingEngine()
     {
-        camera = null;
-        clearingColour = new SimpleVectorf4(0.0f, 0.0f, 0.0f, 1.0f);
-        clearsBeforeRender = true;
-        drawingMode = DrawingMode.FACES;
-        isInitialised = false;
-        lights = new ArrayList<Light>();
-        logger = Logger.getLogger(getClass().getName());
-        scene = null;
+        fCamera = null;
+        fClearingColour = new SimpleVectorf4(0.0f, 0.0f, 0.0f, 1.0f);
+        fClearsBeforeRender = true;
+        fDrawingMode = DrawingMode.FACES;
+        fIsInitialised = false;
+        fLights = new ArrayList<Light>();
+        fLogger = Logger.getLogger(getClass().getName());
+        fScene = null;
     }
 
     @Override
@@ -147,17 +155,17 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     {
         super.advance();
 
-        if (camera == null)
+        if (fCamera == null)
         {
             throw new IllegalStateException("This Rendering Engine does not have a Camera to view the Scene through.");
         }
 
-        if (scene == null)
+        if (fScene == null)
         {
             throw new IllegalStateException("This Rendering Engine does not have a Scene to render.");
         }
 
-        if (!isInitialised)
+        if (!fIsInitialised)
         {
             try
             {
@@ -165,7 +173,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
             }
             catch (IllegalStateException e)
             {
-                logger.error("Failed to initialise the engine.", e);
+                fLogger.error("Failed to initialise the engine.", e);
 
                 return;
             }
@@ -174,7 +182,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
         GL gl = getGL();
 
         // Clear the display.
-        if (clearsBeforeRender)
+        if (fClearsBeforeRender)
         {
             gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         }
@@ -182,9 +190,9 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
         // Render the Scene Graph.
         gl.glPushMatrix();
         {
-            camera.apply();
+            fCamera.apply();
 
-            for (Light light : lights)
+            for (Light light : fLights)
             {
                 light.apply();
             }
@@ -216,7 +224,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     @Override
     public boolean clearsBeforeRender()
     {
-        return (clearsBeforeRender);
+        return (fClearsBeforeRender);
     }
 
     @Override
@@ -226,37 +234,43 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     @Override
     public Camera getCamera()
     {
-        return (camera);
+        return (fCamera);
     }
 
     @Override
     public SimpleVectorf4 getClearingColour()
     {
-        return (clearingColour);
+        return (fClearingColour);
     }
 
     @Override
     public DrawingMode getDrawingMode()
     {
-        return (drawingMode);
+        return (fDrawingMode);
     }
 
     @Override
     public int getPreferredFrequency()
     {
-        return (preferredFrequency);
+        return (fPreferredFrequency);
     }
 
     @Override
     public Renderer getRenderer()
     {
-        return (renderer);
+        return (fRenderer);
     }
 
     @Override
     public Scene getScene()
     {
-        return (scene);
+        return (fScene);
+    }
+
+    @Override
+    public Dimension getViewportSize()
+    {
+        return (fViewportSize);
     }
 
     @Override
@@ -265,25 +279,28 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
         GL gl = getGL();
 
         // Initialise the JOGL state.
-        //gl.glEnable(GL.GL_CULL_FACE);
+        // gl.glEnable(GL.GL_CULL_FACE);
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glFrontFace(GL.GL_CCW);
 
         // Initialise modelview matrix.
         gl.glMatrixMode(GL.GL_MODELVIEW);
 
-        setClearingColour(clearingColour);
+        setClearingColour(fClearingColour);
 
         // Enable model data arrays.
         gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
 
-        isInitialised = true;
+        // Set viewport size.
+        gl.glViewport(0, 0, fViewportSize.width, fViewportSize.height);
+
+        fIsInitialised = true;
     }
 
     @Override
     public void renderSceneGraph()
     {
-        SceneGraph sceneGraph = scene.getSceneGraph();
+        SceneGraph sceneGraph = fScene.getSceneGraph();
         GL gl = getGL();
 
         // For every node in the traversal of the scene.
@@ -304,13 +321,13 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
             // Render the current node if it is a model.
             if (currentNode instanceof ModelNode && currentNode.isVisible())
             {
-                if (renderer instanceof NamedJOGLRenderer)
+                if (fRenderer instanceof NamedJOGLRenderer)
                 {
-                    ((NamedJOGLRenderer) renderer).renderVertexGroup(((ModelNode) currentNode).getVertexGroup(), drawingMode, currentNode.getID());
+                    ((NamedJOGLRenderer) fRenderer).renderVertexGroup(((ModelNode) currentNode).getVertexGroup(), fDrawingMode, currentNode.getID());
                 }
                 else
                 {
-                    renderer.renderVertexGroup(((ModelNode) currentNode).getVertexGroup(), drawingMode);
+                    fRenderer.renderVertexGroup(((ModelNode) currentNode).getVertexGroup(), fDrawingMode);
                 }
             }
         }
@@ -340,67 +357,75 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     }
 
     @Override
-    public void setCamera(final Camera newCamera)
+    public void setCamera(final Camera camera)
     {
-        camera = newCamera;
+        fCamera = camera;
     }
 
     @Override
-    public void setClearingColour(final SimpleVectorf4 newClearingColour)
+    public void setClearingColour(final SimpleVectorf4 clearingColour)
     {
-        clearingColour = newClearingColour;
+        fClearingColour = clearingColour;
 
-        isInitialised = false;
+        fIsInitialised = false;
     }
 
     @Override
-    public void setClearsBeforeRender(final boolean newClearsBeforeRender)
+    public void setClearsBeforeRender(final boolean clearsBeforeRender)
     {
-        clearsBeforeRender = newClearsBeforeRender;
+        fClearsBeforeRender = clearsBeforeRender;
     }
 
     @Override
-    public void setDrawingMode(final DrawingMode newDrawingMode)
+    public void setDrawingMode(final DrawingMode drawingMode)
     {
-        drawingMode = newDrawingMode;
+        fDrawingMode = drawingMode;
     }
 
     @Override
-    public void setGL(final GL newGl)
+    public void setGL(final GL gl)
     {
-        super.setGL(newGl);
+        super.setGL(gl);
 
-        if (renderer != null)
+        if (fRenderer != null)
         {
-            ((JOGLComponent) renderer).setGL(newGl);
+            ((JOGLComponent) fRenderer).setGL(gl);
         }
 
-        if (scene != null)
+        if (fScene != null)
         {
-            ((JOGLComponent) scene).setGL(newGl);
+            ((JOGLComponent) fScene).setGL(gl);
         }
     }
 
     @Override
-    public void setPreferredFrequency(final int newPreferredFrequency)
+    public void setPreferredFrequency(final int preferredFrequency)
     {
-        preferredFrequency = newPreferredFrequency;
+        fPreferredFrequency = preferredFrequency;
     }
 
     @Override
-    public void setRenderer(final Renderer newRenderer)
+    public void setRenderer(final Renderer renderer)
     {
-        ((JOGLComponent) newRenderer).setGL(getGL());
+        fRenderer = renderer;
 
-        renderer = newRenderer;
+        ((JOGLComponent) fRenderer).setGL(getGL());
     }
 
     @Override
-    public void setScene(final Scene newScene)
+    public void setScene(final Scene scene)
     {
-        ((JOGLComponent) newScene).setGL(getGL());
+        fScene = scene;
 
-        scene = newScene;
+        ((JOGLComponent) fScene).setGL(getGL());
+    }
+
+    @Override
+    public void setViewportSize(final Dimension viewportSize)
+    {
+        fViewportSize = viewportSize;
+
+        fIsInitialised = false;
     }
 
     /**
@@ -412,13 +437,13 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
     {
         try
         {
-            Thread.sleep((long) MILLISECONDS_IN_A_SECOND / preferredFrequency);
+            Thread.sleep((long) MILLISECONDS_IN_A_SECOND / fPreferredFrequency);
         }
         catch (InterruptedException e)
         {
             Thread.currentThread().interrupt();
 
-            logger.debug("The engine was interrupted while sleeping.");
+            fLogger.debug("The engine was interrupted while sleeping.");
         }
     }
 }

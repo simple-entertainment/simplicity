@@ -11,6 +11,7 @@
  */
 package com.se.simplicity.jogl.picking.engine;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,6 @@ import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
-import com.se.simplicity.viewport.Viewport;
 
 /**
  * <p>
@@ -155,23 +155,23 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
 
     /**
      * <p>
-     * Converts the coordinates of the given <code>Pick</code> from <code>Viewport</code> coordinates to <code>SceneGraph</code> coordinates.
+     * Converts the coordinates of the given <code>Pick</code> from viewport coordinates to <code>SceneGraph</code> coordinates.
      * </p>
      * 
-     * @param viewport The <code>Viewport</code> from which the original coordinates were retrieved.
+     * @param viewportSize The size of the viewport from which the original coordinates were retrieved.
      * @param pick The <code>Pick</code> to convert the coordinates of.
      * 
      * @return A <code>Pick</code> with <code>SceneGraph</code> coordinates.
      */
-    public Pick convertPickCoordinatesFromViewportToSceneGraph(final Viewport viewport, final Pick pick)
+    public Pick convertPickCoordinatesFromViewportToSceneGraph(final Dimension viewportSize, final Pick pick)
     {
         SimpleJOGLCamera simpleJoglCamera = (SimpleJOGLCamera) this.camera;
 
-        pick.setHeight((float) pick.getHeight() / (float) viewport.getHeight()
+        pick.setHeight((float) pick.getHeight() / (float) viewportSize.height
                 * (simpleJoglCamera.getFrameWidth() * simpleJoglCamera.getFrameAspectRatio()));
-        pick.setWidth((float) pick.getWidth() / (float) viewport.getWidth() * simpleJoglCamera.getFrameWidth());
-        pick.setX(((float) pick.getX() / (float) viewport.getWidth() * simpleJoglCamera.getFrameWidth()));
-        pick.setY(((float) pick.getY() / (float) viewport.getHeight() * (simpleJoglCamera.getFrameWidth() * simpleJoglCamera.getFrameAspectRatio())));
+        pick.setWidth((float) pick.getWidth() / (float) viewportSize.width * simpleJoglCamera.getFrameWidth());
+        pick.setX(((float) pick.getX() / (float) viewportSize.width * simpleJoglCamera.getFrameWidth()));
+        pick.setY(((float) pick.getY() / (float) viewportSize.height * (simpleJoglCamera.getFrameWidth() * simpleJoglCamera.getFrameAspectRatio())));
 
         return (pick);
     }
@@ -254,7 +254,7 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
     }
 
     @Override
-    public void pickViewport(final Viewport viewport, final int x, final int y, final int width, final int height)
+    public void pickViewport(final Dimension viewportSize, final int x, final int y, final int width, final int height)
     {
         Pick pick = new Pick();
         pick.setX(x);
@@ -262,13 +262,13 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
         pick.setWidth(width);
         pick.setHeight(height);
 
-        pickViewport(viewport, pick);
+        pickViewport(viewportSize, pick);
     }
 
     @Override
-    public void pickViewport(final Viewport viewport, final Pick pick)
+    public void pickViewport(final Dimension viewportSize, final Pick pick)
     {
-        picks.add(convertPickCoordinatesFromViewportToSceneGraph(viewport, pick));
+        picks.add(convertPickCoordinatesFromViewportToSceneGraph(viewportSize, pick));
     }
 
     @Override
