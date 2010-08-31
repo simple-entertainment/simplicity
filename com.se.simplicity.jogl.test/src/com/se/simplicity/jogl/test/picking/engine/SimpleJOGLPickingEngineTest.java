@@ -18,6 +18,8 @@ import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
+import java.awt.Dimension;
+
 import javax.media.opengl.GL;
 
 import org.junit.Before;
@@ -29,12 +31,12 @@ import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.jogl.test.mocks.MockGL;
 import com.se.simplicity.picking.Pick;
+import com.se.simplicity.picking.Picker;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
-import com.se.simplicity.viewport.Viewport;
 
 /**
  * <p>
@@ -151,32 +153,34 @@ public class SimpleJOGLPickingEngineTest
     @Test
     public void convertPickCoordinatesFromViewportToSceneGraph()
     {
+        // Create dependencies.
         Pick mockPick = createMock(Pick.class);
-        Viewport mockViewport = createMock(Viewport.class);
         SimpleJOGLCamera mockCamera = createMock(SimpleJOGLCamera.class);
 
+        Dimension dimension = new Dimension();
+        dimension.width = 200;
+        dimension.height = 200;
+
+        // Dictate correct behaviour.
         expect(mockPick.getX()).andStubReturn(100f);
         expect(mockPick.getY()).andStubReturn(100f);
         expect(mockPick.getWidth()).andStubReturn(2.0f);
         expect(mockPick.getHeight()).andStubReturn(2.0f);
-
-        expect(mockViewport.getWidth()).andStubReturn(200);
-        expect(mockViewport.getHeight()).andStubReturn(200);
-
-        expect(mockCamera.getFrameWidth()).andStubReturn(0.1f);
-        expect(mockCamera.getFrameAspectRatio()).andStubReturn(0.75f);
-
         mockPick.setX(0.05f);
         mockPick.setY(0.05f * 0.75f);
         mockPick.setWidth(0.1f / 100);
         mockPick.setHeight((0.1f * 0.75f) / 100);
+        expect(mockCamera.getFrameWidth()).andStubReturn(0.1f);
+        expect(mockCamera.getFrameAspectRatio()).andStubReturn(0.75f);
+        replay(mockPick, mockCamera);
 
+        // Initialise test environment.
         testObject.setCamera(mockCamera);
 
-        replay(mockPick, mockViewport, mockCamera);
+        // Preform test.
+        testObject.convertPickCoordinatesFromViewportToSceneGraph(dimension, mockPick);
 
-        testObject.convertPickCoordinatesFromViewportToSceneGraph(mockViewport, mockPick);
-
+        // Verify test results.
         verify(mockPick);
     }
 
@@ -233,21 +237,31 @@ public class SimpleJOGLPickingEngineTest
     @Test
     public void pickViewport()
     {
-        Viewport mockViewport = createMock(Viewport.class);
+        // Create dependencies.
         SimpleJOGLCamera mockCamera = createMock(SimpleJOGLCamera.class);
 
-        expect(mockViewport.getHeight()).andStubReturn(200);
-        expect(mockViewport.getWidth()).andStubReturn(200);
+        Dimension dimension = new Dimension();
+        dimension.width = 200;
+        dimension.height = 200;
 
+        Pick pick = new Pick();
+        pick.setX(50);
+        pick.setY(150);
+        pick.setWidth(2);
+        pick.setHeight(2);
+
+        // Dictate correct behaviour
         expect(mockCamera.getFrameWidth()).andStubReturn(0.1f);
         expect(mockCamera.getFrameAspectRatio()).andStubReturn(0.75f);
+        replay(mockCamera);
 
-        replay(mockViewport, mockCamera);
-
+        // Setup test environment.
         testObject.setCamera(mockCamera);
 
-        testObject.pickViewport(mockViewport, 100, 100, 2, 2);
+        // Perform test 1.
+        testObject.pickViewport(dimension, 100, 100, 2, 2);
 
+        // Verify test 1 results.
         assertEquals(1, testObject.getPicks().size(), 0);
 
         Pick pick0 = testObject.getPicks().get(0);
@@ -256,14 +270,10 @@ public class SimpleJOGLPickingEngineTest
         assertEquals(0.001f, pick0.getWidth(), 0);
         assertEquals(0.00075f, pick0.getHeight(), 0);
 
-        Pick pick = new Pick();
-        pick.setX(50);
-        pick.setY(150);
-        pick.setWidth(2);
-        pick.setHeight(2);
+        // Perform test 2.
+        testObject.pickViewport(dimension, pick);
 
-        testObject.pickViewport(mockViewport, pick);
-
+        // Verify test 2 results.
         assertEquals(2, testObject.getPicks().size(), 0);
 
         Pick pick1 = testObject.getPicks().get(1);

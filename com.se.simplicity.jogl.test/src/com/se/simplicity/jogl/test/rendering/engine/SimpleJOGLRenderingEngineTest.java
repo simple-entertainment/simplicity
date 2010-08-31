@@ -18,6 +18,8 @@ import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
+import java.awt.Dimension;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -56,34 +58,46 @@ public class SimpleJOGLRenderingEngineTest
     @Test
     public void advanceClearing()
     {
+        // Create dependencies.
         MockGL mockGL = new MockGL();
         SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
         SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         NodeHierarchy nodes = new NodeHierarchy();
         nodes.setBasicNodeHierarchy();
 
+        Dimension dimension = new Dimension();
+        dimension.width = 200;
+        dimension.height = 200;
+
+        // Setup test environment.
         testObject.setGL(mockGL);
         testObject.setRenderer(createMock(SimpleJOGLRenderer.class));
         testObject.setCamera(createMock(SimpleJOGLCamera.class));
         testObject.setScene(mockScene);
+        testObject.setViewportSize(dimension);
 
-        // Test with clearing enabled.
+        // Dictate correct behaviour.
         mockGL.reset();
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
         replay(mockScene, mockSceneGraph);
 
+        // Perform test 1 (clearing enabled).
         testObject.advance();
 
+        // Verify test 1 results.
         assertEquals(1, mockGL.getMethodCallCountIgnoreParams("glClear"), 0);
 
-        // Test with clearing disabled.
+        // Setup test 2 environment.
         testObject.setClearsBeforeRender(false);
 
+        // Dictate test 2 correct behaviour.
         mockGL.reset();
 
+        // Perform test 2 (clearing disabled).
         testObject.advance();
 
+        // Verify test 2 results.
         assertEquals(0, mockGL.getMethodCallCountIgnoreParams("glClear"), 0);
     }
 
@@ -124,24 +138,34 @@ public class SimpleJOGLRenderingEngineTest
     @Test
     public void advancePopPushMatrixMult()
     {
+        // Create dependencies.
         MockGL mockGL = new MockGL();
         SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
         SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         NodeHierarchy nodes = new NodeHierarchy();
         nodes.setStandardNodeHierarchy();
 
+        Dimension dimension = new Dimension();
+        dimension.width = 200;
+        dimension.height = 200;
+
+        // Setup test environment.
         testObject.setGL(mockGL);
         testObject.setRenderer(createMock(SimpleJOGLRenderer.class));
         testObject.setCamera(createMock(SimpleJOGLCamera.class));
         testObject.setScene(mockScene);
+        testObject.setViewportSize(dimension);
 
+        // Dictate correct behaviour.
         mockGL.reset();
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
         replay(mockScene, mockSceneGraph);
 
+        // PPerform test.
         testObject.advance();
 
+        // Verify test results.
         assertEquals(8, mockGL.getMethodCallCountIgnoreParams("glPushMatrix"), 0);
         assertEquals(8, mockGL.getMethodCallCountIgnoreParams("glPopMatrix"), 0);
         assertEquals(7, mockGL.getMethodCallCountIgnoreParams("glMultMatrixf"), 0);
@@ -166,7 +190,7 @@ public class SimpleJOGLRenderingEngineTest
     @Test
     public void init()
     {
-        // TODO implement test
+    // TODO implement test
     }
 
     /**
