@@ -164,6 +164,6 @@ public class NodeViewTest
         assertEquals("180.0", ((Text) rotationWidgets[3]).getText());
         assertEquals("270.0", ((Text) rotationWidgets[5]).getText());
 
-        assertEquals("$Proxy5", ((Text) reflectiveWidgets[1]).getText());
+        assertEquals("$Proxy6", ((Text) reflectiveWidgets[1]).getText());
     }
 }
