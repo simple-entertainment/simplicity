@@ -29,7 +29,14 @@ import org.eclipse.ui.part.EditorPart;
 
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.jogl.JOGLComponent;
-import com.se.simplicity.jogl.viewport.SimpleJOGLViewport;
+import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
+import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
+import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
+import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.engine.RenderingEngine;
+import com.se.simplicity.scenegraph.SimpleNode;
+import com.se.simplicity.vector.SimpleTranslationVectorf4;
 
 /**
  * <p>
@@ -45,40 +52,71 @@ public class VisualSceneEditor extends EditorPart
      * The 3D canvas the <code>Scene</code> will be displayed visually on.
      * </p>
      */
-    private GLCanvas canvas;
+    private GLCanvas fCanvas;
+
+    /**
+     * <p>
+     * The <code>PickingEngine</code> used to select items in the <code>Scene</code>.
+     * </p>
+     */
+    private SimpleJOGLPickingEngine fPickingEngine;
 
     /**
      * <p>
      * The name of the scene this editor is displaying.
      * </p>
      */
-    private String sceneName;
+    private String fSceneName;
 
     /**
      * <p>
-     * The <code>Viewport</code> to the <code>Scene</code> that will be drawn to the 3D canvas.
+     * The <code>Camera</code> used to view the <code>Scene</code>.
      * </p>
      */
-    private SimpleJOGLViewport viewport;
+    private Camera fViewingCamera;
+
+    /**
+     * <p>
+     * Retrieves the <code>RenderingEngine</code> that will render the <code>Scene</code> to the 3D canvas.
+     * </p>
+     */
+    private RenderingEngine fRenderingEngine;
 
     @Override
     public void createPartControl(final Composite parent)
     {
+        // Setup 3D canvas.
         GLData data = new GLData();
         data.doubleBuffer = true;
-        canvas = new GLCanvas(parent, SWT.NONE, data);
+        fCanvas = new GLCanvas(parent, SWT.NONE, data);
 
-        canvas.setCurrent();
+        // Setup JOGL rendering environment.
+        fCanvas.setCurrent();
         GLContext glContext = GLDrawableFactory.getFactory().createExternalGLContext();
-        ((JOGLComponent) viewport).setGL(glContext.getGL());
+        SimpleJOGLRenderingEngine pickerRenderingEngine = (SimpleJOGLRenderingEngine) ((SimpleJOGLPicker) fPickingEngine.getPicker())
+                .getRenderingEngine();
+        ((JOGLComponent) fRenderingEngine).setGL(glContext.getGL());
+        fPickingEngine.setGL(glContext.getGL());
+        pickerRenderingEngine.setGL(glContext.getGL());
+        ((JOGLComponent) fViewingCamera).setGL(glContext.getGL());
 
-        VisualSceneControlListener controlListener = new VisualSceneControlListener(viewport, canvas);
+        // Setup viewport size and Camera synchronisation with 3D canvas size.
+        VisualSceneControlListener controlListener = new VisualSceneControlListener(fCanvas);
         controlListener.setCameraAspectRatioSyncronised(true);
-        canvas.addControlListener(controlListener);
-        canvas.addMouseListener(new VisualSceneMouseListener(viewport, canvas));
+        controlListener.addRenderingEngine(fRenderingEngine);
+        controlListener.addRenderingEngine(pickerRenderingEngine);
+        fCanvas.addControlListener(controlListener);
 
-        Display display = canvas.getShell().getDisplay();
-        display.asyncExec(new VisualSceneDisplayer(display, viewport, canvas, glContext));
+        // Setup picking.
+        fCanvas.addMouseListener(new VisualSceneMouseListener(fPickingEngine));
+        fPickingEngine.addPickListener(new VisualScenePickListener());
+
+        // Continually display the Scene.
+        Display display = fCanvas.getShell().getDisplay();
+        VisualSceneAdvancer advancer = new VisualSceneAdvancer(display, fCanvas, glContext);
+        advancer.addEngine(fRenderingEngine);
+        advancer.addEngine(fPickingEngine);
+        display.asyncExec(advancer);
     }
 
     @Override
@@ -98,19 +136,19 @@ public class VisualSceneEditor extends EditorPart
      */
     public GLCanvas getCanvas()
     {
-        return (canvas);
+        return (fCanvas);
     }
 
     /**
      * <p>
-     * Retrieves the <code>Viewport</code> to the <code>Scene</code> that will be drawn to the 3D canvas.
+     * Retrieves the <code>RenderingEngine</code> that will render the <code>Scene</code> to the 3D canvas.
      * </p>
      * 
-     * @return The <code>Viewport</code> to the <code>Scene</code> that will be drawn to the 3D canvas.
+     * @return The <code>RenderingEngine</code> that will render the <code>Scene</code> to the 3D canvas.
      */
-    public SimpleJOGLViewport getViewport()
+    public RenderingEngine getRenderingEngine()
     {
-        return (viewport);
+        return (fRenderingEngine);
     }
 
     @Override
@@ -121,7 +159,7 @@ public class VisualSceneEditor extends EditorPart
         setPartName(input.getName());
 
         IFileEditorInput fileInput = (IFileEditorInput) input;
-        sceneName = fileInput.getFile().getFullPath().toString();
+        fSceneName = fileInput.getFile().getFullPath().toString();
 
         try
         {
@@ -129,13 +167,32 @@ public class VisualSceneEditor extends EditorPart
         }
         catch (Exception e)
         {
-            LogFactory.getLog(getClass()).error("Failed to load scene from file '" + sceneName + "'.", e);
-            throw new PartInitException("Failed to load scene from file '" + sceneName + "'.", e);
+            LogFactory.getLog(getClass()).error("Failed to load scene from file '" + fSceneName + "'.", e);
+            throw new PartInitException("Failed to load scene from file '" + fSceneName + "'.", e);
         }
 
-        viewport = (SimpleJOGLViewport) SceneManager.getSceneManager().getViewportToScene(sceneName);
+        initViewingCamera();
+        fRenderingEngine = SceneManager.getSceneManager().getRenderingEngineForScene(fSceneName);
+        fRenderingEngine.setCamera(fViewingCamera);
+        fPickingEngine = SceneManager.getSceneManager().getPickingEngineForScene(fSceneName);
+        fPickingEngine.setCamera(fViewingCamera);
 
-        SceneManager.getSceneManager().setActiveScene(sceneName);
+        SceneManager.getSceneManager().setActiveScene(fSceneName);
+    }
+
+    /**
+     * <p>
+     * Initialise the <code>Camera</code> used to view the <code>Scene</code>.
+     * </p>
+     */
+    protected void initViewingCamera()
+    {
+        fViewingCamera = new SimpleJOGLCamera();
+        SimpleNode subjectNode = new SimpleNode();
+        SimpleNode cameraNode = new SimpleNode();
+        subjectNode.addChild(cameraNode);
+        cameraNode.getTransformation().translate(new SimpleTranslationVectorf4(0.0f, 0.0f, 5.0f, 1.0f));
+        fViewingCamera.setNode(cameraNode);
     }
 
     @Override
@@ -153,6 +210,6 @@ public class VisualSceneEditor extends EditorPart
     @Override
     public void setFocus()
     {
-        SceneManager.getSceneManager().setActiveScene(sceneName);
+        SceneManager.getSceneManager().setActiveScene(fSceneName);
     }
 }
