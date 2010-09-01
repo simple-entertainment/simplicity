@@ -82,6 +82,7 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
     {
         // Initialise the JOGL state.
         gl.glEnable(GL.GL_CULL_FACE);
+        gl.glDepthFunc(GL.GL_LEQUAL);
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glFrontFace(GL.GL_CCW);
 
