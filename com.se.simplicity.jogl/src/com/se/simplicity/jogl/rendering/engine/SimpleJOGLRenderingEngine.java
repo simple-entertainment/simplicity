@@ -180,6 +180,8 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
             }
         }
 
+        fRenderer.init();
+
         GL gl = getGL();
 
         // Clear the display.
@@ -285,11 +287,6 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
         gl.glMatrixMode(GL.GL_MODELVIEW);
 
         gl.glViewport(0, 0, fViewportSize.width, fViewportSize.height);
-
-        if (fRenderer != null)
-        {
-            fRenderer.init();
-        }
 
         fIsInitialised = true;
     }
