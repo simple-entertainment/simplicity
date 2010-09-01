@@ -178,8 +178,8 @@ public class SimpleJOGLCameraTest
         replay(mockNode1, mockNode2);
 
         SimpleTransformationMatrixf44 matrix3 = new SimpleTransformationMatrixf44();
-        matrix3.multiplyRight(matrix1);
-        matrix3.multiplyRight(matrix2);
+        matrix3.multiplyLeft(matrix1);
+        matrix3.multiplyLeft(matrix2);
         matrix3.invert();
 
         assertEquals(matrix3, testObject.getTransformation());
