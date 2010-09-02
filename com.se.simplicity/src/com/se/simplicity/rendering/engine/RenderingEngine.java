@@ -12,6 +12,7 @@
 package com.se.simplicity.rendering.engine;
 
 import java.awt.Dimension;
+import java.util.List;
 
 import com.se.simplicity.engine.Engine;
 import com.se.simplicity.rendering.Camera;
@@ -111,6 +112,20 @@ public interface RenderingEngine extends Engine
      * @return The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
      */
     Node getRendererRoot(Renderer renderer);
+
+    /**
+     * <p>
+     * Retrieves the {@link com.se.simplicity.rendering.Renderer Renderer}s that will be executed against the {@link com.se.simplicity.scene.Scene
+     * Scene} during the {@link com.se.simplicity.rendering.engine.RenderingEngine#advance() advance()} method.
+     * </p>
+     * 
+     * <p>
+     * NOTE: This method should only be used to examine the list of <code>Renderer</code>s, not to modify it.
+     * </p>
+     * 
+     * @return The <code>Renderer</code>s that will be executed against the <code>Scene</code> during the <code>advance()</code> method.
+     */
+    List<Renderer> getRenderers();
 
     /**
      * <p>
