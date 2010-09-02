@@ -11,15 +11,11 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.editors.text.TextEditor;
-import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.wst.xml.ui.internal.tabletree.XMLMultiPageEditorPart;
 
 /**
  * A multi-page eclipse editor that displays a <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment on the first page and
@@ -27,15 +23,8 @@ import org.eclipse.ui.part.MultiPageEditorPart;
  * 
  * @author Gary Buyn
  */
-public class SceneEditor extends MultiPageEditorPart
+public class SceneEditor extends XMLMultiPageEditorPart
 {
-    /**
-     * <p>
-     * The XML editor that displays the serialised source representation of the <code>Scene</code>.
-     * </p>
-     */
-    private TextEditor sourceEditor;
-
     /**
      * <p>
      * The editor that displays the <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment.
@@ -47,26 +36,8 @@ public class SceneEditor extends MultiPageEditorPart
     protected void createPages()
     {
         createVisualPage();
-        createSourcePage();
-    }
 
-    /**
-     * <p>
-     * Adds the source editor to the next available page within this multi-page editor.
-     * </p>
-     */
-    public void createSourcePage()
-    {
-        try
-        {
-            sourceEditor = new TextEditor();
-            int index = addPage(sourceEditor, getEditorInput());
-            setPageText(index, "Source");
-        }
-        catch (PartInitException e)
-        {
-            ErrorDialog.openError(getSite().getShell(), "Error creating nested source editor", null, e.getStatus());
-        }
+        super.createPages();
     }
 
     /**
@@ -89,53 +60,29 @@ public class SceneEditor extends MultiPageEditorPart
     }
 
     @Override
-    public void doSave(final IProgressMonitor monitor)
-    {
-        getEditor(0).doSave(monitor);
-    }
-
-    @Override
-    public void doSaveAs()
-    {
-        IEditorPart editor = getEditor(0);
-        editor.doSaveAs();
-        setPageText(0, editor.getTitle());
-        setInput(editor.getEditorInput());
-    }
-
-    @Override
     public void init(final IEditorSite site, final IEditorInput input) throws PartInitException
     {
-        if (!(input instanceof IFileEditorInput))
-        {
-            throw new PartInitException("Invalid Input: Must be IFileEditorInput");
-        }
-
         super.init(site, input);
 
         setPartName(input.getName());
     }
 
     @Override
-    public boolean isSaveAsAllowed()
-    {
-        return (false);
-    }
-
-    @Override
     protected void pageChange(final int newPageIndex)
     {
-//        if (isDirtySinceLastPageChange)
-//        {
-//            if (newPageIndex == 0)
-//            {
-//                SceneFactory.updateFromSource(SceneManager.getSceneManager().getScene(id), ((IFileEditorInput) getEditorInput()).getFile()
-//                        .getContents());
-//            }
-//
-//            SceneManager.getSceneManager().notifySceneModified(id);
-//
-//            isDirtySinceLastPageChange = false;
-//        }
+        super.pageChange(newPageIndex);
+
+        // if (fDirtySinceLastPageChange)
+        // {
+        // if (newPageIndex == 0)
+        // {
+        // SceneFactory.updateFromSource(SceneManager.getSceneManager().getScene(id), ((IFileEditorInput) getEditorInput()).getFile()
+        // .getContents());
+        // }
+        //
+        // SceneManager.getSceneManager().notifySceneModified(id);
+        //
+        // fDirtySinceLastPageChange = false;
+        // }
     }
 }
