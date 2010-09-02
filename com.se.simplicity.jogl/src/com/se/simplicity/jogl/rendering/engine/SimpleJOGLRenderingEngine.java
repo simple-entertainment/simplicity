@@ -212,23 +212,26 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
 
         for (Renderer renderer : fRenderers)
         {
-            renderer.init();
-
-            // Render the Scene Graph.
-            gl.glPushMatrix();
+            if (fRendererRoots.get(renderer) != null)
             {
-                fCamera.apply();
+                renderer.init();
 
-                for (Light light : fLights)
+                // Render the Scene Graph.
+                gl.glPushMatrix();
                 {
-                    light.apply();
+                    fCamera.apply();
+
+                    for (Light light : fLights)
+                    {
+                        light.apply();
+                    }
+
+                    renderSceneGraph(renderer, fRendererRoots.get(renderer));
                 }
+                gl.glPopMatrix();
 
-                renderSceneGraph(renderer, fRendererRoots.get(renderer));
+                renderer.dispose();
             }
-            gl.glPopMatrix();
-
-            renderer.dispose();
         }
     }
 

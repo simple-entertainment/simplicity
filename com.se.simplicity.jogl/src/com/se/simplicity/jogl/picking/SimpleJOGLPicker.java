@@ -114,22 +114,25 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      * </p>
      * 
      * @param scene The <code>Scene</code> that was picked.
+     * @param numberOfHits The number of hits returned during the last <code>GL_SELECTION</code> rendering pass.
      * 
      * @return A <code>PickEvent</code> for the given select buffer.
      */
-    protected PickEvent createPickEvent(final Scene scene)
+    protected PickEvent createPickEvent(final Scene scene, final int numberOfHits)
     {
         PickEvent event = new PickEvent();
         int bufferIndex = 0;
 
-        while (bufferIndex < fSelectBuffer.capacity() && fSelectBuffer.get(bufferIndex) != 0)
+        for (int hitIndex = 0; hitIndex < numberOfHits; hitIndex++)
         {
-            Object[] hit = new Object[fSelectBuffer.get(bufferIndex)];
+            int numberOfNames = fSelectBuffer.get(bufferIndex);
+            Object[] hit = new Object[numberOfNames];
+
             bufferIndex += SELECT_BUFFER_HIT_HEADER_LENGTH;
 
-            for (int nameIndex = 0; nameIndex < hit.length; nameIndex++)
+            for (int nameIndex = 0; nameIndex < numberOfNames; nameIndex++)
             {
-                if (nameIndex + 1 == hit.length)
+                if (nameIndex + 1 == numberOfNames)
                 {
                     hit[nameIndex] = getSubsetVG(((ModelNode) hit[nameIndex - 1]).getVertexGroup(), fSelectBuffer.get(bufferIndex));
                 }
@@ -176,6 +179,22 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
     public RenderingEngine getRenderingEngine()
     {
         return fRenderingEngine;
+    }
+
+    /**
+     * <p>
+     * Retrieves the select buffer used by the JOGL rendering environment.
+     * </p>
+     * 
+     * <p>
+     * NOTE: This method should only be used to examine the select buffer, not to modify it. 
+     * </p>
+     * 
+     * @return The select buffer used by the JOGL rendering environment.
+     */
+    public IntBuffer getSelectBuffer()
+    {
+        return (fSelectBuffer);
     }
 
     /**
@@ -244,7 +263,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
 
         fRenderingEngine.advance();
 
-        fGl.glRenderMode(GL.GL_RENDER);
+        int numberOfHits = fGl.glRenderMode(GL.GL_RENDER);
 
         if (originalScene != null)
         {
@@ -256,7 +275,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
             fRenderingEngine.setCamera(originalCamera);
         }
 
-        return (createPickEvent(scene));
+        return (createPickEvent(scene, numberOfHits));
     }
 
     /**
