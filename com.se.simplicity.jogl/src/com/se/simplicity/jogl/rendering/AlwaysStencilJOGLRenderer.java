@@ -20,15 +20,20 @@ import com.se.simplicity.rendering.Renderer;
 
 /**
  * <p>
- * Renders the outline of a {@link com.se.simplicity.model.VertexGroup VertexGroup} in a JOGL environment. Achieves this using the stencil buffer
- * technique.
+ * Renders a {@link com.se.simplicity.model.VertexGroup VertexGroup} in a JOGL environment using a wrapped
+ * {@link com.se.simplicity.rendering.Renderer Renderer} and sets a value in the stencil buffer for every pixel drawn (1 by default).
  * </p>
  * 
  * @author Gary Buyn
  */
 public class AlwaysStencilJOGLRenderer implements Renderer, JOGLComponent
 {
-    private static final int STENCIL_BUFFER_MASK = 255;
+    /**
+     * <p>
+     * The mask to be anded with during stencil tests.
+     * </p>
+     */
+    private static final int STENCIL_BUFFER_MASK = 255; // binary: 1111
 
     /**
      * <p>
@@ -37,10 +42,29 @@ public class AlwaysStencilJOGLRenderer implements Renderer, JOGLComponent
      */
     private GL fGl;
 
+    /**
+     * <p>
+     * The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} that will actually render the {@link com.se.simplicity.model.VertexGroup
+     * VertexGroup}.
+     * </p>
+     */
     private Renderer fRenderer;
 
+    /**
+     * <p>
+     * The value to set in the stencil buffer for every pixel drawn.
+     * </p>
+     */
     private int fStencilValue;
 
+    /**
+     * <p>
+     * Creates an instance of <code>AlwaysStencilJOGLRenderer</code>.
+     * </p>
+     * 
+     * @param renderer The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} that will actually render the
+     * {@link com.se.simplicity.model.VertexGroup VertexGroup}.
+     */
     public AlwaysStencilJOGLRenderer(final Renderer renderer)
     {
         fRenderer = renderer;
@@ -74,6 +98,18 @@ public class AlwaysStencilJOGLRenderer implements Renderer, JOGLComponent
         return (fGl);
     }
 
+    /**
+     * <p>
+     * Retrieves the value to set in the stencil buffer for every pixel drawn. 1 is the default.
+     * </p>
+     * 
+     * @return The value to set in the stencil buffer for every pixel drawn.
+     */
+    public int getStencilValue()
+    {
+        return (fStencilValue);
+    }
+
     @Override
     public void init()
     {
@@ -82,7 +118,7 @@ public class AlwaysStencilJOGLRenderer implements Renderer, JOGLComponent
         // Enable stencil buffer.
         fGl.glEnable(GL.GL_STENCIL_TEST);
 
-        // Set the stencil buffer for every pixel drawn.
+        // Set the stencil buffer value for every pixel drawn.
         fGl.glStencilFunc(GL.GL_ALWAYS, fStencilValue, STENCIL_BUFFER_MASK);
         fGl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_REPLACE);
     }
@@ -104,9 +140,18 @@ public class AlwaysStencilJOGLRenderer implements Renderer, JOGLComponent
     {
         fGl = gl;
 
-        if (fRenderer != null)
-        {
-            ((JOGLComponent) fRenderer).setGL(gl);
-        }
+        ((JOGLComponent) fRenderer).setGL(gl);
+    }
+
+    /**
+     * <p>
+     * Sets the value to set in the stencil buffer for every pixel drawn. 1 is the default.
+     * </p>
+     * 
+     * @param stencilValue The value to set in the stencil buffer for every pixel drawn.
+     */
+    public void setStencilValue(final int stencilValue)
+    {
+        fStencilValue = stencilValue;
     }
 }

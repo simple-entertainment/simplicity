@@ -20,15 +20,21 @@ import com.se.simplicity.rendering.Renderer;
 
 /**
  * <p>
- * Renders the outline of a {@link com.se.simplicity.model.VertexGroup VertexGroup} in a JOGL environment. Achieves this using the stencil buffer
- * technique.
+ * Renders a {@link com.se.simplicity.model.VertexGroup VertexGroup} in a JOGL environment using a wrapped
+ * {@link com.se.simplicity.rendering.Renderer Renderer} but only renders on pixels where the stencil buffer does not contain a certain value (1 by
+ * default).
  * </p>
  * 
  * @author Gary Buyn
  */
 public class NotEqualStencilJOGLRenderer implements Renderer, JOGLComponent
 {
-    private static final int STENCIL_BUFFER_MASK = 255;
+    /**
+     * <p>
+     * The mask to be anded with during stencil tests.
+     * </p>
+     */
+    private static final int STENCIL_BUFFER_MASK = 255; // binary: 1111
 
     /**
      * <p>
@@ -37,10 +43,29 @@ public class NotEqualStencilJOGLRenderer implements Renderer, JOGLComponent
      */
     private GL fGl;
 
+    /**
+     * <p>
+     * The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} that will actually render the {@link com.se.simplicity.model.VertexGroup
+     * VertexGroup}.
+     * </p>
+     */
     private Renderer fRenderer;
 
+    /**
+     * <p>
+     * The value in the stencil buffer that will result in the pixel not being drawn.
+     * </p>
+     */
     private int fStencilValue;
 
+    /**
+     * <p>
+     * Creates an instance of <code>NotEqualStencilJOGLRenderer</code>.
+     * </p>
+     * 
+     * @param renderer The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} that will actually render the
+     * {@link com.se.simplicity.model.VertexGroup VertexGroup}.
+     */
     public NotEqualStencilJOGLRenderer(final Renderer renderer)
     {
         fRenderer = renderer;
@@ -73,6 +98,18 @@ public class NotEqualStencilJOGLRenderer implements Renderer, JOGLComponent
         return (fGl);
     }
 
+    /**
+     * <p>
+     * Retrieves the value in the stencil buffer that will result in the pixel not being drawn. 1 is the default.
+     * </p>
+     * 
+     * @return The value in the stencil buffer that will result in the pixel not being drawn.
+     */
+    public int getStencilValue()
+    {
+        return (fStencilValue);
+    }
+
     @Override
     public void init()
     {
@@ -102,9 +139,18 @@ public class NotEqualStencilJOGLRenderer implements Renderer, JOGLComponent
     {
         fGl = gl;
 
-        if (fRenderer != null)
-        {
-            ((JOGLComponent) fRenderer).setGL(gl);
-        }
+        ((JOGLComponent) fRenderer).setGL(gl);
+    }
+
+    /**
+     * <p>
+     * Sets the value in the stencil buffer that will result in the pixel not being drawn. 1 is the default.
+     * </p>
+     * 
+     * @param stencilValue The value in the stencil buffer that will result in the pixel not being drawn.
+     */
+    public void setStencilValue(final int stencilValue)
+    {
+        fStencilValue = stencilValue;
     }
 }

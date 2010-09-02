@@ -19,11 +19,12 @@ import javax.media.opengl.GL;
 
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.IndexedArrayVG;
+import com.se.simplicity.vector.RGBColourVectorf;
+import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 
 /**
  * <p>
- * Renders a {@link com.se.simplicity.model.VertexGroup VertexGroup} in a JOGL environment. This implementation uses only simple rendering techniques
- * and properties.
+ * Renders a {@link com.se.simplicity.model.VertexGroup VertexGroup} using only one colour in a JOGL environment.
  * </p>
  * 
  * @author Gary Buyn
@@ -32,19 +33,48 @@ public class MonoColourJOGLRenderer extends SimpleJOGLRenderer
 {
     /**
      * <p>
-     * Renders an <code>ArrayVG</code>.
+     * The colour to render the {@link com.se.simplicity.model.VertexGroup VertexGroup} in.
+     * </p>
+     */
+    private RGBColourVectorf fRenderColour;
+
+    /**
+     * <p>
+     * Retrieves the colour to render the {@link com.se.simplicity.model.VertexGroup VertexGroup} in.
      * </p>
      * 
-     * @param vertexGroup The <code>ArrayVG</code> to render.
+     * @return The colour to render the {@link com.se.simplicity.model.VertexGroup VertexGroup} in.
      */
+    public RGBColourVectorf getRenderColour()
+    {
+        return (fRenderColour);
+    }
+
+    /**
+     * <p>
+     * Creates an instance of <code>MonoColourJOGLRenderer</code>.
+     * </p>
+     */
+    public MonoColourJOGLRenderer()
+    {
+        fRenderColour = new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    @Override
+    public void init()
+    {
+        GL gl = getGL();
+
+        gl.glColor3f(fRenderColour.getRed(), fRenderColour.getGreen(), fRenderColour.getBlue());
+    }
+
+    @Override
     protected void renderArrayVG(final ArrayVG vertexGroup)
     {
         GL gl = getGL();
 
         float[] normals = vertexGroup.getNormals();
         float[] vertices = vertexGroup.getVertices();
-
-        gl.glColor3f(1.0f, 1.0f, 1.0f);
 
         for (int faceIndex = 0; faceIndex < vertices.length / CNV_ITEMS_IN_FACE; faceIndex++)
         {
@@ -62,13 +92,7 @@ public class MonoColourJOGLRenderer extends SimpleJOGLRenderer
         }
     }
 
-    /**
-     * <p>
-     * Renders an <code>IndexedArrayVG</code>.
-     * </p>
-     * 
-     * @param vertexGroup The <code>IndexedArrayVG</code> to render.
-     */
+    @Override
     protected void renderIndexedArrayVG(final IndexedArrayVG vertexGroup)
     {
         GL gl = getGL();
@@ -77,8 +101,6 @@ public class MonoColourJOGLRenderer extends SimpleJOGLRenderer
         float[] normals = vertexGroup.getNormals();
         float[] vertices = vertexGroup.getVertices();
         int vertex;
-
-        gl.glColor3f(1.0f, 1.0f, 1.0f);
 
         for (int faceIndex = 0; faceIndex < indices.length / VERTICES_IN_A_FACE; faceIndex++)
         {
@@ -94,5 +116,17 @@ public class MonoColourJOGLRenderer extends SimpleJOGLRenderer
             }
             gl.glEnd();
         }
+    }
+
+    /**
+     * <p>
+     * Sets the colour to render the {@link com.se.simplicity.model.VertexGroup VertexGroup} in.
+     * </p>
+     * 
+     * @param renderColour The colour to render the {@link com.se.simplicity.model.VertexGroup VertexGroup} in.
+     */
+    public void setRenderColour(final RGBColourVectorf renderColour)
+    {
+        fRenderColour = renderColour;
     }
 }

@@ -18,11 +18,12 @@ import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.model.VertexGroup;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
+import com.se.simplicity.vector.RGBColourVectorf;
 
 /**
  * <p>
- * Renders the outline of a {@link com.se.simplicity.model.VertexGroup VertexGroup} in a JOGL environment. Achieves this using the stencil buffer
- * technique.
+ * Renders the {@link com.se.simplicity.model.VertexGroup VertexGroup} in a JOGL environment using a wrapped
+ * {@link com.se.simplicity.rendering.Renderer Renderer} and adds an outline. Achieves this using the stencil buffer technique.
  * </p>
  * 
  * @author Gary Buyn
@@ -31,19 +32,62 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
 {
     /**
      * <p>
+     * The default width of the outline.
+     * </p>
+     */
+    private static final float DEFAULT_OUTLINE_WIDTH = 3.0f;
+
+    /**
+     * <p>
+     * The {@link com.se.simplicity.rendering.Renderer Renderer} used to perform the first rendering pass (the normal object).
+     * </p>
+     */
+    private AlwaysStencilJOGLRenderer fAlwaysStencil;
+
+    /**
+     * <p>
      * The JOGL rendering environment.
      * </p>
      */
     private GL fGl;
-    private AlwaysStencilJOGLRenderer fAlwaysStencil;
+
+    /**
+     * <p>
+     * The {@link com.se.simplicity.rendering.Renderer Renderer} used in the second rendering pass to ensure the colours in the object are ignored
+     * when drawing the outline.
+     * </p>
+     */
     private MonoColourJOGLRenderer fMonoColour;
+
+    /**
+     * <p>
+     * The {@link com.se.simplicity.rendering.Renderer Renderer} used to perform the second rendering pass (the outline).
+     * </p>
+     */
     private NotEqualStencilJOGLRenderer fNotEqualStencil;
 
+    /**
+     * <p>
+     * The width of the outline.
+     * </p>
+     */
+    private float fOutlineWidth;
+
+    /**
+     * <p>
+     * Creates an instance of <code>OutlineJOGLRenderer</code>.
+     * </p>
+     * 
+     * @param renderer The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} whose rendered {@link com.se.simplicity.model.VertexGroup
+     * VertexGroup}s will have an outline added to them.
+     */
     public OutlineJOGLRenderer(final Renderer renderer)
     {
         fAlwaysStencil = new AlwaysStencilJOGLRenderer(renderer);
         fMonoColour = new MonoColourJOGLRenderer();
         fNotEqualStencil = new NotEqualStencilJOGLRenderer(fMonoColour);
+
+        fOutlineWidth = DEFAULT_OUTLINE_WIDTH;
     }
 
     @Override
@@ -65,11 +109,36 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
         return (fGl);
     }
 
+    /**
+     * <p>
+     * Retrieves the colour of the outline. White is the default.
+     * </p>
+     * 
+     * @return The colour of the outline.
+     */
+    public RGBColourVectorf getOutlineColour()
+    {
+        return (fMonoColour.getRenderColour());
+    }
+
+    /**
+     * <p>
+     * Retrieves the width of the outline. This is actually the width of the line used to draw the outline, only half of which will actually be
+     * visible. 3 is the default.
+     * </p>
+     * 
+     * @return The width of the outline.
+     */
+    public float getOutlineWidth()
+    {
+        return (fOutlineWidth);
+    }
+
     @Override
     public void init()
     {
         // Set outline width.
-        fGl.glLineWidth(3.0f);
+        fGl.glLineWidth(fOutlineWidth);
     }
 
     @Override
@@ -102,5 +171,30 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
         fAlwaysStencil.setGL(gl);
         fMonoColour.setGL(gl);
         fNotEqualStencil.setGL(gl);
+    }
+
+    /**
+     * <p>
+     * Sets the colour of the outline. White is the default.
+     * </p>
+     * 
+     * @param outlineColour The colour of the outline.
+     */
+    public void setOutlineColour(final RGBColourVectorf outlineColour)
+    {
+        fMonoColour.setRenderColour(outlineColour);
+    }
+
+    /**
+     * <p>
+     * Sets the width of the outline. This is actually the width of the line used to draw the outline, only half of which will actually be visible. 3
+     * is the default.
+     * </p>
+     * 
+     * @param outlineWidth The width of the outline.
+     */
+    public void setOutlineWidth(final float outlineWidth)
+    {
+        fOutlineWidth = outlineWidth;
     }
 }
