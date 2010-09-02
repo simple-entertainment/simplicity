@@ -69,23 +69,4 @@ public class SceneEditorTest
 
         assertEquals("test", testObject.getPartName());
     }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneEditor#init(IEditorSite, IEditorInput) init(IEditorSite, IEditorInput)}
-     * with the special condition that the input provided is not of the type <code>IFileEditorInput</code>.
-     * </p>
-     */
-    @Test
-    public void initNotIFileEditorInput()
-    {
-        try
-        {
-            testObject.init(createMock(IEditorSite.class), createMock(IEditorInput.class));
-        }
-        catch (PartInitException e)
-        {
-            assertEquals("Invalid Input: Must be IFileEditorInput", e.getMessage());
-        }
-    }
 }
