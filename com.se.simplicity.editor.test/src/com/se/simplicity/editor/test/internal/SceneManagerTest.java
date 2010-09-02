@@ -37,6 +37,7 @@ import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
+import com.se.simplicity.jogl.rendering.OutlineJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
@@ -170,7 +171,7 @@ public class SceneManagerTest
         assertNotNull(pickingEngine.getPicker());
         assertTrue(pickingEngine.getPicker() instanceof SimpleJOGLPicker);
         assertNotNull(((SimpleJOGLPicker) pickingEngine.getPicker()).getRenderingEngine());
-        assertNotNull(((SimpleJOGLPicker) pickingEngine.getPicker()).getRenderingEngine().getRenderer());
+        assertNotNull(((SimpleJOGLPicker) pickingEngine.getPicker()).getRenderingEngine().getRenderers().get(0));
     }
 
     /**
@@ -183,13 +184,19 @@ public class SceneManagerTest
     public void getRenderingEngineForScene()
     {
         SimpleJOGLScene scene = new SimpleJOGLScene();
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        scene.setSceneGraph(mockSceneGraph);
+
+        expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
+        replay(mockSceneGraph);
 
         testObject.addSceneDefinition(scene, "test");
 
         RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
 
         assertEquals(scene, renderingEngine.getScene());
-        assertNotNull(renderingEngine.getRenderer());
+        assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
+        assertTrue(renderingEngine.getRenderers().get(1) instanceof OutlineJOGLRenderer);
     }
 
     /**
@@ -203,20 +210,23 @@ public class SceneManagerTest
     public void getRenderingEngineForSceneMetaDataScene()
     {
         MetaDataScene scene = new MetaDataScene(new SimpleJOGLScene());
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
+        scene.setSceneGraph(mockSceneGraph);
         scene.addCamera(mockCamera);
 
         scene.setAttribute("preferredRenderingEngine", "com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine");
         scene.setAttribute("preferredRenderer", "com.se.simplicity.jogl.rendering.SimpleJOGLRenderer");
         testObject.addSceneDefinition(scene, "test");
 
+        expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
         expect(mockCamera.getAttribute("default")).andStubReturn("true");
-        replay(mockCamera);
+        replay(mockSceneGraph, mockCamera);
 
         RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
 
         assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
-        assertTrue(renderingEngine.getRenderer() instanceof SimpleJOGLRenderer);
+        assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
     }
 
     /**
@@ -230,20 +240,23 @@ public class SceneManagerTest
     public void getRenderingEngineForSceneMetaDataSceneInvalidRenderingEngine()
     {
         MetaDataScene scene = new MetaDataScene(new SimpleJOGLScene());
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
+        scene.setSceneGraph(mockSceneGraph);
         scene.addCamera(mockCamera);
 
         scene.setAttribute("preferredRenderingEngine", "stupid.dumb.RenderingEngine");
         scene.setAttribute("preferredRenderer", "com.se.simplicity.jogl.rendering.SimpleJOGLRenderer");
         testObject.addSceneDefinition(scene, "test");
 
+        expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
         expect(mockCamera.getAttribute("default")).andStubReturn("true");
-        replay(mockCamera);
+        replay(mockSceneGraph, mockCamera);
 
         RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
 
         assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
-        assertTrue(renderingEngine.getRenderer() instanceof SimpleJOGLRenderer);
+        assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
     }
 
     /**
@@ -257,20 +270,23 @@ public class SceneManagerTest
     public void getRenderingEngineForSceneMetaDataSceneInvalidRenderer()
     {
         MetaDataScene scene = new MetaDataScene(new SimpleJOGLScene());
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
+        scene.setSceneGraph(mockSceneGraph);
         scene.addCamera(mockCamera);
 
         scene.setAttribute("preferredRenderingEngine", "com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine");
         scene.setAttribute("preferredRenderer", "stupid.dumb.Renderer");
         testObject.addSceneDefinition(scene, "test");
 
+        expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
         expect(mockCamera.getAttribute("default")).andStubReturn("true");
-        replay(mockCamera);
+        replay(mockSceneGraph, mockCamera);
 
         RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
 
         assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
-        assertTrue(renderingEngine.getRenderer() instanceof SimpleJOGLRenderer);
+        assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
     }
 
     /**
