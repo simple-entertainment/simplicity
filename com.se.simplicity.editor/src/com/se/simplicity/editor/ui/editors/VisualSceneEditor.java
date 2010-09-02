@@ -64,6 +64,13 @@ public class VisualSceneEditor extends EditorPart
 
     /**
      * <p>
+     * Retrieves the <code>RenderingEngine</code> that will render the <code>Scene</code> to the 3D canvas.
+     * </p>
+     */
+    private RenderingEngine fRenderingEngine;
+
+    /**
+     * <p>
      * The name of the scene this editor is displaying.
      * </p>
      */
@@ -76,19 +83,13 @@ public class VisualSceneEditor extends EditorPart
      */
     private Camera fViewingCamera;
 
-    /**
-     * <p>
-     * Retrieves the <code>RenderingEngine</code> that will render the <code>Scene</code> to the 3D canvas.
-     * </p>
-     */
-    private RenderingEngine fRenderingEngine;
-
     @Override
     public void createPartControl(final Composite parent)
     {
         // Setup 3D canvas.
         GLData data = new GLData();
         data.doubleBuffer = true;
+        data.stencilSize = 1;
         fCanvas = new GLCanvas(parent, SWT.NONE, data);
 
         // Setup JOGL rendering environment.
@@ -113,13 +114,13 @@ public class VisualSceneEditor extends EditorPart
         fCanvas.addMouseListener(mouseListener);
         fCanvas.addMouseMoveListener(mouseListener);
         fCanvas.addMouseWheelListener(mouseListener);
-        fPickingEngine.addPickListener(new VisualScenePickListener());
+        fPickingEngine.addPickListener(new VisualScenePickListener(fRenderingEngine));
 
         // Continually display the Scene.
         Display display = fCanvas.getShell().getDisplay();
         VisualSceneAdvancer advancer = new VisualSceneAdvancer(display, fCanvas, glContext);
-        advancer.addEngine(fRenderingEngine);
         advancer.addEngine(fPickingEngine);
+        advancer.addEngine(fRenderingEngine);
         display.asyncExec(advancer);
     }
 
