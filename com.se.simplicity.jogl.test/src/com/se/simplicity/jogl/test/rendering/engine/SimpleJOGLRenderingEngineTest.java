@@ -17,6 +17,9 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Dimension;
 
@@ -30,7 +33,7 @@ import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
 import com.se.simplicity.jogl.test.mocks.MockGL;
-import com.se.simplicity.rendering.DrawingMode;
+import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.test.mocks.NodeHierarchy;
@@ -48,6 +51,90 @@ public class SimpleJOGLRenderingEngineTest
      * An instance of the class being unit tested.
      */
     private SimpleJOGLRenderingEngine testObject;
+
+    /**
+     * <p>
+     * Unit test the methods {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine#addRenderer(Renderer) addRenderer(Renderer)} and
+     * {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine#removeRenderer(Renderer) removeRenderer(Renderer)}.
+     * </p>
+     */
+    @Test
+    public void addRemoveRenderer()
+    {
+        // Create dependencies.
+        MockGL mockGL = new MockGL();
+
+        SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setBasicNodeHierarchy();
+
+        SimpleJOGLRenderer renderer = new SimpleJOGLRenderer();
+
+        // Dictate correct behaviour.
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
+        mockScene.setGL(mockGL);
+        replay(mockScene, mockSceneGraph);
+
+        // Setup test environment.
+        testObject.setGL(mockGL);
+        testObject.setScene(mockScene);
+
+        // Perform test 1.
+        testObject.addRenderer(renderer);
+
+        // Verify test 1 results.
+        assertTrue(testObject.getRenderers().contains(renderer));
+        assertEquals(mockGL, renderer.getGL());
+        assertEquals(nodes.node1, testObject.getRendererRoot(renderer));
+
+        // Perform test 2.
+        testObject.removeRenderer(renderer);
+
+        // Verify test 2 results.
+        assertFalse(testObject.getRenderers().contains(renderer));
+        assertNull(testObject.getRendererRoot(renderer));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine#addRenderer(int, Renderer) addRenderer(int,
+     * Renderer)}.
+     * </p>
+     */
+    @Test
+    public void addRendererAtIndex()
+    {
+        // Create dependencies.
+        MockGL mockGL = new MockGL();
+
+        SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setBasicNodeHierarchy();
+
+        SimpleJOGLRenderer mockRenderer1 = createMock(SimpleJOGLRenderer.class);
+        SimpleJOGLRenderer mockRenderer2 = createMock(SimpleJOGLRenderer.class);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
+        mockScene.setGL(mockGL);
+        replay(mockScene, mockSceneGraph);
+
+        // Setup test environment.
+        testObject.setGL(mockGL);
+        testObject.setScene(mockScene);
+        testObject.addRenderer(mockRenderer1);
+
+        // Perform test.
+        testObject.addRenderer(0, mockRenderer2);
+
+        // Verify test results.
+        assertEquals(mockRenderer2, testObject.getRenderers().get(0));
+        assertEquals(mockRenderer1, testObject.getRenderers().get(1));
+    }
 
     /**
      * <p>
@@ -69,18 +156,19 @@ public class SimpleJOGLRenderingEngineTest
         dimension.width = 200;
         dimension.height = 200;
 
-        // Setup test environment.
-        testObject.setGL(mockGL);
-        testObject.setRenderer(createMock(SimpleJOGLRenderer.class));
-        testObject.setCamera(createMock(SimpleJOGLCamera.class));
-        testObject.setScene(mockScene);
-        testObject.setViewportSize(dimension);
-
         // Dictate correct behaviour.
         mockGL.reset();
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
+        mockScene.setGL(mockGL);
         replay(mockScene, mockSceneGraph);
+
+        // Setup test environment.
+        testObject.setGL(mockGL);
+        testObject.addRenderer(createMock(SimpleJOGLRenderer.class));
+        testObject.setCamera(createMock(SimpleJOGLCamera.class));
+        testObject.setScene(mockScene);
+        testObject.setViewportSize(dimension);
 
         // Perform test 1 (clearing enabled).
         testObject.advance();
@@ -149,18 +237,19 @@ public class SimpleJOGLRenderingEngineTest
         dimension.width = 200;
         dimension.height = 200;
 
-        // Setup test environment.
-        testObject.setGL(mockGL);
-        testObject.setRenderer(createMock(SimpleJOGLRenderer.class));
-        testObject.setCamera(createMock(SimpleJOGLCamera.class));
-        testObject.setScene(mockScene);
-        testObject.setViewportSize(dimension);
-
         // Dictate correct behaviour.
         mockGL.reset();
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
+        mockScene.setGL(mockGL);
         replay(mockScene, mockSceneGraph);
+
+        // Setup test environment.
+        testObject.setGL(mockGL);
+        testObject.addRenderer(createMock(SimpleJOGLRenderer.class));
+        testObject.setCamera(createMock(SimpleJOGLCamera.class));
+        testObject.setScene(mockScene);
+        testObject.setViewportSize(dimension);
 
         // PPerform test.
         testObject.advance();
@@ -184,6 +273,17 @@ public class SimpleJOGLRenderingEngineTest
 
     /**
      * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine#destroy() destroy()}.
+     * </p>
+     */
+    @Test
+    public void destroy()
+    {
+    // TODO implement test
+    }
+
+    /**
+     * <p>
      * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.init init()}.
      * </p>
      */
@@ -203,23 +303,17 @@ public class SimpleJOGLRenderingEngineTest
     {
         MockGL mockGL = new MockGL();
         SimpleJOGLRenderer mockRenderer = createMock(SimpleJOGLRenderer.class);
-        SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         NodeHierarchy nodes = new NodeHierarchy();
         nodes.setStandardNodeHierarchy();
 
         testObject.setGL(mockGL);
-        testObject.setRenderer(mockRenderer);
-        testObject.setScene(mockScene);
 
         mockGL.reset();
         reset(mockRenderer);
-        mockRenderer.renderVertexGroup(((ModelNode) nodes.node3).getVertexGroup(), DrawingMode.FACES);
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
-        replay(mockRenderer, mockScene, mockSceneGraph);
+        mockRenderer.renderVertexGroup(((ModelNode) nodes.node3).getVertexGroup());
+        replay(mockRenderer);
 
-        testObject.renderSceneGraph();
+        testObject.renderSceneGraph(mockRenderer, nodes.node1);
 
         verify(mockRenderer);
     }
@@ -236,23 +330,17 @@ public class SimpleJOGLRenderingEngineTest
     {
         MockGL mockGL = new MockGL();
         NamedJOGLRenderer mockRenderer = createMock(NamedJOGLRenderer.class);
-        SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         NodeHierarchy nodes = new NodeHierarchy();
         nodes.setStandardNodeHierarchy();
 
         testObject.setGL(mockGL);
-        testObject.setRenderer(mockRenderer);
-        testObject.setScene(mockScene);
 
         mockGL.reset();
         reset(mockRenderer);
-        mockRenderer.renderVertexGroup(((ModelNode) nodes.node3).getVertexGroup(), DrawingMode.FACES, 2);
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
-        replay(mockRenderer, mockScene, mockSceneGraph);
+        mockRenderer.renderVertexGroup(((ModelNode) nodes.node3).getVertexGroup(), 2);
+        replay(mockRenderer);
 
-        testObject.renderSceneGraph();
+        testObject.renderSceneGraph(mockRenderer, nodes.node1);
 
         verify(mockRenderer);
     }
@@ -266,4 +354,114 @@ public class SimpleJOGLRenderingEngineTest
     @Ignore("May need to use aspect to test")
     public void run()
     {}
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine#setGL(GL) setGL(GL)}.
+     * </p>
+     */
+    @Test
+    public void setGL()
+    {
+        // Create dependencies.
+        MockGL mockGL = new MockGL();
+
+        SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setBasicNodeHierarchy();
+
+        SimpleJOGLRenderer mockRenderer1 = createMock(SimpleJOGLRenderer.class);
+        SimpleJOGLRenderer mockRenderer2 = createMock(SimpleJOGLRenderer.class);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
+        mockScene.setGL(null);
+        mockRenderer1.setGL(null);
+        mockRenderer2.setGL(null);
+        mockScene.setGL(mockGL);
+        mockRenderer1.setGL(mockGL);
+        mockRenderer2.setGL(mockGL);
+        replay(mockScene, mockSceneGraph, mockRenderer1, mockRenderer2);
+
+        // Setup test environment.
+        testObject.setScene(mockScene);
+        testObject.addRenderer(mockRenderer1);
+        testObject.addRenderer(mockRenderer2);
+
+        // Perform test.
+        testObject.setGL(mockGL);
+
+        // Verify test results.
+        verify(mockScene, mockRenderer1, mockRenderer2);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine#setScene(Scene) setScene(Scene)}.
+     * </p>
+     */
+    @Test
+    public void setScene()
+    {
+        // Create dependencies.
+        MockGL mockGL = new MockGL();
+
+        SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setBasicNodeHierarchy();
+
+        SimpleJOGLRenderer mockRenderer1 = createMock(SimpleJOGLRenderer.class);
+        SimpleJOGLRenderer mockRenderer2 = createMock(SimpleJOGLRenderer.class);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
+        mockScene.setGL(mockGL);
+        mockRenderer1.setGL(mockGL);
+        mockRenderer2.setGL(mockGL);
+        replay(mockScene, mockSceneGraph, mockRenderer1, mockRenderer2);
+
+        // Setup test environment.
+        testObject.setGL(mockGL);
+        testObject.addRenderer(mockRenderer1);
+        testObject.addRenderer(mockRenderer2);
+
+        // Perform test.
+        testObject.setScene(mockScene);
+
+        // Verify test results.
+        verify(mockScene);
+
+        assertEquals(nodes.node1, testObject.getRendererRoot(mockRenderer1));
+        assertEquals(nodes.node1, testObject.getRendererRoot(mockRenderer2));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine#setScene(Scene) setScene(Scene)}.
+     * </p>
+     */
+    @Test
+    public void setSceneSceneGraphNull()
+    {
+        // Create dependencies.
+        SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getSceneGraph()).andStubReturn(null);
+        replay(mockScene);
+
+        // Perform test.
+        try
+        {
+            testObject.setScene(mockScene);
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals("Invalid Scene: Must contain Scene Graph.", e.getMessage());
+        }
+    }
 }
