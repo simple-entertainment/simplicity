@@ -34,19 +34,19 @@ import com.se.simplicity.rendering.DrawingMode;
 public class NamedJOGLRenderer extends SimpleJOGLRenderer
 {
     @Override
-    protected void renderArrayVG(final ArrayVG vertexGroup, final DrawingMode drawingMode)
+    protected void renderArrayVG(final ArrayVG vertexGroup)
     {
-        if (drawingMode == DrawingMode.EDGES)
+        if (getDrawingMode() == DrawingMode.EDGES)
         {
-            renderArrayVGEdges(vertexGroup, drawingMode);
+            renderArrayVGEdges(vertexGroup);
         }
-        else if (drawingMode == DrawingMode.FACES)
+        else if (getDrawingMode() == DrawingMode.FACES)
         {
-            renderArrayVGFaces(vertexGroup, drawingMode);
+            renderArrayVGFaces(vertexGroup);
         }
-        else if (drawingMode == DrawingMode.VERTICES)
+        else if (getDrawingMode() == DrawingMode.VERTICES)
         {
-            renderArrayVGVertices(vertexGroup, drawingMode);
+            renderArrayVGVertices(vertexGroup);
         }
     }
 
@@ -66,9 +66,8 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
      * </p>
      * 
      * @param vertexGroup The <code>ArrayVG</code> to render.
-     * @param drawingMode The <code>DrawingMode</code> to render the <code>ArrayVG</code> with.
      */
-    protected void renderArrayVGEdges(final ArrayVG vertexGroup, final DrawingMode drawingMode)
+    protected void renderArrayVGEdges(final ArrayVG vertexGroup)
     {
         GL gl = getGL();
 
@@ -79,7 +78,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
         for (int edgeIndex = 0; edgeIndex < vertices.length / ITEMS_IN_CNV - 1; edgeIndex++)
         {
             gl.glPushName(edgeIndex);
-            gl.glBegin(getJOGLDrawingMode(drawingMode));
+            gl.glBegin(GL.GL_LINE_LOOP);
             {
                 gl.glColor3f(colours[edgeIndex * ITEMS_IN_CNV], colours[edgeIndex * ITEMS_IN_CNV + 1], colours[edgeIndex * ITEMS_IN_CNV + 2]);
                 gl.glNormal3f(normals[edgeIndex * ITEMS_IN_CNV], normals[edgeIndex * ITEMS_IN_CNV + 1], normals[edgeIndex * ITEMS_IN_CNV + 2]);
@@ -113,9 +112,8 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
      * </p>
      * 
      * @param vertexGroup The <code>ArrayVG</code> to render.
-     * @param drawingMode The <code>DrawingMode</code> to render the <code>ArrayVG</code> with.
      */
-    protected void renderArrayVGFaces(final ArrayVG vertexGroup, final DrawingMode drawingMode)
+    protected void renderArrayVGFaces(final ArrayVG vertexGroup)
     {
         GL gl = getGL();
 
@@ -126,7 +124,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
         for (int faceIndex = 0; faceIndex < vertices.length / CNV_ITEMS_IN_FACE; faceIndex++)
         {
             gl.glPushName(faceIndex);
-            gl.glBegin(getJOGLDrawingMode(drawingMode));
+            gl.glBegin(GL.GL_TRIANGLES);
             {
                 for (int vertexIndex = 0; vertexIndex < CNV_ITEMS_IN_FACE; vertexIndex += ITEMS_IN_CNV)
                 {
@@ -158,9 +156,8 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
      * </p>
      * 
      * @param vertexGroup The <code>ArrayVG</code> to render.
-     * @param drawingMode The <code>DrawingMode</code> to render the <code>ArrayVG</code> with.
      */
-    protected void renderArrayVGVertices(final ArrayVG vertexGroup, final DrawingMode drawingMode)
+    protected void renderArrayVGVertices(final ArrayVG vertexGroup)
     {
         GL gl = getGL();
 
@@ -171,7 +168,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
         for (int vertexIndex = 0; vertexIndex < vertices.length / ITEMS_IN_CNV; vertexIndex++)
         {
             gl.glPushName(vertexIndex);
-            gl.glBegin(getJOGLDrawingMode(drawingMode));
+            gl.glBegin(GL.GL_POINTS);
             {
                 gl.glColor3f(colours[vertexIndex * ITEMS_IN_CNV], colours[vertexIndex * ITEMS_IN_CNV + 1], colours[vertexIndex * ITEMS_IN_CNV + 2]);
                 gl.glNormal3f(normals[vertexIndex * ITEMS_IN_CNV], normals[vertexIndex * ITEMS_IN_CNV + 1], normals[vertexIndex * ITEMS_IN_CNV + 2]);
@@ -184,19 +181,19 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
     }
 
     @Override
-    protected void renderIndexedArrayVG(final IndexedArrayVG vertexGroup, final DrawingMode drawingMode)
+    protected void renderIndexedArrayVG(final IndexedArrayVG vertexGroup)
     {
-        if (drawingMode == DrawingMode.EDGES)
+        if (getDrawingMode() == DrawingMode.EDGES)
         {
-            renderIndexedArrayVGEdges(vertexGroup, drawingMode);
+            renderIndexedArrayVGEdges(vertexGroup);
         }
-        else if (drawingMode == DrawingMode.FACES)
+        else if (getDrawingMode() == DrawingMode.FACES)
         {
-            renderIndexedArrayVGFaces(vertexGroup, drawingMode);
+            renderIndexedArrayVGFaces(vertexGroup);
         }
-        else if (drawingMode == DrawingMode.VERTICES)
+        else if (getDrawingMode() == DrawingMode.VERTICES)
         {
-            renderIndexedArrayVGVertices(vertexGroup, drawingMode);
+            renderIndexedArrayVGVertices(vertexGroup);
         }
     }
 
@@ -215,9 +212,8 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
      * </p>
      * 
      * @param vertexGroup The <code>IndexedArrayVG</code> to render.
-     * @param drawingMode The <code>DrawingMode</code> to render the <code>IndexedArrayVG</code> with.
      */
-    protected void renderIndexedArrayVGEdges(final IndexedArrayVG vertexGroup, final DrawingMode drawingMode)
+    protected void renderIndexedArrayVGEdges(final IndexedArrayVG vertexGroup)
     {
         GL gl = getGL();
 
@@ -232,14 +228,15 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
             vertex = indices[edgeIndex];
 
             gl.glPushName(vertex);
-            gl.glBegin(getJOGLDrawingMode(drawingMode));
+            gl.glBegin(GL.GL_LINE_LOOP);
             {
                 gl.glColor3f(colours[vertex * ITEMS_IN_CNV], colours[vertex * ITEMS_IN_CNV + 1], colours[vertex * ITEMS_IN_CNV + 2]);
                 gl.glNormal3f(normals[vertex * ITEMS_IN_CNV], normals[vertex * ITEMS_IN_CNV + 1], normals[vertex * ITEMS_IN_CNV + 2]);
                 gl.glVertex3f(vertices[vertex * ITEMS_IN_CNV], vertices[vertex * ITEMS_IN_CNV + 1], vertices[vertex * ITEMS_IN_CNV + 2]);
 
-                gl.glColor3f(colours[(vertex + 1) * ITEMS_IN_CNV], colours[(vertex + 1) * ITEMS_IN_CNV + 1],
-                        colours[(vertex + 1) * ITEMS_IN_CNV + 2]);
+                gl
+                        .glColor3f(colours[(vertex + 1) * ITEMS_IN_CNV], colours[(vertex + 1) * ITEMS_IN_CNV + 1], colours[(vertex + 1)
+                                * ITEMS_IN_CNV + 2]);
                 gl.glNormal3f(normals[(vertex + 1) * ITEMS_IN_CNV], normals[(vertex + 1) * ITEMS_IN_CNV + 1],
                         normals[(vertex + 1) * ITEMS_IN_CNV + 2]);
                 gl.glVertex3f(vertices[(vertex + 1) * ITEMS_IN_CNV], vertices[(vertex + 1) * ITEMS_IN_CNV + 1], vertices[(vertex + 1) * ITEMS_IN_CNV
@@ -266,9 +263,8 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
      * </p>
      * 
      * @param vertexGroup The <code>IndexedArrayVG</code> to render.
-     * @param drawingMode The <code>DrawingMode</code> to render the <code>IndexedArrayVG</code> with.
      */
-    protected void renderIndexedArrayVGFaces(final IndexedArrayVG vertexGroup, final DrawingMode drawingMode)
+    protected void renderIndexedArrayVGFaces(final IndexedArrayVG vertexGroup)
     {
         GL gl = getGL();
 
@@ -281,7 +277,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
         for (int faceIndex = 0; faceIndex < indices.length / VERTICES_IN_A_FACE; faceIndex++)
         {
             gl.glPushName(faceIndex);
-            gl.glBegin(getJOGLDrawingMode(drawingMode));
+            gl.glBegin(GL.GL_TRIANGLES);
             {
                 for (int vertexIndex = 0; vertexIndex < CNV_ITEMS_IN_FACE; vertexIndex += ITEMS_IN_CNV)
                 {
@@ -312,9 +308,8 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
      * </p>
      * 
      * @param vertexGroup The <code>IndexedArrayVG</code> to render.
-     * @param drawingMode The <code>DrawingMode</code> to render the <code>IndexedArrayVG</code> with.
      */
-    protected void renderIndexedArrayVGVertices(final IndexedArrayVG vertexGroup, final DrawingMode drawingMode)
+    protected void renderIndexedArrayVGVertices(final IndexedArrayVG vertexGroup)
     {
         GL gl = getGL();
 
@@ -329,7 +324,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
             vertex = indices[vertexIndex];
 
             gl.glPushName(vertex);
-            gl.glBegin(getJOGLDrawingMode(drawingMode));
+            gl.glBegin(GL.GL_POINTS);
             {
                 gl.glColor3f(colours[vertex * ITEMS_IN_CNV], colours[vertex * ITEMS_IN_CNV + 1], colours[vertex * ITEMS_IN_CNV + 2]);
                 gl.glNormal3f(normals[vertex * ITEMS_IN_CNV], normals[vertex * ITEMS_IN_CNV + 1], normals[vertex * ITEMS_IN_CNV + 2]);
@@ -346,16 +341,15 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
      * </p>
      * 
      * @param vertexGroup The <code>VertexGroup</code> to render.
-     * @param drawingMode The <code>DrawingMode</code> to render the <code>VertexGroup</code> with.
      */
     @Override
-    public void renderVertexGroup(final VertexGroup vertexGroup, final DrawingMode drawingMode)
+    public void renderVertexGroup(final VertexGroup vertexGroup)
     {
         GL gl = getGL();
 
         gl.glPushName(vertexGroup.hashCode());
 
-        super.renderVertexGroup(vertexGroup, drawingMode);
+        super.renderVertexGroup(vertexGroup);
 
         gl.glPopName();
     }
@@ -366,16 +360,15 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
      * </p>
      * 
      * @param vertexGroup The <code>VertexGroup</code> to render.
-     * @param drawingMode The <code>DrawingMode</code> to render the <code>VertexGroup</code> with.
      * @param name The name to assign to the <code>VertexGroup</code> being rendered.
      */
-    public void renderVertexGroup(final VertexGroup vertexGroup, final DrawingMode drawingMode, final int name)
+    public void renderVertexGroup(final VertexGroup vertexGroup, final int name)
     {
         GL gl = getGL();
 
         gl.glPushName(name);
 
-        super.renderVertexGroup(vertexGroup, drawingMode);
+        super.renderVertexGroup(vertexGroup);
 
         gl.glPopName();
     }

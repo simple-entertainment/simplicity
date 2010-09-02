@@ -36,15 +36,44 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
 {
     /**
      * <p>
+     * The drawing mode used to render the {@link com.se.simplicity.model.VertexGroup VertexGroup}s.
+     * </p>
+     */
+    private DrawingMode fDrawingMode;
+    /**
+     * <p>
      * The JOGL rendering environment.
      * </p>
      */
-    private GL gl;
+    private GL fGl;
+
+    /**
+     * <p>
+     * Creates an instance of <code>SimpleJOGLRenderer</code>.
+     * </p>
+     */
+    public SimpleJOGLRenderer()
+    {
+        fDrawingMode = DrawingMode.FACES;
+        fGl = null;
+    }
+
+    @Override
+    public void dispose()
+    {
+        fGl.glPointSize(1.0f);
+    }
+
+    @Override
+    public DrawingMode getDrawingMode()
+    {
+        return (fDrawingMode);
+    }
 
     @Override
     public GL getGL()
     {
-        return (gl);
+        return (fGl);
     }
 
     /**
@@ -62,7 +91,6 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
 
         if (drawingMode == DrawingMode.VERTICES)
         {
-            gl.glPointSize(2.0f);
             joglDrawingMode = GL.GL_POINTS;
         }
         else if (drawingMode == DrawingMode.EDGES)
@@ -80,14 +108,7 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
     @Override
     public void init()
     {
-        // Initialise the JOGL state.
-        gl.glEnable(GL.GL_CULL_FACE);
-        gl.glDepthFunc(GL.GL_LEQUAL);
-        gl.glEnable(GL.GL_DEPTH_TEST);
-        gl.glFrontFace(GL.GL_CCW);
-
-        // Enable model data arrays.
-        gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
+        fGl.glPointSize(2.0f);
     }
 
     /**
@@ -96,9 +117,8 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
      * </p>
      * 
      * @param vertexGroup The <code>ArrayVG</code> to render.
-     * @param drawingMode The <code>DrawingMode</code> used to render the <code>ArrayVG</code>.
      */
-    protected void renderArrayVG(final ArrayVG vertexGroup, final DrawingMode drawingMode)
+    protected void renderArrayVG(final ArrayVG vertexGroup)
     {
         float[] colours = vertexGroup.getColours();
         float[] normals = vertexGroup.getNormals();
@@ -106,18 +126,18 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
 
         for (int faceIndex = 0; faceIndex < vertices.length / CNV_ITEMS_IN_FACE; faceIndex++)
         {
-            gl.glBegin(getJOGLDrawingMode(drawingMode));
+            fGl.glBegin(getJOGLDrawingMode(fDrawingMode));
             {
                 for (int vertexIndex = 0; vertexIndex < CNV_ITEMS_IN_FACE; vertexIndex += ITEMS_IN_CNV)
                 {
                     int vertex = faceIndex * CNV_ITEMS_IN_FACE + vertexIndex;
 
-                    gl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
-                    gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
-                    gl.glVertex3f(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+                    fGl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
+                    fGl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
+                    fGl.glVertex3f(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
                 }
             }
-            gl.glEnd();
+            fGl.glEnd();
         }
     }
 
@@ -127,9 +147,8 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
      * </p>
      * 
      * @param vertexGroup The <code>IndexedArrayVG</code> to render.
-     * @param drawingMode The <code>DrawingMode</code> used to render the <code>IndexedArrayVG</code>.
      */
-    protected void renderIndexedArrayVG(final IndexedArrayVG vertexGroup, final DrawingMode drawingMode)
+    protected void renderIndexedArrayVG(final IndexedArrayVG vertexGroup)
     {
         int[] indices = vertexGroup.getIndices();
         float[] colours = vertexGroup.getColours();
@@ -139,44 +158,43 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
 
         for (int faceIndex = 0; faceIndex < indices.length / VERTICES_IN_A_FACE; faceIndex++)
         {
-            gl.glBegin(getJOGLDrawingMode(drawingMode));
+            fGl.glBegin(getJOGLDrawingMode(fDrawingMode));
             {
                 for (int vertexIndex = 0; vertexIndex < CNV_ITEMS_IN_FACE; vertexIndex += ITEMS_IN_CNV)
                 {
                     vertex = indices[faceIndex * VERTICES_IN_A_FACE] * ITEMS_IN_CNV + vertexIndex;
 
-                    gl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
-                    gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
-                    gl.glVertex3f(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+                    fGl.glColor3f(colours[vertex], colours[vertex + 1], colours[vertex + 2]);
+                    fGl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
+                    fGl.glVertex3f(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
                 }
             }
-            gl.glEnd();
+            fGl.glEnd();
         }
     }
 
-    /**
-     * <p>
-     * Renders a <code>VertexGroup</code>.
-     * </p>
-     * 
-     * @param vertexGroup The <code>VertexGroup</code> to render.
-     * @param drawingMode The <code>DrawingMode</code> to render the <code>VertexGroup</code> with.
-     */
-    public void renderVertexGroup(final VertexGroup vertexGroup, final DrawingMode drawingMode)
+    @Override
+    public void renderVertexGroup(final VertexGroup vertexGroup)
     {
         if (vertexGroup instanceof ArrayVG)
         {
-            renderArrayVG((ArrayVG) vertexGroup, drawingMode);
+            renderArrayVG((ArrayVG) vertexGroup);
         }
         else if (vertexGroup instanceof IndexedArrayVG)
         {
-            renderIndexedArrayVG((IndexedArrayVG) vertexGroup, drawingMode);
+            renderIndexedArrayVG((IndexedArrayVG) vertexGroup);
         }
+    }
+
+    @Override
+    public void setDrawingMode(final DrawingMode mode)
+    {
+        fDrawingMode = mode;
     }
 
     @Override
     public void setGL(final GL newGl)
     {
-        gl = newGl;
+        fGl = newGl;
     }
 }

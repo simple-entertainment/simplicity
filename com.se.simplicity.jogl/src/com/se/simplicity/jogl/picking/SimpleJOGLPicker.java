@@ -53,6 +53,14 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
 
     /**
      * <p>
+     * The {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to create {@link com.se.simplicity.picking.event.PickEvent PickEvent}s
+     * from the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     */
+    private DrawingMode fDrawingMode;
+
+    /**
+     * <p>
      * The JOGL rendering environment.
      * </p>
      */
@@ -87,7 +95,11 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      */
     public SimpleJOGLPicker()
     {
-        this.fSelectBufferCapacity = DEFAULT_SELECT_BUFFER_CAPACITY;
+        fDrawingMode = DrawingMode.FACES;
+        fGl = null;
+        fRenderingEngine = null;
+        fSelectBuffer = null;
+        fSelectBufferCapacity = DEFAULT_SELECT_BUFFER_CAPACITY;
     }
 
     /**
@@ -135,6 +147,19 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
         return (event);
     }
 
+    /**
+     * <p>
+     * Retrieves the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to create {@link com.se.simplicity.picking.event.PickEvent
+     * PickEvent}s from the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     * 
+     * @return The <code>DrawingMode</code> used to create <code>PickEvent</code>s from the <code>Scene</code>.
+     */
+    public DrawingMode getDrawingMode()
+    {
+        return (fDrawingMode);
+    }
+
     @Override
     public GL getGL()
     {
@@ -179,15 +204,15 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
     {
         VertexGroup subsetVertexGroup = null;
 
-        if (fRenderingEngine.getDrawingMode() == DrawingMode.VERTICES)
+        if (fDrawingMode == DrawingMode.VERTICES)
         {
             subsetVertexGroup = vertexGroup.createVertexSubsetVG(index);
         }
-        else if (fRenderingEngine.getDrawingMode() == DrawingMode.EDGES)
+        else if (fDrawingMode == DrawingMode.EDGES)
         {
             subsetVertexGroup = vertexGroup.createEdgeSubsetVG(index);
         }
-        else if (fRenderingEngine.getDrawingMode() == DrawingMode.FACES)
+        else if (fDrawingMode == DrawingMode.FACES)
         {
             subsetVertexGroup = vertexGroup.createFaceSubsetVG(index);
         }
@@ -232,6 +257,18 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
         }
 
         return (createPickEvent(scene));
+    }
+
+    /**
+     * <p>
+     * Sets the drawing mode used to pick the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     * 
+     * @param mode The drawing mode used to pick the {@link com.se.simplicity.scene.Scene Scene}.
+     */
+    public void setDrawingMode(final DrawingMode mode)
+    {
+        fDrawingMode = mode;
     }
 
     @Override
