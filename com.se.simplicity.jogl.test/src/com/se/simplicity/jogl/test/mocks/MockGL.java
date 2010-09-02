@@ -23,8 +23,22 @@ import javax.media.opengl.GL;
 
 import com.se.devenvy.mocks.MockObject;
 
+/**
+ * <p>
+ * Mock GL object. Required since this class is too big for EasyMock to mock due to a limitation in the CGLIB library.
+ * </p>
+ * 
+ * @author Gary Buyn
+ */
 public class MockGL extends MockObject implements GL
 {
+    /**
+     * <p>
+     * The return value for any calls to supporting methods.
+     * </p>
+     */
+    private int fReturnValue = 0;
+
     @Override
     public Object getExtension(final String arg0)
     {
@@ -8778,7 +8792,7 @@ public class MockGL extends MockObject implements GL
     public final int glRenderMode(final int arg0)
     {
         // Stub method only.
-        return 0;
+        return fReturnValue;
     }
 
     @Override
@@ -14795,6 +14809,18 @@ public class MockGL extends MockObject implements GL
     {
         // Stub method only.
         return false;
+    }
+
+    /**
+     * <p>
+     * Sets the return value for any calls to supporting methods.
+     * </p>
+     * 
+     * @param returnValue The return value for any calls to supporting methods.
+     */
+    public void setReturnValue(final int returnValue)
+    {
+        fReturnValue = returnValue;
     }
 
     @Override

@@ -11,14 +11,23 @@
  */
 package com.se.simplicity.jogl.test.picking;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.test.mocks.MockGL;
+import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.picking.event.PickEvent;
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.engine.RenderingEngine;
+import com.se.simplicity.scene.Scene;
+import com.se.simplicity.scenegraph.SceneGraph;
+import com.se.simplicity.scenegraph.model.ModelNode;
 
 /**
  * <p>
@@ -49,10 +58,48 @@ public class SimpleJOGLPickerTest
      * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPicker.pickSceneGraph pickSceneGraph()}.
      */
     @Test
-    @Ignore("Need to know about the select buffer contents")
     public void pickScene()
     {
-    // TODO implement SimpleJOGLPicker tests
+        // Create dependencies.
+        MockGL mockGl = new MockGL();
+        mockGl.setReturnValue(1);
+
+        Camera mockCamera = createMock(Camera.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        ModelNode mockNode = createMock(ModelNode.class);
+        VertexGroup mockParentVertexGroup = createMock(VertexGroup.class);
+        VertexGroup mockChildVertexGroup = createMock(VertexGroup.class);
+
+        // Dictate correct behaviour.
+        expect(mockRenderingEngine.getScene()).andStubReturn(null);
+        expect(mockRenderingEngine.getCamera()).andStubReturn(null);
+        mockRenderingEngine.setScene(mockScene);
+        expect(mockCamera.getPickCamera(null)).andStubReturn(null);
+        mockRenderingEngine.setCamera(null);
+        mockRenderingEngine.advance();
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
+        expect(mockNode.getVertexGroup()).andStubReturn(mockParentVertexGroup);
+        expect(mockParentVertexGroup.createFaceSubsetVG(20)).andStubReturn(mockChildVertexGroup);
+        replay(mockRenderingEngine, mockCamera, mockScene, mockSceneGraph, mockNode, mockParentVertexGroup);
+
+        // Setup test environment.
+        testObject.setGL(mockGl);
+        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.getSelectBuffer().put(new int[] {2, 0, 0, 0, 20});
+        testObject.getSelectBuffer().rewind();
+
+        // Perform test
+        PickEvent pick = testObject.pickScene(mockScene, mockCamera, null);
+
+        // Verify test results.
+        assertEquals(1, pick.getHitCount());
+        assertEquals(2, pick.getHit(0).length);
+        assertEquals(mockNode, pick.getHit(0)[0]);
+        assertEquals(mockChildVertexGroup, pick.getHit(0)[1]);
     }
 
     /**
