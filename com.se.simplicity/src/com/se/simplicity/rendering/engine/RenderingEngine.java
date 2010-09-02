@@ -15,15 +15,26 @@ import java.awt.Dimension;
 
 import com.se.simplicity.engine.Engine;
 import com.se.simplicity.rendering.Camera;
-import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.scene.Scene;
+import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.vector.SimpleVectorf4;
 
 /**
  * <p>
- * Manages the renderng of a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}. Each advance re-renders the
- * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} in its current state.
+ * Manages the renderng of a {@link com.se.simplicity.scene.Scene Scene}. Each advance renders the <code>Scene</code> in its current state.
+ * </p>
+ * 
+ * <p>
+ * Any changes to settings made during the {@link com.se.simplicity.rendering.engine.RenderingEngine#init() init()} method should be reverted during
+ * the {@link com.se.simplicity.rendering.engine.RenderingEngine#destroy() destroy()} method. It is the responsibility of the
+ * <code>RenderingEngine</code> to leave the rendering environment as it was found (except for contents of buffers) so that multiple
+ * <code>RenderingEngine</code>s may be used together without effecting each other.
+ * </p>
+ * 
+ * <p>
+ * When used within a <code>RenderingEngine</code>, the {@link com.se.simplicity.rendering.engine.Renderer Renderer} acts as a rendering pass. Adding
+ * multiple <code>Renderer</code>s to a <code>RenderingEngine</code> effectively creates a multi pass rendering environment.
  * </p>
  * 
  * @author Gary Buyn
@@ -41,11 +52,31 @@ public interface RenderingEngine extends Engine
 
     /**
      * <p>
-     * Renders the {@link com.se.simplicity.scene.Scene Scene}.
+     * Adds a {@link com.se.simplicity.rendering.Renderer Renderer}. During the {@link com.se.simplicity.rendering.engine.RenderingEngine#advance()
+     * advance()} method, the <code>Renderer</code>s are executed against the {@link com.se.simplicity.scene.Scene Scene} in the order they were
+     * added.
      * </p>
      * 
+     * @param renderer The <code>Renderer</code> to be added.
+     */
+    void addRenderer(Renderer renderer);
+
+    /**
      * <p>
-     * This method should be called by {@link com.se.simplicity.viewport.Viewport Viewport}s in order to display an updated <code>Scene</code>.
+     * Adds a {@link com.se.simplicity.rendering.Renderer Renderer} at the given index. During the
+     * {@link com.se.simplicity.rendering.engine.RenderingEngine#advance() advance()} method, the <code>Renderer</code>s are executed against the
+     * {@link com.se.simplicity.scene.Scene Scene} in the order they were added. By adding a <code>Renderer</code> at a specific index, it can be
+     * executed before others that were added before it.
+     * </p>
+     * 
+     * @param index The index to add the <code>Renderer</code> at.
+     * @param renderer The <code>Renderer</code> to be added.
+     */
+    void addRenderer(int index, Renderer renderer);
+
+    /**
+     * <p>
+     * Renders the {@link com.se.simplicity.scene.Scene Scene}.
      * </p>
      */
     @Override
@@ -71,23 +102,15 @@ public interface RenderingEngine extends Engine
 
     /**
      * <p>
-     * Receives the drawing mode used to render the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * Retrieves the root {@link com.se.simplicity.scenegraph.Node Node} of the portion of the {@link com.se.simplicity.scene.Scene Scene} that the
+     * given {@link com.se.simplicity.rendering.Renderer Renderer} will render when it is executed.
      * </p>
      * 
-     * @return mode The drawing mode used to render the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
-     */
-    DrawingMode getDrawingMode();
-
-    /**
-     * <p>
-     * Retrieves the {@link com.se.simplicity.rendering.Renderer Renderer} that renders {@link com.se.simplicity.model.VertexGroup VertexGroup}s for
-     * this <code>RenderingEngine</code>.
-     * </p>
+     * @param renderer The <code>Renderer</code> to set the root <code>Node</code> for.
      * 
-     * @return The {@link com.se.simplicity.rendering.Renderer Renderer} that renders {@link com.se.simplicity.model.VertexGroup VertexGroup}s for
-     * this <code>RenderingEngine</code>.
+     * @return The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
      */
-    Renderer getRenderer();
+    Node getRendererRoot(Renderer renderer);
 
     /**
      * <p>
@@ -109,15 +132,29 @@ public interface RenderingEngine extends Engine
 
     /**
      * <p>
-     * Renders the {@link com.se.simplicity.scene.Scene Scene}.
+     * Removes a {@link com.se.simplicity.rendering.Renderer Renderer}.
+     * </p>
+     * 
+     * @param renderer The <code>Renderer</code> to be removed.
+     */
+    void removeRenderer(Renderer renderer);
+
+    /**
+     * <p>
+     * Renders the portion of the {@link com.se.simplicity.scene.Scene Scene} with the given root {@link com.se.simplicity.scenegraph.Node Node} using
+     * the given {@link com.se.simplicity.rendering.Renderer Renderer}.
      * </p>
      * 
      * <p>
-     * Preparation of the rendering environment including camera transformation should not be performed from within this method. Instead this should
-     * be performed in the {@link com.se.simplicity.rendering.engine.RenderingEngine#advance() advance()} method.
+     * Preparation of the rendering environment including {@link com.se.simplicity.rendering.Camera Camera} and
+     * {@link com.se.simplicity.rendering.Light Light} applications should not be performed from within this method. Instead this should be performed
+     * in the {@link com.se.simplicity.rendering.engine.RenderingEngine#advance() advance()} method.
      * </p>
+     * 
+     * @param renderer The <code>Renderer</code> that will render the portion of the <code>Scene</code>.
+     * @param root The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
      */
-    void renderSceneGraph();
+    void renderSceneGraph(Renderer renderer, Node root);
 
     /**
      * <p>
@@ -148,23 +185,15 @@ public interface RenderingEngine extends Engine
 
     /**
      * <p>
-     * Sets the drawing mode used to render the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * Sets the root {@link com.se.simplicity.scenegraph.Node Node} of the portion of the {@link com.se.simplicity.scene.Scene Scene} that the given
+     * {@link com.se.simplicity.rendering.Renderer Renderer} will render when it is executed. The default is the root <code>Node</code> of the
+     * <code>Scene</code>.
      * </p>
      * 
-     * @param drawingMode The drawing mode used to render the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * @param renderer The <code>Renderer</code> to set the root <code>Node</code> for.
+     * @param root The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
      */
-    void setDrawingMode(DrawingMode drawingMode);
-
-    /**
-     * <p>
-     * Sets the {@link com.se.simplicity.rendering.Renderer Renderer} that renders {@link com.se.simplicity.model.VertexGroup VertexGroup}s for this
-     * <code>RenderingEngine</code>.
-     * </p>
-     * 
-     * @param renderer The {@link com.se.simplicity.rendering.Renderer Renderer} that renders {@link com.se.simplicity.model.VertexGroup VertexGroup}s
-     * for this <code>RenderingEngine</code>.
-     */
-    void setRenderer(Renderer renderer);
+    void setRendererRoot(Renderer renderer, Node root);
 
     /**
      * <p>
