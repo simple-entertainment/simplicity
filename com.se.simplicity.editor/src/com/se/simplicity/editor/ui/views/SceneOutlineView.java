@@ -50,21 +50,28 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
      * A map from <code>TreeItem</code> to scene components. Used for sending notifications of changes in active scene components.
      * </p>
      */
-    private Map<TreeItem, Object> sceneComponents;
+    private Map<TreeItem, Object> fSceneComponents;
+
+    /**
+     * <p>
+     * Listens for selection events on a tree outline of the contents of the <code>Scene</code>.
+     * </p>
+     */
+    private SceneOutlineSelectionListener fSceneOutlineSelectionListener;
 
     /**
      * <p>
      * The tree outline of the contents of the <code>Scene</code> displayed in the active editor (if there is one).
      * </p>
      */
-    private Tree tree;
+    private Tree fTree;
 
     /**
      * <p>
      * A map from scene components to <code>TreeItem</code>. Used for receiving notifications of changes in active scene components.
      * </p>
      */
-    private Map<Object, TreeItem> treeItems;
+    private Map<Object, TreeItem> fTreeItems;
 
     /**
      * <p>
@@ -81,11 +88,12 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
     @Override
     public void createPartControl(final Composite parent)
     {
-        sceneComponents = new HashMap<TreeItem, Object>();
-        tree = new Tree(parent, SWT.NONE);
-        treeItems = new HashMap<Object, TreeItem>();
+        fSceneComponents = new HashMap<TreeItem, Object>();
+        fTree = new Tree(parent, SWT.NONE);
+        fTreeItems = new HashMap<Object, TreeItem>();
 
-        tree.addSelectionListener(new SceneOutlineSelectionListener(sceneComponents));
+        fSceneOutlineSelectionListener = new SceneOutlineSelectionListener(fSceneComponents);
+        fTree.addSelectionListener(fSceneOutlineSelectionListener);
 
         Scene scene = SceneManager.getSceneManager().getActiveScene();
         if (scene != null)
@@ -125,8 +133,8 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
             treeItem.setText("Node" + node.getID());
         }
 
-        sceneComponents.put(treeItem, node);
-        treeItems.put(node, treeItem);
+        fSceneComponents.put(treeItem, node);
+        fTreeItems.put(node, treeItem);
 
         return (treeItem);
     }
@@ -148,7 +156,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
      */
     public Tree getTree()
     {
-        return (tree);
+        return (fTree);
     }
 
     @Override
@@ -156,37 +164,55 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
     {
         Scene scene = event.getScene();
 
-        if (event.getType() == SceneChangedEventType.CAMERA_MODIFIED)
+        if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED)
+        {
+            fSceneOutlineSelectionListener.disable();
+            fTree.setSelection(fTreeItems.get(event.getSceneComponent()));
+            fSceneOutlineSelectionListener.enable();
+        }
+        else if (event.getType() == SceneChangedEventType.CAMERA_MODIFIED)
         {
             if (event.getSceneComponent() instanceof MetaDataCamera)
             {
                 MetaDataCamera camera = (MetaDataCamera) event.getSceneComponent();
-                TreeItem treeItem = treeItems.get(event.getSceneComponent());
+                TreeItem treeItem = fTreeItems.get(event.getSceneComponent());
                 treeItem.setText((String) camera.getAttribute("name"));
             }
+        }
+        else if (event.getType() == SceneChangedEventType.LIGHT_ACTIVATED)
+        {
+            fSceneOutlineSelectionListener.disable();
+            fTree.setSelection(fTreeItems.get(event.getSceneComponent()));
+            fSceneOutlineSelectionListener.enable();
         }
         else if (event.getType() == SceneChangedEventType.LIGHT_MODIFIED)
         {
             if (event.getSceneComponent() instanceof MetaDataLight)
             {
                 MetaDataLight light = (MetaDataLight) event.getSceneComponent();
-                TreeItem treeItem = treeItems.get(event.getSceneComponent());
+                TreeItem treeItem = fTreeItems.get(event.getSceneComponent());
                 treeItem.setText((String) light.getAttribute("name"));
             }
+        }
+        else if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
+        {
+            fSceneOutlineSelectionListener.disable();
+            fTree.setSelection(fTreeItems.get(event.getSceneComponent()));
+            fSceneOutlineSelectionListener.enable();
         }
         else if (event.getType() == SceneChangedEventType.NODE_MODIFIED)
         {
             if (event.getSceneComponent() instanceof MetaDataNode)
             {
                 MetaDataNode node = (MetaDataNode) event.getSceneComponent();
-                TreeItem treeItem = treeItems.get(event.getSceneComponent());
+                TreeItem treeItem = fTreeItems.get(event.getSceneComponent());
                 treeItem.setText((String) node.getAttribute("name"));
             }
         }
         else if (event.getType() == SceneChangedEventType.SCENE_ACTIVATED)
         {
-            tree.removeAll();
-            sceneComponents.clear();
+            fTree.removeAll();
+            fSceneComponents.clear();
 
             update(scene);
         }
@@ -228,11 +254,11 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
     {
         for (Camera camera : scene.getCameras())
         {
-            TreeItem treeItem = new TreeItem(tree, SWT.NONE);
+            TreeItem treeItem = new TreeItem(fTree, SWT.NONE);
             treeItem.setText((String) ((MetaData) camera).getAttribute("name"));
 
-            sceneComponents.put(treeItem, camera);
-            treeItems.put(camera, treeItem);
+            fSceneComponents.put(treeItem, camera);
+            fTreeItems.put(camera, treeItem);
         }
     }
 
@@ -247,11 +273,11 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
     {
         for (Light light : scene.getLights())
         {
-            TreeItem treeItem = new TreeItem(tree, SWT.NONE);
+            TreeItem treeItem = new TreeItem(fTree, SWT.NONE);
             treeItem.setText((String) ((MetaData) light).getAttribute("name"));
 
-            sceneComponents.put(treeItem, light);
-            treeItems.put(light, treeItem);
+            fSceneComponents.put(treeItem, light);
+            fTreeItems.put(light, treeItem);
         }
     }
 
@@ -271,7 +297,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
             SimpleTraversal traversal = new SimpleTraversal(sceneGraph.getRoot());
             Node parentNode = traversal.getNextNode();
 
-            TreeItem parentItem = createTreeItem(tree, parentNode);
+            TreeItem parentItem = createTreeItem(fTree, parentNode);
             TreeItem currentItem = parentItem;
 
             while (traversal.hasMoreNodes())

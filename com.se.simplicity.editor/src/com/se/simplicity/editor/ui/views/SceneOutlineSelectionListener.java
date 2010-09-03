@@ -34,21 +34,62 @@ public class SceneOutlineSelectionListener implements SelectionListener
 {
     /**
      * <p>
+     * Determines if this <code>SceneOutlineSelectionListener</code> should respond to events.
+     * </p>
+     */
+    private boolean fEnabled;
+
+    /**
+     * <p>
      * A map from <code>TreeItem</code> to <code>Scene</code> components. Used for notifications of changes in active <code>Node</code>.
      * </p>
      */
-    private Map<TreeItem, Object> sceneComponents;
+    private Map<TreeItem, Object> fSceneComponents;
 
     /**
      * <p>
      * Creates an instance of <code>SceneOutlineSelectionListener</code>.
      * </p>
      * 
-     * @param newSceneComponents A map from <code>TreeItem</code> to <code>Scene</code> components.
+     * @param sceneComponents A map from <code>TreeItem</code> to <code>Scene</code> components.
      */
-    public SceneOutlineSelectionListener(final Map<TreeItem, Object> newSceneComponents)
+    public SceneOutlineSelectionListener(final Map<TreeItem, Object> sceneComponents)
     {
-        sceneComponents = newSceneComponents;
+        fSceneComponents = sceneComponents;
+
+        fEnabled = false;
+    }
+
+    /**
+     * <p>
+     * Stops this <code>SceneOutlineSelectionListener</code> from responding to events.
+     * </p>
+     */
+    public void disable()
+    {
+        fEnabled = false;
+    }
+
+    /**
+     * <p>
+     * Ensures this <code>SceneOutlineSelectionListener</code> is responding to events.
+     * </p>
+     */
+    public void enable()
+    {
+        fEnabled = true;
+    }
+
+    /**
+     * <p>
+     * Determines whether this <code>SceneOutlineSelectionListener</code> is responding to events.
+     * </p>
+     * 
+     * @return True if this <code>SceneOutlineSelectionListener</code> is responding to events, false otherwise.
+     */
+    public boolean isEnabled()
+    {
+        return (fEnabled);
     }
 
     @Override
@@ -73,9 +114,14 @@ public class SceneOutlineSelectionListener implements SelectionListener
      */
     protected void notify(final SelectionEvent e)
     {
+        if (!fEnabled)
+        {
+            return;
+        }
+
         if (e.item instanceof TreeItem)
         {
-            Object sceneComponent = sceneComponents.get((TreeItem) e.item);
+            Object sceneComponent = fSceneComponents.get((TreeItem) e.item);
 
             if (sceneComponent instanceof Camera)
             {
