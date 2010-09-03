@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
@@ -36,6 +38,7 @@ import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.views.CameraViewListener;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
@@ -211,5 +214,421 @@ public class CameraViewListenerTest
         verify(mockListener);
 
         assertNotNull(camera.getNode());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraViewListener#modifyText(ModifyEvent) modifyText(ModifyEvent)} with the
+     * special condition that the widget whose value has changed was displaying the frame aspect ratio property of a <code>Camera</code>.
+     * </p>
+     */
+    @Test
+    public void modifyTextFrameAspectRatio()
+    {
+        // Create dependencies.
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        Text mockText = createMock(Text.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node node = createMock(Node.class);
+        SimpleJOGLCamera camera = new SimpleJOGLCamera();
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(camera);
+
+        HashMap<Widget, String> map = new HashMap<Widget, String>();
+        map.put(mockText, "frameAspectRatio");
+
+        Event event = new Event();
+        event.widget = mockText;
+        ModifyEvent modifyEvent = new ModifyEvent(event);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        expect(mockText.getText()).andStubReturn("1.0");
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(node);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockScene, mockText, mockSceneGraph, mockListener);
+
+        // Initialise test environment.
+        testObject = new CameraViewListener(map);
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().setActiveCamera(camera);
+        SceneManager.getSceneManager().addSceneChangedListener(mockListener);
+
+        // Perform test.
+        testObject.modifyText(modifyEvent);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(1.0f, camera.getFrameAspectRatio(), 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraViewListener#modifyText(ModifyEvent) modifyText(ModifyEvent)} with the
+     * special condition that the widget whose value has changed was displaying the frame X position property of a <code>Camera</code>.
+     * </p>
+     */
+    @Test
+    public void modifyTextFrameX()
+    {
+        // Create dependencies.
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        Text mockText = createMock(Text.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node node = createMock(Node.class);
+        SimpleJOGLCamera camera = new SimpleJOGLCamera();
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(camera);
+
+        HashMap<Widget, String> map = new HashMap<Widget, String>();
+        map.put(mockText, "frameX");
+
+        Event event = new Event();
+        event.widget = mockText;
+        ModifyEvent modifyEvent = new ModifyEvent(event);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        expect(mockText.getText()).andStubReturn("1.0");
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(node);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockScene, mockText, mockSceneGraph, mockListener);
+
+        // Initialise test environment.
+        testObject = new CameraViewListener(map);
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().setActiveCamera(camera);
+        SceneManager.getSceneManager().addSceneChangedListener(mockListener);
+
+        // Perform test.
+        testObject.modifyText(modifyEvent);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(1.0f, camera.getFrameX(), 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraViewListener#modifyText(ModifyEvent) modifyText(ModifyEvent)} with the
+     * special condition that the widget whose value has changed was displaying the frame Y position property of a <code>Camera</code>.
+     * </p>
+     */
+    @Test
+    public void modifyTextFrameY()
+    {
+        // Create dependencies.
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        Text mockText = createMock(Text.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node node = createMock(Node.class);
+        SimpleJOGLCamera camera = new SimpleJOGLCamera();
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(camera);
+
+        HashMap<Widget, String> map = new HashMap<Widget, String>();
+        map.put(mockText, "frameY");
+
+        Event event = new Event();
+        event.widget = mockText;
+        ModifyEvent modifyEvent = new ModifyEvent(event);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        expect(mockText.getText()).andStubReturn("1.0");
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(node);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockScene, mockText, mockSceneGraph, mockListener);
+
+        // Initialise test environment.
+        testObject = new CameraViewListener(map);
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().setActiveCamera(camera);
+        SceneManager.getSceneManager().addSceneChangedListener(mockListener);
+
+        // Perform test.
+        testObject.modifyText(modifyEvent);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(1.0f, camera.getFrameY(), 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraViewListener#modifyText(ModifyEvent) modifyText(ModifyEvent)} with the
+     * special condition that the widget whose value has changed was displaying the frame width property of a <code>Camera</code>.
+     * </p>
+     */
+    @Test
+    public void modifyTextFrameWidth()
+    {
+        // Create dependencies.
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        Text mockText = createMock(Text.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node node = createMock(Node.class);
+        SimpleJOGLCamera camera = new SimpleJOGLCamera();
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(camera);
+
+        HashMap<Widget, String> map = new HashMap<Widget, String>();
+        map.put(mockText, "frameWidth");
+
+        Event event = new Event();
+        event.widget = mockText;
+        ModifyEvent modifyEvent = new ModifyEvent(event);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        expect(mockText.getText()).andStubReturn("10.0");
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(node);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockScene, mockText, mockSceneGraph, mockListener);
+
+        // Initialise test environment.
+        testObject = new CameraViewListener(map);
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().setActiveCamera(camera);
+        SceneManager.getSceneManager().addSceneChangedListener(mockListener);
+
+        // Perform test.
+        testObject.modifyText(modifyEvent);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(10.0f, camera.getFrameWidth(), 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraViewListener#modifyText(ModifyEvent) modifyText(ModifyEvent)} with the
+     * special condition that the widget whose value has changed was displaying the frame height property of a <code>Camera</code>.
+     * </p>
+     */
+    @Test
+    public void modifyTextFrameHeight()
+    {
+        // Create dependencies.
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        Text mockText = createMock(Text.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node node = createMock(Node.class);
+        SimpleJOGLCamera camera = new SimpleJOGLCamera();
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(camera);
+
+        HashMap<Widget, String> map = new HashMap<Widget, String>();
+        map.put(mockText, "frameHeight");
+
+        Event event = new Event();
+        event.widget = mockText;
+        ModifyEvent modifyEvent = new ModifyEvent(event);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        expect(mockText.getText()).andStubReturn("10.0");
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(node);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockScene, mockText, mockSceneGraph, mockListener);
+
+        // Initialise test environment.
+        testObject = new CameraViewListener(map);
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().setActiveCamera(camera);
+        SceneManager.getSceneManager().addSceneChangedListener(mockListener);
+
+        // Perform test.
+        testObject.modifyText(modifyEvent);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(10.0f, camera.getFrameHeight(), 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraViewListener#modifyText(ModifyEvent) modifyText(ModifyEvent)} with the
+     * special condition that the widget whose value has changed was displaying the near clipping distance property of a <code>Camera</code>.
+     * </p>
+     */
+    @Test
+    public void modifyTextNearClippingDistance()
+    {
+        // Create dependencies.
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        Text mockText = createMock(Text.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node node = createMock(Node.class);
+        SimpleJOGLCamera camera = new SimpleJOGLCamera();
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(camera);
+
+        HashMap<Widget, String> map = new HashMap<Widget, String>();
+        map.put(mockText, "nearClippingDistance");
+
+        Event event = new Event();
+        event.widget = mockText;
+        ModifyEvent modifyEvent = new ModifyEvent(event);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        expect(mockText.getText()).andStubReturn("1.0");
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(node);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockScene, mockText, mockSceneGraph, mockListener);
+
+        // Initialise test environment.
+        testObject = new CameraViewListener(map);
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().setActiveCamera(camera);
+        SceneManager.getSceneManager().addSceneChangedListener(mockListener);
+
+        // Perform test.
+        testObject.modifyText(modifyEvent);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(1.0f, camera.getNearClippingDistance(), 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraViewListener#modifyText(ModifyEvent) modifyText(ModifyEvent)} with the
+     * special condition that the widget whose value has changed was displaying the far clipping distance property of a <code>Camera</code>.
+     * </p>
+     */
+    @Test
+    public void modifyTextFarClippingDistance()
+    {
+        // Create dependencies.
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        Text mockText = createMock(Text.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node node = createMock(Node.class);
+        SimpleJOGLCamera camera = new SimpleJOGLCamera();
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(camera);
+
+        HashMap<Widget, String> map = new HashMap<Widget, String>();
+        map.put(mockText, "farClippingDistance");
+
+        Event event = new Event();
+        event.widget = mockText;
+        ModifyEvent modifyEvent = new ModifyEvent(event);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        expect(mockText.getText()).andStubReturn("10.0");
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(node);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockScene, mockText, mockSceneGraph, mockListener);
+
+        // Initialise test environment.
+        testObject = new CameraViewListener(map);
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().setActiveCamera(camera);
+        SceneManager.getSceneManager().addSceneChangedListener(mockListener);
+
+        // Perform test.
+        testObject.modifyText(modifyEvent);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(10.0f, camera.getFarClippingDistance(), 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraViewListener#widgetSelected(SelectionEvent) widgetSelected(SelectionEvent)}
+     * with the special condition that the widget whose value has changed was displaying the projection mode property of a <code>Camera</code>.
+     * </p>
+     */
+    @Test
+    public void widgetSelectedProjectionMode()
+    {
+        // Create dependencies.
+        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+
+        Combo mockCombo = createMock(Combo.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node node = createMock(Node.class);
+        SimpleJOGLCamera camera = new SimpleJOGLCamera();
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(camera);
+
+        HashMap<Widget, String> map = new HashMap<Widget, String>();
+        map.put(mockCombo, "projectionMode");
+
+        Event event = new Event();
+        event.widget = mockCombo;
+        SelectionEvent selectionEvent = new SelectionEvent(event);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        expect(mockCombo.getText()).andStubReturn("ORTHOGONAL");
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(node);
+        mockListener.sceneChanged((SceneChangedEvent) anyObject());
+        replay(mockScene, mockCombo, mockSceneGraph, mockListener);
+
+        // Initialise test environment.
+        testObject = new CameraViewListener(map);
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().setActiveCamera(camera);
+        SceneManager.getSceneManager().addSceneChangedListener(mockListener);
+
+        // Perform test.
+        testObject.widgetSelected(selectionEvent);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(ProjectionMode.ORTHOGONAL, camera.getProjectionMode());
     }
 }

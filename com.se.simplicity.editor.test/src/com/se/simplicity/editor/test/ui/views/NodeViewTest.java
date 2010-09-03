@@ -31,6 +31,7 @@ import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.views.NodeView;
 import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 import com.se.simplicity.vector.TransformationMatrixf;
 import com.se.simplicity.vector.TranslationVectorf;
 
@@ -85,6 +86,60 @@ public class NodeViewTest
         testObject.dispose();
 
         assertTrue(!SceneManager.getSceneManager().getSceneChangedListeners().contains(testObject));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.NodeView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
+     * the special condition that the event is of type 'NODE_ACTIVATED' and the <code>Node</code> that was activated was a <code>MetaDataNode</code>.
+     * </p>
+     */
+    @Test
+    public void sceneChangedMetaDataNodeActivated()
+    {
+        // Create dependencies.
+        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
+        MetaDataNode mockMetaDataNode = createMock(MetaDataNode.class);
+        Node mockNode = createMock(Node.class);
+
+        TransformationMatrixf mockTransformation = createMock(TransformationMatrixf.class);
+        TranslationVectorf mockTranslation = createMock(TranslationVectorf.class);
+
+        // Dictate correct behaviour.
+        expect(mockEvent.getSceneComponent()).andStubReturn(mockMetaDataNode);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_ACTIVATED);
+        expect(mockMetaDataNode.getWrappedNode()).andStubReturn(mockNode);
+        expect(mockMetaDataNode.getAttribute("name")).andStubReturn("Test");
+        expect(mockMetaDataNode.getID()).andStubReturn(0);
+        expect(mockMetaDataNode.isCollidable()).andStubReturn(true);
+        expect(mockMetaDataNode.isModifiable()).andStubReturn(true);
+        expect(mockMetaDataNode.isVisible()).andStubReturn(true);
+        expect(mockMetaDataNode.getTransformation()).andStubReturn(mockTransformation);
+        expect(mockTransformation.getXAxisRotation()).andStubReturn(90.0f * (float) Math.PI / 180.0f);
+        expect(mockTransformation.getYAxisRotation()).andStubReturn(180.0f * (float) Math.PI / 180.0f);
+        expect(mockTransformation.getZAxisRotation()).andStubReturn(270.0f * (float) Math.PI / 180.0f);
+        expect(mockTransformation.getTranslation()).andStubReturn(mockTranslation);
+        expect(mockTranslation.getX()).andStubReturn(5.0f);
+        expect(mockTranslation.getY()).andStubReturn(10.0f);
+        expect(mockTranslation.getZ()).andStubReturn(15.0f);
+        replay(mockEvent, mockMetaDataNode, mockNode, mockTransformation, mockTranslation);
+
+        // Verify test environment.
+        Control[] sections = testObject.getChildren();
+
+        Control[] idWidgets = ((Composite) sections[0]).getChildren();
+        assertEquals("", ((Text) idWidgets[3]).getText());
+
+        Control[] reflectiveWidgets = ((Composite) sections[4]).getChildren();
+        assertEquals("", ((Text) reflectiveWidgets[1]).getText());
+
+        // Perform test.
+        testObject.sceneChanged(mockEvent);
+
+        // Verify test.
+        assertEquals("Test", ((Text) idWidgets[3]).getText());
+
+        assertEquals("$Proxy5", ((Text) reflectiveWidgets[1]).getText());
     }
 
     /**
@@ -164,6 +219,6 @@ public class NodeViewTest
         assertEquals("180.0", ((Text) rotationWidgets[3]).getText());
         assertEquals("270.0", ((Text) rotationWidgets[5]).getText());
 
-        assertEquals("$Proxy6", ((Text) reflectiveWidgets[1]).getText());
+        assertEquals("$Proxy5", ((Text) reflectiveWidgets[1]).getText());
     }
 }

@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -30,7 +31,9 @@ import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.views.LightView;
 import com.se.simplicity.rendering.Light;
+import com.se.simplicity.rendering.LightingMode;
 import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.util.metadata.rendering.MetaDataLight;
 
 /**
  * <p>
@@ -103,6 +106,10 @@ public class LightViewTest
         expect(mockEvent.getSceneComponent()).andStubReturn(mockLight);
         expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.LIGHT_ACTIVATED);
         expect(mockLight.getNode()).andStubReturn(mockNode);
+        expect(mockLight.getLightingMode()).andStubReturn(LightingMode.SCENE);
+        expect(mockLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockNode.getID()).andStubReturn(0);
         replay(mockEvent, mockLight, mockNode);
 
@@ -112,8 +119,27 @@ public class LightViewTest
         Control[] idWidgets = ((Composite) sections[0]).getChildren();
         assertEquals("", ((Text) idWidgets[1]).getText());
 
-        Control[] sceneGraphWidgets = ((Composite) sections[1]).getChildren();
-        assertEquals("", ((Text) sceneGraphWidgets[1]).getText());
+        Control[] generalWidgets = ((Composite) sections[1]).getChildren();
+        assertEquals("", ((Text) generalWidgets[1]).getText());
+        assertEquals("", ((Combo) generalWidgets[3]).getText());
+
+        Control[] ambientWidgets = ((Composite) sections[2]).getChildren();
+        assertEquals("", ((Text) ambientWidgets[1]).getText());
+        assertEquals("", ((Text) ambientWidgets[3]).getText());
+        assertEquals("", ((Text) ambientWidgets[5]).getText());
+
+        Control[] diffuseWidgets = ((Composite) sections[3]).getChildren();
+        assertEquals("", ((Text) diffuseWidgets[1]).getText());
+        assertEquals("", ((Text) diffuseWidgets[3]).getText());
+        assertEquals("", ((Text) diffuseWidgets[5]).getText());
+
+        Control[] specularWidgets = ((Composite) sections[4]).getChildren();
+        assertEquals("", ((Text) specularWidgets[1]).getText());
+        assertEquals("", ((Text) specularWidgets[3]).getText());
+        assertEquals("", ((Text) specularWidgets[5]).getText());
+
+        Control[] reflectionWidgets = ((Composite) sections[5]).getChildren();
+        assertEquals("", ((Text) reflectionWidgets[1]).getText());
 
         // Perform test.
         testObject.sceneChanged(mockEvent);
@@ -121,6 +147,68 @@ public class LightViewTest
         // Verify test.
         assertEquals("LightX", ((Text) idWidgets[1]).getText());
 
-        assertEquals("0", ((Text) sceneGraphWidgets[1]).getText());
+        assertEquals("0", ((Text) generalWidgets[1]).getText());
+        assertEquals("SCENE", ((Combo) generalWidgets[3]).getText());
+
+        assertEquals("0.1", ((Text) ambientWidgets[1]).getText());
+        assertEquals("0.1", ((Text) ambientWidgets[3]).getText());
+        assertEquals("0.1", ((Text) ambientWidgets[5]).getText());
+
+        assertEquals("0.1", ((Text) diffuseWidgets[1]).getText());
+        assertEquals("0.1", ((Text) diffuseWidgets[3]).getText());
+        assertEquals("0.1", ((Text) diffuseWidgets[5]).getText());
+
+        assertEquals("0.1", ((Text) specularWidgets[1]).getText());
+        assertEquals("0.1", ((Text) specularWidgets[3]).getText());
+        assertEquals("0.1", ((Text) specularWidgets[5]).getText());
+
+        assertEquals("$Proxy5", ((Text) reflectionWidgets[1]).getText());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.LightView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
+     * the special condition that the event is of type 'LIGHT_ACTIVATED' and the <code>Light</code> that was activated was a
+     * <code>MetaDataLight</code>.
+     * </p>
+     */
+    @Test
+    public void sceneChangedMetaDataLightActivated()
+    {
+        // Create dependencies.
+        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
+        MetaDataLight mockMetaDataLight = createMock(MetaDataLight.class);
+        Light mockLight = createMock(Light.class);
+        Node mockNode = createMock(Node.class);
+
+        // Dictate correct behaviour.
+        expect(mockEvent.getSceneComponent()).andStubReturn(mockMetaDataLight);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.LIGHT_ACTIVATED);
+        expect(mockMetaDataLight.getAttribute("name")).andStubReturn("Test");
+        expect(mockMetaDataLight.getNode()).andStubReturn(mockNode);
+        expect(mockMetaDataLight.getLightingMode()).andStubReturn(LightingMode.SCENE);
+        expect(mockMetaDataLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockMetaDataLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockMetaDataLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockNode.getID()).andStubReturn(0);
+        expect(mockMetaDataLight.getWrappedLight()).andStubReturn(mockLight);
+        replay(mockEvent, mockMetaDataLight, mockLight, mockNode);
+
+        // Verify test environment.
+        Control[] sections = testObject.getChildren();
+
+        Control[] idWidgets = ((Composite) sections[0]).getChildren();
+        assertEquals("", ((Text) idWidgets[1]).getText());
+
+        Control[] reflectionWidgets = ((Composite) sections[5]).getChildren();
+        assertEquals("", ((Text) reflectionWidgets[1]).getText());
+
+        // Perform test.
+        testObject.sceneChanged(mockEvent);
+
+        // Verify test.
+        assertEquals("Test", ((Text) idWidgets[1]).getText());
+
+        assertEquals("$Proxy5", ((Text) reflectionWidgets[1]).getText());
     }
 }
