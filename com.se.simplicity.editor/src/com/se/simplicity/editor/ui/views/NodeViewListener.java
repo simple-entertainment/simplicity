@@ -41,7 +41,7 @@ public class NodeViewListener implements ModifyListener, SelectionListener
      * Determines if this <code>NodeViewListener</code> should respond to events.
      * </p>
      */
-    private boolean enabled;
+    private boolean fEnabled;
 
     /**
      * <p>
@@ -49,7 +49,7 @@ public class NodeViewListener implements ModifyListener, SelectionListener
      * saved to the model.
      * </p>
      */
-    private Map<Widget, String> widgetBindings;
+    private Map<Widget, String> fWidgetBindings;
 
     /**
      * <p>
@@ -61,9 +61,9 @@ public class NodeViewListener implements ModifyListener, SelectionListener
      */
     public NodeViewListener(final Map<Widget, String> newWidgetBindings)
     {
-        widgetBindings = newWidgetBindings;
+        fWidgetBindings = newWidgetBindings;
 
-        enabled = true;
+        fEnabled = true;
     }
 
     /**
@@ -73,7 +73,7 @@ public class NodeViewListener implements ModifyListener, SelectionListener
      */
     public void disable()
     {
-        enabled = false;
+        fEnabled = false;
     }
 
     /**
@@ -83,7 +83,7 @@ public class NodeViewListener implements ModifyListener, SelectionListener
      */
     public void enable()
     {
-        enabled = true;
+        fEnabled = true;
     }
 
     /**
@@ -95,24 +95,24 @@ public class NodeViewListener implements ModifyListener, SelectionListener
      */
     public boolean isEnabled()
     {
-        return (enabled);
+        return (fEnabled);
     }
 
     @Override
     public void modifyText(final ModifyEvent e)
     {
-        if (!enabled)
+        if (!fEnabled)
         {
             return;
         }
 
         Node activeNode = SceneManager.getSceneManager().getActiveNode();
 
-        if (widgetBindings.get(e.widget).startsWith("rotate"))
+        if (fWidgetBindings.get(e.widget).startsWith("rotate"))
         {
             setNodeRotation(activeNode, e.widget);
         }
-        else if (widgetBindings.get(e.widget).startsWith("translate"))
+        else if (fWidgetBindings.get(e.widget).startsWith("translate"))
         {
             setNodeTranslation(activeNode, e.widget);
         }
@@ -133,22 +133,22 @@ public class NodeViewListener implements ModifyListener, SelectionListener
      */
     protected void setNodeBooleanProperty(final Button button)
     {
-        if (!enabled)
+        if (!fEnabled)
         {
             return;
         }
 
         Node activeNode = SceneManager.getSceneManager().getActiveNode();
 
-        if (widgetBindings.get(button).equals("collidable"))
+        if (fWidgetBindings.get(button).equals("collidable"))
         {
             activeNode.setCollidable(button.getSelection());
         }
-        else if (widgetBindings.get(button).equals("modifiable"))
+        else if (fWidgetBindings.get(button).equals("modifiable"))
         {
             activeNode.setModifiable(button.getSelection());
         }
-        else if (widgetBindings.get(button).equals("visible"))
+        else if (fWidgetBindings.get(button).equals("visible"))
         {
             activeNode.setVisible(button.getSelection());
         }
@@ -168,7 +168,7 @@ public class NodeViewListener implements ModifyListener, SelectionListener
     {
         String value = ((Text) widget).getText();
 
-        if (widgetBindings.get(widget).equals("name"))
+        if (fWidgetBindings.get(widget).equals("name"))
         {
             if (node instanceof MetaDataNode)
             {
@@ -190,15 +190,15 @@ public class NodeViewListener implements ModifyListener, SelectionListener
         TransformationMatrixf transformation = node.getTransformation();
         float value = (float) (Float.parseFloat(((Text) widget).getText()) * Math.PI / 180.0f);
 
-        if (widgetBindings.get(widget).equals("rotateX"))
+        if (fWidgetBindings.get(widget).equals("rotateX"))
         {
             transformation.setXAxisRotation(value);
         }
-        else if (widgetBindings.get(widget).equals("rotateY"))
+        else if (fWidgetBindings.get(widget).equals("rotateY"))
         {
             transformation.setYAxisRotation(value);
         }
-        else if (widgetBindings.get(widget).equals("rotateZ"))
+        else if (fWidgetBindings.get(widget).equals("rotateZ"))
         {
             transformation.setZAxisRotation(value);
         }
@@ -217,15 +217,15 @@ public class NodeViewListener implements ModifyListener, SelectionListener
         TranslationVectorf translation = node.getTransformation().getTranslation();
         float value = Float.parseFloat(((Text) widget).getText());
 
-        if (widgetBindings.get(widget).equals("translateX"))
+        if (fWidgetBindings.get(widget).equals("translateX"))
         {
             translation.setX(value);
         }
-        else if (widgetBindings.get(widget).equals("translateY"))
+        else if (fWidgetBindings.get(widget).equals("translateY"))
         {
             translation.setY(value);
         }
-        else if (widgetBindings.get(widget).equals("translateZ"))
+        else if (fWidgetBindings.get(widget).equals("translateZ"))
         {
             translation.setZ(value);
         }

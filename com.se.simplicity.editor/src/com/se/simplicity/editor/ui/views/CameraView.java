@@ -15,8 +15,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
@@ -26,6 +29,7 @@ import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 
 /**
@@ -42,21 +46,84 @@ public class CameraView extends Composite implements SceneChangedListener
      * Listens for changes to displayed properties of a <code>Camera</code> (or its sub-components).
      * </p>
      */
-    private CameraViewListener cameraViewListener;
+    private CameraViewListener fCameraViewListener;
+
+    /**
+     * <p>
+     * Displays the 'far clipping distance' property of a <code>Camera</code>.
+     * </p>
+     */
+    private Text fFarClippingDistance;
+
+    /**
+     * <p>
+     * Displays the 'frame aspect ratio' property of a <code>Camera</code>.
+     * </p>
+     */
+    private Text fFrameAspectRatio;
+
+    /**
+     * <p>
+     * Displays the 'frame X position' property of a <code>Camera</code>.
+     * </p>
+     */
+    private Text fFrameX;
+
+    /**
+     * <p>
+     * Displays the 'frame Y position' property of a <code>Camera</code>.
+     * </p>
+     */
+    private Text fFrameY;
+
+    /**
+     * <p>
+     * Displays the 'frame width' property of a <code>Camera</code>.
+     * </p>
+     */
+    private Text fFrameWidth;
+
+    /**
+     * <p>
+     * Displays the 'frame height' property of a <code>Camera</code>.
+     * </p>
+     */
+    private Text fFrameHeight;
 
     /**
      * <p>
      * Displays the 'name' property of a <code>Camera</code>.
      * </p>
      */
-    private Text name;
+    private Text fName;
+
+    /**
+     * <p>
+     * Displays the 'near clipping distance' property of a <code>Camera</code>.
+     * </p>
+     */
+    private Text fNearClippingDistance;
 
     /**
      * <p>
      * Displays the 'node' property of a <code>Camera</code>.
      * </p>
      */
-    private Text node;
+    private Text fNode;
+
+    /**
+     * <p>
+     * Displays the 'projection mode' property of a <code>Camera</code>.
+     * </p>
+     */
+    private Combo fProjectionMode;
+
+    /**
+     * <p>
+     * Displays the type of a <code>Camera</code>.
+     * </p>
+     */
+    private Text fType;
 
     /**
      * <p>
@@ -64,7 +131,7 @@ public class CameraView extends Composite implements SceneChangedListener
      * contents saved to the model.
      * </p>
      */
-    private Map<Widget, String> widgetBindings;
+    private Map<Widget, String> fWidgetBindings;
 
     /**
      * <p>
@@ -78,15 +145,113 @@ public class CameraView extends Composite implements SceneChangedListener
     {
         super(parent, style);
 
-        widgetBindings = new HashMap<Widget, String>();
+        fWidgetBindings = new HashMap<Widget, String>();
 
         SceneManager.getSceneManager().addSceneChangedListener(this);
-        cameraViewListener = new CameraViewListener(widgetBindings);
+        fCameraViewListener = new CameraViewListener(fWidgetBindings);
 
-        setLayout(new GridLayout(2, false));
+        setLayout(new GridLayout(4, false));
 
         addIdentificationWidgets();
-        addSceneGraphWidgets();
+        addGeneralWidgets();
+        addFrameWidgets();
+        addClippingWidgets();
+        addReflectionWidgets();
+    }
+
+    /**
+     * <p>
+     * Adds widgets for the clipping related properties of a <code>Camera</code>.
+     * </p>
+     */
+    protected void addClippingWidgets()
+    {
+        Group frame = new Group(this, SWT.NONE);
+        frame.setLayoutData(new GridData(SWT.LEAD, SWT.FILL, false, false));
+        frame.setLayout(new GridLayout(2, false));
+        frame.setText("Clipping");
+
+        Label labelNearClippingDistance = new Label(frame, SWT.NONE);
+        labelNearClippingDistance.setText("Near Clipping Distance");
+        fNearClippingDistance = new Text(frame, SWT.NONE);
+        fNearClippingDistance.addModifyListener(fCameraViewListener);
+        fWidgetBindings.put(fNearClippingDistance, "nearClippingDistance");
+
+        Label labelFarClippingDistance = new Label(frame, SWT.NONE);
+        labelFarClippingDistance.setText("Far Clipping Distance");
+        fFarClippingDistance = new Text(frame, SWT.NONE);
+        fFarClippingDistance.addModifyListener(fCameraViewListener);
+        fWidgetBindings.put(fFarClippingDistance, "farClippingDistance");
+    }
+
+    /**
+     * <p>
+     * Adds widgets for the frame related properties of a <code>Camera</code>.
+     * </p>
+     */
+    protected void addFrameWidgets()
+    {
+        Group frame = new Group(this, SWT.NONE);
+        frame.setLayoutData(new GridData(SWT.LEAD, SWT.FILL, false, false));
+        frame.setLayout(new GridLayout(2, false));
+        frame.setText("Frame");
+
+        Label labelFrameAspectRatio = new Label(frame, SWT.NONE);
+        labelFrameAspectRatio.setText("Aspect Ratio");
+        fFrameAspectRatio = new Text(frame, SWT.NONE);
+        fFrameAspectRatio.addModifyListener(fCameraViewListener);
+        fWidgetBindings.put(fFrameAspectRatio, "frameAspectRatio");
+
+        Label labelFrameX = new Label(frame, SWT.NONE);
+        labelFrameX.setText("X");
+        fFrameX = new Text(frame, SWT.NONE);
+        fFrameX.addModifyListener(fCameraViewListener);
+        fWidgetBindings.put(fFrameX, "frameX");
+
+        Label labelFrameY = new Label(frame, SWT.NONE);
+        labelFrameY.setText("Y");
+        fFrameY = new Text(frame, SWT.NONE);
+        fFrameY.addModifyListener(fCameraViewListener);
+        fWidgetBindings.put(fFrameY, "frameY");
+
+        Label labelFrameWidth = new Label(frame, SWT.NONE);
+        labelFrameWidth.setText("Width");
+        fFrameWidth = new Text(frame, SWT.NONE);
+        fFrameWidth.addModifyListener(fCameraViewListener);
+        fWidgetBindings.put(fFrameWidth, "frameWidth");
+
+        Label labelFrameHeight = new Label(frame, SWT.NONE);
+        labelFrameHeight.setText("Height");
+        fFrameHeight = new Text(frame, SWT.NONE);
+        fFrameHeight.addModifyListener(fCameraViewListener);
+        fWidgetBindings.put(fFrameHeight, "frameHeight");
+    }
+
+    /**
+     * <p>
+     * Adds widgets for the general properties of a <code>Camera</code>.
+     * </p>
+     */
+    protected void addGeneralWidgets()
+    {
+        Group general = new Group(this, SWT.NONE);
+        general.setLayoutData(new GridData(SWT.LEAD, SWT.FILL, false, false));
+        general.setLayout(new GridLayout(2, false));
+        general.setText("General");
+
+        Label labelNode = new Label(general, SWT.NONE);
+        labelNode.setText("Node");
+        fNode = new Text(general, SWT.NONE);
+        fNode.addModifyListener(fCameraViewListener);
+        fWidgetBindings.put(fNode, "node");
+
+        Label labelProjectionMode = new Label(general, SWT.NONE);
+        labelProjectionMode.setText("Projection Mode");
+        fProjectionMode = new Combo(general, SWT.NONE);
+        fProjectionMode.add("ORTHOGONAL");
+        fProjectionMode.add("PERSPECTIVE");
+        fProjectionMode.addSelectionListener(fCameraViewListener);
+        fWidgetBindings.put(fProjectionMode, "projectionMode");
     }
 
     /**
@@ -96,31 +261,37 @@ public class CameraView extends Composite implements SceneChangedListener
      */
     protected void addIdentificationWidgets()
     {
-        Composite translation = new Composite(this, SWT.NONE);
-        translation.setLayout(new GridLayout(2, false));
+        Group identification = new Group(this, SWT.NONE);
+        identification.setLayoutData(new GridData(SWT.LEAD, SWT.FILL, false, false));
+        identification.setLayout(new GridLayout(2, false));
+        identification.setText("Identification");
 
-        Label labelName = new Label(translation, SWT.NONE);
+        Label labelName = new Label(identification, SWT.NONE);
         labelName.setText("Name");
-        name = new Text(translation, SWT.NONE);
-        name.addModifyListener(cameraViewListener);
-        widgetBindings.put(name, "name");
+        fName = new Text(identification, SWT.NONE);
+        fName.addModifyListener(fCameraViewListener);
+        fWidgetBindings.put(fName, "name");
     }
 
     /**
      * <p>
-     * Adds widgets for the <code>SceneGraph</code> related properties of a <code>Camera</code>.
+     * Adds widgets for reflected properties of a <code>Light</code>.
      * </p>
      */
-    protected void addSceneGraphWidgets()
+    protected void addReflectionWidgets()
     {
-        Composite translation = new Composite(this, SWT.NONE);
-        translation.setLayout(new GridLayout(2, false));
+        Group reflection = new Group(this, SWT.NONE);
+        reflection.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, ((GridLayout) this.getLayout()).numColumns, 1));
+        reflection.setText("Reflection");
 
-        Label labelNode = new Label(translation, SWT.NONE);
-        labelNode.setText("Node");
-        node = new Text(translation, SWT.NONE);
-        node.addModifyListener(cameraViewListener);
-        widgetBindings.put(node, "node");
+        reflection.setLayout(new GridLayout(2, false));
+
+        Label labelType = new Label(reflection, SWT.NONE);
+        labelType.setText("Type");
+        fType = new Text(reflection, SWT.READ_ONLY);
+        fType.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        fType.addModifyListener(fCameraViewListener);
+        fWidgetBindings.put(fType, "type");
     }
 
     @Override
@@ -136,22 +307,49 @@ public class CameraView extends Composite implements SceneChangedListener
     {
         if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED)
         {
-            cameraViewListener.disable();
+            fCameraViewListener.disable();
 
             Camera camera = (Camera) event.getSceneComponent();
 
             if (camera instanceof MetaDataCamera)
             {
-                name.setText((String) ((MetaDataCamera) camera).getAttribute("name"));
+                fName.setText((String) ((MetaDataCamera) camera).getAttribute("name"));
             }
             else
             {
-                name.setText("CameraX");
+                fName.setText("CameraX");
             }
 
-            node.setText(Integer.toString(camera.getNode().getID()));
+            fNode.setText(Integer.toString(camera.getNode().getID()));
 
-            cameraViewListener.enable();
+            if (camera.getProjectionMode() == ProjectionMode.ORTHOGONAL)
+            {
+                fProjectionMode.setText("ORTHOGONAL");
+            }
+            else if (camera.getProjectionMode() == ProjectionMode.PERSPECTIVE)
+            {
+                fProjectionMode.setText("PERSPECTIVE");
+            }
+
+            fFrameAspectRatio.setText(Float.toString(camera.getFrameAspectRatio()));
+            fFrameX.setText(Float.toString(camera.getFrameX()));
+            fFrameY.setText(Float.toString(camera.getFrameY()));
+            fFrameWidth.setText(Float.toString(camera.getFrameWidth()));
+            fFrameHeight.setText(Float.toString(camera.getFrameHeight()));
+
+            fNearClippingDistance.setText(Float.toString(camera.getNearClippingDistance()));
+            fFarClippingDistance.setText(Float.toString(camera.getFarClippingDistance()));
+
+            if (camera instanceof MetaDataCamera)
+            {
+                fType.setText((String) ((MetaDataCamera) camera).getWrappedCamera().getClass().getName());
+            }
+            else
+            {
+                fType.setText(camera.getClass().getName());
+            }
+
+            fCameraViewListener.enable();
         }
     }
 }

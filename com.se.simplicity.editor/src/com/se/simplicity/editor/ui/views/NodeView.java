@@ -19,6 +19,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
@@ -45,91 +46,91 @@ public class NodeView extends Composite implements SceneChangedListener
      * Displays the 'collidable' property of a <code>Node</code>.
      * </p>
      */
-    private Button collidable;
+    private Button fCollidable;
 
     /**
      * <p>
      * Displays the 'id' property of a <code>Node</code>.
      * </p>
      */
-    private Text id;
+    private Text fId;
 
     /**
      * <p>
      * Displays the 'modifiable' property of a <code>Node</code>.
      * </p>
      */
-    private Button modifiable;
+    private Button fModifiable;
 
     /**
      * <p>
      * Displays the 'name' property of a <code>Node</code>.
      * </p>
      */
-    private Text name;
+    private Text fName;
 
     /**
      * <p>
      * Listens for changes to displayed properties of a <code>Node</code> (or its sub-components).
      * </p>
      */
-    private NodeViewListener nodeViewListener;
+    private NodeViewListener fNodeViewListener;
 
     /**
      * <p>
      * Displays the X axis rotation of a <code>Node</code>.
      * </p>
      */
-    private Text rotateX;
+    private Text fRotateX;
 
     /**
      * <p>
      * Displays the Y axis rotation of a <code>Node</code>.
      * </p>
      */
-    private Text rotateY;
+    private Text fRotateY;
 
     /**
      * <p>
      * Displays the Z axis rotation of a <code>Node</code>.
      * </p>
      */
-    private Text rotateZ;
+    private Text fRotateZ;
 
     /**
      * <p>
      * Displays the X axis translation of a <code>Node</code>.
      * </p>
      */
-    private Text translateX;
+    private Text fTranslateX;
 
     /**
      * <p>
      * Displays the Y axis translation of a <code>Node</code>.
      * </p>
      */
-    private Text translateY;
+    private Text fTranslateY;
 
     /**
      * <p>
      * Displays the Z axis translation of a <code>Node</code>.
      * </p>
      */
-    private Text translateZ;
+    private Text fTranslateZ;
 
     /**
      * <p>
      * Displays the type of a <code>Node</code>.
      * </p>
      */
-    private Text type;
+    private Text fType;
 
     /**
      * <p>
      * Displays the 'visible' property of a <code>Node</code>.
      * </p>
      */
-    private Button visible;
+    private Button fVisible;
 
     /**
      * <p>
@@ -137,7 +138,7 @@ public class NodeView extends Composite implements SceneChangedListener
      * saved to the model.
      * </p>
      */
-    private Map<Widget, String> widgetBindings;
+    private Map<Widget, String> fWidgetBindings;
 
     /**
      * <p>
@@ -151,18 +152,18 @@ public class NodeView extends Composite implements SceneChangedListener
     {
         super(parent, style);
 
-        widgetBindings = new HashMap<Widget, String>();
+        fWidgetBindings = new HashMap<Widget, String>();
 
         SceneManager.getSceneManager().addSceneChangedListener(this);
-        nodeViewListener = new NodeViewListener(widgetBindings);
+        fNodeViewListener = new NodeViewListener(fWidgetBindings);
 
         setLayout(new GridLayout(4, false));
 
         addIdentificationWidgets();
-        addPropertyWidgets();
+        addGeneralWidgets();
         addTranslationWidgets();
         addRotationWidgets();
-        addReflectiveWidgets();
+        addReflectionWidgets();
     }
 
     /**
@@ -172,20 +173,22 @@ public class NodeView extends Composite implements SceneChangedListener
      */
     protected void addIdentificationWidgets()
     {
-        Composite translation = new Composite(this, SWT.NONE);
-        translation.setLayout(new GridLayout(2, false));
+        Group identification = new Group(this, SWT.NONE);
+        identification.setLayoutData(new GridData(SWT.LEAD, SWT.FILL, false, false));
+        identification.setLayout(new GridLayout(2, false));
+        identification.setText("Identification");
 
-        Label labelId = new Label(translation, SWT.NONE);
+        Label labelId = new Label(identification, SWT.NONE);
         labelId.setText("ID");
-        id = new Text(translation, SWT.READ_ONLY);
-        id.addModifyListener(nodeViewListener);
-        widgetBindings.put(id, "id");
+        fId = new Text(identification, SWT.READ_ONLY);
+        fId.addModifyListener(fNodeViewListener);
+        fWidgetBindings.put(fId, "id");
 
-        Label labelName = new Label(translation, SWT.NONE);
+        Label labelName = new Label(identification, SWT.NONE);
         labelName.setText("Name");
-        name = new Text(translation, SWT.NONE);
-        name.addModifyListener(nodeViewListener);
-        widgetBindings.put(name, "name");
+        fName = new Text(identification, SWT.NONE);
+        fName.addModifyListener(fNodeViewListener);
+        fWidgetBindings.put(fName, "name");
     }
 
     /**
@@ -193,25 +196,27 @@ public class NodeView extends Composite implements SceneChangedListener
      * Adds widgets for the general properties of a <code>Node</code>.
      * </p>
      */
-    protected void addPropertyWidgets()
+    protected void addGeneralWidgets()
     {
-        Composite translation = new Composite(this, SWT.NONE);
-        translation.setLayout(new GridLayout(1, false));
+        Group general = new Group(this, SWT.NONE);
+        general.setLayoutData(new GridData(SWT.LEAD, SWT.FILL, false, false));
+        general.setLayout(new GridLayout(1, false));
+        general.setText("General");
 
-        collidable = new Button(translation, SWT.CHECK);
-        collidable.setText("Collidable");
-        collidable.addSelectionListener(nodeViewListener);
-        widgetBindings.put(collidable, "collidable");
+        fCollidable = new Button(general, SWT.CHECK);
+        fCollidable.setText("Collidable");
+        fCollidable.addSelectionListener(fNodeViewListener);
+        fWidgetBindings.put(fCollidable, "collidable");
 
-        modifiable = new Button(translation, SWT.CHECK);
-        modifiable.setText("Modifiable");
-        modifiable.addSelectionListener(nodeViewListener);
-        widgetBindings.put(modifiable, "modifiable");
+        fModifiable = new Button(general, SWT.CHECK);
+        fModifiable.setText("Modifiable");
+        fModifiable.addSelectionListener(fNodeViewListener);
+        fWidgetBindings.put(fModifiable, "modifiable");
 
-        visible = new Button(translation, SWT.CHECK);
-        visible.setText("Visible");
-        visible.addSelectionListener(nodeViewListener);
-        widgetBindings.put(visible, "visible");
+        fVisible = new Button(general, SWT.CHECK);
+        fVisible.setText("Visible");
+        fVisible.addSelectionListener(fNodeViewListener);
+        fWidgetBindings.put(fVisible, "visible");
     }
 
     /**
@@ -219,22 +224,20 @@ public class NodeView extends Composite implements SceneChangedListener
      * Adds widgets for reflected properties of a <code>Node</code>.
      * </p>
      */
-    protected void addReflectiveWidgets()
+    protected void addReflectionWidgets()
     {
-        Composite translation = new Composite(this, SWT.NONE);
+        Group reflection = new Group(this, SWT.NONE);
+        reflection.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, ((GridLayout) this.getLayout()).numColumns, 1));
+        reflection.setText("Reflection");
 
-        GridData gridData = new GridData();
-        gridData.horizontalAlignment = SWT.FILL;
-        gridData.horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
-        translation.setLayoutData(gridData);
-        translation.setLayout(new GridLayout(2, false));
+        reflection.setLayout(new GridLayout(2, false));
 
-        Label labelType = new Label(translation, SWT.NONE);
+        Label labelType = new Label(reflection, SWT.NONE);
         labelType.setText("Type");
-        type = new Text(translation, SWT.READ_ONLY);
-        type.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-        type.addModifyListener(nodeViewListener);
-        widgetBindings.put(type, "type");
+        fType = new Text(reflection, SWT.READ_ONLY);
+        fType.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        fType.addModifyListener(fNodeViewListener);
+        fWidgetBindings.put(fType, "type");
     }
 
     /**
@@ -244,26 +247,28 @@ public class NodeView extends Composite implements SceneChangedListener
      */
     protected void addRotationWidgets()
     {
-        Composite rotation = new Composite(this, SWT.NONE);
+        Group rotation = new Group(this, SWT.NONE);
+        rotation.setLayoutData(new GridData(SWT.LEAD, SWT.FILL, false, false));
         rotation.setLayout(new GridLayout(2, false));
+        rotation.setText("Rotation");
 
         Label labelX = new Label(rotation, SWT.NONE);
         labelX.setText("X");
-        rotateX = new Text(rotation, SWT.NONE);
-        rotateX.addModifyListener(nodeViewListener);
-        widgetBindings.put(rotateX, "rotateX");
+        fRotateX = new Text(rotation, SWT.NONE);
+        fRotateX.addModifyListener(fNodeViewListener);
+        fWidgetBindings.put(fRotateX, "rotateX");
 
         Label labelY = new Label(rotation, SWT.NONE);
         labelY.setText("Y");
-        rotateY = new Text(rotation, SWT.NONE);
-        rotateY.addModifyListener(nodeViewListener);
-        widgetBindings.put(rotateY, "rotateY");
+        fRotateY = new Text(rotation, SWT.NONE);
+        fRotateY.addModifyListener(fNodeViewListener);
+        fWidgetBindings.put(fRotateY, "rotateY");
 
         Label labelZ = new Label(rotation, SWT.NONE);
         labelZ.setText("Z");
-        rotateZ = new Text(rotation, SWT.NONE);
-        rotateZ.addModifyListener(nodeViewListener);
-        widgetBindings.put(rotateZ, "rotateZ");
+        fRotateZ = new Text(rotation, SWT.NONE);
+        fRotateZ.addModifyListener(fNodeViewListener);
+        fWidgetBindings.put(fRotateZ, "rotateZ");
     }
 
     /**
@@ -273,26 +278,28 @@ public class NodeView extends Composite implements SceneChangedListener
      */
     protected void addTranslationWidgets()
     {
-        Composite translation = new Composite(this, SWT.NONE);
+        Group translation = new Group(this, SWT.NONE);
+        translation.setLayoutData(new GridData(SWT.LEAD, SWT.FILL, false, false));
         translation.setLayout(new GridLayout(2, false));
+        translation.setText("Translation");
 
         Label labelX = new Label(translation, SWT.NONE);
         labelX.setText("X");
-        translateX = new Text(translation, SWT.NONE);
-        translateX.addModifyListener(nodeViewListener);
-        widgetBindings.put(translateX, "translateX");
+        fTranslateX = new Text(translation, SWT.NONE);
+        fTranslateX.addModifyListener(fNodeViewListener);
+        fWidgetBindings.put(fTranslateX, "translateX");
 
         Label labelY = new Label(translation, SWT.NONE);
         labelY.setText("Y");
-        translateY = new Text(translation, SWT.NONE);
-        translateY.addModifyListener(nodeViewListener);
-        widgetBindings.put(translateY, "translateY");
+        fTranslateY = new Text(translation, SWT.NONE);
+        fTranslateY.addModifyListener(fNodeViewListener);
+        fWidgetBindings.put(fTranslateY, "translateY");
 
         Label labelZ = new Label(translation, SWT.NONE);
         labelZ.setText("Z");
-        translateZ = new Text(translation, SWT.NONE);
-        translateZ.addModifyListener(nodeViewListener);
-        widgetBindings.put(translateZ, "translateZ");
+        fTranslateZ = new Text(translation, SWT.NONE);
+        fTranslateZ.addModifyListener(fNodeViewListener);
+        fWidgetBindings.put(fTranslateZ, "translateZ");
     }
 
     @Override
@@ -308,45 +315,45 @@ public class NodeView extends Composite implements SceneChangedListener
     {
         if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
         {
-            nodeViewListener.disable();
+            fNodeViewListener.disable();
 
             Node node = (Node) event.getSceneComponent();
 
-            id.setText(Integer.toString(node.getID()));
+            fId.setText(Integer.toString(node.getID()));
 
             if (node instanceof MetaDataNode)
             {
-                name.setText((String) ((MetaDataNode) node).getAttribute("name"));
+                fName.setText((String) ((MetaDataNode) node).getAttribute("name"));
             }
             else
             {
-                name.setText("Node" + node.getID());
+                fName.setText("Node" + node.getID());
             }
 
-            collidable.setSelection(node.isCollidable());
-            modifiable.setSelection(node.isModifiable());
-            visible.setSelection(node.isVisible());
+            fCollidable.setSelection(node.isCollidable());
+            fModifiable.setSelection(node.isModifiable());
+            fVisible.setSelection(node.isVisible());
 
             TransformationMatrixf transformation = node.getTransformation();
 
-            translateX.setText(Float.toString(transformation.getTranslation().getX()));
-            translateY.setText(Float.toString(transformation.getTranslation().getY()));
-            translateZ.setText(Float.toString(transformation.getTranslation().getZ()));
+            fTranslateX.setText(Float.toString(transformation.getTranslation().getX()));
+            fTranslateY.setText(Float.toString(transformation.getTranslation().getY()));
+            fTranslateZ.setText(Float.toString(transformation.getTranslation().getZ()));
 
-            rotateX.setText(Float.toString(transformation.getXAxisRotation() * 180.0f / (float) Math.PI));
-            rotateY.setText(Float.toString(transformation.getYAxisRotation() * 180.0f / (float) Math.PI));
-            rotateZ.setText(Float.toString(transformation.getZAxisRotation() * 180.0f / (float) Math.PI));
+            fRotateX.setText(Float.toString(transformation.getXAxisRotation() * 180.0f / (float) Math.PI));
+            fRotateY.setText(Float.toString(transformation.getYAxisRotation() * 180.0f / (float) Math.PI));
+            fRotateZ.setText(Float.toString(transformation.getZAxisRotation() * 180.0f / (float) Math.PI));
 
             if (node instanceof MetaDataNode)
             {
-                type.setText((String) ((MetaDataNode) node).getWrappedNode().getClass().getName());
+                fType.setText((String) ((MetaDataNode) node).getWrappedNode().getClass().getName());
             }
             else
             {
-                type.setText(node.getClass().getName());
+                fType.setText(node.getClass().getName());
             }
 
-            nodeViewListener.enable();
+            fNodeViewListener.enable();
         }
     }
 }

@@ -15,11 +15,15 @@ import java.util.Map;
 
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.rendering.Light;
+import com.se.simplicity.rendering.LightingMode;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
 
@@ -30,14 +34,14 @@ import com.se.simplicity.util.metadata.rendering.MetaDataLight;
  * 
  * @author Gary Buyn
  */
-public class LightViewListener implements ModifyListener
+public class LightViewListener implements ModifyListener, SelectionListener
 {
     /**
      * <p>
      * Determines if this <code>LightViewListener</code> should respond to events.
      * </p>
      */
-    private boolean enabled;
+    private boolean fEnabled;
 
     /**
      * <p>
@@ -45,7 +49,7 @@ public class LightViewListener implements ModifyListener
      * contents saved to the model.
      * </p>
      */
-    private Map<Widget, String> widgetBindings;
+    private Map<Widget, String> fWidgetBindings;
 
     /**
      * <p>
@@ -57,9 +61,9 @@ public class LightViewListener implements ModifyListener
      */
     public LightViewListener(final Map<Widget, String> newWidgetBindings)
     {
-        widgetBindings = newWidgetBindings;
+        fWidgetBindings = newWidgetBindings;
 
-        enabled = true;
+        fEnabled = true;
     }
 
     /**
@@ -69,7 +73,7 @@ public class LightViewListener implements ModifyListener
      */
     public void disable()
     {
-        enabled = false;
+        fEnabled = false;
     }
 
     /**
@@ -79,7 +83,7 @@ public class LightViewListener implements ModifyListener
      */
     public void enable()
     {
-        enabled = true;
+        fEnabled = true;
     }
 
     /**
@@ -91,33 +95,119 @@ public class LightViewListener implements ModifyListener
      */
     public boolean isEnabled()
     {
-        return (enabled);
+        return (fEnabled);
     }
 
     @Override
-    public void modifyText(final ModifyEvent e)
+    public void modifyText(final ModifyEvent event)
     {
-        if (!enabled)
+        if (!fEnabled)
         {
             return;
         }
 
         Scene activeScene = SceneManager.getSceneManager().getActiveScene();
         Light activeLight = SceneManager.getSceneManager().getActiveLight();
-        String value = ((Text) e.widget).getText();
+        String value = ((Text) event.widget).getText();
 
-        if (widgetBindings.get(e.widget).equals("name"))
+        try
         {
-            if (activeLight instanceof MetaDataLight)
+            if (fWidgetBindings.get(event.widget).equals("name"))
             {
-                ((MetaDataLight) activeLight).setAttribute("name", value);
+                if (activeLight instanceof MetaDataLight)
+                {
+                    ((MetaDataLight) activeLight).setAttribute("name", value);
+                }
+            }
+            else if (fWidgetBindings.get(event.widget).equals("node"))
+            {
+                activeLight.setNode(activeScene.getSceneGraph().getNode(Integer.parseInt(value)));
+            }
+            else if (fWidgetBindings.get(event.widget).equals("ambientR"))
+            {
+                activeLight.getAmbientLight()[0] = Float.parseFloat(value);
+            }
+            else if (fWidgetBindings.get(event.widget).equals("ambientG"))
+            {
+                activeLight.getAmbientLight()[1] = Float.parseFloat(value);
+            }
+            else if (fWidgetBindings.get(event.widget).equals("ambientB"))
+            {
+                activeLight.getAmbientLight()[2] = Float.parseFloat(value);
+            }
+            else if (fWidgetBindings.get(event.widget).equals("diffuseR"))
+            {
+                activeLight.getDiffuseLight()[0] = Float.parseFloat(value);
+            }
+            else if (fWidgetBindings.get(event.widget).equals("diffuseG"))
+            {
+                activeLight.getDiffuseLight()[1] = Float.parseFloat(value);
+            }
+            else if (fWidgetBindings.get(event.widget).equals("diffuseB"))
+            {
+                activeLight.getDiffuseLight()[2] = Float.parseFloat(value);
+            }
+            else if (fWidgetBindings.get(event.widget).equals("specularR"))
+            {
+                activeLight.getSpecularLight()[0] = Float.parseFloat(value);
+            }
+            else if (fWidgetBindings.get(event.widget).equals("specularG"))
+            {
+                activeLight.getSpecularLight()[1] = Float.parseFloat(value);
+            }
+            else if (fWidgetBindings.get(event.widget).equals("specularB"))
+            {
+                activeLight.getSpecularLight()[2] = Float.parseFloat(value);
+            }
+
+            SceneManager.getSceneManager().notifyLightModified(activeLight);
+        }
+        catch (NumberFormatException e)
+        {
+            if (!value.isEmpty())
+            {
+                SceneManager.getSceneManager().setActiveLight(activeLight);
             }
         }
-        else if (widgetBindings.get(e.widget).equals("node"))
+    }
+
+    /**
+     * <p>
+     * Sets the lighting mode property of a <code>Light</code> in response to a change in the value held by a <code>Widget</code>.
+     * </p>
+     * 
+     * @param widget The <code>Widget</code> whose value has changed.
+     */
+    protected void setLightingMode(final Widget widget)
+    {
+        Light activeLight = SceneManager.getSceneManager().getActiveLight();
+        String value = ((Combo) widget).getText();
+
+        if (value.equals("SCENE"))
         {
-            activeLight.setNode(activeScene.getSceneGraph().getNode(Integer.parseInt(value)));
+            activeLight.setLightingMode(LightingMode.SCENE);
+        }
+        else if (value.equals("SHADED"))
+        {
+            activeLight.setLightingMode(LightingMode.SHADED);
+        }
+        else if (value.equals("SOLID"))
+        {
+            activeLight.setLightingMode(LightingMode.SOLID);
         }
 
         SceneManager.getSceneManager().notifyLightModified(activeLight);
+    }
+
+    @Override
+    public void widgetDefaultSelected(final SelectionEvent event)
+    {
+        setLightingMode(event.widget);
+    }
+
+    @Override
+    public void widgetSelected(final SelectionEvent event)
+    {
+        setLightingMode(event.widget);
     }
 }

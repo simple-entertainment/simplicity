@@ -15,11 +15,15 @@ import java.util.Map;
 
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 
@@ -30,7 +34,7 @@ import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
  * 
  * @author Gary Buyn
  */
-public class CameraViewListener implements ModifyListener
+public class CameraViewListener implements ModifyListener, SelectionListener
 {
     /**
      * <p>
@@ -117,7 +121,71 @@ public class CameraViewListener implements ModifyListener
         {
             activeCamera.setNode(activeScene.getSceneGraph().getNode(Integer.parseInt(value)));
         }
+        else if (widgetBindings.get(e.widget).equals("frameAspectRatio"))
+        {
+            activeCamera.setFrameAspectRatio(Float.parseFloat(value));
+        }
+        else if (widgetBindings.get(e.widget).equals("frameX"))
+        {
+            activeCamera.setFrameX(Float.parseFloat(value));
+        }
+        else if (widgetBindings.get(e.widget).equals("frameY"))
+        {
+            activeCamera.setFrameY(Float.parseFloat(value));
+        }
+        else if (widgetBindings.get(e.widget).equals("frameWidth"))
+        {
+            activeCamera.setFrameWidth(Float.parseFloat(value));
+        }
+        else if (widgetBindings.get(e.widget).equals("frameHeight"))
+        {
+            activeCamera.setFrameHeight(Float.parseFloat(value));
+        }
+        else if (widgetBindings.get(e.widget).equals("nearClippingDistance"))
+        {
+            activeCamera.setNearClippingDistance(Float.parseFloat(value));
+        }
+        else if (widgetBindings.get(e.widget).equals("farClippingDistance"))
+        {
+            activeCamera.setFarClippingDistance(Float.parseFloat(value));
+        }
 
         SceneManager.getSceneManager().notifyCameraModified(activeCamera);
+    }
+
+    /**
+     * <p>
+     * Sets the projection mode property of a <code>Camera</code> in response to a change in the value held by a <code>Widget</code>.
+     * </p>
+     * 
+     * @param widget The <code>Widget</code> whose value has changed.
+     */
+    protected void setProjectionMode(final Widget widget)
+    {
+        Camera activeCamera = SceneManager.getSceneManager().getActiveCamera();
+        String value = ((Combo) widget).getText();
+
+        if (value.equals("ORTHOGONAL"))
+        {
+            activeCamera.setProjectionMode(ProjectionMode.ORTHOGONAL);
+        }
+        else if (value.equals("PERSPECTIVE"))
+        {
+            activeCamera.setProjectionMode(ProjectionMode.PERSPECTIVE);
+        }
+
+        SceneManager.getSceneManager().notifyCameraModified(activeCamera);
+    }
+
+    @Override
+    public void widgetDefaultSelected(final SelectionEvent event)
+    {
+        setProjectionMode(event.widget);
+    }
+
+    @Override
+    public void widgetSelected(final SelectionEvent event)
+    {
+        setProjectionMode(event.widget);
     }
 }
