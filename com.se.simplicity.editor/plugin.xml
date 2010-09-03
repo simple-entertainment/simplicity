@@ -52,5 +52,14 @@
            name="Simple Eddy">
      </perspective>
   </extension>
+  <extension
+        point="org.eclipse.core.contenttype.contentTypes">
+     <content-type
+     	   id="sss"
+     	   name="Simple Scene Source"
+       	   base-type="org.eclipse.core.runtime.xml"      
+           file-extensions="sss">
+     </content-type> 
+  </extension>
   
 </plugin>
