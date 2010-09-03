@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.IFileEditorInput;
 
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
@@ -94,6 +95,13 @@ public final class SceneManager
 
     /**
      * <p>
+     * The image registry.
+     * </p>
+     */
+    private ImageRegistry fImageRegistry;
+
+    /**
+     * <p>
      * The {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s registered to listen for changes in the
      * <code>Scene</code>s in use by the editor.
      * </p>
@@ -118,6 +126,7 @@ public final class SceneManager
         activeLight = null;
         activeNode = null;
         activeScene = null;
+        fImageRegistry = new ImageRegistry();
         sceneChangedListeners = new ArrayList<SceneChangedListener>();
         scenes = new HashMap<String, Scene>();
     }
@@ -269,6 +278,18 @@ public final class SceneManager
     public List<SceneChangedListener> getSceneChangedListeners()
     {
         return (sceneChangedListeners);
+    }
+
+    /**
+     * <p>
+     * Retrieves the image registry.
+     * </p>
+     * 
+     * @return The image registry.
+     */
+    public ImageRegistry getImageRegistry()
+    {
+        return (fImageRegistry);
     }
 
     /**
@@ -478,7 +499,7 @@ public final class SceneManager
      */
     public void setActiveCamera(final Camera camera)
     {
-        if (!activeScene.getCameras().contains(camera))
+        if (camera != null && !activeScene.getCameras().contains(camera))
         {
             throw new IllegalArgumentException("Invalid Camera: The Camera must be in the active Scene.");
         }
@@ -496,7 +517,7 @@ public final class SceneManager
      */
     public void setActiveLight(final Light light)
     {
-        if (!activeScene.getLights().contains(light))
+        if (light != null && !activeScene.getLights().contains(light))
         {
             throw new IllegalArgumentException("Invalid Light: The Light must be in the active Scene.");
         }
@@ -514,7 +535,7 @@ public final class SceneManager
      */
     public void setActiveNode(final Node node)
     {
-        if (activeScene.getSceneGraph().getNode(node.getID()) != node)
+        if (node != null && activeScene.getSceneGraph().getNode(node.getID()) != node)
         {
             throw new IllegalArgumentException("Invalid Node: The Node must be in the active Scene.");
         }
