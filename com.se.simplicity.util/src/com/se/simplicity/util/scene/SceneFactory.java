@@ -222,6 +222,16 @@ public final class SceneFactory
         return (node);
     }
 
+    /**
+     * <p>
+     * Creates a serialised source representation from an instance of a <code>Camera</code>.
+     * </p>
+     * 
+     * @param document The document the serialised source representation will be included in.
+     * @param camera The <code>Camera</code> to create a serialised source representation from.
+     * 
+     * @return The serialised source representation created from the <code>Camera</code>.
+     */
     private static Element createSourceFromCamera(final Document document, final Camera camera)
     {
         Element cameraElement = document.createElement("camera");
@@ -248,6 +258,16 @@ public final class SceneFactory
         return (cameraElement);
     }
 
+    /**
+     * <p>
+     * Creates a serialised source representation from an instance of a <code>Light</code>.
+     * </p>
+     * 
+     * @param document The document the serialised source representation will be included in.
+     * @param light The <code>Light</code> to create a serialised source representation from.
+     * 
+     * @return The serialised source representation created from the <code>Light</code>.
+     */
     private static Element createSourceFromLight(final Document document, final Light light)
     {
         Element lightElement = document.createElement("light");
@@ -286,6 +306,16 @@ public final class SceneFactory
         return (lightElement);
     }
 
+    /**
+     * <p>
+     * Creates a serialised source representation from an instance of a <code>Node</code>.
+     * </p>
+     * 
+     * @param document The document the serialised source representation will be included in.
+     * @param node The <code>Node</code> to create a serialised source representation from.
+     * 
+     * @return The serialised source representation created from the <code>Node</code>.
+     */
     private static Element createSourceFromNode(final Document document, final Node node)
     {
         Element nodeElement = document.createElement("node");
@@ -316,6 +346,16 @@ public final class SceneFactory
         return (nodeElement);
     }
 
+    /**
+     * <p>
+     * Creates a serialised source representation from a subgraph.
+     * </p>
+     * 
+     * @param document The document the serialised source representation will be included in.
+     * @param subgraphRoot The root <code>Node</code> of the subgraph to create a serialised source representation from.
+     * 
+     * @return The serialised source representation created from the subgraph.
+     */
     private static Element createSourceFromSubgraph(final Document document, final Node subgraphRoot)
     {
         Element subgraphElement = createSourceFromNode(document, subgraphRoot);
@@ -328,6 +368,16 @@ public final class SceneFactory
         return (subgraphElement);
     }
 
+    /**
+     * <p>
+     * Creates a serialised source representation from an instance of a <code>TransformationMatrixf</code>.
+     * </p>
+     * 
+     * @param document The document the serialised source representation will be included in.
+     * @param transformation The <code>TransformationMatrixf</code> to create a serialised source representation from.
+     * 
+     * @return The serialised source representation created from the <code>TransformationMatrixf</code>.
+     */
     private static Element createSourceFromTransformation(final Document document, final TransformationMatrixf transformation)
     {
         Element transformationElement = document.createElement("content");
@@ -346,6 +396,16 @@ public final class SceneFactory
         return (transformationElement);
     }
 
+    /**
+     * <p>
+     * Creates a serialised source representation from an instance of a <code>VertexGroup</code>.
+     * </p>
+     * 
+     * @param document The document the serialised source representation will be included in.
+     * @param vertexGroup The <code>VertexGroup</code> to create a serialised source representation from.
+     * 
+     * @return The serialised source representation created from the <code>VertexGroup</code>.
+     */
     private static Element createSourceFromVertexGroup(final Document document, final VertexGroup vertexGroup)
     {
         Element vertexGroupElement = document.createElement("content");
@@ -464,7 +524,16 @@ public final class SceneFactory
         return (vertexGroup);
     }
 
-    private static String getCommaSeparatedList(float[] numbers)
+    /**
+     * <p>
+     * Retrieves a comma separated list from an array of float data.
+     * </p>
+     * 
+     * @param numbers The float data to retrieve the comma separated list from.
+     * 
+     * @return A comma separated list from an array of float data.
+     */
+    private static String getCommaSeparatedList(final float[] numbers)
     {
         String list = "";
 
@@ -642,6 +711,14 @@ public final class SceneFactory
         node.getTransformation().translate(translation);
     }
 
+    /**
+     * <p>
+     * Writes a serialised source representation of a <code>Scene</code> to an <code>OutputStream</code>.
+     * </p>
+     * 
+     * @param scene The <code>Scene</code> to write a serialised source representation of.
+     * @param source The <code>OutputStream</code> that will contain serialised source representation.
+     */
     public static void writeToSource(final Scene scene, final OutputStream source)
     {
         Document document = null;
