@@ -141,11 +141,12 @@ public class VisualSceneMouseListenerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneMouseListener#mouseUp(MouseEvent) mouseUp(MouseEvent)}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneMouseListener#mouseUp(MouseEvent) mouseUp(MouseEvent)} with the
+     * special condition that it was mouse button 2 that raised the event.
      * </p>
      */
     @Test
-    public void mouseUp()
+    public void mouseUpButton3()
     {
         // Create dependencies.
         GLCanvas mockCanvas = createMock(GLCanvas.class);
@@ -159,13 +160,13 @@ public class VisualSceneMouseListenerTest
         Event event = new Event();
         event.widget = mockCanvas;
         MouseEvent mouseEvent = new MouseEvent(event);
-        mouseEvent.button = 1;
+        mouseEvent.button = 3;
         mouseEvent.x = 100;
         mouseEvent.y = 100;
 
         // Dictate correct behaviour.
         expect(mockCanvas.getBounds()).andStubReturn(rectangle);
-        mockPickingEngine.pickViewport(dimension, 100, 100, 5, 5);
+        mockPickingEngine.pickViewport(dimension, 100, 100, 2, 2);
         replay(mockCanvas, mockPickingEngine);
 
         // Initialise test environment.
