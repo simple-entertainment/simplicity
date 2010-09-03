@@ -19,7 +19,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.scenegraph.SimpleNode;
 import com.se.simplicity.scenegraph.model.ModelNode;
+import com.se.simplicity.scenegraph.model.SimpleModelNode;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 
 /**
@@ -44,36 +46,26 @@ public class MetaDataNodeTest
     @Test
     public void addDefaultNameAttribute()
     {
-        Node mockNode = createMock(Node.class);
-
-        testObject = new MetaDataNode(mockNode);
-
-        expect(mockNode.getID()).andStubReturn(0);
-        replay(mockNode);
+        testObject = new MetaDataNode(new SimpleNode());
 
         testObject.addDefaultNameAttribute();
 
-        assertEquals("Node (0)", testObject.getAttribute("name"));
+        assertEquals("SimpleNode0", testObject.getAttribute("name"));
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.util.scenegraph.MetaDataNode.addDefaultNameAttribute addDefaultNameAttribute()} with the
-     * special condition that the wrapped <code>Node</code> is a <code>ModelNode</code>.
+     * Unit test the method {@link com.se.simplicity.util.scenegraph.MetaDataNode.addDefaultNameAttribute addDefaultNameAttribute()} with the special
+     * condition that the wrapped <code>Node</code> is a <code>ModelNode</code>.
      * </p>
      */
     @Test
     public void addDefaultNameAttributeModelNode()
     {
-        Node mockNode = createMock(ModelNode.class);
-
-        testObject = new MetaDataNode(mockNode);
-
-        expect(mockNode.getID()).andStubReturn(0);
-        replay(mockNode);
+        testObject = new MetaDataNode(new SimpleModelNode());
 
         testObject.addDefaultNameAttribute();
 
-        assertEquals("Vertex Group (0)", testObject.getAttribute("name"));
+        assertEquals("SimpleModelNode0", testObject.getAttribute("name"));
     }
 }

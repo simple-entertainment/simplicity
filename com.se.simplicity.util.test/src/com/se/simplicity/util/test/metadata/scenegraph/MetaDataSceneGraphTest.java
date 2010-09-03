@@ -42,49 +42,49 @@ public class MetaDataSceneGraphTest
 
         MetaDataNode node0 = MetaDataSceneGraph.wrapNodes(nodes.node1);
 
-        assertEquals("Node (0)", node0.getAttribute("name"));
+        assertEquals("SimpleNode0", node0.getAttribute("name"));
         assertNull(node0.getParent());
         assertNull(node0.getWrappedNode().getParent());
         assertEquals(3, node0.getChildren().size(), 0);
         assertEquals(0, node0.getWrappedNode().getChildren().size(), 0);
 
         MetaDataNode node1 = (MetaDataNode) node0.getChildren().get(0);
-        assertEquals("Node (1)", node1.getAttribute("name"));
+        assertEquals("SimpleNode1", node1.getAttribute("name"));
         assertEquals(node0, node1.getParent());
         assertNull(node1.getWrappedNode().getParent());
         assertEquals(1, node1.getChildren().size(), 0);
         assertEquals(0, node1.getWrappedNode().getChildren().size(), 0);
 
         MetaDataNode node2 = (MetaDataNode) node1.getChildren().get(0);
-        assertEquals("Vertex Group (2)", node2.getAttribute("name"));
+        assertEquals("SimpleModelNode2", node2.getAttribute("name"));
         assertEquals(node1, node2.getParent());
         assertNull(node1.getWrappedNode().getParent());
         assertEquals(0, node2.getChildren().size(), 0);
         assertEquals(0, node2.getWrappedNode().getChildren().size(), 0);
 
         MetaDataNode node3 = (MetaDataNode) node0.getChildren().get(1);
-        assertEquals("Node (3)", node3.getAttribute("name"));
+        assertEquals("SimpleNode3", node3.getAttribute("name"));
         assertEquals(node0, node3.getParent());
         assertNull(node3.getWrappedNode().getParent());
         assertEquals(2, node3.getChildren().size(), 0);
         assertEquals(0, node3.getWrappedNode().getChildren().size(), 0);
 
         MetaDataNode node4 = (MetaDataNode) node3.getChildren().get(0);
-        assertEquals("Node (4)", node4.getAttribute("name"));
+        assertEquals("SimpleNode4", node4.getAttribute("name"));
         assertEquals(node3, node4.getParent());
         assertNull(node4.getWrappedNode().getParent());
         assertEquals(0, node4.getChildren().size(), 0);
         assertEquals(0, node4.getWrappedNode().getChildren().size(), 0);
 
         MetaDataNode node5 = (MetaDataNode) node3.getChildren().get(1);
-        assertEquals("Node (5)", node5.getAttribute("name"));
+        assertEquals("SimpleNode5", node5.getAttribute("name"));
         assertEquals(node3, node5.getParent());
         assertNull(node4.getWrappedNode().getParent());
         assertEquals(0, node5.getChildren().size(), 0);
         assertEquals(0, node5.getWrappedNode().getChildren().size(), 0);
 
         MetaDataNode node6 = (MetaDataNode) node0.getChildren().get(2);
-        assertEquals("Node (6)", node6.getAttribute("name"));
+        assertEquals("SimpleNode6", node6.getAttribute("name"));
         assertEquals(node0, node6.getParent());
         assertNull(node6.getWrappedNode().getParent());
         assertEquals(0, node6.getChildren().size(), 0);
