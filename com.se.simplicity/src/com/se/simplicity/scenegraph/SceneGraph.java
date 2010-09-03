@@ -11,6 +11,8 @@
  */
 package com.se.simplicity.scenegraph;
 
+import java.util.List;
+
 /**
  * <p>
  * A tree type graph of {@link com.se.simplicity.scenegraph.Node Node}s that represents a scene in a virtual universe. The <code>SceneGraph</code>
@@ -69,6 +71,15 @@ public interface SceneGraph
      * @return The root {@link com.se.simplicity.scenegraph.Node Node} of this <code>SceneGraph</code>.
      */
     Node getRoot();
+
+    /**
+     * <p>
+     * Retrieves the root {@link com.se.simplicity.scenegraph.Node Node}s off all the subgraphs in this <code>SceneGraph</code>.
+     * </p>
+     * 
+     * @return The root {@link com.se.simplicity.scenegraph.Node Node}s off all the subgraphs in this <code>SceneGraph</code>.
+     */
+    List<Node> getSubgraphRoots();
 
     /**
      * <p>

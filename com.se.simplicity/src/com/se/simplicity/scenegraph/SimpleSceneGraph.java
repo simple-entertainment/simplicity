@@ -13,6 +13,7 @@ package com.se.simplicity.scenegraph;
 
 import java.io.Serializable;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  * <p>
@@ -31,21 +32,21 @@ public class SimpleSceneGraph implements SceneGraph, Serializable
     /**
      * The unique identifier that was assigned to the last {@link com.se.simplicity.scenegraph.Node Node} added to the <code>SimpleSceneGraph</code>.
      */
-    private int lastNodeID;
+    private int fLastNodeID;
 
     /**
      * <p>
      * The {@link com.se.simplicity.scenegraph.Node Node}s within this <code>SceneGraph</code>.
      * </p>
      */
-    private Hashtable<Integer, Node> nodes;
+    private Hashtable<Integer, Node> fNodes;
 
     /**
      * <p>
      * The root {@link com.se.simplicity.scenegraph.Node Node} of this <code>SceneGraph</code>.
      * </p>
      */
-    private Node root;
+    private Node fRoot;
 
     /**
      * <p>
@@ -54,17 +55,17 @@ public class SimpleSceneGraph implements SceneGraph, Serializable
      */
     public SimpleSceneGraph()
     {
-        lastNodeID = 0;
-        nodes = new Hashtable<Integer, Node>();
-        root = new SimpleNode();
-        root.setID(getNextNodeID());
-        nodes.put(root.getID(), root);
+        fLastNodeID = 0;
+        fNodes = new Hashtable<Integer, Node>();
+        fRoot = new SimpleNode();
+        fRoot.setID(getNextNodeID());
+        fNodes.put(fRoot.getID(), fRoot);
     }
 
     @Override
     public void addSubgraph(final Node subgraphRoot)
     {
-        addSubgraph(subgraphRoot, root);
+        addSubgraph(subgraphRoot, fRoot);
     }
 
     @Override
@@ -77,7 +78,7 @@ public class SimpleSceneGraph implements SceneGraph, Serializable
             Node node = traversal.getNextNode();
 
             node.setID(getNextNodeID());
-            nodes.put(node.getID(), node);
+            fNodes.put(node.getID(), node);
         }
 
         parent.addChild(subgraphRoot);
@@ -92,19 +93,25 @@ public class SimpleSceneGraph implements SceneGraph, Serializable
      */
     protected int getNextNodeID()
     {
-        return (lastNodeID++);
+        return (fLastNodeID++);
     }
 
     @Override
     public Node getNode(final int id)
     {
-        return (nodes.get(id));
+        return (fNodes.get(id));
     }
 
     @Override
     public Node getRoot()
     {
-        return (root);
+        return (fRoot);
+    }
+
+    @Override
+    public List<Node> getSubgraphRoots()
+    {
+        return fRoot.getChildren();
     }
 
     @Override
@@ -114,7 +121,7 @@ public class SimpleSceneGraph implements SceneGraph, Serializable
 
         while (traversal.hasMoreNodes())
         {
-            nodes.remove(traversal.getNextNode());
+            fNodes.remove(traversal.getNextNode());
         }
 
         subgraphRoot.getParent().removeChild(subgraphRoot);
