@@ -13,6 +13,7 @@ package com.se.simplicity.util.metadata.scenegraph;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
@@ -39,6 +40,53 @@ import com.se.simplicity.util.metadata.MetaData;
  */
 public class MetaDataSceneGraph implements SceneGraph, MetaData
 {
+    /**
+     * <p>
+     * Wraps any <code>Node</code>s in the subgraph with the given root <code>Node</code> that are not already wrapped with <code>MetaDataNode</code>
+     * s. Also moves the parent/child relationship from the wrapped <code>Node</code>s to the <code>MetaDataNode</code>s.
+     * </p>
+     * 
+     * @param subgraphRoot The root <code>Node</code> of the subgraph to be wrapped.
+     * 
+     * @return The root <code>MetaDataNode</code> of the wrapped subgraph.
+     */
+    public static MetaDataNode wrapNodes(final Node subgraphRoot)
+    {
+        MetaDataNode currentNode;
+        if (!(subgraphRoot instanceof MetaDataNode))
+        {
+            Node parentNode = subgraphRoot.getParent();
+            currentNode = new MetaDataNode(subgraphRoot);
+
+            if (parentNode != null)
+            {
+                parentNode.removeChild(subgraphRoot);
+                parentNode.addChild(currentNode);
+            }
+
+            for (Node childNode : subgraphRoot.getChildren())
+            {
+                currentNode.addChild((Node) childNode);
+            }
+            subgraphRoot.getChildren().clear();
+
+            currentNode.addDefaultNameAttribute();
+        }
+        else
+        {
+            currentNode = (MetaDataNode) subgraphRoot;
+        }
+
+        // Static array retrieved to guard against concurrent modification.
+        Object[] children = currentNode.getChildren().toArray();
+        for (Object childNode : children)
+        {
+            wrapNodes((Node) childNode);
+        }
+
+        return (currentNode);
+    }
+
     /**
      * <p>
      * The meta data attributes.
@@ -113,6 +161,12 @@ public class MetaDataSceneGraph implements SceneGraph, MetaData
         return (sceneGraph.getRoot());
     }
 
+    @Override
+    public List<Node> getSubgraphRoots()
+    {
+        return (sceneGraph.getSubgraphRoots());
+    }
+
     /**
      * <p>
      * Retrieves the <code>SceneGraph</code> that is wrapped by this <code>MetaDataSceneGraph</code>.
@@ -135,52 +189,5 @@ public class MetaDataSceneGraph implements SceneGraph, MetaData
     public void setAttribute(final String name, final Object value)
     {
         attributes.put(name, value);
-    }
-
-    /**
-     * <p>
-     * Wraps any <code>Node</code>s in the subgraph with the given root <code>Node</code> that are not already wrapped with <code>MetaDataNode</code>
-     * s. Also moves the parent/child relationship from the wrapped <code>Node</code>s to the <code>MetaDataNode</code>s.
-     * </p>
-     * 
-     * @param subgraphRoot The root <code>Node</code> of the subgraph to be wrapped.
-     * 
-     * @return The root <code>MetaDataNode</code> of the wrapped subgraph.
-     */
-    public static MetaDataNode wrapNodes(final Node subgraphRoot)
-    {
-        MetaDataNode currentNode;
-        if (!(subgraphRoot instanceof MetaDataNode))
-        {
-            Node parentNode = subgraphRoot.getParent();
-            currentNode = new MetaDataNode(subgraphRoot);
-
-            if (parentNode != null)
-            {
-                parentNode.removeChild(subgraphRoot);
-                parentNode.addChild(currentNode);
-            }
-
-            for (Node childNode : subgraphRoot.getChildren())
-            {
-                currentNode.addChild((Node) childNode);
-            }
-            subgraphRoot.getChildren().clear();
-
-            currentNode.addDefaultNameAttribute();
-        }
-        else
-        {
-            currentNode = (MetaDataNode) subgraphRoot;
-        }
-
-        // Static array retrieved to guard against concurrent modification.
-        Object[] children = currentNode.getChildren().toArray();
-        for (Object childNode : children)
-        {
-            wrapNodes((Node) childNode);
-        }
-
-        return (currentNode);
     }
 }
