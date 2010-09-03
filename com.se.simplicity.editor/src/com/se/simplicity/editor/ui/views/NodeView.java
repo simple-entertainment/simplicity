@@ -313,6 +313,11 @@ public class NodeView extends Composite implements SceneChangedListener
     @Override
     public void sceneChanged(final SceneChangedEvent event)
     {
+        if (event.getSceneComponent() == null)
+        {
+            return;
+        }
+        
         if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
         {
             fNodeViewListener.disable();

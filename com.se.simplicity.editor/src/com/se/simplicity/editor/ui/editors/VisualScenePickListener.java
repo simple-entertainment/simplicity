@@ -65,6 +65,7 @@ public class VisualScenePickListener implements PickListener
         else
         {
             fRenderingEngine.setRendererRoot(outlineRenderer, null);
+            SceneManager.getSceneManager().setActiveNode(null);
         }
     }
 }

@@ -166,9 +166,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
 
         if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED)
         {
-            fSceneOutlineSelectionListener.disable();
-            fTree.setSelection(fTreeItems.get(event.getSceneComponent()));
-            fSceneOutlineSelectionListener.enable();
+            selectTreeItem(event.getSceneComponent());
         }
         else if (event.getType() == SceneChangedEventType.CAMERA_MODIFIED)
         {
@@ -181,9 +179,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
         }
         else if (event.getType() == SceneChangedEventType.LIGHT_ACTIVATED)
         {
-            fSceneOutlineSelectionListener.disable();
-            fTree.setSelection(fTreeItems.get(event.getSceneComponent()));
-            fSceneOutlineSelectionListener.enable();
+            selectTreeItem(event.getSceneComponent());
         }
         else if (event.getType() == SceneChangedEventType.LIGHT_MODIFIED)
         {
@@ -196,9 +192,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
         }
         else if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
         {
-            fSceneOutlineSelectionListener.disable();
-            fTree.setSelection(fTreeItems.get(event.getSceneComponent()));
-            fSceneOutlineSelectionListener.enable();
+            selectTreeItem(event.getSceneComponent());
         }
         else if (event.getType() == SceneChangedEventType.NODE_MODIFIED)
         {
@@ -220,6 +214,22 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
         {
             update(scene);
         }
+    }
+
+    protected void selectTreeItem(final Object sceneComponent)
+    {
+        fSceneOutlineSelectionListener.disable();
+
+        if (sceneComponent == null)
+        {
+            fTree.deselectAll();
+        }
+        else
+        {
+            fTree.setSelection(fTreeItems.get(sceneComponent));
+        }
+
+        fSceneOutlineSelectionListener.enable();
     }
 
     @Override

@@ -13,9 +13,14 @@ package com.se.simplicity.editor.ui.views;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
+import com.se.simplicity.editor.internal.EditorResources;
 import com.se.simplicity.editor.internal.SceneChangedEvent;
 import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneChangedListener;
@@ -35,28 +40,42 @@ public class SceneComponentView extends ViewPart implements SceneChangedListener
      * The <code>Control</code> to display when a <code>Camera</code> is activated.
      * </p>
      */
-    private CameraView cameraView;
+    private CameraView fCameraView;
+
+    /**
+     * <p>
+     * The <code>Control</code> to display when a null scene component is activated.
+     * </p>
+     */
+    private Composite fEmptyView;
 
     /**
      * <p>
      * The <code>Control</code> to display when a <code>Light</code> is activated.
      * </p>
      */
-    private LightView lightView;
+    private LightView fLightView;
 
     /**
      * <p>
      * The <code>Control</code> to display when a <code>Node</code> is activated.
      * </p>
      */
-    private NodeView nodeView;
+    private NodeView fNodeView;
 
     /**
      * <p>
      * The parent <code>Composite</code>.
      * </p>
      */
-    private Composite parent;
+    private Composite fParent;
+
+    /**
+     * <p>
+     * An image of Simple Eddy.
+     * </p>
+     */
+    private Image fSimpleEddyImage;
 
     /**
      * <p>
@@ -73,12 +92,23 @@ public class SceneComponentView extends ViewPart implements SceneChangedListener
     @Override
     public void createPartControl(final Composite newParent)
     {
-        parent = newParent;
-        parent.setLayout(new StackLayout());
+        fSimpleEddyImage = EditorResources.getEditorResources().getImageRegistry().get("sceneComponentEmpty");
 
-        cameraView = new CameraView(parent, SWT.NONE);
-        lightView = new LightView(parent, SWT.NONE);
-        nodeView = new NodeView(parent, SWT.NONE);
+        fParent = newParent;
+        fParent.setLayout(new StackLayout());
+
+        fCameraView = new CameraView(fParent, SWT.NONE);
+        fEmptyView = new Composite(fParent, SWT.NONE);
+        fLightView = new LightView(fParent, SWT.NONE);
+        fNodeView = new NodeView(fParent, SWT.NONE);
+
+        fEmptyView.setLayout(new GridLayout());
+        Label simpleEddy = new Label(fEmptyView, SWT.NONE);
+        simpleEddy.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+        simpleEddy.setImage(fSimpleEddyImage);
+
+        ((StackLayout) fParent.getLayout()).topControl = fEmptyView;
+        fParent.layout();
     }
 
     @Override
@@ -98,27 +128,35 @@ public class SceneComponentView extends ViewPart implements SceneChangedListener
      */
     public Composite getParent()
     {
-        return (parent);
+        return (fParent);
     }
 
     @Override
     public void sceneChanged(final SceneChangedEvent event)
     {
-        if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED)
+        Composite topView = null;
+        if (event.getSceneComponent() == null)
         {
-            ((StackLayout) parent.getLayout()).topControl = cameraView;
-            parent.layout();
+            topView = fEmptyView;
         }
-        else if (event.getType() == SceneChangedEventType.LIGHT_ACTIVATED)
+        else
         {
-            ((StackLayout) parent.getLayout()).topControl = lightView;
-            parent.layout();
+            if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED)
+            {
+                topView = fCameraView;
+            }
+            else if (event.getType() == SceneChangedEventType.LIGHT_ACTIVATED)
+            {
+                topView = fLightView;
+            }
+            else if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
+            {
+                topView = fNodeView;
+            }
         }
-        else if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
-        {
-            ((StackLayout) parent.getLayout()).topControl = nodeView;
-            parent.layout();
-        }
+
+        ((StackLayout) fParent.getLayout()).topControl = topView;
+        fParent.layout();
     }
 
     @Override
