@@ -12,11 +12,19 @@
 package com.se.simplicity.util.scene;
 
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -32,11 +40,14 @@ import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.scenegraph.SimpleNode;
 import com.se.simplicity.scenegraph.SimpleSceneGraph;
+import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
 import com.se.simplicity.util.metadata.scene.MetaDataScene;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataSceneGraph;
+import com.se.simplicity.vector.ArrayBackedObjectf;
+import com.se.simplicity.vector.TransformationMatrixf;
 import com.se.simplicity.vector.TranslationVectorf;
 
 /**
@@ -53,15 +64,15 @@ public final class SceneFactory
      * Creates an instance of a <code>Camera</code> from a serialised source representation.
      * </p>
      * 
-     * @param cameraXml The serialised source representation of the <code>Camera</code>.
+     * @param cameraElement The serialised source representation of the <code>Camera</code>.
      * @param sceneGraph The <code>SceneGraph</code> containing the <code>Node</code> the <code>Camera</code> should be linked to (if a link exists).
      * 
      * @return The instance of a <code>Camera</code> created from a serialised source representation.
      */
-    private static Camera createCameraFromSource(final Element cameraXml, final SceneGraph sceneGraph)
+    private static Camera createCameraFromSource(final Element cameraElement, final SceneGraph sceneGraph)
     {
         // Check that a class was specified.
-        if (cameraXml.getAttribute("class").isEmpty())
+        if (cameraElement.getAttribute("class").isEmpty())
         {
             throw new IllegalArgumentException("Invalid Camera definition: Does not specify a class.");
         }
@@ -69,7 +80,7 @@ public final class SceneFactory
         MetaDataCamera camera = null;
         try
         {
-            camera = new MetaDataCamera((Camera) Class.forName(cameraXml.getAttribute("class")).newInstance());
+            camera = new MetaDataCamera((Camera) Class.forName(cameraElement.getAttribute("class")).newInstance());
         }
         catch (Exception e)
         {
@@ -77,15 +88,15 @@ public final class SceneFactory
         }
 
         // Add the name to the Camera if one was specified.
-        if (!cameraXml.getAttribute("name").isEmpty())
+        if (!cameraElement.getAttribute("name").isEmpty())
         {
-            camera.setAttribute("name", cameraXml.getAttribute("name"));
+            camera.setAttribute("name", cameraElement.getAttribute("name"));
         }
 
         // Link the Camera to the appropriate Node in the Scene Graph if one was specified.
-        if (!cameraXml.getAttribute("node").isEmpty())
+        if (!cameraElement.getAttribute("node").isEmpty())
         {
-            camera.setNode(sceneGraph.getNode(Integer.parseInt(cameraXml.getAttribute("node"))));
+            camera.setNode(sceneGraph.getNode(Integer.parseInt(cameraElement.getAttribute("node"))));
         }
 
         return (camera);
@@ -96,15 +107,15 @@ public final class SceneFactory
      * Creates an instance of a <code>Light</code> from a serialised source representation.
      * </p>
      * 
-     * @param lightXml The serialised source representation of the <code>Light</code>.
+     * @param lightElement The serialised source representation of the <code>Light</code>.
      * @param sceneGraph The <code>SceneGraph</code> containing the <code>Node</code> the <code>Light</code> should be linked to (if a link exists).
      * 
      * @return The instance of a <code>Light</code> created from a serialised source representation.
      */
-    private static Light createLightFromSource(final Element lightXml, final SceneGraph sceneGraph)
+    private static Light createLightFromSource(final Element lightElement, final SceneGraph sceneGraph)
     {
         // Check that a class was specified.
-        if (lightXml.getAttribute("class").isEmpty())
+        if (lightElement.getAttribute("class").isEmpty())
         {
             throw new IllegalArgumentException("Invliad Light definition: Does not specify a class.");
         }
@@ -112,7 +123,7 @@ public final class SceneFactory
         MetaDataLight light = null;
         try
         {
-            light = new MetaDataLight((Light) Class.forName(lightXml.getAttribute("class")).newInstance());
+            light = new MetaDataLight((Light) Class.forName(lightElement.getAttribute("class")).newInstance());
         }
         catch (Exception e)
         {
@@ -120,34 +131,34 @@ public final class SceneFactory
         }
 
         // Add the name to the Light if one was specified.
-        if (!lightXml.getAttribute("name").isEmpty())
+        if (!lightElement.getAttribute("name").isEmpty())
         {
-            light.setAttribute("name", lightXml.getAttribute("name"));
+            light.setAttribute("name", lightElement.getAttribute("name"));
         }
 
         // Link the Light to the appropriate Node in the Scene Graph if one was specified.
-        if (!lightXml.getAttribute("node").isEmpty())
+        if (!lightElement.getAttribute("node").isEmpty())
         {
-            light.setNode(sceneGraph.getNode(Integer.parseInt(lightXml.getAttribute("node"))));
+            light.setNode(sceneGraph.getNode(Integer.parseInt(lightElement.getAttribute("node"))));
         }
 
         // Set the colour of the Light if it was specified.
-        Element ambientXml = (Element) lightXml.getElementsByTagName("ambient").item(0);
-        if (ambientXml != null)
+        Element ambientElement = (Element) lightElement.getElementsByTagName("ambient").item(0);
+        if (ambientElement != null)
         {
-            light.setAmbientLight(getFloatArray(ambientXml.getAttribute("colour") + ", 1.0"));
+            light.setAmbientLight(getFloatArray(ambientElement.getAttribute("colour") + ", 1.0"));
         }
 
-        Element diffuseXml = (Element) lightXml.getElementsByTagName("diffuse").item(0);
-        if (diffuseXml != null)
+        Element diffuseElement = (Element) lightElement.getElementsByTagName("diffuse").item(0);
+        if (diffuseElement != null)
         {
-            light.setDiffuseLight(getFloatArray(diffuseXml.getAttribute("colour") + ", 1.0"));
+            light.setDiffuseLight(getFloatArray(diffuseElement.getAttribute("colour") + ", 1.0"));
         }
 
-        Element specularXml = (Element) lightXml.getElementsByTagName("specular").item(0);
-        if (specularXml != null)
+        Element specularElement = (Element) lightElement.getElementsByTagName("specular").item(0);
+        if (specularElement != null)
         {
-            light.setSpecularLight(getFloatArray(specularXml.getAttribute("colour") + ", 1.0"));
+            light.setSpecularLight(getFloatArray(specularElement.getAttribute("colour") + ", 1.0"));
         }
 
         return (light);
@@ -158,15 +169,15 @@ public final class SceneFactory
      * Creates an instance of a <code>Node</code> from a serialised source representation.
      * </p>
      * 
-     * @param nodeXml The serialised source representation of the <code>Node</code>.
+     * @param nodeElement The serialised source representation of the <code>Node</code>.
      * 
      * @return The instance of a <code>Node</code> created from a serialised source representation.
      */
-    private static Node createNodeFromSource(final Element nodeXml)
+    private static Node createNodeFromSource(final Element nodeElement)
     {
         // Check that a class was specified. If not, use a default implementation.
         MetaDataNode node = null;
-        if (nodeXml.getAttribute("class").isEmpty())
+        if (nodeElement.getAttribute("class").isEmpty())
         {
             node = new MetaDataNode(new SimpleNode());
         }
@@ -174,7 +185,7 @@ public final class SceneFactory
         {
             try
             {
-                node = new MetaDataNode((Node) Class.forName(nodeXml.getAttribute("class")).newInstance());
+                node = new MetaDataNode((Node) Class.forName(nodeElement.getAttribute("class")).newInstance());
             }
             catch (Exception e)
             {
@@ -183,9 +194,9 @@ public final class SceneFactory
         }
 
         // Add the name to the Node if one was specified.
-        if (!nodeXml.getAttribute("name").isEmpty())
+        if (!nodeElement.getAttribute("name").isEmpty())
         {
-            node.setAttribute("name", nodeXml.getAttribute("name"));
+            node.setAttribute("name", nodeElement.getAttribute("name"));
         }
         else
         {
@@ -193,22 +204,175 @@ public final class SceneFactory
         }
 
         // Add content to the Node if any was specified.
-        NodeList contentsXml = nodeXml.getElementsByTagName("content");
-        for (int index = 0; index < contentsXml.getLength(); index++)
+        NodeList contentsElement = nodeElement.getElementsByTagName("content");
+        for (int index = 0; index < contentsElement.getLength(); index++)
         {
-            Element contentXml = (Element) contentsXml.item(index);
+            Element contentElement = (Element) contentsElement.item(index);
 
-            if (contentXml.getAttribute("type").equals("transformation"))
+            if (contentElement.getAttribute("type").equals("transformation"))
             {
-                performTransformationFromXml(contentXml, node);
+                performTransformationFromSource(contentElement, node);
             }
-            if (contentXml.getAttribute("type").equals("vertexGroup"))
+            if (contentElement.getAttribute("type").equals("vertexGroup"))
             {
-                node.setVertexGroup(createVertexGroupFromSource(contentXml));
+                node.setVertexGroup(createVertexGroupFromSource(contentElement));
             }
         }
 
         return (node);
+    }
+
+    private static Element createSourceFromCamera(final Document document, final Camera camera)
+    {
+        Element cameraElement = document.createElement("camera");
+
+        if (camera instanceof MetaDataCamera)
+        {
+            cameraElement.setAttribute("class", ((MetaDataCamera) camera).getWrappedCamera().getClass().getName());
+        }
+        else
+        {
+            cameraElement.setAttribute("class", camera.getClass().getName());
+        }
+
+        if (camera instanceof MetaDataCamera)
+        {
+            cameraElement.setAttribute("name", (String) ((MetaDataCamera) camera).getAttribute("name"));
+        }
+
+        if (camera.getNode() != null)
+        {
+            cameraElement.setAttribute("node", Integer.toString(camera.getNode().getID()));
+        }
+
+        return (cameraElement);
+    }
+
+    private static Element createSourceFromLight(final Document document, final Light light)
+    {
+        Element lightElement = document.createElement("light");
+
+        if (light instanceof MetaDataLight)
+        {
+            lightElement.setAttribute("class", ((MetaDataLight) light).getWrappedLight().getClass().getName());
+        }
+        else
+        {
+            lightElement.setAttribute("class", light.getClass().getName());
+        }
+
+        if (light instanceof MetaDataLight)
+        {
+            lightElement.setAttribute("name", (String) ((MetaDataLight) light).getAttribute("name"));
+        }
+
+        if (light.getNode() != null)
+        {
+            lightElement.setAttribute("node", Integer.toString(light.getNode().getID()));
+        }
+
+        Element ambientElement = document.createElement("ambient");
+        lightElement.appendChild(ambientElement);
+        ambientElement.setAttribute("colour", getCommaSeparatedList(light.getAmbientLight()));
+
+        Element diffuseElement = document.createElement("diffuse");
+        lightElement.appendChild(diffuseElement);
+        diffuseElement.setAttribute("colour", getCommaSeparatedList(light.getDiffuseLight()));
+
+        Element specularElement = document.createElement("specular");
+        lightElement.appendChild(specularElement);
+        specularElement.setAttribute("colour", getCommaSeparatedList(light.getSpecularLight()));
+
+        return (lightElement);
+    }
+
+    private static Element createSourceFromNode(final Document document, final Node node)
+    {
+        Element nodeElement = document.createElement("node");
+
+        if (node instanceof MetaDataNode)
+        {
+            nodeElement.setAttribute("class", ((MetaDataNode) node).getWrappedNode().getClass().getName());
+        }
+        else
+        {
+            nodeElement.setAttribute("class", node.getClass().getName());
+        }
+
+        nodeElement.setAttribute("id", Integer.toString(node.getID()));
+
+        if (node instanceof MetaDataNode)
+        {
+            nodeElement.setAttribute("name", (String) ((MetaDataNode) node).getAttribute("name"));
+        }
+
+        nodeElement.appendChild(createSourceFromTransformation(document, node.getTransformation()));
+
+        if (node instanceof ModelNode)
+        {
+            nodeElement.appendChild(createSourceFromVertexGroup(document, ((ModelNode) node).getVertexGroup()));
+        }
+
+        return (nodeElement);
+    }
+
+    private static Element createSourceFromSubgraph(final Document document, final Node subgraphRoot)
+    {
+        Element subgraphElement = createSourceFromNode(document, subgraphRoot);
+
+        for (Node node : subgraphRoot.getChildren())
+        {
+            subgraphElement.appendChild(createSourceFromSubgraph(document, node));
+        }
+
+        return (subgraphElement);
+    }
+
+    private static Element createSourceFromTransformation(final Document document, final TransformationMatrixf transformation)
+    {
+        Element transformationElement = document.createElement("content");
+        transformationElement.setAttribute("type", "transformation");
+
+        Element translationElement = document.createElement("translation");
+        transformationElement.appendChild(translationElement);
+        translationElement.setAttribute("vector", getCommaSeparatedList(((ArrayBackedObjectf) transformation.getTranslation()).getArray()));
+
+        float[] rotation = new float[] {transformation.getXAxisRotation(), transformation.getYAxisRotation(), transformation.getZAxisRotation()};
+
+        Element rotationElement = document.createElement("rotation");
+        transformationElement.appendChild(rotationElement);
+        rotationElement.setAttribute("axisAngles", getCommaSeparatedList(rotation));
+
+        return (transformationElement);
+    }
+
+    private static Element createSourceFromVertexGroup(final Document document, final VertexGroup vertexGroup)
+    {
+        Element vertexGroupElement = document.createElement("content");
+        vertexGroupElement.setAttribute("type", "vertexGroup");
+
+        if (vertexGroup instanceof ArrayVG)
+        {
+            float[] colours = ((ArrayVG) vertexGroup).getColours();
+            float[] normals = ((ArrayVG) vertexGroup).getNormals();
+            float[] vertices = ((ArrayVG) vertexGroup).getVertices();
+            float[] tempArray = new float[3];
+
+            for (int vertexIndex = 0; vertexIndex < vertices.length / 3; vertexIndex++)
+            {
+                Element vertexElement = document.createElement("vertex");
+                vertexGroupElement.appendChild(vertexElement);
+
+                System.arraycopy(colours, vertexIndex * 3, tempArray, 0, 3);
+                vertexElement.setAttribute("colour", getCommaSeparatedList(tempArray));
+                System.arraycopy(normals, vertexIndex * 3, tempArray, 0, 3);
+                vertexElement.setAttribute("normal", getCommaSeparatedList(tempArray));
+                System.arraycopy(vertices, vertexIndex * 3, tempArray, 0, 3);
+                vertexElement.setAttribute("vertex", getCommaSeparatedList(tempArray));
+            }
+        }
+
+        return (vertexGroupElement);
     }
 
     /**
@@ -227,13 +391,12 @@ public final class SceneFactory
         // For every child XML node of the subgraph root.
         for (int index = 0; index < subgraphRootXml.getChildNodes().getLength(); index++)
         {
-            org.w3c.dom.Node childXml = subgraphRootXml.getChildNodes().item(index);
+            org.w3c.dom.Node childElement = subgraphRootXml.getChildNodes().item(index);
 
             // If the child is also a Node (i.e. not an XML text node or other XML node).
-            if (childXml.getNodeName().equals("node"))
+            if (childElement.getNodeName().equals("node"))
             {
-                Node childNode = createSubgraphFromSource((Element) childXml);
-                node.addChild(childNode);
+                node.addChild(createSubgraphFromSource((Element) childElement));
             }
         }
 
@@ -245,14 +408,14 @@ public final class SceneFactory
      * Creates a <code>XertexGroup</code> from a serialised source representation.
      * </p>
      * 
-     * @param vertexGroupXml The serialised source representation of the root <code>XertexGroup</code> of the subgraph.
+     * @param vertexGroupElement The serialised source representation of the root <code>XertexGroup</code> of the subgraph.
      * 
      * @return The instance of a <code>XertexGroup</code> created from a serialised source representation.
      */
-    private static VertexGroup createVertexGroupFromSource(final Element vertexGroupXml)
+    private static VertexGroup createVertexGroupFromSource(final Element vertexGroupElement)
     {
         // Check that a class was specified.
-        if (vertexGroupXml.getAttribute("class").isEmpty())
+        if (vertexGroupElement.getAttribute("class").isEmpty())
         {
             throw new IllegalArgumentException("Invalid Vertex Group definition: Does not specify a class.");
         }
@@ -260,7 +423,7 @@ public final class SceneFactory
         VertexGroup vertexGroup = null;
         try
         {
-            vertexGroup = (VertexGroup) Class.forName(vertexGroupXml.getAttribute("class")).newInstance();
+            vertexGroup = (VertexGroup) Class.forName(vertexGroupElement.getAttribute("class")).newInstance();
         }
         catch (Exception e)
         {
@@ -268,8 +431,8 @@ public final class SceneFactory
         }
 
         // Retrieve the vertex data.
-        NodeList verticesXml = vertexGroupXml.getElementsByTagName("vertex");
-        int vertexCount = verticesXml.getLength();
+        NodeList verticesElement = vertexGroupElement.getElementsByTagName("vertex");
+        int vertexCount = verticesElement.getLength();
 
         if (vertexGroup instanceof ArrayVG)
         {
@@ -282,10 +445,10 @@ public final class SceneFactory
             for (int index = 0; index < vertexCount; index++)
             {
                 // Retrieve the individual vertex data.
-                Element vertexXml = (Element) verticesXml.item(index);
-                float[] vertexColours = getFloatArray(vertexXml.getAttribute("colour"));
-                float[] vertexNormals = getFloatArray(vertexXml.getAttribute("normal"));
-                float[] vertexVertices = getFloatArray(vertexXml.getAttribute("vertex"));
+                Element vertexElement = (Element) verticesElement.item(index);
+                float[] vertexColours = getFloatArray(vertexElement.getAttribute("colour"));
+                float[] vertexNormals = getFloatArray(vertexElement.getAttribute("normal"));
+                float[] vertexVertices = getFloatArray(vertexElement.getAttribute("vertex"));
 
                 // Copy the vertex data to the Vertex Group arrays.
                 System.arraycopy(vertexColours, 0, colours, index * ModelConstants.ITEMS_IN_CNV, vertexColours.length);
@@ -299,6 +462,25 @@ public final class SceneFactory
         }
 
         return (vertexGroup);
+    }
+
+    private static String getCommaSeparatedList(float[] numbers)
+    {
+        String list = "";
+
+        for (float number : numbers)
+        {
+            if (list.isEmpty())
+            {
+                list = Float.toString(number);
+            }
+            else
+            {
+                list = list + ", " + Float.toString(number);
+            }
+        }
+
+        return (list);
     }
 
     /**
@@ -328,19 +510,19 @@ public final class SceneFactory
      * Loads a list of <code>Camera</code>s from a serialised source representation.
      * </p>
      * 
-     * @param camerasXml The serialised source representation of the <code>Camera</code>s.
+     * @param camerasElement The serialised source representation of the <code>Camera</code>s.
      * @param sceneGraph The <code>SceneGraph</code> containing the <code>Node</code>s the <code>Camera</code>s should be linked to (if a link
      * exists).
      * 
      * @return A list of <code>Camera</code>s loaded from a serialised source representation.
      */
-    private static List<Camera> loadCamerasFromSource(final NodeList camerasXml, final SceneGraph sceneGraph)
+    private static List<Camera> loadCamerasFromSource(final NodeList camerasElement, final SceneGraph sceneGraph)
     {
         ArrayList<Camera> cameras = new ArrayList<Camera>();
 
-        for (int index = 0; index < camerasXml.getLength(); index++)
+        for (int index = 0; index < camerasElement.getLength(); index++)
         {
-            cameras.add(createCameraFromSource((Element) camerasXml.item(index), sceneGraph));
+            cameras.add(createCameraFromSource((Element) camerasElement.item(index), sceneGraph));
         }
 
         return (cameras);
@@ -395,18 +577,18 @@ public final class SceneFactory
      * Loads a list of <code>Light</code>s from a serialised source representation.
      * </p>
      * 
-     * @param lightsXml The serialised source representation of the <code>Light</code>s.
+     * @param lightsElement The serialised source representation of the <code>Light</code>s.
      * @param sceneGraph The <code>SceneGraph</code> containing the <code>Node</code>s the <code>Light</code>s should be linked to (if a link exists).
      * 
      * @return A list of <code>Light</code>s loaded from a serialised source representation.
      */
-    private static List<Light> loadLightsFromSource(final NodeList lightsXml, final SceneGraph sceneGraph)
+    private static List<Light> loadLightsFromSource(final NodeList lightsElement, final SceneGraph sceneGraph)
     {
         ArrayList<Light> lights = new ArrayList<Light>();
 
-        for (int index = 0; index < lightsXml.getLength(); index++)
+        for (int index = 0; index < lightsElement.getLength(); index++)
         {
-            lights.add(createLightFromSource((Element) lightsXml.item(index), sceneGraph));
+            lights.add(createLightFromSource((Element) lightsElement.item(index), sceneGraph));
         }
 
         return (lights);
@@ -417,22 +599,22 @@ public final class SceneFactory
      * Loads a <code>SceneGraph</code> from a serialised source representation.
      * </p>
      * 
-     * @param sceneGraphXml The serialised source representation of the <code>SceneGraph</code>.
+     * @param sceneGraphElement The serialised source representation of the <code>SceneGraph</code>.
      * 
      * @return A <code>SceneGraph</code> loaded from a serialised source representation.
      */
-    private static SceneGraph loadSceneGraphFromSource(final Element sceneGraphXml)
+    private static SceneGraph loadSceneGraphFromSource(final Element sceneGraphElement)
     {
         MetaDataSceneGraph sceneGraph = new MetaDataSceneGraph(new SimpleSceneGraph());
-        NodeList childrenXml = sceneGraphXml.getChildNodes().item(1).getChildNodes();
+        NodeList childrenElement = sceneGraphElement.getChildNodes().item(1).getChildNodes();
 
-        for (int index = 0; index < childrenXml.getLength(); index++)
+        for (int index = 0; index < childrenElement.getLength(); index++)
         {
-            org.w3c.dom.Node childXml = childrenXml.item(index);
+            org.w3c.dom.Node childElement = childrenElement.item(index);
 
-            if (childXml.getNodeName().equals("node"))
+            if (childElement.getNodeName().equals("node"))
             {
-                sceneGraph.addSubgraph(createSubgraphFromSource((Element) childXml));
+                sceneGraph.addSubgraph(createSubgraphFromSource((Element) childElement));
             }
         }
 
@@ -444,20 +626,71 @@ public final class SceneFactory
      * Performs a transformation from a serialised source representation on a <code>Node</code>.
      * </p>
      * 
-     * @param contentXml The serialised source representation of the transformation.
+     * @param contentElement The serialised source representation of the transformation.
      * @param node The <code>Node</code> to perform the transformation on.
      */
-    private static void performTransformationFromXml(final Element contentXml, final Node node)
+    private static void performTransformationFromSource(final Element contentElement, final Node node)
     {
-        Element translationXml = (Element) contentXml.getElementsByTagName("translation").item(0);
+        Element translationElement = (Element) contentElement.getElementsByTagName("translation").item(0);
 
-        float[] translationArray = getFloatArray(translationXml.getAttribute("vector"));
+        float[] translationArray = getFloatArray(translationElement.getAttribute("vector"));
 
         TranslationVectorf translation = node.getTransformation().getTranslation();
         translation.setX(translationArray[0]);
         translation.setY(translationArray[1]);
         translation.setZ(translationArray[2]);
         node.getTransformation().translate(translation);
+    }
+
+    public static void writeToSource(final Scene scene, final OutputStream source)
+    {
+        Document document = null;
+        try
+        {
+            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        }
+        catch (Exception e)
+        {
+            Logger.getLogger(SceneFactory.class).error("Failed to create XML Document", e);
+        }
+
+        Element simplicityElement = document.createElement("simplicity");
+        document.appendChild(simplicityElement);
+
+        Element sceneElement = document.createElement("scene");
+        simplicityElement.appendChild(sceneElement);
+
+        for (Camera camera : scene.getCameras())
+        {
+            sceneElement.appendChild(createSourceFromCamera(document, camera));
+        }
+
+        for (Light light : scene.getLights())
+        {
+            sceneElement.appendChild(createSourceFromLight(document, light));
+        }
+
+        Element sceneGraphElement = document.createElement("sceneGraph");
+        sceneElement.appendChild(sceneGraphElement);
+        Element internalNodesElement = document.createElement("node");
+        sceneGraphElement.appendChild(internalNodesElement);
+        internalNodesElement.setAttribute("name", "Internally Managed Node(s)");
+
+        for (Node subgraphRoot : scene.getSceneGraph().getSubgraphRoots())
+        {
+            internalNodesElement.appendChild(createSourceFromSubgraph(document, subgraphRoot));
+        }
+
+        try
+        {
+            StreamResult result = new StreamResult(new OutputStreamWriter(source));
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(new DOMSource(document), result);
+        }
+        catch (TransformerException e)
+        {
+            Logger.getLogger(SceneFactory.class).error("Failed to transform XML Document", e);
+        }
     }
 
     /**
