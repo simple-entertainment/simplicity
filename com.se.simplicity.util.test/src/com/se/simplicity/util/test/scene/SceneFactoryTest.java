@@ -11,22 +11,47 @@
  */
 package com.se.simplicity.util.test.scene;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
+import com.se.simplicity.jogl.rendering.SimpleJOGLLight;
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.Light;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.scenegraph.SimpleNode;
+import com.se.simplicity.scenegraph.SimpleSceneGraph;
 import com.se.simplicity.scenegraph.model.SimpleModelNode;
+import com.se.simplicity.test.mocks.NodeHierarchy;
 import com.se.simplicity.util.metadata.MetaData;
+import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
+import com.se.simplicity.util.metadata.rendering.MetaDataLight;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
+import com.se.simplicity.util.metadata.scenegraph.MetaDataSceneGraph;
 import com.se.simplicity.util.scene.SceneFactory;
 import com.se.simplicity.vector.TranslationVectorf;
 
@@ -137,8 +162,8 @@ public class SceneFactoryTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()} with the special
-     * condition that the source file contains a camera definition with no class specified.
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()} with the special condition that the
+     * source file contains a camera definition with no class specified.
      * </p>
      * 
      * @throws FileNotFoundException Thrown if source file is not found.
@@ -191,7 +216,7 @@ public class SceneFactoryTest
 
         MetaDataNode node1 = (MetaDataNode) scene.getSceneGraph().getRoot().getChildren().get(0);
         assertEquals(1, node1.getID(), 0);
-        assertEquals("Node (0)", node1.getAttribute("name"));
+        assertEquals("SimpleNode0", node1.getAttribute("name"));
     }
 
     /**
@@ -212,5 +237,381 @@ public class SceneFactoryTest
         {
             assertEquals("Invalid Vertex Group definition: Does not specify a class.", e.getMessage());
         }
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory#writeToSource(Scene) writeToSource(Scene)}, specifically the
+     * functionality that creates source from a <code>Camera</code>.
+     * 
+     * @throws ParserConfigurationException Thrown if the written source cannot be parsed.
+     * @throws IOException Thrown if there is an error with the piped streams.
+     * @throws SAXException Thrown if the written source cannot be parsed.
+     * @throws InterruptedException
+     */
+    @Test
+    public void writeToSourceCamera() throws SAXException, IOException, ParserConfigurationException, InterruptedException
+    {
+        // Create dependencies
+        Scene mockScene = createMock(Scene.class);
+
+        Camera mockCamera = createMock(Camera.class);
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(mockCamera);
+
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node mockNode = createMock(Node.class);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        expect(mockCamera.getNode()).andStubReturn(mockNode);
+        expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getSubgraphRoots()).andStubReturn(new ArrayList<Node>());
+        expect(mockNode.getID()).andStubReturn(0);
+        replay(mockScene, mockCamera, mockSceneGraph, mockNode);
+
+        // Perform test.
+        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        SceneFactory.writeToSource(mockScene, source);
+
+        // Verify test results.
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
+
+        NodeList cameraElements = document.getElementsByTagName("camera");
+        assertEquals(1, cameraElements.getLength(), 0);
+        Element cameraElement = (Element) cameraElements.item(0);
+        assertEquals("$Proxy5", cameraElement.getAttribute("class"));
+        assertNull(cameraElement.getAttributes().getNamedItem("name"));
+        assertEquals("0", cameraElement.getAttribute("node"));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory#writeToSource(Scene) writeToSource(Scene)}, specifically the
+     * functionality that creates source from a <code>Light</code>.
+     * 
+     * @throws ParserConfigurationException Thrown if the written source cannot be parsed.
+     * @throws IOException Thrown if there is an error with the piped streams.
+     * @throws SAXException Thrown if the written source cannot be parsed.
+     */
+    @Test
+    public void writeToSourceLight() throws SAXException, IOException, ParserConfigurationException
+    {
+        // Create dependencies
+        Scene mockScene = createMock(Scene.class);
+
+        Light mockLight = createMock(Light.class);
+        ArrayList<Light> lights = new ArrayList<Light>();
+        lights.add(mockLight);
+
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node mockNode = createMock(Node.class);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
+        expect(mockScene.getLights()).andStubReturn(lights);
+        expect(mockLight.getNode()).andStubReturn(mockNode);
+        expect(mockLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getSubgraphRoots()).andStubReturn(new ArrayList<Node>());
+        expect(mockNode.getID()).andStubReturn(0);
+        replay(mockScene, mockLight, mockSceneGraph, mockNode);
+
+        // Perform test.
+        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        SceneFactory.writeToSource(mockScene, source);
+
+        // Verify test results.
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
+
+        NodeList lightElements = document.getElementsByTagName("light");
+        assertEquals(1, lightElements.getLength(), 0);
+        Element lightElement = (Element) lightElements.item(0);
+        assertEquals("$Proxy8", lightElement.getAttribute("class"));
+        assertNull(lightElement.getAttributes().getNamedItem("name"));
+        assertEquals("0", lightElement.getAttribute("node"));
+
+        Element ambientElement = (Element) document.getElementsByTagName("ambient").item(0);
+        assertEquals("0.1, 0.1, 0.1, 1.0", ambientElement.getAttribute("colour"));
+        Element diffuseElement = (Element) document.getElementsByTagName("diffuse").item(0);
+        assertEquals("0.1, 0.1, 0.1, 1.0", diffuseElement.getAttribute("colour"));
+        Element specularElement = (Element) document.getElementsByTagName("specular").item(0);
+        assertEquals("0.1, 0.1, 0.1, 1.0", specularElement.getAttribute("colour"));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory#writeToSource(Scene) writeToSource(Scene)}, specifically the
+     * functionality that creates source from a <code>MetaDataCamera</code>.
+     * 
+     * @throws ParserConfigurationException Thrown if the written source cannot be parsed.
+     * @throws IOException Thrown if there is an error with the piped streams.
+     * @throws SAXException Thrown if the written source cannot be parsed.
+     */
+    @Test
+    public void writeToSourceMetaDataCamera() throws SAXException, IOException, ParserConfigurationException
+    {
+        // Create dependencies
+        Scene mockScene = createMock(Scene.class);
+
+        Camera camera = new SimpleJOGLCamera();
+        MetaDataCamera mockMetaDataCamera = createMock(MetaDataCamera.class);
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(mockMetaDataCamera);
+
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node mockNode = createMock(Node.class);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        expect(mockMetaDataCamera.getAttribute("name")).andStubReturn("Test");
+        expect(mockMetaDataCamera.getNode()).andStubReturn(mockNode);
+        expect(mockMetaDataCamera.getWrappedCamera()).andStubReturn(camera);
+        expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getSubgraphRoots()).andStubReturn(new ArrayList<Node>());
+        expect(mockNode.getID()).andStubReturn(0);
+        replay(mockScene, mockMetaDataCamera, mockSceneGraph, mockNode);
+
+        // Perform test.
+        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        SceneFactory.writeToSource(mockScene, source);
+
+        // Verify test results.
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
+
+        NodeList cameraElements = document.getElementsByTagName("camera");
+        Element cameraElement = (Element) cameraElements.item(0);
+        assertEquals("com.se.simplicity.jogl.rendering.SimpleJOGLCamera", cameraElement.getAttribute("class"));
+        assertEquals("Test", cameraElement.getAttribute("name"));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory#writeToSource(Scene) writeToSource(Scene)}, specifically the
+     * functionality that creates source from a <code>MetaDataLight</code>.
+     * 
+     * @throws ParserConfigurationException Thrown if the written source cannot be parsed.
+     * @throws IOException Thrown if there is an error with the piped streams.
+     * @throws SAXException Thrown if the written source cannot be parsed.
+     */
+    @Test
+    public void writeToSourceMetaDataLight() throws SAXException, IOException, ParserConfigurationException
+    {
+        // Create dependencies
+        Scene mockScene = createMock(Scene.class);
+
+        Light light = new SimpleJOGLLight();
+        MetaDataLight mockMetaDataLight = createMock(MetaDataLight.class);
+        ArrayList<Light> lights = new ArrayList<Light>();
+        lights.add(mockMetaDataLight);
+
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node mockNode = createMock(Node.class);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
+        expect(mockScene.getLights()).andStubReturn(lights);
+        expect(mockMetaDataLight.getAttribute("name")).andStubReturn("Test");
+        expect(mockMetaDataLight.getNode()).andStubReturn(mockNode);
+        expect(mockMetaDataLight.getWrappedLight()).andStubReturn(light);
+        expect(mockMetaDataLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockMetaDataLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockMetaDataLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getSubgraphRoots()).andStubReturn(new ArrayList<Node>());
+        expect(mockNode.getID()).andStubReturn(0);
+        replay(mockScene, mockMetaDataLight, mockSceneGraph, mockNode);
+
+        // Perform test.
+        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        SceneFactory.writeToSource(mockScene, source);
+
+        // Verify test results.
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
+
+        NodeList lightElements = document.getElementsByTagName("light");
+        Element lightElement = (Element) lightElements.item(0);
+        assertEquals("com.se.simplicity.jogl.rendering.SimpleJOGLLight", lightElement.getAttribute("class"));
+        assertEquals("Test", lightElement.getAttribute("name"));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory#writeToSource(Scene) writeToSource(Scene)}, specifically the
+     * functionality that creates source from a graph of <code>MetaDataNode</code>s.
+     * 
+     * @throws ParserConfigurationException Thrown if the written source cannot be parsed.
+     * @throws IOException Thrown if there is an error with the piped streams.
+     * @throws SAXException Thrown if the written source cannot be parsed.
+     */
+    @Test
+    public void writeToSourceMetaDataNodes() throws SAXException, IOException, ParserConfigurationException
+    {
+        // Create dependencies
+        Scene mockScene = createMock(Scene.class);
+
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setBasicNodeHierarchy();
+
+        MetaDataSceneGraph metaDataSceneGraph = new MetaDataSceneGraph(new SimpleSceneGraph());
+        metaDataSceneGraph.addSubgraph(nodes.node1);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
+        expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getSubgraphRoots()).andStubReturn(metaDataSceneGraph.getSubgraphRoots());
+        replay(mockScene, mockSceneGraph);
+
+        // Perform test.
+        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        SceneFactory.writeToSource(mockScene, source);
+
+        // Verify test results.
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
+
+        NodeList nodeElements = document.getElementsByTagName("node");
+
+        Element node0Element = (Element) nodeElements.item(1);
+        assertEquals("com.se.simplicity.scenegraph.SimpleNode", node0Element.getAttribute("class"));
+        assertEquals("SimpleNode1", node0Element.getAttribute("name"));
+
+        Element node1Element = (Element) nodeElements.item(2);
+        assertEquals("com.se.simplicity.scenegraph.SimpleNode", node1Element.getAttribute("class"));
+        assertEquals("SimpleNode2", node1Element.getAttribute("name"));
+
+        Element node2Element = (Element) nodeElements.item(3);
+        assertEquals("com.se.simplicity.scenegraph.model.SimpleModelNode", node2Element.getAttribute("class"));
+        assertEquals("SimpleModelNode3", node2Element.getAttribute("name"));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory#writeToSource(Scene) writeToSource(Scene)}, specifically the
+     * functionality that creates source from a graph of <code>Node</code>s.
+     * 
+     * @throws ParserConfigurationException Thrown if the written source cannot be parsed.
+     * @throws IOException Thrown if there is an error with the piped streams.
+     * @throws SAXException Thrown if the written source cannot be parsed.
+     */
+    @Test
+    public void writeToSourceNodes() throws SAXException, IOException, ParserConfigurationException
+    {
+        // Create dependencies
+        Scene mockScene = createMock(Scene.class);
+
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setBasicNodeHierarchy();
+        ArrayList<Node> subgraphRoots = new ArrayList<Node>();
+        subgraphRoots.add(nodes.node1);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
+        expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getSubgraphRoots()).andStubReturn(subgraphRoots);
+        replay(mockScene, mockSceneGraph);
+
+        // Perform test.
+        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        SceneFactory.writeToSource(mockScene, source);
+
+        // Verify test results.
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
+
+        NodeList nodeElements = document.getElementsByTagName("node");
+        assertEquals(4, nodeElements.getLength(), 0);
+
+        Element node0Element = (Element) nodeElements.item(1);
+        assertEquals("com.se.simplicity.scenegraph.SimpleNode", node0Element.getAttribute("class"));
+        assertNull(node0Element.getAttributes().getNamedItem("name"));
+        assertEquals("0", node0Element.getAttribute("id"));
+
+        Element nodeOContentElement = (Element) node0Element.getChildNodes().item(0);
+        assertEquals("transformation", nodeOContentElement.getAttribute("type"));
+        Element nodeOTranslationElement = (Element) nodeOContentElement.getChildNodes().item(0);
+        assertEquals("0.0, 0.0, 0.0, 1.0", nodeOTranslationElement.getAttribute("vector"));
+        Element nodeORotationElement = (Element) nodeOContentElement.getChildNodes().item(1);
+        // TODO fix after fixing Y axis rotation thing!
+        // assertEquals("0.0, 0.0, 0.0", nodeORotationElement.getAttribute("axisAngles"));
+
+        Element node1Element = (Element) nodeElements.item(2);
+        assertEquals("com.se.simplicity.scenegraph.SimpleNode", node1Element.getAttribute("class"));
+        assertNull(node1Element.getAttributes().getNamedItem("name"));
+        assertEquals("1", node1Element.getAttribute("id"));
+
+        Element node1ContentElement = (Element) node1Element.getChildNodes().item(0);
+        assertEquals("transformation", node1ContentElement.getAttribute("type"));
+        Element node1TranslationElement = (Element) node1ContentElement.getChildNodes().item(0);
+        assertEquals("0.0, 0.0, 0.0, 1.0", node1TranslationElement.getAttribute("vector"));
+        Element node1RotationElement = (Element) node1ContentElement.getChildNodes().item(1);
+
+        Element node2Element = (Element) nodeElements.item(3);
+        assertEquals("com.se.simplicity.scenegraph.model.SimpleModelNode", node2Element.getAttribute("class"));
+        assertNull(node2Element.getAttributes().getNamedItem("name"));
+        assertEquals("2", node2Element.getAttribute("id"));
+
+        Element node2Content0Element = (Element) node2Element.getChildNodes().item(0);
+        assertEquals("transformation", node2Content0Element.getAttribute("type"));
+        Element node2TranslationElement = (Element) node2Content0Element.getChildNodes().item(0);
+        assertEquals("0.0, 0.0, 0.0, 1.0", node2TranslationElement.getAttribute("vector"));
+        Element node2RotationElement = (Element) node2Content0Element.getChildNodes().item(1);
+
+        Element node2Content1Element = (Element) node2Element.getChildNodes().item(1);
+        assertEquals("vertexGroup", node2Content1Element.getAttribute("type"));
+        Element node2Vertex0Element = (Element) node2Content1Element.getChildNodes().item(0);
+        assertEquals("1.0, 1.0, 1.0", node2Vertex0Element.getAttribute("colour"));
+        assertEquals("0.0, 0.0, 1.0", node2Vertex0Element.getAttribute("normal"));
+        assertEquals("-1.0, 0.0, 0.0", node2Vertex0Element.getAttribute("vertex"));
+        Element node2Vertex1Element = (Element) node2Content1Element.getChildNodes().item(1);
+        assertEquals("1.0, 1.0, 1.0", node2Vertex1Element.getAttribute("colour"));
+        assertEquals("0.0, 0.0, 1.0", node2Vertex1Element.getAttribute("normal"));
+        assertEquals("0.0, 1.0, 0.0", node2Vertex1Element.getAttribute("vertex"));
+        Element node2Vertex2Element = (Element) node2Content1Element.getChildNodes().item(2);
+        assertEquals("1.0, 1.0, 1.0", node2Vertex2Element.getAttribute("colour"));
+        assertEquals("0.0, 0.0, 1.0", node2Vertex2Element.getAttribute("normal"));
+        assertEquals("1.0, 0.0, 0.0", node2Vertex2Element.getAttribute("vertex"));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory#writeToSource(Scene) writeToSource(Scene)}, specifically the
+     * functionality that creates the root tags of the source.
+     * 
+     * @throws ParserConfigurationException Thrown if the written source cannot be parsed.
+     * @throws IOException Thrown if there is an error with the piped streams.
+     * @throws SAXException Thrown if the written source cannot be parsed.
+     */
+    @Test
+    public void writeToSourceRootTags() throws SAXException, IOException, ParserConfigurationException
+    {
+        // Create dependencies
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
+        expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getSubgraphRoots()).andStubReturn(new ArrayList<Node>());
+        replay(mockScene, mockSceneGraph);
+
+        // Perform test.
+        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        SceneFactory.writeToSource(mockScene, source);
+
+        // Verify test results.
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
+
+        assertEquals(1, document.getElementsByTagName("simplicity").getLength(), 0);
+        assertEquals(1, document.getElementsByTagName("scene").getLength(), 0);
+        assertEquals(1, document.getElementsByTagName("sceneGraph").getLength(), 0);
+        assertEquals(1, document.getElementsByTagName("node").getLength(), 0);
     }
 }
