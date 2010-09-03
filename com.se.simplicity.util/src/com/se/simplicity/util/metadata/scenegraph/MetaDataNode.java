@@ -58,6 +58,30 @@ public class MetaDataNode implements ModelNode, MetaData
 
     /**
      * <p>
+     * Retrieves the default name for the given {@link com.se.simplicity.scenegraph.Node Node}.
+     * </p>
+     * 
+     * @param node The <code>Node</code> to retrieve the default name for.
+     * 
+     * @return The default name for the given {@link com.se.simplicity.scenegraph.Node Node}.
+     */
+    public static String getDefaultName(final Node node)
+    {
+        String className = null;
+        if (node instanceof MetaDataNode)
+        {
+            className = ((MetaDataNode) node).getWrappedNode().getClass().getSimpleName();
+        }
+        else
+        {
+            className = node.getClass().getSimpleName();
+        }
+
+        return (className + node.getID());
+    }
+
+    /**
+     * <p>
      * The meta data attributes.
      * </p>
      */
@@ -115,18 +139,7 @@ public class MetaDataNode implements ModelNode, MetaData
      */
     public void addDefaultNameAttribute()
     {
-        String name = null;
-
-        if (node instanceof ModelNode)
-        {
-            name = "Vertex Group (" + getID() + ")";
-        }
-        else
-        {
-            name = "Node (" + getID() + ")";
-        }
-
-        setAttribute("name", name);
+        setAttribute("name", MetaDataNode.getDefaultName(this));
     }
 
     @Override
