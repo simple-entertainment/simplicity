@@ -26,6 +26,7 @@ import com.se.simplicity.editor.internal.SceneChangedEvent;
 import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.views.CameraView;
+import com.se.simplicity.editor.ui.views.LightView;
 import com.se.simplicity.editor.ui.views.NodeView;
 import com.se.simplicity.editor.ui.views.SceneComponentView;
 
@@ -77,6 +78,8 @@ public class SceneComponentViewTest
     @Test
     public void dispose()
     {
+        testObject.createPartControl(new Shell());
+
         testObject.dispose();
 
         assertTrue(!SceneManager.getSceneManager().getSceneChangedListeners().contains(testObject));
@@ -95,6 +98,7 @@ public class SceneComponentViewTest
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
 
         // Dictate correct behaviour.
+        expect(mockEvent.getSceneComponent()).andStubReturn(new Object());
         expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.CAMERA_ACTIVATED);
         replay(mockEvent);
 
@@ -121,6 +125,7 @@ public class SceneComponentViewTest
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
 
         // Dictate correct behaviour.
+        expect(mockEvent.getSceneComponent()).andStubReturn(new Object());
         expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.LIGHT_ACTIVATED);
         replay(mockEvent);
 
@@ -147,6 +152,7 @@ public class SceneComponentViewTest
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
 
         // Dictate correct behaviour.
+        expect(mockEvent.getSceneComponent()).andStubReturn(new Object());
         expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_ACTIVATED);
         replay(mockEvent);
 
@@ -158,5 +164,33 @@ public class SceneComponentViewTest
 
         // Verify test.
         assertTrue(((StackLayout) testObject.getParent().getLayout()).topControl instanceof NodeView);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneComponentView#sceneChanged(SceneChangedEvent)
+     * sceneChanged(SceneChangedEvent)} with the special condition that the scene component held in the event is null.
+     * </p>
+     */
+    @Test
+    public void sceneChangedNullSceneComponent()
+    {
+        // Create dependencies.
+        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
+
+        // Dictate correct behaviour.
+        expect(mockEvent.getSceneComponent()).andStubReturn(null);
+        replay(mockEvent);
+
+        // Initialise test environment.
+        testObject.createPartControl(new Shell());
+
+        // Perform test.
+        testObject.sceneChanged(mockEvent);
+
+        // Verify test results.
+        assertTrue(!(((StackLayout) testObject.getParent().getLayout()).topControl instanceof CameraView));
+        assertTrue(!(((StackLayout) testObject.getParent().getLayout()).topControl instanceof LightView));
+        assertTrue(!(((StackLayout) testObject.getParent().getLayout()).topControl instanceof NodeView));
     }
 }

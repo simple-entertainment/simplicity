@@ -204,6 +204,59 @@ public class SceneOutlineViewTest
     /**
      * <p>
      * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneOutlineView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)}
+     * with the special condition that the event is of type 'CAMERA_ACTIVATED' but the activated <code>Camera</code> is null.
+     * </p>
+     */
+    @Test
+    public void sceneChangedCameraActivatedNull()
+    {
+        // Create dependencies.
+        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
+        Scene mockScene = createMock(Scene.class);
+
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node mockNode = createMock(Node.class);
+
+        MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(mockCamera);
+
+        // Dictate correct behaviour.
+        expect(mockEvent.getScene()).andStubReturn(mockScene);
+        expect(mockEvent.getSceneComponent()).andStubReturn(null);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.CAMERA_ACTIVATED);
+        expect(mockScene.getCameras()).andStubReturn(cameras);
+        expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getRoot()).andStubReturn(mockNode);
+        expect(mockNode.getID()).andStubReturn(0);
+        expect(mockNode.hasChildren()).andStubReturn(false);
+        expect(mockCamera.getAttribute("name")).andReturn("Camera0");
+        expect(mockCamera.getAttribute("name")).andReturn("Test");
+        replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockCamera);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
+        testObject.getTree().setSelection(testObject.getTree().getItem(0));
+
+        // Verify test environment.
+        Tree tree = testObject.getTree();
+
+        assertEquals(1, tree.getSelection().length, 0);
+        assertEquals(tree.getItem(0), tree.getSelection()[0]);
+
+        // Perform test.
+        testObject.sceneChanged(mockEvent);
+
+        // Verify results.
+        assertEquals(0, tree.getSelection().length, 0);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneOutlineView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)}
      * with the special condition that the event is of type 'CAMERA_MODIFIED'.
      * </p>
      */
@@ -307,6 +360,59 @@ public class SceneOutlineViewTest
     /**
      * <p>
      * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneOutlineView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)}
+     * with the special condition that the event is of type 'LIGHT_ACTIVATED' but the activated <code>Light</code> is null.
+     * </p>
+     */
+    @Test
+    public void sceneChangedLightActivatedNull()
+    {
+        // Create dependencies.
+        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
+        Scene mockScene = createMock(Scene.class);
+
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        Node mockNode = createMock(Node.class);
+
+        MetaDataLight mockLight = createMock(MetaDataLight.class);
+        ArrayList<Light> lights = new ArrayList<Light>();
+        lights.add(mockLight);
+
+        // Dictate correct behaviour.
+        expect(mockEvent.getScene()).andStubReturn(mockScene);
+        expect(mockEvent.getSceneComponent()).andStubReturn(null);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.LIGHT_ACTIVATED);
+        expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
+        expect(mockScene.getLights()).andStubReturn(lights);
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getRoot()).andStubReturn(mockNode);
+        expect(mockNode.getID()).andStubReturn(0);
+        expect(mockNode.hasChildren()).andStubReturn(false);
+        expect(mockLight.getAttribute("name")).andReturn("Light0");
+        expect(mockLight.getAttribute("name")).andReturn("Test");
+        replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockLight);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
+        testObject.getTree().setSelection(testObject.getTree().getItem(0));
+
+        // Verify test environment.
+        Tree tree = testObject.getTree();
+
+        assertEquals(1, tree.getSelection().length, 0);
+        assertEquals(tree.getItem(0), tree.getSelection()[0]);
+
+        // Perform test.
+        testObject.sceneChanged(mockEvent);
+
+        // Verify results.
+        assertEquals(0, tree.getSelection().length, 0);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneOutlineView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)}
      * with the special condition that the event is of type 'LIGHT_MODIFIED'.
      * </p>
      */
@@ -400,6 +506,54 @@ public class SceneOutlineViewTest
         // Verify results.
         assertEquals(1, tree.getSelection().length, 0);
         assertEquals(tree.getItem(0), tree.getSelection()[0]);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.SceneOutlineView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)}
+     * with the special condition that the event is of type 'NODE_ACTIVATED' but the activated <code>Node</code> is null.
+     * </p>
+     */
+    @Test
+    public void sceneChangedNodeActivatedNull()
+    {
+        // Create dependencies.
+        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        MetaDataNode mockNode = createMock(MetaDataNode.class);
+
+        // Dictate correct behaviour.
+        expect(mockEvent.getScene()).andStubReturn(mockScene);
+        expect(mockEvent.getSceneComponent()).andStubReturn(null);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_ACTIVATED);
+        expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
+        expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getRoot()).andStubReturn(mockNode);
+        expect(mockNode.hasChildren()).andStubReturn(false);
+        expect(mockNode.getID()).andStubReturn(0);
+        expect(mockNode.getAttribute("name")).andReturn("Node0");
+        expect(mockNode.getAttribute("name")).andReturn("Test");
+        replay(mockEvent, mockScene, mockSceneGraph, mockNode);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene("test");
+        testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
+        testObject.getTree().setSelection(testObject.getTree().getItem(0));
+
+        // Verify test environment.
+        Tree tree = testObject.getTree();
+
+        assertEquals(1, tree.getSelection().length, 0);
+        assertEquals(tree.getItem(0), tree.getSelection()[0]);
+
+        // Perform test.
+        testObject.sceneChanged(mockEvent);
+
+        // Verify results.
+        assertEquals(0, tree.getSelection().length, 0);
     }
 
     /**

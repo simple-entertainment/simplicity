@@ -221,4 +221,24 @@ public class NodeViewTest
 
         assertEquals("$Proxy5", ((Text) reflectiveWidgets[1]).getText());
     }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.NodeView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
+     * the special condition that the scene component held in the event is null.
+     * </p>
+     */
+    @Test
+    public void sceneChangedNullSceneComponent()
+    {
+        // Create dependencies.
+        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
+
+        // Dictate correct behaviour.
+        expect(mockEvent.getSceneComponent()).andStubReturn(null);
+        replay(mockEvent);
+
+        // Perform test.
+        testObject.sceneChanged(mockEvent);
+    }
 }
