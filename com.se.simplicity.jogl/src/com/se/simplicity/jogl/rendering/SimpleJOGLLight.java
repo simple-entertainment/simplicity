@@ -39,56 +39,56 @@ public class SimpleJOGLLight implements Light, JOGLComponent
      * The ambient component of this <code>Light</code>.
      * </p>
      */
-    private float[] ambientLight;
+    private float[] fAmbientLight;
 
     /**
      * <p>
      * The diffuse component of this <code>Light</code>.
      * </p>
      */
-    private float[] diffuseLight;
+    private float[] fDiffuseLight;
 
     /**
      * <p>
      * The JOGL rendering environment.
      * </p>
      */
-    private GL gl;
+    private GL fGl;
 
     /**
      * <p>
      * The initialisation status. Determines if this <code>Light</code> is initialised.
      * </p>
      */
-    private boolean isInitialised;
+    private boolean fIsInitialised;
 
     /**
      * <p>
      * The lighting mode used to render the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
      * </p>
      */
-    private LightingMode lightingMode;
+    private LightingMode fLightingMode;
 
     /**
      * <p>
      * Logs messages associated with this class.
      * </p>
      */
-    private Logger logger;
+    private Logger fLogger;
 
     /**
      * <p>
      * The node that represents this <code>Light</code>'s location and orientation of this light.
      * </p>
      */
-    private Node node;
+    private Node fNode;
 
     /**
      * <p>
      * The specular component of this <code>Light</code>.
      * </p>
      */
-    private float[] specularLight;
+    private float[] fSpecularLight;
 
     /**
      * <p>
@@ -97,79 +97,81 @@ public class SimpleJOGLLight implements Light, JOGLComponent
      */
     public SimpleJOGLLight()
     {
-        ambientLight = null;
-        diffuseLight = null;
-        isInitialised = false;
-        lightingMode = LightingMode.SCENE;
-        logger = Logger.getLogger(getClass().getName());
-        node = null;
-        specularLight = null;
+        fAmbientLight = new float[] {0.0f, 0.0f, 0.0f, 1.0f};
+        fDiffuseLight = new float[] {0.0f, 0.0f, 0.0f, 1.0f};
+        fIsInitialised = false;
+        fLightingMode = LightingMode.SCENE;
+        fLogger = Logger.getLogger(getClass().getName());
+        fNode = null;
+        fSpecularLight = new float[] {0.0f, 0.0f, 0.0f, 1.0f};
     }
 
     @Override
     public void apply()
     {
-        if (!isInitialised)
+        if (!fIsInitialised)
         {
             init();
         }
 
-        gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, ((ArrayBackedObjectf) getTransformation()).getArray(), 0);
-        gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, ambientLight, 0);
-        gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, diffuseLight, 0);
-        gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, specularLight, 0);
+        TransformationMatrixf transformation = getTransformation();
+
+        fGl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, ((ArrayBackedObjectf) transformation.getTranslation()).getArray(), 0);
+        fGl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, fAmbientLight, 0);
+        fGl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, fDiffuseLight, 0);
+        fGl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, fSpecularLight, 0);
     }
 
     @Override
     public float[] getAmbientLight()
     {
-        return (ambientLight);
+        return (fAmbientLight);
     }
 
     @Override
     public float[] getDiffuseLight()
     {
-        return (diffuseLight);
+        return (fDiffuseLight);
     }
 
     @Override
     public GL getGL()
     {
-        return (gl);
+        return (fGl);
     }
 
     @Override
     public LightingMode getLightingMode()
     {
-        return (lightingMode);
+        return (fLightingMode);
     }
 
     @Override
     public Node getNode()
     {
-        return (node);
+        return (fNode);
     }
 
     @Override
     public float[] getSpecularLight()
     {
-        return (specularLight);
+        return (fSpecularLight);
     }
 
     @Override
     public TransformationMatrixf getTransformation()
     {
-        if (node == null)
+        if (fNode == null)
         {
             return (null);
         }
 
         TransformationMatrixf transformation = new SimpleTransformationMatrixf44();
-        Node currentNode = node;
+        Node currentNode = fNode;
 
         while (currentNode != null)
         {
-            transformation.multiplyRight(currentNode.getTransformation());
+            transformation.multiplyLeft(currentNode.getTransformation());
 
             currentNode = currentNode.getParent();
         }
@@ -180,7 +182,7 @@ public class SimpleJOGLLight implements Light, JOGLComponent
         }
         catch (SEInvalidOperationException e)
         {
-            logger.error("Failed to invert the transformation.", e);
+            fLogger.error("Failed to invert the transformation.", e);
         }
 
         return (transformation);
@@ -189,82 +191,82 @@ public class SimpleJOGLLight implements Light, JOGLComponent
     @Override
     public void init()
     {
-        if (lightingMode == LightingMode.SOLID)
+        if (fLightingMode == LightingMode.SOLID)
         {
-            gl.glDisable(GL.GL_LIGHTING);
-            gl.glDisable(GL.GL_COLOR_MATERIAL);
-            gl.glDisable(GL.GL_LIGHT0);
+            fGl.glDisable(GL.GL_LIGHTING);
+            fGl.glDisable(GL.GL_COLOR_MATERIAL);
+            fGl.glDisable(GL.GL_LIGHT0);
         }
 
-        if (lightingMode == LightingMode.SHADED)
+        if (fLightingMode == LightingMode.SHADED)
         {
-            gl.glEnable(GL.GL_LIGHTING);
-            gl.glEnable(GL.GL_COLOR_MATERIAL);
-            gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE);
-            gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, new float[] {0.1f, 0.1f, 0.1f}, 0);
-            gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, new float[] {0.1f, 0.1f, 0.1f}, 0);
-            gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, new float[] {0.1f, 0.1f, 0.1f}, 0);
-            gl.glEnable(GL.GL_LIGHT0);
+            fGl.glEnable(GL.GL_LIGHTING);
+            fGl.glEnable(GL.GL_COLOR_MATERIAL);
+            fGl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE);
+            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, new float[] {0.1f, 0.1f, 0.1f, 1.0f}, 0);
+            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, new float[] {0.1f, 0.1f, 0.1f, 1.0f}, 0);
+            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, new float[] {0.1f, 0.1f, 0.1f, 1.0f}, 0);
+            fGl.glEnable(GL.GL_LIGHT0);
         }
 
-        if (lightingMode == LightingMode.SCENE)
+        if (fLightingMode == LightingMode.SCENE)
         {
-            gl.glEnable(GL.GL_LIGHTING);
-            gl.glEnable(GL.GL_COLOR_MATERIAL);
-            gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE);
-            gl.glEnable(GL.GL_LIGHT0);
+            fGl.glEnable(GL.GL_LIGHTING);
+            fGl.glEnable(GL.GL_COLOR_MATERIAL);
+            fGl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE);
+            fGl.glEnable(GL.GL_LIGHT0);
         }
 
-        isInitialised = true;
+        fIsInitialised = true;
     }
 
     @Override
     public boolean isInitialised()
     {
-        return (isInitialised);
+        return (fIsInitialised);
     }
 
     @Override
-    public void setAmbientLight(final float[] newAmbientLight)
+    public void setAmbientLight(final float[] ambientLight)
     {
-        ambientLight = newAmbientLight;
+        fAmbientLight = ambientLight;
     }
 
     @Override
-    public void setDiffuseLight(final float[] newDiffuseLight)
+    public void setDiffuseLight(final float[] diffuseLight)
     {
-        diffuseLight = newDiffuseLight;
+        fDiffuseLight = diffuseLight;
     }
 
     @Override
     public void setGL(final GL newGl)
     {
-        gl = newGl;
+        fGl = newGl;
     }
 
     @Override
-    public void setInitialised(final boolean newIsInitialised)
+    public void setInitialised(final boolean isInitialised)
     {
-        isInitialised = newIsInitialised;
+        fIsInitialised = isInitialised;
     }
 
     @Override
-    public void setLightingMode(final LightingMode newLightingMode)
+    public void setLightingMode(final LightingMode lightingMode)
     {
-        lightingMode = newLightingMode;
+        fLightingMode = lightingMode;
 
-        isInitialised = false;
+        fIsInitialised = false;
     }
 
     @Override
     public void setNode(final Node newNode)
     {
-        node = newNode;
+        fNode = newNode;
     }
 
     @Override
-    public void setSpecularLight(final float[] newSpecularLight)
+    public void setSpecularLight(final float[] specularLight)
     {
-        specularLight = newSpecularLight;
+        fSpecularLight = specularLight;
     }
 }
