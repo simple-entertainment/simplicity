@@ -342,7 +342,10 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
         gl.glClearColor(clearingColour[0], clearingColour[1], clearingColour[2], clearingColour[3]);
 
         // Initialise the viewport size.
-        gl.glViewport(0, 0, fViewportSize.width, fViewportSize.height);
+        if (fViewportSize != null)
+        {
+            gl.glViewport(0, 0, fViewportSize.width, fViewportSize.height);
+        }
 
         fIsInitialised = true;
     }
