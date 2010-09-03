@@ -42,7 +42,7 @@ public class VisualSceneMouseListener implements MouseListener, MouseMoveListene
 
     /**
      * <p>
-     * The last position the mouse was at (only updated while mouse button 1 is down). 
+     * The last position the mouse was at (only updated while mouse button 1 is down).
      * </p>
      */
     private Point fMouseButton1DownPoint;
@@ -96,9 +96,11 @@ public class VisualSceneMouseListener implements MouseListener, MouseMoveListene
         {
             if (fMouseButton1DownPoint != null)
             {
-                fViewingCamera.getNode().getParent().getTransformation().rotate((float) ((event.x - fMouseButton1DownPoint.x) * Math.PI / 180.0f) * -1.0f,
+                fViewingCamera.getNode().getParent().getTransformation().rotate(
+                        (float) ((event.x - fMouseButton1DownPoint.x) * Math.PI / 180.0f) * -1.0f,
                         new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-                fViewingCamera.getNode().getParent().getTransformation().rotate((float) ((event.y - fMouseButton1DownPoint.y) * Math.PI / 180.0f) * -1.0f,
+                fViewingCamera.getNode().getParent().getTransformation().rotate(
+                        (float) ((event.y - fMouseButton1DownPoint.y) * Math.PI / 180.0f) * -1.0f,
                         new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
             }
 
@@ -118,12 +120,14 @@ public class VisualSceneMouseListener implements MouseListener, MouseMoveListene
         if (event.button == 1)
         {
             fMouseButton1Down = false;
-
+        }
+        else if (event.button == 3)
+        {
             Dimension viewportSize = new Dimension();
             viewportSize.width = ((Control) event.widget).getBounds().width;
             viewportSize.height = ((Control) event.widget).getBounds().height;
 
-            fPickingEngine.pickViewport(viewportSize, event.x, event.y, 5, 5);
+            fPickingEngine.pickViewport(viewportSize, event.x, event.y, 2, 2);
         }
     }
 }
