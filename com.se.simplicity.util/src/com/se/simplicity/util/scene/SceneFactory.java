@@ -88,11 +88,13 @@ public final class SceneFactory
             throw new IllegalArgumentException("Invalid Camera definition: Specifies an invalid class.", e);
         }
 
-        // Add the name to the Camera if one was specified.
-        if (!cameraElement.getAttribute("name").isEmpty())
+        // Add the name to the Camera.
+        if (cameraElement.getAttribute("name").isEmpty())
         {
-            camera.setAttribute("name", cameraElement.getAttribute("name"));
+            throw new IllegalArgumentException("Invalid Camera definition: Does not specify a name.");
         }
+
+        camera.setAttribute("name", cameraElement.getAttribute("name"));
 
         // Link the Camera to the appropriate Node in the Scene Graph if one was specified.
         if (!cameraElement.getAttribute("node").isEmpty())
@@ -118,7 +120,7 @@ public final class SceneFactory
         // Check that a class was specified.
         if (lightElement.getAttribute("class").isEmpty())
         {
-            throw new IllegalArgumentException("Invliad Light definition: Does not specify a class.");
+            throw new IllegalArgumentException("Invalid Light definition: Does not specify a class.");
         }
 
         MetaDataLight light = null;
@@ -132,10 +134,12 @@ public final class SceneFactory
         }
 
         // Add the name to the Light if one was specified.
-        if (!lightElement.getAttribute("name").isEmpty())
+        if (lightElement.getAttribute("name").isEmpty())
         {
-            light.setAttribute("name", lightElement.getAttribute("name"));
+            throw new IllegalArgumentException("Invalid Light definition: Does not specify a name.");
         }
+
+        light.setAttribute("name", lightElement.getAttribute("name"));
 
         // Link the Light to the appropriate Node in the Scene Graph if one was specified.
         if (!lightElement.getAttribute("node").isEmpty())
@@ -996,12 +1000,12 @@ public final class SceneFactory
             else
             {
                 updateNode(subgraphRoots.get(matchIndex), newNode);
-                updateSubgraphFromSource(subgraphRoots.get(matchIndex), newNode);
+                updateSubgraphFromSource(sceneGraph, subgraphRoots.get(matchIndex), newNode);
             }
         }
     }
 
-    private static void updateSubgraphFromSource(final Node subgraphRoot, final Node newSubgraphRoot)
+    private static void updateSubgraphFromSource(final SceneGraph sceneGraph, final Node subgraphRoot, final Node newSubgraphRoot)
     {
         List<Node> subgraphChildren = subgraphRoot.getChildren();
         List<Node> newSubgraphChildren = newSubgraphRoot.getChildren();
@@ -1012,7 +1016,7 @@ public final class SceneFactory
             try
             {
                 duplicateNodeCheck(newSubgraphChildren, (MetaDataNode) subgraphChildren.get(index));
-                subgraphRoot.removeChild(subgraphChildren.get(index));
+                sceneGraph.removeSubgraph(subgraphChildren.get(index));
                 index--;
             }
             catch (IllegalArgumentException e)
@@ -1025,7 +1029,7 @@ public final class SceneFactory
             try
             {
                 duplicateNodeCheck(subgraphChildren, (MetaDataNode) newSubgraphChild);
-                subgraphRoot.addChild(newSubgraphChild);
+                sceneGraph.addSubgraph(newSubgraphChild, subgraphRoot);
             }
             catch (IllegalArgumentException e)
             {
@@ -1036,7 +1040,7 @@ public final class SceneFactory
         // Do the same for any children recursively.
         for (int index = 0; index < subgraphChildren.size(); index++)
         {
-            updateSubgraphFromSource(subgraphChildren.get(index), newSubgraphChildren.get(index));
+            updateSubgraphFromSource(sceneGraph, subgraphChildren.get(index), newSubgraphChildren.get(index));
         }
     }
 
