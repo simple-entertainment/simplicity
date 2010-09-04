@@ -46,6 +46,7 @@ import com.se.simplicity.scenegraph.SimpleNode;
 import com.se.simplicity.scenegraph.SimpleSceneGraph;
 import com.se.simplicity.scenegraph.model.SimpleModelNode;
 import com.se.simplicity.test.mocks.NodeHierarchy;
+import com.se.simplicity.util.metadata.MetaData;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
@@ -79,6 +80,26 @@ public class SceneFactoryTest
         assertEquals(SimpleJOGLCamera.class, ((MetaDataCamera) scene.getCameras().get(0)).getWrappedCamera().getClass());
         assertEquals("Camera0", ((MetaDataCamera) scene.getCameras().get(0)).getAttribute("name"));
         assertNotNull(scene.getCameras().get(0).getNode());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()} with the special condition that the
+     * source file contains two camera definitions with the same name.
+     * </p>
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void loadFromSourceCameraDuplicateNames() throws FileNotFoundException
+    {
+        // Perform test.
+        Scene scene = SceneFactory.loadFromSource(new FileInputStream(new File(
+                "src/com/se/simplicity/util/test/scene/triangleTwoCamerasDuplicate.xml")));
+
+        // Verify test results.
+        assertEquals(1, scene.getCameras().size(), 0);
+        assertEquals("Camera0", ((MetaData) scene.getCameras().get(0)).getAttribute("name"));
     }
 
     /**
@@ -141,6 +162,26 @@ public class SceneFactoryTest
 
     /**
      * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()} with the special condition that the
+     * source file contains two light definitions with the same name.
+     * </p>
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void loadFromSourceLightDuplicateNames() throws FileNotFoundException
+    {
+        // Perform test.
+        Scene scene = SceneFactory.loadFromSource(new FileInputStream(
+                new File("src/com/se/simplicity/util/test/scene/triangleTwoLightsDuplicate.xml")));
+
+        // Verify test results.
+        assertEquals(1, scene.getLights().size(), 0);
+        assertEquals("Light0", ((MetaData) scene.getLights().get(0)).getAttribute("name"));
+    }
+
+    /**
+     * <p>
      * Unit test the method {@link com.se.simplicity.editor.model.scene.SceneFactory.loadFromSourceFile loadFromSourceFile()} with the special
      * condition that the source file contains a light definition with no class specified.
      * </p>
@@ -180,7 +221,7 @@ public class SceneFactoryTest
     /**
      * <p>
      * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()}, specifically the functionality that
-     * loads a <code>Node</code>s.
+     * loads <code>Node</code>s.
      * </p>
      * 
      * @throws FileNotFoundException Thrown if source file is not found.
@@ -271,6 +312,217 @@ public class SceneFactoryTest
         {
             assertEquals("Invalid Vertex Group definition: Does not specify a class.", e.getMessage());
         }
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory#updateFromSource(Scene, InputStream) updateFromSource(Scene,
+     * InputStream)}, specifically the functionality that updates <code>Camera</code>s.
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void updateFromSourceCamera() throws FileNotFoundException
+    {
+        // Initialise test environment.
+        Scene scene = SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangle.xml")));
+        Camera camera0 = scene.getCameras().get(0);
+
+        // Perform test 1.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleTwoCameras.xml")));
+
+        // Verify test 1 results.
+        assertEquals(2, scene.getCameras().size(), 0);
+        assertEquals(camera0, scene.getCameras().get(0));
+        assertEquals("Camera0", ((MetaData) scene.getCameras().get(0)).getAttribute("name"));
+        assertEquals("Camera1", ((MetaData) scene.getCameras().get(1)).getAttribute("name"));
+
+        // Perform test 2.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangle.xml")));
+
+        // Verify test 2 results.
+        assertEquals(1, scene.getCameras().size(), 0);
+        assertEquals(camera0, scene.getCameras().get(0));
+        assertEquals("Camera0", ((MetaData) scene.getCameras().get(0)).getAttribute("name"));
+
+        // Perform test 3.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleCameraNode.xml")));
+
+        // Verify test 3 results.
+        assertEquals(1, scene.getCameras().size(), 0);
+        assertEquals(camera0, scene.getCameras().get(0));
+        assertEquals(2, scene.getCameras().get(0).getNode().getID(), 0);
+
+        // Perform test 4.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleTwoCamerasDuplicate.xml")));
+
+        // Verify test 4 results.
+        assertEquals(1, scene.getCameras().size(), 0);
+        assertEquals(camera0, scene.getCameras().get(0));
+        assertEquals(1, scene.getCameras().get(0).getNode().getID(), 0);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory#updateFromSource(Scene, InputStream) updateFromSource(Scene,
+     * InputStream)}, specifically the functionality that updates <code>Light</code>s.
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void updateFromSourceLight() throws FileNotFoundException
+    {
+        // Initialise test environment.
+        Scene scene = SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangle.xml")));
+        Light light0 = scene.getLights().get(0);
+
+        // Perform test 1.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleTwoLights.xml")));
+
+        // Verify test 1 results.
+        assertEquals(2, scene.getLights().size(), 0);
+        assertEquals(light0, scene.getLights().get(0));
+        assertEquals("Light0", ((MetaData) scene.getLights().get(0)).getAttribute("name"));
+        assertEquals("Light1", ((MetaData) scene.getLights().get(1)).getAttribute("name"));
+
+        // Perform test 2.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangle.xml")));
+
+        // Verify test 2 results.
+        assertEquals(1, scene.getLights().size(), 0);
+        assertEquals(light0, scene.getLights().get(0));
+        assertEquals("Light0", ((MetaData) scene.getLights().get(0)).getAttribute("name"));
+
+        // Perform test 3.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleLightNode.xml")));
+
+        // Verify test 3 results.
+        assertEquals(1, scene.getLights().size(), 0);
+        assertEquals(light0, scene.getLights().get(0));
+        assertEquals(1, scene.getLights().get(0).getNode().getID(), 0);
+
+        // Perform test 4.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleTwoLightsDuplicate.xml")));
+
+        // Verify test 4 results.
+        assertEquals(1, scene.getLights().size(), 0);
+        assertEquals(light0, scene.getLights().get(0));
+        assertEquals(2, scene.getLights().get(0).getNode().getID(), 0);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()}, specifically the functionality that
+     * updates <code>Node</code>s.
+     * </p>
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void updateFromSourceNodes() throws FileNotFoundException
+    {
+        // Initialise test environment.
+        Scene scene = SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangle.xml")));
+        Node cameraNode = scene.getSceneGraph().getSubgraphRoots().get(0);
+        Node lightNode = scene.getSceneGraph().getSubgraphRoots().get(1);
+
+        // Perform test 1.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleNodes.xml")));
+
+        // Verify test 1 results.
+        Node node0 = scene.getSceneGraph().getRoot();
+        assertEquals(2, scene.getSceneGraph().getSubgraphRoots().size(), 0);
+
+        MetaDataNode node1 = (MetaDataNode) node0.getChildren().get(0);
+        assertEquals(cameraNode, node1);
+        assertEquals(SimpleNode.class, node1.getWrappedNode().getClass());
+        assertEquals("Camera", node1.getAttribute("name"));
+
+        TranslationVectorf translation1 = node1.getTransformation().getTranslation();
+        assertEquals(0.0f, translation1.getX(), 0.0f);
+        assertEquals(0.0f, translation1.getY(), 0.0f);
+        assertEquals(5.0f, translation1.getZ(), 0.0f);
+        assertEquals(1.0f, translation1.getW(), 0.0f);
+
+        MetaDataNode node2 = (MetaDataNode) node0.getChildren().get(1);
+        assertEquals(lightNode, node2);
+        assertEquals(SimpleNode.class, node2.getWrappedNode().getClass());
+        assertEquals("Light", node2.getAttribute("name"));
+
+        TranslationVectorf translation2 = node2.getTransformation().getTranslation();
+        assertEquals(1.0f, translation2.getX(), 0.0f);
+        assertEquals(5.0f, translation2.getY(), 0.0f);
+        assertEquals(-1.0f, translation2.getZ(), 0.0f);
+        assertEquals(1.0f, translation2.getW(), 0.0f);
+
+        // Perform test 2.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangle.xml")));
+
+        // Verify test 2 results.
+        node0 = scene.getSceneGraph().getRoot();
+        assertEquals(3, scene.getSceneGraph().getSubgraphRoots().size(), 0);
+
+        node1 = (MetaDataNode) node0.getChildren().get(0);
+        assertEquals(cameraNode, node1);
+        assertEquals(SimpleNode.class, node1.getWrappedNode().getClass());
+        assertEquals("Camera", node1.getAttribute("name"));
+
+        translation1 = node1.getTransformation().getTranslation();
+        assertEquals(0.0f, translation1.getX(), 0.0f);
+        assertEquals(0.0f, translation1.getY(), 0.0f);
+        assertEquals(5.0f, translation1.getZ(), 0.0f);
+        assertEquals(1.0f, translation1.getW(), 0.0f);
+
+        node2 = (MetaDataNode) node0.getChildren().get(1);
+        assertEquals(lightNode, node2);
+        assertEquals(SimpleNode.class, node2.getWrappedNode().getClass());
+        assertEquals("Light", node2.getAttribute("name"));
+
+        translation2 = node2.getTransformation().getTranslation();
+        assertEquals(0.0f, translation2.getX(), 0.0f);
+        assertEquals(5.0f, translation2.getY(), 0.0f);
+        assertEquals(0.0f, translation2.getZ(), 0.0f);
+        assertEquals(1.0f, translation2.getW(), 0.0f);
+
+        MetaDataNode node3 = (MetaDataNode) node0.getChildren().get(2);
+        assertEquals(SimpleModelNode.class, node3.getWrappedNode().getClass());
+        assertEquals("Triangle", node3.getAttribute("name"));
+
+        VertexGroup vertexGroup = node3.getVertexGroup();
+        assertEquals(ArrayVG.class, vertexGroup.getClass());
+
+        float[] colours = ((ArrayVG) vertexGroup).getColours();
+        assertEquals(1.0f, colours[0], 0.0f);
+        assertEquals(0.0f, colours[1], 0.0f);
+        assertEquals(0.0f, colours[2], 0.0f);
+        assertEquals(0.0f, colours[3], 0.0f);
+        assertEquals(1.0f, colours[4], 0.0f);
+        assertEquals(0.0f, colours[5], 0.0f);
+        assertEquals(0.0f, colours[6], 0.0f);
+        assertEquals(0.0f, colours[7], 0.0f);
+        assertEquals(1.0f, colours[8], 0.0f);
+
+        float[] normals = ((ArrayVG) vertexGroup).getNormals();
+        assertEquals(0.0f, normals[0], 0.0f);
+        assertEquals(0.0f, normals[1], 0.0f);
+        assertEquals(1.0f, normals[2], 0.0f);
+        assertEquals(0.0f, normals[3], 0.0f);
+        assertEquals(0.0f, normals[4], 0.0f);
+        assertEquals(1.0f, normals[5], 0.0f);
+        assertEquals(0.0f, normals[6], 0.0f);
+        assertEquals(0.0f, normals[7], 0.0f);
+        assertEquals(1.0f, normals[8], 0.0f);
+
+        float[] vertices = ((ArrayVG) vertexGroup).getVertices();
+        assertEquals(0.0f, vertices[0], 0.0f);
+        assertEquals(1.0f, vertices[1], 0.0f);
+        assertEquals(0.0f, vertices[2], 0.0f);
+        assertEquals(-1.0f, vertices[3], 0.0f);
+        assertEquals(-1.0f, vertices[4], 0.0f);
+        assertEquals(0.0f, vertices[5], 0.0f);
+        assertEquals(1.0f, vertices[6], 0.0f);
+        assertEquals(-1.0f, vertices[7], 0.0f);
+        assertEquals(0.0f, vertices[8], 0.0f);
     }
 
     /**
