@@ -11,6 +11,7 @@
  */
 package com.se.simplicity.util.scene;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -726,6 +727,40 @@ public final class SceneFactory
 
     /**
      * <p>
+     * Writes a serialised source representation of a <code>Scene</code> to a <code>File</code>.
+     * </p>
+     * 
+     * @param scene The <code>Scene</code> to write a serialised source representation of.
+     * @param source The <code>File</code> that will contain serialised source representation.
+     */
+    public static void writeToSource(final Scene scene, final File source)
+    {
+        Document document = null;
+        try
+        {
+            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        }
+        catch (Exception e)
+        {
+            Logger.getLogger(SceneFactory.class).error("Failed to create XML Document", e);
+        }
+
+        writeToSource(scene, document);
+
+        try
+        {
+            StreamResult result = new StreamResult(source);
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(new DOMSource(document), result);
+        }
+        catch (TransformerException e)
+        {
+            Logger.getLogger(SceneFactory.class).error("Failed to transform XML Document", e);
+        }
+    }
+
+    /**
+     * <p>
      * Writes a serialised source representation of a <code>Scene</code> to an <code>OutputStream</code>.
      * </p>
      * 
@@ -744,6 +779,30 @@ public final class SceneFactory
             Logger.getLogger(SceneFactory.class).error("Failed to create XML Document", e);
         }
 
+        writeToSource(scene, document);
+
+        try
+        {
+            StreamResult result = new StreamResult(new OutputStreamWriter(source));
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(new DOMSource(document), result);
+        }
+        catch (TransformerException e)
+        {
+            Logger.getLogger(SceneFactory.class).error("Failed to transform XML Document", e);
+        }
+    }
+
+    /**
+     * <p>
+     * Writes a serialised source representation of a <code>Scene</code> to a <code>Document</code>.
+     * </p>
+     * 
+     * @param scene The <code>Scene</code> to write a serialised source representation of.
+     * @param document The <code>Document</code> that will contain serialised source representation.
+     */
+    public static void writeToSource(final Scene scene, final Document document)
+    {
         Element simplicityElement = document.createElement("simplicity");
         document.appendChild(simplicityElement);
 
@@ -769,17 +828,6 @@ public final class SceneFactory
         for (Node subgraphRoot : scene.getSceneGraph().getSubgraphRoots())
         {
             internalNodesElement.appendChild(createSourceFromSubgraph(document, subgraphRoot));
-        }
-
-        try
-        {
-            StreamResult result = new StreamResult(new OutputStreamWriter(source));
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.transform(new DOMSource(document), result);
-        }
-        catch (TransformerException e)
-        {
-            Logger.getLogger(SceneFactory.class).error("Failed to transform XML Document", e);
         }
     }
 
