@@ -3,9 +3,9 @@
 		<camera name="Camera0" node="1" />
 		<light name="Light0" node="2"
 			class="com.se.simplicity.jogl.rendering.SimpleJOGLLight">
-			<ambient colour="0.1, 0.1, 0.1" />
-			<diffuse colour="0.1, 0.1, 0.1" />
-			<specular colour="0.1, 0.1, 0.1" />
+			<ambient colour="0.1, 0.1, 0.1, 1.0" />
+			<diffuse colour="0.1, 0.1, 0.1, 1.0" />
+			<specular colour="0.1, 0.1, 0.1, 1.0" />
 		</light>
 		<sceneGraph>
 			<node name="Internally Managed Node(s)">
