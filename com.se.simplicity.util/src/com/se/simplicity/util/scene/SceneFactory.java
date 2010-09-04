@@ -36,6 +36,8 @@ import com.se.simplicity.model.ModelConstants;
 import com.se.simplicity.model.VertexGroup;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
+import com.se.simplicity.rendering.LightingMode;
+import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
@@ -99,7 +101,123 @@ public final class SceneFactory
         // Link the Camera to the appropriate Node in the Scene Graph if one was specified.
         if (!cameraElement.getAttribute("node").isEmpty())
         {
-            camera.setNode(sceneGraph.getNode(Integer.parseInt(cameraElement.getAttribute("node"))));
+            try
+            {
+                camera.setNode(sceneGraph.getNode(Integer.parseInt(cameraElement.getAttribute("node"))));
+            }
+            catch (NumberFormatException e)
+            {
+                Logger.getLogger(SceneFactory.class).warn("Failed to set 'Node': '" + cameraElement.getAttribute("node") + "' is not a valid value.",
+                        e);
+            }
+        }
+
+        if (!cameraElement.getAttribute("projectionMode").isEmpty())
+        {
+            if (cameraElement.getAttribute("projectionMode").equalsIgnoreCase("ORTHOGONAL"))
+            {
+                camera.setProjectionMode(ProjectionMode.ORTHOGONAL);
+            }
+            else if (cameraElement.getAttribute("projectionMode").equalsIgnoreCase("PERSPECTIVE"))
+            {
+                camera.setProjectionMode(ProjectionMode.PERSPECTIVE);
+            }
+        }
+
+        Element clippingElement = (Element) cameraElement.getElementsByTagName("clipping").item(0);
+        if (clippingElement != null)
+        {
+            if (!clippingElement.getAttribute("nearClippingDistance").isEmpty())
+            {
+                try
+                {
+                    camera.setNearClippingDistance(Float.parseFloat(clippingElement.getAttribute("nearClippingDistance")));
+                }
+                catch (NumberFormatException e)
+                {
+                    Logger.getLogger(SceneFactory.class).warn(
+                            "Failed to set 'Near Clipping Distance': '" + clippingElement.getAttribute("nearClippingDistance")
+                                    + "' is not a valid value.", e);
+                }
+            }
+            if (!clippingElement.getAttribute("farClippingDistance").isEmpty())
+            {
+                try
+                {
+                    camera.setFarClippingDistance(Float.parseFloat(clippingElement.getAttribute("farClippingDistance")));
+                }
+                catch (NumberFormatException e)
+                {
+                    Logger.getLogger(SceneFactory.class).warn(
+                            "Failed to set 'Far Clipping Distance': '" + clippingElement.getAttribute("farClippingDistance")
+                                    + "' is not a valid value.", e);
+                }
+            }
+        }
+
+        Element frameElement = (Element) cameraElement.getElementsByTagName("frame").item(0);
+        if (frameElement != null)
+        {
+            if (!frameElement.getAttribute("frameAspectRatio").isEmpty())
+            {
+                try
+                {
+                    camera.setFrameAspectRatio(Float.parseFloat(frameElement.getAttribute("frameAspectRatio")));
+                }
+                catch (NumberFormatException e)
+                {
+                    Logger.getLogger(SceneFactory.class).warn(
+                            "Failed to set 'Frame Aspect Ratio': '" + frameElement.getAttribute("frameAspectRatio") + "' is not a valid value.", e);
+                }
+            }
+            if (!frameElement.getAttribute("frameX").isEmpty())
+            {
+                try
+                {
+                    camera.setFrameX(Float.parseFloat(frameElement.getAttribute("frameX")));
+                }
+                catch (NumberFormatException e)
+                {
+                    Logger.getLogger(SceneFactory.class).warn(
+                            "Failed to set 'Frame X': '" + frameElement.getAttribute("frameX") + "' is not a valid value.", e);
+                }
+            }
+            if (!frameElement.getAttribute("frameY").isEmpty())
+            {
+                try
+                {
+                    camera.setFrameY(Float.parseFloat(frameElement.getAttribute("frameY")));
+                }
+                catch (NumberFormatException e)
+                {
+                    Logger.getLogger(SceneFactory.class).warn(
+                            "Failed to set 'Frame Y': '" + frameElement.getAttribute("frameY") + "' is not a valid value.", e);
+                }
+            }
+            if (!frameElement.getAttribute("frameWidth").isEmpty())
+            {
+                try
+                {
+                    camera.setFrameWidth(Float.parseFloat(frameElement.getAttribute("frameWidth")));
+                }
+                catch (NumberFormatException e)
+                {
+                    Logger.getLogger(SceneFactory.class).warn(
+                            "Failed to set 'Frame Width': '" + frameElement.getAttribute("frameWidth") + "' is not a valid value.", e);
+                }
+            }
+            if (!frameElement.getAttribute("frameHeight").isEmpty())
+            {
+                try
+                {
+                    camera.setFrameHeight(Float.parseFloat(frameElement.getAttribute("frameHeight")));
+                }
+                catch (NumberFormatException e)
+                {
+                    Logger.getLogger(SceneFactory.class).warn(
+                            "Failed to set 'Frame Height': '" + frameElement.getAttribute("frameHeight") + "' is not a valid value.", e);
+                }
+            }
         }
 
         return (camera);
@@ -144,26 +262,75 @@ public final class SceneFactory
         // Link the Light to the appropriate Node in the Scene Graph if one was specified.
         if (!lightElement.getAttribute("node").isEmpty())
         {
-            light.setNode(sceneGraph.getNode(Integer.parseInt(lightElement.getAttribute("node"))));
+            try
+            {
+                light.setNode(sceneGraph.getNode(Integer.parseInt(lightElement.getAttribute("node"))));
+            }
+            catch (NumberFormatException e)
+            {
+                Logger.getLogger(SceneFactory.class).warn("Failed to set 'Node': '" + lightElement.getAttribute("node") + "' is not a valid value.",
+                        e);
+            }
+        }
+
+        // Set the Lighting Mode if it was specified.
+        if (!lightElement.getAttribute("lightingMode").isEmpty())
+        {
+            if (lightElement.getAttribute("lightingMode").equalsIgnoreCase("SCENE"))
+            {
+                light.setLightingMode(LightingMode.SCENE);
+            }
+            else if (lightElement.getAttribute("lightingMode").equalsIgnoreCase("SHADED"))
+            {
+                light.setLightingMode(LightingMode.SHADED);
+            }
+            else if (lightElement.getAttribute("lightingMode").equalsIgnoreCase("SOLID"))
+            {
+                light.setLightingMode(LightingMode.SOLID);
+            }
         }
 
         // Set the colour of the Light if it was specified.
         Element ambientElement = (Element) lightElement.getElementsByTagName("ambient").item(0);
         if (ambientElement != null)
         {
-            light.setAmbientLight(getFloatArray(ambientElement.getAttribute("colour")));
+            try
+            {
+                light.setAmbientLight(getFloatArray(ambientElement.getAttribute("colour")));
+            }
+            catch (NumberFormatException e)
+            {
+                Logger.getLogger(SceneFactory.class).warn(
+                        "Failed to set 'Colour': '" + ambientElement.getAttribute("colour") + "' is not a valid value.", e);
+            }
         }
 
         Element diffuseElement = (Element) lightElement.getElementsByTagName("diffuse").item(0);
         if (diffuseElement != null)
         {
-            light.setDiffuseLight(getFloatArray(diffuseElement.getAttribute("colour")));
+            try
+            {
+                light.setDiffuseLight(getFloatArray(diffuseElement.getAttribute("colour")));
+            }
+            catch (NumberFormatException e)
+            {
+                Logger.getLogger(SceneFactory.class).warn(
+                        "Failed to set 'Colour': '" + diffuseElement.getAttribute("colour") + "' is not a valid value.", e);
+            }
         }
 
         Element specularElement = (Element) lightElement.getElementsByTagName("specular").item(0);
         if (specularElement != null)
         {
-            light.setSpecularLight(getFloatArray(specularElement.getAttribute("colour")));
+            try
+            {
+                light.setSpecularLight(getFloatArray(specularElement.getAttribute("colour")));
+            }
+            catch (NumberFormatException e)
+            {
+                Logger.getLogger(SceneFactory.class).warn(
+                        "Failed to set 'Colour': '" + specularElement.getAttribute("colour") + "' is not a valid value.", e);
+            }
         }
 
         return (light);
@@ -206,6 +373,43 @@ public final class SceneFactory
         else
         {
             node.addDefaultNameAttribute();
+        }
+
+        if (!nodeElement.getAttribute("isCollidable").isEmpty())
+        {
+            try
+            {
+                node.setCollidable(Boolean.parseBoolean(nodeElement.getAttribute("isCollidable")));
+            }
+            catch (NumberFormatException e)
+            {
+                Logger.getLogger(SceneFactory.class).warn(
+                        "Failed to set 'Collidable': '" + nodeElement.getAttribute("isCollidable") + "' is not a valid value.", e);
+            }
+        }
+        if (!nodeElement.getAttribute("isModifiable").isEmpty())
+        {
+            try
+            {
+                node.setModifiable(Boolean.parseBoolean(nodeElement.getAttribute("isModifiable")));
+            }
+            catch (NumberFormatException e)
+            {
+                Logger.getLogger(SceneFactory.class).warn(
+                        "Failed to set 'Modifiable': '" + nodeElement.getAttribute("isModifiable") + "' is not a valid value.", e);
+            }
+        }
+        if (!nodeElement.getAttribute("isVisible").isEmpty())
+        {
+            try
+            {
+                node.setVisible(Boolean.parseBoolean(nodeElement.getAttribute("isVisible")));
+            }
+            catch (NumberFormatException e)
+            {
+                Logger.getLogger(SceneFactory.class).warn(
+                        "Failed to set 'Visible': '" + nodeElement.getAttribute("isVisible") + "' is not a valid value.", e);
+            }
         }
 
         // Add content to the Node if any was specified.
@@ -260,6 +464,30 @@ public final class SceneFactory
             cameraElement.setAttribute("node", Integer.toString(camera.getNode().getID()));
         }
 
+        if (camera.getProjectionMode() == ProjectionMode.ORTHOGONAL)
+        {
+            cameraElement.setAttribute("projectionMode", "ORTHOGONAL");
+        }
+        else if (camera.getProjectionMode() == ProjectionMode.PERSPECTIVE)
+        {
+            cameraElement.setAttribute("projectionMode", "PERSPECTIVE");
+        }
+
+        Element clippingElement = document.createElement("clipping");
+        cameraElement.appendChild(clippingElement);
+
+        clippingElement.setAttribute("nearClippingDistance", Float.toString(camera.getNearClippingDistance()));
+        clippingElement.setAttribute("farClippingDistance", Float.toString(camera.getFarClippingDistance()));
+
+        Element frameElement = document.createElement("frame");
+        cameraElement.appendChild(frameElement);
+
+        frameElement.setAttribute("frameAspectRatio", Float.toString(camera.getFrameAspectRatio()));
+        frameElement.setAttribute("frameX", Float.toString(camera.getFrameX()));
+        frameElement.setAttribute("frameY", Float.toString(camera.getFrameY()));
+        frameElement.setAttribute("frameWidth", Float.toString(camera.getFrameWidth()));
+        frameElement.setAttribute("frameHeight", Float.toString(camera.getFrameHeight()));
+
         return (cameraElement);
     }
 
@@ -294,6 +522,19 @@ public final class SceneFactory
         if (light.getNode() != null)
         {
             lightElement.setAttribute("node", Integer.toString(light.getNode().getID()));
+        }
+
+        if (light.getLightingMode() == LightingMode.SCENE)
+        {
+            lightElement.setAttribute("lightingMode", "SCENE");
+        }
+        else if (light.getLightingMode() == LightingMode.SHADED)
+        {
+            lightElement.setAttribute("lightingMode", "SHADED");
+        }
+        else if (light.getLightingMode() == LightingMode.SOLID)
+        {
+            lightElement.setAttribute("lightingMode", "SOLID");
         }
 
         Element ambientElement = document.createElement("ambient");
@@ -345,6 +586,10 @@ public final class SceneFactory
         {
             nodeElement.setAttribute("name", (String) ((MetaDataNode) node).getAttribute("name"));
         }
+
+        nodeElement.setAttribute("isCollidable", Boolean.toString(node.isCollidable()));
+        nodeElement.setAttribute("isModifiable", Boolean.toString(node.isModifiable()));
+        nodeElement.setAttribute("isVisible", Boolean.toString(node.isVisible()));
 
         nodeElement.appendChild(createSourceFromTransformation(document, node.getTransformation()));
 
