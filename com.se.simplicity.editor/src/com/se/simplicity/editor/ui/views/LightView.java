@@ -346,16 +346,16 @@ public class LightView extends Composite implements SceneChangedListener
     @Override
     public void sceneChanged(final SceneChangedEvent event)
     {
-        if (event.getSceneComponent() == null)
+        if (SceneManager.getSceneManager().getActiveLight() == null)
         {
             return;
         }
 
-        if (event.getType() == SceneChangedEventType.LIGHT_ACTIVATED)
+        if (event.getType() == SceneChangedEventType.LIGHT_ACTIVATED || event.getType() == SceneChangedEventType.SCENE_MODIFIED)
         {
             fLightViewListener.disable();
 
-            Light light = (Light) event.getSceneComponent();
+            Light light = SceneManager.getSceneManager().getActiveLight();
 
             if (light instanceof MetaDataLight)
             {

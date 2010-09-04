@@ -11,11 +11,12 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.wst.xml.ui.internal.tabletree.XMLMultiPageEditorPart;
+import org.eclipse.ui.part.MultiPageEditorPart;
 
 /**
  * A multi-page eclipse editor that displays a <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment on the first page and
@@ -23,21 +24,57 @@ import org.eclipse.wst.xml.ui.internal.tabletree.XMLMultiPageEditorPart;
  * 
  * @author Gary Buyn
  */
-public class SceneEditor extends XMLMultiPageEditorPart
+public class SceneEditor extends MultiPageEditorPart
 {
     /**
      * <p>
      * The editor that displays the <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment.
      * </p>
      */
-    private VisualSceneEditor visualEditor;
+    private VisualSceneEditor fVisualEditor;
+
+    /**
+     * <p>
+     * The editor that displays serialised source representation of the <code>Scene</code>.
+     * </p>
+     */
+    private SourceSceneEditor fSourceEditor;
+
+    /**
+     * <p>
+     * Creates an instance of <code>SceneEditor</code>.
+     * </p>
+     */
+    public SceneEditor()
+    {
+        fSourceEditor = null;
+        fVisualEditor = null;
+    }
 
     @Override
     protected void createPages()
     {
         createVisualPage();
+        createSourcePage();
+    }
 
-        super.createPages();
+    /**
+     * <p>
+     * Adds the source editor to the next available page within this multi-page editor.
+     * </p>
+     */
+    public void createSourcePage()
+    {
+        try
+        {
+            fSourceEditor = new SourceSceneEditor();
+            int index = addPage(fSourceEditor, getEditorInput());
+            setPageText(index, "Source");
+        }
+        catch (PartInitException e)
+        {
+            ErrorDialog.openError(getSite().getShell(), "Error creating nested visual editor", null, e.getStatus());
+        }
     }
 
     /**
@@ -49,8 +86,8 @@ public class SceneEditor extends XMLMultiPageEditorPart
     {
         try
         {
-            visualEditor = new VisualSceneEditor();
-            int index = addPage(visualEditor, getEditorInput());
+            fVisualEditor = new VisualSceneEditor();
+            int index = addPage(fVisualEditor, getEditorInput());
             setPageText(index, "Visual");
         }
         catch (PartInitException e)
@@ -68,21 +105,20 @@ public class SceneEditor extends XMLMultiPageEditorPart
     }
 
     @Override
-    protected void pageChange(final int newPageIndex)
+    public void doSave(final IProgressMonitor monitor)
     {
-        super.pageChange(newPageIndex);
+        fSourceEditor.doSave(monitor);
+    }
 
-        // if (fDirtySinceLastPageChange)
-        // {
-        // if (newPageIndex == 0)
-        // {
-        // SceneFactory.updateFromSource(SceneManager.getSceneManager().getScene(id), ((IFileEditorInput) getEditorInput()).getFile()
-        // .getContents());
-        // }
-        //
-        // SceneManager.getSceneManager().notifySceneModified(id);
-        //
-        // fDirtySinceLastPageChange = false;
-        // }
+    @Override
+    public void doSaveAs()
+    {
+        fSourceEditor.doSaveAs();
+    }
+
+    @Override
+    public boolean isSaveAsAllowed()
+    {
+        return (fSourceEditor.isSaveAsAllowed());
     }
 }

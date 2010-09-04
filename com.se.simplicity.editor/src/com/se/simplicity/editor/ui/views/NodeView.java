@@ -313,16 +313,16 @@ public class NodeView extends Composite implements SceneChangedListener
     @Override
     public void sceneChanged(final SceneChangedEvent event)
     {
-        if (event.getSceneComponent() == null)
+        if (SceneManager.getSceneManager().getActiveNode() == null)
         {
             return;
         }
-        
-        if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
+
+        if (event.getType() == SceneChangedEventType.NODE_ACTIVATED || event.getType() == SceneChangedEventType.SCENE_MODIFIED)
         {
             fNodeViewListener.disable();
 
-            Node node = (Node) event.getSceneComponent();
+            Node node = SceneManager.getSceneManager().getActiveNode();
 
             fId.setText(Integer.toString(node.getID()));
 
@@ -332,7 +332,7 @@ public class NodeView extends Composite implements SceneChangedListener
             }
             else
             {
-                fName.setText("Node" + node.getID());
+                fName.setText(MetaDataNode.getDefaultName(node));
             }
 
             fCollidable.setSelection(node.isCollidable());

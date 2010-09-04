@@ -305,16 +305,16 @@ public class CameraView extends Composite implements SceneChangedListener
     @Override
     public void sceneChanged(final SceneChangedEvent event)
     {
-        if (event.getSceneComponent() == null)
+        if (SceneManager.getSceneManager().getActiveCamera() == null)
         {
             return;
         }
 
-        if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED)
+        if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED || event.getType() == SceneChangedEventType.SCENE_MODIFIED)
         {
             fCameraViewListener.disable();
 
-            Camera camera = (Camera) event.getSceneComponent();
+            Camera camera = SceneManager.getSceneManager().getActiveCamera();
 
             if (camera instanceof MetaDataCamera)
             {

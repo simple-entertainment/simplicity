@@ -11,7 +11,9 @@
  */
 package com.se.simplicity.editor.ui.views;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
@@ -104,7 +106,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
 
     /**
      * <p>
-     * Creates a <code>TreeItem</code> for the given parent and <code>Node</code>.
+     * Retrieves the <code>TreeItem</code> for the given parent and <code>Node</code> (or creates a new one if it does not exist).
      * </p>
      * 
      * @param parent The parent of the <code>TreeItem</code> to be created.
@@ -112,29 +114,33 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
      * 
      * @return A <code>TreeItem</code> for the given parent and <code>Node</code>.
      */
-    protected TreeItem createTreeItem(final Widget parent, final Node node)
+    protected TreeItem getTreeItem(final Widget parent, final Node node)
     {
-        TreeItem treeItem;
-        if (parent instanceof Tree)
-        {
-            treeItem = new TreeItem((Tree) parent, SWT.NONE);
-        }
-        else
-        {
-            treeItem = new TreeItem((TreeItem) parent, SWT.NONE);
-        }
+        TreeItem treeItem = fTreeItems.get(node);
 
-        if (node instanceof MetaDataNode)
+        if (treeItem == null)
         {
-            treeItem.setText((String) ((MetaDataNode) node).getAttribute("name"));
-        }
-        else
-        {
-            treeItem.setText("Node" + node.getID());
-        }
+            if (parent instanceof Tree)
+            {
+                treeItem = new TreeItem((Tree) parent, SWT.NONE);
+            }
+            else
+            {
+                treeItem = new TreeItem((TreeItem) parent, SWT.NONE);
+            }
 
-        fSceneComponents.put(treeItem, node);
-        fTreeItems.put(node, treeItem);
+            if (node instanceof MetaDataNode)
+            {
+                treeItem.setText((String) ((MetaDataNode) node).getAttribute("name"));
+            }
+            else
+            {
+                treeItem.setText(MetaDataNode.getDefaultName(node));
+            }
+
+            fSceneComponents.put(treeItem, node);
+            fTreeItems.put(node, treeItem);
+        }
 
         return (treeItem);
     }
@@ -207,6 +213,7 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
         {
             fTree.removeAll();
             fSceneComponents.clear();
+            fTreeItems.clear();
 
             update(scene);
         }
@@ -216,6 +223,13 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
         }
     }
 
+    /**
+     * <p>
+     * Selects a <code>TreeItem</code> depending on the given scene component (or deselects all <code>TreeItem</code> if no scene component is given).
+     * </p>
+     * 
+     * @param sceneComponent The scene component to select a <code>TreeItem</code> for, or null.
+     */
     protected void selectTreeItem(final Object sceneComponent)
     {
         fSceneOutlineSelectionListener.disable();
@@ -262,13 +276,31 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
      */
     protected void updateCameras(final Scene scene)
     {
+        // Remove Tree Items for Cameras not in Scene.
+        Iterator<TreeItem> sceneComponentKeys = fSceneComponents.keySet().iterator();
+        while (sceneComponentKeys.hasNext())
+        {
+            TreeItem treeItem = sceneComponentKeys.next();
+
+            if (fSceneComponents.get(treeItem) instanceof Camera && !scene.getCameras().contains(fSceneComponents.get(treeItem)))
+            {
+                sceneComponentKeys.remove();
+                fTreeItems.remove(scene);
+                treeItem.dispose();
+            }
+        }
+
+        // Insert Tree Items for Cameras in Scene.
         for (Camera camera : scene.getCameras())
         {
-            TreeItem treeItem = new TreeItem(fTree, SWT.NONE);
-            treeItem.setText((String) ((MetaData) camera).getAttribute("name"));
+            if (fTreeItems.get(camera) == null)
+            {
+                TreeItem treeItem = new TreeItem(fTree, SWT.NONE);
+                treeItem.setText((String) ((MetaData) camera).getAttribute("name"));
 
-            fSceneComponents.put(treeItem, camera);
-            fTreeItems.put(camera, treeItem);
+                fSceneComponents.put(treeItem, camera);
+                fTreeItems.put(camera, treeItem);
+            }
         }
     }
 
@@ -281,13 +313,31 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
      */
     protected void updateLights(final Scene scene)
     {
+        // Remove Tree Items for Lights not in Scene.
+        Iterator<TreeItem> sceneComponentKeys = fSceneComponents.keySet().iterator();
+        while (sceneComponentKeys.hasNext())
+        {
+            TreeItem treeItem = sceneComponentKeys.next();
+
+            if (fSceneComponents.get(treeItem) instanceof Light && !scene.getLights().contains(fSceneComponents.get(treeItem)))
+            {
+                sceneComponentKeys.remove();
+                fTreeItems.remove(scene);
+                treeItem.dispose();
+            }
+        }
+
+        // Insert Tree Items for Lights in Scene.
         for (Light light : scene.getLights())
         {
-            TreeItem treeItem = new TreeItem(fTree, SWT.NONE);
-            treeItem.setText((String) ((MetaData) light).getAttribute("name"));
+            if (fTreeItems.get(light) == null)
+            {
+                TreeItem treeItem = new TreeItem(fTree, SWT.NONE);
+                treeItem.setText((String) ((MetaData) light).getAttribute("name"));
 
-            fSceneComponents.put(treeItem, light);
-            fTreeItems.put(light, treeItem);
+                fSceneComponents.put(treeItem, light);
+                fTreeItems.put(light, treeItem);
+            }
         }
     }
 
@@ -304,11 +354,14 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
 
         if (sceneGraph != null)
         {
+            // Insert / Update Nodes in Scene.
             SimpleTraversal traversal = new SimpleTraversal(sceneGraph.getRoot());
-            Node parentNode = traversal.getNextNode();
+            ArrayList<TreeItem> treeItemsInUse = new ArrayList<TreeItem>();
 
-            TreeItem parentItem = createTreeItem(fTree, parentNode);
+            Node parentNode = traversal.getNextNode();
+            TreeItem parentItem = getTreeItem(fTree, parentNode);
             TreeItem currentItem = parentItem;
+            treeItemsInUse.add(currentItem);
 
             while (traversal.hasMoreNodes())
             {
@@ -320,16 +373,28 @@ public class SceneOutlineView extends ViewPart implements SceneChangedListener
                     parentNode = currentNode.getParent();
                     parentItem = currentItem;
 
-                    if (backtracks > 0)
+                    for (int index = 0; index < backtracks; index++)
                     {
-                        for (int index = 0; index < backtracks; index++)
-                        {
-                            parentItem = parentItem.getParentItem();
-                        }
+                        parentItem = parentItem.getParentItem();
                     }
                 }
 
-                currentItem = createTreeItem(parentItem, currentNode);
+                currentItem = getTreeItem(parentItem, currentNode);
+                treeItemsInUse.add(currentItem);
+            }
+
+            // Remove Nodes not in Scene.
+            Iterator<TreeItem> sceneComponentKeys = fSceneComponents.keySet().iterator();
+            while (sceneComponentKeys.hasNext())
+            {
+                TreeItem treeItem = sceneComponentKeys.next();
+
+                if (fSceneComponents.get(treeItem) instanceof Node && !treeItemsInUse.contains(treeItem))
+                {
+                    sceneComponentKeys.remove();
+                    fTreeItems.remove(scene);
+                    treeItem.dispose();
+                }
             }
         }
     }
