@@ -57,7 +57,7 @@ public class SceneOutlineSelectionListener implements SelectionListener
     {
         fSceneComponents = sceneComponents;
 
-        fEnabled = false;
+        fEnabled = true;
     }
 
     /**
