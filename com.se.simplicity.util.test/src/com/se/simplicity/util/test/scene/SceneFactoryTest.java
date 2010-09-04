@@ -15,6 +15,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.ByteArrayInputStream;
@@ -47,7 +48,6 @@ import com.se.simplicity.scenegraph.SimpleNode;
 import com.se.simplicity.scenegraph.SimpleSceneGraph;
 import com.se.simplicity.scenegraph.model.SimpleModelNode;
 import com.se.simplicity.test.mocks.NodeHierarchy;
-import com.se.simplicity.util.metadata.MetaData;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
@@ -66,38 +66,131 @@ public class SceneFactoryTest
 {
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()}.
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()}, specifically the functionality that
+     * loads a <code>Camera</code>.
      * </p>
      * 
      * @throws FileNotFoundException Thrown if source file is not found.
      */
     @Test
-    public void loadFromSource() throws FileNotFoundException
+    public void loadFromSourceCamera() throws FileNotFoundException
     {
         Scene scene = SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangle.xml")));
 
         assertEquals(1, scene.getCameras().size(), 0);
-        assertEquals("Camera0", ((MetaData) scene.getCameras().get(0)).getAttribute("name"));
-        assertEquals("Camera", ((MetaData) scene.getCameras().get(0).getNode()).getAttribute("name"));
+        assertEquals(SimpleJOGLCamera.class, ((MetaDataCamera) scene.getCameras().get(0)).getWrappedCamera().getClass());
+        assertEquals("Camera0", ((MetaDataCamera) scene.getCameras().get(0)).getAttribute("name"));
+        assertNotNull(scene.getCameras().get(0).getNode());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()} with the special condition that the
+     * source file contains a camera definition with no class specified.
+     * </p>
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void loadFromSourceCameraNoClass() throws FileNotFoundException
+    {
+        try
+        {
+            SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleCameraNoClass.xml")));
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals("Invalid Camera definition: Does not specify a class.", e.getMessage());
+        }
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()}, specifically the functionality that
+     * loads a <code>Light</code>.
+     * </p>
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void loadFromSourceLight() throws FileNotFoundException
+    {
+        Scene scene = SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangle.xml")));
 
         assertEquals(1, scene.getLights().size(), 0);
-        assertEquals("Light0", ((MetaData) scene.getLights().get(0)).getAttribute("name"));
-        assertEquals("Light", ((MetaData) scene.getLights().get(0).getNode()).getAttribute("name"));
+        assertEquals(SimpleJOGLLight.class, ((MetaDataLight) scene.getLights().get(0)).getWrappedLight().getClass());
+        assertEquals("Light0", ((MetaDataLight) scene.getLights().get(0)).getAttribute("name"));
+        assertNotNull(scene.getLights().get(0).getNode());
 
         float[] ambientLight = scene.getLights().get(0).getAmbientLight();
         assertEquals(0.1f, ambientLight[0], 0.0f);
         assertEquals(0.1f, ambientLight[1], 0.0f);
         assertEquals(0.1f, ambientLight[2], 0.0f);
+        assertEquals(1.0f, ambientLight[3], 0.0f);
 
         float[] diffuseLight = scene.getLights().get(0).getDiffuseLight();
         assertEquals(0.1f, diffuseLight[0], 0.0f);
         assertEquals(0.1f, diffuseLight[1], 0.0f);
         assertEquals(0.1f, diffuseLight[2], 0.0f);
+        assertEquals(1.0f, diffuseLight[3], 0.0f);
 
         float[] specularLight = scene.getLights().get(0).getSpecularLight();
         assertEquals(0.1f, specularLight[0], 0.0f);
         assertEquals(0.1f, specularLight[1], 0.0f);
         assertEquals(0.1f, specularLight[2], 0.0f);
+        assertEquals(1.0f, specularLight[3], 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.model.scene.SceneFactory.loadFromSourceFile loadFromSourceFile()} with the special
+     * condition that the source file contains a light definition with no class specified.
+     * </p>
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void loadFromSourceLightNoClass() throws FileNotFoundException
+    {
+        try
+        {
+            SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleLightNoClass.xml")));
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals("Invliad Light definition: Does not specify a class.", e.getMessage());
+        }
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.model.scene.SceneFactory.loadFromSourceFile loadFromSourceFile()} with the special
+     * condition that the source file contains a node definition with no name specified.
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void loadFromSourceNodeNoName() throws FileNotFoundException
+    {
+        Scene scene = SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleNodeNoName.xml")));
+
+        MetaDataNode node1 = (MetaDataNode) scene.getSceneGraph().getRoot().getChildren().get(0);
+        assertEquals(1, node1.getID(), 0);
+        assertEquals("SimpleNode0", node1.getAttribute("name"));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()}, specifically the functionality that
+     * loads a <code>Node</code>s.
+     * </p>
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void loadFromSourceNodes() throws FileNotFoundException
+    {
+        Scene scene = SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangle.xml")));
 
         Node node0 = scene.getSceneGraph().getRoot();
 
@@ -109,6 +202,7 @@ public class SceneFactoryTest
         assertEquals(0.0f, translation1.getX(), 0.0f);
         assertEquals(0.0f, translation1.getY(), 0.0f);
         assertEquals(5.0f, translation1.getZ(), 0.0f);
+        assertEquals(1.0f, translation1.getW(), 0.0f);
 
         MetaDataNode node2 = (MetaDataNode) node0.getChildren().get(1);
         assertEquals(SimpleNode.class, node2.getWrappedNode().getClass());
@@ -118,6 +212,7 @@ public class SceneFactoryTest
         assertEquals(0.0f, translation2.getX(), 0.0f);
         assertEquals(5.0f, translation2.getY(), 0.0f);
         assertEquals(0.0f, translation2.getZ(), 0.0f);
+        assertEquals(1.0f, translation2.getW(), 0.0f);
 
         MetaDataNode node3 = (MetaDataNode) node0.getChildren().get(2);
         assertEquals(SimpleModelNode.class, node3.getWrappedNode().getClass());
@@ -158,65 +253,6 @@ public class SceneFactoryTest
         assertEquals(1.0f, vertices[6], 0.0f);
         assertEquals(-1.0f, vertices[7], 0.0f);
         assertEquals(0.0f, vertices[8], 0.0f);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()} with the special condition that the
-     * source file contains a camera definition with no class specified.
-     * </p>
-     * 
-     * @throws FileNotFoundException Thrown if source file is not found.
-     */
-    @Test
-    public void loadFromSourceCameraNoClass() throws FileNotFoundException
-    {
-        try
-        {
-            SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleCameraNoClass.xml")));
-        }
-        catch (IllegalArgumentException e)
-        {
-            assertEquals("Invalid Camera definition: Does not specify a class.", e.getMessage());
-        }
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.model.scene.SceneFactory.loadFromSourceFile loadFromSourceFile()} with the special
-     * condition that the source file contains a light definition with no class specified.
-     * </p>
-     * 
-     * @throws FileNotFoundException Thrown if source file is not found.
-     */
-    @Test
-    public void loadFromSourceLightNoClass() throws FileNotFoundException
-    {
-        try
-        {
-            SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleLightNoClass.xml")));
-        }
-        catch (IllegalArgumentException e)
-        {
-            assertEquals("Invliad Light definition: Does not specify a class.", e.getMessage());
-        }
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.model.scene.SceneFactory.loadFromSourceFile loadFromSourceFile()} with the special
-     * condition that the source file contains a node definition with no name specified.
-     * 
-     * @throws FileNotFoundException Thrown if source file is not found.
-     */
-    @Test
-    public void loadFromSourceNodeNoName() throws FileNotFoundException
-    {
-        Scene scene = SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleNodeNoName.xml")));
-
-        MetaDataNode node1 = (MetaDataNode) scene.getSceneGraph().getRoot().getChildren().get(0);
-        assertEquals(1, node1.getID(), 0);
-        assertEquals("SimpleNode0", node1.getAttribute("name"));
     }
 
     /**
@@ -564,6 +600,7 @@ public class SceneFactoryTest
         Element node2RotationElement = (Element) node2Content0Element.getChildNodes().item(1);
 
         Element node2Content1Element = (Element) node2Element.getChildNodes().item(1);
+        assertEquals("com.se.simplicity.model.ArrayVG", node2Content1Element.getAttribute("class"));
         assertEquals("vertexGroup", node2Content1Element.getAttribute("type"));
         Element node2Vertex0Element = (Element) node2Content1Element.getChildNodes().item(0);
         assertEquals("1.0, 1.0, 1.0", node2Vertex0Element.getAttribute("colour"));
