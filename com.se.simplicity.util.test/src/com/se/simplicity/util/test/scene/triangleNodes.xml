@@ -15,7 +15,8 @@
 						<translation vector="1, 5, -1" />
 					</content>
 				</node>
-				<node id="1" name="Camera">
+				<node id="1" isCollidable="true" isModifiable="true" isVisible="true"
+					name="Camera">
 					<content type="transformation">
 						<translation vector="0, 0, 5" />
 					</content>

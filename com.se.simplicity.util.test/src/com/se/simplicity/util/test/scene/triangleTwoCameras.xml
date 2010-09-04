@@ -1,7 +1,11 @@
 <simplicity>
 	<scene>
-		<camera name="Camera0" node="1"
-			class="com.se.simplicity.jogl.rendering.SimpleJOGLCamera" />
+		<camera class="com.se.simplicity.jogl.rendering.SimpleJOGLCamera"
+			name="Camera0" node="1" projectionMode="PESPECTIVE">
+			<clipping farClippingDistance="1000.0" nearClippingDistance="0.1" />
+			<frame frameAspectRatio="0.75" frameHeight="0.075" frameWidth="0.1"
+				frameX="0.0" frameY="0.0" />
+		</camera>
 		<camera name="Camera1" node="1"
 			class="com.se.simplicity.jogl.rendering.SimpleJOGLCamera" />
 		<light name="Light0" node="2"

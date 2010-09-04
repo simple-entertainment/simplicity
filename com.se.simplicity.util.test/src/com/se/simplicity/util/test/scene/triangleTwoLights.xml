@@ -2,8 +2,8 @@
 	<scene>
 		<camera name="Camera0" node="1"
 			class="com.se.simplicity.jogl.rendering.SimpleJOGLCamera" />
-		<light name="Light0" node="2"
-			class="com.se.simplicity.jogl.rendering.SimpleJOGLLight">
+		<light class="com.se.simplicity.jogl.rendering.SimpleJOGLLight"
+			lightingMode="SCENE" name="Light0" node="2">
 			<ambient colour="0.1, 0.1, 0.1, 1.0" />
 			<diffuse colour="0.1, 0.1, 0.1, 1.0" />
 			<specular colour="0.1, 0.1, 0.1, 1.0" />

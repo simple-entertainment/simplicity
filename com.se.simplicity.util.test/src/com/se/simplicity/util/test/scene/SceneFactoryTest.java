@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -394,8 +395,17 @@ public class SceneFactoryTest
 
         // Verify test 1 results.
         assertEquals(2, scene.getCameras().size(), 0);
+
         assertEquals(camera0, scene.getCameras().get(0));
         assertEquals("Camera0", ((MetaData) scene.getCameras().get(0)).getAttribute("name"));
+        assertEquals(ProjectionMode.PERSPECTIVE, scene.getCameras().get(0).getProjectionMode());
+        assertEquals(0.1f, scene.getCameras().get(0).getNearClippingDistance(), 0.1f);
+        assertEquals(1000.0f, scene.getCameras().get(0).getFarClippingDistance(), 0.1f);
+        assertEquals(0.0f, scene.getCameras().get(0).getFrameX(), 0.1f);
+        assertEquals(0.0f, scene.getCameras().get(0).getFrameY(), 0.1f);
+        assertEquals(0.1f, scene.getCameras().get(0).getFrameWidth(), 0.1f);
+        assertEquals(0.075f, scene.getCameras().get(0).getFrameHeight(), 0.1f);
+
         assertEquals("Camera1", ((MetaData) scene.getCameras().get(1)).getAttribute("name"));
 
         // Perform test 2.
@@ -405,6 +415,13 @@ public class SceneFactoryTest
         assertEquals(1, scene.getCameras().size(), 0);
         assertEquals(camera0, scene.getCameras().get(0));
         assertEquals("Camera0", ((MetaData) scene.getCameras().get(0)).getAttribute("name"));
+        assertEquals(ProjectionMode.ORTHOGONAL, scene.getCameras().get(0).getProjectionMode());
+        assertEquals(1.0f, scene.getCameras().get(0).getNearClippingDistance(), 0.1f);
+        assertEquals(10.0f, scene.getCameras().get(0).getFarClippingDistance(), 0.1f);
+        assertEquals(1.0f, scene.getCameras().get(0).getFrameX(), 0.1f);
+        assertEquals(1.0f, scene.getCameras().get(0).getFrameY(), 0.1f);
+        assertEquals(1.0f, scene.getCameras().get(0).getFrameWidth(), 0.1f);
+        assertEquals(1.0f, scene.getCameras().get(0).getFrameHeight(), 0.1f);
 
         // Perform test 3.
         SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleCameraNode.xml")));
@@ -442,8 +459,11 @@ public class SceneFactoryTest
 
         // Verify test 1 results.
         assertEquals(2, scene.getLights().size(), 0);
+
         assertEquals(light0, scene.getLights().get(0));
         assertEquals("Light0", ((MetaData) scene.getLights().get(0)).getAttribute("name"));
+        assertEquals(LightingMode.SCENE, scene.getLights().get(0).getLightingMode());
+
         assertEquals("Light1", ((MetaData) scene.getLights().get(1)).getAttribute("name"));
 
         // Perform test 2.
@@ -453,6 +473,7 @@ public class SceneFactoryTest
         assertEquals(1, scene.getLights().size(), 0);
         assertEquals(light0, scene.getLights().get(0));
         assertEquals("Light0", ((MetaData) scene.getLights().get(0)).getAttribute("name"));
+        assertEquals(LightingMode.SHADED, scene.getLights().get(0).getLightingMode());
 
         // Perform test 3.
         SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleLightNode.xml")));
@@ -498,6 +519,9 @@ public class SceneFactoryTest
         assertEquals(cameraNode, node1);
         assertEquals(SimpleNode.class, node1.getWrappedNode().getClass());
         assertEquals("Camera", node1.getAttribute("name"));
+        assertTrue(node1.isCollidable());
+        assertTrue(node1.isModifiable());
+        assertTrue(node1.isVisible());
 
         TranslationVectorf translation1 = node1.getTransformation().getTranslation();
         assertEquals(0.0f, translation1.getX(), 0.0f);
@@ -527,6 +551,9 @@ public class SceneFactoryTest
         assertEquals(cameraNode, node1);
         assertEquals(SimpleNode.class, node1.getWrappedNode().getClass());
         assertEquals("Camera", node1.getAttribute("name"));
+        assertFalse(node1.isCollidable());
+        assertFalse(node1.isModifiable());
+        assertFalse(node1.isVisible());
 
         translation1 = node1.getTransformation().getTranslation();
         assertEquals(0.0f, translation1.getX(), 0.0f);
