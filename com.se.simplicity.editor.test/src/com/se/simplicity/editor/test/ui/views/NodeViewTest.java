@@ -30,7 +30,9 @@ import com.se.simplicity.editor.internal.SceneChangedEvent;
 import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.views.NodeView;
+import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 import com.se.simplicity.vector.TransformationMatrixf;
 import com.se.simplicity.vector.TranslationVectorf;
@@ -99,6 +101,9 @@ public class NodeViewTest
     {
         // Create dependencies.
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         MetaDataNode mockMetaDataNode = createMock(MetaDataNode.class);
         Node mockNode = createMock(Node.class);
 
@@ -108,6 +113,8 @@ public class NodeViewTest
         // Dictate correct behaviour.
         expect(mockEvent.getSceneComponent()).andStubReturn(mockMetaDataNode);
         expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_ACTIVATED);
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(mockMetaDataNode);
         expect(mockMetaDataNode.getWrappedNode()).andStubReturn(mockNode);
         expect(mockMetaDataNode.getAttribute("name")).andStubReturn("Test");
         expect(mockMetaDataNode.getID()).andStubReturn(0);
@@ -122,7 +129,12 @@ public class NodeViewTest
         expect(mockTranslation.getX()).andStubReturn(5.0f);
         expect(mockTranslation.getY()).andStubReturn(10.0f);
         expect(mockTranslation.getZ()).andStubReturn(15.0f);
-        replay(mockEvent, mockMetaDataNode, mockNode, mockTransformation, mockTranslation);
+        replay(mockEvent, mockScene, mockSceneGraph, mockMetaDataNode, mockNode, mockTransformation, mockTranslation);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().setActiveNode(mockMetaDataNode);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -139,7 +151,7 @@ public class NodeViewTest
         // Verify test.
         assertEquals("Test", ((Text) idWidgets[3]).getText());
 
-        assertEquals("$Proxy6", ((Text) reflectiveWidgets[1]).getText());
+        assertEquals("$Proxy7", ((Text) reflectiveWidgets[1]).getText());
     }
 
     /**
@@ -153,6 +165,9 @@ public class NodeViewTest
     {
         // Create dependencies.
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         Node mockNode = createMock(Node.class);
 
         TransformationMatrixf mockTransformation = createMock(TransformationMatrixf.class);
@@ -161,6 +176,8 @@ public class NodeViewTest
         // Dictate correct behaviour.
         expect(mockEvent.getSceneComponent()).andStubReturn(mockNode);
         expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_ACTIVATED);
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockNode.getID()).andStubReturn(0);
         expect(mockNode.isCollidable()).andStubReturn(true);
         expect(mockNode.isModifiable()).andStubReturn(true);
@@ -173,7 +190,12 @@ public class NodeViewTest
         expect(mockTranslation.getX()).andStubReturn(5.0f);
         expect(mockTranslation.getY()).andStubReturn(10.0f);
         expect(mockTranslation.getZ()).andStubReturn(15.0f);
-        replay(mockEvent, mockNode, mockTransformation, mockTranslation);
+        replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockTransformation, mockTranslation);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().setActiveNode(mockNode);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -205,7 +227,7 @@ public class NodeViewTest
 
         // Verify test.
         assertEquals("0", ((Text) idWidgets[1]).getText());
-        assertEquals("Node0", ((Text) idWidgets[3]).getText());
+        assertEquals("$Proxy70", ((Text) idWidgets[3]).getText());
 
         assertEquals(true, ((Button) propertyWidgets[0]).getSelection());
         assertEquals(true, ((Button) propertyWidgets[1]).getSelection());
@@ -219,7 +241,7 @@ public class NodeViewTest
         assertEquals("180.0", ((Text) rotationWidgets[3]).getText());
         assertEquals("270.0", ((Text) rotationWidgets[5]).getText());
 
-        assertEquals("$Proxy6", ((Text) reflectiveWidgets[1]).getText());
+        assertEquals("$Proxy7", ((Text) reflectiveWidgets[1]).getText());
     }
 
     /**

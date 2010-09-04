@@ -17,6 +17,8 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -32,7 +34,9 @@ import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.views.LightView;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
+import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
 
 /**
@@ -100,6 +104,10 @@ public class LightViewTest
         // Create dependencies.
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         Light mockLight = createMock(Light.class);
+        ArrayList<Light> lights = new ArrayList<Light>();
+        lights.add(mockLight);
+
+        Scene mockScene = createMock(Scene.class);
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
@@ -110,8 +118,14 @@ public class LightViewTest
         expect(mockLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockScene.getLights()).andStubReturn(lights);
         expect(mockNode.getID()).andStubReturn(0);
-        replay(mockEvent, mockLight, mockNode);
+        replay(mockEvent, mockLight, mockScene, mockNode);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().setActiveLight(mockLight);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -179,6 +193,10 @@ public class LightViewTest
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         MetaDataLight mockMetaDataLight = createMock(MetaDataLight.class);
         Light mockLight = createMock(Light.class);
+        ArrayList<Light> lights = new ArrayList<Light>();
+        lights.add(mockMetaDataLight);
+
+        Scene mockScene = createMock(Scene.class);
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
@@ -190,9 +208,15 @@ public class LightViewTest
         expect(mockMetaDataLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockMetaDataLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockMetaDataLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockScene.getLights()).andStubReturn(lights);
         expect(mockNode.getID()).andStubReturn(0);
         expect(mockMetaDataLight.getWrappedLight()).andStubReturn(mockLight);
-        replay(mockEvent, mockMetaDataLight, mockLight, mockNode);
+        replay(mockEvent, mockMetaDataLight, mockLight, mockScene, mockNode);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().setActiveLight(mockMetaDataLight);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();

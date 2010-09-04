@@ -717,6 +717,7 @@ public class SceneOutlineViewTest
     @Test
     public void updateCameras()
     {
+        // Create dependencies.
         Scene mockScene = createMock(Scene.class);
 
         ArrayList<Camera> cameras = new ArrayList<Camera>();
@@ -725,8 +726,7 @@ public class SceneOutlineViewTest
         cameras.add(mockCamera0);
         cameras.add(mockCamera1);
 
-        testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
-
+        // Dictate correct behaviour.
         expect(mockScene.getCameras()).andStubReturn(cameras);
         expect(mockCamera0.getAttribute("name")).andReturn("Camera0");
         expect(mockCamera1.getAttribute("name")).andReturn("Camera1");
@@ -734,8 +734,13 @@ public class SceneOutlineViewTest
         expect(mockScene.getSceneGraph()).andStubReturn(null);
         replay(mockScene, mockCamera0, mockCamera1);
 
+        // Initialise test environment.
+        testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
+
+        // Perform test 1.
         testObject.update(mockScene);
 
+        // Verify test 1 results.
         Tree tree = testObject.getTree();
 
         assertEquals(2, tree.getItemCount(), 0);
@@ -743,6 +748,19 @@ public class SceneOutlineViewTest
         assertEquals("Camera0", item0.getText());
         TreeItem item1 = tree.getItem(1);
         assertEquals("Camera1", item1.getText());
+
+        // Modify dependencies.
+        cameras.remove(mockCamera1);
+
+        // Perform test 2.
+        testObject.update(mockScene);
+
+        // Verify test 2 results.
+        tree = testObject.getTree();
+
+        assertEquals(1, tree.getItemCount(), 0);
+        item0 = tree.getItem(0);
+        assertEquals("Camera0", item0.getText());
     }
 
     /**
@@ -754,6 +772,7 @@ public class SceneOutlineViewTest
     @Test
     public void updateLights()
     {
+        // Create dependencies.
         Scene mockScene = createMock(Scene.class);
 
         ArrayList<Light> lights = new ArrayList<Light>();
@@ -762,8 +781,7 @@ public class SceneOutlineViewTest
         lights.add(mockLight0);
         lights.add(mockLight1);
 
-        testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
-
+        // Dictate correct behaviour.
         expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
         expect(mockScene.getLights()).andStubReturn(lights);
         expect(mockLight0.getAttribute("name")).andReturn("Light0");
@@ -771,8 +789,13 @@ public class SceneOutlineViewTest
         expect(mockScene.getSceneGraph()).andStubReturn(null);
         replay(mockScene, mockLight0, mockLight1);
 
+        // Initialise test environment.
+        testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
+
+        // Perform test 1.
         testObject.update(mockScene);
 
+        // Verify test 1 results.
         Tree tree = testObject.getTree();
 
         assertEquals(2, tree.getItemCount(), 0);
@@ -780,6 +803,19 @@ public class SceneOutlineViewTest
         assertEquals("Light0", item0.getText());
         TreeItem item1 = tree.getItem(1);
         assertEquals("Light1", item1.getText());
+
+        // Modify dependencies.
+        lights.remove(mockLight1);
+
+        // Perform test 2.
+        testObject.update(mockScene);
+
+        // Verify test 2 results.
+        tree = testObject.getTree();
+
+        assertEquals(1, tree.getItemCount(), 0);
+        item0 = tree.getItem(0);
+        assertEquals("Light0", item0.getText());
     }
 
     /**
@@ -791,44 +827,77 @@ public class SceneOutlineViewTest
     @Test
     public void updateSceneGraph()
     {
+        // Create dependencies.
         Scene mockScene = createMock(Scene.class);
         SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         NodeHierarchy nodes = new NodeHierarchy();
         nodes.setStandardNodeHierarchy();
 
-        testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
-
+        // Dictate correct behaviour.
         expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
         expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
         replay(mockScene, mockSceneGraph);
 
+        // Initialise test environment.
+        testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
+
+        // Perform test 1.
         testObject.update(mockScene);
 
+        // Verify test 1 results.
         Tree tree = testObject.getTree();
 
         assertEquals(1, tree.getItemCount(), 0);
         TreeItem item0 = tree.getItem(0);
-        assertEquals("Node0", item0.getText());
+        assertEquals("SimpleNode0", item0.getText());
 
         assertEquals(3, item0.getItemCount(), 0);
         TreeItem item1 = item0.getItem(0);
-        assertEquals("Node1", item1.getText());
+        assertEquals("SimpleNode1", item1.getText());
         TreeItem item3 = item0.getItem(1);
-        assertEquals("Node3", item3.getText());
+        assertEquals("SimpleNode3", item3.getText());
         TreeItem item6 = item0.getItem(2);
-        assertEquals("Node6", item6.getText());
+        assertEquals("SimpleNode6", item6.getText());
 
         assertEquals(1, item1.getItemCount(), 0);
         TreeItem item2 = item1.getItem(0);
-        assertEquals("Node2", item2.getText());
+        assertEquals("SimpleModelNode2", item2.getText());
 
         assertEquals(2, item3.getItemCount(), 0);
         TreeItem item4 = item3.getItem(0);
-        assertEquals("Node4", item4.getText());
+        assertEquals("SimpleNode4", item4.getText());
         TreeItem item5 = item3.getItem(1);
-        assertEquals("Node5", item5.getText());
+        assertEquals("SimpleNode5", item5.getText());
+
+        // Modify dependencies.
+        nodes.node1.removeChild(nodes.node7);
+        nodes.node4.removeChild(nodes.node5);
+
+        // Perform test 2.
+        testObject.update(mockScene);
+
+        // Verify test 2 results.
+        tree = testObject.getTree();
+
+        assertEquals(1, tree.getItemCount(), 0);
+        item0 = tree.getItem(0);
+        assertEquals("SimpleNode0", item0.getText());
+
+        assertEquals(2, item0.getItemCount(), 0);
+        item1 = item0.getItem(0);
+        assertEquals("SimpleNode1", item1.getText());
+        item3 = item0.getItem(1);
+        assertEquals("SimpleNode3", item3.getText());
+
+        assertEquals(1, item1.getItemCount(), 0);
+        item2 = item1.getItem(0);
+        assertEquals("SimpleModelNode2", item2.getText());
+
+        assertEquals(1, item3.getItemCount(), 0);
+        item5 = item3.getItem(0);
+        assertEquals("SimpleNode5", item5.getText());
     }
 
     /**

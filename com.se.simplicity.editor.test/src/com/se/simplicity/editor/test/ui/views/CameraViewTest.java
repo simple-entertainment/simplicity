@@ -17,6 +17,8 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -32,6 +34,7 @@ import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.views.CameraView;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.ProjectionMode;
+import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 
@@ -100,6 +103,10 @@ public class CameraViewTest
         // Create dependencies.
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         Camera mockCamera = createMock(Camera.class);
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(mockCamera);
+
+        Scene mockScene = createMock(Scene.class);
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
@@ -114,8 +121,14 @@ public class CameraViewTest
         expect(mockCamera.getFrameHeight()).andStubReturn(0.075f);
         expect(mockCamera.getNearClippingDistance()).andStubReturn(0.1f);
         expect(mockCamera.getFarClippingDistance()).andStubReturn(1000.0f);
+        expect(mockScene.getCameras()).andStubReturn(cameras);
         expect(mockNode.getID()).andStubReturn(0);
-        replay(mockEvent, mockCamera, mockNode);
+        replay(mockEvent, mockCamera, mockScene, mockNode);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().setActiveCamera(mockCamera);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -159,7 +172,7 @@ public class CameraViewTest
         assertEquals("0.1", ((Text) clippingWidgets[1]).getText());
         assertEquals("1000.0", ((Text) clippingWidgets[3]).getText());
 
-        assertEquals("$Proxy8", ((Text) reflectionWidgets[1]).getText());
+        assertEquals("$Proxy9", ((Text) reflectionWidgets[1]).getText());
     }
 
     /**
@@ -176,11 +189,16 @@ public class CameraViewTest
         SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         MetaDataCamera mockMetaDataCamera = createMock(MetaDataCamera.class);
         Camera mockCamera = createMock(Camera.class);
+        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        cameras.add(mockMetaDataCamera);
+
+        Scene mockScene = createMock(Scene.class);
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
         expect(mockEvent.getSceneComponent()).andStubReturn(mockMetaDataCamera);
         expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.CAMERA_ACTIVATED);
+        expect(mockScene.getCameras()).andStubReturn(cameras);
         expect(mockMetaDataCamera.getWrappedCamera()).andStubReturn(mockCamera);
         expect(mockMetaDataCamera.getAttribute("name")).andStubReturn("Test");
         expect(mockMetaDataCamera.getNode()).andStubReturn(mockNode);
@@ -193,7 +211,12 @@ public class CameraViewTest
         expect(mockMetaDataCamera.getNearClippingDistance()).andStubReturn(0.1f);
         expect(mockMetaDataCamera.getFarClippingDistance()).andStubReturn(1000.0f);
         expect(mockNode.getID()).andStubReturn(0);
-        replay(mockEvent, mockMetaDataCamera, mockCamera, mockNode);
+        replay(mockEvent, mockScene, mockMetaDataCamera, mockCamera, mockNode);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().setActiveCamera(mockMetaDataCamera);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -210,7 +233,7 @@ public class CameraViewTest
         // Verify test.
         assertEquals("Test", ((Text) idWidgets[1]).getText());
 
-        assertEquals("$Proxy8", ((Text) reflectionWidgets[1]).getText());
+        assertEquals("$Proxy9", ((Text) reflectionWidgets[1]).getText());
     }
 
     /**
