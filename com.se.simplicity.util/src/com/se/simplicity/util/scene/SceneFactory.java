@@ -1084,6 +1084,14 @@ public final class SceneFactory
     private static void updateCamera(final Camera destination, final Camera source)
     {
         destination.setNode(source.getNode());
+        destination.setProjectionMode(source.getProjectionMode());
+        destination.setNearClippingDistance(source.getNearClippingDistance());
+        destination.setFarClippingDistance(source.getFarClippingDistance());
+        destination.setFrameAspectRatio(source.getFrameAspectRatio());
+        destination.setFrameX(source.getFrameX());
+        destination.setFrameY(source.getFrameY());
+        destination.setFrameWidth(source.getFrameWidth());
+        destination.setFrameHeight(source.getFrameHeight());
     }
 
     /**
@@ -1162,11 +1170,11 @@ public final class SceneFactory
      */
     private static void updateLight(final Light destination, final Light source)
     {
+        destination.setNode(source.getNode());
+        destination.setLightingMode(source.getLightingMode());
+        destination.setSpecularLight(source.getSpecularLight());
         destination.setAmbientLight(source.getAmbientLight());
         destination.setDiffuseLight(source.getDiffuseLight());
-        destination.setLightingMode(source.getLightingMode());
-        destination.setNode(source.getNode());
-        destination.setSpecularLight(source.getSpecularLight());
     }
 
     /**
@@ -1222,8 +1230,8 @@ public final class SceneFactory
     {
         destination.setCollidable(source.isCollidable());
         destination.setModifiable(source.isModifiable());
-        destination.setTransformation(source.getTransformation());
         destination.setVisible(source.isVisible());
+        destination.setTransformation(source.getTransformation());
     }
 
     private static void updateSceneGraphFromSource(final SceneGraph sceneGraph, final Element sceneGraphElement)
