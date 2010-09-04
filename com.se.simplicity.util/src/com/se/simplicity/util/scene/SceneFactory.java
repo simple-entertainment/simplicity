@@ -797,13 +797,35 @@ public final class SceneFactory
     {
         Element translationElement = (Element) contentElement.getElementsByTagName("translation").item(0);
 
-        float[] translationArray = getFloatArray(translationElement.getAttribute("vector"));
+        if (translationElement != null)
+        {
+            float[] translationArray = getFloatArray(translationElement.getAttribute("vector"));
+            if (translationArray.length < 3)
+            {
+                throw new IllegalArgumentException("Invalid Translation: Does not specify X, Y and Z translation values.");
+            }
 
-        TranslationVectorf translation = node.getTransformation().getTranslation();
-        translation.setX(translationArray[0]);
-        translation.setY(translationArray[1]);
-        translation.setZ(translationArray[2]);
-        node.getTransformation().translate(translation);
+            TranslationVectorf translation = node.getTransformation().getTranslation();
+            translation.setX(translationArray[0]);
+            translation.setY(translationArray[1]);
+            translation.setZ(translationArray[2]);
+            node.getTransformation().translate(translation);
+        }
+
+        Element rotationElement = (Element) contentElement.getElementsByTagName("rotation").item(0);
+
+        if (rotationElement != null)
+        {
+            float[] axisAnglesArray = getFloatArray(rotationElement.getAttribute("axisAngles"));
+            if (axisAnglesArray.length < 3)
+            {
+                throw new IllegalArgumentException("Invalid Translation: Does not specify X, Y and Z rotation values.");
+            }
+
+            node.getTransformation().setXAxisRotation(axisAnglesArray[0]);
+            node.getTransformation().setYAxisRotation(axisAnglesArray[1]);
+            node.getTransformation().setZAxisRotation(axisAnglesArray[2]);
+        }
     }
 
     /**
