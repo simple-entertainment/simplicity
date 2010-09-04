@@ -17,6 +17,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
@@ -134,29 +135,46 @@ public class SceneComponentView extends ViewPart implements SceneChangedListener
     @Override
     public void sceneChanged(final SceneChangedEvent event)
     {
-        Composite topView = null;
-        if (event.getSceneComponent() == null)
+        Control topView = ((StackLayout) fParent.getLayout()).topControl;
+        if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED)
         {
-            topView = fEmptyView;
-        }
-        else
-        {
-            if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED)
+            if (event.getSceneComponent() == null)
+            {
+                topView = fEmptyView;
+            }
+            else
             {
                 topView = fCameraView;
             }
-            else if (event.getType() == SceneChangedEventType.LIGHT_ACTIVATED)
+        }
+        else if (event.getType() == SceneChangedEventType.LIGHT_ACTIVATED)
+        {
+            if (event.getSceneComponent() == null)
+            {
+                topView = fEmptyView;
+            }
+            else
             {
                 topView = fLightView;
             }
-            else if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
+        }
+        else if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
+        {
+            if (event.getSceneComponent() == null)
+            {
+                topView = fEmptyView;
+            }
+            else
             {
                 topView = fNodeView;
             }
         }
 
-        ((StackLayout) fParent.getLayout()).topControl = topView;
-        fParent.layout();
+        if (((StackLayout) fParent.getLayout()).topControl != topView)
+        {
+            ((StackLayout) fParent.getLayout()).topControl = topView;
+            fParent.layout();
+        }
     }
 
     @Override
