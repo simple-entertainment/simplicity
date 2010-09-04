@@ -180,6 +180,7 @@ public class SceneComponentViewTest
 
         // Dictate correct behaviour.
         expect(mockEvent.getSceneComponent()).andStubReturn(null);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.CAMERA_ACTIVATED);
         replay(mockEvent);
 
         // Initialise test environment.
