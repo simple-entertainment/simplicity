@@ -868,24 +868,24 @@ public class SceneOutlineViewTest
 
         assertEquals(1, tree.getItemCount(), 0);
         TreeItem item0 = tree.getItem(0);
-        assertEquals("Node (0)", item0.getText());
+        assertEquals("SimpleNode0", item0.getText());
 
         assertEquals(3, item0.getItemCount(), 0);
         TreeItem item1 = item0.getItem(0);
-        assertEquals("Node (1)", item1.getText());
+        assertEquals("SimpleNode1", item1.getText());
         TreeItem item3 = item0.getItem(1);
-        assertEquals("Node (3)", item3.getText());
+        assertEquals("SimpleNode3", item3.getText());
         TreeItem item6 = item0.getItem(2);
-        assertEquals("Node (6)", item6.getText());
+        assertEquals("SimpleNode6", item6.getText());
 
         assertEquals(1, item1.getItemCount(), 0);
         TreeItem item2 = item1.getItem(0);
-        assertEquals("Vertex Group (2)", item2.getText());
+        assertEquals("SimpleModelNode2", item2.getText());
 
         assertEquals(2, item3.getItemCount(), 0);
         TreeItem item4 = item3.getItem(0);
-        assertEquals("Node (4)", item4.getText());
+        assertEquals("SimpleNode4", item4.getText());
         TreeItem item5 = item3.getItem(1);
-        assertEquals("Node (5)", item5.getText());
+        assertEquals("SimpleNode5", item5.getText());
     }
 }
