@@ -15,6 +15,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -39,6 +40,8 @@ import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.VertexGroup;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
+import com.se.simplicity.rendering.LightingMode;
+import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
@@ -80,6 +83,14 @@ public class SceneFactoryTest
         assertEquals(SimpleJOGLCamera.class, ((MetaDataCamera) scene.getCameras().get(0)).getWrappedCamera().getClass());
         assertEquals("Camera0", ((MetaDataCamera) scene.getCameras().get(0)).getAttribute("name"));
         assertNotNull(scene.getCameras().get(0).getNode());
+        assertEquals(ProjectionMode.ORTHOGONAL, scene.getCameras().get(0).getProjectionMode());
+        assertEquals(1.0f, scene.getCameras().get(0).getNearClippingDistance(), 0.0f);
+        assertEquals(10.0f, scene.getCameras().get(0).getFarClippingDistance(), 0.0f);
+        assertEquals(1.0f, scene.getCameras().get(0).getFrameAspectRatio(), 0.0f);
+        assertEquals(1.0f, scene.getCameras().get(0).getFrameX(), 0.0f);
+        assertEquals(1.0f, scene.getCameras().get(0).getFrameY(), 0.0f);
+        assertEquals(1.0f, scene.getCameras().get(0).getFrameWidth(), 0.0f);
+        assertEquals(1.0f, scene.getCameras().get(0).getFrameHeight(), 0.0f);
     }
 
     /**
@@ -160,6 +171,7 @@ public class SceneFactoryTest
         assertEquals(1, scene.getLights().size(), 0);
         assertEquals(SimpleJOGLLight.class, ((MetaDataLight) scene.getLights().get(0)).getWrappedLight().getClass());
         assertEquals("Light0", ((MetaDataLight) scene.getLights().get(0)).getAttribute("name"));
+        assertEquals(LightingMode.SHADED, scene.getLights().get(0).getLightingMode());
         assertNotNull(scene.getLights().get(0).getNode());
 
         float[] ambientLight = scene.getLights().get(0).getAmbientLight();
@@ -278,6 +290,9 @@ public class SceneFactoryTest
         MetaDataNode node1 = (MetaDataNode) node0.getChildren().get(0);
         assertEquals(SimpleNode.class, node1.getWrappedNode().getClass());
         assertEquals("Camera", node1.getAttribute("name"));
+        assertFalse(node1.isCollidable());
+        assertFalse(node1.isModifiable());
+        assertFalse(node1.isVisible());
 
         TranslationVectorf translation1 = node1.getTransformation().getTranslation();
         assertEquals(0.0f, translation1.getX(), 0.0f);
@@ -597,6 +612,14 @@ public class SceneFactoryTest
         // Dictate correct behaviour.
         expect(mockScene.getCameras()).andStubReturn(cameras);
         expect(mockCamera.getNode()).andStubReturn(mockNode);
+        expect(mockCamera.getProjectionMode()).andStubReturn(ProjectionMode.PERSPECTIVE);
+        expect(mockCamera.getNearClippingDistance()).andStubReturn(0.1f);
+        expect(mockCamera.getFarClippingDistance()).andStubReturn(1000.0f);
+        expect(mockCamera.getFrameAspectRatio()).andStubReturn(0.75f);
+        expect(mockCamera.getFrameX()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameY()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameWidth()).andStubReturn(0.1f);
+        expect(mockCamera.getFrameHeight()).andStubReturn(0.075f);
         expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getSubgraphRoots()).andStubReturn(new ArrayList<Node>());
@@ -605,7 +628,6 @@ public class SceneFactoryTest
 
         // Perform test.
         Document source = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        ;
         SceneFactory.writeToSource(mockScene, source);
 
         // Verify test results.
@@ -615,6 +637,17 @@ public class SceneFactoryTest
         assertEquals("$Proxy5", cameraElement.getAttribute("class"));
         assertNull(cameraElement.getAttributes().getNamedItem("name"));
         assertEquals("0", cameraElement.getAttribute("node"));
+        assertEquals("PERSPECTIVE", cameraElement.getAttribute("projectionMode"));
+
+        Element clippingElement = (Element) source.getElementsByTagName("clipping").item(0);
+        assertEquals("0.1", clippingElement.getAttribute("nearClippingDistance"));
+        assertEquals("1000.0", clippingElement.getAttribute("farClippingDistance"));
+        Element frameElement = (Element) source.getElementsByTagName("frame").item(0);
+        assertEquals("0.75", frameElement.getAttribute("frameAspectRatio"));
+        assertEquals("0.0", frameElement.getAttribute("frameX"));
+        assertEquals("0.0", frameElement.getAttribute("frameY"));
+        assertEquals("0.1", frameElement.getAttribute("frameWidth"));
+        assertEquals("0.075", frameElement.getAttribute("frameHeight"));
     }
 
     /**
@@ -643,6 +676,7 @@ public class SceneFactoryTest
         expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
         expect(mockScene.getLights()).andStubReturn(lights);
         expect(mockLight.getNode()).andStubReturn(mockNode);
+        expect(mockLight.getLightingMode()).andStubReturn(LightingMode.SCENE);
         expect(mockLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
@@ -662,6 +696,7 @@ public class SceneFactoryTest
         assertEquals("$Proxy8", lightElement.getAttribute("class"));
         assertNull(lightElement.getAttributes().getNamedItem("name"));
         assertEquals("0", lightElement.getAttribute("node"));
+        assertEquals("SCENE", lightElement.getAttribute("lightingMode"));
 
         Element ambientElement = (Element) source.getElementsByTagName("ambient").item(0);
         assertEquals("0.1, 0.1, 0.1, 1.0", ambientElement.getAttribute("colour"));
@@ -699,6 +734,14 @@ public class SceneFactoryTest
         expect(mockMetaDataCamera.getAttribute("name")).andStubReturn("Test");
         expect(mockMetaDataCamera.getNode()).andStubReturn(mockNode);
         expect(mockMetaDataCamera.getWrappedCamera()).andStubReturn(camera);
+        expect(mockMetaDataCamera.getProjectionMode()).andStubReturn(ProjectionMode.PERSPECTIVE);
+        expect(mockMetaDataCamera.getNearClippingDistance()).andStubReturn(0.1f);
+        expect(mockMetaDataCamera.getFarClippingDistance()).andStubReturn(1000.0f);
+        expect(mockMetaDataCamera.getFrameAspectRatio()).andStubReturn(0.75f);
+        expect(mockMetaDataCamera.getFrameX()).andStubReturn(0.0f);
+        expect(mockMetaDataCamera.getFrameY()).andStubReturn(0.0f);
+        expect(mockMetaDataCamera.getFrameWidth()).andStubReturn(0.1f);
+        expect(mockMetaDataCamera.getFrameHeight()).andStubReturn(0.075f);
         expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getSubgraphRoots()).andStubReturn(new ArrayList<Node>());
@@ -745,6 +788,7 @@ public class SceneFactoryTest
         expect(mockMetaDataLight.getAttribute("name")).andStubReturn("Test");
         expect(mockMetaDataLight.getNode()).andStubReturn(mockNode);
         expect(mockMetaDataLight.getWrappedLight()).andStubReturn(light);
+        expect(mockMetaDataLight.getLightingMode()).andStubReturn(LightingMode.SCENE);
         expect(mockMetaDataLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockMetaDataLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockMetaDataLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
@@ -853,6 +897,9 @@ public class SceneFactoryTest
         assertEquals("com.se.simplicity.scenegraph.SimpleNode", node0Element.getAttribute("class"));
         assertNull(node0Element.getAttributes().getNamedItem("name"));
         assertEquals("0", node0Element.getAttribute("id"));
+        assertEquals("true", node0Element.getAttribute("isCollidable"));
+        assertEquals("true", node0Element.getAttribute("isModifiable"));
+        assertEquals("true", node0Element.getAttribute("isVisible"));
 
         Element nodeOContentElement = (Element) node0Element.getChildNodes().item(0);
         assertEquals("transformation", nodeOContentElement.getAttribute("type"));
@@ -866,6 +913,9 @@ public class SceneFactoryTest
         assertEquals("com.se.simplicity.scenegraph.SimpleNode", node1Element.getAttribute("class"));
         assertNull(node1Element.getAttributes().getNamedItem("name"));
         assertEquals("1", node1Element.getAttribute("id"));
+        assertEquals("true", node1Element.getAttribute("isCollidable"));
+        assertEquals("true", node1Element.getAttribute("isModifiable"));
+        assertEquals("true", node1Element.getAttribute("isVisible"));
 
         Element node1ContentElement = (Element) node1Element.getChildNodes().item(0);
         assertEquals("transformation", node1ContentElement.getAttribute("type"));
@@ -877,6 +927,9 @@ public class SceneFactoryTest
         assertEquals("com.se.simplicity.scenegraph.model.SimpleModelNode", node2Element.getAttribute("class"));
         assertNull(node2Element.getAttributes().getNamedItem("name"));
         assertEquals("2", node2Element.getAttribute("id"));
+        assertEquals("true", node2Element.getAttribute("isCollidable"));
+        assertEquals("true", node2Element.getAttribute("isModifiable"));
+        assertEquals("true", node2Element.getAttribute("isVisible"));
 
         Element node2Content0Element = (Element) node2Element.getChildNodes().item(0);
         assertEquals("transformation", node2Content0Element.getAttribute("type"));
