@@ -147,19 +147,19 @@ public final class SceneFactory
         Element ambientElement = (Element) lightElement.getElementsByTagName("ambient").item(0);
         if (ambientElement != null)
         {
-            light.setAmbientLight(getFloatArray(ambientElement.getAttribute("colour") + ", 1.0"));
+            light.setAmbientLight(getFloatArray(ambientElement.getAttribute("colour")));
         }
 
         Element diffuseElement = (Element) lightElement.getElementsByTagName("diffuse").item(0);
         if (diffuseElement != null)
         {
-            light.setDiffuseLight(getFloatArray(diffuseElement.getAttribute("colour") + ", 1.0"));
+            light.setDiffuseLight(getFloatArray(diffuseElement.getAttribute("colour")));
         }
 
         Element specularElement = (Element) lightElement.getElementsByTagName("specular").item(0);
         if (specularElement != null)
         {
-            light.setSpecularLight(getFloatArray(specularElement.getAttribute("colour") + ", 1.0"));
+            light.setSpecularLight(getFloatArray(specularElement.getAttribute("colour")));
         }
 
         return (light);
