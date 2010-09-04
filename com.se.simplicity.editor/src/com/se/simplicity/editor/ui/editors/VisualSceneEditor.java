@@ -27,15 +27,20 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
+import com.se.simplicity.editor.internal.SceneChangedEvent;
+import com.se.simplicity.editor.internal.SceneChangedEventType;
+import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.util.SceneFactory;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
+import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.rendering.engine.RenderingEngine;
+import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SimpleNode;
 import com.se.simplicity.vector.SimpleTranslationVectorf4;
 
@@ -46,7 +51,7 @@ import com.se.simplicity.vector.SimpleTranslationVectorf4;
  * 
  * @author Gary Buyn
  */
-public class VisualSceneEditor extends EditorPart
+public class VisualSceneEditor extends EditorPart implements SceneChangedListener
 {
     /**
      * <p>
@@ -82,6 +87,18 @@ public class VisualSceneEditor extends EditorPart
      * </p>
      */
     private Camera fViewingCamera;
+
+    /**
+     * <p>
+     * Creates an instance of <code>VisualSceneEditor</code>.
+     * </p>
+     */
+    public VisualSceneEditor()
+    {
+        super();
+
+        SceneManager.getSceneManager().addSceneChangedListener(this);
+    }
 
     @Override
     public void createPartControl(final Composite parent)
@@ -125,6 +142,14 @@ public class VisualSceneEditor extends EditorPart
     }
 
     @Override
+    public void dispose()
+    {
+        SceneManager.getSceneManager().removeSceneChangedListener(this);
+
+        super.dispose();
+    }
+
+    @Override
     public void doSave(final IProgressMonitor monitor)
     {}
 
@@ -142,6 +167,18 @@ public class VisualSceneEditor extends EditorPart
     public GLCanvas getCanvas()
     {
         return (fCanvas);
+    }
+
+    /**
+     * <p>
+     * Retrieves the <code>PickingEngine</code> used to select items in the <code>Scene</code>.
+     * </p>
+     * 
+     * @return The <code>PickingEngine</code> used to select items in the <code>Scene</code>.
+     */
+    public PickingEngine getPickingEngine()
+    {
+        return (fPickingEngine);
     }
 
     /**
@@ -182,10 +219,10 @@ public class VisualSceneEditor extends EditorPart
         fPickingEngine = SceneManager.getSceneManager().getPickingEngineForScene(fSceneName);
         fPickingEngine.setCamera(fViewingCamera);
 
-        SceneManager.getSceneManager().setActiveScene(fSceneName);
-
         // TODO temporary
-        SceneFactory.addXSceneAtOrigin(SceneManager.getSceneManager().getActiveScene().getSceneGraph());
+        // SceneFactory.addXSceneAtOrigin(SceneManager.getSceneManager().getScene(fSceneName).getSceneGraph());
+
+        SceneManager.getSceneManager().setActiveScene(fSceneName);
     }
 
     /**
@@ -213,6 +250,25 @@ public class VisualSceneEditor extends EditorPart
     public boolean isSaveAsAllowed()
     {
         return (false);
+    }
+
+    @Override
+    public void sceneChanged(final SceneChangedEvent event)
+    {
+        Renderer outlineRenderer = fRenderingEngine.getRenderers().get(1);
+
+        if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED)
+        {
+            // fRenderingEngine.setRendererRoot(outlineRenderer, (Node) event.getSceneComponent());
+        }
+        else if (event.getType() == SceneChangedEventType.LIGHT_ACTIVATED)
+        {
+            // fRenderingEngine.setRendererRoot(outlineRenderer, (Node) event.getSceneComponent());
+        }
+        else if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
+        {
+            fRenderingEngine.setRendererRoot(outlineRenderer, (Node) event.getSceneComponent());
+        }
     }
 
     @Override
