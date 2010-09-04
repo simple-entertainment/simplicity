@@ -18,8 +18,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -308,13 +306,12 @@ public class SceneFactoryTest
         replay(mockScene, mockCamera, mockSceneGraph, mockNode);
 
         // Perform test.
-        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        Document source = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        ;
         SceneFactory.writeToSource(mockScene, source);
 
         // Verify test results.
-        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
-
-        NodeList cameraElements = document.getElementsByTagName("camera");
+        NodeList cameraElements = source.getElementsByTagName("camera");
         assertEquals(1, cameraElements.getLength(), 0);
         Element cameraElement = (Element) cameraElements.item(0);
         assertEquals("$Proxy5", cameraElement.getAttribute("class"));
@@ -357,24 +354,22 @@ public class SceneFactoryTest
         replay(mockScene, mockLight, mockSceneGraph, mockNode);
 
         // Perform test.
-        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        Document source = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         SceneFactory.writeToSource(mockScene, source);
 
         // Verify test results.
-        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
-
-        NodeList lightElements = document.getElementsByTagName("light");
+        NodeList lightElements = source.getElementsByTagName("light");
         assertEquals(1, lightElements.getLength(), 0);
         Element lightElement = (Element) lightElements.item(0);
         assertEquals("$Proxy8", lightElement.getAttribute("class"));
         assertNull(lightElement.getAttributes().getNamedItem("name"));
         assertEquals("0", lightElement.getAttribute("node"));
 
-        Element ambientElement = (Element) document.getElementsByTagName("ambient").item(0);
+        Element ambientElement = (Element) source.getElementsByTagName("ambient").item(0);
         assertEquals("0.1, 0.1, 0.1, 1.0", ambientElement.getAttribute("colour"));
-        Element diffuseElement = (Element) document.getElementsByTagName("diffuse").item(0);
+        Element diffuseElement = (Element) source.getElementsByTagName("diffuse").item(0);
         assertEquals("0.1, 0.1, 0.1, 1.0", diffuseElement.getAttribute("colour"));
-        Element specularElement = (Element) document.getElementsByTagName("specular").item(0);
+        Element specularElement = (Element) source.getElementsByTagName("specular").item(0);
         assertEquals("0.1, 0.1, 0.1, 1.0", specularElement.getAttribute("colour"));
     }
 
@@ -413,13 +408,11 @@ public class SceneFactoryTest
         replay(mockScene, mockMetaDataCamera, mockSceneGraph, mockNode);
 
         // Perform test.
-        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        Document source = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         SceneFactory.writeToSource(mockScene, source);
 
         // Verify test results.
-        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
-
-        NodeList cameraElements = document.getElementsByTagName("camera");
+        NodeList cameraElements = source.getElementsByTagName("camera");
         Element cameraElement = (Element) cameraElements.item(0);
         assertEquals("com.se.simplicity.jogl.rendering.SimpleJOGLCamera", cameraElement.getAttribute("class"));
         assertEquals("Test", cameraElement.getAttribute("name"));
@@ -463,13 +456,11 @@ public class SceneFactoryTest
         replay(mockScene, mockMetaDataLight, mockSceneGraph, mockNode);
 
         // Perform test.
-        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        Document source = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         SceneFactory.writeToSource(mockScene, source);
 
         // Verify test results.
-        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
-
-        NodeList lightElements = document.getElementsByTagName("light");
+        NodeList lightElements = source.getElementsByTagName("light");
         Element lightElement = (Element) lightElements.item(0);
         assertEquals("com.se.simplicity.jogl.rendering.SimpleJOGLLight", lightElement.getAttribute("class"));
         assertEquals("Test", lightElement.getAttribute("name"));
@@ -505,13 +496,11 @@ public class SceneFactoryTest
         replay(mockScene, mockSceneGraph);
 
         // Perform test.
-        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        Document source = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         SceneFactory.writeToSource(mockScene, source);
 
         // Verify test results.
-        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
-
-        NodeList nodeElements = document.getElementsByTagName("node");
+        NodeList nodeElements = source.getElementsByTagName("node");
 
         Element node0Element = (Element) nodeElements.item(1);
         assertEquals("com.se.simplicity.scenegraph.SimpleNode", node0Element.getAttribute("class"));
@@ -555,13 +544,11 @@ public class SceneFactoryTest
         replay(mockScene, mockSceneGraph);
 
         // Perform test.
-        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        Document source = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         SceneFactory.writeToSource(mockScene, source);
 
         // Verify test results.
-        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
-
-        NodeList nodeElements = document.getElementsByTagName("node");
+        NodeList nodeElements = source.getElementsByTagName("node");
         assertEquals(4, nodeElements.getLength(), 0);
 
         Element node0Element = (Element) nodeElements.item(1);
@@ -640,15 +627,13 @@ public class SceneFactoryTest
         replay(mockScene, mockSceneGraph);
 
         // Perform test.
-        ByteArrayOutputStream source = new ByteArrayOutputStream();
+        Document source = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         SceneFactory.writeToSource(mockScene, source);
 
         // Verify test results.
-        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(source.toByteArray()));
-
-        assertEquals(1, document.getElementsByTagName("simplicity").getLength(), 0);
-        assertEquals(1, document.getElementsByTagName("scene").getLength(), 0);
-        assertEquals(1, document.getElementsByTagName("sceneGraph").getLength(), 0);
-        assertEquals(1, document.getElementsByTagName("node").getLength(), 0);
+        assertEquals(1, source.getElementsByTagName("simplicity").getLength(), 0);
+        assertEquals(1, source.getElementsByTagName("scene").getLength(), 0);
+        assertEquals(1, source.getElementsByTagName("sceneGraph").getLength(), 0);
+        assertEquals(1, source.getElementsByTagName("node").getLength(), 0);
     }
 }
