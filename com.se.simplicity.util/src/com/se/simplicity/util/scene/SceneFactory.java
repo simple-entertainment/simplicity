@@ -319,10 +319,15 @@ public final class SceneFactory
     private static Element createSourceFromNode(final Document document, final Node node)
     {
         Element nodeElement = document.createElement("node");
+        Node wrappedNode = null;
+        if (node instanceof MetaDataNode)
+        {
+            wrappedNode = ((MetaDataNode) node).getWrappedNode();
+        }
 
         if (node instanceof MetaDataNode)
         {
-            nodeElement.setAttribute("class", ((MetaDataNode) node).getWrappedNode().getClass().getName());
+            nodeElement.setAttribute("class", wrappedNode.getClass().getName());
         }
         else
         {
@@ -338,7 +343,14 @@ public final class SceneFactory
 
         nodeElement.appendChild(createSourceFromTransformation(document, node.getTransformation()));
 
-        if (node instanceof ModelNode)
+        if (node instanceof MetaDataNode)
+        {
+            if (wrappedNode instanceof ModelNode)
+            {
+                nodeElement.appendChild(createSourceFromVertexGroup(document, ((ModelNode) wrappedNode).getVertexGroup()));
+            }
+        }
+        else if (node instanceof ModelNode)
         {
             nodeElement.appendChild(createSourceFromVertexGroup(document, ((ModelNode) node).getVertexGroup()));
         }
@@ -410,6 +422,7 @@ public final class SceneFactory
     {
         Element vertexGroupElement = document.createElement("content");
         vertexGroupElement.setAttribute("type", "vertexGroup");
+        vertexGroupElement.setAttribute("class", vertexGroup.getClass().getName());
 
         if (vertexGroup instanceof ArrayVG)
         {
