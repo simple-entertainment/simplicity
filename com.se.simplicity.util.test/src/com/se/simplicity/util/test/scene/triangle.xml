@@ -13,6 +13,7 @@
 				<node id="1" name="Camera">
 					<content type="transformation">
 						<translation vector="0, 0, 5" />
+						<rotation axisAngles="1.0, 0.0, 0.0" />
 					</content>
 				</node>
 				<node id="2" name="Light">

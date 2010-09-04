@@ -285,6 +285,10 @@ public class SceneFactoryTest
         assertEquals(5.0f, translation1.getZ(), 0.0f);
         assertEquals(1.0f, translation1.getW(), 0.0f);
 
+        assertEquals(1.0f, node1.getTransformation().getXAxisRotation(), 0.0f);
+        assertEquals(0.0f, node1.getTransformation().getYAxisRotation(), 0.0f);
+        assertEquals(0.0f, node1.getTransformation().getZAxisRotation(), 0.0f);
+
         MetaDataNode node2 = (MetaDataNode) node0.getChildren().get(1);
         assertEquals(SimpleNode.class, node2.getWrappedNode().getClass());
         assertEquals("Light", node2.getAttribute("name"));
