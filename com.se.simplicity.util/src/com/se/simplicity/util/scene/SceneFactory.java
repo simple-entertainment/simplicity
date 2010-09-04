@@ -70,7 +70,7 @@ public final class SceneFactory
      * 
      * @return The instance of a <code>Camera</code> created from a serialised source representation.
      */
-    private static Camera createCameraFromSource(final Element cameraElement, final SceneGraph sceneGraph)
+    private static MetaDataCamera createCameraFromSource(final Element cameraElement, final SceneGraph sceneGraph)
     {
         // Check that a class was specified.
         if (cameraElement.getAttribute("class").isEmpty())
@@ -113,7 +113,7 @@ public final class SceneFactory
      * 
      * @return The instance of a <code>Light</code> created from a serialised source representation.
      */
-    private static Light createLightFromSource(final Element lightElement, final SceneGraph sceneGraph)
+    private static MetaDataLight createLightFromSource(final Element lightElement, final SceneGraph sceneGraph)
     {
         // Check that a class was specified.
         if (lightElement.getAttribute("class").isEmpty())
@@ -540,6 +540,65 @@ public final class SceneFactory
 
     /**
      * <p>
+     * Checks if the given <code>Camera</code> is a duplicate of a <code>Camera</code> in the given list.
+     * </p>
+     * 
+     * @param cameras The list to check the <code>Camera</code> against.
+     * @param newCamera The <code>Camera</code> to check.
+     */
+    private static void duplicateCameraCheck(final List<Camera> cameras, final MetaDataCamera newCamera)
+    {
+        for (Camera camera : cameras)
+        {
+            if (((MetaDataCamera) camera).getAttribute("name").equals(newCamera.getAttribute("name")))
+            {
+                throw new IllegalArgumentException("Invalid Camera : A Camera already exists with the name '" + newCamera.getAttribute("name") + "'");
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Checks if the given <code>Light</code> is a duplicate of a <code>Light</code> in the given list.
+     * </p>
+     * 
+     * @param lights The list to check the <code>Light</code> against.
+     * @param newLight The <code>Light</code> to check.
+     */
+    private static void duplicateLightCheck(final List<Light> lights, final MetaDataLight newLight)
+    {
+        for (Light light : lights)
+        {
+            if (((MetaDataLight) light).getAttribute("name").equals(newLight.getAttribute("name")))
+            {
+                throw new IllegalArgumentException("Invalid Light : A Light already exists with the name '" + newLight.getAttribute("name") + "'");
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Checks if the given <code>Node</code> is a duplicate of a <code>Node</code> in the given list.
+     * </p>
+     * 
+     * @param nodes The list to check the <code>Node</code> against.
+     * @param newNode The <code>Node</code> to check.
+     * 
+     * @throws IllegalArgumentException Thrown if the check fails.
+     */
+    private static void duplicateNodeCheck(final List<Node> nodes, final MetaDataNode newNode) throws IllegalArgumentException
+    {
+        for (Node node : nodes)
+        {
+            if (((MetaDataNode) node).getAttribute("name").equals(newNode.getAttribute("name")))
+            {
+                throw new IllegalArgumentException("Invalid Node : A Node already exists with the name '" + newNode.getAttribute("name") + "'");
+            }
+        }
+    }
+
+    /**
+     * <p>
      * Retrieves a comma separated list from an array of float data.
      * </p>
      * 
@@ -605,7 +664,16 @@ public final class SceneFactory
 
         for (int index = 0; index < camerasElement.getLength(); index++)
         {
-            cameras.add(createCameraFromSource((Element) camerasElement.item(index), sceneGraph));
+            try
+            {
+                MetaDataCamera newCamera = createCameraFromSource((Element) camerasElement.item(index), sceneGraph);
+                duplicateCameraCheck(cameras, newCamera);
+                cameras.add(newCamera);
+            }
+            catch (IllegalArgumentException e)
+            {
+                Logger.getLogger(SceneFactory.class).warn("Failed to load Camera.", e);
+            }
         }
 
         return (cameras);
@@ -671,7 +739,16 @@ public final class SceneFactory
 
         for (int index = 0; index < lightsElement.getLength(); index++)
         {
-            lights.add(createLightFromSource((Element) lightsElement.item(index), sceneGraph));
+            try
+            {
+                MetaDataLight newLight = createLightFromSource((Element) lightsElement.item(index), sceneGraph);
+                duplicateLightCheck(lights, newLight);
+                lights.add(newLight);
+            }
+            catch (IllegalArgumentException e)
+            {
+                Logger.getLogger(SceneFactory.class).warn("Failed to load Camera.", e);
+            }
         }
 
         return (lights);
@@ -727,6 +804,323 @@ public final class SceneFactory
 
     /**
      * <p>
+     * Updates the destination <code>Camera</code> to match the source <code>Camera</code>.
+     * </p>
+     * 
+     * @param destination The <code>Camera</code> to update.
+     * @param source The <code>Camera</code> to match.
+     */
+    private static void updateCamera(final Camera destination, final Camera source)
+    {
+        destination.setNode(source.getNode());
+    }
+
+    /**
+     * <p>
+     * Updates the given list of <code>Camera</code>s from a serialised source representation.
+     * </p>
+     * 
+     * @param cameras The <code>Camera</code>s to update.
+     * @param cameraElements The serialised source representation of the <code>Camera</code>s.
+     * @param sceneGraph The <code>SceneGraph</code> containing the <code>Node</code>s the <code>Camera</code>s should be linked to (if a link
+     * exists).
+     */
+    private static void updateCamerasFromSource(final List<Camera> cameras, final NodeList cameraElements, final SceneGraph sceneGraph)
+    {
+        List<Camera> newCameras = loadCamerasFromSource(cameraElements, sceneGraph);
+
+        // Remove Cameras not in Source.
+        for (int index = 0; index < cameras.size(); index++)
+        {
+            try
+            {
+                duplicateCameraCheck(newCameras, (MetaDataCamera) cameras.get(index));
+                cameras.remove(cameras.get(index));
+                index--;
+            }
+            catch (IllegalArgumentException e)
+            {}
+        }
+
+        // Insert/Update Cameras not in Scene.
+        for (Camera newCamera : newCameras)
+        {
+            try
+            {
+                duplicateCameraCheck(cameras, (MetaDataCamera) newCamera);
+                cameras.add(newCameras.indexOf(newCamera), newCamera);
+            }
+            catch (IllegalArgumentException e)
+            {
+                updateCamera(cameras.get(newCameras.indexOf(newCamera)), newCamera);
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Updates the given <code>Scene</code> from a serialised source representation.
+     * </p>
+     * 
+     * @param scene The <code>Scene</code> to update.
+     * @param source The serialised source representation.
+     */
+    public static void updateFromSource(final Scene scene, final InputStream source)
+    {
+        try
+        {
+            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(source);
+
+            updateSceneGraphFromSource(scene.getSceneGraph(), (Element) document.getElementsByTagName("sceneGraph").item(0));
+            updateCamerasFromSource(scene.getCameras(), document.getElementsByTagName("camera"), scene.getSceneGraph());
+            updateLightsFromSource(scene.getLights(), document.getElementsByTagName("light"), scene.getSceneGraph());
+        }
+        catch (Exception e)
+        {
+            throw new IllegalArgumentException("Invalid serialised source representation.", e);
+        }
+    }
+
+    /**
+     * <p>
+     * Updates the destination <code>Light</code> to match the source <code>Light</code>.
+     * </p>
+     * 
+     * @param destination The <code>Light</code> to update.
+     * @param source The <code>Light</code> to match.
+     */
+    private static void updateLight(final Light destination, final Light source)
+    {
+        destination.setAmbientLight(source.getAmbientLight());
+        destination.setDiffuseLight(source.getDiffuseLight());
+        destination.setLightingMode(source.getLightingMode());
+        destination.setNode(source.getNode());
+        destination.setSpecularLight(source.getSpecularLight());
+    }
+
+    /**
+     * <p>
+     * Updates the given list of <code>Light</code>s from a serialised source representation.
+     * </p>
+     * 
+     * @param lights The <code>Light</code>s to update.
+     * @param lightElements The serialised source representation of the <code>Light</code>s.
+     * @param sceneGraph The <code>SceneGraph</code> containing the <code>Node</code>s the <code>Light</code>s should be linked to (if a link exists).
+     */
+    private static void updateLightsFromSource(final List<Light> lights, final NodeList lightElements, final SceneGraph sceneGraph)
+    {
+        List<Light> newLights = loadLightsFromSource(lightElements, sceneGraph);
+
+        // Remove Lights not in Source.
+        for (int index = 0; index < lights.size(); index++)
+        {
+            try
+            {
+                duplicateLightCheck(newLights, (MetaDataLight) lights.get(index));
+                lights.remove(lights.get(index));
+                index--;
+            }
+            catch (IllegalArgumentException e)
+            {}
+        }
+
+        // Insert/Update Lights not in Scene.
+        for (Light newLight : newLights)
+        {
+            try
+            {
+                duplicateLightCheck(lights, (MetaDataLight) newLight);
+                lights.add(newLights.indexOf(newLight), newLight);
+            }
+            catch (IllegalArgumentException e)
+            {
+                updateLight(lights.get(newLights.indexOf(newLight)), newLight);
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Updates the destination <code>Node</code> to match the source <code>Node</code>.
+     * </p>
+     * 
+     * @param destination The <code>Node</code> to update.
+     * @param source The <code>Node</code> to match.
+     */
+    private static void updateNode(final Node destination, final Node source)
+    {
+        destination.setCollidable(source.isCollidable());
+        destination.setModifiable(source.isModifiable());
+        destination.setTransformation(source.getTransformation());
+        destination.setVisible(source.isVisible());
+    }
+
+    private static void updateSceneGraphFromSource(final SceneGraph sceneGraph, final Element sceneGraphElement)
+    {
+        List<Node> subgraphRoots = sceneGraph.getSubgraphRoots();
+        List<Node> newSubgraphRoots = loadSceneGraphFromSource(sceneGraphElement).getSubgraphRoots();
+
+        // Remove subgraphs not in Source.
+        for (int index = 0; index < subgraphRoots.size(); index++)
+        {
+            try
+            {
+                duplicateNodeCheck(newSubgraphRoots, (MetaDataNode) subgraphRoots.get(index));
+                sceneGraph.removeSubgraph(subgraphRoots.get(index));
+                index--;
+            }
+            catch (IllegalArgumentException e)
+            {}
+        }
+
+        // Insert/Update subgraphs not in Scene.
+        for (int newIndex = 0; newIndex < newSubgraphRoots.size(); newIndex++)
+        {
+            MetaDataNode newNode = (MetaDataNode) newSubgraphRoots.get(newIndex);
+
+            int matchIndex = -1;
+            for (int index = 0; index < subgraphRoots.size(); index++)
+            {
+                MetaDataNode node = (MetaDataNode) subgraphRoots.get(index);
+
+                if (node.getAttribute("name").equals(newNode.getAttribute("name")))
+                {
+                    matchIndex = index;
+                }
+            }
+
+            if (matchIndex == -1)
+            {
+                sceneGraph.addSubgraph(newNode);
+            }
+            else
+            {
+                updateNode(subgraphRoots.get(matchIndex), newNode);
+                updateSubgraphFromSource(subgraphRoots.get(matchIndex), newNode);
+            }
+        }
+    }
+
+    private static void updateSubgraphFromSource(final Node subgraphRoot, final Node newSubgraphRoot)
+    {
+        List<Node> subgraphChildren = subgraphRoot.getChildren();
+        List<Node> newSubgraphChildren = newSubgraphRoot.getChildren();
+
+        // Remove subgraphs not in Source.
+        for (int index = 0; index < subgraphChildren.size(); index++)
+        {
+            try
+            {
+                duplicateNodeCheck(newSubgraphChildren, (MetaDataNode) subgraphChildren.get(index));
+                subgraphRoot.removeChild(subgraphChildren.get(index));
+                index--;
+            }
+            catch (IllegalArgumentException e)
+            {}
+        }
+
+        // Insert/Update subgraphs not in Scene.
+        for (Node newSubgraphChild : newSubgraphChildren)
+        {
+            try
+            {
+                duplicateNodeCheck(subgraphChildren, (MetaDataNode) newSubgraphChild);
+                subgraphRoot.addChild(newSubgraphChild);
+            }
+            catch (IllegalArgumentException e)
+            {
+                updateNode(subgraphChildren.get(newSubgraphChildren.indexOf(newSubgraphChild)), newSubgraphChild);
+            }
+        }
+
+        // Do the same for any children recursively.
+        for (int index = 0; index < subgraphChildren.size(); index++)
+        {
+            updateSubgraphFromSource(subgraphChildren.get(index), newSubgraphChildren.get(index));
+        }
+    }
+
+    /**
+     * <p>
+     * Writes a serialised source representation of a list of <code>Camera</code>s to a <code>Document</code>.
+     * </p>
+     * 
+     * @param cameras The list of <code>Camera</code>s to write a serialised source representation of.
+     * @param parentElement The parent <code>Element</code> in the <code>Document</code> for the list of <code>Camera</code>s.
+     * @param document The <code>Document</code> that will contain serialised source representation.
+     */
+    public static void writeCamerasToSource(final List<Camera> cameras, final Element parentElement, final Document document)
+    {
+        for (Camera camera : cameras)
+        {
+            parentElement.appendChild(createSourceFromCamera(document, camera));
+        }
+    }
+
+    /**
+     * <p>
+     * Writes a serialised source representation of a list of <code>Light</code>s to a <code>Document</code>.
+     * </p>
+     * 
+     * @param lights The list of <code>Light</code>s to write a serialised source representation of.
+     * @param parentElement The parent <code>Element</code> in the <code>Document</code> for the list of <code>Light</code>s.
+     * @param document The <code>Document</code> that will contain serialised source representation.
+     */
+    public static void writeLightsToSource(final List<Light> lights, final Element parentElement, final Document document)
+    {
+        for (Light light : lights)
+        {
+            parentElement.appendChild(createSourceFromLight(document, light));
+        }
+    }
+
+    /**
+     * <p>
+     * Writes a serialised source representation of a <code>SceneGraph</code> to a <code>Document</code>.
+     * </p>
+     * 
+     * @param sceneGraph The <code>SceneGraph</code> to write a serialised source representation of.
+     * @param parentElement The parent <code>Element</code> in the <code>Document</code> for the <code>SceneGraph</code>.
+     * @param document The <code>Document</code> that will contain serialised source representation.
+     */
+    public static void writeSceneGraphToSource(final SceneGraph sceneGraph, final Element parentElement, final Document document)
+    {
+        for (Node subgraphRoot : sceneGraph.getSubgraphRoots())
+        {
+            parentElement.appendChild(createSourceFromSubgraph(document, subgraphRoot));
+        }
+    }
+
+    /**
+     * <p>
+     * Writes a serialised source representation of a <code>Scene</code> to a <code>Document</code>.
+     * </p>
+     * 
+     * @param scene The <code>Scene</code> to write a serialised source representation of.
+     * @param document The <code>Document</code> that will contain serialised source representation.
+     */
+    public static void writeToSource(final Scene scene, final Document document)
+    {
+        Element simplicityElement = document.createElement("simplicity");
+        document.appendChild(simplicityElement);
+
+        Element sceneElement = document.createElement("scene");
+        simplicityElement.appendChild(sceneElement);
+
+        writeCamerasToSource(scene.getCameras(), sceneElement, document);
+        writeLightsToSource(scene.getLights(), sceneElement, document);
+
+        Element sceneGraphElement = document.createElement("sceneGraph");
+        sceneElement.appendChild(sceneGraphElement);
+        Element internalNodesElement = document.createElement("node");
+        sceneGraphElement.appendChild(internalNodesElement);
+        internalNodesElement.setAttribute("name", "Internally Managed Node(s)");
+
+        writeSceneGraphToSource(scene.getSceneGraph(), internalNodesElement, document);
+    }
+
+    /**
+     * <p>
      * Writes a serialised source representation of a <code>Scene</code> to a <code>File</code>.
      * </p>
      * 
@@ -743,6 +1137,7 @@ public final class SceneFactory
         catch (Exception e)
         {
             Logger.getLogger(SceneFactory.class).error("Failed to create XML Document", e);
+            return;
         }
 
         writeToSource(scene, document);
@@ -777,6 +1172,7 @@ public final class SceneFactory
         catch (Exception e)
         {
             Logger.getLogger(SceneFactory.class).error("Failed to create XML Document", e);
+            return;
         }
 
         writeToSource(scene, document);
@@ -790,44 +1186,6 @@ public final class SceneFactory
         catch (TransformerException e)
         {
             Logger.getLogger(SceneFactory.class).error("Failed to transform XML Document", e);
-        }
-    }
-
-    /**
-     * <p>
-     * Writes a serialised source representation of a <code>Scene</code> to a <code>Document</code>.
-     * </p>
-     * 
-     * @param scene The <code>Scene</code> to write a serialised source representation of.
-     * @param document The <code>Document</code> that will contain serialised source representation.
-     */
-    public static void writeToSource(final Scene scene, final Document document)
-    {
-        Element simplicityElement = document.createElement("simplicity");
-        document.appendChild(simplicityElement);
-
-        Element sceneElement = document.createElement("scene");
-        simplicityElement.appendChild(sceneElement);
-
-        for (Camera camera : scene.getCameras())
-        {
-            sceneElement.appendChild(createSourceFromCamera(document, camera));
-        }
-
-        for (Light light : scene.getLights())
-        {
-            sceneElement.appendChild(createSourceFromLight(document, light));
-        }
-
-        Element sceneGraphElement = document.createElement("sceneGraph");
-        sceneElement.appendChild(sceneGraphElement);
-        Element internalNodesElement = document.createElement("node");
-        sceneGraphElement.appendChild(internalNodesElement);
-        internalNodesElement.setAttribute("name", "Internally Managed Node(s)");
-
-        for (Node subgraphRoot : scene.getSceneGraph().getSubgraphRoots())
-        {
-            internalNodesElement.appendChild(createSourceFromSubgraph(document, subgraphRoot));
         }
     }
 
