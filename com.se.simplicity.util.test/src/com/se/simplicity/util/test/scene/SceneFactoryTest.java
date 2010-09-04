@@ -125,6 +125,27 @@ public class SceneFactoryTest
 
     /**
      * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()} with the special condition that the
+     * source file contains a camera definition with no name specified.
+     * </p>
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void loadFromSourceCameraNoName() throws FileNotFoundException
+    {
+        try
+        {
+            SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleCameraNoName.xml")));
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals("Invalid Camera definition: Does not specify a name.", e.getMessage());
+        }
+    }
+
+    /**
+     * <p>
      * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()}, specifically the functionality that
      * loads a <code>Light</code>.
      * </p>
@@ -197,7 +218,28 @@ public class SceneFactoryTest
         }
         catch (IllegalArgumentException e)
         {
-            assertEquals("Invliad Light definition: Does not specify a class.", e.getMessage());
+            assertEquals("Invalid Light definition: Does not specify a class.", e.getMessage());
+        }
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.model.scene.SceneFactory.loadFromSourceFile loadFromSourceFile()} with the special
+     * condition that the source file contains a light definition with no name specified.
+     * </p>
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void loadFromSourceLightNoName() throws FileNotFoundException
+    {
+        try
+        {
+            SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleLightNoName.xml")));
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals("Invalid Light definition: Does not specify a name.", e.getMessage());
         }
     }
 
