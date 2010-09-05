@@ -13,6 +13,8 @@ package com.se.simplicity.picking.event;
 
 import java.util.ArrayList;
 
+import com.se.simplicity.picking.Hit;
+
 /**
  * <p>
  * An event that indicates a {@link com.se.simplicity.picking.Picker Picker} has been invoked against a
@@ -29,7 +31,7 @@ public class PickEvent
      * The hits made as a result of the pick.
      * </p>
      */
-    private ArrayList<Object[]> hits;
+    private ArrayList<Hit> fHits;
 
     /**
      * <p>
@@ -38,7 +40,7 @@ public class PickEvent
      */
     public PickEvent()
     {
-        hits = new ArrayList<Object[]>();
+        fHits = new ArrayList<Hit>();
     }
 
     /**
@@ -48,9 +50,30 @@ public class PickEvent
      * 
      * @param hit A hit made as a result of the pick.
      */
-    public void addHit(final Object[] hit)
+    public void addHit(final Hit hit)
     {
-        hits.add(hit);
+        fHits.add(hit);
+    }
+
+    /**
+     * <p>
+     * Retrieves the closest hit made as a result of the pick.
+     * </p>
+     * 
+     * @return The closest hit made as a result of the pick.
+     */
+    public Hit getCloseHit()
+    {
+        Hit closeHit = null;
+        for (Hit hit : fHits)
+        {
+            if (closeHit == null || hit.getMinimumDistance() < closeHit.getMinimumDistance())
+            {
+                closeHit = hit;
+            }
+        }
+
+        return (closeHit);
     }
 
     /**
@@ -62,9 +85,9 @@ public class PickEvent
      * 
      * @return A hit made as a result of the pick.
      */
-    public Object[] getHit(final int index)
+    public Hit getHit(final int index)
     {
-        return (hits.get(index));
+        return (fHits.get(index));
     }
 
     /**
@@ -76,6 +99,6 @@ public class PickEvent
      */
     public int getHitCount()
     {
-        return (hits.size());
+        return (fHits.size());
     }
 }
