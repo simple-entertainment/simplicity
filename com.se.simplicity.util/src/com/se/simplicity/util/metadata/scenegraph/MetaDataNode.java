@@ -18,7 +18,6 @@ import java.util.List;
 
 import com.se.simplicity.model.BoundingVolume;
 import com.se.simplicity.model.Model;
-import com.se.simplicity.model.VertexGroup;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SimpleTraversal;
 import com.se.simplicity.scenegraph.Traversal;
@@ -85,49 +84,49 @@ public class MetaDataNode implements ModelNode, MetaData
      * The meta data attributes.
      * </p>
      */
-    private Hashtable<String, Object> attributes;
+    private Hashtable<String, Object> fAttributes;
 
     /**
      * <p>
      * The <code>MetaDataNode</code>s directly below this <code>MetaDataNode</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
      * </p>
      */
-    private List<Node> children;
+    private List<Node> fChildren;
 
     /**
      * <p>
      * The <code>Node</code> that is wrapped by this <code>MetaDataNode</code>.
      * </p>
      */
-    private Node node;
+    private Node fNode;
 
     /**
      * <p>
      * The <code>MetaDataNode</code> directly above this <code>MetaDataNode</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} .
      * </p>
      */
-    private Node parent;
+    private Node fParent;
 
     /**
      * <p>
      * Creates an instance of <code>MetaDataNode</code>.
      * </p>
      * 
-     * @param newNode The <code>Node</code> that is wrapped by this <code>MetaDataCamera</code>.
+     * @param node The <code>Node</code> that is wrapped by this <code>MetaDataCamera</code>.
      */
-    public MetaDataNode(final Node newNode)
+    public MetaDataNode(final Node node)
     {
-        node = newNode;
+        fNode = node;
 
-        attributes = new Hashtable<String, Object>();
-        children = new ArrayList<Node>();
-        parent = null;
+        fAttributes = new Hashtable<String, Object>();
+        fChildren = new ArrayList<Node>();
+        fParent = null;
     }
 
     @Override
     public void addChild(final Node child)
     {
-        children.add(child);
+        fChildren.add(child);
         child.setParent(this);
     }
 
@@ -145,51 +144,51 @@ public class MetaDataNode implements ModelNode, MetaData
     @Override
     public TransformationMatrixf getAbsoluteTransformation()
     {
-        return (node.getAbsoluteTransformation());
+        return (fNode.getAbsoluteTransformation());
     }
 
     @Override
     public Object getAttribute(final String name)
     {
-        return (attributes.get(name));
+        return (fAttributes.get(name));
     }
 
     @Override
     public Enumeration<String> getAttributeNames()
     {
-        return (attributes.keys());
+        return (fAttributes.keys());
     }
 
     @Override
     public Enumeration<Object> getAttributes()
     {
-        return (attributes.elements());
+        return (fAttributes.elements());
     }
 
     @Override
     public BoundingVolume getBounds()
     {
-        return (node.getBounds());
+        return (fNode.getBounds());
     }
 
     @Override
     public List<Node> getChildren()
     {
-        return (children);
+        return (fChildren);
     }
 
     @Override
     public int getID()
     {
-        return (node.getID());
+        return (fNode.getID());
     }
 
     @Override
     public Model getModel()
     {
-        if (node instanceof ModelNode)
+        if (fNode instanceof ModelNode)
         {
-            return (((ModelNode) node).getModel());
+            return (((ModelNode) fNode).getModel());
         }
         else
         {
@@ -200,26 +199,13 @@ public class MetaDataNode implements ModelNode, MetaData
     @Override
     public Node getParent()
     {
-        return (parent);
+        return (fParent);
     }
 
     @Override
     public TransformationMatrixf getTransformation()
     {
-        return (node.getTransformation());
-    }
-
-    @Override
-    public VertexGroup getVertexGroup()
-    {
-        if (node instanceof ModelNode)
-        {
-            return (((ModelNode) node).getVertexGroup());
-        }
-        else
-        {
-            return (null);
-        }
+        return (fNode.getTransformation());
     }
 
     /**
@@ -231,13 +217,13 @@ public class MetaDataNode implements ModelNode, MetaData
      */
     public Node getWrappedNode()
     {
-        return (node);
+        return (fNode);
     }
 
     @Override
     public boolean hasChildren()
     {
-        if (children.size() == 0)
+        if (fChildren.size() == 0)
         {
             return (false);
         }
@@ -248,7 +234,7 @@ public class MetaDataNode implements ModelNode, MetaData
     @Override
     public boolean isAncestor(final Node ancestor)
     {
-        Node currentParent = parent;
+        Node currentParent = fParent;
 
         while (currentParent != null)
         {
@@ -266,13 +252,13 @@ public class MetaDataNode implements ModelNode, MetaData
     @Override
     public boolean isCollidable()
     {
-        return (node.isCollidable());
+        return (fNode.isCollidable());
     }
 
     @Override
     public boolean isModifiable()
     {
-        return (node.isModifiable());
+        return (fNode.isModifiable());
     }
 
     @Override
@@ -294,79 +280,70 @@ public class MetaDataNode implements ModelNode, MetaData
     @Override
     public boolean isVisible()
     {
-        return (node.isVisible());
+        return (fNode.isVisible());
     }
 
     @Override
     public void removeChild(final Node child)
     {
-        children.remove(child);
+        fChildren.remove(child);
         child.setParent(null);
     }
 
     @Override
     public void setAttribute(final String name, final Object value)
     {
-        attributes.put(name, value);
+        fAttributes.put(name, value);
     }
 
     @Override
-    public void setBounds(final BoundingVolume newBounds)
+    public void setBounds(final BoundingVolume bounds)
     {
-        node.setBounds(newBounds);
+        fNode.setBounds(bounds);
     }
 
     @Override
-    public void setCollidable(final boolean newCollidable)
+    public void setCollidable(final boolean collidable)
     {
-        node.setCollidable(newCollidable);
+        fNode.setCollidable(collidable);
     }
 
     @Override
-    public void setID(final int newId)
+    public void setID(final int id)
     {
-        node.setID(newId);
+        fNode.setID(id);
     }
 
     @Override
-    public void setModel(final Model newModel)
+    public void setModel(final Model model)
     {
-        if (node instanceof ModelNode)
+        if (fNode instanceof ModelNode)
         {
-            ((ModelNode) node).setModel(newModel);
+            ((ModelNode) fNode).setModel(model);
         }
     }
 
     @Override
-    public void setModifiable(final boolean newModifiable)
+    public void setModifiable(final boolean modifiable)
     {
-        node.setModifiable(newModifiable);
+        fNode.setModifiable(modifiable);
     }
 
     @Override
-    public void setParent(final Node newParent)
+    public void setParent(final Node parent)
     {
-        parent = newParent;
+        fParent = parent;
     }
 
     @Override
-    public void setTransformation(final TransformationMatrixf newTransformation)
+    public void setTransformation(final TransformationMatrixf transformation)
     {
-        node.setTransformation(newTransformation);
+        fNode.setTransformation(transformation);
     }
 
     @Override
-    public void setVertexGroup(final VertexGroup newVertexGroup)
+    public void setVisible(final boolean visible)
     {
-        if (node instanceof ModelNode)
-        {
-            ((ModelNode) node).setVertexGroup(newVertexGroup);
-        }
-    }
-
-    @Override
-    public void setVisible(final boolean newVisible)
-    {
-        node.setVisible(newVisible);
+        fNode.setVisible(visible);
     }
 }

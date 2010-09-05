@@ -33,7 +33,7 @@ import org.w3c.dom.NodeList;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.ModelConstants;
-import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
@@ -422,9 +422,9 @@ public final class SceneFactory
             {
                 performTransformationFromSource(contentElement, node);
             }
-            if (contentElement.getAttribute("type").equals("vertexGroup"))
+            if (contentElement.getAttribute("type").equals("model"))
             {
-                node.setVertexGroup(createVertexGroupFromSource(contentElement));
+                node.setModel(createModelFromSource(contentElement));
             }
         }
 
@@ -597,12 +597,12 @@ public final class SceneFactory
         {
             if (wrappedNode instanceof ModelNode)
             {
-                nodeElement.appendChild(createSourceFromVertexGroup(document, ((ModelNode) wrappedNode).getVertexGroup()));
+                nodeElement.appendChild(createSourceFromModel(document, ((ModelNode) wrappedNode).getModel()));
             }
         }
         else if (node instanceof ModelNode)
         {
-            nodeElement.appendChild(createSourceFromVertexGroup(document, ((ModelNode) node).getVertexGroup()));
+            nodeElement.appendChild(createSourceFromModel(document, ((ModelNode) node).getModel()));
         }
 
         return (nodeElement);
@@ -660,25 +660,25 @@ public final class SceneFactory
 
     /**
      * <p>
-     * Creates a serialised source representation from an instance of a <code>VertexGroup</code>.
+     * Creates a serialised source representation from an instance of a <code>Model</code>.
      * </p>
      * 
      * @param document The document the serialised source representation will be included in.
-     * @param vertexGroup The <code>VertexGroup</code> to create a serialised source representation from.
+     * @param model The <code>Model</code> to create a serialised source representation from.
      * 
-     * @return The serialised source representation created from the <code>VertexGroup</code>.
+     * @return The serialised source representation created from the <code>Model</code>.
      */
-    private static Element createSourceFromVertexGroup(final Document document, final VertexGroup vertexGroup)
+    private static Element createSourceFromModel(final Document document, final Model model)
     {
         Element vertexGroupElement = document.createElement("content");
-        vertexGroupElement.setAttribute("type", "vertexGroup");
-        vertexGroupElement.setAttribute("class", vertexGroup.getClass().getName());
+        vertexGroupElement.setAttribute("type", "model");
+        vertexGroupElement.setAttribute("class", model.getClass().getName());
 
-        if (vertexGroup instanceof ArrayVG)
+        if (model instanceof ArrayVG)
         {
-            float[] colours = ((ArrayVG) vertexGroup).getColours();
-            float[] normals = ((ArrayVG) vertexGroup).getNormals();
-            float[] vertices = ((ArrayVG) vertexGroup).getVertices();
+            float[] colours = ((ArrayVG) model).getColours();
+            float[] normals = ((ArrayVG) model).getNormals();
+            float[] vertices = ((ArrayVG) model).getVertices();
             float[] tempArray = new float[3];
 
             for (int vertexIndex = 0; vertexIndex < vertices.length / 3; vertexIndex++)
@@ -728,37 +728,37 @@ public final class SceneFactory
 
     /**
      * <p>
-     * Creates a <code>XertexGroup</code> from a serialised source representation.
+     * Creates a <code>Model</code> from a serialised source representation.
      * </p>
      * 
-     * @param vertexGroupElement The serialised source representation of the root <code>XertexGroup</code> of the subgraph.
+     * @param modelElement The serialised source representation of the root <code>Model</code> of the subgraph.
      * 
-     * @return The instance of a <code>XertexGroup</code> created from a serialised source representation.
+     * @return The instance of a <code>Model</code> created from a serialised source representation.
      */
-    private static VertexGroup createVertexGroupFromSource(final Element vertexGroupElement)
+    private static Model createModelFromSource(final Element modelElement)
     {
         // Check that a class was specified.
-        if (vertexGroupElement.getAttribute("class").isEmpty())
+        if (modelElement.getAttribute("class").isEmpty())
         {
-            throw new IllegalArgumentException("Invalid Vertex Group definition: Does not specify a class.");
+            throw new IllegalArgumentException("Invalid Model definition: Does not specify a class.");
         }
 
-        VertexGroup vertexGroup = null;
+        Model model = null;
         try
         {
-            vertexGroup = (VertexGroup) Class.forName(vertexGroupElement.getAttribute("class")).newInstance();
+            model = (Model) Class.forName(modelElement.getAttribute("class")).newInstance();
         }
         catch (Exception e)
         {
-            throw new IllegalArgumentException("Invalid Vertex Group definition: Specifies an invalid class.", e);
+            throw new IllegalArgumentException("Invalid Model definition: Specifies an invalid class.", e);
         }
 
-        // Retrieve the vertex data.
-        NodeList verticesElement = vertexGroupElement.getElementsByTagName("vertex");
-        int vertexCount = verticesElement.getLength();
-
-        if (vertexGroup instanceof ArrayVG)
+        if (model instanceof ArrayVG)
         {
+            // Retrieve the vertex data.
+            NodeList verticesElement = modelElement.getElementsByTagName("vertex");
+            int vertexCount = verticesElement.getLength();
+
             // Create arrays to contain all vertex data.
             float[] colours = new float[vertexCount * ModelConstants.ITEMS_IN_CNV];
             float[] normals = new float[vertexCount * ModelConstants.ITEMS_IN_CNV];
@@ -779,12 +779,12 @@ public final class SceneFactory
                 System.arraycopy(vertexVertices, 0, vertices, index * ModelConstants.ITEMS_IN_CNV, vertexVertices.length);
             }
 
-            ((ArrayVG) vertexGroup).setColours(colours);
-            ((ArrayVG) vertexGroup).setNormals(normals);
-            ((ArrayVG) vertexGroup).setVertices(vertices);
+            ((ArrayVG) model).setColours(colours);
+            ((ArrayVG) model).setNormals(normals);
+            ((ArrayVG) model).setVertices(vertices);
         }
 
-        return (vertexGroup);
+        return (model);
     }
 
     /**
