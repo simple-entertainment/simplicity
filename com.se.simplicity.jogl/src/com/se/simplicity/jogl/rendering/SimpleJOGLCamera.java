@@ -376,7 +376,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
     @Override
     public void setFrameHeight(final float frameHeight)
     {
-        fFrameAspectRatio = frameHeight / fFrameWidth;
+        setFrameAspectRatio(frameHeight / fFrameWidth);
     }
 
     @Override

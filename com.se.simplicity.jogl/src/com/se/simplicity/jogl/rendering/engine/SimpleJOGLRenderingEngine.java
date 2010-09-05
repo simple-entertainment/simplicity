@@ -87,13 +87,6 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
 
     /**
      * <p>
-     * The {@link com.se.simplicity.rendering.Light Light}s within this <code>SimpleJOGLRenderer</code>.
-     * </p>
-     */
-    private List<Light> fLights;
-
-    /**
-     * <p>
      * Logs messages associated with this class.
      * </p>
      */
@@ -147,7 +140,6 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
         fClearingColour = new SimpleRGBColourVectorf4(0.0f, 0.0f, 0.0f, 1.0f);
         fClearsBeforeRender = true;
         fIsInitialised = false;
-        fLights = new ArrayList<Light>();
         fLogger = Logger.getLogger(getClass().getName());
         fRendererRoots = new HashMap<Renderer, Node>();
         fRenderers = new ArrayList<Renderer>();
@@ -183,6 +175,8 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
         {
             throw new IllegalStateException("This Rendering Engine does not have a Camera to view the Scene through.");
         }
+
+        fCamera.init();
 
         if (fScene == null)
         {
@@ -222,7 +216,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
                 {
                     fCamera.apply();
 
-                    for (Light light : fLights)
+                    for (Light light : fScene.getLights())
                     {
                         light.apply();
                     }
