@@ -26,6 +26,7 @@ import com.se.simplicity.jogl.engine.JOGLEngine;
 import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
+import com.se.simplicity.rendering.NamedRenderer;
 import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
@@ -381,8 +382,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
             // Render the current node if it is a model.
             if (currentNode instanceof ModelNode && currentNode.isVisible())
             {
-                // TODO make named renderer interface.
-                if (renderer instanceof NamedJOGLRenderer)
+                if (renderer instanceof NamedRenderer)
                 {
                     ((NamedJOGLRenderer) renderer).renderVertexGroup(((ModelNode) currentNode).getVertexGroup(), currentNode.getID());
                 }

@@ -21,6 +21,7 @@ import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.IndexedArrayVG;
 import com.se.simplicity.model.VertexGroup;
 import com.se.simplicity.rendering.DrawingMode;
+import com.se.simplicity.rendering.NamedRenderer;
 
 /**
  * <p>
@@ -31,7 +32,7 @@ import com.se.simplicity.rendering.DrawingMode;
  * 
  * @author Gary Buyn
  */
-public class NamedJOGLRenderer extends SimpleJOGLRenderer
+public class NamedJOGLRenderer extends SimpleJOGLRenderer implements NamedRenderer
 {
     @Override
     protected void renderArrayVG(final ArrayVG vertexGroup)
@@ -354,14 +355,7 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer
         gl.glPopName();
     }
 
-    /**
-     * <p>
-     * Assigns the given name to the <code>VertexGroup</code> being rendered.
-     * </p>
-     * 
-     * @param vertexGroup The <code>VertexGroup</code> to render.
-     * @param name The name to assign to the <code>VertexGroup</code> being rendered.
-     */
+    @Override
     public void renderVertexGroup(final VertexGroup vertexGroup, final int name)
     {
         GL gl = getGL();
