@@ -22,6 +22,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+
+import javax.media.opengl.GL;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -29,11 +32,14 @@ import org.junit.Test;
 
 import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
+import com.se.simplicity.jogl.rendering.SimpleJOGLLight;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
 import com.se.simplicity.jogl.test.mocks.MockGL;
+import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.Renderer;
+import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.test.mocks.NodeHierarchy;
@@ -152,12 +158,9 @@ public class SimpleJOGLRenderingEngineTest
         NodeHierarchy nodes = new NodeHierarchy();
         nodes.setBasicNodeHierarchy();
 
-        Dimension dimension = new Dimension();
-        dimension.width = 200;
-        dimension.height = 200;
-
         // Dictate correct behaviour.
         mockGL.reset();
+        expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
         mockScene.setGL(mockGL);
@@ -168,7 +171,6 @@ public class SimpleJOGLRenderingEngineTest
         testObject.addRenderer(createMock(SimpleJOGLRenderer.class));
         testObject.setCamera(createMock(SimpleJOGLCamera.class));
         testObject.setScene(mockScene);
-        testObject.setViewportSize(dimension);
 
         // Perform test 1 (clearing enabled).
         testObject.advance();
@@ -233,12 +235,9 @@ public class SimpleJOGLRenderingEngineTest
         NodeHierarchy nodes = new NodeHierarchy();
         nodes.setStandardNodeHierarchy();
 
-        Dimension dimension = new Dimension();
-        dimension.width = 200;
-        dimension.height = 200;
-
         // Dictate correct behaviour.
         mockGL.reset();
+        expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
         mockScene.setGL(mockGL);
@@ -249,7 +248,6 @@ public class SimpleJOGLRenderingEngineTest
         testObject.addRenderer(createMock(SimpleJOGLRenderer.class));
         testObject.setCamera(createMock(SimpleJOGLCamera.class));
         testObject.setScene(mockScene);
-        testObject.setViewportSize(dimension);
 
         // PPerform test.
         testObject.advance();
@@ -258,6 +256,56 @@ public class SimpleJOGLRenderingEngineTest
         assertEquals(8, mockGL.getMethodCallCountIgnoreParams("glPushMatrix"), 0);
         assertEquals(8, mockGL.getMethodCallCountIgnoreParams("glPopMatrix"), 0);
         assertEquals(7, mockGL.getMethodCallCountIgnoreParams("glMultMatrixf"), 0);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.advance advance()}, specifically the
+     * initialisation and disposing of dependencies.
+     * </p>
+     */
+    @Test
+    public void advanceRendererCameraLight()
+    {
+        // Create dependencies.
+        MockGL mockGL = new MockGL();
+        SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setBasicNodeHierarchy();
+
+        SimpleJOGLRenderer mockRenderer = createMock(SimpleJOGLRenderer.class);
+        SimpleJOGLCamera mockCamera = createMock(SimpleJOGLCamera.class);
+        SimpleJOGLLight mockLight = createMock(SimpleJOGLLight.class);
+        ArrayList<Light> lights = new ArrayList<Light>();
+        lights.add(mockLight);
+
+        // Dictate correct behaviour.
+        mockGL.reset();
+        expect(mockScene.getLights()).andStubReturn(lights);
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getRoot()).andStubReturn(nodes.node1);
+        mockScene.setGL(mockGL);
+        mockRenderer.setGL(mockGL);
+        mockRenderer.init();
+        mockRenderer.renderVertexGroup(((ModelNode) nodes.node3).getVertexGroup());
+        mockRenderer.dispose();
+        mockCamera.init();
+        mockCamera.apply();
+        mockLight.apply();
+        replay(mockScene, mockSceneGraph, mockRenderer, mockCamera, mockLight);
+
+        // Setup test environment.
+        testObject.setGL(mockGL);
+        testObject.addRenderer(mockRenderer);
+        testObject.setCamera(mockCamera);
+        testObject.setScene(mockScene);
+
+        // Perform test.
+        testObject.advance();
+
+        // Verify test results.
+        verify(mockRenderer, mockCamera, mockLight);
     }
 
     /**
