@@ -19,6 +19,7 @@ import javax.media.opengl.GL;
 
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.picking.Hit;
 import com.se.simplicity.picking.Pick;
 import com.se.simplicity.picking.Picker;
 import com.se.simplicity.picking.event.PickEvent;
@@ -43,13 +44,6 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      * </p>
      */
     private static final int DEFAULT_SELECT_BUFFER_CAPACITY = 2048;
-
-    /**
-     * <p>
-     * The length of the header information for each hit in the select buffer.
-     * </p>
-     */
-    private static final int SELECT_BUFFER_HIT_HEADER_LENGTH = 3;
 
     /**
      * <p>
@@ -125,20 +119,20 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
 
         for (int hitIndex = 0; hitIndex < numberOfHits; hitIndex++)
         {
-            int numberOfNames = fSelectBuffer.get(bufferIndex);
-            Object[] hit = new Object[numberOfNames];
-
-            bufferIndex += SELECT_BUFFER_HIT_HEADER_LENGTH;
+            Hit hit = new Hit();
+            int numberOfNames = fSelectBuffer.get(bufferIndex++);
+            hit.setMinimumDistance(fSelectBuffer.get(bufferIndex++));
+            hit.setMaximumDistance(fSelectBuffer.get(bufferIndex++));
 
             for (int nameIndex = 0; nameIndex < numberOfNames; nameIndex++)
             {
                 if (nameIndex + 1 == numberOfNames)
                 {
-                    hit[nameIndex] = getSubsetVG(((ModelNode) hit[nameIndex - 1]).getVertexGroup(), fSelectBuffer.get(bufferIndex));
+                    hit.setPrimitive(getSubsetVG(((ModelNode) hit.getNode()).getVertexGroup(), fSelectBuffer.get(bufferIndex)));
                 }
                 else
                 {
-                    hit[nameIndex] = scene.getSceneGraph().getNode(fSelectBuffer.get(bufferIndex));
+                    hit.setNode(scene.getSceneGraph().getNode(fSelectBuffer.get(bufferIndex)));
                 }
 
                 bufferIndex++;
@@ -187,7 +181,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
      * </p>
      * 
      * <p>
-     * NOTE: This method should only be used to examine the select buffer, not to modify it. 
+     * NOTE: This method should only be used to examine the select buffer, not to modify it.
      * </p>
      * 
      * @return The select buffer used by the JOGL rendering environment.
