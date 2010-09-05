@@ -310,15 +310,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
             return (null);
         }
 
-        TransformationMatrixf transformation = new SimpleTransformationMatrixf44();
-        Node currentNode = fNode;
-
-        while (currentNode != null)
-        {
-            transformation.multiplyLeft(currentNode.getTransformation());
-
-            currentNode = currentNode.getParent();
-        }
+        TransformationMatrixf transformation = fNode.getAbsoluteTransformation();
 
         try
         {

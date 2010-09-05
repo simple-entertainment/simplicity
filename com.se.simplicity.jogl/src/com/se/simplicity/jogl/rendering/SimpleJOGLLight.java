@@ -21,7 +21,6 @@ import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.vector.ArrayBackedObjectf;
-import com.se.simplicity.vector.SimpleTransformationMatrixf44;
 import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
@@ -166,15 +165,7 @@ public class SimpleJOGLLight implements Light, JOGLComponent
             return (null);
         }
 
-        TransformationMatrixf transformation = new SimpleTransformationMatrixf44();
-        Node currentNode = fNode;
-
-        while (currentNode != null)
-        {
-            transformation.multiplyLeft(currentNode.getTransformation());
-
-            currentNode = currentNode.getParent();
-        }
+        TransformationMatrixf transformation = fNode.getAbsoluteTransformation();
 
         try
         {
