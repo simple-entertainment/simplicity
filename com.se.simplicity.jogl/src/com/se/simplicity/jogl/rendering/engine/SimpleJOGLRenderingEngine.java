@@ -378,11 +378,11 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
             {
                 if (renderer instanceof NamedRenderer)
                 {
-                    ((NamedJOGLRenderer) renderer).renderVertexGroup(((ModelNode) currentNode).getVertexGroup(), currentNode.getID());
+                    ((NamedJOGLRenderer) renderer).renderModel(((ModelNode) currentNode).getModel(), currentNode.getID());
                 }
                 else
                 {
-                    renderer.renderVertexGroup(((ModelNode) currentNode).getVertexGroup());
+                    renderer.renderModel(((ModelNode) currentNode).getModel());
                 }
             }
         }

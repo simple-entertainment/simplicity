@@ -15,15 +15,15 @@ import javax.media.opengl.GL;
 
 import com.se.simplicity.SENotSupportedException;
 import com.se.simplicity.jogl.JOGLComponent;
-import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.vector.RGBColourVectorf;
 
 /**
  * <p>
- * Renders the {@link com.se.simplicity.model.VertexGroup VertexGroup} in a JOGL environment using a wrapped
- * {@link com.se.simplicity.rendering.Renderer Renderer} and adds an outline. Achieves this using the stencil buffer technique.
+ * Renders the {@link com.se.simplicity.model.Model Model} in a JOGL environment using a wrapped {@link com.se.simplicity.rendering.Renderer Renderer}
+ * and adds an outline. Achieves this using the stencil buffer technique.
  * </p>
  * 
  * @author Gary Buyn
@@ -78,7 +78,7 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
      * Creates an instance of <code>OutlineJOGLRenderer</code>.
      * </p>
      * 
-     * @param renderer The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} whose rendered {@link com.se.simplicity.model.VertexGroup
+     * @param renderer The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} whose rendered {@link com.se.simplicity.model.Model
      * VertexGroup}s will have an outline added to them.
      */
     public OutlineJOGLRenderer(final Renderer renderer)
@@ -142,13 +142,13 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
     }
 
     @Override
-    public void renderVertexGroup(final VertexGroup vertexGroup)
+    public void renderModel(final Model model)
     {
         byte[] lightingEnabledParams = new byte[1];
         fGl.glGetBooleanv(GL.GL_LIGHTING, lightingEnabledParams, 0);
 
         fAlwaysStencil.init();
-        fAlwaysStencil.renderVertexGroup(vertexGroup);
+        fAlwaysStencil.renderModel(model);
         fAlwaysStencil.dispose();
 
         fGl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
@@ -159,7 +159,7 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
         }
 
         fNotEqualStencil.init();
-        fNotEqualStencil.renderVertexGroup(vertexGroup);
+        fNotEqualStencil.renderModel(model);
         fNotEqualStencil.dispose();
 
         if (lightingEnabledParams[0] == 1)

@@ -24,7 +24,7 @@ import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 
 /**
  * <p>
- * Renders a {@link com.se.simplicity.model.VertexGroup VertexGroup} using only one colour in a JOGL environment.
+ * Renders a {@link com.se.simplicity.model.Model Model} using only one colour in a JOGL environment.
  * </p>
  * 
  * @author Gary Buyn
@@ -33,17 +33,17 @@ public class MonoColourJOGLRenderer extends SimpleJOGLRenderer
 {
     /**
      * <p>
-     * The colour to render the {@link com.se.simplicity.model.VertexGroup VertexGroup} in.
+     * The colour to render the {@link com.se.simplicity.model.Model Model} in.
      * </p>
      */
     private RGBColourVectorf fRenderColour;
 
     /**
      * <p>
-     * Retrieves the colour to render the {@link com.se.simplicity.model.VertexGroup VertexGroup} in.
+     * Retrieves the colour to render the {@link com.se.simplicity.model.Model Model} in.
      * </p>
      * 
-     * @return The colour to render the {@link com.se.simplicity.model.VertexGroup VertexGroup} in.
+     * @return The colour to render the {@link com.se.simplicity.model.Model Model} in.
      */
     public RGBColourVectorf getRenderColour()
     {
@@ -120,10 +120,10 @@ public class MonoColourJOGLRenderer extends SimpleJOGLRenderer
 
     /**
      * <p>
-     * Sets the colour to render the {@link com.se.simplicity.model.VertexGroup VertexGroup} in.
+     * Sets the colour to render the {@link com.se.simplicity.model.Model Model} in.
      * </p>
      * 
-     * @param renderColour The colour to render the {@link com.se.simplicity.model.VertexGroup VertexGroup} in.
+     * @param renderColour The colour to render the {@link com.se.simplicity.model.Model Model} in.
      */
     public void setRenderColour(final RGBColourVectorf renderColour)
     {

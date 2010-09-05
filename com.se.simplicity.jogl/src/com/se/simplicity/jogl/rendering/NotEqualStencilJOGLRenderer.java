@@ -14,15 +14,14 @@ package com.se.simplicity.jogl.rendering;
 import javax.media.opengl.GL;
 
 import com.se.simplicity.jogl.JOGLComponent;
-import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
 
 /**
  * <p>
- * Renders a {@link com.se.simplicity.model.VertexGroup VertexGroup} in a JOGL environment using a wrapped
- * {@link com.se.simplicity.rendering.Renderer Renderer} but only renders on pixels where the stencil buffer does not contain a certain value (1 by
- * default).
+ * Renders a {@link com.se.simplicity.model.Model Model} in a JOGL environment using a wrapped {@link com.se.simplicity.rendering.Renderer Renderer}
+ * but only renders on pixels where the stencil buffer does not contain a certain value (1 by default).
  * </p>
  * 
  * @author Gary Buyn
@@ -45,8 +44,7 @@ public class NotEqualStencilJOGLRenderer implements Renderer, JOGLComponent
 
     /**
      * <p>
-     * The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} that will actually render the {@link com.se.simplicity.model.VertexGroup
-     * VertexGroup}.
+     * The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} that will actually render the {@link com.se.simplicity.model.Model Model}.
      * </p>
      */
     private Renderer fRenderer;
@@ -64,7 +62,7 @@ public class NotEqualStencilJOGLRenderer implements Renderer, JOGLComponent
      * </p>
      * 
      * @param renderer The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} that will actually render the
-     * {@link com.se.simplicity.model.VertexGroup VertexGroup}.
+     * {@link com.se.simplicity.model.Model Model}.
      */
     public NotEqualStencilJOGLRenderer(final Renderer renderer)
     {
@@ -123,9 +121,9 @@ public class NotEqualStencilJOGLRenderer implements Renderer, JOGLComponent
     }
 
     @Override
-    public void renderVertexGroup(final VertexGroup vertexGroup)
+    public void renderModel(final Model model)
     {
-        fRenderer.renderVertexGroup(vertexGroup);
+        fRenderer.renderModel(model);
     }
 
     @Override

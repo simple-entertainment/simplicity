@@ -19,15 +19,15 @@ import javax.media.opengl.GL;
 
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.IndexedArrayVG;
-import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.NamedRenderer;
 
 /**
  * <p>
- * This implementation names the <code>VertexGroup</code>s rendered as well as the primitives rendered (faces, edges or vertices).
- * <code>VertexGroup</code>s are named using their hash codes unless a specific name is given. The naming of the primitives is specific to the
- * <code>VertexGroup</code> implementation.
+ * This implementation names the <code>Model</code>s rendered as well as the primitives rendered (faces, edges or vertices).
+ * <code>Model</code>s are named using their hash codes unless a specific name is given. The naming of the primitives is specific to the
+ * <code>Model</code> implementation.
  * </p>
  * 
  * @author Gary Buyn
@@ -344,25 +344,25 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer implements NamedRender
      * @param vertexGroup The <code>VertexGroup</code> to render.
      */
     @Override
-    public void renderVertexGroup(final VertexGroup vertexGroup)
+    public void renderModel(final Model vertexGroup)
     {
         GL gl = getGL();
 
         gl.glPushName(vertexGroup.hashCode());
 
-        super.renderVertexGroup(vertexGroup);
+        super.renderModel(vertexGroup);
 
         gl.glPopName();
     }
 
     @Override
-    public void renderVertexGroup(final VertexGroup vertexGroup, final int name)
+    public void renderModel(final Model model, final int name)
     {
         GL gl = getGL();
 
         gl.glPushName(name);
 
-        super.renderVertexGroup(vertexGroup);
+        super.renderModel(model);
 
         gl.glPopName();
     }

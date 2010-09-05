@@ -18,6 +18,7 @@ import java.nio.IntBuffer;
 import javax.media.opengl.GL;
 
 import com.se.simplicity.jogl.JOGLComponent;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.model.VertexGroup;
 import com.se.simplicity.picking.Hit;
 import com.se.simplicity.picking.Pick;
@@ -128,7 +129,12 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
             {
                 if (nameIndex + 1 == numberOfNames)
                 {
-                    hit.setPrimitive(getSubsetVG(((ModelNode) hit.getNode()).getVertexGroup(), fSelectBuffer.get(bufferIndex)));
+                    Model model = ((ModelNode) hit.getNode()).getModel();
+
+                    if (model instanceof VertexGroup)
+                    {
+                        hit.setPrimitive(getSubsetVG((VertexGroup) model, fSelectBuffer.get(bufferIndex)));
+                    }
                 }
                 else
                 {
