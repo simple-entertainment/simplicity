@@ -33,6 +33,13 @@ public class SourceSceneTextListener implements ITextListener
 {
     /**
      * <p>
+     * Determines if this <code>SourceSceneTextListener</code> should respond to events.
+     * </p>
+     */
+    private boolean fEnabled;
+
+    /**
+     * <p>
      * The {@link com.se.simplicity.editor.ui.editors.SourceSceneEditor SourceSceneEditor} to update the active <code>Scene</code> with.
      * </p>
      */
@@ -49,6 +56,40 @@ public class SourceSceneTextListener implements ITextListener
     public SourceSceneTextListener(final SourceSceneEditor sourceSceneEditor)
     {
         fSourceSceneEditor = sourceSceneEditor;
+
+        fEnabled = true;
+    }
+
+    /**
+     * <p>
+     * Stops this <code>SourceSceneTextListener</code> from responding to events.
+     * </p>
+     */
+    public void disable()
+    {
+        fEnabled = false;
+    }
+
+    /**
+     * <p>
+     * Ensures this <code>SourceSceneTextListener</code> is responding to events.
+     * </p>
+     */
+    public void enable()
+    {
+        fEnabled = true;
+    }
+
+    /**
+     * <p>
+     * Determines whether this <code>SourceSceneTextListener</code> is responding to events.
+     * </p>
+     * 
+     * @return True if this <code>SourceSceneTextListener</code> is responding to events, false otherwise.
+     */
+    public boolean isEnabled()
+    {
+        return (fEnabled);
     }
 
     @Override

@@ -14,6 +14,7 @@ package com.se.simplicity.editor.ui.editors;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.wst.sse.core.internal.text.BasicStructuredDocument;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
+import org.eclipse.wst.sse.ui.internal.actions.StructuredTextEditorActionConstants;
 
 import com.se.simplicity.editor.internal.SceneChangedEvent;
 import com.se.simplicity.editor.internal.SceneChangedEventType;
@@ -77,9 +78,15 @@ public class SourceSceneEditor extends StructuredTextEditor implements SceneChan
         if (event.getType() == SceneChangedEventType.CAMERA_MODIFIED || event.getType() == SceneChangedEventType.LIGHT_MODIFIED
                 || event.getType() == SceneChangedEventType.NODE_MODIFIED)
         {
+            fSourceSceneTextListener.disable();
+
             SceneDocumentSynchroniser synchroniser = new SceneDocumentSynchroniser();
             synchroniser.synchroniseToDocument(SceneManager.getSceneManager().getActiveScene(), (BasicStructuredDocument) getTextViewer()
                     .getDocument());
+
+            fSourceSceneTextListener.enable();
+
+            getAction(StructuredTextEditorActionConstants.ACTION_NAME_FORMAT_DOCUMENT).run();
         }
     }
 }
