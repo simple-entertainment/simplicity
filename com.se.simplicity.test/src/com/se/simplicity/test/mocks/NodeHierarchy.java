@@ -79,9 +79,13 @@ public class NodeHierarchy
      * Builds a basic node hierarchy involving 3 nodes. The third node contains a white triangle. It is structured as follows:
      * </p>
      * 
+     * <code>
      * <pre>
-     * node1 - node2 - node3
+     * node1
+     *   - node2
+     *     - node3
      * </pre>
+     * </code>
      */
     public void setBasicNodeHierarchy()
     {
@@ -115,9 +119,17 @@ public class NodeHierarchy
      * Builds a node hierarchy involving all 7 nodes. The third node contains a white triangle. It is structured as follows:
      * </p>
      * 
+     * <code>
      * <pre>
-     * node1 - node2 - node3 - node4 - node5 - node6 - node7
+     * node1
+     *   - node2
+     *     - node3
+     *   - node4
+     *     - node5
+     *     - node6
+     *   - node7
      * </pre>
+     * </code>
      */
     public void setStandardNodeHierarchy()
     {
