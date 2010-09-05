@@ -11,12 +11,22 @@
  */
 package com.se.simplicity.test.scenegraph;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.reset;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SimpleNode;
+import com.se.simplicity.vector.SimpleTransformationMatrixf44;
+import com.se.simplicity.vector.SimpleTranslationVectorf4;
 
 /**
  * <p>
@@ -57,6 +67,37 @@ public class SimpleNodeTest
     public void before()
     {
         testObject = new SimpleNode();
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.scenegraph.SimpleNode#getAbsoluteTransformation() getAbsoluteTransformation()}.
+     * </p>
+     */
+    @Test
+    public void getAbsoluteTransformation()
+    {
+        Node mockNode1 = createMock(Node.class);
+        Node mockNode2 = createMock(Node.class);
+        SimpleTransformationMatrixf44 matrix1 = new SimpleTransformationMatrixf44();
+        matrix1.translate(new SimpleTranslationVectorf4(0.0f, 10.0f, 0.0f, 1.0f));
+        SimpleTransformationMatrixf44 matrix2 = new SimpleTransformationMatrixf44();
+        matrix2.rotate((float) (90.0f * Math.PI / 180), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
+
+        testObject.setParent(mockNode1);
+
+        reset(mockNode1, mockNode2);
+        expect(mockNode1.getTransformation()).andStubReturn(matrix1);
+        expect(mockNode1.getParent()).andStubReturn(mockNode2);
+        expect(mockNode2.getTransformation()).andStubReturn(matrix2);
+        expect(mockNode2.getParent()).andStubReturn(null);
+        replay(mockNode1, mockNode2);
+
+        SimpleTransformationMatrixf44 matrix3 = new SimpleTransformationMatrixf44();
+        matrix3.multiplyLeft(matrix1);
+        matrix3.multiplyLeft(matrix2);
+
+        assertEquals(matrix3, testObject.getAbsoluteTransformation());
     }
 
     /**
