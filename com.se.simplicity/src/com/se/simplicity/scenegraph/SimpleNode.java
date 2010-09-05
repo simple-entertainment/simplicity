@@ -39,14 +39,14 @@ public class SimpleNode implements Node, Serializable
      * is the root.
      * </p>
      */
-    private BoundingVolume bounds;
+    private BoundingVolume fBounds;
 
     /**
      * <p>
      * The <code>SimpleNode</code>s directly below this <code>SimpleNode</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
      * </p>
      */
-    private List<Node> children;
+    private List<Node> fChildren;
 
     /**
      * <p>
@@ -54,7 +54,7 @@ public class SimpleNode implements Node, Serializable
      * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} (determines if it should be included in collision detection).
      * </p>
      */
-    private boolean collidable;
+    private boolean fCollidable;
 
     /**
      * <p>
@@ -62,35 +62,35 @@ public class SimpleNode implements Node, Serializable
      * SceneGraph}.
      * </p>
      */
-    private int id;
+    private int fId;
 
     /**
      * <p>
      * The modification mode. Determines if this <code>SimpleNode</code> can be modified.
      * </p>
      */
-    private boolean modifiable;
+    private boolean fModifiable;
 
     /**
      * <p>
      * The <code>SimpleNode</code> directly above this <code>SimpleNode</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} .
      * </p>
      */
-    private Node parent;
+    private Node fParent;
 
     /**
      * <p>
      * This <code>SimpleNode</code>'s relative position and orientation.
      * </p>
      */
-    private TransformationMatrixf transformation;
+    private TransformationMatrixf fTransformation;
 
     /**
      * <p>
      * The visibility mode. Determines if this <code>SimpleNode</code> is visible (determines if it should be rendered).
      * </p>
      */
-    private boolean visible;
+    private boolean fVisible;
 
     /**
      * <p>
@@ -99,56 +99,72 @@ public class SimpleNode implements Node, Serializable
      */
     public SimpleNode()
     {
-        children = new ArrayList<Node>();
-        collidable = true;
-        id = 0;
-        modifiable = true;
-        parent = null;
-        transformation = new SimpleTransformationMatrixf44();
-        visible = true;
+        fChildren = new ArrayList<Node>();
+        fCollidable = true;
+        fId = 0;
+        fModifiable = true;
+        fParent = null;
+        fTransformation = new SimpleTransformationMatrixf44();
+        fVisible = true;
     }
 
     @Override
     public void addChild(final Node child)
     {
-        children.add(child);
+        fChildren.add(child);
         child.setParent(this);
+    }
+
+    @Override
+    public TransformationMatrixf getAbsoluteTransformation()
+    {
+        TransformationMatrixf transformation = new SimpleTransformationMatrixf44();
+        Node currentNode = this;
+
+        while (currentNode != null)
+        {
+            transformation.multiplyLeft(currentNode.getTransformation());
+
+            currentNode = currentNode.getParent();
+        }
+
+        return (transformation);
     }
 
     @Override
     public BoundingVolume getBounds()
     {
-        return (bounds);
+        return (fBounds);
     }
 
     @Override
     public List<Node> getChildren()
     {
-        return (children);
+        return (fChildren);
     }
 
     @Override
     public int getID()
     {
-        return (id);
+        return (fId);
     }
 
     @Override
     public Node getParent()
     {
-        return (parent);
+        return (fParent);
     }
 
     @Override
     public TransformationMatrixf getTransformation()
     {
-        return (transformation);
+        return (fTransformation);
     }
 
     @Override
     public boolean hasChildren()
     {
-        if (children.size() == 0)
+        if (fChildren.size() == 0)
         {
             return (false);
         }
@@ -159,7 +175,7 @@ public class SimpleNode implements Node, Serializable
     @Override
     public boolean isAncestor(final Node ancestor)
     {
-        Node currentParent = parent;
+        Node currentParent = fParent;
 
         while (currentParent != null)
         {
@@ -177,13 +193,13 @@ public class SimpleNode implements Node, Serializable
     @Override
     public boolean isCollidable()
     {
-        return (collidable);
+        return (fCollidable);
     }
 
     @Override
     public boolean isModifiable()
     {
-        return (modifiable);
+        return (fModifiable);
     }
 
     @Override
@@ -205,55 +221,55 @@ public class SimpleNode implements Node, Serializable
     @Override
     public boolean isVisible()
     {
-        return (visible);
+        return (fVisible);
     }
 
     @Override
     public void removeChild(final Node child)
     {
-        children.remove(child);
+        fChildren.remove(child);
         child.setParent(null);
     }
 
     @Override
     public void setBounds(final BoundingVolume newBounds)
     {
-        bounds = newBounds;
+        fBounds = newBounds;
     }
 
     @Override
     public void setCollidable(final boolean newCollidable)
     {
-        collidable = newCollidable;
+        fCollidable = newCollidable;
     }
 
     @Override
     public void setID(final int newId)
     {
-        id = newId;
+        fId = newId;
     }
 
     @Override
     public void setModifiable(final boolean newModifiable)
     {
-        modifiable = newModifiable;
+        fModifiable = newModifiable;
     }
 
     @Override
     public void setParent(final Node newParent)
     {
-        parent = newParent;
+        fParent = newParent;
     }
 
     @Override
     public void setTransformation(final TransformationMatrixf newTransformation)
     {
-        transformation = newTransformation;
+        fTransformation = newTransformation;
     }
 
     @Override
     public void setVisible(final boolean newVisible)
     {
-        visible = newVisible;
+        fVisible = newVisible;
     }
 }

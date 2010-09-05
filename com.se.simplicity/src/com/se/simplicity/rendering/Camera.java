@@ -125,10 +125,10 @@ public interface Camera
 
     /**
      * <p>
-     * Retrieves the absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Camera</code>.
+     * Retrieves the inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Camera</code>.
      * </p>
      * 
-     * @return The absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Camera</code>, or null if the
+     * @return The inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Camera</code>, or null if the
      * {@link com.se.simplicity.scenegraph.Node Node} does not exist.
      */
     TransformationMatrixf getTransformation();

@@ -36,6 +36,15 @@ public interface Node
 
     /**
      * <p>
+     * Retrieves this <code>Node</code>'s absolute position and orientation.
+     * </p>
+     * 
+     * @return This <code>Node</code>'s absolute position and orientation.
+     */
+    TransformationMatrixf getAbsoluteTransformation();
+
+    /**
+     * <p>
      * Retrieves a volume containing all the {@link com.se.simplicity.model.VertexGroup VertexGroup}s within the subgraph of which this
      * <code>Node</code> is the root.
      * </p>

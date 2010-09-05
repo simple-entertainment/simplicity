@@ -77,10 +77,10 @@ public interface Light
 
     /**
      * <p>
-     * Retrieves the absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Light</code>.
+     * Retrieves the inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Light</code>.
      * </p>
      * 
-     * @return The absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Light</code>, or null if the
+     * @return The inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Light</code>, or null if the
      * {@link com.se.simplicity.scenegraph.Node Node} does not exist.
      */
     TransformationMatrixf getTransformation();
