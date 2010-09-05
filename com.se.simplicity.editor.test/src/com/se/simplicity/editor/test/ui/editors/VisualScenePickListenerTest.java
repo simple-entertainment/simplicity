@@ -25,6 +25,7 @@ import org.junit.Test;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.editors.VisualScenePickListener;
 import com.se.simplicity.jogl.rendering.OutlineJOGLRenderer;
+import com.se.simplicity.picking.Hit;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.rendering.engine.RenderingEngine;
@@ -67,6 +68,7 @@ public class VisualScenePickListenerTest
     {
         // Create dependencies.
         PickEvent mockPickEvent = createMock(PickEvent.class);
+        Hit mockHit = createMock(Hit.class);
 
         Scene mockScene = createMock(Scene.class);
         SceneGraph mockSceneGraph = createMock(SceneGraph.class);
@@ -84,9 +86,10 @@ public class VisualScenePickListenerTest
         expect(mockNode.getID()).andStubReturn(0);
         expect(mockRenderingEngine.getRenderers()).andStubReturn(renderers);
         expect(mockPickEvent.getHitCount()).andStubReturn(1);
-        expect(mockPickEvent.getHit(0)).andStubReturn(new Object[] {mockNode});
+        expect(mockPickEvent.getCloseHit()).andStubReturn(mockHit);
+        expect(mockHit.getNode()).andStubReturn(mockNode);
         mockRenderingEngine.setRendererRoot(mockOutlineRenderer, mockNode);
-        replay(mockPickEvent, mockScene, mockSceneGraph, mockNode, mockRenderingEngine);
+        replay(mockScene, mockSceneGraph, mockNode, mockRenderingEngine, mockPickEvent, mockHit);
 
         // Initialise test environment.
         SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
