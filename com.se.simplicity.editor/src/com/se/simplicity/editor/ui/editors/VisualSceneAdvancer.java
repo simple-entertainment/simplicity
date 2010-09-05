@@ -20,7 +20,6 @@ import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.widgets.Display;
 
 import com.se.simplicity.engine.Engine;
-import com.se.simplicity.rendering.engine.RenderingEngine;
 
 /**
  * <p>
@@ -109,12 +108,6 @@ public class VisualSceneAdvancer implements Runnable
 
                 for (Engine engine : engines)
                 {
-                    // TODO find a better way to do this
-                    if (engine instanceof RenderingEngine)
-                    {
-                        ((RenderingEngine) engine).getCamera().setInitialised(false);
-                    }
-
                     engine.advance();
                 }
 
