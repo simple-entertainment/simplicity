@@ -144,15 +144,28 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
     @Override
     public void renderVertexGroup(final VertexGroup vertexGroup)
     {
+        byte[] lightingEnabledParams = new byte[1];
+        fGl.glGetBooleanv(GL.GL_LIGHTING, lightingEnabledParams, 0);
+
         fAlwaysStencil.init();
         fAlwaysStencil.renderVertexGroup(vertexGroup);
         fAlwaysStencil.dispose();
 
         fGl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
 
+        if (lightingEnabledParams[0] == 1)
+        {
+            fGl.glDisable(GL.GL_LIGHTING);
+        }
+
         fNotEqualStencil.init();
         fNotEqualStencil.renderVertexGroup(vertexGroup);
         fNotEqualStencil.dispose();
+
+        if (lightingEnabledParams[0] == 1)
+        {
+            fGl.glEnable(GL.GL_LIGHTING);
+        }
 
         fGl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_FILL);
     }

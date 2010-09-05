@@ -31,8 +31,8 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * </p>
  * 
  * <p>
- * The viewing frustrum is the shape that contains all components of the <code>SceneGraph</code> displayed when viewing through a
- * <code>SimpleJOGLCamera</code>. The following diagram shows the 'side' and 'front' views of a viewing frustrum.
+ * The viewing frustum is the shape that contains all components of the <code>SceneGraph</code> displayed when viewing through a
+ * <code>SimpleJOGLCamera</code>. The following diagram shows the 'side' and 'front' views of a viewing frustum.
  * </p>
  * 
  * <pre>
@@ -52,8 +52,8 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * </p>
  * 
  * <p>
- * The eye is the position of the viewer. The 'front' of the frustrum in the context of this explanation is the side of the frustrum that is closest
- * to the eye. In the 'side' view the eye is shown as the arrow to the left of the frustrum.
+ * The eye is the position of the viewer. The 'front' of the frustum in the context of this explanation is the side of the frustum that is closest
+ * to the eye. In the 'side' view the eye is shown as the arrow to the left of the frustum.
  * </p>
  * 
  * <p>
@@ -63,7 +63,7 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * <p>
  * The near clipping plane is a plane in the <code>SceneGraph</code> a distance from the eye in front of which the viewer cannot see i.e. all
  * components of the <code>SceneGraph</code> nearer to the eye than the near clipping plane will be clipped (not drawn). The area on the near clipping
- * plane that constitutes a face of the frustrum is shown as the short vertical line in the 'side' view and the smaller rectangle in the 'front' view.
+ * plane that constitutes a face of the frustum is shown as the short vertical line in the 'side' view and the smaller rectangle in the 'front' view.
  * This face can be thought of as analogous to the screen and is referred to as the frame.
  * </p>
  * 
@@ -74,7 +74,7 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * <p>
  * The far clipping plane is a plane in the <code>SceneGraph</code> a distance from the eye past which the viewer cannot see i.e. all components of
  * the <code>SceneGraph</code> further from the eye than the far clipping plane will be clipped (not drawn). The area on the far clipping plane that
- * constitutes a face of the frustrum is shown as the long vertical line in the 'side' view and the larger rectangle in the 'front' view.
+ * constitutes a face of the frustum is shown as the long vertical line in the 'side' view and the larger rectangle in the 'front' view.
  * </p>
  * 
  * <p>
@@ -82,7 +82,7 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * </p>
  * 
  * <p>
- * The dimensions of the areas of the clipping planes that are used as faces of the frustrum are calculated automatically by the
+ * The dimensions of the areas of the clipping planes that are used as faces of the frustum are calculated automatically by the
  * <code>SimpleJOGLCamera</code>. The diagonal lines in the diagram extend from the four corners of the far clipping plane to the four corners of the
  * near clipping plane and finally (by default) converge at the eye. The frame can be moved on the <code>x</code> and <code>y</code> axis so that the
  * eye no longer resides at this convergence. Also, the aspect ratio of the frame (4:3 by default) can be changed.
@@ -335,8 +335,17 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
         fGl.glMatrixMode(GL.GL_PROJECTION);
 
         fGl.glLoadIdentity();
-        fGl.glFrustum(-fFrameWidth / 2 + fFrameX, fFrameWidth / 2 + fFrameX, -fFrameWidth * fFrameAspectRatio / 2 + fFrameY, fFrameWidth
-                * fFrameAspectRatio / 2 + fFrameY, fNearClippingDistance, fFarClippingDistance);
+
+        if (fProjectionMode == ProjectionMode.ORTHOGONAL)
+        {
+            fGl.glOrtho(-fFrameWidth / 2 + fFrameX, fFrameWidth / 2 + fFrameX, -fFrameWidth * fFrameAspectRatio / 2 + fFrameY, fFrameWidth
+                    * fFrameAspectRatio / 2 + fFrameY, fNearClippingDistance, fFarClippingDistance);
+        }
+        else if (fProjectionMode == ProjectionMode.PERSPECTIVE)
+        {
+            fGl.glFrustum(-fFrameWidth / 2 + fFrameX, fFrameWidth / 2 + fFrameX, -fFrameWidth * fFrameAspectRatio / 2 + fFrameY, fFrameWidth
+                    * fFrameAspectRatio / 2 + fFrameY, fNearClippingDistance, fFarClippingDistance);
+        }
 
         fGl.glMatrixMode(GL.GL_MODELVIEW);
 

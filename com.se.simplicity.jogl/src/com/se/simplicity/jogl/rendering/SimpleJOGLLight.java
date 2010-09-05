@@ -21,6 +21,7 @@ import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.vector.ArrayBackedObjectf;
+import com.se.simplicity.vector.SimpleTranslationVectorf4;
 import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
@@ -113,12 +114,19 @@ public class SimpleJOGLLight implements Light, JOGLComponent
             init();
         }
 
-        TransformationMatrixf transformation = getTransformation();
+        if (fLightingMode == LightingMode.SHADED)
+        {
+            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, new SimpleTranslationVectorf4().getArray(), 0);
+        }
+        else if (fLightingMode == LightingMode.SCENE)
+        {
+            TransformationMatrixf transformation = getTransformation();
 
-        fGl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, ((ArrayBackedObjectf) transformation.getTranslation()).getArray(), 0);
-        fGl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, fAmbientLight, 0);
-        fGl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, fDiffuseLight, 0);
-        fGl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, fSpecularLight, 0);
+            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, ((ArrayBackedObjectf) transformation.getTranslation()).getArray(), 0);
+            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, fAmbientLight, 0);
+            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, fDiffuseLight, 0);
+            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, fSpecularLight, 0);
+        }
     }
 
     @Override
@@ -188,19 +196,17 @@ public class SimpleJOGLLight implements Light, JOGLComponent
             fGl.glDisable(GL.GL_COLOR_MATERIAL);
             fGl.glDisable(GL.GL_LIGHT0);
         }
-
-        if (fLightingMode == LightingMode.SHADED)
+        else if (fLightingMode == LightingMode.SHADED)
         {
             fGl.glEnable(GL.GL_LIGHTING);
             fGl.glEnable(GL.GL_COLOR_MATERIAL);
             fGl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE);
-            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, new float[] {0.1f, 0.1f, 0.1f, 1.0f}, 0);
-            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, new float[] {0.1f, 0.1f, 0.1f, 1.0f}, 0);
-            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, new float[] {0.1f, 0.1f, 0.1f, 1.0f}, 0);
+            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, new float[] {0.5f, 0.5f, 0.5f, 1.0f}, 0);
+            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, new float[] {0.5f, 0.5f, 0.5f, 1.0f}, 0);
+            fGl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, new float[] {0.5f, 0.5f, 0.5f, 1.0f}, 0);
             fGl.glEnable(GL.GL_LIGHT0);
         }
-
-        if (fLightingMode == LightingMode.SCENE)
+        else if (fLightingMode == LightingMode.SCENE)
         {
             fGl.glEnable(GL.GL_LIGHTING);
             fGl.glEnable(GL.GL_COLOR_MATERIAL);
