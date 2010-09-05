@@ -102,4 +102,26 @@ public class SimpleSceneGraphTest
         assertTrue(nodes.node1.getChildren().contains(nodes.node7));
         assertEquals(nodes.node1, nodes.node7.getParent());
     }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.scenegraph.SimpleSceneGraph#resetIDs() resetIDs()}.
+     * </p>
+     */
+    @Test
+    public void resetIDs()
+    {
+        NodeHierarchy nodes = new NodeHierarchy();
+        nodes.setStandardNodeHierarchy();
+
+        testObject.addSubgraph(nodes.node1);
+        testObject.removeSubgraph(nodes.node4);
+        
+        testObject.resetIDs();
+
+        assertEquals(nodes.node1, testObject.getNode(1));
+        assertEquals(nodes.node2, testObject.getNode(2));
+        assertEquals(nodes.node3, testObject.getNode(3));
+        assertEquals(nodes.node7, testObject.getNode(4));
+    }
 }
