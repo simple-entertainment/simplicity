@@ -94,4 +94,11 @@ public interface SceneGraph
      * @param subgraphRoot The root {@link com.se.simplicity.scenegraph.Node Node} of the subgraph to remove.
      */
     void removeSubgraph(Node subgraphRoot);
+
+    /**
+     * <p>
+     * Resets the IDs of all the {@link com.se.simplicity.scenegraph.Node Node}s in this <code>SceneGraph</code>.
+     * </p>
+     */
+    void resetIDs();
 }

@@ -126,4 +126,21 @@ public class SimpleSceneGraph implements SceneGraph, Serializable
 
         subgraphRoot.getParent().removeChild(subgraphRoot);
     }
+
+    @Override
+    public void resetIDs()
+    {
+        fLastNodeID = 0;
+        fNodes.clear();
+
+        SimpleTraversal traversal = new SimpleTraversal(fRoot);
+
+        while (traversal.hasMoreNodes())
+        {
+            Node node = traversal.getNextNode();
+
+            node.setID(getNextNodeID());
+            fNodes.put(node.getID(), node);
+        }
+    }
 }
