@@ -63,7 +63,7 @@ public class SimpleJOGLLightTest
 
         mockGl.reset();
         reset(mockNode);
-        expect(mockNode.getTransformation()).andStubReturn(matrix);
+        expect(mockNode.getAbsoluteTransformation()).andStubReturn(matrix);
         expect(mockNode.getParent()).andStubReturn(null);
         replay(mockNode);
 
@@ -90,7 +90,7 @@ public class SimpleJOGLLightTest
 
         mockGl.reset();
         reset(mockNode);
-        expect(mockNode.getTransformation()).andStubReturn(matrix);
+        expect(mockNode.getAbsoluteTransformation()).andStubReturn(matrix);
         expect(mockNode.getParent()).andStubReturn(null);
         replay(mockNode);
 
@@ -121,28 +121,20 @@ public class SimpleJOGLLightTest
     @Test
     public void getTransformation() throws SEInvalidOperationException
     {
-        Node mockNode1 = createMock(Node.class);
-        Node mockNode2 = createMock(Node.class);
-        SimpleTransformationMatrixf44 matrix1 = new SimpleTransformationMatrixf44();
-        matrix1.translate(new SimpleTranslationVectorf4(0.0f, 10.0f, 0.0f, 1.0f));
-        SimpleTransformationMatrixf44 matrix2 = new SimpleTransformationMatrixf44();
-        matrix2.rotate((float) (90.0f * Math.PI / 180), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
+        Node mockNode = createMock(Node.class);
+        SimpleTransformationMatrixf44 matrix = new SimpleTransformationMatrixf44();
+        matrix.rotate((float) (90.0f * Math.PI / 180), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
 
-        testObject.setNode(mockNode1);
+        testObject.setNode(mockNode);
 
-        reset(mockNode1, mockNode2);
-        expect(mockNode1.getTransformation()).andStubReturn(matrix1);
-        expect(mockNode1.getParent()).andStubReturn(mockNode2);
-        expect(mockNode2.getTransformation()).andStubReturn(matrix2);
-        expect(mockNode2.getParent()).andStubReturn(null);
-        replay(mockNode1, mockNode2);
+        expect(mockNode.getAbsoluteTransformation()).andStubReturn(matrix);
+        replay(mockNode);
 
-        SimpleTransformationMatrixf44 matrix3 = new SimpleTransformationMatrixf44();
-        matrix3.multiplyRight(matrix1);
-        matrix3.multiplyRight(matrix2);
-        matrix3.invert();
+        SimpleTransformationMatrixf44 invertedMatrix = new SimpleTransformationMatrixf44();
+        invertedMatrix.multiplyRight(matrix);
+        invertedMatrix.invert();
 
-        assertEquals(matrix3, testObject.getTransformation());
+        assertEquals(invertedMatrix, testObject.getTransformation());
     }
 
     /**
