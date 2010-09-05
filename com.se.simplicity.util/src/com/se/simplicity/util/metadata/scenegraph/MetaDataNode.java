@@ -143,6 +143,12 @@ public class MetaDataNode implements ModelNode, MetaData
     }
 
     @Override
+    public TransformationMatrixf getAbsoluteTransformation()
+    {
+        return (node.getAbsoluteTransformation());
+    }
+
+    @Override
     public Object getAttribute(final String name)
     {
         return (attributes.get(name));
