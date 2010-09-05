@@ -12,6 +12,5 @@
 	<classpathentry exported="true" kind="lib" path="lib/gluegen-rt.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jogl.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.15.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/spring.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

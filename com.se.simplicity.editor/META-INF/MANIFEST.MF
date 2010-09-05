@@ -27,5 +27,4 @@ Bundle-ClassPath: bin,
  lib/commons-logging.jar,
  lib/gluegen-rt.jar,
  lib/jogl.jar,
- lib/log4j-1.2.15.jar,
- lib/spring.jar
+ lib/log4j-1.2.15.jar
