@@ -97,9 +97,8 @@ public class SimpleJOGLPickerTest
 
         // Verify test results.
         assertEquals(1, pick.getHitCount());
-        assertEquals(2, pick.getHit(0).length);
-        assertEquals(mockNode, pick.getHit(0)[0]);
-        assertEquals(mockChildVertexGroup, pick.getHit(0)[1]);
+        assertEquals(mockNode, pick.getHit(0).getNode());
+        assertEquals(mockChildVertexGroup, pick.getHit(0).getPrimitive());
     }
 
     /**
