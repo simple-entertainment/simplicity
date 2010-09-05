@@ -1,19 +1,25 @@
+/*
+    This file is part of The Simplicity Engine.
+
+    The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.se.simplicity.editor.ui.editors;
 
-import java.io.ByteArrayOutputStream;
-
-import org.apache.log4j.Logger;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
-import org.eclipse.wst.sse.core.internal.text.JobSafeStructuredDocument;
+import org.eclipse.wst.sse.core.internal.text.BasicStructuredDocument;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 
 import com.se.simplicity.editor.internal.SceneChangedEvent;
 import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.util.scene.SceneFactory;
+import com.se.simplicity.editor.internal.util.SceneDocumentSynchroniser;
 
 /**
  * <p>
@@ -28,7 +34,7 @@ public class SourceSceneEditor extends StructuredTextEditor implements SceneChan
 {
     /**
      * <p>
-     * Listens for changes in the text in this <code>SourceSceneEditor</code>.
+     * Listens for changes in the text of this <code>SourceSceneEditor</code>.
      * </p>
      */
     private SourceSceneTextListener fSourceSceneTextListener;
@@ -71,63 +77,9 @@ public class SourceSceneEditor extends StructuredTextEditor implements SceneChan
         if (event.getType() == SceneChangedEventType.CAMERA_MODIFIED || event.getType() == SceneChangedEventType.LIGHT_MODIFIED
                 || event.getType() == SceneChangedEventType.NODE_MODIFIED)
         {
-            String[] sceneLines = getSceneLines();
-            IStructuredDocumentRegion[] sourceRegions = getSourceRegions();
-
-            // For every XML tag in the updated serialised source representation.
-            for (int index = 0; index < sceneLines.length; index++)
-            {
-                // If the corresponding XML tag in the text in this SourceSceneEditor does not match.
-                if (!sceneLines[index].replaceAll("\\s", "").equals(sourceRegions[index].getText().replaceAll("\\s", "")))
-                {
-                    try
-                    {
-                        // Update the text in this SourceSceneEditor.
-                        getTextViewer().getDocument().replace(sourceRegions[index].getStart(), sourceRegions[index].getLength(), sceneLines[index]);
-                    }
-                    catch (BadLocationException e)
-                    {
-                        Logger.getLogger(getClass()).error("Failed to update Source.", e);
-                    }
-                }
-            }
+            SceneDocumentSynchroniser synchroniser = new SceneDocumentSynchroniser();
+            synchroniser.synchroniseToDocument(SceneManager.getSceneManager().getActiveScene(), (BasicStructuredDocument) getTextViewer()
+                    .getDocument());
         }
-    }
-
-    /**
-     * <p>
-     * Retrieves the XML tags from the updated serialised source representation as <code>String</code>s.
-     * </p>
-     * 
-     * @return The XML tags from the updated serialised source representation as <code>String</code>s.
-     */
-    protected String[] getSceneLines()
-    {
-        ByteArrayOutputStream source = new ByteArrayOutputStream();
-        SceneFactory.writeToSource(SceneManager.getSceneManager().getActiveScene(), source);
-
-        String[] sceneLines = source.toString().replaceAll(">", ">\n").split("\n");
-
-        return (sceneLines);
-    }
-
-    /**
-     * <p>
-     * Retrieves the regions from the text in this <code>SourceSceneEditor</code> that contain XML tags.
-     * </p>
-     * 
-     * @return The regions from the text in this <code>SourceSceneEditor</code> that contain XML tags.
-     */
-    protected IStructuredDocumentRegion[] getSourceRegions()
-    {
-        IStructuredDocumentRegion[] sourceRegions = ((JobSafeStructuredDocument) getTextViewer().getDocument()).getStructuredDocumentRegions();
-        IStructuredDocumentRegion[] nonEmptySourceRegions = new IStructuredDocumentRegion[sourceRegions.length / 2 + 1];
-
-        for (int index = 0; index < nonEmptySourceRegions.length; index++)
-        {
-            nonEmptySourceRegions[index] = sourceRegions[index * 2];
-        }
-
-        return (nonEmptySourceRegions);
     }
 }
