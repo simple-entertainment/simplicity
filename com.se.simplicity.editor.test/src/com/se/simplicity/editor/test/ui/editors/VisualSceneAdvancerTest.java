@@ -56,7 +56,6 @@ public class VisualSceneAdvancerTest
         GLContext mockGlContext = createMock(GLContext.class);
 
         RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
-        Camera mockCamera = createMock(Camera.class);
         PickingEngine mockPickingEngine = createMock(PickingEngine.class);
 
         // Setup test environment.
@@ -70,20 +69,18 @@ public class VisualSceneAdvancerTest
         mockCanvas.setCurrent();
         expect(mockGlContext.makeCurrent()).andStubReturn(0);
 
-        expect(mockRenderingEngine.getCamera()).andReturn(mockCamera);
-        mockCamera.setInitialised(false);
         mockRenderingEngine.advance();
         mockPickingEngine.advance();
 
         mockCanvas.swapBuffers();
         mockGlContext.release();
         mockDisplay.asyncExec(testObject);
-        replay(mockDisplay, mockCanvas, mockGlContext, mockRenderingEngine, mockCamera, mockPickingEngine);
+        replay(mockDisplay, mockCanvas, mockGlContext, mockRenderingEngine, mockPickingEngine);
 
         // Perform test.
         testObject.run();
 
         // Verify test results.
-        verify(mockRenderingEngine, mockCamera, mockPickingEngine);
+        verify(mockRenderingEngine, mockPickingEngine);
     }
 }
