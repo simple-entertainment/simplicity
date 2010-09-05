@@ -111,7 +111,7 @@ public class NodeHierarchy
         vertexGroup.setNormals(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
         vertexGroup.setVertices(new float[] {-1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f});
 
-        ((SimpleModelNode) node3).setVertexGroup(vertexGroup);
+        ((SimpleModelNode) node3).setModel(vertexGroup);
     }
 
     /**
@@ -167,6 +167,6 @@ public class NodeHierarchy
         vertexGroup.setNormals(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
         vertexGroup.setVertices(new float[] {-1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f});
 
-        ((SimpleModelNode) node3).setVertexGroup(vertexGroup);
+        ((SimpleModelNode) node3).setModel(vertexGroup);
     }
 }
