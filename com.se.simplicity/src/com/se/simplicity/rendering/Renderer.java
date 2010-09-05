@@ -28,7 +28,8 @@ import com.se.simplicity.model.VertexGroup;
  * 
  * <p>
  * When used within a {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine}, the <code>Renderer</code> acts as a rendering pass.
- * Adding multiple <code>Renderer</code>s to a <code>RenderingEngine</code> effectively creates a multi pass rendering environment.
+ * Adding multiple <code>Renderer</code>s to a <code>RenderingEngine</code> effectively creates a multi pass rendering environment. Since lighting
+ * settings may be changed by the <code>RenderingEngine</code>, they should be reverted to the state they were found in, not just the default state.
  * </p>
  * 
  * @author Gary Buyn
