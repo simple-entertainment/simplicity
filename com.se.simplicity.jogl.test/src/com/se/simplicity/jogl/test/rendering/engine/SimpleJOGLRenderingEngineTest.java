@@ -273,24 +273,47 @@ public class SimpleJOGLRenderingEngineTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine#destroy() destroy()}.
-     * </p>
-     */
-    @Test
-    public void destroy()
-    {
-    // TODO implement test
-    }
-
-    /**
-     * <p>
      * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.init init()}.
      * </p>
      */
     @Test
     public void init()
     {
-    // TODO implement test
+        // Create dependencies.
+        MockGL mockGl = new MockGL();
+        Dimension dimension = new Dimension(200, 200);
+
+        // Initialise test environment.
+        testObject.setGL(mockGl);
+        testObject.setViewportSize(dimension);
+
+        // Perform test.
+        testObject.init();
+
+        // Verify test results.
+        assertEquals(1, mockGl.getMethodCallCount("glViewport", new Object[] {0, 0, 200, 200}), 0);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine.init init()} with the special condition that
+     * there is no viewport size.
+     * </p>
+     */
+    @Test
+    public void initNoViewportSize()
+    {
+        // Create dependencies.
+        MockGL mockGl = new MockGL();
+
+        // Initialise test environment.
+        testObject.setGL(mockGl);
+
+        // Perform test.
+        testObject.init();
+
+        // Verify test results.
+        assertEquals(0, mockGl.getMethodCallCountIgnoreParams("glViewport"), 0);
     }
 
     /**
