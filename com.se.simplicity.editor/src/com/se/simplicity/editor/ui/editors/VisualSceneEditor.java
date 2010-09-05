@@ -219,9 +219,6 @@ public class VisualSceneEditor extends EditorPart implements SceneChangedListene
         fPickingEngine = SceneManager.getSceneManager().getPickingEngineForScene(fSceneName);
         fPickingEngine.setCamera(fViewingCamera);
 
-        // TODO temporary
-        // SceneFactory.addXSceneAtOrigin(SceneManager.getSceneManager().getScene(fSceneName).getSceneGraph());
-
         SceneManager.getSceneManager().setActiveScene(fSceneName);
     }
 
