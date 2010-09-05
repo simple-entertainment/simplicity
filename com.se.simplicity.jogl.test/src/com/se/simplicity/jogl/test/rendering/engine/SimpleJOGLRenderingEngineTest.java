@@ -288,7 +288,7 @@ public class SimpleJOGLRenderingEngineTest
         mockScene.setGL(mockGL);
         mockRenderer.setGL(mockGL);
         mockRenderer.init();
-        mockRenderer.renderVertexGroup(((ModelNode) nodes.node3).getVertexGroup());
+        mockRenderer.renderModel(((ModelNode) nodes.node3).getModel());
         mockRenderer.dispose();
         mockCamera.init();
         mockCamera.apply();
@@ -381,7 +381,7 @@ public class SimpleJOGLRenderingEngineTest
 
         mockGL.reset();
         reset(mockRenderer);
-        mockRenderer.renderVertexGroup(((ModelNode) nodes.node3).getVertexGroup());
+        mockRenderer.renderModel(((ModelNode) nodes.node3).getModel());
         replay(mockRenderer);
 
         testObject.renderSceneGraph(mockRenderer, nodes.node1);
@@ -408,7 +408,7 @@ public class SimpleJOGLRenderingEngineTest
 
         mockGL.reset();
         reset(mockRenderer);
-        mockRenderer.renderVertexGroup(((ModelNode) nodes.node3).getVertexGroup(), 2);
+        mockRenderer.renderModel(((ModelNode) nodes.node3).getModel(), 2);
         replay(mockRenderer);
 
         testObject.renderSceneGraph(mockRenderer, nodes.node1);

@@ -71,7 +71,7 @@ public class NamedJOGLRendererTest
         testObject.setGL(mockGl);
         testObject.setDrawingMode(DrawingMode.VERTICES);
 
-        testObject.renderVertexGroup(mockVertexGroup, 123);
+        testObject.renderModel(mockVertexGroup, 123);
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
 
@@ -121,7 +121,7 @@ public class NamedJOGLRendererTest
         testObject.setGL(mockGl);
         testObject.setDrawingMode(DrawingMode.EDGES);
 
-        testObject.renderVertexGroup(mockVertexGroup, 123);
+        testObject.renderModel(mockVertexGroup, 123);
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {0}, 0, "glBegin", new Object[] {MockGL.GL_LINE_LOOP}));
@@ -173,7 +173,7 @@ public class NamedJOGLRendererTest
         testObject.setGL(mockGl);
         testObject.setDrawingMode(DrawingMode.FACES);
 
-        testObject.renderVertexGroup(mockVertexGroup, 123);
+        testObject.renderModel(mockVertexGroup, 123);
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {0}, 0, "glBegin", new Object[] {MockGL.GL_TRIANGLES}));
@@ -217,7 +217,7 @@ public class NamedJOGLRendererTest
         testObject.setGL(mockGl);
         testObject.setDrawingMode(DrawingMode.VERTICES);
 
-        testObject.renderVertexGroup(mockVertexGroup, 123);
+        testObject.renderModel(mockVertexGroup, 123);
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
 
@@ -268,7 +268,7 @@ public class NamedJOGLRendererTest
         testObject.setGL(mockGl);
         testObject.setDrawingMode(DrawingMode.EDGES);
 
-        testObject.renderVertexGroup(mockVertexGroup, 123);
+        testObject.renderModel(mockVertexGroup, 123);
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {0}, 0, "glBegin", new Object[] {MockGL.GL_LINE_LOOP}));
@@ -321,7 +321,7 @@ public class NamedJOGLRendererTest
         testObject.setGL(mockGl);
         testObject.setDrawingMode(DrawingMode.FACES);
 
-        testObject.renderVertexGroup(mockVertexGroup, 123);
+        testObject.renderModel(mockVertexGroup, 123);
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {0}, 0, "glBegin", new Object[] {MockGL.GL_TRIANGLES}));

@@ -74,7 +74,7 @@ public class SimpleJOGLRendererTest
         testObject.setDrawingMode(DrawingMode.VERTICES);
 
         // Perform test.
-        testObject.renderVertexGroup(mockVertexGroup);
+        testObject.renderModel(mockVertexGroup);
 
         // Verify test results.
         assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
@@ -116,7 +116,7 @@ public class SimpleJOGLRendererTest
         testObject.setDrawingMode(DrawingMode.EDGES);
 
         // Perform test.
-        testObject.renderVertexGroup(mockVertexGroup);
+        testObject.renderModel(mockVertexGroup);
 
         // Verify test results.
         assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_LINE_LOOP}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
@@ -158,7 +158,7 @@ public class SimpleJOGLRendererTest
         testObject.setDrawingMode(DrawingMode.FACES);
 
         // Perform test.
-        testObject.renderVertexGroup(mockVertexGroup);
+        testObject.renderModel(mockVertexGroup);
 
         // Verify test results.
         assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_TRIANGLES}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
@@ -201,7 +201,7 @@ public class SimpleJOGLRendererTest
         testObject.setDrawingMode(DrawingMode.VERTICES);
 
         // Perform test.
-        testObject.renderVertexGroup(mockVertexGroup);
+        testObject.renderModel(mockVertexGroup);
 
         // Verify test results.
         assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
@@ -244,7 +244,7 @@ public class SimpleJOGLRendererTest
         testObject.setDrawingMode(DrawingMode.EDGES);
 
         // Perform test.
-        testObject.renderVertexGroup(mockVertexGroup);
+        testObject.renderModel(mockVertexGroup);
 
         // Verify test results.
         assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_LINE_LOOP}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
@@ -287,7 +287,7 @@ public class SimpleJOGLRendererTest
         testObject.setDrawingMode(DrawingMode.FACES);
 
         // Perform test.
-        testObject.renderVertexGroup(mockVertexGroup);
+        testObject.renderModel(mockVertexGroup);
 
         // Verify test results.
         assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_TRIANGLES}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));

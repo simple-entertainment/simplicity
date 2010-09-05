@@ -82,7 +82,7 @@ public class SimpleJOGLPickerTest
         mockRenderingEngine.advance();
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
-        expect(mockNode.getVertexGroup()).andStubReturn(mockParentVertexGroup);
+        expect(mockNode.getModel()).andStubReturn(mockParentVertexGroup);
         expect(mockParentVertexGroup.createFaceSubsetVG(20)).andStubReturn(mockChildVertexGroup);
         replay(mockRenderingEngine, mockCamera, mockScene, mockSceneGraph, mockNode, mockParentVertexGroup);
 
