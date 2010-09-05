@@ -186,6 +186,12 @@ public class MetaDataSceneGraph implements SceneGraph, MetaData
     }
 
     @Override
+    public void resetIDs()
+    {
+        sceneGraph.resetIDs();
+    }
+
+    @Override
     public void setAttribute(final String name, final Object value)
     {
         attributes.put(name, value);
