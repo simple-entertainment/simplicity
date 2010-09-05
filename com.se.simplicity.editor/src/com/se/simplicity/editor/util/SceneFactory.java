@@ -15,7 +15,6 @@ import java.io.File;
 
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.Model;
-import com.se.simplicity.model.SimpleModel;
 import com.se.simplicity.model.VertexGroup;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.scene.Scene;
@@ -34,7 +33,7 @@ public class SceneFactory
             Model xModel = ModelFactory.importOBJFile(new File("/home/simple/workspace/com.se.simplicity.editor/objects/models/x.obj"));
 
             // Colour in the X model blue.
-            float[] xNodeColors = ((ArrayVG) xModel.getRoot().getVertexGroup()).getColours();
+            float[] xNodeColors = ((ArrayVG) xModel).getColours();
             for (int index = 0; index < xNodeColors.length; index += 3)
             {
                 xNodeColors[index] = 0.0f;
@@ -42,7 +41,9 @@ public class SceneFactory
                 xNodeColors[index + 2] = 0.85f;
             }
 
-            sceneGraph.addSubgraph(xModel.getRoot());
+            SimpleModelNode xNode = new SimpleModelNode();
+            xNode.setModel(xModel);
+            sceneGraph.addSubgraph(xNode);
         }
         catch (Exception ex)
         {
@@ -50,11 +51,9 @@ public class SceneFactory
             ex.printStackTrace();
         }
 
-        SimpleModel umbrellaModel = new SimpleModel();
         SimpleModelNode umbrellaNode = new SimpleModelNode();
         umbrellaNode.getTransformation().translate(new SimpleTranslationVectorf4(0.0f, -5.0f, 0.0f, 1.0f));
-        umbrellaModel.setRoot(umbrellaNode);
-        umbrellaNode.setVertexGroup(createUmbrellaVertexGroup());
+        umbrellaNode.setModel(createUmbrellaVertexGroup());
 
         sceneGraph.addSubgraph(umbrellaNode);
     }

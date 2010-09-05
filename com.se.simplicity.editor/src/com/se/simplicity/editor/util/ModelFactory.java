@@ -20,9 +20,6 @@ import java.util.ArrayList;
 
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.Model;
-import com.se.simplicity.model.SimpleModel;
-import com.se.simplicity.scenegraph.model.ModelNode;
-import com.se.simplicity.scenegraph.model.SimpleModelNode;
 
 /**
  * <p>
@@ -121,16 +118,10 @@ public final class ModelFactory
         }
 
         // Build the internal model structure.
-        ArrayVG vertexGroup = new ArrayVG();
-        vertexGroup.setVertices(vertices);
-        vertexGroup.setNormals(normals);
-        vertexGroup.setColours(colours);
-
-        ModelNode root = new SimpleModelNode();
-        root.setVertexGroup(vertexGroup);
-        SimpleModel model = new SimpleModel();
-        model.setRoot(root);
-        root.setModel(model);
+        ArrayVG model = new ArrayVG();
+        model.setVertices(vertices);
+        model.setNormals(normals);
+        model.setColours(colours);
 
         return (model);
     }
