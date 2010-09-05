@@ -56,8 +56,7 @@ public class VisualScenePickListener implements PickListener
 
         if (event.getHitCount() > 0)
         {
-            // TODO should be getting closest hit.
-            Node selectedNode = (Node) event.getHit(0)[0];
+            Node selectedNode = (Node) event.getCloseHit().getNode();
 
             fRenderingEngine.setRendererRoot(outlineRenderer, selectedNode);
             SceneManager.getSceneManager().setActiveNode(selectedNode);
