@@ -15,12 +15,12 @@ import com.se.simplicity.SEInvalidOperationException;
 
 /**
  * <p>
- * A portion of (or possibly an entire) {@link com.se.simplicity.model.Model Model}'s vertices.
+ * A {@link com.se.simplicity.model.Model Model} described by a set of vertices.
  * </p>
  * 
  * @author Gary Buyn
  */
-public interface VertexGroup
+public interface VertexGroup extends Model
 {
     /**
      * <p>

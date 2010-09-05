@@ -13,8 +13,7 @@ package com.se.simplicity.model;
 
 /**
  * <p>
- * Constants often used by objects that manipulate {@link com.se.simplicity.model.Model Model}s and {@link com.se.simplicity.model.VertexGroup
- * VertexGroup}s.
+ * Constants often used by objects that manipulate {@link com.se.simplicity.model.Model Model}s.
  * </p>
  * 
  * @author Gary Buyn

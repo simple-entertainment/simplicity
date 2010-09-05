@@ -11,7 +11,6 @@
  */
 package com.se.simplicity.scenegraph;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,7 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * 
  * @author Gary Buyn
  */
-public class SimpleNode implements Node, Serializable
+public class SimpleNode implements Node
 {
     /**
      * The version of this class.
@@ -35,7 +34,7 @@ public class SimpleNode implements Node, Serializable
 
     /**
      * <p>
-     * A volume containing all the {@link com.se.simplicity.model.VertexGroup VertexGroup}s within the subgraph of which this <code>SimpleNode</code>
+     * A volume containing all the {@link com.se.simplicity.model.Model Model}s within the subgraph of which this <code>SimpleNode</code>
      * is the root.
      * </p>
      */

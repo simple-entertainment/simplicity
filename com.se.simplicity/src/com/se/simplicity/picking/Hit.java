@@ -1,6 +1,6 @@
 package com.se.simplicity.picking;
 
-import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.scenegraph.Node;
 
 /**
@@ -37,11 +37,11 @@ public class Hit
 
     /**
      * <p>
-     * The primitive that intersected the pick. In the case that multiple primitives were drawn with the same name, this primitive sstored in this
+     * The primitive that intersected the pick. In the case that multiple primitives were drawn with the same name, this primitive stored in this
      * value is undefined.
      * </p>
      */
-    private VertexGroup fPrimitive;
+    private Model fPrimitive;
 
     /**
      * <p>
@@ -85,20 +85,13 @@ public class Hit
 
     /**
      * <p>
-     * Retrieves the primitive that intersected the pick. In the case that multiple primitives were drawn with the same name, this primitive sstored
-     * in this value is undefined.
-     * </p>
-     * 
-     * <p>
-     * The primitive is a subset {@link com.se.simplicity.model.VertexGroup VertexGroup}, meaning that any changes can be committed to the overall
-     * <code>VertexGroup</code> by calling {@link com.se.simplicity.model.VertexGroup#mergeWithParent() mergeWithParent()} on the
-     * <code>VertexGroup</code>.
-     * </p>
-     * 
-     * @return The primitive that intersected the pick. In the case that multiple primitives were drawn with the same name, this primitive sstored in
+     * Retrieves the primitive that intersected the pick. In the case that multiple primitives were drawn with the same name, this primitive stored in
      * this value is undefined.
+     * </p>
+     * 
+     * @return The primitive that intersected the pick.
      */
-    public VertexGroup getPrimitive()
+    public Model getPrimitive()
     {
         return (fPrimitive);
     }
@@ -145,20 +138,13 @@ public class Hit
 
     /**
      * <p>
-     * Sets the primitive that intersected the pick. In the case that multiple primitives were drawn with the same name, this primitive sstored in
-     * this value is undefined.
+     * Sets the primitive that intersected the pick. In the case that multiple primitives were drawn with the same name, this primitive stored in this
+     * value is undefined.
      * </p>
      * 
-     * <p>
-     * NOTE: The {@link com.se.simplicity.model.VertexGroup VertexGroup} must be a subset, meaning that any changes can be committed to the overall
-     * <code>VertexGroup</code> by calling {@link com.se.simplicity.model.VertexGroup#mergeWithParent() mergeWithParent()} on the
-     * <code>VertexGroup</code>.
-     * </p>
-     * 
-     * @param primitive The primitive that intersected the pick. In the case that multiple primitives were drawn with the same name, this primitive
-     * sstored in this value is undefined.
+     * @param primitive The primitive that intersected the pick.
      */
-    public void setPrimitive(final VertexGroup primitive)
+    public void setPrimitive(final Model primitive)
     {
         fPrimitive = primitive;
     }

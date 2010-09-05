@@ -11,19 +11,19 @@
  */
 package com.se.simplicity.rendering;
 
-import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.model.Model;
 
 /**
  * <p>
- * Renders {@link com.se.simplicity.model.VertexGroup VertexGroup}s.
+ * Renders {@link com.se.simplicity.model.Model Model}s.
  * </p>
  * 
  * <p>
  * Any changes to settings made during the {@link com.se.simplicity.rendering.Renderer#init() init()} or
- * {@link com.se.simplicity.rendering.Renderer#renderVertexGroup(VertexGroup, DrawingMode) renderVertexGroup(VertexGroup, DrawingMode)} methods should
- * be reverted during the {@link com.se.simplicity.rendering.Renderer#dispose() dispose()} method. It is the responsibility of the
- * <code>Renderer</code> to leave the rendering environment as it was found (except for contents of buffers) so that multiple <code>Renderer</code>s
- * may be used together without effecting each other.
+ * {@link com.se.simplicity.rendering.Renderer#renderModel(Model, DrawingMode) renderModel(Model, DrawingMode)} methods should be reverted during the
+ * {@link com.se.simplicity.rendering.Renderer#dispose() dispose()} method. It is the responsibility of the <code>Renderer</code> to leave the
+ * rendering environment as it was found (except for contents of buffers) so that multiple <code>Renderer</code>s may be used together without
+ * effecting each other.
  * </p>
  * 
  * <p>
@@ -45,8 +45,7 @@ public interface Renderer
 
     /**
      * <p>
-     * Receives the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to render the {@link com.se.simplicity.model.VertexGroup
-     * VertexGroup}s.
+     * Receives the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to render the {@link com.se.simplicity.model.Model Model}s.
      * </p>
      * 
      * @return The <code>DrawingMode</code> used to render the <code>VertexGroup</code>s.
@@ -62,18 +61,17 @@ public interface Renderer
 
     /**
      * <p>
-     * Renders the given {@link com.se.simplicity.rendering.VertexGroup VertexGroup} with the given {@link com.se.simplicity.rendering.DrawingMode
+     * Renders the given {@link com.se.simplicity.rendering.Model Model} with the given {@link com.se.simplicity.rendering.DrawingMode
      * DrawingMode}.
      * </p>
      * 
-     * @param vertexGroup The {@link com.se.simplicity.rendering.VertexGroup VertexGroup} to render.
+     * @param model The {@link com.se.simplicity.rendering.Model Model} to render.
      */
-    void renderVertexGroup(VertexGroup vertexGroup);
+    void renderModel(Model model);
 
     /**
      * <p>
-     * Sets the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to render the {@link com.se.simplicity.model.VertexGroup VertexGroup}
-     * s.
+     * Sets the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to render the {@link com.se.simplicity.model.Model Model} s.
      * </p>
      * 
      * @param mode The <code>DrawingMode</code> used to render the <code>VertexGroup</code>s.

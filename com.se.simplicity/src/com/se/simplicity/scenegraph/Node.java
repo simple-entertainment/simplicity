@@ -11,6 +11,7 @@
  */
 package com.se.simplicity.scenegraph;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.se.simplicity.model.BoundingVolume;
@@ -23,7 +24,7 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * 
  * @author Gary Buyn
  */
-public interface Node
+public interface Node extends Serializable
 {
     /**
      * <p>
@@ -45,12 +46,12 @@ public interface Node
 
     /**
      * <p>
-     * Retrieves a volume containing all the {@link com.se.simplicity.model.VertexGroup VertexGroup}s within the subgraph of which this
-     * <code>Node</code> is the root.
+     * Retrieves a volume containing all the {@link com.se.simplicity.model.Model Model}s within the subgraph of which this <code>Node</code> is the
+     * root.
      * </p>
      * 
-     * @return A volume containing all the {@link com.se.simplicity.model.VertexGroup VertexGroup}s within the subgraph of which this
-     * <code>Node</code> is the root.
+     * @return A volume containing all the {@link com.se.simplicity.model.Model Model}s within the subgraph of which this <code>Node</code> is the
+     * root.
      */
     BoundingVolume getBounds();
 
@@ -159,10 +160,12 @@ public interface Node
 
     /**
      * <p>
-     * Retrieves this <code>Node</code>'s bounding volume.
+     * Retrieves a volume containing all the {@link com.se.simplicity.model.Model Model}s within the subgraph of which this <code>Node</code> is the
+     * root.
      * </p>
      * 
-     * @param bounds This <code>Node</code>'s new bounding volume.
+     * @param bounds A volume containing all the {@link com.se.simplicity.model.Model Model}s within the subgraph of which this <code>Node</code> is
+     * the root.
      */
     void setBounds(final BoundingVolume bounds);
 

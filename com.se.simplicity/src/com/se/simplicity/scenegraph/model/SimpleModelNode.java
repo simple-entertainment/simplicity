@@ -12,7 +12,6 @@
 package com.se.simplicity.scenegraph.model;
 
 import com.se.simplicity.model.Model;
-import com.se.simplicity.model.VertexGroup;
 import com.se.simplicity.scenegraph.SimpleNode;
 
 /**
@@ -31,40 +30,20 @@ public class SimpleModelNode extends SimpleNode implements ModelNode
 
     /**
      * <p>
-     * The {@link com.se.simplicity.model.Model Model} this <code>SimpleModelNode</code> is the root of, if this <code>SimpleModelNode</code> is the
-     * root of a {@link com.se.simplicity.model.Model Model}.
+     * The {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
      * </p>
      */
-    private Model model = null;
-
-    /**
-     * <p>
-     * The portion of a {@link com.se.simplicity.model.Model Model}'s vertices this <code>SimpleModelNode</code> contains.
-     * </p>
-     */
-    private VertexGroup vertexGroup = null;
+    private Model fModel;
 
     @Override
     public Model getModel()
     {
-        return (model);
-    }
-
-    @Override
-    public VertexGroup getVertexGroup()
-    {
-        return (vertexGroup);
+        return (fModel);
     }
 
     @Override
     public void setModel(final Model newModel)
     {
-        model = newModel;
-    }
-
-    @Override
-    public void setVertexGroup(final VertexGroup newVertexGroup)
-    {
-        vertexGroup = newVertexGroup;
+        fModel = newModel;
     }
 }

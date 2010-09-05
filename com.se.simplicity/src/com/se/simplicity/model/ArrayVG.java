@@ -14,18 +14,16 @@ package com.se.simplicity.model;
 import static com.se.simplicity.model.ModelConstants.ITEMS_IN_CNV;
 import static com.se.simplicity.model.ModelConstants.VERTICES_IN_A_FACE;
 
-import java.io.Serializable;
-
 import com.se.simplicity.SEInvalidOperationException;
 
 /**
  * <p>
- * A vertex group based on an array of vertices.
+ * A {@link com.se.simplicity.model.VertexGroup VertexGroup} that contains its vertices in arrays.
  * </p>
  * 
  * <p>
- * Three separate arrays are actually used to store the information for the vertices. One for the coordinates, one for the colours and one for the
- * surface normals.
+ * Three separate arrays are used to store the information for the vertices. One for the coordinates, one for the colours and one for the surface
+ * normals.
  * </p>
  * 
  * <p>
@@ -46,7 +44,7 @@ import com.se.simplicity.SEInvalidOperationException;
  * 
  * @author Gary Buyn
  */
-public class ArrayVG implements VertexGroup, Serializable
+public class ArrayVG implements VertexGroup
 {
     /**
      * <p>
@@ -60,14 +58,14 @@ public class ArrayVG implements VertexGroup, Serializable
      * The colours of all the vertices in this <code>ArrayVG</code>.
      * </p>
      */
-    private float[] colours;
+    private float[] fColours;
 
     /**
      * <p>
      * The index in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
      * </p>
      */
-    private int indexWithinParent;
+    private int fIndexWithinParent;
 
     /**
      * <p>
@@ -75,28 +73,28 @@ public class ArrayVG implements VertexGroup, Serializable
      * a copy of a subset of the parent <code>ArrayVG</code>s data.
      * </p>
      */
-    private boolean isSubset;
+    private boolean fIsSubset;
 
     /**
      * <p>
      * The surface normals of all the vertices in this <code>ArrayVG</code>.
      * </p>
      */
-    private float[] normals;
+    private float[] fNormals;
 
     /**
      * <p>
      * The parent of this <code>ArrayVG</code>. The parent should be set to <code>null</code> unless this <code>ArrayVG</code> is a subset.
      * </p>
      */
-    private VertexGroup parent;
+    private ArrayVG fParent;
 
     /**
      * <p>
      * The coordinates of all the vertices in this <code>ArrayVG</code>.
      * </p>
      */
-    private float[] vertices;
+    private float[] fVertices;
 
     /**
      * <p>
@@ -105,9 +103,9 @@ public class ArrayVG implements VertexGroup, Serializable
      */
     public ArrayVG()
     {
-        indexWithinParent = -1;
-        isSubset = false;
-        parent = null;
+        fIndexWithinParent = -1;
+        fIsSubset = false;
+        fParent = null;
     }
 
     /**
@@ -115,26 +113,26 @@ public class ArrayVG implements VertexGroup, Serializable
      * Creates an instance of <code>ArrayVG</code>. This constructor should only be used when creating subset <code>ArrayVG</code> s.
      * </p>
      * 
-     * @param newParent The parent of this <code>ArrayVG</code>.
+     * @param parent The parent of this <code>ArrayVG</code>.
      */
-    protected ArrayVG(final VertexGroup newParent)
+    protected ArrayVG(final ArrayVG parent)
     {
-        parent = newParent;
+        fParent = parent;
 
-        indexWithinParent = -1;
-        isSubset = true;
+        fIndexWithinParent = -1;
+        fIsSubset = true;
     }
 
     @Override
     public VertexGroup createEdgeSubsetVG(final int index)
     {
-        return createSubsetVG(index, 2);
+        return (createSubsetVG(index, 2));
     }
 
     @Override
     public VertexGroup createFaceSubsetVG(final int index)
     {
-        return createSubsetVG(index * VERTICES_IN_A_FACE, VERTICES_IN_A_FACE);
+        return (createSubsetVG(index * VERTICES_IN_A_FACE, VERTICES_IN_A_FACE));
     }
 
     @Override
@@ -144,9 +142,9 @@ public class ArrayVG implements VertexGroup, Serializable
         float[] subsetNormals = new float[length * ITEMS_IN_CNV];
         float[] subsetVertices = new float[length * ITEMS_IN_CNV];
 
-        System.arraycopy(colours, index * ITEMS_IN_CNV, subsetColours, 0, subsetColours.length);
-        System.arraycopy(normals, index * ITEMS_IN_CNV, subsetNormals, 0, subsetNormals.length);
-        System.arraycopy(vertices, index * ITEMS_IN_CNV, subsetVertices, 0, subsetVertices.length);
+        System.arraycopy(fColours, index * ITEMS_IN_CNV, subsetColours, 0, subsetColours.length);
+        System.arraycopy(fNormals, index * ITEMS_IN_CNV, subsetNormals, 0, subsetNormals.length);
+        System.arraycopy(fVertices, index * ITEMS_IN_CNV, subsetVertices, 0, subsetVertices.length);
 
         ArrayVG subsetVertexGroup = new ArrayVG(this);
         subsetVertexGroup.setIndexWithinParent(index);
@@ -160,7 +158,7 @@ public class ArrayVG implements VertexGroup, Serializable
     @Override
     public VertexGroup createVertexSubsetVG(final int index)
     {
-        return createSubsetVG(index, 1);
+        return (createSubsetVG(index, 1));
     }
 
     /**
@@ -172,7 +170,7 @@ public class ArrayVG implements VertexGroup, Serializable
      */
     public float[] getColours()
     {
-        return (colours);
+        return (fColours);
     }
 
     /**
@@ -184,7 +182,7 @@ public class ArrayVG implements VertexGroup, Serializable
      */
     public int getIndexWithinParent()
     {
-        return (indexWithinParent);
+        return (fIndexWithinParent);
     }
 
     /**
@@ -196,13 +194,13 @@ public class ArrayVG implements VertexGroup, Serializable
      */
     public float[] getNormals()
     {
-        return (normals);
+        return (fNormals);
     }
 
     @Override
     public VertexGroup getParent()
     {
-        return (parent);
+        return (fParent);
     }
 
     /**
@@ -214,26 +212,26 @@ public class ArrayVG implements VertexGroup, Serializable
      */
     public float[] getVertices()
     {
-        return (vertices);
+        return (fVertices);
     }
 
     @Override
     public boolean isSubset()
     {
-        return (isSubset);
+        return (fIsSubset);
     }
 
     @Override
     public void mergeWithParent() throws SEInvalidOperationException
     {
-        if (!isSubset)
+        if (!fIsSubset)
         {
             throw new SEInvalidOperationException("Cannot merge this Vertex Group because it is not a subset.");
         }
 
-        System.arraycopy(colours, 0, ((ArrayVG) parent).getColours(), indexWithinParent * ITEMS_IN_CNV, colours.length);
-        System.arraycopy(normals, 0, ((ArrayVG) parent).getNormals(), indexWithinParent * ITEMS_IN_CNV, normals.length);
-        System.arraycopy(vertices, 0, ((ArrayVG) parent).getVertices(), indexWithinParent * ITEMS_IN_CNV, vertices.length);
+        System.arraycopy(fColours, 0, ((ArrayVG) fParent).getColours(), fIndexWithinParent * ITEMS_IN_CNV, fColours.length);
+        System.arraycopy(fNormals, 0, ((ArrayVG) fParent).getNormals(), fIndexWithinParent * ITEMS_IN_CNV, fNormals.length);
+        System.arraycopy(fVertices, 0, ((ArrayVG) fParent).getVertices(), fIndexWithinParent * ITEMS_IN_CNV, fVertices.length);
     }
 
     /**
@@ -241,11 +239,11 @@ public class ArrayVG implements VertexGroup, Serializable
      * Sets the colours of all the vertices in this <code>ArrayVG</code>.
      * </p>
      * 
-     * @param newColours The colours of all the vertices in this <code>ArrayVG</code>.
+     * @param colours The colours of all the vertices in this <code>ArrayVG</code>.
      */
-    public void setColours(final float[] newColours)
+    public void setColours(final float[] colours)
     {
-        colours = newColours;
+        fColours = colours;
     }
 
     /**
@@ -253,11 +251,11 @@ public class ArrayVG implements VertexGroup, Serializable
      * Sets the index in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
      * </p>
      * 
-     * @param newIndexWithinParent The index in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
+     * @param indexWithinParent The index in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
      */
-    public void setIndexWithinParent(final int newIndexWithinParent)
+    public void setIndexWithinParent(final int indexWithinParent)
     {
-        indexWithinParent = newIndexWithinParent;
+        fIndexWithinParent = indexWithinParent;
     }
 
     /**
@@ -265,11 +263,11 @@ public class ArrayVG implements VertexGroup, Serializable
      * Sets the surface normals of all the vertices in this <code>ArrayVG</code>.
      * </p>
      * 
-     * @param newNormals The surface normals of all the vertices in this <code>ArrayVG</code>.
+     * @param normals The surface normals of all the vertices in this <code>ArrayVG</code>.
      */
-    public void setNormals(final float[] newNormals)
+    public void setNormals(final float[] normals)
     {
-        normals = newNormals;
+        fNormals = normals;
     }
 
     /**
@@ -277,10 +275,10 @@ public class ArrayVG implements VertexGroup, Serializable
      * Sets the coordinates of all the vertices in this <code>ArrayVG</code>.
      * </p>
      * 
-     * @param newVertices The coordinates of all the vertices in this <code>ArrayVG</code>.
+     * @param vertices The coordinates of all the vertices in this <code>ArrayVG</code>.
      */
-    public void setVertices(final float[] newVertices)
+    public void setVertices(final float[] vertices)
     {
-        vertices = newVertices;
+        fVertices = vertices;
     }
 }

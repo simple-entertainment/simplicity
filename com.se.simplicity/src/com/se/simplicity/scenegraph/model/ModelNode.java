@@ -12,12 +12,11 @@
 package com.se.simplicity.scenegraph.model;
 
 import com.se.simplicity.model.Model;
-import com.se.simplicity.model.VertexGroup;
 import com.se.simplicity.scenegraph.Node;
 
 /**
  * <p>
- * A {@link com.se.simplicity.scenegraph.Node Node} that contains a {@link com.se.simplicity.model.VertexGroup VertexGroup}.
+ * A {@link com.se.simplicity.scenegraph.Node Node} that contains a {@link com.se.simplicity.model.Model Model}.
  * </p>
  * 
  * @author Gary Buyn
@@ -26,38 +25,19 @@ public interface ModelNode extends Node
 {
     /**
      * <p>
-     * Retrieves the {@link com.se.simplicity.model.Model Model} this <code>ModelNode</code> is the root of.
+     * Retrieves the {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
      * </p>
      * 
-     * @return The {@link com.se.simplicity.model.Model Model} this <code>ModelNode</code> is the root of or <code>null</code> if this
-     * <code>ModelNode</code> is not the root of a {@link com.se.simplicity.model.Model Model}.
+     * @return The {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
      */
     Model getModel();
 
     /**
      * <p>
-     * Retrieves the portion of a {@link com.se.simplicity.model.Model Model}'s vertices this <code>ModelNode</code> contains.
+     * Sets the {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
      * </p>
      * 
-     * @return The portion of a {@link com.se.simplicity.model.Model Model}'s vertices this <code>ModelNode</code> contains.
-     */
-    VertexGroup getVertexGroup();
-
-    /**
-     * <p>
-     * Sets the {@link com.se.simplicity.model.Model Model} this <code>ModelNode</code> is the root of.
-     * </p>
-     * 
-     * @param model The {@link com.se.simplicity.model.Model Model} this <code>ModelNode</code> is the root of.
+     * @param model The {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
      */
     void setModel(Model model);
-
-    /**
-     * <p>
-     * Sets the portion of a {@link com.se.simplicity.model.Model Model}'s vertices this <code>ModelNode</code> contains.
-     * </p>
-     * 
-     * @param vertexGroup The portion of a {@link com.se.simplicity.model.Model Model}'s vertices this <code>ModelNode</code> contains.
-     */
-    void setVertexGroup(VertexGroup vertexGroup);
 }

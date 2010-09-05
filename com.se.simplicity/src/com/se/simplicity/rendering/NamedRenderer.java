@@ -11,11 +11,11 @@
  */
 package com.se.simplicity.rendering;
 
-import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.model.Model;
 
 /**
  * <p>
- * Renders {@link com.se.simplicity.model.VertexGroup VertexGroup}s and names them at the same time so that they may be picked.
+ * Renders {@link com.se.simplicity.model.Model Model}s and names them at the same time so that they may be picked.
  * </p>
  * 
  * @author Gary Buyn
@@ -24,12 +24,12 @@ public interface NamedRenderer extends Renderer
 {
     /**
      * <p>
-     * Renders the given {@link com.se.simplicity.rendering.VertexGroup VertexGroup} with the given {@link com.se.simplicity.rendering.DrawingMode
+     * Renders the given {@link com.se.simplicity.rendering.Model Model} with the given {@link com.se.simplicity.rendering.DrawingMode
      * DrawingMode} and names it with the given name.
      * </p>
      * 
-     * @param vertexGroup The {@link com.se.simplicity.rendering.VertexGroup VertexGroup} to render.
-     * @param name The name to assign to the <code>VertexGroup</code> being rendered.
+     * @param model The <code>Model</code> to render.
+     * @param name The name to assign to the <code>Model</code> being rendered.
      */
-    void renderVertexGroup(VertexGroup vertexGroup, int name);
+    void renderModel(Model model, int name);
 }
