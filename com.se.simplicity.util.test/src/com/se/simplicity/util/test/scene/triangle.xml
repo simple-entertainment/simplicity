@@ -36,7 +36,7 @@
 						<translation vector="0.0, 0.0, 0.0, 1.0" />
 						<rotation axisAngles="0.0, -0.0, 0.0" />
 					</content>
-					<content class="com.se.simplicity.model.ArrayVG" type="vertexGroup">
+					<content class="com.se.simplicity.model.ArrayVG" type="model">
 						<vertex colour="1.0, 0.0, 0.0" normal="0.0, 0.0, 1.0"
 							vertex="0.0, 1.0, 0.0" />
 						<vertex colour="0.0, 1.0, 0.0" normal="0.0, 0.0, 1.0"

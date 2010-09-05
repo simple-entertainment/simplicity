@@ -38,7 +38,7 @@ import org.xml.sax.SAXException;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.jogl.rendering.SimpleJOGLLight;
 import com.se.simplicity.model.ArrayVG;
-import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
@@ -319,10 +319,10 @@ public class SceneFactoryTest
         assertEquals(SimpleModelNode.class, node3.getWrappedNode().getClass());
         assertEquals("Triangle", node3.getAttribute("name"));
 
-        VertexGroup vertexGroup = node3.getVertexGroup();
-        assertEquals(ArrayVG.class, vertexGroup.getClass());
+        Model model = node3.getModel();
+        assertEquals(ArrayVG.class, model.getClass());
 
-        float[] colours = ((ArrayVG) vertexGroup).getColours();
+        float[] colours = ((ArrayVG) model).getColours();
         assertEquals(1.0f, colours[0], 0.0f);
         assertEquals(0.0f, colours[1], 0.0f);
         assertEquals(0.0f, colours[2], 0.0f);
@@ -333,7 +333,7 @@ public class SceneFactoryTest
         assertEquals(0.0f, colours[7], 0.0f);
         assertEquals(1.0f, colours[8], 0.0f);
 
-        float[] normals = ((ArrayVG) vertexGroup).getNormals();
+        float[] normals = ((ArrayVG) model).getNormals();
         assertEquals(0.0f, normals[0], 0.0f);
         assertEquals(0.0f, normals[1], 0.0f);
         assertEquals(1.0f, normals[2], 0.0f);
@@ -344,7 +344,7 @@ public class SceneFactoryTest
         assertEquals(0.0f, normals[7], 0.0f);
         assertEquals(1.0f, normals[8], 0.0f);
 
-        float[] vertices = ((ArrayVG) vertexGroup).getVertices();
+        float[] vertices = ((ArrayVG) model).getVertices();
         assertEquals(0.0f, vertices[0], 0.0f);
         assertEquals(1.0f, vertices[1], 0.0f);
         assertEquals(0.0f, vertices[2], 0.0f);
@@ -359,12 +359,12 @@ public class SceneFactoryTest
     /**
      * <p>
      * Unit test the method {@link com.se.simplicity.editor.model.scene.SceneFactory.loadFromSourceFile loadFromSourceFile()} with the special
-     * condition that the source file contains a vertex group definition with no class specified.
+     * condition that the source file contains a model definition with no class specified.
      * 
      * @throws FileNotFoundException Thrown if source file is not found.
      */
     @Test
-    public void loadFromSourceVertexGroupNoClass() throws FileNotFoundException
+    public void loadFromSourceModelNoClass() throws FileNotFoundException
     {
         try
         {
@@ -372,7 +372,7 @@ public class SceneFactoryTest
         }
         catch (IllegalArgumentException e)
         {
-            assertEquals("Invalid Vertex Group definition: Does not specify a class.", e.getMessage());
+            assertEquals("Invalid Model definition: Does not specify a class.", e.getMessage());
         }
     }
 
@@ -576,10 +576,10 @@ public class SceneFactoryTest
         assertEquals(SimpleModelNode.class, node3.getWrappedNode().getClass());
         assertEquals("Triangle", node3.getAttribute("name"));
 
-        VertexGroup vertexGroup = node3.getVertexGroup();
-        assertEquals(ArrayVG.class, vertexGroup.getClass());
+        Model model = node3.getModel();
+        assertEquals(ArrayVG.class, model.getClass());
 
-        float[] colours = ((ArrayVG) vertexGroup).getColours();
+        float[] colours = ((ArrayVG) model).getColours();
         assertEquals(1.0f, colours[0], 0.0f);
         assertEquals(0.0f, colours[1], 0.0f);
         assertEquals(0.0f, colours[2], 0.0f);
@@ -590,7 +590,7 @@ public class SceneFactoryTest
         assertEquals(0.0f, colours[7], 0.0f);
         assertEquals(1.0f, colours[8], 0.0f);
 
-        float[] normals = ((ArrayVG) vertexGroup).getNormals();
+        float[] normals = ((ArrayVG) model).getNormals();
         assertEquals(0.0f, normals[0], 0.0f);
         assertEquals(0.0f, normals[1], 0.0f);
         assertEquals(1.0f, normals[2], 0.0f);
@@ -601,7 +601,7 @@ public class SceneFactoryTest
         assertEquals(0.0f, normals[7], 0.0f);
         assertEquals(1.0f, normals[8], 0.0f);
 
-        float[] vertices = ((ArrayVG) vertexGroup).getVertices();
+        float[] vertices = ((ArrayVG) model).getVertices();
         assertEquals(0.0f, vertices[0], 0.0f);
         assertEquals(1.0f, vertices[1], 0.0f);
         assertEquals(0.0f, vertices[2], 0.0f);
@@ -966,7 +966,7 @@ public class SceneFactoryTest
 
         Element node2Content1Element = (Element) node2Element.getChildNodes().item(1);
         assertEquals("com.se.simplicity.model.ArrayVG", node2Content1Element.getAttribute("class"));
-        assertEquals("vertexGroup", node2Content1Element.getAttribute("type"));
+        assertEquals("model", node2Content1Element.getAttribute("type"));
         Element node2Vertex0Element = (Element) node2Content1Element.getChildNodes().item(0);
         assertEquals("1.0, 1.0, 1.0", node2Vertex0Element.getAttribute("colour"));
         assertEquals("0.0, 0.0, 1.0", node2Vertex0Element.getAttribute("normal"));
