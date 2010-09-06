@@ -22,12 +22,13 @@ import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.IndexedArrayVG;
 import com.se.simplicity.model.Model;
-import com.se.simplicity.model.shapes.Capsule;
-import com.se.simplicity.model.shapes.Cylinder;
-import com.se.simplicity.model.shapes.Sphere;
-import com.se.simplicity.model.shapes.Torus;
+import com.se.simplicity.model.shape.Capsule;
+import com.se.simplicity.model.shape.Cylinder;
+import com.se.simplicity.model.shape.Sphere;
+import com.se.simplicity.model.shape.Torus;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
+import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 import com.se.simplicity.vector.SimpleTransformationMatrixf44;
 import com.se.simplicity.vector.SimpleTranslationVectorf4;
 import com.se.simplicity.vector.TranslationVectorf;
@@ -166,7 +167,8 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
      */
     protected void renderCapsule(final Capsule capsule)
     {
-        fGl.glColor3f(capsule.getColour().getRed(), capsule.getColour().getGreen(), capsule.getColour().getBlue());
+        SimpleRGBColourVectorf4 color = (SimpleRGBColourVectorf4) capsule.getColour();
+        fGl.glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
         GLU glu = new GLU();
         glu.gluCylinder(glu.gluNewQuadric(), capsule.getRadius(), capsule.getRadius(), capsule.getLength(), GLU_SHAPE_SUBDIVISIONS, 1);
@@ -197,7 +199,8 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
      */
     protected void renderCylinder(final Cylinder cylinder)
     {
-        fGl.glColor3f(cylinder.getColour().getRed(), cylinder.getColour().getGreen(), cylinder.getColour().getBlue());
+        SimpleRGBColourVectorf4 color = (SimpleRGBColourVectorf4) cylinder.getColour();
+        fGl.glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
         GLU glu = new GLU();
         glu.gluCylinder(glu.gluNewQuadric(), cylinder.getRadius(), cylinder.getRadius(), cylinder.getLength(), GLU_SHAPE_SUBDIVISIONS, 1);
@@ -303,7 +306,8 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
      */
     protected void renderSphere(final Sphere sphere)
     {
-        fGl.glColor3f(sphere.getColour().getRed(), sphere.getColour().getGreen(), sphere.getColour().getBlue());
+        SimpleRGBColourVectorf4 color = (SimpleRGBColourVectorf4) sphere.getColour();
+        fGl.glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
         GLU glu = new GLU();
         glu.gluSphere(glu.gluNewQuadric(), sphere.getRadius(), GLU_SHAPE_SUBDIVISIONS, GLU_SHAPE_SUBDIVISIONS);
@@ -318,7 +322,8 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
      */
     protected void renderTorus(final Torus torus)
     {
-        fGl.glColor3f(torus.getColour().getRed(), torus.getColour().getGreen(), torus.getColour().getBlue());
+        SimpleRGBColourVectorf4 color = (SimpleRGBColourVectorf4) torus.getColour();
+        fGl.glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
         GLUT glut = new GLUT();
         glut.glutSolidTorus(torus.getInnerRadius(), torus.getOuterRadius(), GLU_SHAPE_SUBDIVISIONS, GLU_SHAPE_SUBDIVISIONS);
