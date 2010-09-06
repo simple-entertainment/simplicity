@@ -13,7 +13,6 @@ package com.se.simplicity.jogl.rendering;
 
 import javax.media.opengl.GL;
 
-import com.se.simplicity.SENotSupportedException;
 import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
@@ -84,17 +83,6 @@ public class OutlineJOGLRenderer extends AdaptingJOGLRenderer
         fOutlineWidth = DEFAULT_OUTLINE_WIDTH;
     }
 
-    @Override
-    public void dispose()
-    {
-        super.dispose();
-
-        GL gl = getGL();
-
-        // Revert drawing settings.
-        gl.glLineWidth(1.0f);
-    }
-
     /**
      * <p>
      * Retrieves the colour of the outline. White is the default.
@@ -121,17 +109,6 @@ public class OutlineJOGLRenderer extends AdaptingJOGLRenderer
     }
 
     @Override
-    public void init()
-    {
-        GL gl = getGL();
-
-        // Set outline width.
-        gl.glLineWidth(fOutlineWidth);
-
-        super.init();
-    }
-
-    @Override
     public void renderModel(final Model model)
     {
         GL gl = getGL();
@@ -143,29 +120,43 @@ public class OutlineJOGLRenderer extends AdaptingJOGLRenderer
         fAlwaysStencil.renderModel(model);
         fAlwaysStencil.dispose();
 
-        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
-
+        // Prepare for rendering the outline.
+        gl.glDisable(GL.GL_CULL_FACE);
         if (lightingEnabledParams[0] == 1)
         {
             gl.glDisable(GL.GL_LIGHTING);
         }
 
+        // If outlines need to be drawn for the edges or faces, draw them.
+        if (getDrawingMode() != DrawingMode.VERTICES)
+        {
+            gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
+            gl.glLineWidth(fOutlineWidth);
+
+            fNotEqualStencil.init();
+            fNotEqualStencil.renderModel(model);
+            fNotEqualStencil.dispose();
+
+            gl.glLineWidth(1.0f);
+        }
+
+        // Draw outlines for the vertices (if edges or faces are being drawn this just gives nice rounded corners).
+        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_POINT);
+        gl.glPointSize(fOutlineWidth);
+
         fNotEqualStencil.init();
         fNotEqualStencil.renderModel(model);
         fNotEqualStencil.dispose();
 
+        // Restore rendering environment settings.
+        gl.glPointSize(1.0f);
+
+        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_FILL);
         if (lightingEnabledParams[0] == 1)
         {
             gl.glEnable(GL.GL_LIGHTING);
         }
-
-        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_FILL);
-    }
-
-    @Override
-    public void setDrawingMode(final DrawingMode mode)
-    {
-        throw new SENotSupportedException("This implementation manages the Drawing Mode internally");
+        gl.glEnable(GL.GL_CULL_FACE);
     }
 
     @Override
