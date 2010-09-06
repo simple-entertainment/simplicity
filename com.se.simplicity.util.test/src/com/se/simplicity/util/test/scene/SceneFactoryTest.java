@@ -368,7 +368,7 @@ public class SceneFactoryTest
     {
         try
         {
-            SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleVertexGroupNoClass.xml")));
+            SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleModelNoClass.xml")));
         }
         catch (IllegalArgumentException e)
         {
@@ -602,6 +602,105 @@ public class SceneFactoryTest
         assertEquals(1.0f, normals[8], 0.0f);
 
         float[] vertices = ((ArrayVG) model).getVertices();
+        assertEquals(0.0f, vertices[0], 0.0f);
+        assertEquals(1.0f, vertices[1], 0.0f);
+        assertEquals(0.0f, vertices[2], 0.0f);
+        assertEquals(-1.0f, vertices[3], 0.0f);
+        assertEquals(-1.0f, vertices[4], 0.0f);
+        assertEquals(0.0f, vertices[5], 0.0f);
+        assertEquals(1.0f, vertices[6], 0.0f);
+        assertEquals(-1.0f, vertices[7], 0.0f);
+        assertEquals(0.0f, vertices[8], 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.util.scene.SceneFactory.loadFromSource loadFromSource()}, specifically the functionality that
+     * updates <code>Node</code>s.
+     * </p>
+     * 
+     * @throws FileNotFoundException Thrown if source file is not found.
+     */
+    @Test
+    public void updateFromSourceModel() throws FileNotFoundException
+    {
+        // Initialise test environment.
+        Scene scene = SceneFactory.loadFromSource(new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangle.xml")));
+
+        // Perform test 1.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangleModel.xml")));
+
+        // Verify test 1 results.
+        Node node0 = scene.getSceneGraph().getRoot();
+
+        Model model = ((MetaDataNode) node0.getChildren().get(2)).getModel();
+        assertEquals(ArrayVG.class, model.getClass());
+
+        float[] colours = ((ArrayVG) model).getColours();
+        assertEquals(0.5f, colours[0], 0.0f);
+        assertEquals(0.0f, colours[1], 0.0f);
+        assertEquals(0.0f, colours[2], 0.0f);
+        assertEquals(0.0f, colours[3], 0.0f);
+        assertEquals(0.5f, colours[4], 0.0f);
+        assertEquals(0.0f, colours[5], 0.0f);
+        assertEquals(0.0f, colours[6], 0.0f);
+        assertEquals(0.0f, colours[7], 0.0f);
+        assertEquals(0.5f, colours[8], 0.0f);
+
+        float[] normals = ((ArrayVG) model).getNormals();
+        assertEquals(0.0f, normals[0], 0.0f);
+        assertEquals(1.0f, normals[1], 0.0f);
+        assertEquals(0.0f, normals[2], 0.0f);
+        assertEquals(0.0f, normals[3], 0.0f);
+        assertEquals(1.0f, normals[4], 0.0f);
+        assertEquals(0.0f, normals[5], 0.0f);
+        assertEquals(0.0f, normals[6], 0.0f);
+        assertEquals(1.0f, normals[7], 0.0f);
+        assertEquals(0.0f, normals[8], 0.0f);
+
+        float[] vertices = ((ArrayVG) model).getVertices();
+        assertEquals(0.0f, vertices[0], 0.0f);
+        assertEquals(2.0f, vertices[1], 0.0f);
+        assertEquals(0.0f, vertices[2], 0.0f);
+        assertEquals(-2.0f, vertices[3], 0.0f);
+        assertEquals(-2.0f, vertices[4], 0.0f);
+        assertEquals(0.0f, vertices[5], 0.0f);
+        assertEquals(2.0f, vertices[6], 0.0f);
+        assertEquals(-2.0f, vertices[7], 0.0f);
+        assertEquals(0.0f, vertices[8], 0.0f);
+
+        // Perform test 2.
+        SceneFactory.updateFromSource(scene, new FileInputStream(new File("src/com/se/simplicity/util/test/scene/triangle.xml")));
+
+        // Verify test 2 results.
+        node0 = scene.getSceneGraph().getRoot();
+
+        model = ((MetaDataNode) node0.getChildren().get(2)).getModel();
+        assertEquals(ArrayVG.class, model.getClass());
+
+        colours = ((ArrayVG) model).getColours();
+        assertEquals(1.0f, colours[0], 0.0f);
+        assertEquals(0.0f, colours[1], 0.0f);
+        assertEquals(0.0f, colours[2], 0.0f);
+        assertEquals(0.0f, colours[3], 0.0f);
+        assertEquals(1.0f, colours[4], 0.0f);
+        assertEquals(0.0f, colours[5], 0.0f);
+        assertEquals(0.0f, colours[6], 0.0f);
+        assertEquals(0.0f, colours[7], 0.0f);
+        assertEquals(1.0f, colours[8], 0.0f);
+
+        normals = ((ArrayVG) model).getNormals();
+        assertEquals(0.0f, normals[0], 0.0f);
+        assertEquals(0.0f, normals[1], 0.0f);
+        assertEquals(1.0f, normals[2], 0.0f);
+        assertEquals(0.0f, normals[3], 0.0f);
+        assertEquals(0.0f, normals[4], 0.0f);
+        assertEquals(1.0f, normals[5], 0.0f);
+        assertEquals(0.0f, normals[6], 0.0f);
+        assertEquals(0.0f, normals[7], 0.0f);
+        assertEquals(1.0f, normals[8], 0.0f);
+
+        vertices = ((ArrayVG) model).getVertices();
         assertEquals(0.0f, vertices[0], 0.0f);
         assertEquals(1.0f, vertices[1], 0.0f);
         assertEquals(0.0f, vertices[2], 0.0f);
