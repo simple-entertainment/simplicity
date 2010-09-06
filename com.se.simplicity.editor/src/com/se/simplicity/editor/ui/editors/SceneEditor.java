@@ -11,114 +11,55 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.part.MultiPageEditorPart;
+import java.util.List;
+
+import com.se.simplicity.picking.engine.PickingEngine;
+import com.se.simplicity.rendering.engine.RenderingEngine;
+import com.se.simplicity.scene.Scene;
+import com.se.simplicity.scenegraph.Node;
 
 /**
- * A multi-page eclipse editor that displays a <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment on the first page and
- * the serialised source representation in an XML editor on the second page.
+ * <p>
+ * An editor capable of displaying a <code>Scene</code> visually.
+ * </p>
  * 
  * @author Gary Buyn
  */
-public class SceneEditor extends MultiPageEditorPart
+public interface SceneEditor
 {
     /**
      * <p>
-     * The editor that displays the <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment.
+     * Retrieves the root <code>Node</code>s for the subgraphs that contain the 3D widgets used to manipulate <code>Model</code>s.
      * </p>
+     * 
+     * @return The root <code>Node</code>s for the subgraphs that contain the 3D widgets used to manipulate <code>Model</code>s.
      */
-    private VisualSceneEditor fVisualEditor;
+    List<Node> get3DWidgetsRootNodes();
 
     /**
      * <p>
-     * The editor that displays serialised source representation of the <code>Scene</code>.
+     * Retrieves the <code>PickingEngine</code> used to select items in the <code>Scene</code>.
      * </p>
+     * 
+     * @return The <code>PickingEngine</code> used to select items in the <code>Scene</code>.
      */
-    private SourceSceneEditor fSourceEditor;
+    PickingEngine getPickingEngine();
 
     /**
      * <p>
-     * Creates an instance of <code>SceneEditor</code>.
+     * Retrieves the <code>RenderingEngine</code> that will render the <code>Scene</code>.
      * </p>
+     * 
+     * @return The <code>RenderingEngine</code> that will render the <code>Scene</code>.
      */
-    public SceneEditor()
-    {
-        fSourceEditor = null;
-        fVisualEditor = null;
-    }
-
-    @Override
-    protected void createPages()
-    {
-        createVisualPage();
-        createSourcePage();
-    }
+    RenderingEngine getRenderingEngine();
 
     /**
      * <p>
-     * Adds the source editor to the next available page within this multi-page editor.
+     * Retrieves the <code>Scene</code> displayed by this editor.
      * </p>
+     * 
+     * @return The <code>Scene</code> displayed by this editor.
      */
-    public void createSourcePage()
-    {
-        try
-        {
-            fSourceEditor = new SourceSceneEditor();
-            int index = addPage(fSourceEditor, getEditorInput());
-            setPageText(index, "Source");
-        }
-        catch (PartInitException e)
-        {
-            ErrorDialog.openError(getSite().getShell(), "Error creating nested visual editor", null, e.getStatus());
-        }
-    }
-
-    /**
-     * <p>
-     * Adds the visual editor to the next available page within this multi-page editor.
-     * </p>
-     */
-    public void createVisualPage()
-    {
-        try
-        {
-            fVisualEditor = new VisualSceneEditor();
-            int index = addPage(fVisualEditor, getEditorInput());
-            setPageText(index, "Visual");
-        }
-        catch (PartInitException e)
-        {
-            ErrorDialog.openError(getSite().getShell(), "Error creating nested visual editor", null, e.getStatus());
-        }
-    }
-
-    @Override
-    public void init(final IEditorSite site, final IEditorInput input) throws PartInitException
-    {
-        super.init(site, input);
-
-        setPartName(input.getName());
-    }
-
-    @Override
-    public void doSave(final IProgressMonitor monitor)
-    {
-        fSourceEditor.doSave(monitor);
-    }
-
-    @Override
-    public void doSaveAs()
-    {
-        fSourceEditor.doSaveAs();
-    }
-
-    @Override
-    public boolean isSaveAsAllowed()
-    {
-        return (fSourceEditor.isSaveAsAllowed());
-    }
+    Scene getScene();
 }
