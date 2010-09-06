@@ -14,7 +14,6 @@ package com.se.simplicity.jogl.rendering;
 import javax.media.opengl.GL;
 
 import com.se.simplicity.SENotSupportedException;
-import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
@@ -28,7 +27,7 @@ import com.se.simplicity.vector.RGBColourVectorf;
  * 
  * @author Gary Buyn
  */
-public class OutlineJOGLRenderer implements Renderer, JOGLComponent
+public class OutlineJOGLRenderer extends AdaptingJOGLRenderer
 {
     /**
      * <p>
@@ -43,13 +42,6 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
      * </p>
      */
     private AlwaysStencilJOGLRenderer fAlwaysStencil;
-
-    /**
-     * <p>
-     * The JOGL rendering environment.
-     * </p>
-     */
-    private GL fGl;
 
     /**
      * <p>
@@ -78,11 +70,13 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
      * Creates an instance of <code>OutlineJOGLRenderer</code>.
      * </p>
      * 
-     * @param renderer The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} whose rendered {@link com.se.simplicity.model.Model
-     * VertexGroup}s will have an outline added to them.
+     * @param renderer The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} whose rendered {@link com.se.simplicity.model.Model Model}s
+     * will have an outline added to them.
      */
     public OutlineJOGLRenderer(final Renderer renderer)
     {
+        super(renderer);
+
         fAlwaysStencil = new AlwaysStencilJOGLRenderer(renderer);
         fMonoColour = new MonoColourJOGLRenderer();
         fNotEqualStencil = new NotEqualStencilJOGLRenderer(fMonoColour);
@@ -93,20 +87,12 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
     @Override
     public void dispose()
     {
+        super.dispose();
+
+        GL gl = getGL();
+
         // Revert drawing settings.
-        fGl.glLineWidth(1.0f);
-    }
-
-    @Override
-    public DrawingMode getDrawingMode()
-    {
-        throw new SENotSupportedException("This implementation manages the Drawing Mode internally");
-    }
-
-    @Override
-    public GL getGL()
-    {
-        return (fGl);
+        gl.glLineWidth(1.0f);
     }
 
     /**
@@ -137,25 +123,31 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
     @Override
     public void init()
     {
+        GL gl = getGL();
+
         // Set outline width.
-        fGl.glLineWidth(fOutlineWidth);
+        gl.glLineWidth(fOutlineWidth);
+
+        super.init();
     }
 
     @Override
     public void renderModel(final Model model)
     {
+        GL gl = getGL();
+
         byte[] lightingEnabledParams = new byte[1];
-        fGl.glGetBooleanv(GL.GL_LIGHTING, lightingEnabledParams, 0);
+        gl.glGetBooleanv(GL.GL_LIGHTING, lightingEnabledParams, 0);
 
         fAlwaysStencil.init();
         fAlwaysStencil.renderModel(model);
         fAlwaysStencil.dispose();
 
-        fGl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
+        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
 
         if (lightingEnabledParams[0] == 1)
         {
-            fGl.glDisable(GL.GL_LIGHTING);
+            gl.glDisable(GL.GL_LIGHTING);
         }
 
         fNotEqualStencil.init();
@@ -164,10 +156,10 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
 
         if (lightingEnabledParams[0] == 1)
         {
-            fGl.glEnable(GL.GL_LIGHTING);
+            gl.glEnable(GL.GL_LIGHTING);
         }
 
-        fGl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_FILL);
+        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_FILL);
     }
 
     @Override
@@ -179,7 +171,7 @@ public class OutlineJOGLRenderer implements Renderer, JOGLComponent
     @Override
     public void setGL(final GL gl)
     {
-        fGl = gl;
+        super.setGL(gl);
 
         fAlwaysStencil.setGL(gl);
         fMonoColour.setGL(gl);

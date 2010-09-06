@@ -13,9 +13,6 @@ package com.se.simplicity.jogl.rendering;
 
 import javax.media.opengl.GL;
 
-import com.se.simplicity.jogl.JOGLComponent;
-import com.se.simplicity.model.Model;
-import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
 
 /**
@@ -26,7 +23,7 @@ import com.se.simplicity.rendering.Renderer;
  * 
  * @author Gary Buyn
  */
-public class AlwaysStencilJOGLRenderer implements Renderer, JOGLComponent
+public class AlwaysStencilJOGLRenderer extends AdaptingJOGLRenderer
 {
     /**
      * <p>
@@ -34,21 +31,6 @@ public class AlwaysStencilJOGLRenderer implements Renderer, JOGLComponent
      * </p>
      */
     private static final int STENCIL_BUFFER_MASK = 255; // binary: 1111
-
-    /**
-     * <p>
-     * The JOGL rendering environment.
-     * </p>
-     */
-    private GL fGl;
-
-    /**
-     * <p>
-     * The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} that will actually render the {@link com.se.simplicity.model.Model
-     * Model}.
-     * </p>
-     */
-    private Renderer fRenderer;
 
     /**
      * <p>
@@ -67,35 +49,24 @@ public class AlwaysStencilJOGLRenderer implements Renderer, JOGLComponent
      */
     public AlwaysStencilJOGLRenderer(final Renderer renderer)
     {
-        fRenderer = renderer;
+        super(renderer);
 
-        fGl = null;
         fStencilValue = 1;
     }
 
     @Override
     public void dispose()
     {
+        super.dispose();
+
+        GL gl = getGL();
+
         // Disable stencil buffer.
-        fGl.glDisable(GL.GL_STENCIL_TEST);
+        gl.glDisable(GL.GL_STENCIL_TEST);
 
         // Revert stencil buffer settings.
-        fGl.glStencilFunc(GL.GL_ALWAYS, 0, STENCIL_BUFFER_MASK);
-        fGl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);
-
-        fRenderer.dispose();
-    }
-
-    @Override
-    public DrawingMode getDrawingMode()
-    {
-        return (fRenderer.getDrawingMode());
-    }
-
-    @Override
-    public GL getGL()
-    {
-        return (fGl);
+        gl.glStencilFunc(GL.GL_ALWAYS, 0, STENCIL_BUFFER_MASK);
+        gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);
     }
 
     /**
@@ -113,34 +84,16 @@ public class AlwaysStencilJOGLRenderer implements Renderer, JOGLComponent
     @Override
     public void init()
     {
-        fRenderer.init();
+        GL gl = getGL();
 
         // Enable stencil buffer.
-        fGl.glEnable(GL.GL_STENCIL_TEST);
+        gl.glEnable(GL.GL_STENCIL_TEST);
 
         // Set the stencil buffer value for every pixel drawn.
-        fGl.glStencilFunc(GL.GL_ALWAYS, fStencilValue, STENCIL_BUFFER_MASK);
-        fGl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_REPLACE);
-    }
+        gl.glStencilFunc(GL.GL_ALWAYS, fStencilValue, STENCIL_BUFFER_MASK);
+        gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_REPLACE);
 
-    @Override
-    public void renderModel(final Model model)
-    {
-        fRenderer.renderModel(model);
-    }
-
-    @Override
-    public void setDrawingMode(final DrawingMode mode)
-    {
-        fRenderer.setDrawingMode(mode);
-    }
-
-    @Override
-    public void setGL(final GL gl)
-    {
-        fGl = gl;
-
-        ((JOGLComponent) fRenderer).setGL(gl);
+        super.init();
     }
 
     /**
