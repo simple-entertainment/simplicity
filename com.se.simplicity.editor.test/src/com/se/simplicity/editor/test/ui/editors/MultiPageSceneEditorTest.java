@@ -23,21 +23,21 @@ import org.eclipse.ui.PartInitException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.ui.editors.SceneEditor;
+import com.se.simplicity.editor.ui.editors.MultiPageSceneEditor;
 
 /**
  * <p>
- * Unit tests for the class {@link com.se.simplicity.editor.ui.editors.SceneEditor SceneEditor}.
+ * Unit tests for the class {@link com.se.simplicity.editor.ui.editors.MultiPageSceneEditor SceneEditor}.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class SceneEditorTest
+public class MultiPageSceneEditorTest
 {
     /**
      * An instance of the class being unit tested.
      */
-    private SceneEditor testObject;
+    private MultiPageSceneEditor testObject;
 
     /**
      * <p>
@@ -47,12 +47,12 @@ public class SceneEditorTest
     @Before
     public void before()
     {
-        testObject = new SceneEditor();
+        testObject = new MultiPageSceneEditor();
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneEditor#init(IEditorSite, IEditorInput) init(IEditorSite, IEditorInput)}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.MultiPageSceneEditor#init(IEditorSite, IEditorInput) init(IEditorSite, IEditorInput)}.
      * </p>
      * 
      * @throws PartInitException Thrown if the initialisation fails.

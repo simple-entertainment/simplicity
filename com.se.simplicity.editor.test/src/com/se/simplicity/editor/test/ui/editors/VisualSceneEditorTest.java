@@ -157,9 +157,10 @@ public class VisualSceneEditorTest
 
         assertEquals("triangle.xml", testObject.getPartName());
         assertNotNull(testObject.getPickingEngine());
-        assertNotNull(testObject.getPickingEngine().getCamera());
         assertNotNull(testObject.getRenderingEngine());
+        assertNotNull(testObject.getPickingEngine().getCamera());
         assertNotNull(testObject.getRenderingEngine().getCamera());
+        assertEquals(2, testObject.get3DWidgetsRootNodes().size(), 0);
         assertNotNull(SceneManager.getSceneManager().getActiveScene());
     }
 
