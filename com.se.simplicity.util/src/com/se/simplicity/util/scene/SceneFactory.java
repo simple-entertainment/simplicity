@@ -1232,6 +1232,11 @@ public final class SceneFactory
         destination.setModifiable(source.isModifiable());
         destination.setVisible(source.isVisible());
         destination.setTransformation(source.getTransformation());
+
+        if (destination instanceof ModelNode)
+        {
+            ((ModelNode) destination).setModel(((ModelNode) source).getModel());
+        }
     }
 
     private static void updateSceneGraphFromSource(final SceneGraph sceneGraph, final Element sceneGraphElement)
