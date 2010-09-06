@@ -115,13 +115,18 @@ public class OutlineJOGLRenderer extends AdaptingJOGLRenderer
 
         byte[] lightingEnabledParams = new byte[1];
         gl.glGetBooleanv(GL.GL_LIGHTING, lightingEnabledParams, 0);
+        byte[] cullFaceEnabledParams = new byte[1];
+        gl.glGetBooleanv(GL.GL_CULL_FACE, cullFaceEnabledParams, 0);
 
         fAlwaysStencil.init();
         fAlwaysStencil.renderModel(model);
         fAlwaysStencil.dispose();
 
         // Prepare for rendering the outline.
-        gl.glDisable(GL.GL_CULL_FACE);
+        if (cullFaceEnabledParams[0] == 1)
+        {
+            gl.glDisable(GL.GL_CULL_FACE);
+        }
         if (lightingEnabledParams[0] == 1)
         {
             gl.glDisable(GL.GL_LIGHTING);
@@ -148,15 +153,18 @@ public class OutlineJOGLRenderer extends AdaptingJOGLRenderer
         fNotEqualStencil.renderModel(model);
         fNotEqualStencil.dispose();
 
-        // Restore rendering environment settings.
         gl.glPointSize(1.0f);
 
+        // Restore rendering environment settings.
         gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_FILL);
         if (lightingEnabledParams[0] == 1)
         {
             gl.glEnable(GL.GL_LIGHTING);
         }
-        gl.glEnable(GL.GL_CULL_FACE);
+        if (cullFaceEnabledParams[0] == 1)
+        {
+            gl.glEnable(GL.GL_CULL_FACE);
+        }
     }
 
     @Override
