@@ -9,9 +9,8 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.model.shapes;
+package com.se.simplicity.model.shape;
 
-import com.se.simplicity.model.Model;
 import com.se.simplicity.vector.RGBColourVectorf;
 import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 
@@ -22,7 +21,7 @@ import com.se.simplicity.vector.SimpleRGBColourVectorf4;
  * 
  * @author Gary Buyn
  */
-public class Cylinder implements Model
+public class Cylinder implements Shape
 {
     /**
      * <p>

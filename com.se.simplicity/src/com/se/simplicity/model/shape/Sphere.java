@@ -9,20 +9,19 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.model.shapes;
+package com.se.simplicity.model.shape;
 
-import com.se.simplicity.model.Model;
 import com.se.simplicity.vector.RGBColourVectorf;
 import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 
 /**
  * <p>
- * A torus-shaped {@link com.se.simplicity.model.Model Model}.
+ * A spherical {@link com.se.simplicity.model.Model Model}.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class Torus implements Model
+public class Sphere implements Shape
 {
     /**
      * <p>
@@ -40,36 +39,28 @@ public class Torus implements Model
 
     /**
      * <p>
-     * The inner radius.
+     * The radius.
      * </p>
      */
-    private float fInnerRadius;
+    private float fRadius;
 
     /**
      * <p>
-     * The outer radius.
+     * Creates an instance of <code>Sphere</code>.
      * </p>
      */
-    private float fOuterRadius;
-
-    /**
-     * <p>
-     * Creates an instance of <code>Torus</code>.
-     * </p>
-     */
-    public Torus()
+    public Sphere()
     {
         fColour = new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 1.0f);
-        fInnerRadius = 1.0f;
-        fOuterRadius = 2.0f;
+        fRadius = 1.0f;
     }
 
     /**
      * <p>
-     * Retrieves the colour to render this <code>Torus</code> as. The default is white.
+     * Retrieves the colour to render this <code>Sphere</code> as. The default is white.
      * </p>
      * 
-     * @return The colour to render this <code>Torus</code> as.
+     * @return The colour to render this <code>Sphere</code> as.
      */
     public RGBColourVectorf getColour()
     {
@@ -78,34 +69,22 @@ public class Torus implements Model
 
     /**
      * <p>
-     * Retrieves the inner radius. The default is 0.5.
+     * Retrieves the radius. The default is 1.0.
      * </p>
      * 
-     * @return The inner radius.
+     * @return The radius.
      */
-    public float getInnerRadius()
+    public float getRadius()
     {
-        return (fInnerRadius);
+        return (fRadius);
     }
 
     /**
      * <p>
-     * Retrieves the outer radius. The default is 0.5.
+     * Sets the colour to render this <code>Sphere</code> as. The default is white.
      * </p>
      * 
-     * @return The outer radius.
-     */
-    public float getOuterRadius()
-    {
-        return (fOuterRadius);
-    }
-
-    /**
-     * <p>
-     * Sets the colour to render this <code>Torus</code> as. The default is white.
-     * </p>
-     * 
-     * @param colour The colour to render this <code>Torus</code> as.
+     * @param colour The colour to render this <code>Sphere</code> as.
      */
     public void setColour(final RGBColourVectorf colour)
     {
@@ -114,25 +93,13 @@ public class Torus implements Model
 
     /**
      * <p>
-     * Sets the inner radius. The default is 0.5.
+     * Sets the radius. The default is 1.0.
      * </p>
      * 
-     * @param innerRadius The inner radius.
+     * @param radius The radius.
      */
-    public void setInnerRadius(final float innerRadius)
+    public void setRadius(final float radius)
     {
-        fInnerRadius = innerRadius;
-    }
-
-    /**
-     * <p>
-     * Sets the outer radius. The default is 0.5.
-     * </p>
-     * 
-     * @param outerRadius The outer radius.
-     */
-    public void setOuterRadius(final float outerRadius)
-    {
-        fOuterRadius = outerRadius;
+        fRadius = radius;
     }
 }

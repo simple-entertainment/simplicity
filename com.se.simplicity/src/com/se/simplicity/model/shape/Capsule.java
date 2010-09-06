@@ -9,20 +9,19 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.model.shapes;
+package com.se.simplicity.model.shape;
 
-import com.se.simplicity.model.Model;
 import com.se.simplicity.vector.RGBColourVectorf;
 import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 
 /**
  * <p>
- * A spherical {@link com.se.simplicity.model.Model Model}.
+ * A capsule-shaped {@link com.se.simplicity.model.Model Model}.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class Sphere implements Model
+public class Capsule implements Shape
 {
     /**
      * <p>
@@ -33,10 +32,17 @@ public class Sphere implements Model
 
     /**
      * <p>
-     * The colour to render this <code>Sphere</code> as.
+     * The colour to render this <code>Capsule</code> as.
      * </p>
      */
     private RGBColourVectorf fColour;
+
+    /**
+     * <p>
+     * The length.
+     * </p>
+     */
+    private float fLength;
 
     /**
      * <p>
@@ -47,25 +53,38 @@ public class Sphere implements Model
 
     /**
      * <p>
-     * Creates an instance of <code>Sphere</code>.
+     * Creates an instance of <code>Capsule</code>.
      * </p>
      */
-    public Sphere()
+    public Capsule()
     {
         fColour = new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 1.0f);
+        fLength = 1.0f;
         fRadius = 1.0f;
     }
 
     /**
      * <p>
-     * Retrieves the colour to render this <code>Sphere</code> as. The default is white.
+     * Retrieves the colour to render this <code>Capsule</code> as. The default is white.
      * </p>
      * 
-     * @return The colour to render this <code>Sphere</code> as.
+     * @return The colour to render this <code>Capsule</code> as.
      */
     public RGBColourVectorf getColour()
     {
         return (fColour);
+    }
+
+    /**
+     * <p>
+     * Retrieves the length. The default is 1.0.
+     * </p>
+     * 
+     * @return The length.
+     */
+    public float getLength()
+    {
+        return (fLength);
     }
 
     /**
@@ -82,14 +101,26 @@ public class Sphere implements Model
 
     /**
      * <p>
-     * Sets the colour to render this <code>Sphere</code> as. The default is white.
+     * Sets the colour to render this <code>Capsule</code> as. The default is white.
      * </p>
      * 
-     * @param colour The colour to render this <code>Sphere</code> as.
+     * @param colour The colour to render this <code>Capsule</code> as.
      */
     public void setColour(final RGBColourVectorf colour)
     {
         fColour = colour;
+    }
+
+    /**
+     * <p>
+     * Sets the length. The default is 1.0.
+     * </p>
+     * 
+     * @param length The length.
+     */
+    public void setLength(final float length)
+    {
+        fLength = length;
     }
 
     /**

@@ -9,20 +9,19 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.model.shapes;
+package com.se.simplicity.model.shape;
 
-import com.se.simplicity.model.Model;
 import com.se.simplicity.vector.RGBColourVectorf;
 import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 
 /**
  * <p>
- * A capsule-shaped {@link com.se.simplicity.model.Model Model}.
+ * A torus-shaped {@link com.se.simplicity.model.Model Model}.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class Capsule implements Model
+public class Torus implements Shape
 {
     /**
      * <p>
@@ -33,43 +32,43 @@ public class Capsule implements Model
 
     /**
      * <p>
-     * The colour to render this <code>Capsule</code> as.
+     * The colour to render this <code>Sphere</code> as.
      * </p>
      */
     private RGBColourVectorf fColour;
 
     /**
      * <p>
-     * The length.
+     * The inner radius.
      * </p>
      */
-    private float fLength;
+    private float fInnerRadius;
 
     /**
      * <p>
-     * The radius.
+     * The outer radius.
      * </p>
      */
-    private float fRadius;
+    private float fOuterRadius;
 
     /**
      * <p>
-     * Creates an instance of <code>Capsule</code>.
+     * Creates an instance of <code>Torus</code>.
      * </p>
      */
-    public Capsule()
+    public Torus()
     {
         fColour = new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 1.0f);
-        fLength = 1.0f;
-        fRadius = 1.0f;
+        fInnerRadius = 1.0f;
+        fOuterRadius = 2.0f;
     }
 
     /**
      * <p>
-     * Retrieves the colour to render this <code>Capsule</code> as. The default is white.
+     * Retrieves the colour to render this <code>Torus</code> as. The default is white.
      * </p>
      * 
-     * @return The colour to render this <code>Capsule</code> as.
+     * @return The colour to render this <code>Torus</code> as.
      */
     public RGBColourVectorf getColour()
     {
@@ -78,34 +77,34 @@ public class Capsule implements Model
 
     /**
      * <p>
-     * Retrieves the length. The default is 1.0.
+     * Retrieves the inner radius. The default is 0.5.
      * </p>
      * 
-     * @return The length.
+     * @return The inner radius.
      */
-    public float getLength()
+    public float getInnerRadius()
     {
-        return (fLength);
+        return (fInnerRadius);
     }
 
     /**
      * <p>
-     * Retrieves the radius. The default is 1.0.
+     * Retrieves the outer radius. The default is 0.5.
      * </p>
      * 
-     * @return The radius.
+     * @return The outer radius.
      */
-    public float getRadius()
+    public float getOuterRadius()
     {
-        return (fRadius);
+        return (fOuterRadius);
     }
 
     /**
      * <p>
-     * Sets the colour to render this <code>Capsule</code> as. The default is white.
+     * Sets the colour to render this <code>Torus</code> as. The default is white.
      * </p>
      * 
-     * @param colour The colour to render this <code>Capsule</code> as.
+     * @param colour The colour to render this <code>Torus</code> as.
      */
     public void setColour(final RGBColourVectorf colour)
     {
@@ -114,25 +113,25 @@ public class Capsule implements Model
 
     /**
      * <p>
-     * Sets the length. The default is 1.0.
+     * Sets the inner radius. The default is 0.5.
      * </p>
      * 
-     * @param length The length.
+     * @param innerRadius The inner radius.
      */
-    public void setLength(final float length)
+    public void setInnerRadius(final float innerRadius)
     {
-        fLength = length;
+        fInnerRadius = innerRadius;
     }
 
     /**
      * <p>
-     * Sets the radius. The default is 1.0.
+     * Sets the outer radius. The default is 0.5.
      * </p>
      * 
-     * @param radius The radius.
+     * @param outerRadius The outer radius.
      */
-    public void setRadius(final float radius)
+    public void setOuterRadius(final float outerRadius)
     {
-        fRadius = radius;
+        fOuterRadius = outerRadius;
     }
 }
