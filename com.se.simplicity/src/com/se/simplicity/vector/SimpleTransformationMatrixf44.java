@@ -88,15 +88,33 @@ public class SimpleTransformationMatrixf44 extends SimpleMatrixf44 implements Tr
     }
 
     @Override
+    public float getXAxisTranslation()
+    {
+        return (getArray()[12]);
+    }
+
+    @Override
     public float getYAxisRotation()
     {
         return ((float) -Math.asin(getArray()[2]));
     }
 
     @Override
+    public float getYAxisTranslation()
+    {
+        return (getArray()[13]);
+    }
+
+    @Override
     public float getZAxisRotation()
     {
         return ((float) Math.atan2(getArray()[1], getArray()[0]));
+    }
+
+    @Override
+    public float getZAxisTranslation()
+    {
+        return (getArray()[14]);
     }
 
     @Override
@@ -175,15 +193,33 @@ public class SimpleTransformationMatrixf44 extends SimpleMatrixf44 implements Tr
     }
 
     @Override
+    public void setXAxisTranslation(final float distance)
+    {
+        getArray()[12] = distance;
+    }
+
+    @Override
     public void setYAxisRotation(final float angle)
     {
         rotate(angle - getYAxisRotation(), new SimpleVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
     }
 
     @Override
+    public void setYAxisTranslation(final float distance)
+    {
+        getArray()[13] = distance;
+    }
+
+    @Override
     public void setZAxisRotation(final float angle)
     {
         rotate(angle - getZAxisRotation(), new SimpleVectorf4(0.0f, 0.0f, 1.0f, 1.0f));
+    }
+
+    @Override
+    public void setZAxisTranslation(final float distance)
+    {
+        getArray()[14] = distance;
     }
 
     @Override

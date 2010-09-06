@@ -62,6 +62,18 @@ public class SimpleRGBColourVectorf4 extends SimpleVectorf4 implements RGBColour
         super(array);
     }
 
+    /**
+     * <p>
+     * Retrieves the alpha (transparency) component of this <code>SimpleRGBColourVectorf4</code>.
+     * </p>
+     * 
+     * @return The alpha (transparency) component of this <code>SimpleRGBColourVectorf4</code>.
+     */
+    public float getAlpha()
+    {
+        return (getArray()[3]);
+    }
+
     @Override
     public float getBlue()
     {
@@ -78,6 +90,18 @@ public class SimpleRGBColourVectorf4 extends SimpleVectorf4 implements RGBColour
     public float getRed()
     {
         return (getArray()[0]);
+    }
+
+    /**
+     * <p>
+     * Sets the alpha (transparency) component of this <code>SimpleRGBColourVectorf4</code>.
+     * </p>
+     * 
+     * @param alpha The alpha (transparency) component of this <code>SimpleRGBColourVectorf4</code>.
+     */
+    public void setAlpha(final float alpha)
+    {
+        getArray()[3] = alpha;
     }
 
     @Override
