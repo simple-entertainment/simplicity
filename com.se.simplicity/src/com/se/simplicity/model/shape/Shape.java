@@ -12,6 +12,7 @@
 package com.se.simplicity.model.shape;
 
 import com.se.simplicity.model.Model;
+import com.se.simplicity.vector.RGBColourVectorf;
 
 /**
  * <p>
@@ -21,4 +22,22 @@ import com.se.simplicity.model.Model;
  * @author Gary Buyn
  */
 public interface Shape extends Model
-{}
+{
+    /**
+     * <p>
+     * Retrieves the colour to render this <code>Shape</code> as.
+     * </p>
+     * 
+     * @return The colour to render this <code>Shape</code> as.
+     */
+    RGBColourVectorf getColour();
+
+    /**
+     * <p>
+     * Sets the colour to render this <code>Shape</code> as.
+     * </p>
+     * 
+     * @param colour The colour to render this <code>Shape</code> as.
+     */
+    void setColour(RGBColourVectorf colour);
+}

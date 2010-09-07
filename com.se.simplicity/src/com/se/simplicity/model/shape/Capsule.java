@@ -63,13 +63,7 @@ public class Capsule implements Shape
         fRadius = 1.0f;
     }
 
-    /**
-     * <p>
-     * Retrieves the colour to render this <code>Capsule</code> as. The default is white.
-     * </p>
-     * 
-     * @return The colour to render this <code>Capsule</code> as.
-     */
+    @Override
     public RGBColourVectorf getColour()
     {
         return (fColour);
@@ -99,13 +93,7 @@ public class Capsule implements Shape
         return (fRadius);
     }
 
-    /**
-     * <p>
-     * Sets the colour to render this <code>Capsule</code> as. The default is white.
-     * </p>
-     * 
-     * @param colour The colour to render this <code>Capsule</code> as.
-     */
+    @Override
     public void setColour(final RGBColourVectorf colour)
     {
         fColour = colour;

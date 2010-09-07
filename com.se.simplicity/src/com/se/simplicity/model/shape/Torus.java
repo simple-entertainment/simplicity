@@ -63,13 +63,7 @@ public class Torus implements Shape
         fOuterRadius = 2.0f;
     }
 
-    /**
-     * <p>
-     * Retrieves the colour to render this <code>Torus</code> as. The default is white.
-     * </p>
-     * 
-     * @return The colour to render this <code>Torus</code> as.
-     */
+    @Override
     public RGBColourVectorf getColour()
     {
         return (fColour);
@@ -99,13 +93,7 @@ public class Torus implements Shape
         return (fOuterRadius);
     }
 
-    /**
-     * <p>
-     * Sets the colour to render this <code>Torus</code> as. The default is white.
-     * </p>
-     * 
-     * @param colour The colour to render this <code>Torus</code> as.
-     */
+    @Override
     public void setColour(final RGBColourVectorf colour)
     {
         fColour = colour;
