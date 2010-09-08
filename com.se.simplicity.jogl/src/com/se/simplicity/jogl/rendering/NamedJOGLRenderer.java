@@ -25,9 +25,8 @@ import com.se.simplicity.rendering.NamedRenderer;
 
 /**
  * <p>
- * This implementation names the <code>Model</code>s rendered as well as the primitives rendered (faces, edges or vertices).
- * <code>Model</code>s are named using their hash codes unless a specific name is given. The naming of the primitives is specific to the
- * <code>Model</code> implementation.
+ * This implementation names the <code>Model</code>s rendered as well as the primitives rendered (faces, edges or vertices). <code>Model</code>s are
+ * named using their hash codes unless a specific name is given. The naming of the primitives is specific to the <code>Model</code> implementation.
  * </p>
  * 
  * @author Gary Buyn
@@ -338,21 +337,15 @@ public class NamedJOGLRenderer extends SimpleJOGLRenderer implements NamedRender
 
     /**
      * <p>
-     * Assigns the hash code of the <code>VertexGroup</code> being rendered as its name.
+     * Assigns the hash code of the <code>Model</code> being rendered as its name.
      * </p>
      * 
-     * @param vertexGroup The <code>VertexGroup</code> to render.
+     * @param model The <code>Model</code> to render.
      */
     @Override
-    public void renderModel(final Model vertexGroup)
+    public void renderModel(final Model model)
     {
-        GL gl = getGL();
-
-        gl.glPushName(vertexGroup.hashCode());
-
-        super.renderModel(vertexGroup);
-
-        gl.glPopName();
+        renderModel(model, model.hashCode());
     }
 
     @Override

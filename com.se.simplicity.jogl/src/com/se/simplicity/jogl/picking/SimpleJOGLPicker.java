@@ -20,6 +20,7 @@ import javax.media.opengl.GL;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.model.Model;
 import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.picking.Hit;
 import com.se.simplicity.picking.Pick;
 import com.se.simplicity.picking.Picker;
@@ -116,34 +117,27 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
     protected PickEvent createPickEvent(final Scene scene, final int numberOfHits)
     {
         PickEvent event = new PickEvent();
-        int bufferIndex = 0;
+        int bufferIndex = 1;
 
         for (int hitIndex = 0; hitIndex < numberOfHits; hitIndex++)
         {
             Hit hit = new Hit();
-            int numberOfNames = fSelectBuffer.get(bufferIndex++);
             hit.setMinimumDistance(fSelectBuffer.get(bufferIndex++));
             hit.setMaximumDistance(fSelectBuffer.get(bufferIndex++));
 
-            for (int nameIndex = 0; nameIndex < numberOfNames; nameIndex++)
+            hit.setNode(scene.getSceneGraph().getNode(fSelectBuffer.get(bufferIndex++)));
+
+            Model model = ((ModelNode) hit.getNode()).getModel();
+            if (model instanceof VertexGroup)
             {
-                if (nameIndex + 1 == numberOfNames)
-                {
-                    Model model = ((ModelNode) hit.getNode()).getModel();
-
-                    if (model instanceof VertexGroup)
-                    {
-                        hit.setPrimitive(getSubsetVG((VertexGroup) model, fSelectBuffer.get(bufferIndex)));
-                    }
-                }
-                else
-                {
-                    hit.setNode(scene.getSceneGraph().getNode(fSelectBuffer.get(bufferIndex)));
-                }
-
-                bufferIndex++;
+                hit.setPrimitive(getSubsetVG((VertexGroup) model, fSelectBuffer.get(bufferIndex++)));
+            }
+            else if (model instanceof Shape)
+            {
+                hit.setPrimitive(model);
             }
 
+            bufferIndex++;
             event.addHit(hit);
         }
 
@@ -259,6 +253,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
         fRenderingEngine.setScene(scene);
         fRenderingEngine.setCamera(camera.getPickCamera(pick));
 
+        initSelectBuffer();
         fGl.glRenderMode(GL.GL_SELECT);
 
         fRenderingEngine.advance();
@@ -269,7 +264,6 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
         {
             fRenderingEngine.setScene(originalScene);
         }
-
         if (originalCamera != null)
         {
             fRenderingEngine.setCamera(originalCamera);
@@ -294,11 +288,6 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
     public void setGL(final GL gl)
     {
         fGl = gl;
-
-        if (fGl != null)
-        {
-            initSelectBuffer();
-        }
     }
 
     /**
@@ -323,10 +312,5 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
     public void setSelectBufferCapacity(final int selectBufferCapacity)
     {
         fSelectBufferCapacity = selectBufferCapacity;
-
-        if (fGl != null)
-        {
-            initSelectBuffer();
-        }
     }
 }

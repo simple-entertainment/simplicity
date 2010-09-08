@@ -22,8 +22,10 @@ import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.IndexedArrayVG;
 import com.se.simplicity.model.Model;
+import com.se.simplicity.model.VertexGroup;
 import com.se.simplicity.model.shape.Capsule;
 import com.se.simplicity.model.shape.Cylinder;
+import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.model.shape.Sphere;
 import com.se.simplicity.model.shape.Torus;
 import com.se.simplicity.rendering.DrawingMode;
@@ -265,36 +267,34 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
     @Override
     public void renderModel(final Model model)
     {
-        if (model instanceof ArrayVG)
+        if (model instanceof Shape)
         {
-            renderArrayVG((ArrayVG) model);
+            renderShape((Shape) model);
         }
-        else if (model instanceof Capsule)
+        else if (model instanceof VertexGroup)
         {
-            renderCapsule((Capsule) model);
-        }
-        else if (model instanceof Cylinder)
-        {
-            renderCylinder((Cylinder) model);
-        }
-        else if (model instanceof IndexedArrayVG)
-        {
-            renderIndexedArrayVG((IndexedArrayVG) model);
-        }
-        else if (model instanceof Sphere)
-        {
-            renderSphere((Sphere) model);
-        }
-        else if (model instanceof Torus)
-        {
-            renderTorus((Torus) model);
+            renderVertexGroup((VertexGroup) model);
         }
     }
 
-    @Override
-    public void setDrawingMode(final DrawingMode mode)
+    protected void renderShape(final Shape shape)
     {
-        fDrawingMode = mode;
+        if (shape instanceof Capsule)
+        {
+            renderCapsule((Capsule) shape);
+        }
+        else if (shape instanceof Cylinder)
+        {
+            renderCylinder((Cylinder) shape);
+        }
+        else if (shape instanceof Sphere)
+        {
+            renderSphere((Sphere) shape);
+        }
+        else if (shape instanceof Torus)
+        {
+            renderTorus((Torus) shape);
+        }
     }
 
     /**
@@ -327,6 +327,24 @@ public class SimpleJOGLRenderer implements Renderer, JOGLComponent
 
         GLUT glut = new GLUT();
         glut.glutSolidTorus(torus.getInnerRadius(), torus.getOuterRadius(), GLU_SHAPE_SUBDIVISIONS, GLU_SHAPE_SUBDIVISIONS);
+    }
+
+    protected void renderVertexGroup(final VertexGroup vertexGroup)
+    {
+        if (vertexGroup instanceof ArrayVG)
+        {
+            renderArrayVG((ArrayVG) vertexGroup);
+        }
+        else if (vertexGroup instanceof IndexedArrayVG)
+        {
+            renderIndexedArrayVG((IndexedArrayVG) vertexGroup);
+        }
+    }
+
+    @Override
+    public void setDrawingMode(final DrawingMode mode)
+    {
+        fDrawingMode = mode;
     }
 
     @Override
