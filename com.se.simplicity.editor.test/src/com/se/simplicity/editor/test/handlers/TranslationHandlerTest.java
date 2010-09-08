@@ -28,7 +28,7 @@ import org.junit.Test;
 
 import com.se.simplicity.editor.handlers.TranslationHandler;
 import com.se.simplicity.editor.internal.ContentProvider;
-import com.se.simplicity.editor.internal.Widget;
+import com.se.simplicity.editor.internal.EditMode;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 
 /**
@@ -76,7 +76,7 @@ public class TranslationHandlerTest
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
         expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
-        mockContentProvider.setWidget(Widget.TRANSLATION);
+        mockContentProvider.setEditMode(EditMode.TRANSLATION);
         replay(mockContext, mockSceneEditor, mockContentProvider);
 
         // Perform test.

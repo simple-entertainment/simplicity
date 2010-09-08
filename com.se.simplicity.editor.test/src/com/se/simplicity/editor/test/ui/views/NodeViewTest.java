@@ -151,7 +151,7 @@ public class NodeViewTest
         // Verify test.
         assertEquals("Test", ((Text) idWidgets[3]).getText());
 
-        assertEquals("$Proxy7", ((Text) reflectiveWidgets[1]).getText());
+        assertEquals("$Proxy5", ((Text) reflectiveWidgets[1]).getText());
     }
 
     /**
@@ -227,7 +227,7 @@ public class NodeViewTest
 
         // Verify test.
         assertEquals("0", ((Text) idWidgets[1]).getText());
-        assertEquals("$Proxy70", ((Text) idWidgets[3]).getText());
+        assertEquals("$Proxy50", ((Text) idWidgets[3]).getText());
 
         assertEquals(true, ((Button) propertyWidgets[0]).getSelection());
         assertEquals(true, ((Button) propertyWidgets[1]).getSelection());
@@ -241,7 +241,7 @@ public class NodeViewTest
         assertEquals("180.0", ((Text) rotationWidgets[3]).getText());
         assertEquals("270.0", ((Text) rotationWidgets[5]).getText());
 
-        assertEquals("$Proxy7", ((Text) reflectiveWidgets[1]).getText());
+        assertEquals("$Proxy5", ((Text) reflectiveWidgets[1]).getText());
     }
 
     /**

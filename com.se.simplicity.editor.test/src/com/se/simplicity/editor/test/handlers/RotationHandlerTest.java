@@ -28,7 +28,7 @@ import org.junit.Test;
 
 import com.se.simplicity.editor.handlers.RotationHandler;
 import com.se.simplicity.editor.internal.ContentProvider;
-import com.se.simplicity.editor.internal.Widget;
+import com.se.simplicity.editor.internal.EditMode;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 
 /**
@@ -76,7 +76,7 @@ public class RotationHandlerTest
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
         expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
-        mockContentProvider.setWidget(Widget.ROTATION);
+        mockContentProvider.setEditMode(EditMode.ROTATION);
         replay(mockContext, mockSceneEditor, mockContentProvider);
 
         // Perform test.

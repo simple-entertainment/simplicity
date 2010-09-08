@@ -172,7 +172,7 @@ public class CameraViewTest
         assertEquals("0.1", ((Text) clippingWidgets[1]).getText());
         assertEquals("1000.0", ((Text) clippingWidgets[3]).getText());
 
-        assertEquals("$Proxy14", ((Text) reflectionWidgets[1]).getText());
+        assertEquals("$Proxy16", ((Text) reflectionWidgets[1]).getText());
     }
 
     /**
@@ -233,7 +233,7 @@ public class CameraViewTest
         // Verify test.
         assertEquals("Test", ((Text) idWidgets[1]).getText());
 
-        assertEquals("$Proxy14", ((Text) reflectionWidgets[1]).getText());
+        assertEquals("$Proxy16", ((Text) reflectionWidgets[1]).getText());
     }
 
     /**

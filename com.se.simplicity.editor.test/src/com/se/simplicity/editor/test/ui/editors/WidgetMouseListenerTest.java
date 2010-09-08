@@ -14,7 +14,6 @@ package com.se.simplicity.editor.test.ui.editors;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 
 import java.awt.Dimension;
@@ -26,6 +25,7 @@ import org.eclipse.swt.widgets.Event;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.ContentProvider;
+import com.se.simplicity.editor.internal.Widget;
 import com.se.simplicity.editor.ui.editors.WidgetMouseListener;
 import com.se.simplicity.picking.engine.PickingEngine;
 
@@ -102,6 +102,7 @@ public class WidgetMouseListenerTest
         ContentProvider mockContentProvider = createMock(ContentProvider.class);
         PickingEngine mockPickingEngine = createMock(PickingEngine.class);
         Rectangle rectangle = new Rectangle(0, 0, 200, 200);
+        Widget mockWidget = createMock(Widget.class);
 
         Event event = new Event();
         event.widget = mockCanvas;
@@ -113,6 +114,7 @@ public class WidgetMouseListenerTest
         // Dictate correct behaviour.
         expect(mockCanvas.getBounds()).andStubReturn(rectangle);
         expect(mockContentProvider.getWidgetPickingEngine()).andStubReturn(mockPickingEngine);
+        expect(mockContentProvider.getCurrentWidget()).andStubReturn(mockWidget);
         replay(mockCanvas, mockContentProvider);
 
         // Initialise test environment.
@@ -120,9 +122,8 @@ public class WidgetMouseListenerTest
         testObject.mouseDown(mouseEvent);
 
         // Dictate expected results.
-        reset(mockContentProvider);
-        mockContentProvider.executeEdit(10, 10);
-        replay(mockContentProvider);
+        mockWidget.executeMove(10, 10);
+        replay(mockWidget);
 
         // Perform test.
         testObject.mouseMove(mouseEvent);
@@ -145,18 +146,23 @@ public class WidgetMouseListenerTest
     {
         // Create dependencies.
         ContentProvider mockContentProvider = createMock(ContentProvider.class);
+        Widget mockWidget = createMock(Widget.class);
 
         Event event = new Event();
         event.widget = createMock(GLCanvas.class);
         MouseEvent mouseEvent = new MouseEvent(event);
         mouseEvent.button = 1;
 
+        // Dictate correct behaviour.
+        expect(mockContentProvider.getCurrentWidget()).andStubReturn(mockWidget);
+        replay(mockContentProvider);
+
         // Initialise test environment.
         testObject = new WidgetMouseListener(mockContentProvider);
 
         // Dictate expected results.
-        mockContentProvider.setSelectedWidgetComponent(null);
-        replay(mockContentProvider);
+        mockWidget.setSelectedWidgetNode(null);
+        replay(mockWidget);
 
         // Perform test.
         testObject.mouseUp(mouseEvent);

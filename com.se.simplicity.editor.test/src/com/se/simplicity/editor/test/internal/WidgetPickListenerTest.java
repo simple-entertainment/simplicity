@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import com.se.simplicity.editor.internal.ContentProvider;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.Widget;
 import com.se.simplicity.editor.internal.WidgetPickListener;
 import com.se.simplicity.picking.Hit;
 import com.se.simplicity.picking.event.PickEvent;
@@ -61,6 +62,7 @@ public class WidgetPickListenerTest
     {
         // Create dependencies.
         ContentProvider mockContentProvider = createMock(ContentProvider.class);
+        Widget mockWidget = createMock(Widget.class);
 
         PickEvent mockEvent = createMock(PickEvent.class);
         Hit mockHit = createMock(Hit.class);
@@ -71,14 +73,15 @@ public class WidgetPickListenerTest
         expect(mockEvent.getHitCount()).andStubReturn(1);
         expect(mockEvent.getCloseHit()).andStubReturn(mockHit);
         expect(mockHit.getNode()).andStubReturn(mockModelNode);
-        replay(mockEvent, mockHit);
+        expect(mockContentProvider.getCurrentWidget()).andStubReturn(mockWidget);
+        replay(mockEvent, mockHit, mockContentProvider);
 
         // Initialise test environment.
         testObject = new WidgetPickListener(mockContentProvider);
 
         // Dictate expected results.
-        mockContentProvider.setSelectedWidgetComponent(mockModelNode);
-        replay(mockContentProvider);
+        mockWidget.setSelectedWidgetNode(mockModelNode);
+        replay(mockWidget);
 
         // Perform test.
         testObject.scenePicked(mockEvent);
@@ -98,19 +101,21 @@ public class WidgetPickListenerTest
     {
         // Create dependencies.
         ContentProvider mockContentProvider = createMock(ContentProvider.class);
+        Widget mockWidget = createMock(Widget.class);
 
         PickEvent mockEvent = createMock(PickEvent.class);
 
         // Dictate correct behaviour.
         expect(mockEvent.getHitCount()).andStubReturn(0);
-        replay(mockEvent);
+        expect(mockContentProvider.getCurrentWidget()).andStubReturn(mockWidget);
+        replay(mockEvent, mockContentProvider);
 
         // Initialise test environment.
         testObject = new WidgetPickListener(mockContentProvider);
 
         // Dictate expected results.
-        mockContentProvider.setSelectedWidgetComponent(null);
-        replay(mockContentProvider);
+        mockWidget.setSelectedWidgetNode(null);
+        replay(mockWidget);
 
         // Perform test.
         testObject.scenePicked(mockEvent);

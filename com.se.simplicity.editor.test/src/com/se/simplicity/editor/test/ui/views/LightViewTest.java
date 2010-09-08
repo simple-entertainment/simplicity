@@ -175,7 +175,7 @@ public class LightViewTest
         assertEquals("0.1", ((Text) specularWidgets[3]).getText());
         assertEquals("0.1", ((Text) specularWidgets[5]).getText());
 
-        assertEquals("$Proxy15", ((Text) reflectionWidgets[1]).getText());
+        assertEquals("$Proxy17", ((Text) reflectionWidgets[1]).getText());
     }
 
     /**
@@ -232,7 +232,7 @@ public class LightViewTest
         // Verify test.
         assertEquals("Test", ((Text) idWidgets[1]).getText());
 
-        assertEquals("$Proxy15", ((Text) reflectionWidgets[1]).getText());
+        assertEquals("$Proxy17", ((Text) reflectionWidgets[1]).getText());
     }
 
     /**

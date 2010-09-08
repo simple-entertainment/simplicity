@@ -31,19 +31,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.ContentProvider;
+import com.se.simplicity.editor.internal.EditMode;
 import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.Widget;
 import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
 import com.se.simplicity.jogl.test.mocks.MockGL;
-import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
-import com.se.simplicity.scenegraph.model.ModelNode;
-import com.se.simplicity.vector.SimpleRGBColourVectorf4;
-import com.se.simplicity.vector.SimpleTransformationMatrixf44;
 
 /**
  * <p>
@@ -113,90 +109,6 @@ public class ContentProviderTest
 
         // Verify test results.
         verify(mockDisplay);
-    }
-
-    /**
-     * <p>
-     * SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class); SceneGraph mockSceneGraph = createMock(SceneGraph.class); Unit test the method
-     * {@link com.se.simplicity.editor.internal.ContentProvider#executeEdit(int, int) executeEdit(int, int)} with the special condition that the
-     * currently displayed widget is the 'ROTATION' widget.
-     * </p>
-     */
-    @Test
-    public void executeEditRotation()
-    {
-        // Create dependencies.
-        SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-
-        Node mockNode = createMock(Node.class);
-        SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
-
-        // Dictate correct behaviour.
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        mockScene.setGL(null);
-        expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
-        expect(mockNode.getID()).andStubReturn(0);
-        expect(mockNode.getTransformation()).andStubReturn(transformation);
-        replay(mockScene, mockSceneGraph, mockNode);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        testObject = new ContentProvider(mockScene);
-        testObject.init();
-        testObject.setSelectedSceneComponent(mockNode);
-        testObject.setWidget(Widget.ROTATION);
-
-        // Perform test.
-        testObject.executeEdit(10, 10);
-
-        // Verify test results.
-        assertEquals(Math.toRadians(10.0f), transformation.getXAxisRotation(), 0.0001f);
-        assertEquals(Math.toRadians(10.0f), transformation.getYAxisRotation(), 0.0001f);
-    }
-
-    /**
-     * <p>
-     * SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class); SceneGraph mockSceneGraph = createMock(SceneGraph.class); Unit test the method
-     * {@link com.se.simplicity.editor.internal.ContentProvider#executeEdit(int, int) executeEdit(int, int)} with the special condition that the
-     * currently displayed widget is the 'TRANSLATION' widget.
-     * </p>
-     */
-    @Test
-    public void executeEditTranslation()
-    {
-        // Create dependencies.
-        SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-
-        Node mockNode = createMock(Node.class);
-        SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
-
-        // Dictate correct behaviour.
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        mockScene.setGL(null);
-        expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
-        expect(mockNode.getID()).andStubReturn(0);
-        expect(mockNode.getTransformation()).andStubReturn(transformation);
-        replay(mockScene, mockSceneGraph, mockNode);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        testObject = new ContentProvider(mockScene);
-        testObject.init();
-        testObject.setSelectedSceneComponent(mockNode);
-        testObject.setWidget(Widget.TRANSLATION);
-
-        // Perform test.
-        testObject.executeEdit(10, 10);
-
-        // Verify test results.
-        assertEquals(0.1f, transformation.getXAxisTranslation(), 0.0001f);
-        assertEquals(0.1f, transformation.getYAxisTranslation(), 0.0001f);
     }
 
     /**
@@ -467,80 +379,11 @@ public class ContentProviderTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setWidgetSceneComponent(ModelNode)
-     * setWidgetSceneComponent(ModelNode)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setEditMode(EditMode) setEditMode(EditMode)}.
      * </p>
      */
     @Test
-    public void setSelectedWidgetComponent()
-    {
-        // Create dependencies.
-        ModelNode mockModelNode = createMock(ModelNode.class);
-        Shape mockShape = createMock(Shape.class);
-        SimpleRGBColourVectorf4 mockColour = createMock(SimpleRGBColourVectorf4.class);
-
-        // Dictate correct behaviour.
-        expect(mockModelNode.getModel()).andStubReturn(mockShape);
-        expect(mockShape.getColour()).andStubReturn(mockColour);
-        replay(mockModelNode, mockShape);
-
-        // Initialise test environment.
-        testObject = new ContentProvider(null);
-
-        // Dictate expected results.
-        mockColour.setAlpha(1.0f);
-        replay(mockColour);
-
-        // Perform test.
-        testObject.setSelectedWidgetComponent(mockModelNode);
-
-        // Verify test results.
-        verify(mockColour);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setWidgetSceneComponent(ModelNode)
-     * setWidgetSceneComponent(ModelNode)}, specifically the functionality that reverts the state of the previous widget component.
-     * </p>
-     */
-    @Test
-    public void setSelectedWidgetComponentRevert()
-    {
-        // Create dependencies.
-        ModelNode mockModelNode = createMock(ModelNode.class);
-        Shape mockShape = createMock(Shape.class);
-        SimpleRGBColourVectorf4 mockColour = createMock(SimpleRGBColourVectorf4.class);
-
-        // Dictate correct behaviour.
-        expect(mockModelNode.getModel()).andStubReturn(mockShape);
-        expect(mockShape.getColour()).andStubReturn(mockColour);
-        mockColour.setAlpha(1.0f);
-        replay(mockModelNode, mockShape, mockColour);
-
-        // Initialise test environment.
-        testObject = new ContentProvider(null);
-        testObject.setSelectedWidgetComponent(mockModelNode);
-
-        // Dictate expected results.
-        reset(mockColour);
-        mockColour.setAlpha(0.5f);
-        replay(mockColour);
-
-        // Perform test.
-        testObject.setSelectedWidgetComponent(null);
-
-        // Verify test results.
-        verify(mockColour);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setCanvasSize(Rectangle) setCanvasSize(Rectangle)}.
-     * </p>
-     */
-    @Test
-    public void setWidget()
+    public void setEditMode()
     {
         // Create dependencies.
         SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
@@ -557,7 +400,7 @@ public class ContentProviderTest
         testObject.init();
 
         // Perform test.
-        testObject.setWidget(Widget.ROTATION);
+        testObject.setEditMode(EditMode.ROTATION);
 
         // Verify test results.
         assertNotNull(testObject.getRenderingEngine().getRendererRoot(testObject.getRenderingEngine().getRenderers().get(2)));
@@ -566,12 +409,12 @@ public class ContentProviderTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setCanvasSize(Rectangle) setCanvasSize(Rectangle)} with the
-     * special condition that the widget is 'NONE'.
+     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setEditMode(EditMode) setEditMode(EditMode)} with the special
+     * condition that the current edit mode is 'SELECTION'.
      * </p>
      */
     @Test
-    public void setWidgetNull()
+    public void setEditModeNull()
     {
         // Create dependencies.
         SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
@@ -586,10 +429,10 @@ public class ContentProviderTest
         // Initialise test environment.
         testObject = new ContentProvider(mockScene);
         testObject.init();
-        testObject.setWidget(Widget.ROTATION);
+        testObject.setEditMode(EditMode.ROTATION);
 
         // Perform test.
-        testObject.setWidget(Widget.NONE);
+        testObject.setEditMode(EditMode.SELECTION);
 
         // Verify test results.
         assertNull(testObject.getRenderingEngine().getRendererRoot(testObject.getRenderingEngine().getRenderers().get(2)));
