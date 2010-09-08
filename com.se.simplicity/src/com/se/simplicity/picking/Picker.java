@@ -27,6 +27,20 @@ public interface Picker
 {
     /**
      * <p>
+     * Reverts the picking environment.
+     * </p>
+     */
+    void dispose();
+
+    /**
+     * <p>
+     * Initialises the picking environment.
+     * </p>
+     */
+    void init();
+
+    /**
+     * <p>
      * Picks a {@link com.se.simplicity.scene.Scene Scene} using the given {@link com.se.simplicity.picking.Pick Pick} and basing the
      * <code>Pick</code> on the given {@link com.se.simplicity.rendering.Camera Camera}.
      * </p>
