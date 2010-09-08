@@ -16,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.text.BasicStructuredDocument;
 
@@ -38,11 +39,12 @@ public class SceneDocumentSynchroniser
      * Retrieves the regions from the text of this <code>SourceSceneEditor</code> that contain XML tags.
      * </p>
      * 
-     * @param document The document containing the regions from the text of this <code>SourceSceneEditor</code>.
+     * @param document The {@link org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument IStructuredDocument} containing the regions
+     * from the text of this <code>SourceSceneEditor</code>.
      * 
      * @return The regions from the text of this <code>SourceSceneEditor</code> that contain XML tags.
      */
-    protected IStructuredDocumentRegion[] getDocumentRegions(final BasicStructuredDocument document)
+    protected IStructuredDocumentRegion[] getDocumentRegions(final IStructuredDocument document)
     {
         IStructuredDocumentRegion[] sourceRegions = document.getStructuredDocumentRegions();
         IStructuredDocumentRegion[] nonEmptySourceRegions = new IStructuredDocumentRegion[(sourceRegions.length / 2) + (sourceRegions.length % 2)];
@@ -84,20 +86,25 @@ public class SceneDocumentSynchroniser
      * 
      * @return True if the two given tags are the same, false otherwise.
      */
-    protected boolean sameTag(final String tagA, final String tagB)
+    public boolean sameTag(final String tagA, final String tagB)
     {
         boolean sameTag = false;
 
-        if (tagA.startsWith("<?") || tagA.startsWith("</") || tagA.matches("<[a-zA-Z]+>"))
+        if (tagA.startsWith("<?") || tagA.startsWith("</"))
         {
             if (tagA.equals(tagB))
             {
                 sameTag = true;
             }
         }
-        else if (tagA.matches("<[a-zA-Z]+ .*>"))
+        else if (tagA.matches("<[a-zA-Z].*>"))
         {
-            if (tagA.split(" ")[0].equals(tagB.split(" ")[0]))
+            // The old double split technique - basically this trims off any text after (and including) a ' ' and/or a '>', leaving the start of the
+            // tag which will match the regular expression: "<[a-zA-Z]+" and can be used to compare tag names.
+            String tagNameA = tagA.split(" ")[0].split(">")[0];
+            String tagNameB = tagB.split(" ")[0].split(">")[0];
+
+            if (tagNameA.equals(tagNameB))
             {
                 sameTag = true;
             }
@@ -108,36 +115,46 @@ public class SceneDocumentSynchroniser
 
     /**
      * <p>
-     * Updates the given {@link org.eclipse.wst.sse.core.internal.text.BasicStructuredDocument BasicStructuredDocument} to match the given
+     * Updates the given {@link org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument IStructuredDocument} to match the given
      * {@link com.se.simplicity.scene.Scene Scene}.
      * </p>
      * 
-     * @param scene The <code>Scene</code> to update the <code>BasicStructuredDocument</code> with.
-     * @param document The <code>BasicStructuredDocument</code> to update.
+     * <p>
+     * When synchronising to the <code>IStructuredDocument</code> a 'best effort' is made to minimise the changes made to the text it contains so that
+     * impact on the state of the editor is minimised. In order to make this 'best effort' without introducing too much complexity the assumption is
+     * made there is only one difference between the <code>Scene</code> and the <code>IStructuredDocument</code>. For this reason it is strongly
+     * recommended to synchronise after every change.
+     * </p>
+     * 
+     * @param scene The <code>Scene</code> to update the <code>IStructuredDocument</code> with.
+     * @param document The <code>IStructuredDocument</code> to update.
      */
-    public void synchroniseToDocument(final Scene scene, final BasicStructuredDocument document)
+    public void synchroniseToDocument(final Scene scene, final IStructuredDocument document)
     {
+
         String[] sceneLines = getSceneLines(scene);
         IStructuredDocumentRegion[] documentRegions = getDocumentRegions(document);
 
-        // For every XML tag in the updated serialised source representation.
-        int documentRegionIndex = 0;
-        for (int sceneLineIndex = 0; sceneLineIndex < sceneLines.length; sceneLineIndex++)
+        try
         {
-            try
+            // For every XML tag in the updated serialised source representation.
+            int sceneLineIndex = 0;
+            int documentRegionIndex = 0;
+            while (sceneLineIndex < sceneLines.length || documentRegionIndex < documentRegions.length)
             {
+
                 // If the end of the text of this SourceSceneEditor has been reached.
                 if (documentRegionIndex >= documentRegions.length)
                 {
                     // Add text in this SourceSceneEditor.
-                    document.replace(document.length(), 0, sceneLines[sceneLineIndex]);
+                    document.replace(document.getLength(), 0, sceneLines[sceneLineIndex]);
                 }
 
                 // If the end of the updated serialised source representation has been reached.
                 else if (sceneLineIndex >= sceneLines.length)
                 {
                     // Remove any remaining text in this SourceSceneEditor.
-                    document.replace(documentRegions[documentRegionIndex].getStart(), document.length()
+                    document.replace(documentRegions[documentRegionIndex].getStart(), document.getLength()
                             - documentRegions[documentRegionIndex].getStart(), "");
                     break;
                 }
@@ -145,9 +162,18 @@ public class SceneDocumentSynchroniser
                 // If the lines represent different tags.
                 else if (!sameTag(sceneLines[sceneLineIndex], documentRegions[documentRegionIndex].getText()))
                 {
-                    // Insert the text into this SourceSceneEditor.
-                    document.replace(documentRegions[documentRegionIndex].getStart(), 0, sceneLines[sceneLineIndex] + "\n");
-                    documentRegionIndex--;
+                    if (sceneLines.length > documentRegions.length)
+                    {
+                        // Insert the text into this SourceSceneEditor.
+                        document.replace(documentRegions[documentRegionIndex].getStart(), 0, sceneLines[sceneLineIndex] + "\n");
+                        documentRegionIndex--;
+                    }
+                    else
+                    {
+                        // Remove the text from this SourceSceneEditor.
+                        document.replace(documentRegions[documentRegionIndex].getStart(), documentRegions[documentRegionIndex].getLength() + 1, "");
+                        sceneLineIndex--;
+                    }
                 }
 
                 // If the lines represent the same tags but their contents does not match.
@@ -159,22 +185,23 @@ public class SceneDocumentSynchroniser
                             sceneLines[sceneLineIndex]);
                 }
 
+                sceneLineIndex++;
                 documentRegionIndex++;
             }
-            catch (BadLocationException e)
-            {
-                Logger.getLogger(getClass()).error("Failed to update Source.", e);
-            }
+        }
+        catch (BadLocationException e)
+        {
+            Logger.getLogger(getClass()).error("Failed to update Source.", e);
         }
     }
 
     /**
      * <p>
      * Updates the given {@link com.se.simplicity.scene.Scene Scene} to match the given
-     * {@link org.eclipse.wst.sse.core.internal.text.BasicStructuredDocument BasicStructuredDocument}.
+     * {@link org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument IStructuredDocument}.
      * </p>
      * 
-     * @param document The <code>BasicStructuredDocument</code> to update the <code>Scene</code> with.
+     * @param document The <code>IStructuredDocument</code> to update the <code>Scene</code> with.
      * @param scene The <code>Scene</code> to update.
      */
     public void synchroniseToScene(final BasicStructuredDocument document, final Scene scene)
