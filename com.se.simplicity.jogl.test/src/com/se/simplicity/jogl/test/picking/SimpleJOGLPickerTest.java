@@ -22,6 +22,7 @@ import org.junit.Test;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.test.mocks.MockGL;
 import com.se.simplicity.model.VertexGroup;
+import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.engine.RenderingEngine;
@@ -55,17 +56,65 @@ public class SimpleJOGLPickerTest
     }
 
     /**
-     * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPicker.pickSceneGraph pickSceneGraph()}.
+     * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPicker.pickSceneGraph pickSceneGraph()} with the special condition that
+     * the picked primitive is a <code>Shape</code>.
      */
     @Test
-    public void pickScene()
+    public void pickSceneShape()
     {
         // Create dependencies.
         MockGL mockGl = new MockGL();
         mockGl.setReturnValue(1);
 
-        Camera mockCamera = createMock(Camera.class);
         RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+        Camera mockCamera = createMock(Camera.class);
+
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        ModelNode mockNode = createMock(ModelNode.class);
+        Shape mockShape = createMock(Shape.class);
+
+        // Dictate correct behaviour.
+        expect(mockRenderingEngine.getScene()).andStubReturn(null);
+        expect(mockRenderingEngine.getCamera()).andStubReturn(null);
+        mockRenderingEngine.setScene(mockScene);
+        mockRenderingEngine.setCamera(null);
+        mockRenderingEngine.advance();
+        expect(mockCamera.getPickCamera(null)).andStubReturn(null);
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
+        expect(mockNode.getModel()).andStubReturn(mockShape);
+        replay(mockRenderingEngine, mockCamera, mockScene, mockSceneGraph, mockNode, mockShape);
+
+        // Setup test environment.
+        testObject.setGL(mockGl);
+        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.init();
+        testObject.getSelectBuffer().put(new int[] {1, -999, -999, 0});
+        testObject.getSelectBuffer().rewind();
+
+        // Perform test
+        PickEvent pick = testObject.pickScene(mockScene, mockCamera, null);
+
+        // Verify test results.
+        assertEquals(1, pick.getHitCount());
+        assertEquals(mockNode, pick.getHit(0).getNode());
+        assertEquals(mockShape, pick.getHit(0).getPrimitive());
+    }
+
+    /**
+     * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPicker.pickSceneGraph pickSceneGraph()} with the special condition that
+     * the picked primitive is a <code>VertexGroup</code>.
+     */
+    @Test
+    public void pickSceneVertexGroup()
+    {
+        // Create dependencies.
+        MockGL mockGl = new MockGL();
+        mockGl.setReturnValue(1);
+
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+        Camera mockCamera = createMock(Camera.class);
 
         Scene mockScene = createMock(Scene.class);
         SceneGraph mockSceneGraph = createMock(SceneGraph.class);
@@ -77,19 +126,20 @@ public class SimpleJOGLPickerTest
         expect(mockRenderingEngine.getScene()).andStubReturn(null);
         expect(mockRenderingEngine.getCamera()).andStubReturn(null);
         mockRenderingEngine.setScene(mockScene);
-        expect(mockCamera.getPickCamera(null)).andStubReturn(null);
         mockRenderingEngine.setCamera(null);
         mockRenderingEngine.advance();
+        expect(mockCamera.getPickCamera(null)).andStubReturn(null);
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockNode.getModel()).andStubReturn(mockParentVertexGroup);
         expect(mockParentVertexGroup.createFaceSubsetVG(20)).andStubReturn(mockChildVertexGroup);
         replay(mockRenderingEngine, mockCamera, mockScene, mockSceneGraph, mockNode, mockParentVertexGroup);
 
-        // Setup test environment.
+        // Initialise test environment.
         testObject.setGL(mockGl);
         testObject.setRenderingEngine(mockRenderingEngine);
-        testObject.getSelectBuffer().put(new int[] {2, 0, 0, 0, 20});
+        testObject.init();
+        testObject.getSelectBuffer().put(new int[] {2, -999, -999, 0, 20});
         testObject.getSelectBuffer().rewind();
 
         // Perform test
@@ -99,36 +149,5 @@ public class SimpleJOGLPickerTest
         assertEquals(1, pick.getHitCount());
         assertEquals(mockNode, pick.getHit(0).getNode());
         assertEquals(mockChildVertexGroup, pick.getHit(0).getPrimitive());
-    }
-
-    /**
-     * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPicker.setGL setGL()}.
-     */
-    @Test
-    public void setGL()
-    {
-        MockGL mockGl = new MockGL();
-
-        testObject.setGL(mockGl);
-
-        assertEquals(1, mockGl.getMethodCallCountIgnoreParams("glSelectBuffer"), 0);
-    }
-
-    /**
-     * Unit test the method {@link com.se.simplicity.jogl.picking.SimpleJOGLPicker.setSelectBufferCapacity setSelectBufferCapacity()} with the special
-     * condition that a GL has already been set.
-     */
-    @Test
-    public void setSelectBufferCapacityGL()
-    {
-        MockGL mockGl = new MockGL();
-
-        testObject.setGL(mockGl);
-
-        mockGl.reset();
-
-        testObject.setSelectBufferCapacity(10);
-
-        assertEquals(1, mockGl.getMethodCallCountIgnoreParams("glSelectBuffer"), 0);
     }
 }
