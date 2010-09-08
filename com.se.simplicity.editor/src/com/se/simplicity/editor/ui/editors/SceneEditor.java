@@ -11,12 +11,10 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
-import java.util.List;
+import org.eclipse.ui.IEditorPart;
 
-import com.se.simplicity.picking.engine.PickingEngine;
-import com.se.simplicity.rendering.engine.RenderingEngine;
-import com.se.simplicity.scene.Scene;
-import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.editor.internal.ContentProvider;
+
 
 /**
  * <p>
@@ -25,41 +23,16 @@ import com.se.simplicity.scenegraph.Node;
  * 
  * @author Gary Buyn
  */
-public interface SceneEditor
+public interface SceneEditor extends IEditorPart
 {
     /**
      * <p>
-     * Retrieves the root <code>Node</code>s for the subgraphs that contain the 3D widgets used to manipulate <code>Model</code>s.
+     * Returns the {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} providding content for this
+     * <code>SceneEditor</code>.
      * </p>
      * 
-     * @return The root <code>Node</code>s for the subgraphs that contain the 3D widgets used to manipulate <code>Model</code>s.
+     * @return The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} providding content for this
+     * <code>SceneEditor</code>.
      */
-    List<Node> get3DWidgetsRootNodes();
-
-    /**
-     * <p>
-     * Retrieves the <code>PickingEngine</code> used to select items in the <code>Scene</code>.
-     * </p>
-     * 
-     * @return The <code>PickingEngine</code> used to select items in the <code>Scene</code>.
-     */
-    PickingEngine getPickingEngine();
-
-    /**
-     * <p>
-     * Retrieves the <code>RenderingEngine</code> that will render the <code>Scene</code>.
-     * </p>
-     * 
-     * @return The <code>RenderingEngine</code> that will render the <code>Scene</code>.
-     */
-    RenderingEngine getRenderingEngine();
-
-    /**
-     * <p>
-     * Retrieves the <code>Scene</code> displayed by this editor.
-     * </p>
-     * 
-     * @return The <code>Scene</code> displayed by this editor.
-     */
-    Scene getScene();
+    ContentProvider getContentProvider();
 }

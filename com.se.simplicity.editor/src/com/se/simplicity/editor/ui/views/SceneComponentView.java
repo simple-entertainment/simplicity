@@ -22,10 +22,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
 import com.se.simplicity.editor.internal.EditorResources;
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedEventType;
-import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedEventType;
+import com.se.simplicity.editor.internal.event.SceneChangedListener;
 
 /**
  * <p>

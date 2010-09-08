@@ -16,10 +16,10 @@ import org.eclipse.wst.sse.core.internal.text.BasicStructuredDocument;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.sse.ui.internal.actions.StructuredTextEditorActionConstants;
 
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedEventType;
-import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedEventType;
+import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.editor.internal.util.SceneDocumentSynchroniser;
 
 /**
@@ -38,7 +38,7 @@ public class SourceSceneEditor extends StructuredTextEditor implements SceneChan
      * Listens for changes in the text of this <code>SourceSceneEditor</code>.
      * </p>
      */
-    private SourceSceneTextListener fSourceSceneTextListener;
+    private SourceTextListener fSourceSceneTextListener;
 
     /**
      * <p>
@@ -49,7 +49,7 @@ public class SourceSceneEditor extends StructuredTextEditor implements SceneChan
     {
         super();
 
-        fSourceSceneTextListener = new SourceSceneTextListener(this);
+        fSourceSceneTextListener = new SourceTextListener(this);
 
         SceneManager.getSceneManager().addSceneChangedListener(this);
     }

@@ -9,11 +9,11 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.internal;
+package com.se.simplicity.editor.internal.event;
 
 /**
  * <p>
- * Listens for {@link com.se.simplicity.editor.internal.SceneChangedEvent SceneChangedEvent}s.
+ * Listens for {@link com.se.simplicity.editor.internal.event.SceneChangedEvent SceneChangedEvent}s.
  * </p>
  * 
  * @author Gary Buyn
@@ -22,7 +22,7 @@ public interface SceneChangedListener
 {
     /**
      * <p>
-     * Responds to a {@link com.se.simplicity.editor.internal.SceneChangedEvent SceneChangedEvent}.
+     * Responds to a {@link com.se.simplicity.editor.internal.event.SceneChangedEvent SceneChangedEvent}.
      * </p>
      * 
      * @param event The <code>SceneChangedEvent</code> to respond to.

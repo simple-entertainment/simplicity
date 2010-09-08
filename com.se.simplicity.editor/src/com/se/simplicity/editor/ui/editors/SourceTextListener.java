@@ -14,7 +14,6 @@ package com.se.simplicity.editor.ui.editors;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.TextEvent;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.wst.sse.core.internal.text.JobSafeStructuredDocument;
 
 import com.se.simplicity.editor.internal.SceneManager;
@@ -29,7 +28,7 @@ import com.se.simplicity.editor.internal.util.SceneDocumentSynchroniser;
  * @author Gary Buyn
  */
 @SuppressWarnings("restriction")
-public class SourceSceneTextListener implements ITextListener
+public class SourceTextListener implements ITextListener
 {
     /**
      * <p>
@@ -53,7 +52,7 @@ public class SourceSceneTextListener implements ITextListener
      * @param sourceSceneEditor The {@link com.se.simplicity.editor.ui.editors.SourceSceneEditor SourceSceneEditor} to update the active
      * <code>Scene</code> with.
      */
-    public SourceSceneTextListener(final SourceSceneEditor sourceSceneEditor)
+    public SourceTextListener(final SourceSceneEditor sourceSceneEditor)
     {
         fSourceSceneEditor = sourceSceneEditor;
 
@@ -95,15 +94,15 @@ public class SourceSceneTextListener implements ITextListener
     @Override
     public void textChanged(final TextEvent event)
     {
-        IFileEditorInput input = (IFileEditorInput) fSourceSceneEditor.getEditorInput();
-        JobSafeStructuredDocument document = (JobSafeStructuredDocument) fSourceSceneEditor.getTextViewer().getDocument();
-
         try
         {
-            SceneDocumentSynchroniser synchroniser = new SceneDocumentSynchroniser();
-            synchroniser.synchroniseToScene(document, SceneManager.getSceneManager().getActiveScene());
+            SceneManager sceneManager = SceneManager.getSceneManager();
+            JobSafeStructuredDocument document = (JobSafeStructuredDocument) fSourceSceneEditor.getTextViewer().getDocument();
 
-            SceneManager.getSceneManager().notifySceneModified(input.getFile().getFullPath().toString());
+            SceneDocumentSynchroniser synchroniser = new SceneDocumentSynchroniser();
+            synchroniser.synchroniseToScene(document, sceneManager.getActiveScene());
+
+            sceneManager.notifySceneModified(sceneManager.getActiveScene());
         }
         catch (Exception e)
         {

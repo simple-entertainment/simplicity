@@ -24,10 +24,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedEventType;
-import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedEventType;
+import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;

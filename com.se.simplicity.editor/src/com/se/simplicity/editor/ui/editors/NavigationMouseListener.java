@@ -11,48 +11,37 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
-import java.awt.Dimension;
-
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Control;
 
-import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.vector.SimpleTranslationVectorf4;
 
 /**
  * <p>
- * Listens for mouse events on a 3D canvas and picks the <code>SceneGraph</code> displayed on it.
+ * Listens for mouse events on a 3D canvas and navigates the viewpoint.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class VisualSceneMouseListener implements MouseListener, MouseMoveListener, MouseWheelListener
+public class NavigationMouseListener implements MouseListener, MouseMoveListener, MouseWheelListener
 {
     /**
      * <p>
-     * Determines if mouse button 1 is currently down.
+     * Determines if mouse button 2 is currently down.
      * </p>
      */
-    private boolean fMouseButton1Down;
+    private boolean fMouseButton2Down;
 
     /**
      * <p>
-     * The last position the mouse was at (only updated while mouse button 1 is down).
+     * The last position the mouse was at (only updated while mouse button 2 is down).
      * </p>
      */
-    private Point fMouseButton1DownPoint;
-
-    /**
-     * <p>
-     * The <code>PickingEngine</code> to register picks with.
-     * </p>
-     */
-    private PickingEngine fPickingEngine;
+    private Point fMouseButton2DownPoint;
 
     /**
      * <p>
@@ -63,15 +52,13 @@ public class VisualSceneMouseListener implements MouseListener, MouseMoveListene
 
     /**
      * <p>
-     * Creates an instance of <code>VisualSceneMouseListener</code>.
+     * Creates an instance of <code>NavigationMouseListener</code>.
      * </p>
      * 
-     * @param newPickingEngine The <code>PickingEngine</code> to register picks with.
      * @param viewingCamera The <code>Camera</code> being used to view the <code>Scene</code>.
      */
-    public VisualSceneMouseListener(final PickingEngine newPickingEngine, final Camera viewingCamera)
+    public NavigationMouseListener(final Camera viewingCamera)
     {
-        fPickingEngine = newPickingEngine;
         fViewingCamera = viewingCamera;
     }
 
@@ -82,29 +69,27 @@ public class VisualSceneMouseListener implements MouseListener, MouseMoveListene
     @Override
     public void mouseDown(final MouseEvent event)
     {
-        if (event.button == 1)
+        if (event.button == 2)
         {
-            fMouseButton1DownPoint = null;
-            fMouseButton1Down = true;
+            fMouseButton2DownPoint = null;
+            fMouseButton2Down = true;
         }
     }
 
     @Override
     public void mouseMove(final MouseEvent event)
     {
-        if (fMouseButton1Down)
+        if (fMouseButton2Down)
         {
-            if (fMouseButton1DownPoint != null)
+            if (fMouseButton2DownPoint != null)
             {
-                fViewingCamera.getNode().getParent().getTransformation().rotate(
-                        (float) ((event.x - fMouseButton1DownPoint.x) * Math.PI / 180.0f) * -1.0f,
+                fViewingCamera.getNode().getParent().getTransformation().rotate((float) Math.toRadians(event.x - fMouseButton2DownPoint.x) * -1.0f,
                         new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-                fViewingCamera.getNode().getParent().getTransformation().rotate(
-                        (float) ((event.y - fMouseButton1DownPoint.y) * Math.PI / 180.0f) * -1.0f,
+                fViewingCamera.getNode().getParent().getTransformation().rotate((float) Math.toRadians(event.y - fMouseButton2DownPoint.y) * -1.0f,
                         new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
             }
 
-            fMouseButton1DownPoint = new Point(event.x, event.y);
+            fMouseButton2DownPoint = new Point(event.x, event.y);
         }
     }
 
@@ -117,17 +102,9 @@ public class VisualSceneMouseListener implements MouseListener, MouseMoveListene
     @Override
     public void mouseUp(final MouseEvent event)
     {
-        if (event.button == 1)
+        if (event.button == 2)
         {
-            fMouseButton1Down = false;
-        }
-        else if (event.button == 3)
-        {
-            Dimension viewportSize = new Dimension();
-            viewportSize.width = ((Control) event.widget).getBounds().width;
-            viewportSize.height = ((Control) event.widget).getBounds().height;
-
-            fPickingEngine.pickViewport(viewportSize, event.x, event.y, 2, 2);
+            fMouseButton2Down = false;
         }
     }
 }

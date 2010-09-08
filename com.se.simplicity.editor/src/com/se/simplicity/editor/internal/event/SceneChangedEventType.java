@@ -9,11 +9,11 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.internal;
+package com.se.simplicity.editor.internal.event;
 
 /**
  * <p>
- * The type of a {@link com.se.simplicity.editor.internal.SceneChangedEvent SceneChangedEvent}.
+ * The type of a {@link com.se.simplicity.editor.internal.event.SceneChangedEvent SceneChangedEvent}.
  * </p>
  * 
  * @author Gary Buyn

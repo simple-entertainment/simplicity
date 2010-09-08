@@ -9,14 +9,14 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.internal;
+package com.se.simplicity.editor.internal.event;
 
 import com.se.simplicity.scene.Scene;
 
 /**
  * <p>
  * An event raised when a <code>Scene</code> is changed. Provides contextual information to a
- * {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}.
+ * {@link com.se.simplicity.editor.internal.event.SceneChangedListener SceneChangedListener}.
  * </p>
  * 
  * @author Gary Buyn

@@ -23,10 +23,10 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.part.ViewPart;
 
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedEventType;
-import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedEventType;
+import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.scene.Scene;

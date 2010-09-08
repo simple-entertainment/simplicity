@@ -11,8 +11,6 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
-import java.util.List;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.ui.IEditorInput;
@@ -20,10 +18,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
-import com.se.simplicity.picking.engine.PickingEngine;
-import com.se.simplicity.rendering.engine.RenderingEngine;
-import com.se.simplicity.scene.Scene;
-import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.editor.internal.ContentProvider;
 
 /**
  * A multi-page eclipse editor that displays a <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment on the first page and
@@ -93,7 +88,7 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     {
         try
         {
-            fVisualEditor = new VisualSceneEditor();
+            fVisualEditor = new VisualSceneEditor(new ContentProvider());
             int index = addPage(fVisualEditor, getEditorInput());
             setPageText(index, "Visual");
         }
@@ -116,30 +111,6 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     }
 
     @Override
-    public List<Node> get3DWidgetsRootNodes()
-    {
-        return (fVisualEditor.get3DWidgetsRootNodes());
-    }
-
-    @Override
-    public PickingEngine getPickingEngine()
-    {
-        return (fVisualEditor.getPickingEngine());
-    }
-
-    @Override
-    public RenderingEngine getRenderingEngine()
-    {
-        return (fVisualEditor.getRenderingEngine());
-    }
-
-    @Override
-    public Scene getScene()
-    {
-        return (fVisualEditor.getScene());
-    }
-
-    @Override
     public void init(final IEditorSite site, final IEditorInput input) throws PartInitException
     {
         super.init(site, input);
@@ -151,5 +122,11 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     public boolean isSaveAsAllowed()
     {
         return (fSourceEditor.isSaveAsAllowed());
+    }
+
+    @Override
+    public ContentProvider getContentProvider()
+    {
+        return (fVisualEditor.getContentProvider());
     }
 }

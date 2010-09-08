@@ -5,9 +5,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="bin" sourcepath="bin"/>
 	<classpathentry exported="true" kind="lib" path="properties" sourcepath="properties"/>
-	<classpathentry exported="true" kind="lib" path="lib/com.se.simplicity.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/com.se.simplicity.jogl.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/com.se.simplicity.util.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/com.se.simplicity.jar" sourcepath="/com.se.simplicity/src"/>
+	<classpathentry exported="true" kind="lib" path="lib/com.se.simplicity.jogl.jar" sourcepath="/com.se.simplicity.jogl/src"/>
+	<classpathentry exported="true" kind="lib" path="lib/com.se.simplicity.util.jar" sourcepath="/com.se.simplicity.util/src"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gluegen-rt.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jogl.jar"/>

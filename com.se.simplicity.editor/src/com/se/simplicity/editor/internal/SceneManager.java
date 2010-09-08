@@ -21,6 +21,9 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IFileEditorInput;
 
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedEventType;
+import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
 import com.se.simplicity.jogl.rendering.BlendingJOGLRenderer;
@@ -96,7 +99,7 @@ public final class SceneManager
 
     /**
      * <p>
-     * The {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s registered to listen for changes in the
+     * The {@link com.se.simplicity.editor.internal.event.SceneChangedListener SceneChangedListener}s registered to listen for changes in the
      * <code>Scene</code>s in use by the editor.
      * </p>
      */
@@ -126,7 +129,7 @@ public final class SceneManager
 
     /**
      * <p>
-     * Registers the given {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener} to listen for changes in the
+     * Registers the given {@link com.se.simplicity.editor.internal.event.SceneChangedListener SceneChangedListener} to listen for changes in the
      * <code>Scene</code>s in use by the editor.
      * </p>
      * 
@@ -146,9 +149,9 @@ public final class SceneManager
      * 
      * @param input The editor input containing the serialised source representation of the <code>Scene</code> to add.
      */
-    public void addSceneDefinition(final IFileEditorInput input) throws CoreException
+    public void addScene(final IFileEditorInput input) throws CoreException
     {
-        addSceneDefinition(input.getFile().getContents(), input.getFile().getFullPath().toString());
+        addScene(input.getFile().getContents(), input.getFile().getFullPath().toString());
     }
 
     /**
@@ -159,9 +162,9 @@ public final class SceneManager
      * @param input The <code>InputStream</code> containing the serialised source representation of the <code>Scene</code> to add.
      * @param name The name to give the <code>Scene</code>.
      */
-    public void addSceneDefinition(final InputStream input, final String name)
+    public void addScene(final InputStream input, final String name)
     {
-        addSceneDefinition(SceneFactory.loadFromSource(input), name);
+        addScene(SceneFactory.loadFromSource(input), name);
     }
 
     /**
@@ -172,15 +175,15 @@ public final class SceneManager
      * @param scene The <code>Scene</code> to add.
      * @param name The name to give the <code>Scene</code>.
      */
-    public void addSceneDefinition(final Scene scene, final String name)
+    public void addScene(final Scene scene, final String name)
     {
         scenes.put(name, scene);
     }
 
     /**
      * <p>
-     * Fires a {@link com.se.simplicity.editor.internal.SceneChangedEvent SceneChangedEvent} to all registered
-     * {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s.
+     * Fires a {@link com.se.simplicity.editor.internal.event.SceneChangedEvent SceneChangedEvent} to all registered
+     * {@link com.se.simplicity.editor.internal.event.SceneChangedListener SceneChangedListener}s.
      * </p>
      * 
      * @param scene The <code>Scene</code> to fire the event for.
@@ -261,11 +264,11 @@ public final class SceneManager
 
     /**
      * <p>
-     * Retrieves the {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s registered to listen for changes in the
-     * <code>Scene</code>s in use by the editor.
+     * Retrieves the {@link com.se.simplicity.editor.internal.event.SceneChangedListener SceneChangedListener}s registered to listen for changes in
+     * the <code>Scene</code>s in use by the editor.
      * </p>
      * 
-     * @return The {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s registered to listen for changes in the
+     * @return The {@link com.se.simplicity.editor.internal.event.SceneChangedListener SceneChangedListener}s registered to listen for changes in the
      * <code>Scene</code>s in use by the editor.
      */
     public List<SceneChangedListener> getSceneChangedListeners()
@@ -278,14 +281,12 @@ public final class SceneManager
      * Retrieves a new <code>PickingEngine</code> for the <code>Scene</code> with the given ID.
      * </p>
      * 
-     * @param id The ID of the <code>Scene</code> to retrieve a new <code>PickingEngine</code> for.
+     * @param scene The <code>Scene</code> to retrieve a new <code>PickingEngine</code> for.
      * 
      * @return A new <code>PickingEngine</code> for the <code>Scene</code> with the given ID.
      */
-    public SimpleJOGLPickingEngine getPickingEngineForScene(final String id)
+    public SimpleJOGLPickingEngine getPickingEngineForScene(final Scene scene)
     {
-        Scene scene = scenes.get(id);
-
         SimpleJOGLPickingEngine pickingEngine = new SimpleJOGLPickingEngine();
         SimpleJOGLPicker picker = new SimpleJOGLPicker();
         SimpleJOGLRenderingEngine renderingEngine = new SimpleJOGLRenderingEngine();
@@ -306,14 +307,12 @@ public final class SceneManager
      * instantiated.
      * </p>
      * 
-     * @param id The ID of the <code>Scene</code> to retrieve a new <code>RenderingEngine</code> for.
+     * @param scene The <code>Scene</code> to retrieve a new <code>RenderingEngine</code> for.
      * 
      * @return A new <code>RenderingEngine</code> for the <code>Scene</code> with the given ID.
      */
-    public RenderingEngine getRenderingEngineForScene(final String id)
+    public RenderingEngine getRenderingEngineForScene(final Scene scene)
     {
-        Scene scene = scenes.get(id);
-
         // Retrieve preferred rendering environment if one is available.
         String preferredRenderingEngine = null;
         String preferredRenderer = null;
@@ -376,8 +375,8 @@ public final class SceneManager
 
     /**
      * <p>
-     * Notifies all registered {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s that the given <code>Camera</code>
-     * in the currently active <code>Scene</code> has been modified.
+     * Notifies all registered {@link com.se.simplicity.editor.internal.event.SceneChangedListener SceneChangedListener}s that the given
+     * <code>Camera</code> in the currently active <code>Scene</code> has been modified.
      * </p>
      * 
      * @param camera The <code>Camera</code> the <code>SceneChangedListener</code>s will be notified about.
@@ -394,8 +393,8 @@ public final class SceneManager
 
     /**
      * <p>
-     * Notifies all registered {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s that the given <code>Light</code>
-     * in the currently active <code>Scene</code> has been modified.
+     * Notifies all registered {@link com.se.simplicity.editor.internal.event.SceneChangedListener SceneChangedListener}s that the given
+     * <code>Light</code> in the currently active <code>Scene</code> has been modified.
      * </p>
      * 
      * @param light The <code>Light</code> the <code>SceneChangedListener</code>s will be notified about.
@@ -412,8 +411,8 @@ public final class SceneManager
 
     /**
      * <p>
-     * Notifies all registered {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s that the given <code>Node</code>
-     * in the currently active <code>Scene</code> has been modified.
+     * Notifies all registered {@link com.se.simplicity.editor.internal.event.SceneChangedListener SceneChangedListener}s that the given
+     * <code>Node</code> in the currently active <code>Scene</code> has been modified.
      * </p>
      * 
      * @param node The <code>Node</code> the <code>SceneChangedListener</code>s will be notified about.
@@ -430,26 +429,26 @@ public final class SceneManager
 
     /**
      * <p>
-     * Notifies all registered {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener}s that the <code>Scene</code> with
-     * the given ID has been modified.
+     * Notifies all registered {@link com.se.simplicity.editor.internal.event.SceneChangedListener SceneChangedListener}s that the <code>Scene</code>
+     * with the given ID has been modified.
      * </p>
      * 
-     * @param id The ID of the <code>Scene</code> the <code>SceneChangedListener</code>s will be notified about.
+     * @param scene The <code>Scene</code> the <code>SceneChangedListener</code>s will be notified about.
      */
-    public void notifySceneModified(final String id)
+    public void notifySceneModified(final Scene scene)
     {
-        if (scenes.get(id) == null)
+        if (!scenes.containsValue(scene))
         {
             throw new IllegalArgumentException("Invalid Scene: The Scene must already be managed by this Scene Manager.");
         }
 
-        fireSceneChangedEvent(scenes.get(id), null, SceneChangedEventType.SCENE_MODIFIED);
+        fireSceneChangedEvent(scene, null, SceneChangedEventType.SCENE_MODIFIED);
     }
 
     /**
      * <p>
-     * Unregisters the given {@link com.se.simplicity.editor.internal.SceneChangedListener SceneChangedListener} from listening for changes in the
-     * <code>Scene</code>s in use by the editor.
+     * Unregisters the given {@link com.se.simplicity.editor.internal.event.SceneChangedListener SceneChangedListener} from listening for changes in
+     * the <code>Scene</code>s in use by the editor.
      * </p>
      * 
      * @param sceneChangedListener The <code>SceneChangedListener</code> to unregister.
@@ -533,16 +532,16 @@ public final class SceneManager
      * Sets the currently active <code>Scene</code>.
      * </p>
      * 
-     * @param id The currently active <code>Scene</code>.
+     * @param scene The currently active <code>Scene</code>.
      */
-    public void setActiveScene(final String id)
+    public void setActiveScene(final Scene scene)
     {
-        if (scenes.get(id) == null)
+        if (!scenes.containsValue(scene))
         {
             throw new IllegalArgumentException("Invalid Scene: The Scene must already be managed by this Scene Manager.");
         }
 
-        activeScene = scenes.get(id);
+        activeScene = scene;
         fireSceneChangedEvent(activeScene, null, SceneChangedEventType.SCENE_ACTIVATED);
     }
 }
