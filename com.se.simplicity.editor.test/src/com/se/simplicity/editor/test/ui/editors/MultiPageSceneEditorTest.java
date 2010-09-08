@@ -52,7 +52,8 @@ public class MultiPageSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.MultiPageSceneEditor#init(IEditorSite, IEditorInput) init(IEditorSite, IEditorInput)}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.MultiPageSceneEditor#init(IEditorSite, IEditorInput) init(IEditorSite,
+     * IEditorInput)}.
      * </p>
      * 
      * @throws PartInitException Thrown if the initialisation fails.

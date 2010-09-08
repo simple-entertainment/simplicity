@@ -26,9 +26,9 @@ import org.eclipse.swt.widgets.Text;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedEventType;
 import com.se.simplicity.editor.ui.views.NodeView;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
@@ -132,8 +132,8 @@ public class NodeViewTest
         replay(mockEvent, mockScene, mockSceneGraph, mockMetaDataNode, mockNode, mockTransformation, mockTranslation);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().addScene(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveNode(mockMetaDataNode);
 
         // Verify test environment.
@@ -193,8 +193,8 @@ public class NodeViewTest
         replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockTransformation, mockTranslation);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().addScene(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveNode(mockNode);
 
         // Verify test environment.

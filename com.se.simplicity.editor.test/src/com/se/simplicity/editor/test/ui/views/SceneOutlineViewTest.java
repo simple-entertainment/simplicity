@@ -29,9 +29,9 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedEventType;
 import com.se.simplicity.editor.ui.views.SceneOutlineView;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
@@ -99,8 +99,8 @@ public class SceneOutlineViewTest
         SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         Node mockNode = createMock(Node.class);
 
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
 
         reset(mockScene);
         expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
@@ -184,8 +184,8 @@ public class SceneOutlineViewTest
         replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockCamera);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
         // Verify test environment.
@@ -236,8 +236,8 @@ public class SceneOutlineViewTest
         replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockCamera);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
         testObject.getTree().setSelection(testObject.getTree().getItem(0));
 
@@ -289,8 +289,8 @@ public class SceneOutlineViewTest
         replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockCamera);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
         // Verify test environment.
@@ -340,8 +340,8 @@ public class SceneOutlineViewTest
         replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockLight);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
         // Verify test environment.
@@ -392,8 +392,8 @@ public class SceneOutlineViewTest
         replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockLight);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
         testObject.getTree().setSelection(testObject.getTree().getItem(0));
 
@@ -445,8 +445,8 @@ public class SceneOutlineViewTest
         replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockLight);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
         // Verify test environment.
@@ -491,8 +491,8 @@ public class SceneOutlineViewTest
         replay(mockEvent, mockScene, mockSceneGraph, mockNode);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
         // Verify test environment.
@@ -538,8 +538,8 @@ public class SceneOutlineViewTest
         replay(mockEvent, mockScene, mockSceneGraph, mockNode);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
         testObject.getTree().setSelection(testObject.getTree().getItem(0));
 
@@ -586,8 +586,8 @@ public class SceneOutlineViewTest
         replay(mockEvent, mockScene, mockSceneGraph, mockNode);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
 
         // Verify test environment.

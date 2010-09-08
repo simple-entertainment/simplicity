@@ -32,9 +32,9 @@ import org.eclipse.swt.widgets.Widget;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.editor.ui.views.CameraViewListener;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.rendering.Camera;
@@ -103,8 +103,8 @@ public class CameraViewListenerTest
 
         // Initialise test environment.
         testObject = new CameraViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(camera);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -152,8 +152,8 @@ public class CameraViewListenerTest
 
         // Initialise test environment.
         testObject = new CameraViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(camera);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -202,8 +202,8 @@ public class CameraViewListenerTest
 
         // Initialise test environment.
         testObject = new CameraViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(camera);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -254,8 +254,8 @@ public class CameraViewListenerTest
 
         // Initialise test environment.
         testObject = new CameraViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(camera);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -306,8 +306,8 @@ public class CameraViewListenerTest
 
         // Initialise test environment.
         testObject = new CameraViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(camera);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -358,8 +358,8 @@ public class CameraViewListenerTest
 
         // Initialise test environment.
         testObject = new CameraViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(camera);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -410,8 +410,8 @@ public class CameraViewListenerTest
 
         // Initialise test environment.
         testObject = new CameraViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(camera);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -462,8 +462,8 @@ public class CameraViewListenerTest
 
         // Initialise test environment.
         testObject = new CameraViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(camera);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -514,8 +514,8 @@ public class CameraViewListenerTest
 
         // Initialise test environment.
         testObject = new CameraViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(camera);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -566,8 +566,8 @@ public class CameraViewListenerTest
 
         // Initialise test environment.
         testObject = new CameraViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(camera);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -618,8 +618,8 @@ public class CameraViewListenerTest
 
         // Initialise test environment.
         testObject = new CameraViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(camera);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 

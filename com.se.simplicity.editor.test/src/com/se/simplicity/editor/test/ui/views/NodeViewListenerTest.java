@@ -31,9 +31,9 @@ import org.eclipse.swt.widgets.Widget;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.editor.ui.views.NodeViewListener;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.SceneGraph;
@@ -99,8 +99,8 @@ public class NodeViewListenerTest
 
         // Initialise test environment.
         testObject = new NodeViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveNode(node);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -148,8 +148,8 @@ public class NodeViewListenerTest
 
         // Initialise test environment.
         testObject = new NodeViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveNode(node);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -194,8 +194,8 @@ public class NodeViewListenerTest
 
         // Initialise test environment.
         testObject = new NodeViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveNode(node);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -242,8 +242,8 @@ public class NodeViewListenerTest
 
         // Initialise test environment.
         testObject = new NodeViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveNode(node);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -290,8 +290,8 @@ public class NodeViewListenerTest
 
         // Initialise test environment.
         testObject = new NodeViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveNode(node);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -341,8 +341,8 @@ public class NodeViewListenerTest
 
         // Initialise test environment.
         testObject = new NodeViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveNode(node);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
@@ -392,8 +392,8 @@ public class NodeViewListenerTest
 
         // Initialise test environment.
         testObject = new NodeViewListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveNode(node);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 

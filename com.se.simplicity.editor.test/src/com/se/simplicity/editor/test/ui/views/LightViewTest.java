@@ -28,15 +28,14 @@ import org.eclipse.swt.widgets.Text;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedEventType;
 import com.se.simplicity.editor.ui.views.LightView;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
-import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
 
 /**
@@ -123,8 +122,8 @@ public class LightViewTest
         replay(mockEvent, mockLight, mockScene, mockNode);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().addScene(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveLight(mockLight);
 
         // Verify test environment.
@@ -176,7 +175,7 @@ public class LightViewTest
         assertEquals("0.1", ((Text) specularWidgets[3]).getText());
         assertEquals("0.1", ((Text) specularWidgets[5]).getText());
 
-        assertEquals("$Proxy5", ((Text) reflectionWidgets[1]).getText());
+        assertEquals("$Proxy15", ((Text) reflectionWidgets[1]).getText());
     }
 
     /**
@@ -214,8 +213,8 @@ public class LightViewTest
         replay(mockEvent, mockMetaDataLight, mockLight, mockScene, mockNode);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().addScene(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveLight(mockMetaDataLight);
 
         // Verify test environment.
@@ -233,7 +232,7 @@ public class LightViewTest
         // Verify test.
         assertEquals("Test", ((Text) idWidgets[1]).getText());
 
-        assertEquals("$Proxy5", ((Text) reflectionWidgets[1]).getText());
+        assertEquals("$Proxy15", ((Text) reflectionWidgets[1]).getText());
     }
 
     /**

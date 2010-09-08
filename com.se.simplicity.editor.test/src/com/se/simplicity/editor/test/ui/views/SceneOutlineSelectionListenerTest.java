@@ -27,9 +27,9 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.editor.ui.views.SceneOutlineSelectionListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
@@ -90,8 +90,8 @@ public class SceneOutlineSelectionListenerTest
 
         // Initialise test environment.
         testObject = new SceneOutlineSelectionListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
         // Dictate correct behaviour.
@@ -134,8 +134,8 @@ public class SceneOutlineSelectionListenerTest
 
         // Initialise test environment.
         testObject = new SceneOutlineSelectionListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
         // Dictate correct behaviour.
@@ -177,8 +177,8 @@ public class SceneOutlineSelectionListenerTest
 
         // Initialise test environment.
         testObject = new SceneOutlineSelectionListener(map);
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene("test");
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().addSceneChangedListener(mockListener);
 
         // Dictate correct behaviour.

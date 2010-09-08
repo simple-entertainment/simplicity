@@ -32,9 +32,9 @@ import org.eclipse.ui.IFileEditorInput;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedListener;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
 import com.se.simplicity.jogl.rendering.BlendingJOGLRenderer;
@@ -100,8 +100,7 @@ public class SceneManagerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#addSceneDefinition(IFileEditorInput)
-     * addSceneDefinition(IFileEditorInput)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#addScene(IFileEditorInput) addSceneDefinition(IFileEditorInput)}.
      * </p>
      * 
      * @throws CoreException Thrown if the <code>IFileEditorInput</code> fails to retrieve the contents of the file.
@@ -119,15 +118,15 @@ public class SceneManagerTest
         expect(mockFile.getFullPath()).andStubReturn(mockPath);
         replay(mockInput, mockFile);
 
-        testObject.addSceneDefinition(mockInput);
+        testObject.addScene(mockInput);
 
         assertNotNull(testObject.getScene(mockPath.toString()));
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#addSceneDefinition(InputStream, String)
-     * addSceneDefinition(InputStream, String)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#addScene(InputStream, String) addSceneDefinition(InputStream,
+     * String)}.
      * </p>
      * 
      * @throws FileNotFoundException Thrown if the source file cannot be found.
@@ -135,21 +134,20 @@ public class SceneManagerTest
     @Test
     public void addSceneDefinitionInputStream() throws FileNotFoundException
     {
-        testObject.addSceneDefinition(new FileInputStream("src/com/se/simplicity/editor/test/internal/triangle.xml"), "test");
+        testObject.addScene(new FileInputStream("src/com/se/simplicity/editor/test/internal/triangle.xml"), "test");
 
         assertNotNull(testObject.getScene("test"));
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#addSceneDefinition(Scene, String) addSceneDefinition(Scene, String)}
-     * .
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#addScene(Scene, String) addSceneDefinition(Scene, String)} .
      * </p>
      */
     @Test
     public void addSceneDefinitionScene()
     {
-        testObject.addSceneDefinition(createMock(Scene.class), "test");
+        testObject.addScene(createMock(Scene.class), "test");
 
         assertNotNull(testObject.getScene("test"));
     }
@@ -164,9 +162,9 @@ public class SceneManagerTest
     {
         SimpleJOGLScene scene = new SimpleJOGLScene();
 
-        testObject.addSceneDefinition(scene, "test");
+        testObject.addScene(scene, "test");
 
-        SimpleJOGLPickingEngine pickingEngine = testObject.getPickingEngineForScene("test");
+        SimpleJOGLPickingEngine pickingEngine = testObject.getPickingEngineForScene(scene);
 
         assertEquals(scene, pickingEngine.getScene());
         assertNotNull(pickingEngine.getPicker());
@@ -191,9 +189,9 @@ public class SceneManagerTest
         expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
         replay(mockSceneGraph);
 
-        testObject.addSceneDefinition(scene, "test");
+        testObject.addScene(scene, "test");
 
-        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
+        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene(scene);
 
         assertEquals(scene, renderingEngine.getScene());
         assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
@@ -219,13 +217,13 @@ public class SceneManagerTest
 
         scene.setAttribute("preferredRenderingEngine", "com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine");
         scene.setAttribute("preferredRenderer", "com.se.simplicity.jogl.rendering.SimpleJOGLRenderer");
-        testObject.addSceneDefinition(scene, "test");
+        testObject.addScene(scene, "test");
 
         expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
         expect(mockCamera.getAttribute("default")).andStubReturn("true");
         replay(mockSceneGraph, mockCamera);
 
-        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
+        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene(scene);
 
         assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
         assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
@@ -249,13 +247,13 @@ public class SceneManagerTest
 
         scene.setAttribute("preferredRenderingEngine", "stupid.dumb.RenderingEngine");
         scene.setAttribute("preferredRenderer", "com.se.simplicity.jogl.rendering.SimpleJOGLRenderer");
-        testObject.addSceneDefinition(scene, "test");
+        testObject.addScene(scene, "test");
 
         expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
         expect(mockCamera.getAttribute("default")).andStubReturn("true");
         replay(mockSceneGraph, mockCamera);
 
-        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
+        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene(scene);
 
         assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
         assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
@@ -279,13 +277,13 @@ public class SceneManagerTest
 
         scene.setAttribute("preferredRenderingEngine", "com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine");
         scene.setAttribute("preferredRenderer", "stupid.dumb.Renderer");
-        testObject.addSceneDefinition(scene, "test");
+        testObject.addScene(scene, "test");
 
         expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
         expect(mockCamera.getAttribute("default")).andStubReturn("true");
         replay(mockSceneGraph, mockCamera);
 
-        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene("test");
+        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene(scene);
 
         assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
         assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
@@ -308,8 +306,8 @@ public class SceneManagerTest
         expect(mockScene.getCameras()).andStubReturn(cameras);
         replay(mockScene);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
         testObject.addSceneChangedListener(mockListener);
 
         org.easymock.classextension.EasyMock.reset(mockListener);
@@ -338,8 +336,8 @@ public class SceneManagerTest
         expect(mockScene.getCameras()).andStubReturn(cameras);
         replay(mockScene);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
 
         try
         {
@@ -368,8 +366,8 @@ public class SceneManagerTest
         expect(mockScene.getLights()).andStubReturn(lights);
         replay(mockScene);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
         testObject.addSceneChangedListener(mockListener);
 
         org.easymock.classextension.EasyMock.reset(mockListener);
@@ -398,8 +396,8 @@ public class SceneManagerTest
         expect(mockScene.getLights()).andStubReturn(lights);
         replay(mockScene);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
 
         try
         {
@@ -428,8 +426,8 @@ public class SceneManagerTest
         expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         replay(mockScene, mockSceneGraph);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
         testObject.addSceneChangedListener(mockListener);
 
         org.easymock.classextension.EasyMock.reset(mockListener);
@@ -457,8 +455,8 @@ public class SceneManagerTest
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         replay(mockScene);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
 
         try
         {
@@ -478,16 +476,17 @@ public class SceneManagerTest
     @Test
     public void notifySceneModified()
     {
+        Scene mockScene = createMock(Scene.class);
         SceneChangedListener mockListener = createMock(SceneChangedListener.class);
 
-        testObject.addSceneDefinition(createMock(Scene.class), "test");
+        testObject.addScene(mockScene, "test");
         testObject.addSceneChangedListener(mockListener);
 
         org.easymock.classextension.EasyMock.reset(mockListener);
         mockListener.sceneChanged((SceneChangedEvent) anyObject());
         replay(mockListener);
 
-        testObject.notifySceneModified("test");
+        testObject.notifySceneModified(mockScene);
 
         verify(mockListener);
     }
@@ -503,7 +502,7 @@ public class SceneManagerTest
     {
         try
         {
-            testObject.notifySceneModified("test");
+            testObject.notifySceneModified(createMock(Scene.class));
         }
         catch (IllegalArgumentException e)
         {
@@ -542,8 +541,8 @@ public class SceneManagerTest
 
         // Initialise test environment.
         testObject.addSceneChangedListener(createMock(SceneChangedListener.class));
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
         testObject.setActiveCamera(mockCamera);
         testObject.setActiveLight(mockLight);
         testObject.setActiveNode(mockNode);
@@ -585,8 +584,8 @@ public class SceneManagerTest
         expect(mockScene.getCameras()).andStubReturn(cameras);
         replay(mockScene);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
         testObject.addSceneChangedListener(mockListener);
 
         org.easymock.classextension.EasyMock.reset(mockListener);
@@ -613,8 +612,8 @@ public class SceneManagerTest
         expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
         replay(mockScene);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
 
         try
         {
@@ -643,8 +642,8 @@ public class SceneManagerTest
         expect(mockScene.getLights()).andStubReturn(lights);
         replay(mockScene);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
         testObject.addSceneChangedListener(mockListener);
 
         org.easymock.classextension.EasyMock.reset(mockListener);
@@ -671,8 +670,8 @@ public class SceneManagerTest
         expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
         replay(mockScene);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
 
         try
         {
@@ -701,8 +700,8 @@ public class SceneManagerTest
         expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         replay(mockScene, mockSceneGraph);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
         testObject.addSceneChangedListener(mockListener);
 
         org.easymock.classextension.EasyMock.reset(mockListener);
@@ -731,8 +730,8 @@ public class SceneManagerTest
         expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         replay(mockScene, mockSceneGraph);
 
-        testObject.addSceneDefinition(mockScene, "test");
-        testObject.setActiveScene("test");
+        testObject.addScene(mockScene, "test");
+        testObject.setActiveScene(mockScene);
 
         try
         {
@@ -752,16 +751,17 @@ public class SceneManagerTest
     @Test
     public void setActiveScene()
     {
+        Scene mockScene = createMock(Scene.class);
         SceneChangedListener mockListener = createMock(SceneChangedListener.class);
 
-        testObject.addSceneDefinition(createMock(Scene.class), "test");
+        testObject.addScene(mockScene, "test");
         testObject.addSceneChangedListener(mockListener);
 
         org.easymock.classextension.EasyMock.reset(mockListener);
         mockListener.sceneChanged((SceneChangedEvent) anyObject());
         replay(mockListener);
 
-        testObject.setActiveScene("test");
+        testObject.setActiveScene(mockScene);
 
         verify(mockListener);
     }
@@ -777,7 +777,7 @@ public class SceneManagerTest
     {
         try
         {
-            testObject.setActiveScene("test");
+            testObject.setActiveScene(createMock(Scene.class));
         }
         catch (IllegalArgumentException e)
         {

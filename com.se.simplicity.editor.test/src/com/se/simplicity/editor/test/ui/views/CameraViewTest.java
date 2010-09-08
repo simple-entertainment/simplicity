@@ -28,9 +28,9 @@ import org.eclipse.swt.widgets.Text;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.SceneChangedEvent;
-import com.se.simplicity.editor.internal.SceneChangedEventType;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
+import com.se.simplicity.editor.internal.event.SceneChangedEventType;
 import com.se.simplicity.editor.ui.views.CameraView;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.ProjectionMode;
@@ -126,8 +126,8 @@ public class CameraViewTest
         replay(mockEvent, mockCamera, mockScene, mockNode);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().addScene(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(mockCamera);
 
         // Verify test environment.
@@ -214,8 +214,8 @@ public class CameraViewTest
         replay(mockEvent, mockScene, mockMetaDataCamera, mockCamera, mockNode);
 
         // Initialise test environment.
-        SceneManager.getSceneManager().addSceneDefinition(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene("Test");
+        SceneManager.getSceneManager().addScene(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
         SceneManager.getSceneManager().setActiveCamera(mockMetaDataCamera);
 
         // Verify test environment.
