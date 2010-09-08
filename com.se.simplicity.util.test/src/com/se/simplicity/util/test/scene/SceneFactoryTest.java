@@ -53,6 +53,7 @@ import com.se.simplicity.test.mocks.NodeHierarchy;
 import com.se.simplicity.util.metadata.MetaData;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
+import com.se.simplicity.util.metadata.scenegraph.MetaDataModelNode;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataSceneGraph;
 import com.se.simplicity.util.scene.SceneFactory;
@@ -315,7 +316,7 @@ public class SceneFactoryTest
         assertEquals(0.0f, translation2.getZ(), 0.0f);
         assertEquals(1.0f, translation2.getW(), 0.0f);
 
-        MetaDataNode node3 = (MetaDataNode) node0.getChildren().get(2);
+        MetaDataModelNode node3 = (MetaDataModelNode) node0.getChildren().get(2);
         assertEquals(SimpleModelNode.class, node3.getWrappedNode().getClass());
         assertEquals("Triangle", node3.getAttribute("name"));
 
@@ -572,7 +573,7 @@ public class SceneFactoryTest
         assertEquals(0.0f, translation2.getZ(), 0.0f);
         assertEquals(1.0f, translation2.getW(), 0.0f);
 
-        MetaDataNode node3 = (MetaDataNode) node0.getChildren().get(2);
+        MetaDataModelNode node3 = (MetaDataModelNode) node0.getChildren().get(2);
         assertEquals(SimpleModelNode.class, node3.getWrappedNode().getClass());
         assertEquals("Triangle", node3.getAttribute("name"));
 
@@ -633,7 +634,7 @@ public class SceneFactoryTest
         // Verify test 1 results.
         Node node0 = scene.getSceneGraph().getRoot();
 
-        Model model = ((MetaDataNode) node0.getChildren().get(2)).getModel();
+        Model model = ((MetaDataModelNode) node0.getChildren().get(2)).getModel();
         assertEquals(ArrayVG.class, model.getClass());
 
         float[] colours = ((ArrayVG) model).getColours();
@@ -675,7 +676,7 @@ public class SceneFactoryTest
         // Verify test 2 results.
         node0 = scene.getSceneGraph().getRoot();
 
-        model = ((MetaDataNode) node0.getChildren().get(2)).getModel();
+        model = ((MetaDataModelNode) node0.getChildren().get(2)).getModel();
         assertEquals(ArrayVG.class, model.getClass());
 
         colours = ((ArrayVG) model).getColours();
