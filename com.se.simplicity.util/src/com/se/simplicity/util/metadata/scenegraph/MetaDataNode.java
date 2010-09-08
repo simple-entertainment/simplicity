@@ -17,17 +17,15 @@ import java.util.Hashtable;
 import java.util.List;
 
 import com.se.simplicity.model.BoundingVolume;
-import com.se.simplicity.model.Model;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SimpleTraversal;
 import com.se.simplicity.scenegraph.Traversal;
-import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.util.metadata.MetaData;
 import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
  * <p>
- * Wraps another <code>Node</code> implementation (including <code>ModelNode</code> support) and provides the ability to add meta data attributes.
+ * Wraps another <code>Node</code> implementation and provides the ability to add meta data attributes.
  * </p>
  * 
  * <p>
@@ -48,7 +46,7 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * 
  * @author Gary Buyn
  */
-public class MetaDataNode implements ModelNode, MetaData
+public class MetaDataNode implements Node, MetaData
 {
     /**
      * The version of this class.
@@ -112,7 +110,7 @@ public class MetaDataNode implements ModelNode, MetaData
      * Creates an instance of <code>MetaDataNode</code>.
      * </p>
      * 
-     * @param node The <code>Node</code> that is wrapped by this <code>MetaDataCamera</code>.
+     * @param node The <code>Node</code> that is wrapped by this <code>MetaDataNode</code>.
      */
     public MetaDataNode(final Node node)
     {
@@ -181,19 +179,6 @@ public class MetaDataNode implements ModelNode, MetaData
     public int getID()
     {
         return (fNode.getID());
-    }
-
-    @Override
-    public Model getModel()
-    {
-        if (fNode instanceof ModelNode)
-        {
-            return (((ModelNode) fNode).getModel());
-        }
-        else
-        {
-            return (null);
-        }
     }
 
     @Override
@@ -312,15 +297,6 @@ public class MetaDataNode implements ModelNode, MetaData
     public void setID(final int id)
     {
         fNode.setID(id);
-    }
-
-    @Override
-    public void setModel(final Model model)
-    {
-        if (fNode instanceof ModelNode)
-        {
-            ((ModelNode) fNode).setModel(model);
-        }
     }
 
     @Override

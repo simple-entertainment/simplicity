@@ -47,6 +47,7 @@ import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
 import com.se.simplicity.util.metadata.scene.MetaDataScene;
+import com.se.simplicity.util.metadata.scenegraph.MetaDataModelNode;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataSceneGraph;
 import com.se.simplicity.vector.ArrayBackedObjectf;
@@ -357,7 +358,15 @@ public final class SceneFactory
         {
             try
             {
-                node = new MetaDataNode((Node) Class.forName(nodeElement.getAttribute("class")).newInstance());
+                Node wrappedNode = (Node) Class.forName(nodeElement.getAttribute("class")).newInstance();
+                if (wrappedNode instanceof ModelNode)
+                {
+                    node = new MetaDataModelNode(wrappedNode);
+                }
+                else
+                {
+                    node = new MetaDataNode(wrappedNode);
+                }
             }
             catch (Exception e)
             {
@@ -424,7 +433,7 @@ public final class SceneFactory
             }
             if (contentElement.getAttribute("type").equals("model"))
             {
-                node.setModel(createModelFromSource(contentElement));
+                ((ModelNode) node).setModel(createModelFromSource(contentElement));
             }
         }
 
@@ -593,14 +602,7 @@ public final class SceneFactory
 
         nodeElement.appendChild(createSourceFromTransformation(document, node.getTransformation()));
 
-        if (node instanceof MetaDataNode)
-        {
-            if (wrappedNode instanceof ModelNode)
-            {
-                nodeElement.appendChild(createSourceFromModel(document, ((ModelNode) wrappedNode).getModel()));
-            }
-        }
-        else if (node instanceof ModelNode)
+        if (node instanceof ModelNode)
         {
             nodeElement.appendChild(createSourceFromModel(document, ((ModelNode) node).getModel()));
         }
