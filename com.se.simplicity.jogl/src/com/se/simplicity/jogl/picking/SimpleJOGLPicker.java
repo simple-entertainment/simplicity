@@ -144,6 +144,10 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
         return (event);
     }
 
+    @Override
+    public void dispose()
+    {}
+
     /**
      * <p>
      * Retrieves the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to create {@link com.se.simplicity.picking.event.PickEvent
@@ -233,12 +237,8 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
         return (subsetVertexGroup);
     }
 
-    /**
-     * <p>
-     * Initialises the select buffer used by the JOGL rendering environment with the correct capacity.
-     * </p>
-     */
-    protected void initSelectBuffer()
+    @Override
+    public void init()
     {
         fSelectBuffer = ByteBuffer.allocateDirect(fSelectBufferCapacity << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
         fGl.glSelectBuffer(fSelectBuffer.capacity(), fSelectBuffer);
@@ -253,7 +253,6 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
         fRenderingEngine.setScene(scene);
         fRenderingEngine.setCamera(camera.getPickCamera(pick));
 
-        initSelectBuffer();
         fGl.glRenderMode(GL.GL_SELECT);
 
         fRenderingEngine.advance();

@@ -151,11 +151,15 @@ public class SimpleJOGLPickingEngine extends JOGLEngine implements PickingEngine
             }
         }
 
+        fPicker.init();
+
         // For every pick.
         for (Pick pick : fPicks)
         {
             firePickEvent(fPicker.pickScene(fScene, fCamera, pick));
         }
+
+        fPicker.dispose();
 
         fPicks.clear();
     }
