@@ -19,12 +19,12 @@ import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISources;
 
-import com.se.simplicity.editor.internal.Widget;
+import com.se.simplicity.editor.internal.EditMode;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 
 /**
  * <p>
- * Sets the current {@link com.se.simplicity.editor.internal.Widget Widget} in the active editor to the <code>TRANSLATION</code> <code>Widget</code>.
+ * Sets the current {@link com.se.simplicity.editor.internal.EditMode EditMode} in the active editor to <code>TRANSLATION</code>.
  * </p>
  * 
  * @author Gary Buyn
@@ -39,8 +39,7 @@ public class TranslationHandler extends AbstractHandler
 
     /**
      * <p>
-     * Sets the current {@link com.se.simplicity.editor.internal.Widget Widget} in the active editor to the <code>TRANSLATION</code>
-     * <code>Widget</code>.
+     * Sets the current {@link com.se.simplicity.editor.internal.EditMode EditMode} in the active editor to <code>TRANSLATION</code>.
      * </p>
      * 
      * @param event The event this handler is executing in response to.
@@ -59,7 +58,7 @@ public class TranslationHandler extends AbstractHandler
             throw new ExecutionException("This handler can only be executed when a Scene Editor is active.");
         }
 
-        ((SceneEditor) editor).getContentProvider().setWidget(Widget.TRANSLATION);
+        ((SceneEditor) editor).getContentProvider().setEditMode(EditMode.TRANSLATION);
 
         return (null);
     }

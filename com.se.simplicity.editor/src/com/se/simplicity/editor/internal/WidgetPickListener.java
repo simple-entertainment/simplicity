@@ -17,8 +17,9 @@ import com.se.simplicity.scenegraph.model.ModelNode;
 
 /**
  * <p>
- * Listens for pick events on a 3D canvas and sets the picked {@link com.se.simplicity.scenegraph.Node Node} to be the currently selected widget
- * component.
+ * Listens for pick events on a 3D canvas and sets the picked {@link com.se.simplicity.scenegraph.Node Node} to be the currently selected
+ * <code>Node</code> of the {@link com.se.simplicity.editor.internal.Widget Widget} currently being used to manipulate
+ * {@link com.se.simplicity.model.Model Model}s.
  * </p>
  * 
  * @author Gary Buyn
@@ -27,7 +28,8 @@ public class WidgetPickListener implements PickListener
 {
     /**
      * <p>
-     * The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} to set the currently selected widget component for.
+     * The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} containing the
+     * {@link com.se.simplicity.editor.internal.Widget Widget}.
      * </p>
      */
     private ContentProvider fContentProvider;
@@ -37,8 +39,8 @@ public class WidgetPickListener implements PickListener
      * Creates an instance of <code>WidgetPickListener</code>.
      * </p>
      * 
-     * @param contentProvider The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} to set the currently selected
-     * widget component for.
+     * @param contentProvider The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} containing the
+     * {@link com.se.simplicity.editor.internal.Widget Widget}.
      */
     public WidgetPickListener(final ContentProvider contentProvider)
     {
@@ -50,11 +52,7 @@ public class WidgetPickListener implements PickListener
     {
         if (event.getHitCount() > 0)
         {
-            fContentProvider.setSelectedWidgetComponent((ModelNode) event.getCloseHit().getNode());
-        }
-        else
-        {
-            fContentProvider.setSelectedWidgetComponent(null);
+            fContentProvider.getCurrentWidget().setSelectedWidgetNode((ModelNode) event.getCloseHit().getNode());
         }
     }
 }

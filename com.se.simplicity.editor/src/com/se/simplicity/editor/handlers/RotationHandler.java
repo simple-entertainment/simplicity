@@ -19,12 +19,12 @@ import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISources;
 
-import com.se.simplicity.editor.internal.Widget;
+import com.se.simplicity.editor.internal.EditMode;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 
 /**
  * <p>
- * Sets the current {@link com.se.simplicity.editor.internal.Widget Widget} in the active editor to the <code>ROTATION</code> <code>Widget</code>.
+ * Sets the current {@link com.se.simplicity.editor.internal.EditMode EditMode} in the active editor to <code>ROTATION</code>.
  * </p>
  * 
  * @author Gary Buyn
@@ -39,7 +39,7 @@ public class RotationHandler extends AbstractHandler
 
     /**
      * <p>
-     * Sets the current {@link com.se.simplicity.editor.internal.Widget Widget} in the active editor to the <code>ROTATION</code> <code>Widget</code>.
+     * Sets the current {@link com.se.simplicity.editor.internal.EditMode EditMode} in the active editor to <code>ROTATION</code>.
      * </p>
      * 
      * @param event The event this handler is executing in response to.
@@ -58,7 +58,7 @@ public class RotationHandler extends AbstractHandler
             throw new ExecutionException("This handler can only be executed when a Scene Editor is active.");
         }
 
-        ((SceneEditor) editor).getContentProvider().setWidget(Widget.ROTATION);
+        ((SceneEditor) editor).getContentProvider().setEditMode(EditMode.ROTATION);
 
         return (null);
     }

@@ -18,11 +18,6 @@ import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
-import com.se.simplicity.model.Model;
-import com.se.simplicity.model.shape.Capsule;
-import com.se.simplicity.model.shape.Shape;
-import com.se.simplicity.model.shape.Sphere;
-import com.se.simplicity.model.shape.Torus;
 import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Renderer;
@@ -32,9 +27,6 @@ import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.scenegraph.SimpleNode;
 import com.se.simplicity.scenegraph.SimpleSceneGraph;
-import com.se.simplicity.scenegraph.model.ModelNode;
-import com.se.simplicity.scenegraph.model.SimpleModelNode;
-import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 import com.se.simplicity.vector.SimpleTranslationVectorf4;
 
 /**
@@ -78,13 +70,6 @@ public class ContentProvider
 
     /**
      * <p>
-     * The currently selected widget component.
-     * </p>
-     */
-    private ModelNode fSelectedWidgetComponent;
-
-    /**
-     * <p>
      * Determines whether the viewing <code>Camera</code>'s aspect ratio should be synchronised with the aspect ratio of the canvas.
      * </p>
      */
@@ -99,10 +84,10 @@ public class ContentProvider
 
     /**
      * <p>
-     * The currently displayed {@link com.se.simplicity.editor.internal.Widget Widget}.
+     * The current {@link com.se.simplicity.editor.internal.EditMode EditMode}.
      * </p>
      */
-    private Widget fWidget;
+    private EditMode fEditMode;
 
     /**
      * <p>
@@ -113,10 +98,10 @@ public class ContentProvider
 
     /**
      * <p>
-     * The root <code>Node</code>s for the subgraphs that contain the 3D widgets used to manipulate <code>Model</code>s.
+     * The {@link com.se.simplicity.editor.internal.Widget Widget}s used to manipulate {@link com.se.simplicity.model.Model Model}s.
      * </p>
      */
-    private Map<Widget, Node> fWidgetRootNodes;
+    private Map<EditMode, Widget> fWidgets;
 
     /**
      * <p>
@@ -129,12 +114,11 @@ public class ContentProvider
         fScene = null;
         fScenePickingEngine = null;
         fSelectedSceneComponent = null;
-        fSelectedWidgetComponent = null;
         fViewingCamera = null;
         fSynchronisesCameraAspectRatio = true;
-        fWidget = Widget.NONE;
+        fEditMode = EditMode.SELECTION;
         fWidgetPickingEngine = null;
-        fWidgetRootNodes = new HashMap<Widget, Node>();
+        fWidgets = new HashMap<EditMode, Widget>();
     }
 
     /**
@@ -151,12 +135,11 @@ public class ContentProvider
         fRenderingEngine = null;
         fScenePickingEngine = null;
         fSelectedSceneComponent = null;
-        fSelectedWidgetComponent = null;
         fViewingCamera = null;
         fSynchronisesCameraAspectRatio = true;
-        fWidget = Widget.NONE;
+        fEditMode = EditMode.SELECTION;
         fWidgetPickingEngine = null;
-        fWidgetRootNodes = new HashMap<Widget, Node>();
+        fWidgets = new HashMap<EditMode, Widget>();
     }
 
     /**
@@ -179,39 +162,15 @@ public class ContentProvider
 
     /**
      * <p>
-     * Executes an edit against the currently selected scene component.
+     * Retrieves the {@link com.se.simplicity.editor.internal.Widget Widget} currently being used to manipulate {@link com.se.simplicity.model.Model
+     * Model}s.
      * </p>
      * 
-     * @param x The x value of the edit.
-     * @param y The y value of the edit.
+     * @return The <code>Widget</code> currently being used to manipulate {@link com.se.simplicity.model.Model Model}s.
      */
-    public void executeEdit(final int x, final int y)
+    public Widget getCurrentWidget()
     {
-        if (fSelectedSceneComponent == null)
-        {
-            return;
-        }
-
-        if (fSelectedSceneComponent instanceof Node)
-        {
-            if (fWidget == Widget.ROTATION)
-            {
-                ((Node) fSelectedSceneComponent).getTransformation().rotate((float) Math.toRadians(x),
-                        new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-                ((Node) fSelectedSceneComponent).getTransformation().rotate((float) Math.toRadians(y),
-                        new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
-
-                fWidgetRootNodes.get(fWidget).getTransformation().rotate((float) Math.toRadians(x),
-                        new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-                fWidgetRootNodes.get(fWidget).getTransformation().rotate((float) Math.toRadians(y),
-                        new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
-            }
-            else if (fWidget == Widget.TRANSLATION)
-            {
-                ((Node) fSelectedSceneComponent).getTransformation().translate(new SimpleTranslationVectorf4(x * 0.01f, y * 0.01f, 0.0f, 1.0f));
-                fWidgetRootNodes.get(fWidget).getTransformation().translate(new SimpleTranslationVectorf4(x * 0.01f, y * 0.01f, 0.0f, 1.0f));
-            }
-        }
+        return (fWidgets.get(fEditMode));
     }
 
     /**
@@ -345,106 +304,8 @@ public class ContentProvider
      */
     protected void initWidgets()
     {
-        // Initialise the rotation widget.
-        SimpleNode rotationRootNode = new SimpleNode();
-
-        Torus xTorus = new Torus();
-        xTorus.setColour(new SimpleRGBColourVectorf4(1.0f, 0.0f, 0.0f, 0.5f));
-        xTorus.setInnerRadius(0.05f);
-        xTorus.setOuterRadius(0.5f);
-        SimpleModelNode xTorusNode = new SimpleModelNode();
-        xTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-        xTorusNode.setModel(xTorus);
-
-        Torus yTorus = new Torus();
-        yTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 1.0f, 0.0f, 0.5f));
-        yTorus.setInnerRadius(0.05f);
-        yTorus.setOuterRadius(0.5f);
-        SimpleModelNode yTorusNode = new SimpleModelNode();
-        yTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
-        yTorusNode.setModel(yTorus);
-
-        Torus zTorus = new Torus();
-        zTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 0.0f, 1.0f, 0.5f));
-        zTorus.setInnerRadius(0.05f);
-        zTorus.setOuterRadius(0.5f);
-        SimpleModelNode zTorusNode = new SimpleModelNode();
-        zTorusNode.setModel(zTorus);
-
-        Sphere freeSphere = new Sphere();
-        freeSphere.setColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 0.5f));
-        freeSphere.setRadius(0.1f);
-
-        SimpleModelNode freeSphereNode0 = new SimpleModelNode();
-        freeSphereNode0.getTransformation().setXAxisTranslation(0.5f);
-        freeSphereNode0.setModel(freeSphere);
-
-        SimpleModelNode freeSphereNode1 = new SimpleModelNode();
-        freeSphereNode1.getTransformation().setXAxisTranslation(-0.5f);
-        freeSphereNode1.setModel(freeSphere);
-
-        SimpleModelNode freeSphereNode2 = new SimpleModelNode();
-        freeSphereNode2.getTransformation().setYAxisTranslation(0.5f);
-        freeSphereNode2.setModel(freeSphere);
-
-        SimpleModelNode freeSphereNode3 = new SimpleModelNode();
-        freeSphereNode3.getTransformation().setYAxisTranslation(-0.5f);
-        freeSphereNode3.setModel(freeSphere);
-
-        SimpleModelNode freeSphereNode4 = new SimpleModelNode();
-        freeSphereNode4.getTransformation().setZAxisTranslation(0.5f);
-        freeSphereNode4.setModel(freeSphere);
-
-        SimpleModelNode freeSphereNode5 = new SimpleModelNode();
-        freeSphereNode5.getTransformation().setZAxisTranslation(-0.5f);
-        freeSphereNode5.setModel(freeSphere);
-
-        fWidgetRootNodes.put(Widget.ROTATION, rotationRootNode);
-        rotationRootNode.addChild(xTorusNode);
-        rotationRootNode.addChild(yTorusNode);
-        rotationRootNode.addChild(zTorusNode);
-        rotationRootNode.addChild(freeSphereNode0);
-        rotationRootNode.addChild(freeSphereNode1);
-        rotationRootNode.addChild(freeSphereNode2);
-        rotationRootNode.addChild(freeSphereNode3);
-        rotationRootNode.addChild(freeSphereNode4);
-        rotationRootNode.addChild(freeSphereNode5);
-
-        // Initialise the rotation widget.
-        SimpleNode translationRootNode = new SimpleNode();
-
-        Capsule xCapsule = new Capsule();
-        xCapsule.setColour(new SimpleRGBColourVectorf4(1.0f, 0.0f, 0.0f, 0.5f));
-        xCapsule.setLength(0.5f);
-        xCapsule.setRadius(0.05f);
-        SimpleModelNode xCapsuleNode = new SimpleModelNode();
-        xCapsuleNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-        xCapsuleNode.setModel(xCapsule);
-
-        Capsule yCapsule = new Capsule();
-        yCapsule.setColour(new SimpleRGBColourVectorf4(0.0f, 1.0f, 0.0f, 0.5f));
-        yCapsule.setLength(0.5f);
-        yCapsule.setRadius(0.05f);
-        SimpleModelNode yCapsuleNode = new SimpleModelNode();
-        yCapsuleNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
-        yCapsuleNode.setModel(yCapsule);
-
-        Capsule zCapsule = new Capsule();
-        zCapsule.setColour(new SimpleRGBColourVectorf4(0.0f, 0.0f, 1.0f, 0.5f));
-        zCapsule.setLength(0.5f);
-        zCapsule.setRadius(0.05f);
-        SimpleModelNode zCapsuleNode = new SimpleModelNode();
-        yCapsuleNode.getTransformation().rotate((float) Math.PI, new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-        zCapsuleNode.setModel(zCapsule);
-
-        SimpleModelNode freeSphereNode = new SimpleModelNode();
-        freeSphereNode.setModel(freeSphere);
-
-        fWidgetRootNodes.put(Widget.TRANSLATION, translationRootNode);
-        translationRootNode.addChild(xCapsuleNode);
-        translationRootNode.addChild(yCapsuleNode);
-        translationRootNode.addChild(zCapsuleNode);
-        translationRootNode.addChild(freeSphereNode);
+        fWidgets.put(EditMode.ROTATION, new RotationWidget());
+        fWidgets.put(EditMode.TRANSLATION, new TranslationWidget());
     }
 
     /**
@@ -506,16 +367,16 @@ public class ContentProvider
      * Sets the currently selected scene component.
      * </p>
      * 
-     * @param sceneComponent The currently selected scene component.
+     * @param selectedSceneComponent The currently selected scene component.
      */
-    public void setSelectedSceneComponent(final Object sceneComponent)
+    public void setSelectedSceneComponent(final Object selectedSceneComponent)
     {
-        if (sceneComponent == fSelectedSceneComponent)
+        if (selectedSceneComponent == fSelectedSceneComponent)
         {
             return;
         }
 
-        fSelectedSceneComponent = sceneComponent;
+        fSelectedSceneComponent = selectedSceneComponent;
 
         if (fSelectedSceneComponent == null)
         {
@@ -526,40 +387,12 @@ public class ContentProvider
         {
             fRenderingEngine.setRendererRoot(fRenderingEngine.getRenderers().get(1), (Node) fSelectedSceneComponent);
             SceneManager.getSceneManager().setActiveNode((Node) fSelectedSceneComponent);
-        }
-    }
 
-    /**
-     * <p>
-     * Sets the currently selected widget component.
-     * </p>
-     * 
-     * @param widgetComponent The currently selected widget component.
-     */
-    public void setSelectedWidgetComponent(final ModelNode widgetComponent)
-    {
-        Model oldModel = null;
-        if (fSelectedWidgetComponent != null)
-        {
-            oldModel = fSelectedWidgetComponent.getModel();
+            if (fWidgets.get(fEditMode) != null)
+            {
+                fWidgets.get(fEditMode).setSelectedSceneComponent(fSelectedSceneComponent);
+            }
         }
-        Model newModel = null;
-        if (widgetComponent != null)
-        {
-            newModel = widgetComponent.getModel();
-        }
-
-        if (oldModel != null)
-        {
-            ((SimpleRGBColourVectorf4) ((Shape) oldModel).getColour()).setAlpha(0.5f);
-        }
-
-        if (newModel != null)
-        {
-            ((SimpleRGBColourVectorf4) ((Shape) newModel).getColour()).setAlpha(1.0f);
-        }
-
-        fSelectedWidgetComponent = widgetComponent;
     }
 
     /**
@@ -577,39 +410,41 @@ public class ContentProvider
 
     /**
      * <p>
-     * Sets the current {@link com.se.simplicity.editor.internal.Widget Widget} in the active editor.
+     * Sets the current {@link com.se.simplicity.editor.internal.EditMode EditMode} in the active editor.
      * </p>
      * 
-     * @param widget The current {@link com.se.simplicity.editor.internal.Widget Widget} in the active editor.
+     * @param editMode The current {@link com.se.simplicity.editor.internal.EditMode EditMode} in the active editor.
      */
-    public void setWidget(final Widget widget)
+    public void setEditMode(final EditMode editMode)
     {
         Renderer widgetRenderer = fRenderingEngine.getRenderers().get(2);
         SceneGraph widgetPickerSceneGraph = fWidgetPickingEngine.getScene().getSceneGraph();
 
         // Remove previous Widget from the Widget PickingEngine's Scene.
-        if (fWidget != Widget.NONE)
+        if (fEditMode != EditMode.SELECTION)
         {
-            widgetPickerSceneGraph.removeSubgraph(fWidgetRootNodes.get(fWidget));
+            widgetPickerSceneGraph.removeSubgraph(fWidgets.get(fEditMode).getRootNode());
         }
 
-        fWidget = widget;
+        fEditMode = editMode;
 
-        if (fWidget == Widget.NONE)
+        if (fEditMode == EditMode.SELECTION)
         {
             fRenderingEngine.setRendererRoot(widgetRenderer, null);
         }
 
-        // Set the root of the widget to be the root for the Widget Renderer and include it in the Widget PickingEngine's Scene but do NOT add it
-        // to the main Scene. This stops the Widget from appearing in the various views displaying an analysis of the Scene or being synchronised
-        // into the source file.
         else
         {
-            fRenderingEngine.setRendererRoot(widgetRenderer, fWidgetRootNodes.get(widget));
-            widgetPickerSceneGraph.addSubgraph(fWidgetRootNodes.get(widget));
-        }
+            Widget widget = fWidgets.get(fEditMode);
 
-        setSelectedWidgetComponent(null);
+            // Set the root of the widget to be the root for the Widget Renderer and include it in the Widget PickingEngine's Scene but do NOT add it
+            // to the main Scene. This stops the Widget from appearing in the various views displaying an analysis of the Scene or being synchronised
+            // into the source file.
+            fRenderingEngine.setRendererRoot(widgetRenderer, widget.getRootNode());
+            widgetPickerSceneGraph.addSubgraph(widget.getRootNode());
+
+            fWidgets.get(fEditMode).setSelectedSceneComponent(null);
+        }
     }
 
     /**

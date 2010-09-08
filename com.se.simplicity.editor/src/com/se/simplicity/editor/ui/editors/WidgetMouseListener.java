@@ -23,8 +23,8 @@ import com.se.simplicity.editor.internal.ContentProvider;
 
 /**
  * <p>
- * Listens for mouse events on a 3D canvas and picks the 3D widgets displayed on it as well as manipulating the position and orientation of the
- * selected {@link com.se.simplicity.model.Model Model} depending on the widget element that was picked.
+ * Listens for mouse events on a 3D canvas and picks the {@link com.se.simplicity.editor.internal.Widget Widget} displayed on it. Also executes the
+ * current <code>Widget</code> when the mouse is dragged with the left mouse button.
  * </p>
  * 
  * @author Gary Buyn
@@ -47,7 +47,8 @@ public class WidgetMouseListener implements MouseListener, MouseMoveListener
 
     /**
      * <p>
-     * The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} to set the currently selected widget component for.
+     * The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} to pick/execute a
+     * {@link com.se.simplicity.editor.internal.Widget Widget} of.
      * </p>
      */
     private ContentProvider fContentProvider;
@@ -57,7 +58,8 @@ public class WidgetMouseListener implements MouseListener, MouseMoveListener
      * Creates an instance of <code>WidgetMouseListener</code>.
      * </p>
      * 
-     * @param contentProvider The <code>PickingEngine</code> to register picks with.
+     * @param contentProvider The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} to pick/execute a
+     * {@link com.se.simplicity.editor.internal.Widget Widget} of.
      */
     public WidgetMouseListener(final ContentProvider contentProvider)
     {
@@ -91,7 +93,7 @@ public class WidgetMouseListener implements MouseListener, MouseMoveListener
         {
             if (fMouseButton1DownPoint != null)
             {
-                fContentProvider.executeEdit(event.x - fMouseButton1DownPoint.x, event.y - fMouseButton1DownPoint.y);
+                fContentProvider.getCurrentWidget().executeMove(event.x - fMouseButton1DownPoint.x, event.y - fMouseButton1DownPoint.y);
             }
 
             fMouseButton1DownPoint = new Point(event.x, event.y);
@@ -105,7 +107,7 @@ public class WidgetMouseListener implements MouseListener, MouseMoveListener
         {
             fMouseButton1Down = false;
 
-            fContentProvider.setSelectedWidgetComponent(null);
+            fContentProvider.getCurrentWidget().setSelectedWidgetNode(null);
         }
     }
 }

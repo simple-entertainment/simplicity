@@ -1,32 +1,62 @@
 package com.se.simplicity.editor.internal;
 
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.scenegraph.model.ModelNode;
+
 /**
  * <p>
- * The widgets that can be used manipulate the content of a {@link com.se.simplicity.editor.internal.ContentProvider ContentProvider}.
+ * A widget that exists in the virtual universe.
  * </p>
  * 
  * @author Gary Buyn
  */
-public enum Widget
+public interface Widget
 {
     /**
      * <p>
-     * No widget.
+     * Executes this <code>Widget</code> given a movement in viewport coordinates.
      * </p>
+     * 
+     * @param x The distance of the movement on the x axis in viewport coordinates.
+     * @param y The distance of the movement on the y axis in viewport coordinates.
      */
-    NONE,
+    void executeMove(int x, int y);
 
     /**
      * <p>
-     * The rotation widget.
+     * Retrieves the root {@link com.se.simplicity.scenegraph.Node Node} of this <code>Widget</code>.
      * </p>
+     * 
+     * @return The root {@link com.se.simplicity.scenegraph.Node Node} of this <code>Widget</code>.
      */
-    ROTATION,
+    Node getRootNode();
 
     /**
      * <p>
-     * The translation widget.
+     * Sets the {@link com.se.simplicity.rendering.Camera Camera} the <code>Widget</code> will be viewing through (used to scale the
+     * <code>Widget</code> correctly).
      * </p>
+     * 
+     * @param camera The {@link com.se.simplicity.rendering.Camera Camera} the <code>Widget</code> will be viewing through.
      */
-    TRANSLATION
+    void setCamera(Camera camera);
+
+    /**
+     * <p>
+     * Sets the currently selected scene component.
+     * </p>
+     * 
+     * @param selectedSceneComponent The currently selected scene component.
+     */
+    void setSelectedSceneComponent(Object selectedSceneComponent);
+
+    /**
+     * <p>
+     * Sets the currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this <code>Widget</code>.
+     * </p>
+     * 
+     * @param selectedWidgetNode The currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this <code>Widget</code>.
+     */
+    void setSelectedWidgetNode(ModelNode selectedWidgetNode);
 }
