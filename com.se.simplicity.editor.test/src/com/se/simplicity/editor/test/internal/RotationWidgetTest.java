@@ -24,10 +24,14 @@ import org.junit.Test;
 import com.se.simplicity.editor.internal.RotationWidget;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.model.shape.Shape;
+import com.se.simplicity.model.shape.Sphere;
+import com.se.simplicity.model.shape.Torus;
+import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 import com.se.simplicity.vector.SimpleTransformationMatrixf44;
+import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
  * <p>
@@ -209,5 +213,90 @@ public class RotationWidgetTest
 
         // Verify test results.
         verify(mockColour);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.RotationWidget#updateView(Camera) updateView(Camera)}.
+     * </p>
+     */
+    @Test
+    public void updateView()
+    {
+        // Create dependencies.
+        Camera mockCamera = createMock(Camera.class);
+        Node mockCameraNode = createMock(Node.class);
+        SimpleTransformationMatrixf44 cameraTransformation = new SimpleTransformationMatrixf44();
+        cameraTransformation.setXAxisTranslation(-10.0f);
+
+        Node mockSceneNode = createMock(Node.class);
+        SimpleTransformationMatrixf44 sceneTransformation = new SimpleTransformationMatrixf44();
+        sceneTransformation.setXAxisTranslation(10.0f);
+        sceneTransformation.setZAxisRotation((float) Math.toRadians(10.0));
+
+        // Dictate correct behaviour.
+        expect(mockCamera.getNode()).andStubReturn(mockCameraNode);
+        expect(mockCameraNode.getAbsoluteTransformation()).andStubReturn(cameraTransformation);
+        expect(mockSceneNode.getAbsoluteTransformation()).andStubReturn(sceneTransformation);
+        replay(mockCamera, mockCameraNode, mockSceneNode);
+
+        // Initialise test environment.
+        testObject.setSelectedSceneComponent(mockSceneNode);
+
+        // Perform test.
+        testObject.updateView(mockCamera);
+
+        // Verify test results.
+        TransformationMatrixf testTransformation = testObject.getRootNode().getTransformation();
+        assertEquals(0.0f, testTransformation.getXAxisRotation(), 0.0001f);
+        assertEquals(0.0f, testTransformation.getYAxisRotation(), 0.0001f);
+        assertEquals(Math.toRadians(10.0), testTransformation.getZAxisRotation(), 0.0001f);
+        assertEquals(10.0f, testTransformation.getXAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, testTransformation.getYAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, testTransformation.getZAxisTranslation(), 0.0001f);
+
+        ModelNode xTorusNode = (ModelNode) testObject.getRootNode().getChildren().get(0);
+        assertEquals(0.2f, ((Torus) xTorusNode.getModel()).getInnerRadius(), 0.0001f);
+        assertEquals(2.0f, ((Torus) xTorusNode.getModel()).getOuterRadius(), 0.0001f);
+
+        ModelNode yTorusNode = (ModelNode) testObject.getRootNode().getChildren().get(1);
+        assertEquals(0.2f, ((Torus) yTorusNode.getModel()).getInnerRadius(), 0.0001f);
+        assertEquals(2.0f, ((Torus) yTorusNode.getModel()).getOuterRadius(), 0.0001f);
+
+        ModelNode zTorusNode = (ModelNode) testObject.getRootNode().getChildren().get(2);
+        assertEquals(0.2f, ((Torus) zTorusNode.getModel()).getInnerRadius(), 0.0001f);
+        assertEquals(2.0f, ((Torus) zTorusNode.getModel()).getOuterRadius(), 0.0001f);
+
+        ModelNode freeSphereNode0 = (ModelNode) testObject.getRootNode().getChildren().get(3);
+        assertEquals(0.4f, ((Sphere) freeSphereNode0.getModel()).getRadius(), 0.0001f);
+
+        assertEquals(2.0f, freeSphereNode0.getTransformation().getXAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, freeSphereNode0.getTransformation().getYAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, freeSphereNode0.getTransformation().getZAxisTranslation(), 0.0001f);
+
+        ModelNode freeSphereNode1 = (ModelNode) testObject.getRootNode().getChildren().get(4);
+        assertEquals(-2.0f, freeSphereNode1.getTransformation().getXAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, freeSphereNode1.getTransformation().getYAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, freeSphereNode1.getTransformation().getZAxisTranslation(), 0.0001f);
+
+        ModelNode freeSphereNode2 = (ModelNode) testObject.getRootNode().getChildren().get(5);
+        assertEquals(0.0f, freeSphereNode2.getTransformation().getXAxisTranslation(), 0.0001f);
+        assertEquals(2.0f, freeSphereNode2.getTransformation().getYAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, freeSphereNode2.getTransformation().getZAxisTranslation(), 0.0001f);
+
+        ModelNode freeSphereNode3 = (ModelNode) testObject.getRootNode().getChildren().get(6);
+        assertEquals(0.0f, freeSphereNode3.getTransformation().getXAxisTranslation(), 0.0001f);
+        assertEquals(-2.0f, freeSphereNode3.getTransformation().getYAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, freeSphereNode3.getTransformation().getZAxisTranslation(), 0.0001f);
+
+        ModelNode freeSphereNode4 = (ModelNode) testObject.getRootNode().getChildren().get(7);
+        assertEquals(0.0f, freeSphereNode4.getTransformation().getXAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, freeSphereNode4.getTransformation().getYAxisTranslation(), 0.0001f);
+        assertEquals(2.0f, freeSphereNode4.getTransformation().getZAxisTranslation(), 0.0001f);
+
+        ModelNode freeSphereNode5 = (ModelNode) testObject.getRootNode().getChildren().get(8);
+        assertEquals(0.0f, freeSphereNode5.getTransformation().getXAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, freeSphereNode5.getTransformation().getYAxisTranslation(), 0.0001f);
+        assertEquals(-2.0f, freeSphereNode5.getTransformation().getZAxisTranslation(), 0.0001f);
     }
 }

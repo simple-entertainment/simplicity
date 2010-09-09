@@ -109,7 +109,6 @@ public class VisualSceneEditorTest
 
         // Dictate correct behaviour.
         reset(mockContentProvider);
-        expect(mockContentProvider.getViewingCamera()).andStubReturn(null);
         expect(mockContentProvider.getScenePickingEngine()).andStubReturn(null);
 
         // Dictate expected results.

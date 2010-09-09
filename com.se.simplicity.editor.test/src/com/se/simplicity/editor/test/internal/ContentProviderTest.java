@@ -38,8 +38,11 @@ import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
 import com.se.simplicity.jogl.test.mocks.MockGL;
+import com.se.simplicity.model.shape.Torus;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
+import com.se.simplicity.scenegraph.model.ModelNode;
+import com.se.simplicity.vector.SimpleTransformationMatrixf44;
 
 /**
  * <p>
@@ -283,7 +286,9 @@ public class ContentProviderTest
         mockScene.setGL(null);
         expect(mockSceneGraph.getRoot()).andStubReturn(mockNode);
         expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
-        replay(mockScene, mockSceneGraph);
+        expect(mockNode.getID()).andStubReturn(0);
+        expect(mockNode.getAbsoluteTransformation()).andStubReturn(new SimpleTransformationMatrixf44());
+        replay(mockScene, mockSceneGraph, mockNode);
 
         // Initialise test environment.
         SceneManager.getSceneManager().addScene(mockScene, "test");
@@ -411,6 +416,9 @@ public class ContentProviderTest
         assertNotNull(testObject.getRenderingEngine().getRendererRoot(testObject.getRenderingEngine().getRenderers().get(2)));
         assertEquals(1, testObject.getWidgetPickingEngine().getScene().getSceneGraph().getSubgraphRoots().size(), 0);
         assertNull(testObject.getCurrentWidget().getSelectedWidgetNode());
+
+        assertEquals(0.05f, ((Torus) ((ModelNode) testObject.getCurrentWidget().getRootNode().getChildren().get(0)).getModel()).getInnerRadius(),
+                0.0001f);
     }
 
     /**
