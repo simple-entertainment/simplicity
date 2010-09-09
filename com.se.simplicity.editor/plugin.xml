@@ -34,13 +34,13 @@
                 </visibleWhen>
 
                 <menu id="com.se.simplicity.editor.menus.visual.edit" label="Editing Mode" mnemonic="E">
-                    <command commandId="com.se.simplicity.editor.commands.edit" id="com.se.simplicity.editor.menus.visual.edit.rotation"
-                        label="Rotation" mnemonic="R" style="radio">
-                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="rotation" />
-                    </command>
                     <command commandId="com.se.simplicity.editor.commands.edit" id="com.se.simplicity.editor.menus.visual.edit.selection"
                         label="Selection" mnemonic="S" style="radio">
                         <parameter name="org.eclipse.ui.commands.radioStateParameter" value="selection" />
+                    </command>
+                    <command commandId="com.se.simplicity.editor.commands.edit" id="com.se.simplicity.editor.menus.visual.edit.rotation"
+                        label="Rotation" mnemonic="R" style="radio">
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="rotation" />
                     </command>
                     <command commandId="com.se.simplicity.editor.commands.edit" id="com.se.simplicity.editor.menus.visual.edit.translation"
                         label="Translation" mnemonic="T" style="radio">
@@ -93,13 +93,13 @@
                     <reference definitionId="com.se.simplicity.editor.definition.sceneEditorSelected" />
                 </visibleWhen>
 
-                <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/rotation.gif" id="com.se.simplicity.editor.toolbars.visual.edit.rotation"
-                    tooltip="Rotation Mode" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="rotation" />
-                </command>
                 <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/selection.gif" id="com.se.simplicity.editor.toolbars.visual.edit.selection"
                     tooltip="Selection Mode" style="radio">
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="selection" />
+                </command>
+                <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/rotation.gif" id="com.se.simplicity.editor.toolbars.visual.edit.rotation"
+                    tooltip="Rotation Mode" style="radio">
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="rotation" />
                 </command>
                 <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/translation.gif" id="com.se.simplicity.editor.toolbars.visual.edit.translation"
                     tooltip="Translation Mode" style="radio">
