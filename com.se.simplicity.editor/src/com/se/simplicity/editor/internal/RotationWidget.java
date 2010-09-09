@@ -177,6 +177,18 @@ public class RotationWidget implements Widget
     }
 
     @Override
+    public Object getSelectedSceneComponent()
+    {
+        return (fSelectedSceneComponent);
+    }
+
+    @Override
+    public ModelNode getSelectedWidgetNode()
+    {
+        return (fSelectedWidgetNode);
+    }
+
+    @Override
     public void setCamera(final Camera camera)
     {
         fCamera = camera;

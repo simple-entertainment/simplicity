@@ -34,6 +34,24 @@ public interface Widget
 
     /**
      * <p>
+     * Retrieves the currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this <code>Widget</code>.
+     * </p>
+     * 
+     * @return The currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this <code>Widget</code>.
+     */
+    Object getSelectedSceneComponent();
+
+    /**
+     * <p>
+     * Retrieves the currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this <code>Widget</code>.
+     * </p>
+     * 
+     * @return The currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this <code>Widget</code>.
+     */
+    ModelNode getSelectedWidgetNode();
+
+    /**
+     * <p>
      * Sets the {@link com.se.simplicity.rendering.Camera Camera} the <code>Widget</code> will be viewing through (used to scale the
      * <code>Widget</code> correctly).
      * </p>

@@ -29,6 +29,13 @@ public class TranslationWidget implements Widget
 
     /**
      * <p>
+     * The {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} that free translation on the viewport's z plane when selected.
+     * </p>
+     */
+    private ModelNode fFreeSphereNode;
+
+    /**
+     * <p>
      * The root {@link com.se.simplicity.scenegraph.Node Node} of this widget.
      * </p>
      */
@@ -68,13 +75,6 @@ public class TranslationWidget implements Widget
      * </p>
      */
     private ModelNode fZCapsuleNode;
-
-    /**
-     * <p>
-     * The {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} that free translation on the viewport's z plane when selected.
-     * </p>
-     */
-    private ModelNode fFreeSphereNode;
 
     /**
      * <p>
@@ -151,6 +151,18 @@ public class TranslationWidget implements Widget
     public Node getRootNode()
     {
         return (fRoot);
+    }
+
+    @Override
+    public Object getSelectedSceneComponent()
+    {
+        return (fSelectedSceneComponent);
+    }
+
+    @Override
+    public ModelNode getSelectedWidgetNode()
+    {
+        return (fSelectedWidgetNode);
     }
 
     @Override

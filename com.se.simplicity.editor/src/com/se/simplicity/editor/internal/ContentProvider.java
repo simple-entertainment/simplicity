@@ -3,6 +3,7 @@ package com.se.simplicity.editor.internal;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLContext;
@@ -387,11 +388,11 @@ public class ContentProvider
         {
             fRenderingEngine.setRendererRoot(fRenderingEngine.getRenderers().get(1), (Node) fSelectedSceneComponent);
             SceneManager.getSceneManager().setActiveNode((Node) fSelectedSceneComponent);
+        }
 
-            if (fWidgets.get(fEditMode) != null)
-            {
-                fWidgets.get(fEditMode).setSelectedSceneComponent(fSelectedSceneComponent);
-            }
+        for (Entry<EditMode, Widget> widgetEntry : fWidgets.entrySet())
+        {
+            widgetEntry.getValue().setSelectedSceneComponent(fSelectedSceneComponent);
         }
     }
 
@@ -443,7 +444,7 @@ public class ContentProvider
             fRenderingEngine.setRendererRoot(widgetRenderer, widget.getRootNode());
             widgetPickerSceneGraph.addSubgraph(widget.getRootNode());
 
-            fWidgets.get(fEditMode).setSelectedSceneComponent(null);
+            fWidgets.get(fEditMode).setSelectedWidgetNode(null);
         }
     }
 
