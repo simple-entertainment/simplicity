@@ -1,5 +1,7 @@
 package com.se.simplicity.editor.internal;
 
+import com.se.simplicity.jogl.model.shape.GLUCapsule;
+import com.se.simplicity.jogl.model.shape.GLUSphere;
 import com.se.simplicity.model.shape.Capsule;
 import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.model.shape.Sphere;
@@ -27,14 +29,14 @@ public class TranslationWidget implements Widget
      * The factor to scale the length of each {@link com.se.simplicity.model.shape.Capsule Capsule} by.
      * </p>
      */
-    private static final float CAPSULE_LENGTH_SCALE_FACTOR = 0.01f;
+    private static final float CAPSULE_LENGTH_SCALE_FACTOR = 0.1f;
 
     /**
      * <p>
      * The factor to scale the radius of each {@link com.se.simplicity.model.shape.Capsule Capsule} by.
      * </p>
      */
-    private static final float CAPSULE_RADIUS_SCALE_FACTOR = 0.1f;
+    private static final float CAPSULE_RADIUS_SCALE_FACTOR = 0.01f;
 
     /**
      * <p>
@@ -108,25 +110,25 @@ public class TranslationWidget implements Widget
     {
         fRoot = new SimpleNode();
 
-        Capsule xCapsule = new Capsule();
+        GLUCapsule xCapsule = new GLUCapsule();
         xCapsule.setColour(new SimpleRGBColourVectorf4(1.0f, 0.0f, 0.0f, 0.5f));
         fXCapsuleNode = new SimpleModelNode();
         fXCapsuleNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
         fXCapsuleNode.setModel(xCapsule);
 
-        Capsule yCapsule = new Capsule();
+        GLUCapsule yCapsule = new GLUCapsule();
         yCapsule.setColour(new SimpleRGBColourVectorf4(0.0f, 1.0f, 0.0f, 0.5f));
         fYCapsuleNode = new SimpleModelNode();
         fYCapsuleNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
         fYCapsuleNode.setModel(yCapsule);
 
-        Capsule zCapsule = new Capsule();
+        GLUCapsule zCapsule = new GLUCapsule();
         zCapsule.setColour(new SimpleRGBColourVectorf4(0.0f, 0.0f, 1.0f, 0.5f));
         fZCapsuleNode = new SimpleModelNode();
         fYCapsuleNode.getTransformation().rotate((float) Math.PI, new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
         fZCapsuleNode.setModel(zCapsule);
 
-        Sphere freeSphere = new Sphere();
+        GLUSphere freeSphere = new GLUSphere();
         freeSphere.setColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 0.5f));
         fFreeSphereNode = new SimpleModelNode();
         fFreeSphereNode.setModel(freeSphere);

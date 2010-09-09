@@ -1,5 +1,7 @@
 package com.se.simplicity.editor.internal;
 
+import com.se.simplicity.jogl.model.shape.GLUSphere;
+import com.se.simplicity.jogl.model.shape.GLUTorus;
 import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.model.shape.Sphere;
 import com.se.simplicity.model.shape.Torus;
@@ -113,24 +115,24 @@ public class RotationWidget implements Widget
     {
         fRoot = new SimpleNode();
 
-        Torus xTorus = new Torus();
+        GLUTorus xTorus = new GLUTorus();
         xTorus.setColour(new SimpleRGBColourVectorf4(1.0f, 0.0f, 0.0f, 0.5f));
         fXTorusNode = new SimpleModelNode();
         fXTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
         fXTorusNode.setModel(xTorus);
 
-        Torus yTorus = new Torus();
+        GLUTorus yTorus = new GLUTorus();
         yTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 1.0f, 0.0f, 0.5f));
         fYTorusNode = new SimpleModelNode();
         fYTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
         fYTorusNode.setModel(yTorus);
 
-        Torus zTorus = new Torus();
+        GLUTorus zTorus = new GLUTorus();
         zTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 0.0f, 1.0f, 0.5f));
         fZTorusNode = new SimpleModelNode();
         fZTorusNode.setModel(zTorus);
 
-        Sphere freeSphere = new Sphere();
+        GLUSphere freeSphere = new GLUSphere();
         freeSphere.setColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 0.5f));
 
         fFreeSphereNode0 = new SimpleModelNode();
