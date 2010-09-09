@@ -107,7 +107,10 @@ public class WidgetMouseListener implements MouseListener, MouseMoveListener
         {
             fMouseButton1Down = false;
 
-            fContentProvider.getCurrentWidget().setSelectedWidgetNode(null);
+            if (fContentProvider.getCurrentWidget() != null)
+            {
+                fContentProvider.getCurrentWidget().setSelectedWidgetNode(null);
+            }
         }
     }
 }

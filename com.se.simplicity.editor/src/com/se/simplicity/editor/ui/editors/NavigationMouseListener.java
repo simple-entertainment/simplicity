@@ -99,7 +99,10 @@ public class NavigationMouseListener implements MouseListener, MouseMoveListener
         fContentProvider.getViewingCamera().getNode().getTransformation().translate(
                 new SimpleTranslationVectorf4(0.0f, 0.0f, event.count * -1.0f, 1.0f));
 
-        fContentProvider.getCurrentWidget().updateView(fContentProvider.getViewingCamera());
+        if (fContentProvider.getCurrentWidget() != null)
+        {
+            fContentProvider.getCurrentWidget().updateView(fContentProvider.getViewingCamera());
+        }
     }
 
     @Override
