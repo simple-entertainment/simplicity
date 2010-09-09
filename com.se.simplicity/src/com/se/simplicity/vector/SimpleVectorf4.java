@@ -50,7 +50,7 @@ public class SimpleVectorf4 extends ArrayBackedObjectf implements Vectorf, Seria
         array[0] = 0.0f;
         array[1] = 0.0f;
         array[2] = 0.0f;
-        array[3] = 0.1f;
+        array[3] = 1.0f;
 
         setArray(array);
     }
