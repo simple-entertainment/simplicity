@@ -58,11 +58,12 @@ public class RotationWidgetTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.RotationWidget#executeMove(int, int) executeMove(int, int)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.RotationWidget#executeMove(int, int) executeMove(int, int)} with the special
+     * condition that the currently selected widget node supports x axis rotation only.
      * </p>
      */
     @Test
-    public void executeMove()
+    public void executeMoveXAxis()
     {
         // Create dependencies.
         Node mockNode = createMock(Node.class);
@@ -74,13 +75,75 @@ public class RotationWidgetTest
 
         // Initialise test environment.
         testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelectedWidgetNode((ModelNode) testObject.getRootNode().getChildren().get(0));
 
         // Perform test.
-        testObject.executeMove(10, 10);
+        testObject.executeMove(10, -10);
 
         // Verify test results.
-        assertEquals(Math.toRadians(10.0f), transformation.getXAxisRotation(), 0.0001f);
-        assertEquals(Math.toRadians(10.0f), transformation.getYAxisRotation(), 0.0001f);
+        assertEquals(Math.toRadians(-20.0f), transformation.getXAxisRotation(), 0.0001f);
+        assertEquals(0.0f, transformation.getYAxisRotation(), 0.0001f);
+        assertEquals(0.0f, transformation.getZAxisRotation(), 0.0001f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.RotationWidget#executeMove(int, int) executeMove(int, int)} with the special
+     * condition that the currently selected widget node supports y axis rotation only.
+     * </p>
+     */
+    @Test
+    public void executeMoveYAxis()
+    {
+        // Create dependencies.
+        Node mockNode = createMock(Node.class);
+        SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
+
+        // Dictate correct behaviour.
+        expect(mockNode.getTransformation()).andStubReturn(transformation);
+        replay(mockNode);
+
+        // Initialise test environment.
+        testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelectedWidgetNode((ModelNode) testObject.getRootNode().getChildren().get(1));
+
+        // Perform test.
+        testObject.executeMove(10, -10);
+
+        // Verify test results.
+        assertEquals(0.0f, transformation.getXAxisRotation(), 0.0001f);
+        assertEquals(Math.toRadians(20.0f), transformation.getYAxisRotation(), 0.0001f);
+        assertEquals(0.0f, transformation.getZAxisRotation(), 0.0001f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.RotationWidget#executeMove(int, int) executeMove(int, int)} with the special
+     * condition that the currently selected widget node supports z axis rotation only.
+     * </p>
+     */
+    @Test
+    public void executeMoveZAxis()
+    {
+        // Create dependencies.
+        Node mockNode = createMock(Node.class);
+        SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
+
+        // Dictate correct behaviour.
+        expect(mockNode.getTransformation()).andStubReturn(transformation);
+        replay(mockNode);
+
+        // Initialise test environment.
+        testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelectedWidgetNode((ModelNode) testObject.getRootNode().getChildren().get(2));
+
+        // Perform test.
+        testObject.executeMove(10, -10);
+
+        // Verify test results.
+        assertEquals(0.0f, transformation.getXAxisRotation(), 0.0001f);
+        assertEquals(0.0f, transformation.getYAxisRotation(), 0.0001f);
+        assertEquals(Math.toRadians(20.0f), transformation.getZAxisRotation(), 0.0001f);
     }
 
     /**

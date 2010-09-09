@@ -58,11 +58,12 @@ public class TranslationWidgetTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.TranslationWidget#executeMove(int, int) executeMove(int, int)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.TranslationWidget#executeMove(int, int) executeMove(int, int)} with the special
+     * condition that the currently selected widget node supports x axis translation only.
      * </p>
      */
     @Test
-    public void executeMove()
+    public void executeMoveXAxis()
     {
         // Create dependencies.
         Node mockNode = createMock(Node.class);
@@ -74,13 +75,75 @@ public class TranslationWidgetTest
 
         // Initialise test environment.
         testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelectedWidgetNode((ModelNode) testObject.getRootNode().getChildren().get(0));
 
         // Perform test.
-        testObject.executeMove(10, 10);
+        testObject.executeMove(10, -10);
 
         // Verify test results.
-        assertEquals(0.1f, transformation.getXAxisTranslation(), 0.0001f);
-        assertEquals(0.1f, transformation.getYAxisTranslation(), 0.0001f);
+        assertEquals(0.2f, transformation.getXAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, transformation.getYAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, transformation.getZAxisTranslation(), 0.0001f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.TranslationWidget#executeMove(int, int) executeMove(int, int)} with the special
+     * condition that the currently selected widget node supports y axis translation only.
+     * </p>
+     */
+    @Test
+    public void executeMoveYAxis()
+    {
+        // Create dependencies.
+        Node mockNode = createMock(Node.class);
+        SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
+
+        // Dictate correct behaviour.
+        expect(mockNode.getTransformation()).andStubReturn(transformation);
+        replay(mockNode);
+
+        // Initialise test environment.
+        testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelectedWidgetNode((ModelNode) testObject.getRootNode().getChildren().get(1));
+
+        // Perform test.
+        testObject.executeMove(10, -10);
+
+        // Verify test results.
+        assertEquals(0.0f, transformation.getXAxisTranslation(), 0.0001f);
+        assertEquals(0.2f, transformation.getYAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, transformation.getZAxisTranslation(), 0.0001f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.TranslationWidget#executeMove(int, int) executeMove(int, int)} with the special
+     * condition that the currently selected widget node supports z axis translation only.
+     * </p>
+     */
+    @Test
+    public void executeMoveZAxis()
+    {
+        // Create dependencies.
+        Node mockNode = createMock(Node.class);
+        SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
+
+        // Dictate correct behaviour.
+        expect(mockNode.getTransformation()).andStubReturn(transformation);
+        replay(mockNode);
+
+        // Initialise test environment.
+        testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelectedWidgetNode((ModelNode) testObject.getRootNode().getChildren().get(2));
+
+        // Perform test.
+        testObject.executeMove(10, -10);
+
+        // Verify test results.
+        assertEquals(0.0f, transformation.getXAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, transformation.getYAxisTranslation(), 0.0001f);
+        assertEquals(0.2f, transformation.getZAxisTranslation(), 0.0001f);
     }
 
     /**
