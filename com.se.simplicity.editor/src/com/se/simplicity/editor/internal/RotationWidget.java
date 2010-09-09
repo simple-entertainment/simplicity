@@ -50,6 +50,27 @@ public class RotationWidget implements Widget
 
     /**
      * <p>
+     * The {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} that causes rotation on the x axis when selected.
+     * </p>
+     */
+    private ModelNode fXTorusNode;
+
+    /**
+     * <p>
+     * The {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} that causes rotation on the y axis when selected.
+     * </p>
+     */
+    private ModelNode fYTorusNode;
+
+    /**
+     * <p>
+     * The {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} that causes rotation on the z axis when selected.
+     * </p>
+     */
+    private ModelNode fZTorusNode;
+
+    /**
+     * <p>
      * Creates an instance of <code>RotationWidget</code>.
      * </p>
      */
@@ -61,24 +82,24 @@ public class RotationWidget implements Widget
         xTorus.setColour(new SimpleRGBColourVectorf4(1.0f, 0.0f, 0.0f, 0.5f));
         xTorus.setInnerRadius(0.05f);
         xTorus.setOuterRadius(0.5f);
-        SimpleModelNode xTorusNode = new SimpleModelNode();
-        xTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-        xTorusNode.setModel(xTorus);
+        fXTorusNode = new SimpleModelNode();
+        fXTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
+        fXTorusNode.setModel(xTorus);
 
         Torus yTorus = new Torus();
         yTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 1.0f, 0.0f, 0.5f));
         yTorus.setInnerRadius(0.05f);
         yTorus.setOuterRadius(0.5f);
-        SimpleModelNode yTorusNode = new SimpleModelNode();
-        yTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
-        yTorusNode.setModel(yTorus);
+        fYTorusNode = new SimpleModelNode();
+        fYTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
+        fYTorusNode.setModel(yTorus);
 
         Torus zTorus = new Torus();
         zTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 0.0f, 1.0f, 0.5f));
         zTorus.setInnerRadius(0.05f);
         zTorus.setOuterRadius(0.5f);
-        SimpleModelNode zTorusNode = new SimpleModelNode();
-        zTorusNode.setModel(zTorus);
+        fZTorusNode = new SimpleModelNode();
+        fZTorusNode.setModel(zTorus);
 
         Sphere freeSphere = new Sphere();
         freeSphere.setColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 0.5f));
@@ -108,9 +129,9 @@ public class RotationWidget implements Widget
         freeSphereNode5.getTransformation().setZAxisTranslation(-0.5f);
         freeSphereNode5.setModel(freeSphere);
 
-        fRoot.addChild(xTorusNode);
-        fRoot.addChild(yTorusNode);
-        fRoot.addChild(zTorusNode);
+        fRoot.addChild(fXTorusNode);
+        fRoot.addChild(fYTorusNode);
+        fRoot.addChild(fZTorusNode);
         fRoot.addChild(freeSphereNode0);
         fRoot.addChild(freeSphereNode1);
         fRoot.addChild(freeSphereNode2);
@@ -122,11 +143,31 @@ public class RotationWidget implements Widget
     @Override
     public void executeMove(final int x, final int y)
     {
-        ((Node) fSelectedSceneComponent).getTransformation().rotate((float) Math.toRadians(x), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-        ((Node) fSelectedSceneComponent).getTransformation().rotate((float) Math.toRadians(y), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
+        if (fSelectedSceneComponent instanceof Node)
+        {
+            int invertedY = y * -1;
+            float angle = 0.0f;
+            SimpleTranslationVectorf4 axis = new SimpleTranslationVectorf4();
 
-        fRoot.getTransformation().rotate((float) Math.toRadians(x), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-        fRoot.getTransformation().rotate((float) Math.toRadians(y), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
+            if (fSelectedWidgetNode == fXTorusNode)
+            {
+                angle = x + invertedY;
+                axis.translateX(-1.0f);
+            }
+            else if (fSelectedWidgetNode == fYTorusNode)
+            {
+                angle = x + invertedY;
+                axis.translateY(1.0f);
+            }
+            else if (fSelectedWidgetNode == fZTorusNode)
+            {
+                angle = x + invertedY;
+                axis.translateZ(1.0f);
+            }
+
+            ((Node) fSelectedSceneComponent).getTransformation().rotate((float) Math.toRadians(angle), axis);
+            fRoot.getTransformation().rotate((float) Math.toRadians(angle), axis);
+        }
     }
 
     @Override
