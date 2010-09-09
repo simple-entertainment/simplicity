@@ -52,16 +52,6 @@ public interface Widget
 
     /**
      * <p>
-     * Sets the {@link com.se.simplicity.rendering.Camera Camera} the <code>Widget</code> will be viewing through (used to scale the
-     * <code>Widget</code> correctly).
-     * </p>
-     * 
-     * @param camera The {@link com.se.simplicity.rendering.Camera Camera} the <code>Widget</code> will be viewing through.
-     */
-    void setCamera(Camera camera);
-
-    /**
-     * <p>
      * Sets the currently selected scene component.
      * </p>
      * 
@@ -77,4 +67,14 @@ public interface Widget
      * @param selectedWidgetNode The currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this <code>Widget</code>.
      */
     void setSelectedWidgetNode(ModelNode selectedWidgetNode);
+
+    /**
+     * <p>
+     * Ensures that this <code>Widget</code> is correctly scaled, positioned and orientated. Can also effect the functionality of this
+     * <code>Widget</code>.
+     * </p>
+     * 
+     * @param camera The camera through which this <code>Widget</code> is being viewed.
+     */
+    void updateView(Camera camera);
 }

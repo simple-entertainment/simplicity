@@ -444,7 +444,8 @@ public class ContentProvider
             fRenderingEngine.setRendererRoot(widgetRenderer, widget.getRootNode());
             widgetPickerSceneGraph.addSubgraph(widget.getRootNode());
 
-            fWidgets.get(fEditMode).setSelectedWidgetNode(null);
+            widget.setSelectedWidgetNode(null);
+            widget.updateView(fViewingCamera);
         }
     }
 

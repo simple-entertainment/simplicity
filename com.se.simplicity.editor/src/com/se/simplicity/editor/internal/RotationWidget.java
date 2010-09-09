@@ -10,6 +10,8 @@ import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.scenegraph.model.SimpleModelNode;
 import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 import com.se.simplicity.vector.SimpleTranslationVectorf4;
+import com.se.simplicity.vector.TransformationMatrixf;
+import com.se.simplicity.vector.Vectorf;
 
 /**
  * <p>
@@ -22,10 +24,43 @@ public class RotationWidget implements Widget
 {
     /**
      * <p>
-     * The {@link com.se.simplicity.rendering.Camera Camera} the widget will be viewing through (used to scale the widget correctly).
+     * The factor to scale the inner radius of each {@link com.se.simplicity.model.shape.Torus Torus} by.
      * </p>
      */
-    private Camera fCamera;
+    private static final float INNER_RADIUS_SCALE_FACTOR = 0.01f;
+
+    /**
+     * <p>
+     * The factor to scale the outer radius of each {@link com.se.simplicity.model.shape.Torus Torus} by.
+     * </p>
+     */
+    private static final float OUTER_RADIUS_SCALE_FACTOR = 0.1f;
+
+    /**
+     * <p>
+     * The alpha channel value to give the selected currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of a widget.
+     * </p>
+     */
+    private static final float SELECTED_MODEL_ALPHA = 0.5f;
+
+    /**
+     * <p>
+     * The factor to scale the radius of the {@link com.se.simplicity.model.shape.Sphere Sphere} by.
+     * </p>
+     */
+    private static final float SPHERE_RADIUS_SCALE_FACTOR = 0.02f;
+
+    private ModelNode fFreeSphereNode0;
+
+    private ModelNode fFreeSphereNode1;
+
+    private ModelNode fFreeSphereNode2;
+
+    private ModelNode fFreeSphereNode3;
+
+    private ModelNode fFreeSphereNode4;
+
+    private ModelNode fFreeSphereNode5;
 
     /**
      * <p>
@@ -80,69 +115,61 @@ public class RotationWidget implements Widget
 
         Torus xTorus = new Torus();
         xTorus.setColour(new SimpleRGBColourVectorf4(1.0f, 0.0f, 0.0f, 0.5f));
-        xTorus.setInnerRadius(0.05f);
-        xTorus.setOuterRadius(0.5f);
         fXTorusNode = new SimpleModelNode();
         fXTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
         fXTorusNode.setModel(xTorus);
 
         Torus yTorus = new Torus();
         yTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 1.0f, 0.0f, 0.5f));
-        yTorus.setInnerRadius(0.05f);
-        yTorus.setOuterRadius(0.5f);
         fYTorusNode = new SimpleModelNode();
         fYTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
         fYTorusNode.setModel(yTorus);
 
         Torus zTorus = new Torus();
         zTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 0.0f, 1.0f, 0.5f));
-        zTorus.setInnerRadius(0.05f);
-        zTorus.setOuterRadius(0.5f);
         fZTorusNode = new SimpleModelNode();
         fZTorusNode.setModel(zTorus);
 
         Sphere freeSphere = new Sphere();
         freeSphere.setColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 0.5f));
-        freeSphere.setRadius(0.1f);
 
-        SimpleModelNode freeSphereNode0 = new SimpleModelNode();
-        freeSphereNode0.getTransformation().setXAxisTranslation(0.5f);
-        freeSphereNode0.setModel(freeSphere);
+        fFreeSphereNode0 = new SimpleModelNode();
+        fFreeSphereNode0.setModel(freeSphere);
 
-        SimpleModelNode freeSphereNode1 = new SimpleModelNode();
-        freeSphereNode1.getTransformation().setXAxisTranslation(-0.5f);
-        freeSphereNode1.setModel(freeSphere);
+        fFreeSphereNode1 = new SimpleModelNode();
+        fFreeSphereNode1.setModel(freeSphere);
 
-        SimpleModelNode freeSphereNode2 = new SimpleModelNode();
-        freeSphereNode2.getTransformation().setYAxisTranslation(0.5f);
-        freeSphereNode2.setModel(freeSphere);
+        fFreeSphereNode2 = new SimpleModelNode();
+        fFreeSphereNode2.setModel(freeSphere);
 
-        SimpleModelNode freeSphereNode3 = new SimpleModelNode();
-        freeSphereNode3.getTransformation().setYAxisTranslation(-0.5f);
-        freeSphereNode3.setModel(freeSphere);
+        fFreeSphereNode3 = new SimpleModelNode();
+        fFreeSphereNode3.setModel(freeSphere);
 
-        SimpleModelNode freeSphereNode4 = new SimpleModelNode();
-        freeSphereNode4.getTransformation().setZAxisTranslation(0.5f);
-        freeSphereNode4.setModel(freeSphere);
+        fFreeSphereNode4 = new SimpleModelNode();
+        fFreeSphereNode4.setModel(freeSphere);
 
-        SimpleModelNode freeSphereNode5 = new SimpleModelNode();
-        freeSphereNode5.getTransformation().setZAxisTranslation(-0.5f);
-        freeSphereNode5.setModel(freeSphere);
+        fFreeSphereNode5 = new SimpleModelNode();
+        fFreeSphereNode5.setModel(freeSphere);
 
         fRoot.addChild(fXTorusNode);
         fRoot.addChild(fYTorusNode);
         fRoot.addChild(fZTorusNode);
-        fRoot.addChild(freeSphereNode0);
-        fRoot.addChild(freeSphereNode1);
-        fRoot.addChild(freeSphereNode2);
-        fRoot.addChild(freeSphereNode3);
-        fRoot.addChild(freeSphereNode4);
-        fRoot.addChild(freeSphereNode5);
+        fRoot.addChild(fFreeSphereNode0);
+        fRoot.addChild(fFreeSphereNode1);
+        fRoot.addChild(fFreeSphereNode2);
+        fRoot.addChild(fFreeSphereNode3);
+        fRoot.addChild(fFreeSphereNode4);
+        fRoot.addChild(fFreeSphereNode5);
     }
 
     @Override
     public void executeMove(final int x, final int y)
     {
+        if (fSelectedSceneComponent == null)
+        {
+            return;
+        }
+
         if (fSelectedSceneComponent instanceof Node)
         {
             int invertedY = y * -1;
@@ -189,12 +216,6 @@ public class RotationWidget implements Widget
     }
 
     @Override
-    public void setCamera(final Camera camera)
-    {
-        fCamera = camera;
-    }
-
-    @Override
     public void setSelectedSceneComponent(final Object selectedSceneComponent)
     {
         fSelectedSceneComponent = selectedSceneComponent;
@@ -205,7 +226,7 @@ public class RotationWidget implements Widget
     {
         if (fSelectedWidgetNode != null)
         {
-            ((SimpleRGBColourVectorf4) ((Shape) fSelectedWidgetNode.getModel()).getColour()).setAlpha(0.5f);
+            ((SimpleRGBColourVectorf4) ((Shape) fSelectedWidgetNode.getModel()).getColour()).setAlpha(SELECTED_MODEL_ALPHA);
         }
 
         if (selectedWidgetNode != null)
@@ -214,5 +235,42 @@ public class RotationWidget implements Widget
         }
 
         fSelectedWidgetNode = selectedWidgetNode;
+    }
+
+    @Override
+    public void updateView(final Camera camera)
+    {
+        // Transform the Widget to the position and orientation of the selected scene component.
+        if (fSelectedSceneComponent != null)
+        {
+            if (fSelectedSceneComponent instanceof Node)
+            {
+                fRoot.setTransformation(((Node) fSelectedSceneComponent).getAbsoluteTransformation());
+            }
+        }
+
+        // Determine the distance between the Camera and the Widget.
+        TransformationMatrixf cameraTransformation = camera.getNode().getAbsoluteTransformation();
+        Vectorf vectorCameraToWidget = cameraTransformation.getTranslation().subtractRightCopy(fRoot.getAbsoluteTransformation().getTranslation());
+        float distanceCameraToWidget = Math.abs(vectorCameraToWidget.getLength());
+
+        // Scale the Widget based on the distance.
+        float innerRadius = INNER_RADIUS_SCALE_FACTOR * distanceCameraToWidget;
+        float outerRadius = OUTER_RADIUS_SCALE_FACTOR * distanceCameraToWidget;
+        float sphereRadius = SPHERE_RADIUS_SCALE_FACTOR * distanceCameraToWidget;
+
+        ((Torus) fXTorusNode.getModel()).setInnerRadius(innerRadius);
+        ((Torus) fXTorusNode.getModel()).setOuterRadius(outerRadius);
+        ((Torus) fYTorusNode.getModel()).setInnerRadius(innerRadius);
+        ((Torus) fYTorusNode.getModel()).setOuterRadius(outerRadius);
+        ((Torus) fZTorusNode.getModel()).setInnerRadius(innerRadius);
+        ((Torus) fZTorusNode.getModel()).setOuterRadius(outerRadius);
+        ((Sphere) fFreeSphereNode0.getModel()).setRadius(sphereRadius);
+        fFreeSphereNode0.getTransformation().setXAxisTranslation(outerRadius);
+        fFreeSphereNode1.getTransformation().setXAxisTranslation(-outerRadius);
+        fFreeSphereNode2.getTransformation().setYAxisTranslation(outerRadius);
+        fFreeSphereNode3.getTransformation().setYAxisTranslation(-outerRadius);
+        fFreeSphereNode4.getTransformation().setZAxisTranslation(outerRadius);
+        fFreeSphereNode5.getTransformation().setZAxisTranslation(-outerRadius);
     }
 }

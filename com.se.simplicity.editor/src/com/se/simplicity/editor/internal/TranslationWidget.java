@@ -10,6 +10,8 @@ import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.scenegraph.model.SimpleModelNode;
 import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 import com.se.simplicity.vector.SimpleTranslationVectorf4;
+import com.se.simplicity.vector.TransformationMatrixf;
+import com.se.simplicity.vector.Vectorf;
 
 /**
  * <p>
@@ -22,10 +24,31 @@ public class TranslationWidget implements Widget
 {
     /**
      * <p>
-     * The {@link com.se.simplicity.rendering.Camera Camera} the widget will be viewing through (used to scale the widget correctly).
+     * The factor to scale the length of each {@link com.se.simplicity.model.shape.Capsule Capsule} by.
      * </p>
      */
-    private Camera fCamera;
+    private static final float CAPSULE_LENGTH_SCALE_FACTOR = 0.01f;
+
+    /**
+     * <p>
+     * The factor to scale the radius of each {@link com.se.simplicity.model.shape.Capsule Capsule} by.
+     * </p>
+     */
+    private static final float CAPSULE_RADIUS_SCALE_FACTOR = 0.1f;
+
+    /**
+     * <p>
+     * The alpha channel value to give the selected currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of a widget.
+     * </p>
+     */
+    private static final float SELECTED_MODEL_ALPHA = 0.5f;
+
+    /**
+     * <p>
+     * The factor to scale the radius of the {@link com.se.simplicity.model.shape.Sphere Sphere} by.
+     * </p>
+     */
+    private static final float SPHERE_RADIUS_SCALE_FACTOR = 0.02f;
 
     /**
      * <p>
@@ -87,31 +110,24 @@ public class TranslationWidget implements Widget
 
         Capsule xCapsule = new Capsule();
         xCapsule.setColour(new SimpleRGBColourVectorf4(1.0f, 0.0f, 0.0f, 0.5f));
-        xCapsule.setLength(0.5f);
-        xCapsule.setRadius(0.05f);
         fXCapsuleNode = new SimpleModelNode();
         fXCapsuleNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
         fXCapsuleNode.setModel(xCapsule);
 
         Capsule yCapsule = new Capsule();
         yCapsule.setColour(new SimpleRGBColourVectorf4(0.0f, 1.0f, 0.0f, 0.5f));
-        yCapsule.setLength(0.5f);
-        yCapsule.setRadius(0.05f);
         fYCapsuleNode = new SimpleModelNode();
         fYCapsuleNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
         fYCapsuleNode.setModel(yCapsule);
 
         Capsule zCapsule = new Capsule();
         zCapsule.setColour(new SimpleRGBColourVectorf4(0.0f, 0.0f, 1.0f, 0.5f));
-        zCapsule.setLength(0.5f);
-        zCapsule.setRadius(0.05f);
         fZCapsuleNode = new SimpleModelNode();
         fYCapsuleNode.getTransformation().rotate((float) Math.PI, new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
         fZCapsuleNode.setModel(zCapsule);
 
         Sphere freeSphere = new Sphere();
         freeSphere.setColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 0.5f));
-        freeSphere.setRadius(0.1f);
         fFreeSphereNode = new SimpleModelNode();
         fFreeSphereNode.setModel(freeSphere);
 
@@ -166,12 +182,6 @@ public class TranslationWidget implements Widget
     }
 
     @Override
-    public void setCamera(final Camera camera)
-    {
-        fCamera = camera;
-    }
-
-    @Override
     public void setSelectedSceneComponent(final Object selectedSceneComponent)
     {
         fSelectedSceneComponent = selectedSceneComponent;
@@ -182,7 +192,7 @@ public class TranslationWidget implements Widget
     {
         if (fSelectedWidgetNode != null)
         {
-            ((SimpleRGBColourVectorf4) ((Shape) fSelectedWidgetNode.getModel()).getColour()).setAlpha(0.5f);
+            ((SimpleRGBColourVectorf4) ((Shape) fSelectedWidgetNode.getModel()).getColour()).setAlpha(SELECTED_MODEL_ALPHA);
         }
 
         if (selectedWidgetNode != null)
@@ -191,5 +201,36 @@ public class TranslationWidget implements Widget
         }
 
         fSelectedWidgetNode = selectedWidgetNode;
+    }
+
+    @Override
+    public void updateView(final Camera camera)
+    {
+        // Transform the Widget to the position and orientation of the selected scene component.
+        if (fSelectedSceneComponent != null)
+        {
+            if (fSelectedSceneComponent instanceof Node)
+            {
+                fRoot.setTransformation(((Node) fSelectedSceneComponent).getAbsoluteTransformation());
+            }
+        }
+
+        // Determine the distance between the Camera and the Widget.
+        TransformationMatrixf cameraTransformation = camera.getNode().getAbsoluteTransformation();
+        Vectorf vectorCameraToWidget = cameraTransformation.getTranslation().subtractRightCopy(fRoot.getAbsoluteTransformation().getTranslation());
+        float distanceCameraToWidget = Math.abs(vectorCameraToWidget.getLength());
+
+        // Scale the Widget based on the distance.
+        float capsuleLength = CAPSULE_LENGTH_SCALE_FACTOR * distanceCameraToWidget;
+        float capsuleRadius = CAPSULE_RADIUS_SCALE_FACTOR * distanceCameraToWidget;
+        float sphereRadius = SPHERE_RADIUS_SCALE_FACTOR * distanceCameraToWidget;
+
+        ((Capsule) fXCapsuleNode.getModel()).setLength(capsuleLength);
+        ((Capsule) fXCapsuleNode.getModel()).setRadius(capsuleRadius);
+        ((Capsule) fYCapsuleNode.getModel()).setLength(capsuleLength);
+        ((Capsule) fYCapsuleNode.getModel()).setRadius(capsuleRadius);
+        ((Capsule) fZCapsuleNode.getModel()).setLength(capsuleLength);
+        ((Capsule) fZCapsuleNode.getModel()).setRadius(capsuleRadius);
+        ((Sphere) fFreeSphereNode.getModel()).setRadius(sphereRadius);
     }
 }
