@@ -14,6 +14,7 @@ package com.se.simplicity.editor.test.ui.views;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.reset;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -32,6 +33,7 @@ import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.internal.event.SceneChangedEvent;
 import com.se.simplicity.editor.internal.event.SceneChangedEventType;
 import com.se.simplicity.editor.ui.views.LightView;
+import com.se.simplicity.jogl.rendering.SimpleJOGLLight;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
 import com.se.simplicity.scene.Scene;
@@ -151,9 +153,6 @@ public class LightViewTest
         assertEquals("", ((Text) specularWidgets[3]).getText());
         assertEquals("", ((Text) specularWidgets[5]).getText());
 
-        Control[] reflectionWidgets = ((Composite) sections[5]).getChildren();
-        assertEquals("", ((Text) reflectionWidgets[1]).getText());
-
         // Perform test.
         testObject.sceneChanged(mockEvent);
 
@@ -174,8 +173,77 @@ public class LightViewTest
         assertEquals("0.1", ((Text) specularWidgets[1]).getText());
         assertEquals("0.1", ((Text) specularWidgets[3]).getText());
         assertEquals("0.1", ((Text) specularWidgets[5]).getText());
+    }
 
-        assertEquals("$Proxy17", ((Text) reflectionWidgets[1]).getText());
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.LightView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
+     * the special condition that the event is of type 'LIGHT_ACTIVATED'.
+     * </p>
+     */
+    @Test
+    public void sceneChangedLightActivatedType()
+    {
+        // Create dependencies.
+        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
+        SimpleJOGLLight light = new SimpleJOGLLight();
+        MetaDataLight mockMetaDataLight = createMock(MetaDataLight.class);
+        ArrayList<Light> lights = new ArrayList<Light>();
+        lights.add(light);
+
+        Scene mockScene = createMock(Scene.class);
+        Node mockNode = createMock(Node.class);
+        light.setNode(mockNode);
+
+        // Dictate correct behaviour.
+        expect(mockEvent.getSceneComponent()).andStubReturn(light);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.LIGHT_ACTIVATED);
+        expect(mockMetaDataLight.getAttribute("name")).andStubReturn("Test");
+        expect(mockMetaDataLight.getNode()).andStubReturn(mockNode);
+        expect(mockMetaDataLight.getLightingMode()).andStubReturn(LightingMode.SCENE);
+        expect(mockMetaDataLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockMetaDataLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockMetaDataLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+        expect(mockScene.getLights()).andStubReturn(lights);
+        expect(mockNode.getID()).andStubReturn(0);
+        expect(mockMetaDataLight.getWrappedLight()).andStubReturn(light);
+        replay(mockEvent, mockMetaDataLight, mockScene, mockNode);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addScene(mockScene, "Test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
+        SceneManager.getSceneManager().setActiveLight(light);
+
+        // Verify test environment.
+        Control[] sections = testObject.getChildren();
+
+        Control[] reflectionWidgets = ((Composite) sections[5]).getChildren();
+        assertEquals("", ((Text) reflectionWidgets[1]).getText());
+
+        // Perform test 1.
+        testObject.sceneChanged(mockEvent);
+
+        // Verify test 1 results.
+        assertEquals("com.se.simplicity.jogl.rendering.SimpleJOGLLight", ((Text) reflectionWidgets[1]).getText());
+
+        // Modify dependencies.
+        lights.clear();
+        lights.add(mockMetaDataLight);
+
+        // Dictate correct behaviour.
+        reset(mockEvent);
+        expect(mockEvent.getSceneComponent()).andStubReturn(mockMetaDataLight);
+        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.CAMERA_ACTIVATED);
+        replay(mockEvent);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().setActiveLight(mockMetaDataLight);
+
+        // Perform test 1.
+        testObject.sceneChanged(mockEvent);
+
+        // Verify test 1 results.
+        assertEquals("com.se.simplicity.jogl.rendering.SimpleJOGLLight", ((Text) reflectionWidgets[1]).getText());
     }
 
     /**
@@ -223,16 +291,11 @@ public class LightViewTest
         Control[] idWidgets = ((Composite) sections[0]).getChildren();
         assertEquals("", ((Text) idWidgets[1]).getText());
 
-        Control[] reflectionWidgets = ((Composite) sections[5]).getChildren();
-        assertEquals("", ((Text) reflectionWidgets[1]).getText());
-
         // Perform test.
         testObject.sceneChanged(mockEvent);
 
         // Verify test.
         assertEquals("Test", ((Text) idWidgets[1]).getText());
-
-        assertEquals("$Proxy17", ((Text) reflectionWidgets[1]).getText());
     }
 
     /**
