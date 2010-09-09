@@ -61,11 +61,10 @@ public interface Renderer
 
     /**
      * <p>
-     * Renders the given {@link com.se.simplicity.rendering.Model Model} with the given {@link com.se.simplicity.rendering.DrawingMode
-     * DrawingMode}.
+     * Renders the given {@link com.se.simplicity.rendering.Model Model}.
      * </p>
      * 
-     * @param model The {@link com.se.simplicity.rendering.Model Model} to render.
+     * @param model The <code>Model</code> to render.
      */
     void renderModel(Model model);
 
