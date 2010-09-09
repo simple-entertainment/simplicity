@@ -15,31 +15,32 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.ISources;
+import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.handlers.RadioState;
 
-import com.se.simplicity.editor.internal.EditMode;
+import com.se.simplicity.editor.internal.ContentProvider;
+import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 
 /**
  * <p>
- * Sets the current {@link com.se.simplicity.editor.internal.EditMode EditMode} in the active editor to <code>TRANSLATION</code>.
+ * Sets the current {@link com.se.simplicity.editor.internal.EditingMode EditingMode} in the active editor.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class TranslationHandler extends AbstractHandler
+public class EditingModeHandler extends AbstractHandler
 {
     /**
-     * Creates an instance of <code>TranslationHandler</code>.
+     * Creates an instance of <code>EditModeHandler</code>.
      */
-    public TranslationHandler()
+    public EditingModeHandler()
     {}
 
     /**
      * <p>
-     * Sets the current {@link com.se.simplicity.editor.internal.EditMode EditMode} in the active editor to <code>TRANSLATION</code>.
+     * Sets the current {@link com.se.simplicity.editor.internal.EditingMode EditingMode} in the active editor.
      * </p>
      * 
      * @param event The event this handler is executing in response to.
@@ -50,15 +51,35 @@ public class TranslationHandler extends AbstractHandler
      */
     public Object execute(final ExecutionEvent event) throws ExecutionException
     {
-        // This could be done more easily using: HandlerUtil.getActiveEditor(event); but that does not facilitate TDD...
-        IEditorPart editor = (IEditorPart) ((IEvaluationContext) event.getApplicationContext()).getVariable(ISources.ACTIVE_EDITOR_NAME);
+        IEditorPart editor = HandlerUtil.getActiveEditor(event);
         if (!(editor instanceof SceneEditor))
         {
             Logger.getLogger(getClass()).error("This handler can only be executed when a Scene Editor is active.");
             throw new ExecutionException("This handler can only be executed when a Scene Editor is active.");
         }
 
-        ((SceneEditor) editor).getContentProvider().setEditMode(EditMode.TRANSLATION);
+        if (HandlerUtil.matchesRadioState(event))
+        {
+            return null;
+        }
+
+        String currentState = event.getParameter(RadioState.PARAMETER_ID);
+        ContentProvider contentProvider = ((SceneEditor) editor).getContentProvider();
+
+        if (currentState.equals("rotation"))
+        {
+            contentProvider.setEditingMode(EditingMode.ROTATION);
+        }
+        else if (currentState.equals("selection"))
+        {
+            contentProvider.setEditingMode(EditingMode.SELECTION);
+        }
+        else if (currentState.equals("translation"))
+        {
+            contentProvider.setEditingMode(EditingMode.TRANSLATION);
+        }
+
+        HandlerUtil.updateRadioState(event.getCommand(), currentState);
 
         return (null);
     }

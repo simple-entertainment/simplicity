@@ -7,7 +7,7 @@ package com.se.simplicity.editor.internal;
  * 
  * @author Gary Buyn
  */
-public enum EditMode
+public enum EditingMode
 {
     /**
      * <p>

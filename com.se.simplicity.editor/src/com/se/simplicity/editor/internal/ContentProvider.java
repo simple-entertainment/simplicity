@@ -85,10 +85,10 @@ public class ContentProvider
 
     /**
      * <p>
-     * The current {@link com.se.simplicity.editor.internal.EditMode EditMode}.
+     * The current {@link com.se.simplicity.editor.internal.EditingMode EditingMode}.
      * </p>
      */
-    private EditMode fEditMode;
+    private EditingMode fEditingMode;
 
     /**
      * <p>
@@ -102,7 +102,7 @@ public class ContentProvider
      * The {@link com.se.simplicity.editor.internal.Widget Widget}s used to manipulate {@link com.se.simplicity.model.Model Model}s.
      * </p>
      */
-    private Map<EditMode, Widget> fWidgets;
+    private Map<EditingMode, Widget> fWidgets;
 
     /**
      * <p>
@@ -117,9 +117,9 @@ public class ContentProvider
         fSelectedSceneComponent = null;
         fViewingCamera = null;
         fSynchronisesCameraAspectRatio = true;
-        fEditMode = EditMode.SELECTION;
+        fEditingMode = EditingMode.SELECTION;
         fWidgetPickingEngine = null;
-        fWidgets = new HashMap<EditMode, Widget>();
+        fWidgets = new HashMap<EditingMode, Widget>();
     }
 
     /**
@@ -138,9 +138,9 @@ public class ContentProvider
         fSelectedSceneComponent = null;
         fViewingCamera = null;
         fSynchronisesCameraAspectRatio = true;
-        fEditMode = EditMode.SELECTION;
+        fEditingMode = EditingMode.SELECTION;
         fWidgetPickingEngine = null;
-        fWidgets = new HashMap<EditMode, Widget>();
+        fWidgets = new HashMap<EditingMode, Widget>();
     }
 
     /**
@@ -171,7 +171,7 @@ public class ContentProvider
      */
     public Widget getCurrentWidget()
     {
-        return (fWidgets.get(fEditMode));
+        return (fWidgets.get(fEditingMode));
     }
 
     /**
@@ -305,8 +305,8 @@ public class ContentProvider
      */
     protected void initWidgets()
     {
-        fWidgets.put(EditMode.ROTATION, new RotationWidget());
-        fWidgets.put(EditMode.TRANSLATION, new TranslationWidget());
+        fWidgets.put(EditingMode.ROTATION, new RotationWidget());
+        fWidgets.put(EditingMode.TRANSLATION, new TranslationWidget());
     }
 
     /**
@@ -390,7 +390,7 @@ public class ContentProvider
             SceneManager.getSceneManager().setActiveNode((Node) fSelectedSceneComponent);
         }
 
-        for (Entry<EditMode, Widget> widgetEntry : fWidgets.entrySet())
+        for (Entry<EditingMode, Widget> widgetEntry : fWidgets.entrySet())
         {
             widgetEntry.getValue().setSelectedSceneComponent(fSelectedSceneComponent);
         }
@@ -411,32 +411,32 @@ public class ContentProvider
 
     /**
      * <p>
-     * Sets the current {@link com.se.simplicity.editor.internal.EditMode EditMode} in the active editor.
+     * Sets the current {@link com.se.simplicity.editor.internal.EditingMode EditingMode} in the active editor.
      * </p>
      * 
-     * @param editMode The current {@link com.se.simplicity.editor.internal.EditMode EditMode} in the active editor.
+     * @param editMode The current <code>EditingMode</code> in the active editor.
      */
-    public void setEditMode(final EditMode editMode)
+    public void setEditingMode(final EditingMode editMode)
     {
         Renderer widgetRenderer = fRenderingEngine.getRenderers().get(2);
         SceneGraph widgetPickerSceneGraph = fWidgetPickingEngine.getScene().getSceneGraph();
 
         // Remove previous Widget from the Widget PickingEngine's Scene.
-        if (fEditMode != EditMode.SELECTION)
+        if (fEditingMode != EditingMode.SELECTION)
         {
-            widgetPickerSceneGraph.removeSubgraph(fWidgets.get(fEditMode).getRootNode());
+            widgetPickerSceneGraph.removeSubgraph(fWidgets.get(fEditingMode).getRootNode());
         }
 
-        fEditMode = editMode;
+        fEditingMode = editMode;
 
-        if (fEditMode == EditMode.SELECTION)
+        if (fEditingMode == EditingMode.SELECTION)
         {
             fRenderingEngine.setRendererRoot(widgetRenderer, null);
         }
 
         else
         {
-            Widget widget = fWidgets.get(fEditMode);
+            Widget widget = fWidgets.get(fEditingMode);
 
             // Set the root of the widget to be the root for the Widget Renderer and include it in the Widget PickingEngine's Scene but do NOT add it
             // to the main Scene. This stops the Widget from appearing in the various views displaying an analysis of the Scene or being synchronised

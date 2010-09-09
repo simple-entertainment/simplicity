@@ -11,8 +11,6 @@
  */
 package com.se.simplicity.editor.handlers;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -20,6 +18,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISources;
+import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.handlers.RadioState;
 
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.rendering.DrawingMode;
@@ -27,24 +27,22 @@ import com.se.simplicity.rendering.Renderer;
 
 /**
  * <p>
- * Changes the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} of the {@link com.se.simplicity.scene.Scene Scene} in the active editor to
- * <code>VERTICES</code>.
+ * Sets the current {@link com.se.simplicity.rendering.DrawingMode DrawingMode} in the active editor.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class VerticesHandler extends AbstractHandler
+public class DrawingModeHandler extends AbstractHandler
 {
     /**
-     * Creates an instance of <code>VerticesHandler</code>.
+     * Creates an instance of <code>DrawingModeHandler</code>.
      */
-    public VerticesHandler()
+    public DrawingModeHandler()
     {}
 
     /**
      * <p>
-     * Changes the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} of the {@link com.se.simplicity.scene.Scene Scene} in the active editor
-     * to <code>VERTICES</code>.
+     * Sets the current {@link com.se.simplicity.rendering.DrawingMode DrawingMode} in the active editor.
      * </p>
      * 
      * @param event The event this handler is executing in response to.
@@ -63,10 +61,28 @@ public class VerticesHandler extends AbstractHandler
             throw new ExecutionException("This handler can only be executed when a Scene Editor is active.");
         }
 
-        List<Renderer> renderers = ((SceneEditor) editor).getContentProvider().getRenderingEngine().getRenderers();
+        if (HandlerUtil.matchesRadioState(event))
+        {
+            return null;
+        }
 
-        renderers.get(0).setDrawingMode(DrawingMode.VERTICES);
-        renderers.get(1).setDrawingMode(DrawingMode.VERTICES);
+        String currentState = event.getParameter(RadioState.PARAMETER_ID);
+        Renderer renderer = ((SceneEditor) editor).getContentProvider().getRenderingEngine().getRenderers().get(0);
+
+        if (currentState.equals("edges"))
+        {
+            renderer.setDrawingMode(DrawingMode.EDGES);
+        }
+        else if (currentState.equals("faces"))
+        {
+            renderer.setDrawingMode(DrawingMode.FACES);
+        }
+        else if (currentState.equals("vertices"))
+        {
+            renderer.setDrawingMode(DrawingMode.VERTICES);
+        }
+
+        HandlerUtil.updateRadioState(event.getCommand(), currentState);
 
         return (null);
     }
