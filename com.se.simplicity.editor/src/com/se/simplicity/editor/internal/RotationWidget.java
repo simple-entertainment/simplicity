@@ -26,31 +26,52 @@ public class RotationWidget implements Widget
 {
     /**
      * <p>
-     * The factor to scale the inner radius of each {@link com.se.simplicity.model.shape.Torus Torus} by.
+     * The angle to rotate the models by so they sit on the correct axis.
+     * </p>
+     */
+    private static final float MODEL_ROTATION = 90.0f;
+
+    /**
+     * <p>
+     * The factor to scale the inner radius of each {@link com.se.simplicity.jogl.model.shape.GLUTorus GLUTorus} by.
      * </p>
      */
     private static final float INNER_RADIUS_SCALE_FACTOR = 0.01f;
 
     /**
      * <p>
-     * The factor to scale the outer radius of each {@link com.se.simplicity.model.shape.Torus Torus} by.
+     * The factor to scale the outer radius of each {@link com.se.simplicity.jogl.model.shape.GLUTorus GLUTorus} by.
      * </p>
      */
     private static final float OUTER_RADIUS_SCALE_FACTOR = 0.1f;
 
     /**
      * <p>
-     * The alpha channel value to give the selected currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of a widget.
-     * </p>
-     */
-    private static final float SELECTED_MODEL_ALPHA = 0.5f;
-
-    /**
-     * <p>
-     * The factor to scale the radius of the {@link com.se.simplicity.model.shape.Sphere Sphere} by.
+     * The factor to scale the radius of the {@link com.se.simplicity.jogl.model.shape.GLUSphere GLUSphere} by.
      * </p>
      */
     private static final float SPHERE_RADIUS_SCALE_FACTOR = 0.02f;
+
+    /**
+     * <p>
+     * The number of slices/stacks to render the {@link com.se.simplicity.jogl.model.shape.GLUSphere GLUSphere} with.
+     * </p>
+     */
+    private static final int SPHERE_SLICES_STACKS = 20;
+
+    /**
+     * <p>
+     * The number of stacks to render each {@link com.se.simplicity.jogl.model.shape.GLUTorus GLUTorus} with.
+     * </p>
+     */
+    private static final int TORUS_STACKS = 30;
+
+    /**
+     * <p>
+     * The alpha channel value to give the currently unselected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode}s of a widget.
+     * </p>
+     */
+    private static final float UNSELECTED_MODEL_ALPHA = 0.5f;
 
     private ModelNode fFreeSphereNode0;
 
@@ -116,24 +137,29 @@ public class RotationWidget implements Widget
         fRoot = new SimpleNode();
 
         GLUTorus xTorus = new GLUTorus();
-        xTorus.setColour(new SimpleRGBColourVectorf4(1.0f, 0.0f, 0.0f, 0.5f));
+        xTorus.setColour(new SimpleRGBColourVectorf4(1.0f, 0.0f, 0.0f, UNSELECTED_MODEL_ALPHA));
+        xTorus.setStacks(TORUS_STACKS);
         fXTorusNode = new SimpleModelNode();
-        fXTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
+        fXTorusNode.getTransformation().rotate((float) Math.toRadians(MODEL_ROTATION), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
         fXTorusNode.setModel(xTorus);
 
         GLUTorus yTorus = new GLUTorus();
-        yTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 1.0f, 0.0f, 0.5f));
+        yTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 1.0f, 0.0f, UNSELECTED_MODEL_ALPHA));
+        yTorus.setStacks(TORUS_STACKS);
         fYTorusNode = new SimpleModelNode();
-        fYTorusNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
+        fYTorusNode.getTransformation().rotate((float) Math.toRadians(MODEL_ROTATION), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
         fYTorusNode.setModel(yTorus);
 
         GLUTorus zTorus = new GLUTorus();
-        zTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 0.0f, 1.0f, 0.5f));
+        zTorus.setColour(new SimpleRGBColourVectorf4(0.0f, 0.0f, 1.0f, UNSELECTED_MODEL_ALPHA));
+        zTorus.setStacks(TORUS_STACKS);
         fZTorusNode = new SimpleModelNode();
         fZTorusNode.setModel(zTorus);
 
         GLUSphere freeSphere = new GLUSphere();
-        freeSphere.setColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 0.5f));
+        freeSphere.setColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, UNSELECTED_MODEL_ALPHA));
+        freeSphere.setSlices(SPHERE_SLICES_STACKS);
+        freeSphere.setStacks(SPHERE_SLICES_STACKS);
 
         fFreeSphereNode0 = new SimpleModelNode();
         fFreeSphereNode0.setModel(freeSphere);
@@ -228,7 +254,7 @@ public class RotationWidget implements Widget
     {
         if (fSelectedWidgetNode != null)
         {
-            ((SimpleRGBColourVectorf4) ((Shape) fSelectedWidgetNode.getModel()).getColour()).setAlpha(SELECTED_MODEL_ALPHA);
+            ((SimpleRGBColourVectorf4) ((Shape) fSelectedWidgetNode.getModel()).getColour()).setAlpha(UNSELECTED_MODEL_ALPHA);
         }
 
         if (selectedWidgetNode != null)

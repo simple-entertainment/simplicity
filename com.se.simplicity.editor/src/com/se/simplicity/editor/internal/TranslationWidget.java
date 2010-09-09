@@ -26,31 +26,59 @@ public class TranslationWidget implements Widget
 {
     /**
      * <p>
-     * The factor to scale the length of each {@link com.se.simplicity.model.shape.Capsule Capsule} by.
+     * The angle to rotate the models by so they sit on the correct axis.
+     * </p>
+     */
+    private static final float MODEL_ROTATION = 90.0f;
+
+    /**
+     * <p>
+     * The factor to scale the length of each {@link com.se.simplicity.jogl.model.shape.GLUCapsule GLUCapsule} by.
      * </p>
      */
     private static final float CAPSULE_LENGTH_SCALE_FACTOR = 0.1f;
 
     /**
      * <p>
-     * The factor to scale the radius of each {@link com.se.simplicity.model.shape.Capsule Capsule} by.
+     * The factor to scale the radius of each {@link com.se.simplicity.jogl.model.shape.GLUCapsule GLUCapsule} by.
      * </p>
      */
     private static final float CAPSULE_RADIUS_SCALE_FACTOR = 0.01f;
 
     /**
      * <p>
-     * The alpha channel value to give the selected currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of a widget.
+     * The number of slices to render each {@link com.se.simplicity.jogl.model.shape.GLUCapsule GLUCapsule} with.
      * </p>
      */
-    private static final float SELECTED_MODEL_ALPHA = 0.5f;
+    private static final int CAPSULE_SLICES = 20;
 
     /**
      * <p>
-     * The factor to scale the radius of the {@link com.se.simplicity.model.shape.Sphere Sphere} by.
+     * The factor to scale the radius of the {@link com.se.simplicity.jogl.model.shape.GLUSphere GLUSphere} by.
      * </p>
      */
     private static final float SPHERE_RADIUS_SCALE_FACTOR = 0.02f;
+
+    /**
+     * <p>
+     * The number of slices/stacks to render the {@link com.se.simplicity.jogl.model.shape.GLUSphere GLUSphere} with.
+     * </p>
+     */
+    private static final int SPHERE_SLICES_STACKS = 20;
+
+    /**
+     * <p>
+     * The factor to scale the translation by.
+     * </p>
+     */
+    private static final float TRANSLATION_FACTOR = 0.01f;
+
+    /**
+     * <p>
+     * The alpha channel value to give the currently unselected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode}s of a widget.
+     * </p>
+     */
+    private static final float UNSELECTED_MODEL_ALPHA = 0.5f;
 
     /**
      * <p>
@@ -111,25 +139,30 @@ public class TranslationWidget implements Widget
         fRoot = new SimpleNode();
 
         GLUCapsule xCapsule = new GLUCapsule();
-        xCapsule.setColour(new SimpleRGBColourVectorf4(1.0f, 0.0f, 0.0f, 0.5f));
+        xCapsule.setColour(new SimpleRGBColourVectorf4(1.0f, 0.0f, 0.0f, UNSELECTED_MODEL_ALPHA));
+        xCapsule.setSlices(CAPSULE_SLICES);
         fXCapsuleNode = new SimpleModelNode();
-        fXCapsuleNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
+        fXCapsuleNode.getTransformation().rotate((float) Math.toRadians(MODEL_ROTATION), new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
         fXCapsuleNode.setModel(xCapsule);
 
         GLUCapsule yCapsule = new GLUCapsule();
-        yCapsule.setColour(new SimpleRGBColourVectorf4(0.0f, 1.0f, 0.0f, 0.5f));
+        yCapsule.setColour(new SimpleRGBColourVectorf4(0.0f, 1.0f, 0.0f, UNSELECTED_MODEL_ALPHA));
+        yCapsule.setSlices(CAPSULE_SLICES);
         fYCapsuleNode = new SimpleModelNode();
-        fYCapsuleNode.getTransformation().rotate((float) (90.0f * Math.PI / 180.0f), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
+        fYCapsuleNode.getTransformation().rotate((float) Math.toRadians(MODEL_ROTATION), new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
         fYCapsuleNode.setModel(yCapsule);
 
         GLUCapsule zCapsule = new GLUCapsule();
-        zCapsule.setColour(new SimpleRGBColourVectorf4(0.0f, 0.0f, 1.0f, 0.5f));
+        zCapsule.setColour(new SimpleRGBColourVectorf4(0.0f, 0.0f, 1.0f, UNSELECTED_MODEL_ALPHA));
+        zCapsule.setSlices(CAPSULE_SLICES);
         fZCapsuleNode = new SimpleModelNode();
         fYCapsuleNode.getTransformation().rotate((float) Math.PI, new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
         fZCapsuleNode.setModel(zCapsule);
 
         GLUSphere freeSphere = new GLUSphere();
-        freeSphere.setColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 0.5f));
+        freeSphere.setColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, UNSELECTED_MODEL_ALPHA));
+        freeSphere.setSlices(SPHERE_SLICES_STACKS);
+        freeSphere.setStacks(SPHERE_SLICES_STACKS);
         fFreeSphereNode = new SimpleModelNode();
         fFreeSphereNode.setModel(freeSphere);
 
@@ -149,15 +182,15 @@ public class TranslationWidget implements Widget
 
             if (fSelectedWidgetNode == fXCapsuleNode)
             {
-                translation.translateX((x + invertedY) * 0.01f);
+                translation.translateX((x + invertedY) * TRANSLATION_FACTOR);
             }
             else if (fSelectedWidgetNode == fYCapsuleNode)
             {
-                translation.translateY((x + invertedY) * 0.01f);
+                translation.translateY((x + invertedY) * TRANSLATION_FACTOR);
             }
             else if (fSelectedWidgetNode == fZCapsuleNode)
             {
-                translation.translateZ((x + invertedY) * 0.01f);
+                translation.translateZ((x + invertedY) * TRANSLATION_FACTOR);
             }
 
             ((Node) fSelectedSceneComponent).getTransformation().translate(translation);
@@ -194,7 +227,7 @@ public class TranslationWidget implements Widget
     {
         if (fSelectedWidgetNode != null)
         {
-            ((SimpleRGBColourVectorf4) ((Shape) fSelectedWidgetNode.getModel()).getColour()).setAlpha(SELECTED_MODEL_ALPHA);
+            ((SimpleRGBColourVectorf4) ((Shape) fSelectedWidgetNode.getModel()).getColour()).setAlpha(UNSELECTED_MODEL_ALPHA);
         }
 
         if (selectedWidgetNode != null)
