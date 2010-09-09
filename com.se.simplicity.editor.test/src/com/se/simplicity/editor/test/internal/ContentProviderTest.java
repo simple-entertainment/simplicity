@@ -297,6 +297,11 @@ public class ContentProviderTest
         // Verify test results.
         assertEquals(mockNode, testObject.getRenderingEngine().getRendererRoot(testObject.getRenderingEngine().getRenderers().get(1)));
         assertEquals(mockNode, SceneManager.getSceneManager().getActiveNode());
+
+        testObject.setEditMode(EditMode.ROTATION);
+        assertEquals(mockNode, testObject.getCurrentWidget().getSelectedSceneComponent());
+        testObject.setEditMode(EditMode.TRANSLATION);
+        assertEquals(mockNode, testObject.getCurrentWidget().getSelectedSceneComponent());
     }
 
     /**
@@ -405,6 +410,7 @@ public class ContentProviderTest
         // Verify test results.
         assertNotNull(testObject.getRenderingEngine().getRendererRoot(testObject.getRenderingEngine().getRenderers().get(2)));
         assertEquals(1, testObject.getWidgetPickingEngine().getScene().getSceneGraph().getSubgraphRoots().size(), 0);
+        assertNull(testObject.getCurrentWidget().getSelectedWidgetNode());
     }
 
     /**
