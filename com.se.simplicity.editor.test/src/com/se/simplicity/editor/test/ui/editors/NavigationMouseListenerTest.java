@@ -201,4 +201,41 @@ public class NavigationMouseListenerTest
         assertEquals(0.0f, vector.getY(), 0.0f);
         assertEquals(0.0f, vector.getZ(), 0.0f);
     }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.NavigationMouseListener#mouseUp(MouseEvent) mouseUp(MouseEvent)} with the
+     * special condition that there is no current widget.
+     * </p>
+     */
+    @Test
+    public void mouseScrolledNoCurrentWidget()
+    {
+        // Create dependencies.
+        ContentProvider mockContentProvider = createMock(ContentProvider.class);
+        Camera mockCamera = createMock(Camera.class);
+        Node mockNode = createMock(Node.class);
+        SimpleTransformationMatrixf44 matrix = new SimpleTransformationMatrixf44();
+
+        Event event = new Event();
+        event.widget = createMock(GLCanvas.class);
+        MouseEvent mouseEvent = new MouseEvent(event);
+        mouseEvent.count = 1;
+
+        // Dictate correct behaviour.
+        expect(mockContentProvider.getViewingCamera()).andStubReturn(mockCamera);
+        expect(mockContentProvider.getCurrentWidget()).andStubReturn(null);
+        expect(mockCamera.getNode()).andStubReturn(mockNode);
+        expect(mockNode.getTransformation()).andStubReturn(matrix);
+        replay(mockContentProvider, mockCamera, mockNode);
+
+        // Initialise test environment.
+        testObject = new NavigationMouseListener(mockContentProvider);
+
+        // Perform test 1.
+        testObject.mouseScrolled(mouseEvent);
+
+        // Verify test 1 results.
+        // Just verifying that no errors occur...
+    }
 }

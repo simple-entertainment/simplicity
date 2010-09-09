@@ -26,7 +26,6 @@ import com.se.simplicity.editor.internal.TranslationWidget;
 import com.se.simplicity.model.shape.Capsule;
 import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.model.shape.Sphere;
-import com.se.simplicity.model.shape.Torus;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.model.ModelNode;
@@ -257,16 +256,16 @@ public class TranslationWidgetTest
         assertEquals(0.0f, testTransformation.getZAxisTranslation(), 0.0001f);
 
         ModelNode xCapsuleNode = (ModelNode) testObject.getRootNode().getChildren().get(0);
-        assertEquals(0.2f, ((Capsule) xCapsuleNode.getModel()).getLength(), 0.0001f);
-        assertEquals(2.0f, ((Capsule) xCapsuleNode.getModel()).getRadius(), 0.0001f);
+        assertEquals(2.0f, ((Capsule) xCapsuleNode.getModel()).getLength(), 0.0001f);
+        assertEquals(0.2f, ((Capsule) xCapsuleNode.getModel()).getRadius(), 0.0001f);
 
         ModelNode yCapsuleNode = (ModelNode) testObject.getRootNode().getChildren().get(1);
-        assertEquals(0.2f, ((Capsule) yCapsuleNode.getModel()).getLength(), 0.0001f);
-        assertEquals(2.0f, ((Capsule) yCapsuleNode.getModel()).getRadius(), 0.0001f);
+        assertEquals(2.0f, ((Capsule) yCapsuleNode.getModel()).getLength(), 0.0001f);
+        assertEquals(0.2f, ((Capsule) yCapsuleNode.getModel()).getRadius(), 0.0001f);
 
         ModelNode zCapsuleNode = (ModelNode) testObject.getRootNode().getChildren().get(2);
-        assertEquals(0.2f, ((Capsule) zCapsuleNode.getModel()).getLength(), 0.0001f);
-        assertEquals(2.0f, ((Capsule) zCapsuleNode.getModel()).getRadius(), 0.0001f);
+        assertEquals(2.0f, ((Capsule) zCapsuleNode.getModel()).getLength(), 0.0001f);
+        assertEquals(0.2f, ((Capsule) zCapsuleNode.getModel()).getRadius(), 0.0001f);
 
         ModelNode freeSphereNode = (ModelNode) testObject.getRootNode().getChildren().get(3);
         assertEquals(0.4f, ((Sphere) freeSphereNode.getModel()).getRadius(), 0.0001f);
