@@ -128,8 +128,10 @@ public class SimpleJOGLPickingEngineTest
         testObject.pick(10, 20, 30, 40);
 
         reset(mockPicker);
+        mockPicker.init();
         expect(mockPicker.pickScene(mockScene, mockCamera, testObject.getPicks().get(0))).andReturn(null);
         expect(mockPicker.pickScene(mockScene, mockCamera, testObject.getPicks().get(1))).andReturn(null);
+        mockPicker.dispose();
         replay(mockPicker);
 
         testObject.advance();
