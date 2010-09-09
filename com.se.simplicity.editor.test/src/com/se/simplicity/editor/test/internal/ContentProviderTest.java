@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.ContentProvider;
-import com.se.simplicity.editor.internal.EditMode;
+import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.jogl.JOGLComponent;
@@ -303,9 +303,9 @@ public class ContentProviderTest
         assertEquals(mockNode, testObject.getRenderingEngine().getRendererRoot(testObject.getRenderingEngine().getRenderers().get(1)));
         assertEquals(mockNode, SceneManager.getSceneManager().getActiveNode());
 
-        testObject.setEditMode(EditMode.ROTATION);
+        testObject.setEditingMode(EditingMode.ROTATION);
         assertEquals(mockNode, testObject.getCurrentWidget().getSelectedSceneComponent());
-        testObject.setEditMode(EditMode.TRANSLATION);
+        testObject.setEditingMode(EditingMode.TRANSLATION);
         assertEquals(mockNode, testObject.getCurrentWidget().getSelectedSceneComponent());
     }
 
@@ -389,7 +389,7 @@ public class ContentProviderTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setEditMode(EditMode) setEditMode(EditMode)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setEditingMode(EditingMode) setEditMode(EditMode)}.
      * </p>
      */
     @Test
@@ -410,7 +410,7 @@ public class ContentProviderTest
         testObject.init();
 
         // Perform test.
-        testObject.setEditMode(EditMode.ROTATION);
+        testObject.setEditingMode(EditingMode.ROTATION);
 
         // Verify test results.
         assertNotNull(testObject.getRenderingEngine().getRendererRoot(testObject.getRenderingEngine().getRenderers().get(2)));
@@ -423,7 +423,7 @@ public class ContentProviderTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setEditMode(EditMode) setEditMode(EditMode)} with the special
+     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setEditingMode(EditingMode) setEditMode(EditMode)} with the special
      * condition that the current edit mode is 'SELECTION'.
      * </p>
      */
@@ -443,10 +443,10 @@ public class ContentProviderTest
         // Initialise test environment.
         testObject = new ContentProvider(mockScene);
         testObject.init();
-        testObject.setEditMode(EditMode.ROTATION);
+        testObject.setEditingMode(EditingMode.ROTATION);
 
         // Perform test.
-        testObject.setEditMode(EditMode.SELECTION);
+        testObject.setEditingMode(EditingMode.SELECTION);
 
         // Verify test results.
         assertNull(testObject.getRenderingEngine().getRendererRoot(testObject.getRenderingEngine().getRenderers().get(2)));
