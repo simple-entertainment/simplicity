@@ -176,6 +176,18 @@ public class ContentProvider
 
     /**
      * <p>
+     * Retrieves the current {@link com.se.simplicity.editor.internal.EditingMode EditingMode}.
+     * </p>
+     * 
+     * @return The current <code>EditingMode</code>.
+     */
+    public EditingMode getEditingMode()
+    {
+        return (fEditingMode);
+    }
+
+    /**
+     * <p>
      * Retrieves the {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that will render the
      * {@link com.se.simplicity.scene.Scene Scene} to the 3D canvas.
      * </p>
@@ -261,6 +273,8 @@ public class ContentProvider
 
         fScenePickingEngine.addPickListener(new ScenePickListener(this));
         fWidgetPickingEngine.addPickListener(new WidgetPickListener(this));
+
+        setEditingMode(EditingMode.SELECTION);
     }
 
     /**
