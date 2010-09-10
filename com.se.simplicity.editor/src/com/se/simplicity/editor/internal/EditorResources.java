@@ -62,7 +62,7 @@ public final class EditorResources
         try
         {
             fImageRegistry.put("sceneComponentEmpty", ImageDescriptor.createFromURL(new URL(
-                    "file:///home/simple/workspace/com.se.simplicity.editor/images/Simple Eddy (Small).gif")));
+                    "file:///home/simple/workspace/com.se.simplicity.editor/images/simple_eddy.gif")));
         }
         catch (MalformedURLException e)
         {

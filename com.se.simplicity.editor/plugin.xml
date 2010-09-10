@@ -5,23 +5,23 @@
     <extension point="org.eclipse.ui.views">
         <category name="Simple Eddy" id="com.se.simplicity.editor.views" />
 
-        <view category="com.se.simplicity.editor.views" class="com.se.simplicity.editor.ui.views.SceneOutlineView" icon="icons/simple eddy.gif"
+        <view category="com.se.simplicity.editor.views" class="com.se.simplicity.editor.ui.views.SceneOutlineView" icon="icons/scene_outline.gif"
             id="com.se.simplicity.editor.ui.views.SceneOutlineView" name="Scene Outline" />
 
-        <view category="com.se.simplicity.editor.views" class="com.se.simplicity.editor.ui.views.SceneComponentView" icon="icons/simple eddy.gif"
+        <view category="com.se.simplicity.editor.views" class="com.se.simplicity.editor.ui.views.SceneComponentView" icon="icons/scene_details.gif"
             id="com.se.simplicity.editor.ui.views.SceneComponentView" name="Component Details" />
     </extension>
 
     <extension point="org.eclipse.ui.editors">
-        <editor class="com.se.simplicity.editor.ui.editors.VisualSceneEditor" default="false" extensions="sss" icon="icons/simple eddy.gif"
+        <editor class="com.se.simplicity.editor.ui.editors.VisualSceneEditor" default="false" extensions="sss" icon="icons/scene_editor.gif"
             id="com.se.simplicity.editor.ui.editors.VisualSceneEditor" name="Scene Editor (Visual Only)" />
 
-        <editor class="com.se.simplicity.editor.ui.editors.MultiPageSceneEditor" default="true" extensions="sss" icon="icons/simple eddy.gif"
+        <editor class="com.se.simplicity.editor.ui.editors.MultiPageSceneEditor" default="true" extensions="sss" icon="icons/scene_editor.gif"
             id="com.se.simplicity.editor.ui.editors.MultiPageSceneEditor" name="Scene Editor" />
     </extension>
 
     <extension point="org.eclipse.ui.perspectives">
-        <perspective class="com.se.simplicity.editor.ui.perspectives.EditorPerspective" icon="icons/simple eddy.gif"
+        <perspective class="com.se.simplicity.editor.ui.perspectives.EditorPerspective" icon="icons/perspective.gif"
             id="com.se.simplicity.editor.ui.perspectives.EditorPerspective" name="Simple Eddy" />
     </extension>
 
@@ -62,6 +62,25 @@
                         <parameter name="org.eclipse.ui.commands.radioStateParameter" value="vertices" />
                     </command>
                 </menu>
+
+                <menu id="com.se.simplicity.editor.menus.visual.select" label="Selection Mode" mnemonic="S">
+                    <command commandId="com.se.simplicity.editor.commands.select" id="com.se.simplicity.editor.menus.visual.select.model"
+                        label="Model Selection" mnemonic="M" style="radio">
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="model" />
+                    </command>
+                    <command commandId="com.se.simplicity.editor.commands.select" id="com.se.simplicity.editor.menus.visual.select.faces"
+                        label="Face Selection" mnemonic="F" style="radio">
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="faces" />
+                    </command>
+                    <command commandId="com.se.simplicity.editor.commands.select" id="com.se.simplicity.editor.menus.visual.select.edges"
+                        label="Edge Selection" mnemonic="E" style="radio">
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="edges" />
+                    </command>
+                    <command commandId="com.se.simplicity.editor.commands.select" id="com.se.simplicity.editor.menus.visual.select.vertices"
+                        label="Vertex Selection" mnemonic="V" style="radio">
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="vertice" />
+                    </command>
+                </menu>
             </menu>
         </menuContribution>
 
@@ -72,38 +91,59 @@
                     </reference>
                 </visibleWhen>
 
-                <command commandId="com.se.simplicity.editor.commands.draw" icon="icons/faces.gif" id="com.se.simplicity.editor.toolbars.visual.draw.faces"
+                <command commandId="com.se.simplicity.editor.commands.draw" icon="icons/draw_faces.gif" id="com.se.simplicity.editor.toolbars.visual.draw.faces"
                     tooltip="Faces" style="radio">
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="faces" />
                 </command>
-                <command commandId="com.se.simplicity.editor.commands.draw" icon="icons/edges.gif" id="com.se.simplicity.editor.toolbars.visual.draw.edges"
+                <command commandId="com.se.simplicity.editor.commands.draw" icon="icons/draw_edges.gif" id="com.se.simplicity.editor.toolbars.visual.draw.edges"
                     tooltip="Edges" style="radio">
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="edges" />
                 </command>
-                <command commandId="com.se.simplicity.editor.commands.draw" icon="icons/vertices.gif" id="com.se.simplicity.editor.toolbars.visual.draw.vertices"
+                <command commandId="com.se.simplicity.editor.commands.draw" icon="icons/draw_vertices.gif" id="com.se.simplicity.editor.toolbars.visual.draw.vertices"
                     tooltip="Vertices" style="radio">
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="vertices" />
                 </command>
             </toolbar>
-        </menuContribution>
 
-        <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
             <toolbar id="com.se.simplicity.editor.toolbars.edit">
                 <visibleWhen checkEnabled="false">
                     <reference definitionId="com.se.simplicity.editor.definition.sceneEditorSelected" />
                 </visibleWhen>
 
-                <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/selection.gif" id="com.se.simplicity.editor.toolbars.visual.edit.selection"
+                <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/edit_selection.gif" id="com.se.simplicity.editor.toolbars.visual.edit.selection"
                     tooltip="Selection Mode" style="radio">
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="selection" />
                 </command>
-                <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/rotation.gif" id="com.se.simplicity.editor.toolbars.visual.edit.rotation"
+                <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/edit_rotation.gif" id="com.se.simplicity.editor.toolbars.visual.edit.rotation"
                     tooltip="Rotation Mode" style="radio">
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="rotation" />
                 </command>
-                <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/translation.gif" id="com.se.simplicity.editor.toolbars.visual.edit.translation"
+                <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/edit_translation.gif" id="com.se.simplicity.editor.toolbars.visual.edit.translation"
                     tooltip="Translation Mode" style="radio">
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="translation" />
+                </command>
+            </toolbar>
+
+            <toolbar id="com.se.simplicity.editor.toolbars.select">
+                <visibleWhen checkEnabled="false">
+                    <reference definitionId="com.se.simplicity.editor.definition.sceneEditorSelected" />
+                </visibleWhen>
+
+                <command commandId="com.se.simplicity.editor.commands.select" icon="icons/select_model.gif" id="com.se.simplicity.editor.toolbars.visual.select.model"
+                    tooltip="Model Selection" style="radio">
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="model" />
+                </command>
+                <command commandId="com.se.simplicity.editor.commands.select" icon="icons/select_faces.gif" id="com.se.simplicity.editor.toolbars.visual.select.faces"
+                    tooltip="Face Selection" style="radio">
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="faces" />
+                </command>
+                <command commandId="com.se.simplicity.editor.commands.select" icon="icons/select_edges.gif" id="com.se.simplicity.editor.toolbars.visual.select.edges"
+                    tooltip="Edge Selection" style="radio">
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="edges" />
+                </command>
+                <command commandId="com.se.simplicity.editor.commands.select" icon="icons/select_vertices.gif" id="com.se.simplicity.editor.toolbars.visual.select.vertices"
+                    tooltip="Vertex Selection" style="radio">
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="vertice" />
                 </command>
             </toolbar>
         </menuContribution>
@@ -121,12 +161,19 @@
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
             <state class="org.eclipse.ui.handlers.RadioState:selection" id="org.eclipse.ui.commands.radioState" />
         </command>
+
+        <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.select" name="Selection Mode">
+            <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
+            <state class="org.eclipse.ui.handlers.RadioState:model" id="org.eclipse.ui.commands.radioState" />
+        </command>
     </extension>
 
     <extension point="org.eclipse.ui.handlers">
         <handler class="com.se.simplicity.editor.handlers.DrawingModeHandler" commandId="com.se.simplicity.editor.commands.draw" />
 
         <handler class="com.se.simplicity.editor.handlers.EditingModeHandler" commandId="com.se.simplicity.editor.commands.edit" />
+
+        <handler class="com.se.simplicity.editor.handlers.SelectionModeHandler" commandId="com.se.simplicity.editor.commands.select" />
     </extension>
 
     <extension point="org.eclipse.core.contenttype.contentTypes">
