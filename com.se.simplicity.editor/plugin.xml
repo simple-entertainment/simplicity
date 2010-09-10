@@ -146,6 +146,21 @@
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="vertice" />
                 </command>
             </toolbar>
+            
+            <toolbar id="com.se.simplicity.editor.toolbars.projection">
+                <visibleWhen checkEnabled="false">
+                    <reference definitionId="com.se.simplicity.editor.definition.sceneEditorSelected" />
+                </visibleWhen>
+
+                <command commandId="com.se.simplicity.editor.commands.projection" icon="icons/projection_orthogonal.gif" id="com.se.simplicity.editor.toolbars.visual.projection.orthogonal"
+                    tooltip="Orthogonal" style="radio">
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="orthogonal" />
+                </command>
+                <command commandId="com.se.simplicity.editor.commands.projection" icon="icons/projection_perspective.gif" id="com.se.simplicity.editor.toolbars.visual.projection.perspective"
+                    tooltip="Perspective" style="radio">
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="perspective" />
+                </command>
+            </toolbar>
         </menuContribution>
     </extension>
 
@@ -161,6 +176,11 @@
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
             <state class="org.eclipse.ui.handlers.RadioState:selection" id="org.eclipse.ui.commands.radioState" />
         </command>
+        
+        <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.projection" name="Projection Mode">
+            <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
+            <state class="org.eclipse.ui.handlers.RadioState:perspective" id="org.eclipse.ui.commands.radioState" />
+        </command>
 
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.select" name="Selection Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
@@ -172,6 +192,8 @@
         <handler class="com.se.simplicity.editor.handlers.DrawingModeHandler" commandId="com.se.simplicity.editor.commands.draw" />
 
         <handler class="com.se.simplicity.editor.handlers.EditingModeHandler" commandId="com.se.simplicity.editor.commands.edit" />
+        
+        <handler class="com.se.simplicity.editor.handlers.ProjectionModeHandler" commandId="com.se.simplicity.editor.commands.projection" />
 
         <handler class="com.se.simplicity.editor.handlers.SelectionModeHandler" commandId="com.se.simplicity.editor.commands.select" />
     </extension>
