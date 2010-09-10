@@ -34,14 +34,13 @@ import com.se.simplicity.editor.internal.ContentProvider;
 import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.internal.event.SceneChangedListener;
+import com.se.simplicity.editor.internal.rendering.WidgetJOGLRenderer;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
 import com.se.simplicity.jogl.test.mocks.MockGL;
-import com.se.simplicity.model.shape.Torus;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SceneGraph;
-import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.vector.SimpleTransformationMatrixf44;
 
 /**
@@ -148,6 +147,7 @@ public class ContentProviderTest
         assertEquals(testObject.getViewingCamera(), testObject.getRenderingEngine().getCamera());
         assertEquals(testObject.getViewingCamera(), testObject.getScenePickingEngine().getCamera());
         assertEquals(testObject.getViewingCamera(), testObject.getWidgetPickingEngine().getCamera());
+        assertEquals(testObject.getViewingCamera(), ((WidgetJOGLRenderer) testObject.getRenderingEngine().getRenderers().get(2)).getCamera());
     }
 
     /**
@@ -389,11 +389,11 @@ public class ContentProviderTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setEditingMode(EditingMode) setEditMode(EditMode)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setEditingMode(EditingMode) setEditingMode(EditMode)}.
      * </p>
      */
     @Test
-    public void setEditMode()
+    public void setEditingMode()
     {
         // Create dependencies.
         SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
@@ -416,19 +416,16 @@ public class ContentProviderTest
         assertNotNull(testObject.getRenderingEngine().getRendererRoot(testObject.getRenderingEngine().getRenderers().get(2)));
         assertEquals(1, testObject.getWidgetPickingEngine().getScene().getSceneGraph().getSubgraphRoots().size(), 0);
         assertNull(testObject.getCurrentWidget().getSelectedWidgetNode());
-
-        assertEquals(0.05f, ((Torus) ((ModelNode) testObject.getCurrentWidget().getRootNode().getChildren().get(0)).getModel()).getInnerRadius(),
-                0.0001f);
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setEditingMode(EditingMode) setEditMode(EditMode)} with the special
-     * condition that the current edit mode is 'SELECTION'.
+     * Unit test the method {@link com.se.simplicity.editor.internal.ContentProvider#setEditingMode(EditingMode) setEditingMode(EditMode)} with the
+     * special condition that the current edit mode is 'SELECTION'.
      * </p>
      */
     @Test
-    public void setEditModeNull()
+    public void setEditingModeSelection()
     {
         // Create dependencies.
         SimpleJOGLScene mockScene = createMock(SimpleJOGLScene.class);
@@ -449,7 +446,8 @@ public class ContentProviderTest
         testObject.setEditingMode(EditingMode.SELECTION);
 
         // Verify test results.
-        assertNull(testObject.getRenderingEngine().getRendererRoot(testObject.getRenderingEngine().getRenderers().get(2)));
+        assertEquals(testObject.getRenderingEngine().getScene().getSceneGraph().getRoot(), testObject.getRenderingEngine().getRendererRoot(
+                testObject.getRenderingEngine().getRenderers().get(2)));
         assertEquals(0, testObject.getWidgetPickingEngine().getScene().getSceneGraph().getSubgraphRoots().size(), 0);
     }
 }

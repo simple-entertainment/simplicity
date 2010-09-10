@@ -35,6 +35,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
@@ -109,6 +110,7 @@ public class VisualSceneEditorTest
 
         // Dictate correct behaviour.
         reset(mockContentProvider);
+        expect(mockContentProvider.getViewingCamera()).andStubReturn(null);
         expect(mockContentProvider.getScenePickingEngine()).andStubReturn(null);
 
         // Dictate expected results.

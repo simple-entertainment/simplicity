@@ -35,9 +35,9 @@ import org.junit.Test;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.internal.event.SceneChangedEvent;
 import com.se.simplicity.editor.internal.event.SceneChangedListener;
+import com.se.simplicity.editor.internal.rendering.WidgetJOGLRenderer;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
-import com.se.simplicity.jogl.rendering.BlendingJOGLRenderer;
 import com.se.simplicity.jogl.rendering.OutlineJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
@@ -196,7 +196,7 @@ public class SceneManagerTest
         assertEquals(scene, renderingEngine.getScene());
         assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
         assertTrue(renderingEngine.getRenderers().get(1) instanceof OutlineJOGLRenderer);
-        assertTrue(renderingEngine.getRenderers().get(2) instanceof BlendingJOGLRenderer);
+        assertTrue(renderingEngine.getRenderers().get(2) instanceof WidgetJOGLRenderer);
     }
 
     /**

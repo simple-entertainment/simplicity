@@ -33,7 +33,11 @@ import org.junit.Test;
 import com.se.simplicity.editor.handlers.EditingModeHandler;
 import com.se.simplicity.editor.internal.ContentProvider;
 import com.se.simplicity.editor.internal.EditingMode;
+import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
+import com.se.simplicity.scene.Scene;
+import com.se.simplicity.scenegraph.SceneGraph;
+import com.se.simplicity.scenegraph.model.ModelNode;
 
 /**
  * <p>
@@ -57,6 +61,8 @@ public class EditingModeHandlerTest
     @Before
     public void before()
     {
+        SceneManager.getSceneManager().reset();
+
         testObject = new EditingModeHandler();
     }
 
@@ -72,6 +78,10 @@ public class EditingModeHandlerTest
     public void executeRotation() throws ExecutionException
     {
         // Create dependencies.
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        ModelNode mockNode = createMock(ModelNode.class);
+
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
         ContentProvider mockContentProvider = createMock(ContentProvider.class);
@@ -85,10 +95,17 @@ public class EditingModeHandlerTest
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
         expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("selection");
-        replay(mockContext, mockSceneEditor);
+        replay(mockScene, mockSceneGraph, mockContext, mockSceneEditor);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
+        SceneManager.getSceneManager().setActiveNode(mockNode);
 
         // Dictate expected results.
         mockContentProvider.setEditingMode(EditingMode.ROTATION);
@@ -221,6 +238,10 @@ public class EditingModeHandlerTest
     public void executeTranslation() throws ExecutionException
     {
         // Create dependencies.
+        Scene mockScene = createMock(Scene.class);
+        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        ModelNode mockNode = createMock(ModelNode.class);
+
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
         ContentProvider mockContentProvider = createMock(ContentProvider.class);
@@ -234,10 +255,17 @@ public class EditingModeHandlerTest
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
+        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
+        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
         expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("selection");
-        replay(mockContext, mockSceneEditor);
+        replay(mockScene, mockSceneGraph, mockContext, mockSceneEditor);
+
+        // Initialise test environment.
+        SceneManager.getSceneManager().addScene(mockScene, "test");
+        SceneManager.getSceneManager().setActiveScene(mockScene);
+        SceneManager.getSceneManager().setActiveNode(mockNode);
 
         // Dictate expected results.
         mockContentProvider.setEditingMode(EditingMode.TRANSLATION);

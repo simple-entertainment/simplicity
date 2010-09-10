@@ -14,8 +14,6 @@ package com.se.simplicity.editor.test.ui.editors;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.reset;
-import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.swt.events.MouseEvent;
@@ -23,8 +21,6 @@ import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.widgets.Event;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.ContentProvider;
-import com.se.simplicity.editor.internal.Widget;
 import com.se.simplicity.editor.ui.editors.NavigationMouseListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
@@ -54,7 +50,6 @@ public class NavigationMouseListenerTest
     public void mouseMove()
     {
         // Create dependencies.
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
         Camera mockCamera = createMock(Camera.class);
         Node mockNode0 = createMock(Node.class);
         Node mockNode1 = createMock(Node.class);
@@ -68,14 +63,13 @@ public class NavigationMouseListenerTest
         mouseEvent.y = 100;
 
         // Dictate correct behaviour.
-        expect(mockContentProvider.getViewingCamera()).andStubReturn(mockCamera);
         expect(mockCamera.getNode()).andStubReturn(mockNode0);
         expect(mockNode0.getParent()).andStubReturn(mockNode1);
         expect(mockNode1.getTransformation()).andStubReturn(matrix);
-        replay(mockContentProvider, mockCamera, mockNode0, mockNode1);
+        replay(mockCamera, mockNode0, mockNode1);
 
         // Initialise test environment.
-        testObject = new NavigationMouseListener(mockContentProvider);
+        testObject = new NavigationMouseListener(mockCamera);
         testObject.mouseDown(mouseEvent);
 
         // Perform test.
@@ -100,7 +94,6 @@ public class NavigationMouseListenerTest
     public void mouseMoveButton2NotDown()
     {
         // Create dependencies.
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
         Camera mockCamera = createMock(Camera.class);
         Node mockNode0 = createMock(Node.class);
         Node mockNode1 = createMock(Node.class);
@@ -114,14 +107,13 @@ public class NavigationMouseListenerTest
         mouseEvent.y = 100;
 
         // Dictate correct behaviour.
-        expect(mockContentProvider.getViewingCamera()).andStubReturn(mockCamera);
         expect(mockCamera.getNode()).andStubReturn(mockNode0);
         expect(mockNode0.getParent()).andStubReturn(mockNode1);
         expect(mockNode1.getTransformation()).andStubReturn(matrix);
-        replay(mockContentProvider, mockCamera, mockNode0, mockNode1);
+        replay(mockCamera, mockNode0, mockNode1);
 
         // Initialise test environment.
-        testObject = new NavigationMouseListener(mockContentProvider);
+        testObject = new NavigationMouseListener(mockCamera);
 
         // Perform test.
         testObject.mouseMove(mouseEvent);
@@ -144,8 +136,6 @@ public class NavigationMouseListenerTest
     public void mouseScrolled()
     {
         // Create dependencies.
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
-        Widget mockWidget = createMock(Widget.class);
         Camera mockCamera = createMock(Camera.class);
         Node mockNode = createMock(Node.class);
         SimpleTransformationMatrixf44 matrix = new SimpleTransformationMatrixf44();
@@ -156,25 +146,17 @@ public class NavigationMouseListenerTest
         mouseEvent.count = 1;
 
         // Dictate correct behaviour.
-        expect(mockContentProvider.getViewingCamera()).andStubReturn(mockCamera);
-        expect(mockContentProvider.getCurrentWidget()).andStubReturn(mockWidget);
         expect(mockCamera.getNode()).andStubReturn(mockNode);
         expect(mockNode.getTransformation()).andStubReturn(matrix);
-        replay(mockContentProvider, mockCamera, mockNode);
+        replay(mockCamera, mockNode);
 
         // Initialise test environment.
-        testObject = new NavigationMouseListener(mockContentProvider);
-
-        // Dictate expected results.
-        mockWidget.updateView(mockCamera);
-        replay(mockWidget);
+        testObject = new NavigationMouseListener(mockCamera);
 
         // Perform test 1.
         testObject.mouseScrolled(mouseEvent);
 
         // Verify test 1 results.
-        verify(mockWidget);
-
         TranslationVectorf vector = matrix.getTranslation();
 
         assertEquals(0.0f, vector.getX(), 0.0f);
@@ -184,17 +166,10 @@ public class NavigationMouseListenerTest
         // Modify dependencies.
         mouseEvent.count = -1;
 
-        // Dictate expected results.
-        reset(mockWidget);
-        mockWidget.updateView(mockCamera);
-        replay(mockWidget);
-
         // Perform test 2.
         testObject.mouseScrolled(mouseEvent);
 
         // Verify test 2 results.
-        verify(mockWidget);
-
         vector = matrix.getTranslation();
 
         assertEquals(0.0f, vector.getX(), 0.0f);
@@ -212,7 +187,6 @@ public class NavigationMouseListenerTest
     public void mouseScrolledNoCurrentWidget()
     {
         // Create dependencies.
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
         Camera mockCamera = createMock(Camera.class);
         Node mockNode = createMock(Node.class);
         SimpleTransformationMatrixf44 matrix = new SimpleTransformationMatrixf44();
@@ -223,14 +197,12 @@ public class NavigationMouseListenerTest
         mouseEvent.count = 1;
 
         // Dictate correct behaviour.
-        expect(mockContentProvider.getViewingCamera()).andStubReturn(mockCamera);
-        expect(mockContentProvider.getCurrentWidget()).andStubReturn(null);
         expect(mockCamera.getNode()).andStubReturn(mockNode);
         expect(mockNode.getTransformation()).andStubReturn(matrix);
-        replay(mockContentProvider, mockCamera, mockNode);
+        replay(mockCamera, mockNode);
 
         // Initialise test environment.
-        testObject = new NavigationMouseListener(mockContentProvider);
+        testObject = new NavigationMouseListener(mockCamera);
 
         // Perform test 1.
         testObject.mouseScrolled(mouseEvent);
