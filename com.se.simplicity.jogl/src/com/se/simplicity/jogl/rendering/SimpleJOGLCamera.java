@@ -52,8 +52,8 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * </p>
  * 
  * <p>
- * The eye is the position of the viewer. The 'front' of the frustum in the context of this explanation is the side of the frustum that is closest
- * to the eye. In the 'side' view the eye is shown as the arrow to the left of the frustum.
+ * The eye is the position of the viewer. The 'front' of the frustum in the context of this explanation is the side of the frustum that is closest to
+ * the eye. In the 'side' view the eye is shown as the arrow to the left of the frustum.
  * </p>
  * 
  * <p>
@@ -444,5 +444,7 @@ public class SimpleJOGLCamera implements Camera, JOGLComponent
     public void setProjectionMode(final ProjectionMode projectionMode)
     {
         fProjectionMode = projectionMode;
+
+        fIsInitialised = false;
     }
 }
