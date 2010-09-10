@@ -41,6 +41,13 @@ public class ContentProvider
 {
     /**
      * <p>
+     * The current {@link com.se.simplicity.editor.internal.EditingMode EditingMode}.
+     * </p>
+     */
+    private EditingMode fEditingMode;
+
+    /**
+     * <p>
      * The {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that will render the {@link com.se.simplicity.scene.Scene Scene}
      * to the 3D canvas.
      * </p>
@@ -82,13 +89,6 @@ public class ContentProvider
      * </p>
      */
     private Camera fViewingCamera;
-
-    /**
-     * <p>
-     * The current {@link com.se.simplicity.editor.internal.EditingMode EditingMode}.
-     * </p>
-     */
-    private EditingMode fEditingMode;
 
     /**
      * <p>
@@ -333,6 +333,46 @@ public class ContentProvider
 
     /**
      * <p>
+     * Sets the current {@link com.se.simplicity.editor.internal.EditingMode EditingMode}.
+     * </p>
+     * 
+     * @param editingMode The current <code>EditingMode</code>.
+     */
+    public void setEditingMode(final EditingMode editingMode)
+    {
+        Renderer widgetRenderer = fRenderingEngine.getRenderers().get(2);
+        SceneGraph widgetPickerSceneGraph = fWidgetPickingEngine.getScene().getSceneGraph();
+
+        // Remove previous Widget from the Widget PickingEngine's Scene.
+        if (fEditingMode != EditingMode.SELECTION)
+        {
+            widgetPickerSceneGraph.removeSubgraph(fWidgets.get(fEditingMode).getRootNode());
+        }
+
+        fEditingMode = editingMode;
+
+        if (fEditingMode == EditingMode.SELECTION)
+        {
+            fRenderingEngine.setRendererRoot(widgetRenderer, null);
+        }
+
+        else
+        {
+            Widget widget = fWidgets.get(fEditingMode);
+
+            // Set the root of the widget to be the root for the Widget Renderer and include it in the Widget PickingEngine's Scene but do NOT add it
+            // to the main Scene. This stops the Widget from appearing in the various views displaying an analysis of the Scene or being synchronised
+            // into the source file.
+            fRenderingEngine.setRendererRoot(widgetRenderer, widget.getRootNode());
+            widgetPickerSceneGraph.addSubgraph(widget.getRootNode());
+
+            widget.setSelectedWidgetNode(null);
+            widget.updateView(fViewingCamera);
+        }
+    }
+
+    /**
+     * <p>
      * Sets the JOGL rendering environment used to display the content.
      * </p>
      * 
@@ -398,6 +438,18 @@ public class ContentProvider
 
     /**
      * <p>
+     * Sets the current {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode}.
+     * </p>
+     * 
+     * @param selectionMode The current <code>SelectionMode</code>.
+     */
+    public void setSelectionMode(final SelectionMode selectionMode)
+    {
+
+    }
+
+    /**
+     * <p>
      * Determines whether the viewing <code>Camera</code>'s aspect ratio should be synchronised with the aspect ratio of the canvas.
      * </p>
      * 
@@ -407,46 +459,6 @@ public class ContentProvider
     public void setSynchronisesCameraAspectRatio(final boolean synchronisesCameraAspectRatio)
     {
         fSynchronisesCameraAspectRatio = synchronisesCameraAspectRatio;
-    }
-
-    /**
-     * <p>
-     * Sets the current {@link com.se.simplicity.editor.internal.EditingMode EditingMode} in the active editor.
-     * </p>
-     * 
-     * @param editMode The current <code>EditingMode</code> in the active editor.
-     */
-    public void setEditingMode(final EditingMode editMode)
-    {
-        Renderer widgetRenderer = fRenderingEngine.getRenderers().get(2);
-        SceneGraph widgetPickerSceneGraph = fWidgetPickingEngine.getScene().getSceneGraph();
-
-        // Remove previous Widget from the Widget PickingEngine's Scene.
-        if (fEditingMode != EditingMode.SELECTION)
-        {
-            widgetPickerSceneGraph.removeSubgraph(fWidgets.get(fEditingMode).getRootNode());
-        }
-
-        fEditingMode = editMode;
-
-        if (fEditingMode == EditingMode.SELECTION)
-        {
-            fRenderingEngine.setRendererRoot(widgetRenderer, null);
-        }
-
-        else
-        {
-            Widget widget = fWidgets.get(fEditingMode);
-
-            // Set the root of the widget to be the root for the Widget Renderer and include it in the Widget PickingEngine's Scene but do NOT add it
-            // to the main Scene. This stops the Widget from appearing in the various views displaying an analysis of the Scene or being synchronised
-            // into the source file.
-            fRenderingEngine.setRendererRoot(widgetRenderer, widget.getRootNode());
-            widgetPickerSceneGraph.addSubgraph(widget.getRootNode());
-
-            widget.setSelectedWidgetNode(null);
-            widget.updateView(fViewingCamera);
-        }
     }
 
     /**
