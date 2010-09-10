@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.opengl.GLCanvas;
 
 import com.se.simplicity.editor.internal.engine.DisplayAsyncJOGLCompositeEngine;
+import com.se.simplicity.editor.internal.rendering.WidgetJOGLRenderer;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
@@ -21,7 +22,6 @@ import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
 import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.Camera;
-import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
@@ -306,7 +306,11 @@ public class ContentProvider
     protected void initWidgets()
     {
         fWidgets.put(EditingMode.ROTATION, new RotationWidget());
+        fWidgets.put(EditingMode.SELECTION, new SelectionWidget());
         fWidgets.put(EditingMode.TRANSLATION, new TranslationWidget());
+
+        WidgetJOGLRenderer widgetRenderer = (WidgetJOGLRenderer) fRenderingEngine.getRenderers().get(2);
+        widgetRenderer.setCamera(fViewingCamera);
     }
 
     /**
@@ -340,7 +344,7 @@ public class ContentProvider
      */
     public void setEditingMode(final EditingMode editingMode)
     {
-        Renderer widgetRenderer = fRenderingEngine.getRenderers().get(2);
+        WidgetJOGLRenderer widgetRenderer = (WidgetJOGLRenderer) fRenderingEngine.getRenderers().get(2);
         SceneGraph widgetPickerSceneGraph = fWidgetPickingEngine.getScene().getSceneGraph();
 
         // Remove previous Widget from the Widget PickingEngine's Scene.
@@ -350,10 +354,11 @@ public class ContentProvider
         }
 
         fEditingMode = editingMode;
+        widgetRenderer.setWidget(fWidgets.get(fEditingMode));
 
         if (fEditingMode == EditingMode.SELECTION)
         {
-            fRenderingEngine.setRendererRoot(widgetRenderer, null);
+            fRenderingEngine.setRendererRoot(widgetRenderer, fScene.getSceneGraph().getRoot());
         }
 
         else
@@ -367,7 +372,6 @@ public class ContentProvider
             widgetPickerSceneGraph.addSubgraph(widget.getRootNode());
 
             widget.setSelectedWidgetNode(null);
-            widget.updateView(fViewingCamera);
         }
     }
 

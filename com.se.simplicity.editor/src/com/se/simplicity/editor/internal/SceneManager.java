@@ -24,10 +24,9 @@ import org.eclipse.ui.IFileEditorInput;
 import com.se.simplicity.editor.internal.event.SceneChangedEvent;
 import com.se.simplicity.editor.internal.event.SceneChangedEventType;
 import com.se.simplicity.editor.internal.event.SceneChangedListener;
+import com.se.simplicity.editor.internal.rendering.WidgetJOGLRenderer;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
-import com.se.simplicity.jogl.rendering.BlendingJOGLRenderer;
-import com.se.simplicity.jogl.rendering.DepthClearingJOGLRenderer;
 import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.OutlineJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
@@ -366,7 +365,7 @@ public final class SceneManager
         Renderer outlineRenderer = new OutlineJOGLRenderer(renderer);
         renderingEngine.addRenderer(outlineRenderer);
         renderingEngine.setRendererRoot(outlineRenderer, null);
-        Renderer widgetRenderer = new BlendingJOGLRenderer(new DepthClearingJOGLRenderer(renderer));
+        Renderer widgetRenderer = new WidgetJOGLRenderer(renderer);
         renderingEngine.addRenderer(widgetRenderer);
         renderingEngine.setRendererRoot(widgetRenderer, null);
 

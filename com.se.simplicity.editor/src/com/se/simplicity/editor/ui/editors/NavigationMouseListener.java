@@ -17,7 +17,7 @@ import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.graphics.Point;
 
-import com.se.simplicity.editor.internal.ContentProvider;
+import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.vector.SimpleTranslationVectorf4;
 
 /**
@@ -29,13 +29,6 @@ import com.se.simplicity.vector.SimpleTranslationVectorf4;
  */
 public class NavigationMouseListener implements MouseListener, MouseMoveListener, MouseWheelListener
 {
-    /**
-     * <p>
-     * The {@link com.se.simplicity.editor.internal.ContentProvider ContentProvider} to update navigate the viewpoint of.
-     * </p>
-     */
-    private ContentProvider fContentProvider;
-
     /**
      * <p>
      * Determines if mouse button 2 is currently down.
@@ -52,14 +45,21 @@ public class NavigationMouseListener implements MouseListener, MouseMoveListener
 
     /**
      * <p>
+     * The <code>Camera</code> being used to view the <code>Scene</code>.
+     * </p>
+     */
+    private Camera fViewingCamera;
+
+    /**
+     * <p>
      * Creates an instance of <code>NavigationMouseListener</code>.
      * </p>
      * 
-     * @param contentProvider The {@link com.se.simplicity.editor.internal.ContentProvider ContentProvider} to update navigate the viewpoint of.
+     * @param viewingCamera The <code>Camera</code> being used to view the <code>Scene</code>.
      */
-    public NavigationMouseListener(final ContentProvider contentProvider)
+    public NavigationMouseListener(final Camera viewingCamera)
     {
-        fContentProvider = contentProvider;
+        fViewingCamera = viewingCamera;
     }
 
     @Override
@@ -83,10 +83,10 @@ public class NavigationMouseListener implements MouseListener, MouseMoveListener
         {
             if (fMouseButton2DownPoint != null)
             {
-                fContentProvider.getViewingCamera().getNode().getParent().getTransformation().rotate(
-                        (float) Math.toRadians(event.x - fMouseButton2DownPoint.x) * -1.0f, new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-                fContentProvider.getViewingCamera().getNode().getParent().getTransformation().rotate(
-                        (float) Math.toRadians(event.y - fMouseButton2DownPoint.y) * -1.0f, new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
+                fViewingCamera.getNode().getParent().getTransformation().rotate((float) Math.toRadians(event.x - fMouseButton2DownPoint.x) * -1.0f,
+                        new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
+                fViewingCamera.getNode().getParent().getTransformation().rotate((float) Math.toRadians(event.y - fMouseButton2DownPoint.y) * -1.0f,
+                        new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
             }
 
             fMouseButton2DownPoint = new Point(event.x, event.y);
@@ -96,13 +96,7 @@ public class NavigationMouseListener implements MouseListener, MouseMoveListener
     @Override
     public void mouseScrolled(final MouseEvent event)
     {
-        fContentProvider.getViewingCamera().getNode().getTransformation().translate(
-                new SimpleTranslationVectorf4(0.0f, 0.0f, event.count * -1.0f, 1.0f));
-
-        if (fContentProvider.getCurrentWidget() != null)
-        {
-            fContentProvider.getCurrentWidget().updateView(fContentProvider.getViewingCamera());
-        }
+        fViewingCamera.getNode().getTransformation().translate(new SimpleTranslationVectorf4(0.0f, 0.0f, event.count * -1.0f, 1.0f));
     }
 
     @Override

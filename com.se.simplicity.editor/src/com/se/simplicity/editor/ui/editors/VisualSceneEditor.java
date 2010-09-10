@@ -87,7 +87,7 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, SceneC
         canvas.addControlListener(resizeListener);
 
         // Setup mouse interaction.
-        NavigationMouseListener navigationMouseListener = new NavigationMouseListener(fContentProvider);
+        NavigationMouseListener navigationMouseListener = new NavigationMouseListener(fContentProvider.getViewingCamera());
         canvas.addMouseListener(navigationMouseListener);
         canvas.addMouseMoveListener(navigationMouseListener);
         canvas.addMouseWheelListener(navigationMouseListener);
