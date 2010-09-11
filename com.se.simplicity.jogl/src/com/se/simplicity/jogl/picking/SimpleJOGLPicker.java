@@ -117,11 +117,12 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
     protected PickEvent createPickEvent(final Scene scene, final int numberOfHits)
     {
         PickEvent event = new PickEvent();
-        int bufferIndex = 1;
+        int bufferIndex = 0;
 
         for (int hitIndex = 0; hitIndex < numberOfHits; hitIndex++)
         {
             Hit hit = new Hit();
+            int numberOfNames = fSelectBuffer.get(bufferIndex++);
             hit.setMinimumDistance(fSelectBuffer.get(bufferIndex++));
             hit.setMaximumDistance(fSelectBuffer.get(bufferIndex++));
 
@@ -130,14 +131,14 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
             Model model = ((ModelNode) hit.getNode()).getModel();
             if (model instanceof VertexGroup)
             {
-                hit.setPrimitive(getSubsetVG((VertexGroup) model, fSelectBuffer.get(bufferIndex++)));
+                hit.setPrimitive(getSubsetVG((VertexGroup) model, fSelectBuffer.get(bufferIndex)));
             }
             else if (model instanceof Shape)
             {
                 hit.setPrimitive(model);
             }
 
-            bufferIndex++;
+            bufferIndex += numberOfNames;
             event.addHit(hit);
         }
 
