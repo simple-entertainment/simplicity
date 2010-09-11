@@ -16,12 +16,11 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.ContentProvider;
-import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.Widget;
+import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.editor.internal.WidgetPickListener;
 import com.se.simplicity.picking.Hit;
 import com.se.simplicity.picking.event.PickEvent;
@@ -43,17 +42,6 @@ public class WidgetPickListenerTest
 
     /**
      * <p>
-     * Setup to perform before each unit test.
-     * </p>
-     */
-    @Before
-    public void before()
-    {
-        SceneManager.getSceneManager().reset();
-    }
-
-    /**
-     * <p>
      * Unit test the method {@link com.se.simplicity.editor.internal.WidgetPickListener#scenePicked(PickEvent) scenePicked(PickEvent)}.
      * </p>
      */
@@ -61,7 +49,7 @@ public class WidgetPickListenerTest
     public void scenePicked()
     {
         // Create dependencies.
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
+        WidgetManager mockWidgetManager = createMock(WidgetManager.class);
         Widget mockWidget = createMock(Widget.class);
 
         PickEvent mockEvent = createMock(PickEvent.class);
@@ -70,14 +58,15 @@ public class WidgetPickListenerTest
         ModelNode mockModelNode = createMock(ModelNode.class);
 
         // Dictate correct behaviour.
+        expect(mockWidgetManager.getEditingMode()).andStubReturn(EditingMode.ROTATION);
+        expect(mockWidgetManager.getWidget()).andStubReturn(mockWidget);
         expect(mockEvent.getHitCount()).andStubReturn(1);
         expect(mockEvent.getCloseHit()).andStubReturn(mockHit);
         expect(mockHit.getNode()).andStubReturn(mockModelNode);
-        expect(mockContentProvider.getCurrentWidget()).andStubReturn(mockWidget);
-        replay(mockEvent, mockHit, mockContentProvider);
+        replay(mockWidgetManager, mockEvent, mockHit);
 
         // Initialise test environment.
-        testObject = new WidgetPickListener(mockContentProvider);
+        testObject = new WidgetPickListener(mockWidgetManager);
 
         // Dictate expected results.
         mockWidget.setSelectedWidgetNode(mockModelNode);
@@ -87,7 +76,68 @@ public class WidgetPickListenerTest
         testObject.scenePicked(mockEvent);
 
         // Verify test results.
-        verify(mockContentProvider);
+        verify(mockWidget);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.WidgetPickListener#scenePicked(PickEvent) scenePicked(PickEvent)} with the
+     * special condition that the editing mode is 'SELECTION'.
+     * </p>
+     */
+    @Test
+    public void scenePickedSelection()
+    {
+        // Create dependencies.
+        WidgetManager mockWidgetManager = createMock(WidgetManager.class);
+
+        PickEvent mockEvent = createMock(PickEvent.class);
+        Hit mockHit = createMock(Hit.class);
+
+        ModelNode mockModelNode = createMock(ModelNode.class);
+
+        // Dictate correct behaviour.
+        expect(mockWidgetManager.getEditingMode()).andStubReturn(EditingMode.SELECTION);
+        expect(mockEvent.getHitCount()).andStubReturn(1);
+        expect(mockEvent.getCloseHit()).andStubReturn(mockHit);
+        expect(mockHit.getNode()).andStubReturn(mockModelNode);
+        replay(mockWidgetManager, mockEvent, mockHit);
+
+        // Initialise test environment.
+        testObject = new WidgetPickListener(mockWidgetManager);
+
+        // Perform test.
+        testObject.scenePicked(mockEvent);
+
+        // TODO actually test something...
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.WidgetPickListener#scenePicked(PickEvent) scenePicked(PickEvent)} with the
+     * special condition that the editing mode is 'SELECTION' and there are no hits.
+     * </p>
+     */
+    @Test
+    public void scenePickedSelectionNoHits()
+    {
+        // Create dependencies.
+        WidgetManager mockWidgetManager = createMock(WidgetManager.class);
+
+        PickEvent mockEvent = createMock(PickEvent.class);
+
+        // Dictate correct behaviour.
+        expect(mockWidgetManager.getEditingMode()).andStubReturn(EditingMode.SELECTION);
+        expect(mockEvent.getHitCount()).andStubReturn(0);
+        replay(mockWidgetManager, mockEvent);
+
+        // Initialise test environment.
+        testObject = new WidgetPickListener(mockWidgetManager);
+
+        // Perform test.
+        testObject.scenePicked(mockEvent);
+
+        // TODO actually test something...
     }
 
     /**
@@ -100,27 +150,22 @@ public class WidgetPickListenerTest
     public void scenePickedNoHits()
     {
         // Create dependencies.
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
-        Widget mockWidget = createMock(Widget.class);
+        WidgetManager mockWidgetManager = createMock(WidgetManager.class);
 
         PickEvent mockEvent = createMock(PickEvent.class);
 
         // Dictate correct behaviour.
+        expect(mockWidgetManager.getEditingMode()).andStubReturn(EditingMode.ROTATION);
         expect(mockEvent.getHitCount()).andStubReturn(0);
-        expect(mockContentProvider.getCurrentWidget()).andStubReturn(mockWidget);
-        replay(mockEvent, mockContentProvider);
+        replay(mockWidgetManager, mockEvent);
 
         // Initialise test environment.
-        testObject = new WidgetPickListener(mockContentProvider);
-
-        // Dictate expected results.
-        mockWidget.setSelectedWidgetNode(null);
-        replay(mockWidget);
+        testObject = new WidgetPickListener(mockWidgetManager);
 
         // Perform test.
         testObject.scenePicked(mockEvent);
 
         // Verify test results.
-        verify(mockContentProvider);
+        // Just verifying that no errors occur...
     }
 }

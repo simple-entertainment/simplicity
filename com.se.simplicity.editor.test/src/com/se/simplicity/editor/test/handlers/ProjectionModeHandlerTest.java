@@ -31,9 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.handlers.ProjectionModeHandler;
-import com.se.simplicity.editor.internal.ContentProvider;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
-import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.ProjectionMode;
 
 /**
@@ -75,8 +73,6 @@ public class ProjectionModeHandlerTest
         // Create dependencies.
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
-        Camera mockCamera = createMock(Camera.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -88,21 +84,19 @@ public class ProjectionModeHandlerTest
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
-        expect(mockContentProvider.getViewingCamera()).andStubReturn(mockCamera);
         expect(mockState.getValue()).andStubReturn("perspective");
-        replay(mockContext, mockSceneEditor, mockContentProvider);
+        replay(mockContext);
 
         // Dictate expected results.
-        mockCamera.setProjectionMode(ProjectionMode.ORTHOGONAL);
+        mockSceneEditor.setProjectionMode(ProjectionMode.ORTHOGONAL);
         mockState.setValue("orthogonal");
-        replay(mockCamera, mockState);
+        replay(mockSceneEditor, mockState);
 
         // Perform test.
         testObject.execute(event);
 
         // Verify test results.
-        verify(mockContentProvider);
+        verify(mockSceneEditor);
     }
 
     /**
@@ -119,8 +113,6 @@ public class ProjectionModeHandlerTest
         // Create dependencies.
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
-        Camera mockCamera = createMock(Camera.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -132,21 +124,19 @@ public class ProjectionModeHandlerTest
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
-        expect(mockContentProvider.getViewingCamera()).andStubReturn(mockCamera);
         expect(mockState.getValue()).andStubReturn("orthogonal");
-        replay(mockContext, mockSceneEditor, mockContentProvider);
+        replay(mockContext);
 
         // Dictate expected results.
-        mockCamera.setProjectionMode(ProjectionMode.PERSPECTIVE);
+        mockSceneEditor.setProjectionMode(ProjectionMode.PERSPECTIVE);
         mockState.setValue("perspective");
-        replay(mockCamera, mockState);
+        replay(mockSceneEditor, mockState);
 
         // Perform test.
         testObject.execute(event);
 
         // Verify test results.
-        verify(mockContentProvider);
+        verify(mockSceneEditor);
     }
 
     /**
@@ -163,7 +153,6 @@ public class ProjectionModeHandlerTest
         // Create dependencies.
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -175,18 +164,17 @@ public class ProjectionModeHandlerTest
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("perspective");
-        replay(mockContext, mockSceneEditor);
+        replay(mockContext);
 
         // Dictate expected results.
-        replay(mockContentProvider, mockState); // Nothing should be called on these.
+        replay(mockSceneEditor, mockState); // Nothing should be called on these.
 
         // Perform test.
         testObject.execute(event);
 
         // Verify test results.
-        verify(mockContentProvider);
+        verify(mockSceneEditor);
     }
 
     /**

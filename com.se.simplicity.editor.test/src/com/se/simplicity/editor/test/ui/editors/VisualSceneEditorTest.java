@@ -11,30 +11,21 @@
  */
 package com.se.simplicity.editor.test.ui.editors;
 
-import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.reset;
-import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.awt.Dimension;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
-import javax.media.opengl.GL;
-import javax.media.opengl.GLContext;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.opengl.GLCanvas;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
@@ -42,13 +33,10 @@ import org.eclipse.ui.PartInitException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.ContentProvider;
+import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.event.SceneChangedEvent;
-import com.se.simplicity.editor.internal.event.SceneChangedEventType;
 import com.se.simplicity.editor.ui.editors.VisualSceneEditor;
-import com.se.simplicity.scene.Scene;
-import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 
 /**
  * <p>
@@ -72,74 +60,9 @@ public class VisualSceneEditorTest
     @Before
     public void before()
     {
+        testObject = new VisualSceneEditor();
+
         SceneManager.getSceneManager().reset();
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#createPartControl(Composite) createPartControl(Composite)}.
-     * </p>
-     * 
-     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
-     * @throws FileNotFoundException Thrown if the source file cannot be found.
-     */
-    @Test
-    public void createPartControl() throws FileNotFoundException, CoreException
-    {
-        // Create dependencies.
-        IEditorSite mockSite = createMock(IEditorSite.class);
-        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
-        IFile mockFile = createMock(IFile.class);
-        IPath mockPath = createMock(IPath.class);
-
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
-
-        // Dictate correct behaviour.
-        expect(mockInput.getName()).andStubReturn("triangle.xml");
-        expect(mockInput.getFile()).andStubReturn(mockFile);
-        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/internal/triangle.xml"));
-        expect(mockFile.getFullPath()).andStubReturn(mockPath);
-        mockPath.toString();
-        mockContentProvider.setScene((Scene) anyObject());
-        mockContentProvider.init();
-        replay(mockInput, mockFile, mockPath, mockContentProvider);
-
-        // Initialise test environment.
-        testObject = new VisualSceneEditor(mockContentProvider);
-        testObject.init(mockSite, mockInput);
-
-        // Dictate correct behaviour.
-        reset(mockContentProvider);
-        expect(mockContentProvider.getViewingCamera()).andStubReturn(null);
-        expect(mockContentProvider.getScenePickingEngine()).andStubReturn(null);
-
-        // Dictate expected results.
-        mockContentProvider.setGL((GL) anyObject());
-        mockContentProvider.displayContent((GLCanvas) anyObject(), (GLContext) anyObject());
-        replay(mockContentProvider);
-
-        // Perform test.
-        testObject.createPartControl(new Composite(new Shell(), SWT.NONE));
-
-        // Verify results.
-        verify(mockContentProvider);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#dispose() dispose()}.
-     * </p>
-     */
-    @Test
-    public void dispose()
-    {
-        // Initialise test environment.
-        testObject = new VisualSceneEditor(createMock(ContentProvider.class));
-
-        // Perform test.
-        testObject.dispose();
-
-        assertFalse(SceneManager.getSceneManager().getSceneChangedListeners().contains(testObject));
     }
 
     /**
@@ -160,31 +83,23 @@ public class VisualSceneEditorTest
         IFile mockFile = createMock(IFile.class);
         IPath mockPath = createMock(IPath.class);
 
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
-
         // Dictate correct behaviour.
         expect(mockInput.getName()).andStubReturn("triangle.xml");
         expect(mockInput.getFile()).andStubReturn(mockFile);
-        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/internal/triangle.xml"));
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
         expect(mockFile.getFullPath()).andStubReturn(mockPath);
         mockPath.toString();
         replay(mockInput, mockFile, mockPath);
-
-        // Initialise test environment.
-        testObject = new VisualSceneEditor(mockContentProvider);
-
-        // Dictate expected results.
-        mockContentProvider.setScene((Scene) anyObject());
-        mockContentProvider.init();
-        replay(mockContentProvider);
 
         // Perform test.
         testObject.init(mockSite, mockInput);
 
         // Verify results.
-        verify(mockContentProvider);
-
         assertEquals("triangle.xml", testObject.getPartName());
+
+        assertTrue(testObject.getSceneManager().getRenderingEngine() instanceof SimpleJOGLRenderingEngine);
+
+        assertEquals(EditingMode.SELECTION, testObject.getEditingMode());
 
         assertNotNull(SceneManager.getSceneManager().getScene("EasyMock for interface org.eclipse.core.runtime.IPath"));
         assertNotNull(SceneManager.getSceneManager().getActiveScene());
@@ -211,13 +126,13 @@ public class VisualSceneEditorTest
         // Dictate correct behaviour.
         expect(mockInput.getName()).andStubReturn("triangleMalformed.xml");
         expect(mockInput.getFile()).andStubReturn(mockFile);
-        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/internal/triangleMalformed.xml"));
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangleMalformed.xml"));
         expect(mockFile.getFullPath()).andStubReturn(mockPath);
         mockPath.toString();
         replay(mockInput, mockFile, mockPath);
 
         // Initialise test environment.
-        testObject = new VisualSceneEditor(createMock(ContentProvider.class));
+        testObject = new VisualSceneEditor();
 
         try
         {
@@ -233,15 +148,15 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#sceneChanged(SceneChangedEvent)
-     * sceneChanged(SceneChangedEvent)}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#init(IEditorSite, IEditorInput) init(IEditorSite,
+     * IEditorInput)} with the special condition that the preferred RenderingEngine is invalid.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
      * @throws FileNotFoundException Thrown if the source file cannot be found.
      */
     @Test
-    public void sceneChanged() throws FileNotFoundException, CoreException
+    public void initInvalidRenderingEngine() throws FileNotFoundException, CoreException
     {
         // Create dependencies.
         IEditorSite mockSite = createMock(IEditorSite.class);
@@ -249,81 +164,129 @@ public class VisualSceneEditorTest
         IFile mockFile = createMock(IFile.class);
         IPath mockPath = createMock(IPath.class);
 
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
-        Node mockNode = createMock(Node.class);
-
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
-
         // Dictate correct behaviour.
         expect(mockInput.getName()).andStubReturn("triangle.xml");
         expect(mockInput.getFile()).andStubReturn(mockFile);
-        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/internal/triangle.xml"));
+        expect(mockFile.getContents()).andStubReturn(
+                new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangleInvalidRenderingEngine.xml"));
         expect(mockFile.getFullPath()).andStubReturn(mockPath);
         mockPath.toString();
-        mockContentProvider.setScene((Scene) anyObject());
-        mockContentProvider.init();
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_ACTIVATED);
-        expect(mockEvent.getSceneComponent()).andStubReturn(mockNode);
-        replay(mockInput, mockFile, mockPath, mockContentProvider, mockEvent);
-
-        // Initialise test environment.
-        testObject = new VisualSceneEditor(mockContentProvider);
-        testObject.init(mockSite, mockInput);
-
-        // Dictate expected results.
-        reset(mockContentProvider);
-        mockContentProvider.setSelectedSceneComponent(mockNode);
-        replay(mockContentProvider);
+        replay(mockInput, mockFile, mockPath);
 
         // Perform test.
-        testObject.sceneChanged(mockEvent);
+        testObject.init(mockSite, mockInput);
 
-        // Verify test results.
-        verify(mockContentProvider);
+        // Verify results.
+        assertTrue(testObject.getSceneManager().getRenderingEngine() instanceof SimpleJOGLRenderingEngine);
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setFocus() setFocus()}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#pickForSelection(Dimension, int, int, int, int)
+     * pickForSelection(Dimension, int, int, int, int)}.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
      * @throws FileNotFoundException Thrown if the source file cannot be found.
      */
     @Test
-    public void setFocus() throws FileNotFoundException, CoreException
+    public void pickForSelection() throws FileNotFoundException, CoreException
     {
         // Create dependencies.
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
-        Scene mockScene = createMock(Scene.class);
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
 
         // Dictate correct behaviour.
-        expect(mockContentProvider.getScene()).andStubReturn(mockScene);
-        replay(mockContentProvider);
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        replay(mockInput, mockFile, mockPath);
 
         // Initialise test environment.
-        testObject = new VisualSceneEditor(mockContentProvider);
-        SceneManager.getSceneManager().addScene(mockScene, "test");
+        testObject.init(mockSite, mockInput);
 
         // Perform test.
-        testObject.setFocus();
+        testObject.pickForSelection(createMock(Dimension.class), 100, 100, 2, 2);
 
-        // Verify test results.
-        assertEquals(mockScene, SceneManager.getSceneManager().getActiveScene());
+        // Verify results.
+        assertEquals(1, testObject.getSceneManager().getPickingEngine().getPicks().size(), 0);
+        assertEquals(1, testObject.getWidgetManager().getPickingEngine().getPicks().size(), 0);
     }
 
     /**
      * <p>
-     * Unit test the constructor {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#VisualSceneEditor() VisualSceneEditor()}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setCanvasSize(Rectangle) setCanvasSize(Rectangle)}.
      * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
      */
     @Test
-    public void visualSceneEditor()
+    public void setCanvasSize() throws FileNotFoundException, CoreException
     {
-        // Perform test.
-        testObject = new VisualSceneEditor(createMock(ContentProvider.class));
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
 
-        // Verify test results.
-        assertTrue(SceneManager.getSceneManager().getSceneChangedListeners().contains(testObject));
+        Dimension dimension = new Dimension(200, 200);
+        Rectangle rectangle = new Rectangle(0, 0, 200, 200);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        replay(mockInput, mockFile, mockPath);
+
+        // Initialise test environment.
+        testObject.init(mockSite, mockInput);
+
+        // Perform test.
+        testObject.setCanvasSize(rectangle);
+
+        // Verify results.
+        assertEquals(dimension, testObject.getSceneManager().getRenderingEngine().getViewportSize());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setEditingMode(EditingMode) setEditingMode(EditingMode)}.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void setEditingMode() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        replay(mockInput, mockFile, mockPath);
+
+        // Initialise test environment.
+        testObject.init(mockSite, mockInput);
+
+        // Perform test.
+        testObject.setEditingMode(EditingMode.TRANSLATION);
+
+        // Verify results.
+        assertEquals(EditingMode.TRANSLATION, testObject.getWidgetManager().getEditingMode());
     }
 }

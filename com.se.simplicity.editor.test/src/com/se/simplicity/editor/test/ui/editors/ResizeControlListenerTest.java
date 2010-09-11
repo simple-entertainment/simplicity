@@ -23,8 +23,8 @@ import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.widgets.Event;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.ContentProvider;
 import com.se.simplicity.editor.ui.editors.ResizeControlListener;
+import com.se.simplicity.editor.ui.editors.SceneEditor;
 
 /**
  * <p>
@@ -50,7 +50,7 @@ public class ResizeControlListenerTest
     public void controlResized()
     {
         // Create dependencies.
-        ContentProvider contentProvider = createMock(ContentProvider.class);
+        SceneEditor mockSceneEditor = createMock(SceneEditor.class);
         GLCanvas mockCanvas = createMock(GLCanvas.class);
         Rectangle rectangle = new Rectangle(0, 0, 200, 200);
 
@@ -63,16 +63,16 @@ public class ResizeControlListenerTest
         replay(mockCanvas);
 
         // Initialise test environment.
-        testObject = new ResizeControlListener(contentProvider);
+        testObject = new ResizeControlListener(mockSceneEditor);
 
         // Dictate expected results.
-        contentProvider.setCanvasSize((Rectangle) anyObject());
-        replay(contentProvider);
+        mockSceneEditor.setCanvasSize((Rectangle) anyObject());
+        replay(mockSceneEditor);
 
         // Perform test.
         testObject.controlResized(controlEvent);
 
         // Verify test results.
-        verify(contentProvider);
+        verify(mockSceneEditor);
     }
 }

@@ -11,6 +11,7 @@
  */
 package com.se.simplicity.editor.test.handlers;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
@@ -24,29 +25,36 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.State;
 import org.eclipse.core.expressions.IEvaluationContext;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISources;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.RadioState;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import com.se.simplicity.editor.handlers.DrawingModeHandler;
+import com.se.simplicity.editor.handlers.SelectionHandler;
+import com.se.simplicity.editor.internal.event.SceneChangedEvent;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
-import com.se.simplicity.rendering.DrawingMode;
+import com.se.simplicity.editor.ui.views.SceneComponentView;
+import com.se.simplicity.editor.ui.views.SceneOutlineView;
+import com.se.simplicity.scenegraph.model.ModelNode;
 
 /**
  * <p>
- * Unit tests for the class {@link com.se.simplicity.editor.handlers.DrawingModeHandler DrawingModeHandler}.
+ * Unit tests for the class {@link com.se.simplicity.editor.handlers.SelectionHandler SelectionHandler}.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class DrawingModeHandlerTest
+public class SelectionHandlerTest
 {
     /**
      * An instance of the class being unit tested.
      */
-    private DrawingModeHandler testObject;
+    private SelectionHandler testObject;
 
     /**
      * <p>
@@ -56,19 +64,74 @@ public class DrawingModeHandlerTest
     @Before
     public void before()
     {
-        testObject = new DrawingModeHandler();
+        testObject = new SelectionHandler();
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.handlers.DrawingModeHandler#execute(ExecutionEvent) execute(ExecutionEvent)} with the
-     * special condition that the radio parameter was 'edges'.
+     * Unit test the method {@link com.se.simplicity.editor.handlers.SelectionHandler#execute(ExecutionEvent) execute(ExecutionEvent)}.
      * </p>
      * 
      * @throws ExecutionException Thrown if the handler fails to execute.
      */
     @Test
-    public void executeEdges() throws ExecutionException
+    public void execute() throws ExecutionException
+    {
+        // Create dependencies.
+        ModelNode mockNode = createMock(ModelNode.class);
+
+        IEvaluationContext mockContext = createMock(IEvaluationContext.class);
+        SceneEditor mockSceneEditor = createMock(SceneEditor.class);
+        IWorkbenchWindow mockWorkbenchWindow = createMock(IWorkbenchWindow.class);
+        IWorkbenchPage mockWorkbenchPage = createMock(IWorkbenchPage.class);
+        SceneOutlineView mockOutlineView = createMock(SceneOutlineView.class);
+        SceneComponentView mockComponentView = createMock(SceneComponentView.class);
+
+        CommandManager commandManager = new CommandManager();
+        Command command = commandManager.getCommand("test");
+        Event event = new Event();
+        event.data = mockNode;
+        State mockState = createMock(State.class);
+        command.addState(RadioState.STATE_ID, mockState);
+        HashMap<String, String> parameters = new HashMap<String, String>();
+        parameters.put(RadioState.PARAMETER_ID, "node1,face0");
+        ExecutionEvent executionEvent = new ExecutionEvent(command, parameters, event, mockContext);
+
+        // Dictate correct behaviour.
+        expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
+        expect(mockContext.getVariable(ISources.ACTIVE_WORKBENCH_WINDOW_NAME)).andStubReturn(mockWorkbenchWindow);
+        expect(mockState.getValue()).andStubReturn("node0,face0");
+        expect(mockWorkbenchWindow.getActivePage()).andStubReturn(mockWorkbenchPage);
+        expect(mockWorkbenchPage.findView("com.se.simplicity.editor.ui.views.SceneOutlineView")).andStubReturn(mockOutlineView);
+        expect(mockWorkbenchPage.findView("com.se.simplicity.editor.ui.views.SceneComponentView")).andStubReturn(mockComponentView);
+        expect(mockWorkbenchPage.getActiveEditor()).andStubReturn(mockSceneEditor);
+        replay(mockContext, mockWorkbenchWindow, mockWorkbenchPage);
+
+        // Dictate expected results.
+        mockOutlineView.sceneChanged((SceneChangedEvent) anyObject());
+        mockComponentView.sceneChanged((SceneChangedEvent) anyObject());
+        mockSceneEditor.setSelectedSceneComponent(mockNode);
+        mockState.setValue("node1,face0");
+        replay(mockState, mockOutlineView, mockComponentView, mockSceneEditor);
+
+        // Perform test.
+        testObject.execute(executionEvent);
+
+        // Verify results.
+        verify(mockOutlineView, mockComponentView, mockSceneEditor);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.handlers.SelectionHandler#execute(ExecutionEvent) execute(ExecutionEvent)} with the
+     * special condition that the radio parameter is the same as the current radio state.
+     * </p>
+     * 
+     * @throws ExecutionException Thrown if the handler fails to execute.
+     */
+    @Test
+    @Ignore
+    public void executeSame() throws ExecutionException
     {
         // Create dependencies.
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
@@ -79,69 +142,24 @@ public class DrawingModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "edges");
+        parameters.put(RadioState.PARAMETER_ID, "node0,face0");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("faces");
+        expect(mockState.getValue()).andStubReturn("node0,face0");
         replay(mockContext);
 
         // Dictate expected results.
-        mockSceneEditor.setDrawingMode(DrawingMode.EDGES);
-        mockState.setValue("edges");
-        replay(mockSceneEditor, mockState);
+        replay(mockState); // Nothing should be called on these.
 
         // Perform test.
         testObject.execute(event);
-
-        // Verify test results.
-        verify(mockSceneEditor);
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.handlers.DrawingModeHandler#execute(ExecutionEvent) execute(ExecutionEvent)} with the
-     * special condition that the radio parameter was 'faces'.
-     * </p>
-     * 
-     * @throws ExecutionException Thrown if the handler fails to execute.
-     */
-    @Test
-    public void executeFaces() throws ExecutionException
-    {
-        // Create dependencies.
-        IEvaluationContext mockContext = createMock(IEvaluationContext.class);
-        SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-
-        CommandManager commandManager = new CommandManager();
-        Command command = commandManager.getCommand("test");
-        State mockState = createMock(State.class);
-        command.addState(RadioState.STATE_ID, mockState);
-        HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "faces");
-        ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
-
-        // Dictate correct behaviour.
-        expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("edges");
-        replay(mockContext);
-
-        // Dictate expected results.
-        mockSceneEditor.setDrawingMode(DrawingMode.FACES);
-        mockState.setValue("faces");
-        replay(mockSceneEditor, mockState);
-
-        // Perform test.
-        testObject.execute(event);
-
-        // Verify test results.
-        verify(mockSceneEditor);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.handlers.DrawingModeHandler#execute(ExecutionEvent) execute(ExecutionEvent)} with the
+     * Unit test the method {@link com.se.simplicity.editor.handlers.SelectionHandler#execute(ExecutionEvent) execute(ExecutionEvent)} with the
      * special condition that a {@link com.se.simplicity.editor.ui.editors.SceneEditor SceneEditor} is not active.
      * </p>
      * 
@@ -166,14 +184,14 @@ public class DrawingModeHandlerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.handlers.DrawingModeHandler#execute(ExecutionEvent) execute(ExecutionEvent)} with the
-     * special condition that the radio parameter is the same as the current radio state.
+     * Unit test the method {@link com.se.simplicity.editor.handlers.SelectionModeHandler#execute(ExecutionEvent) execute(ExecutionEvent)} with the
+     * special condition that the handler was executed from a Widget pick with no hits.
      * </p>
      * 
      * @throws ExecutionException Thrown if the handler fails to execute.
      */
     @Test
-    public void executeSame() throws ExecutionException
+    public void executeWidgetPickNoHits() throws ExecutionException
     {
         // Create dependencies.
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
@@ -181,64 +199,27 @@ public class DrawingModeHandlerTest
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
+        Event event = new Event();
+        event.type = 1;
+        event.data = null;
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "faces");
-        ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
+        parameters.put(RadioState.PARAMETER_ID, "none");
+        ExecutionEvent executionEvent = new ExecutionEvent(command, parameters, event, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("faces");
+        expect(mockState.getValue()).andStubReturn("node0,face0");
         replay(mockContext);
 
         // Dictate expected results.
         replay(mockSceneEditor, mockState); // Nothing should be called on these.
 
         // Perform test.
-        testObject.execute(event);
+        testObject.execute(executionEvent);
 
-        // Verify test results.
-        verify(mockSceneEditor);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.handlers.DrawingModeHandler#execute(ExecutionEvent) execute(ExecutionEvent)} with the
-     * special condition that the radio parameter was 'vertices'.
-     * </p>
-     * 
-     * @throws ExecutionException Thrown if the handler fails to execute.
-     */
-    @Test
-    public void executeVertices() throws ExecutionException
-    {
-        // Create dependencies.
-        IEvaluationContext mockContext = createMock(IEvaluationContext.class);
-        SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-
-        CommandManager commandManager = new CommandManager();
-        Command command = commandManager.getCommand("test");
-        State mockState = createMock(State.class);
-        command.addState(RadioState.STATE_ID, mockState);
-        HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "vertices");
-        ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
-
-        // Dictate correct behaviour.
-        expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("faces");
-        replay(mockContext);
-
-        // Dictate expected results.
-        mockSceneEditor.setDrawingMode(DrawingMode.VERTICES);
-        mockState.setValue("vertices");
-        replay(mockSceneEditor, mockState);
-
-        // Perform test.
-        testObject.execute(event);
-
-        // Verify test results.
+        // Verify results.
         verify(mockSceneEditor);
     }
 }

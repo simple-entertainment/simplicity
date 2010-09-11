@@ -14,7 +14,6 @@ package com.se.simplicity.editor.test.handlers;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
 
 import java.util.HashMap;
 
@@ -31,9 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.handlers.SelectionModeHandler;
-import com.se.simplicity.editor.internal.ContentProvider;
 import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.SelectionMode;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.SceneGraph;
@@ -84,7 +81,6 @@ public class SelectionModeHandlerTest
 
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -98,9 +94,8 @@ public class SelectionModeHandlerTest
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("model");
-        replay(mockScene, mockSceneGraph, mockContext, mockSceneEditor);
+        replay(mockScene, mockSceneGraph, mockContext);
 
         // Initialise test environment.
         SceneManager.getSceneManager().addScene(mockScene, "test");
@@ -108,15 +103,11 @@ public class SelectionModeHandlerTest
         SceneManager.getSceneManager().setActiveNode(mockNode);
 
         // Dictate expected results.
-        mockContentProvider.setSelectionMode(SelectionMode.EDGES);
         mockState.setValue("edges");
-        replay(mockContentProvider, mockState);
+        replay(mockState);
 
         // Perform test.
         testObject.execute(event);
-
-        // Verify test results.
-        verify(mockContentProvider);
     }
 
     /**
@@ -137,7 +128,6 @@ public class SelectionModeHandlerTest
 
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -151,9 +141,8 @@ public class SelectionModeHandlerTest
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("model");
-        replay(mockScene, mockSceneGraph, mockContext, mockSceneEditor);
+        replay(mockScene, mockSceneGraph, mockContext);
 
         // Initialise test environment.
         SceneManager.getSceneManager().addScene(mockScene, "test");
@@ -161,15 +150,11 @@ public class SelectionModeHandlerTest
         SceneManager.getSceneManager().setActiveNode(mockNode);
 
         // Dictate expected results.
-        mockContentProvider.setSelectionMode(SelectionMode.FACES);
         mockState.setValue("faces");
-        replay(mockContentProvider, mockState);
+        replay(mockState);
 
         // Perform test.
         testObject.execute(event);
-
-        // Verify test results.
-        verify(mockContentProvider);
     }
 
     /**
@@ -186,7 +171,6 @@ public class SelectionModeHandlerTest
         // Create dependencies.
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -198,20 +182,15 @@ public class SelectionModeHandlerTest
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("faces");
-        replay(mockContext, mockSceneEditor);
+        replay(mockContext);
 
         // Dictate expected results.
-        mockContentProvider.setSelectionMode(SelectionMode.MODEL);
         mockState.setValue("model");
-        replay(mockContentProvider, mockState);
+        replay(mockState);
 
         // Perform test.
         testObject.execute(event);
-
-        // Verify test results.
-        verify(mockContentProvider);
     }
 
     /**
@@ -228,7 +207,6 @@ public class SelectionModeHandlerTest
         // Create dependencies.
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -240,18 +218,14 @@ public class SelectionModeHandlerTest
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("model");
-        replay(mockContext, mockSceneEditor);
+        replay(mockContext);
 
         // Dictate expected results.
-        replay(mockContentProvider, mockState); // Nothing should be called on these.
+        replay(mockState); // Nothing should be called on these.
 
         // Perform test.
         testObject.execute(event);
-
-        // Verify test results.
-        verify(mockContentProvider);
     }
 
     /**
@@ -297,7 +271,6 @@ public class SelectionModeHandlerTest
 
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -311,9 +284,8 @@ public class SelectionModeHandlerTest
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("model");
-        replay(mockScene, mockSceneGraph, mockContext, mockSceneEditor);
+        replay(mockScene, mockSceneGraph, mockContext);
 
         // Initialise test environment.
         SceneManager.getSceneManager().addScene(mockScene, "test");
@@ -321,14 +293,10 @@ public class SelectionModeHandlerTest
         SceneManager.getSceneManager().setActiveNode(mockNode);
 
         // Dictate expected results.
-        mockContentProvider.setSelectionMode(SelectionMode.VERTICES);
         mockState.setValue("vertices");
-        replay(mockContentProvider, mockState);
+        replay(mockState);
 
         // Perform test.
         testObject.execute(event);
-
-        // Verify test results.
-        verify(mockContentProvider);
     }
 }

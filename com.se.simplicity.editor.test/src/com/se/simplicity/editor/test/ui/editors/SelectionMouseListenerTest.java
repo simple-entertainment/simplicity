@@ -24,35 +24,36 @@ import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.widgets.Event;
 import org.junit.Test;
 
-import com.se.simplicity.editor.ui.editors.SceneMouseListener;
-import com.se.simplicity.picking.engine.PickingEngine;
+import com.se.simplicity.editor.internal.EditingMode;
+import com.se.simplicity.editor.ui.editors.SceneEditor;
+import com.se.simplicity.editor.ui.editors.SelectionMouseListener;
 
 /**
  * <p>
- * Unit tests for the class {@link com.se.simplicity.editor.ui.editors.SceneMouseListener SceneMouseListener}.
+ * Unit tests for the class {@link com.se.simplicity.editor.ui.editors.SelectionMouseListener SelectionMouseListener}.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class SceneMouseListenerTest
+public class SelectionMouseListenerTest
 {
     /**
      * An instance of the class being unit tested.
      */
-    private SceneMouseListener testObject;
+    private SelectionMouseListener testObject;
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneMouseListener#mouseUp(MouseEvent) mouseUp(MouseEvent)} with the special
-     * condition that it was mouse button 3 that raised the event.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SelectionMouseListener#mouseUp(MouseEvent) mouseUp(MouseEvent)} with the
+     * special condition that it was mouse button 3 that raised the event.
      * </p>
      */
     @Test
-    public void mouseUpButton3()
+    public void mouseUpButton1()
     {
         // Create dependencies.
         GLCanvas mockCanvas = createMock(GLCanvas.class);
-        PickingEngine mockPickingEngine = createMock(PickingEngine.class);
+        SceneEditor mockSceneEditor = createMock(SceneEditor.class);
         Rectangle rectangle = new Rectangle(0, 0, 200, 200);
 
         Dimension dimension = new Dimension();
@@ -62,22 +63,26 @@ public class SceneMouseListenerTest
         Event event = new Event();
         event.widget = mockCanvas;
         MouseEvent mouseEvent = new MouseEvent(event);
-        mouseEvent.button = 3;
+        mouseEvent.button = 1;
         mouseEvent.x = 100;
         mouseEvent.y = 100;
 
         // Dictate correct behaviour.
         expect(mockCanvas.getBounds()).andStubReturn(rectangle);
-        mockPickingEngine.pickViewport(dimension, 100, 100, 2, 2);
-        replay(mockCanvas, mockPickingEngine);
+        expect(mockSceneEditor.getEditingMode()).andStubReturn(EditingMode.SELECTION);
+        replay(mockCanvas);
 
         // Initialise test environment.
-        testObject = new SceneMouseListener(mockPickingEngine);
+        testObject = new SelectionMouseListener(mockSceneEditor);
+
+        // Dictate expected results.
+        mockSceneEditor.pickForSelection(dimension, 100, 100, 2, 2);
+        replay(mockSceneEditor);
 
         // Perform test.
         testObject.mouseUp(mouseEvent);
 
         // Verify test results.
-        verify(mockPickingEngine);
+        verify(mockSceneEditor);
     }
 }

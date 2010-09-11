@@ -114,7 +114,7 @@ public class SceneManagerTest
         IPath mockPath = createMock(IPath.class);
 
         expect(mockInput.getFile()).andStubReturn(mockFile);
-        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/internal/triangle.xml"));
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
         expect(mockFile.getFullPath()).andStubReturn(mockPath);
         replay(mockInput, mockFile);
 
@@ -134,7 +134,7 @@ public class SceneManagerTest
     @Test
     public void addSceneDefinitionInputStream() throws FileNotFoundException
     {
-        testObject.addScene(new FileInputStream("src/com/se/simplicity/editor/test/internal/triangle.xml"), "test");
+        testObject.addScene(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"), "test");
 
         assertNotNull(testObject.getScene("test"));
     }

@@ -14,13 +14,10 @@ package com.se.simplicity.editor.test.internal;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.ContentProvider;
-import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.internal.ScenePickListener;
 import com.se.simplicity.picking.Hit;
 import com.se.simplicity.picking.event.PickEvent;
@@ -48,7 +45,7 @@ public class ScenePickListenerTest
     @Before
     public void before()
     {
-        SceneManager.getSceneManager().reset();
+        testObject = new ScenePickListener();
     }
 
     /**
@@ -60,11 +57,8 @@ public class ScenePickListenerTest
     public void scenePicked()
     {
         // Create dependencies.
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
-
         PickEvent mockEvent = createMock(PickEvent.class);
         Hit mockHit = createMock(Hit.class);
-
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
@@ -73,18 +67,10 @@ public class ScenePickListenerTest
         expect(mockHit.getNode()).andStubReturn(mockNode);
         replay(mockEvent, mockHit);
 
-        // Initialise test environment.
-        testObject = new ScenePickListener(mockContentProvider);
-
-        // Dictate expected results.
-        mockContentProvider.setSelectedSceneComponent(mockNode);
-        replay(mockContentProvider);
-
         // Perform test.
         testObject.scenePicked(mockEvent);
 
-        // Verify test results.
-        verify(mockContentProvider);
+        // TODO actually test something...
     }
 
     /**
@@ -97,25 +83,13 @@ public class ScenePickListenerTest
     public void scenePickedNoHits()
     {
         // Create dependencies.
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
-
         PickEvent mockEvent = createMock(PickEvent.class);
 
         // Dictate correct behaviour.
         expect(mockEvent.getHitCount()).andStubReturn(0);
         replay(mockEvent);
 
-        // Initialise test environment.
-        testObject = new ScenePickListener(mockContentProvider);
-
-        // Dictate expected results.
-        mockContentProvider.setSelectedSceneComponent(null);
-        replay(mockContentProvider);
-
         // Perform test.
         testObject.scenePicked(mockEvent);
-
-        // Verify test results.
-        verify(mockContentProvider);
     }
 }

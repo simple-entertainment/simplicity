@@ -24,8 +24,9 @@ import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.widgets.Event;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.ContentProvider;
+import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.Widget;
+import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.editor.ui.editors.WidgetMouseListener;
 import com.se.simplicity.picking.engine.PickingEngine;
 
@@ -54,7 +55,8 @@ public class WidgetMouseListenerTest
     {
         // Create dependencies.
         GLCanvas mockCanvas = createMock(GLCanvas.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
+        WidgetManager mockWidgetManager = createMock(WidgetManager.class);
+        Widget mockWidget = createMock(Widget.class);
         PickingEngine mockPickingEngine = createMock(PickingEngine.class);
         Rectangle rectangle = new Rectangle(0, 0, 200, 200);
 
@@ -71,11 +73,13 @@ public class WidgetMouseListenerTest
 
         // Dictate correct behaviour.
         expect(mockCanvas.getBounds()).andStubReturn(rectangle);
-        expect(mockContentProvider.getWidgetPickingEngine()).andStubReturn(mockPickingEngine);
-        replay(mockCanvas, mockContentProvider);
+        expect(mockWidgetManager.getWidget()).andStubReturn(mockWidget);
+        expect(mockWidgetManager.getEditingMode()).andStubReturn(EditingMode.ROTATION);
+        expect(mockWidgetManager.getPickingEngine()).andStubReturn(mockPickingEngine);
+        replay(mockCanvas, mockWidgetManager);
 
         // Initialise test environment.
-        testObject = new WidgetMouseListener(mockContentProvider);
+        testObject = new WidgetMouseListener(mockWidgetManager);
 
         // Dictate expected results.
         mockPickingEngine.pickViewport(dimension, 100, 100, 2, 2);
@@ -99,10 +103,10 @@ public class WidgetMouseListenerTest
     {
         // Create dependencies.
         GLCanvas mockCanvas = createMock(GLCanvas.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
+        WidgetManager mockWidgetManager = createMock(WidgetManager.class);
+        Widget mockWidget = createMock(Widget.class);
         PickingEngine mockPickingEngine = createMock(PickingEngine.class);
         Rectangle rectangle = new Rectangle(0, 0, 200, 200);
-        Widget mockWidget = createMock(Widget.class);
 
         Event event = new Event();
         event.widget = mockCanvas;
@@ -113,12 +117,13 @@ public class WidgetMouseListenerTest
 
         // Dictate correct behaviour.
         expect(mockCanvas.getBounds()).andStubReturn(rectangle);
-        expect(mockContentProvider.getWidgetPickingEngine()).andStubReturn(mockPickingEngine);
-        expect(mockContentProvider.getCurrentWidget()).andStubReturn(mockWidget);
-        replay(mockCanvas, mockContentProvider);
+        expect(mockWidgetManager.getWidget()).andStubReturn(mockWidget);
+        expect(mockWidgetManager.getEditingMode()).andStubReturn(EditingMode.ROTATION);
+        expect(mockWidgetManager.getPickingEngine()).andStubReturn(mockPickingEngine);
+        replay(mockCanvas, mockWidgetManager);
 
         // Initialise test environment.
-        testObject = new WidgetMouseListener(mockContentProvider);
+        testObject = new WidgetMouseListener(mockWidgetManager);
         testObject.mouseDown(mouseEvent);
 
         // Dictate expected results.
@@ -132,7 +137,7 @@ public class WidgetMouseListenerTest
         testObject.mouseMove(mouseEvent);
 
         // Verify test results.
-        verify(mockContentProvider);
+        verify(mockWidget);
     }
 
     /**
@@ -145,7 +150,7 @@ public class WidgetMouseListenerTest
     public void mouseUpButton1()
     {
         // Create dependencies.
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
+        WidgetManager mockWidgetManager = createMock(WidgetManager.class);
         Widget mockWidget = createMock(Widget.class);
 
         Event event = new Event();
@@ -154,11 +159,12 @@ public class WidgetMouseListenerTest
         mouseEvent.button = 1;
 
         // Dictate correct behaviour.
-        expect(mockContentProvider.getCurrentWidget()).andStubReturn(mockWidget);
-        replay(mockContentProvider);
+        expect(mockWidgetManager.getWidget()).andStubReturn(mockWidget);
+        expect(mockWidgetManager.getEditingMode()).andStubReturn(EditingMode.ROTATION);
+        replay(mockWidgetManager);
 
         // Initialise test environment.
-        testObject = new WidgetMouseListener(mockContentProvider);
+        testObject = new WidgetMouseListener(mockWidgetManager);
 
         // Dictate expected results.
         mockWidget.setSelectedWidgetNode(null);
@@ -168,6 +174,6 @@ public class WidgetMouseListenerTest
         testObject.mouseUp(mouseEvent);
 
         // Verify test results.
-        verify(mockContentProvider);
+        verify(mockWidget);
     }
 }

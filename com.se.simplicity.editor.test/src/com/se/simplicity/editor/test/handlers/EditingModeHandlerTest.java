@@ -31,7 +31,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.handlers.EditingModeHandler;
-import com.se.simplicity.editor.internal.ContentProvider;
 import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
@@ -84,7 +83,6 @@ public class EditingModeHandlerTest
 
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -98,9 +96,8 @@ public class EditingModeHandlerTest
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("selection");
-        replay(mockScene, mockSceneGraph, mockContext, mockSceneEditor);
+        replay(mockScene, mockSceneGraph, mockContext);
 
         // Initialise test environment.
         SceneManager.getSceneManager().addScene(mockScene, "test");
@@ -108,15 +105,15 @@ public class EditingModeHandlerTest
         SceneManager.getSceneManager().setActiveNode(mockNode);
 
         // Dictate expected results.
-        mockContentProvider.setEditingMode(EditingMode.ROTATION);
+        mockSceneEditor.setEditingMode(EditingMode.ROTATION);
         mockState.setValue("rotation");
-        replay(mockContentProvider, mockState);
+        replay(mockSceneEditor, mockState);
 
         // Perform test.
         testObject.execute(event);
 
         // Verify test results.
-        verify(mockContentProvider);
+        verify(mockSceneEditor);
     }
 
     /**
@@ -158,7 +155,6 @@ public class EditingModeHandlerTest
         // Create dependencies.
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -170,18 +166,17 @@ public class EditingModeHandlerTest
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("selection");
-        replay(mockContext, mockSceneEditor);
+        replay(mockContext);
 
         // Dictate expected results.
-        replay(mockContentProvider, mockState); // Nothing should be called on these.
+        replay(mockSceneEditor, mockState); // Nothing should be called on these.
 
         // Perform test.
         testObject.execute(event);
 
         // Verify test results.
-        verify(mockContentProvider);
+        verify(mockSceneEditor);
     }
 
     /**
@@ -198,7 +193,6 @@ public class EditingModeHandlerTest
         // Create dependencies.
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -210,20 +204,19 @@ public class EditingModeHandlerTest
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("rotation");
-        replay(mockContext, mockSceneEditor);
+        replay(mockContext);
 
         // Dictate expected results.
-        mockContentProvider.setEditingMode(EditingMode.SELECTION);
+        mockSceneEditor.setEditingMode(EditingMode.SELECTION);
         mockState.setValue("selection");
-        replay(mockContentProvider, mockState);
+        replay(mockSceneEditor, mockState);
 
         // Perform test.
         testObject.execute(event);
 
         // Verify test results.
-        verify(mockContentProvider);
+        verify(mockSceneEditor);
     }
 
     /**
@@ -244,7 +237,6 @@ public class EditingModeHandlerTest
 
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
-        ContentProvider mockContentProvider = createMock(ContentProvider.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -258,9 +250,8 @@ public class EditingModeHandlerTest
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockSceneEditor.getContentProvider()).andStubReturn(mockContentProvider);
         expect(mockState.getValue()).andStubReturn("selection");
-        replay(mockScene, mockSceneGraph, mockContext, mockSceneEditor);
+        replay(mockScene, mockSceneGraph, mockContext);
 
         // Initialise test environment.
         SceneManager.getSceneManager().addScene(mockScene, "test");
@@ -268,14 +259,14 @@ public class EditingModeHandlerTest
         SceneManager.getSceneManager().setActiveNode(mockNode);
 
         // Dictate expected results.
-        mockContentProvider.setEditingMode(EditingMode.TRANSLATION);
+        mockSceneEditor.setEditingMode(EditingMode.TRANSLATION);
         mockState.setValue("translation");
-        replay(mockContentProvider, mockState);
+        replay(mockSceneEditor, mockState);
 
         // Perform test.
         testObject.execute(event);
 
         // Verify test results.
-        verify(mockContentProvider);
+        verify(mockSceneEditor);
     }
 }
