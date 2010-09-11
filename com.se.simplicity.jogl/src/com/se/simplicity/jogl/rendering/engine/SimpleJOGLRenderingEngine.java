@@ -23,7 +23,6 @@ import org.apache.log4j.Logger;
 
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.engine.JOGLEngine;
-import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.NamedRenderer;
@@ -378,7 +377,7 @@ public class SimpleJOGLRenderingEngine extends JOGLEngine implements RenderingEn
             {
                 if (renderer instanceof NamedRenderer)
                 {
-                    ((NamedJOGLRenderer) renderer).renderModel(((ModelNode) currentNode).getModel(), currentNode.getID());
+                    ((NamedRenderer) renderer).renderModel(((ModelNode) currentNode).getModel(), currentNode.getID());
                 }
                 else
                 {
