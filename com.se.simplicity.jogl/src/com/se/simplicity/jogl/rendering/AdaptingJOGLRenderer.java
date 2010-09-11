@@ -69,12 +69,6 @@ public abstract class AdaptingJOGLRenderer implements Renderer, JOGLComponent
     }
 
     @Override
-    public void init()
-    {
-        fRenderer.init();
-    }
-
-    @Override
     public DrawingMode getDrawingMode()
     {
         return (fRenderer.getDrawingMode());
@@ -84,6 +78,24 @@ public abstract class AdaptingJOGLRenderer implements Renderer, JOGLComponent
     public GL getGL()
     {
         return (fGl);
+    }
+
+    /**
+     * <p>
+     * Retrieves the wrapped {@link com.se.simplicity.rendering.Renderer Renderer}.
+     * </p>
+     * 
+     * @return The wrapped {@link com.se.simplicity.rendering.Renderer Renderer}.
+     */
+    public Renderer getRenderer()
+    {
+        return (fRenderer);
+    }
+
+    @Override
+    public void init()
+    {
+        fRenderer.init();
     }
 
     @Override
@@ -104,5 +116,17 @@ public abstract class AdaptingJOGLRenderer implements Renderer, JOGLComponent
         fGl = gl;
 
         ((JOGLComponent) fRenderer).setGL(gl);
+    }
+
+    /**
+     * <p>
+     * Sets the wrapped {@link com.se.simplicity.rendering.Renderer Renderer}.
+     * </p>
+     * 
+     * @param renderer The wrapped {@link com.se.simplicity.rendering.Renderer Renderer}.
+     */
+    public void setRenderer(final Renderer renderer)
+    {
+        fRenderer = renderer;
     }
 }
