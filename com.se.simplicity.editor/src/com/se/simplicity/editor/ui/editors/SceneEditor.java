@@ -11,14 +11,21 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
+import java.awt.Dimension;
+
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IEditorPart;
 
-import com.se.simplicity.editor.internal.ContentProvider;
-
+import com.se.simplicity.editor.internal.EditingMode;
+import com.se.simplicity.editor.internal.SceneManager2;
+import com.se.simplicity.editor.internal.WidgetManager;
+import com.se.simplicity.rendering.DrawingMode;
+import com.se.simplicity.rendering.ProjectionMode;
+import com.se.simplicity.scenegraph.Node;
 
 /**
  * <p>
- * An editor capable of displaying a <code>Scene</code> visually.
+ * An editor capable of displaying a {@link com.se.simplicity.scene.Scene Scene} visually.
  * </p>
  * 
  * @author Gary Buyn
@@ -27,12 +34,89 @@ public interface SceneEditor extends IEditorPart
 {
     /**
      * <p>
-     * Returns the {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} providding content for this
-     * <code>SceneEditor</code>.
+     * Retrieves the {@link com.se.simplicity.editor.internal.EditingMode EditingMode} used to manipulate the {@link com.se.simplicity.scene.Scene
+     * Scene}.
      * </p>
      * 
-     * @return The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} providding content for this
-     * <code>SceneEditor</code>.
+     * @return The <code>EditingMode</code> used to manipulate the <code>Scene</code>.
      */
-    ContentProvider getContentProvider();
+    EditingMode getEditingMode();
+
+    /**
+     * <p>
+     * Retrieves the manager for the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     * 
+     * @return The manager for the <code>Scene</code>.
+     */
+    SceneManager2 getSceneManager();
+
+    /**
+     * <p>
+     * Retrieves the manager for the {@link com.se.simplicity.editor.internal.Widget Widget}s used to manipulate the
+     * {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     * 
+     * @return The manager for the <code>Widget</code>s used to manipulate the <code>Scene</code>.
+     */
+    WidgetManager getWidgetManager();
+
+    /**
+     * <p>
+     * Picks the {@link com.se.simplicity.editor.internal.Widget Widget}s and the {@link com.se.simplicity.scene.Scene Scene} to determine the
+     * selected scene component (if any). Selection of a <code>Widget</code> takes precedence over selection of a scene component.
+     * </p>
+     * 
+     * @param viewportSize The size of the viewport.
+     * @param x The position on the <code>x</code> axis of the viewport to pick.
+     * @param y The position on the <code>y</code> axis of the viewport to pick.
+     * @param width The width of the area on the viewport to pick.
+     * @param height The height of the area on the viewport to pick.
+     */
+    void pickForSelection(Dimension viewportSize, int x, int y, int width, int height);
+
+    /**
+     * <p>
+     * Updates this <code>SceneEditor</code> to reflect the size of the 3D canvas.
+     * </p>
+     * 
+     * @param canvasSize The size of the 3D canvas to reflect.
+     */
+    void setCanvasSize(Rectangle canvasSize);
+
+    /**
+     * <p>
+     * Sets the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to render the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     * 
+     * @param drawingMode The <code>DrawingMode</code> used to render the <code>Scene</code>.
+     */
+    void setDrawingMode(DrawingMode drawingMode);
+
+    /**
+     * <p>
+     * Sets the {@link com.se.simplicity.editor.internal.EditingMode EditingMode} used to manipulate the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     * 
+     * @param editingMode The <code>EditingMode</code> used to manipulate the <code>Scene</code>.
+     */
+    void setEditingMode(EditingMode editingMode);
+
+    /**
+     * <p>
+     * Sets the {@link com.se.simplicity.rendering.ProjectionMode ProjectionMode} the {@link com.se.simplicity.scene.Scene Scene} is displayed with.
+     * </p>
+     * 
+     * @param projectionMode The <code>ProjectionMode</code> the <code>Scene</code> is displayed with.
+     */
+    void setProjectionMode(ProjectionMode projectionMode);
+
+    /**
+     * <p>
+     * Sets the currently selected scene component.
+     * </p>
+     * 
+     * @param selectedSceneComponent The currently selected scene component.
+     */
+    void setSelectedSceneComponent(Node selectedSceneComponent);
 }

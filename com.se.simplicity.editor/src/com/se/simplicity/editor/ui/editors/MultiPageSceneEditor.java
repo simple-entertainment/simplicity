@@ -11,14 +11,22 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
+import java.awt.Dimension;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
-import com.se.simplicity.editor.internal.ContentProvider;
+import com.se.simplicity.editor.internal.EditingMode;
+import com.se.simplicity.editor.internal.SceneManager2;
+import com.se.simplicity.editor.internal.WidgetManager;
+import com.se.simplicity.rendering.DrawingMode;
+import com.se.simplicity.rendering.ProjectionMode;
+import com.se.simplicity.scenegraph.Node;
 
 /**
  * A multi-page eclipse editor that displays a <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment on the first page and
@@ -88,7 +96,7 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     {
         try
         {
-            fVisualEditor = new VisualSceneEditor(new ContentProvider());
+            fVisualEditor = new VisualSceneEditor();
             int index = addPage(fVisualEditor, getEditorInput());
             setPageText(index, "Visual");
         }
@@ -111,6 +119,24 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     }
 
     @Override
+    public EditingMode getEditingMode()
+    {
+        return (fVisualEditor.getEditingMode());
+    }
+
+    @Override
+    public SceneManager2 getSceneManager()
+    {
+        return (fVisualEditor.getSceneManager());
+    }
+
+    @Override
+    public WidgetManager getWidgetManager()
+    {
+        return (fVisualEditor.getWidgetManager());
+    }
+
+    @Override
     public void init(final IEditorSite site, final IEditorInput input) throws PartInitException
     {
         super.init(site, input);
@@ -125,8 +151,38 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     }
 
     @Override
-    public ContentProvider getContentProvider()
+    public void pickForSelection(final Dimension viewportSize, final int x, final int y, final int width, final int height)
     {
-        return (fVisualEditor.getContentProvider());
+        fVisualEditor.pickForSelection(viewportSize, x, y, width, height);
+    }
+
+    @Override
+    public void setCanvasSize(final Rectangle canvasSize)
+    {
+        fVisualEditor.setCanvasSize(canvasSize);
+    }
+
+    @Override
+    public void setDrawingMode(final DrawingMode drawingMode)
+    {
+        fVisualEditor.setDrawingMode(drawingMode);
+    }
+
+    @Override
+    public void setEditingMode(final EditingMode editingMode)
+    {
+        fVisualEditor.setEditingMode(editingMode);
+    }
+
+    @Override
+    public void setProjectionMode(final ProjectionMode projectionMode)
+    {
+        fVisualEditor.setProjectionMode(projectionMode);
+    }
+
+    @Override
+    public void setSelectedSceneComponent(final Node selectedSceneComponent)
+    {
+        fVisualEditor.setSelectedSceneComponent(selectedSceneComponent);
     }
 }

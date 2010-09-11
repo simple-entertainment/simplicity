@@ -11,6 +11,11 @@
  */
 package com.se.simplicity.editor.internal;
 
+import org.apache.log4j.Logger;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.IHandlerService;
+
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.scenegraph.model.ModelNode;
@@ -32,27 +37,49 @@ public class WidgetPickListener implements PickListener
      * {@link com.se.simplicity.editor.internal.Widget Widget}.
      * </p>
      */
-    private ContentProvider fContentProvider;
+    private WidgetManager fWidgetManager;
 
     /**
      * <p>
      * Creates an instance of <code>WidgetPickListener</code>.
      * </p>
      * 
-     * @param contentProvider The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} containing the
+     * @param widgetManager The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} containing the
      * {@link com.se.simplicity.editor.internal.Widget Widget}.
      */
-    public WidgetPickListener(final ContentProvider contentProvider)
+    public WidgetPickListener(final WidgetManager widgetManager)
     {
-        fContentProvider = contentProvider;
+        fWidgetManager = widgetManager;
     }
 
     @Override
     public void scenePicked(final PickEvent event)
     {
-        if (event.getHitCount() > 0)
+        if (fWidgetManager.getEditingMode() == EditingMode.SELECTION)
         {
-            fContentProvider.getCurrentWidget().setSelectedWidgetNode((ModelNode) event.getCloseHit().getNode());
+            Event swtEvent = new Event();
+            swtEvent.type = 1;
+            if (event.getHitCount() > 0)
+            {
+                swtEvent.data = event.getCloseHit().getNode();
+            }
+
+            try
+            {
+                IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
+                handlerService.executeCommand("com.se.simplicity.editor.commands.select2", swtEvent);
+            }
+            catch (Exception e)
+            {
+                Logger.getLogger(getClass()).error("Failed to select scene component.", e);
+            }
+        }
+        else
+        {
+            if (event.getHitCount() > 0)
+            {
+                fWidgetManager.getWidget().setSelectedWidgetNode((ModelNode) event.getCloseHit().getNode());
+            }
         }
     }
 }

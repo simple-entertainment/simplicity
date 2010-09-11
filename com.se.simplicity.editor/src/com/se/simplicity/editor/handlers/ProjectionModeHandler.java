@@ -22,7 +22,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.handlers.RadioState;
 
 import com.se.simplicity.editor.ui.editors.SceneEditor;
-import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.ProjectionMode;
 
 /**
@@ -67,15 +66,14 @@ public class ProjectionModeHandler extends AbstractHandler
         }
 
         String currentState = event.getParameter(RadioState.PARAMETER_ID);
-        Camera camera = ((SceneEditor) editor).getContentProvider().getViewingCamera();
 
         if (currentState.equals("orthogonal"))
         {
-            camera.setProjectionMode(ProjectionMode.ORTHOGONAL);
+            ((SceneEditor) editor).setProjectionMode(ProjectionMode.ORTHOGONAL);
         }
         else if (currentState.equals("perspective"))
         {
-            camera.setProjectionMode(ProjectionMode.PERSPECTIVE);
+            ((SceneEditor) editor).setProjectionMode(ProjectionMode.PERSPECTIVE);
         }
 
         HandlerUtil.updateRadioState(event.getCommand(), currentState);

@@ -15,12 +15,10 @@ import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.widgets.Control;
 
-import com.se.simplicity.editor.internal.ContentProvider;
-
 /**
  * <p>
- * Listens for resize events on a 3D canvas and updates the {@link com.se.simplicity.editor.internal.ContentProvider ContentProvider} to reflect the
- * change in size.
+ * Listens for resize events on a 3D canvas and updates the {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor VisualSceneEditor} to reflect
+ * the change in size.
  * </p>
  * 
  * @author Gary Buyn
@@ -29,26 +27,26 @@ public class ResizeControlListener extends ControlAdapter
 {
     /**
      * <p>
-     * The {@link com.se.simplicity.editor.internal.ContentProvider ContentProvider} to update.
+     * The {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor VisualSceneEditor} to update.
      * </p>
      */
-    private ContentProvider fContentProvider;
+    private SceneEditor fSceneEditor;
 
     /**
      * <p>
      * Creates an instance of <code>ResizeControlListener</code>.
      * </p>
      * 
-     * @param contentProvider The {@link com.se.simplicity.editor.internal.ContentProvider ContentProvider} to update.
+     * @param sceneEditor The {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor VisualSceneEditor} to update.
      */
-    public ResizeControlListener(final ContentProvider contentProvider)
+    public ResizeControlListener(final SceneEditor sceneEditor)
     {
-        fContentProvider = contentProvider;
+        fSceneEditor = sceneEditor;
     }
 
     @Override
     public void controlResized(final ControlEvent event)
     {
-        fContentProvider.setCanvasSize(((Control) event.widget).getBounds());
+        fSceneEditor.setCanvasSize(((Control) event.widget).getBounds());
     }
 }

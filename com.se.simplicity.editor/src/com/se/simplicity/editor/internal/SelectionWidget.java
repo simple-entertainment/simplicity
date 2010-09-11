@@ -5,7 +5,6 @@ import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.scenegraph.model.SimpleModelNode;
-import com.se.simplicity.vector.ArrayBackedObjectf;
 import com.se.simplicity.vector.TransformationMatrixf;
 import com.se.simplicity.vector.Vectorf;
 
@@ -98,8 +97,7 @@ public class SelectionWidget implements Widget
     public void updateView(final Camera camera)
     {
         // Transform the Widget to the orientation of the camera.
-        float[] cameraArray = ((ArrayBackedObjectf) camera.getNode().getParent().getTransformation()).getArrayCopy();
-        ((ArrayBackedObjectf) fRoot.getTransformation()).setArray(cameraArray);
+        fRoot.setTransformation(camera.getNode().getAbsoluteTransformation());
 
         // Transform the Widget to the position of the selected scene component.
         if (fSelectedSceneComponent != null)

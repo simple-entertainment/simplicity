@@ -186,6 +186,23 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
         fCamera = camera;
     }
 
+    @Override
+    public void setGL(final GL gl)
+    {
+        super.setGL(gl);
+
+        fOutlineWidgetRenderer.setGL(gl);
+        fStandardWidgetRenderer.setGL(gl);
+    }
+
+    @Override
+    public void setRenderer(final Renderer renderer)
+    {
+        super.setRenderer(renderer);
+
+        ((AdaptingJOGLRenderer) fStandardWidgetRenderer.getRenderer()).setRenderer(renderer);
+    }
+
     /**
      * <p>
      * Sets the {@link com.se.simplicity.editor.internal.Widget Widget} that will be rendered.
@@ -196,14 +213,5 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
     public void setWidget(final Widget widget)
     {
         fWidget = widget;
-    }
-
-    @Override
-    public void setGL(final GL gl)
-    {
-        super.setGL(gl);
-
-        fOutlineWidgetRenderer.setGL(gl);
-        fStandardWidgetRenderer.setGL(gl);
     }
 }

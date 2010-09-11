@@ -11,13 +11,17 @@
  */
 package com.se.simplicity.editor.internal;
 
+import org.apache.log4j.Logger;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.IHandlerService;
+
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 
 /**
  * <p>
- * Listens for pick events on a 3D canvas and sets the picked {@link com.se.simplicity.scenegraph.Node Node} to be the currently selected scene
- * component.
+ * Listens for pick events on a 3D canvas and selects the picked {@link com.se.simplicity.scenegraph.Node Node}.
  * </p>
  * 
  * @author Gary Buyn
@@ -26,34 +30,30 @@ public class ScenePickListener implements PickListener
 {
     /**
      * <p>
-     * The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} to set the currently selected scene component for.
-     * </p>
-     */
-    private ContentProvider fContentProvider;
-
-    /**
-     * <p>
      * Creates an instance of <code>ScenePickListener</code>.
      * </p>
-     * 
-     * @param contentProvider The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} to set the currently selected
-     * scene component for.
      */
-    public ScenePickListener(final ContentProvider contentProvider)
-    {
-        fContentProvider = contentProvider;
-    }
+    public ScenePickListener()
+    {}
 
     @Override
     public void scenePicked(final PickEvent event)
     {
+        Event swtEvent = new Event();
+        swtEvent.type = 2;
         if (event.getHitCount() > 0)
         {
-            fContentProvider.setSelectedSceneComponent(event.getCloseHit().getNode());
+            swtEvent.data = event.getCloseHit().getNode();
         }
-        else
+
+        try
         {
-            fContentProvider.setSelectedSceneComponent(null);
+            IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
+            handlerService.executeCommand("com.se.simplicity.editor.commands.select2", swtEvent);
+        }
+        catch (Exception e)
+        {
+            Logger.getLogger(getClass()).error("Failed to select scene component.", e);
         }
     }
 }

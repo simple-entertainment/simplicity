@@ -20,7 +20,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.handlers.RadioState;
 
-import com.se.simplicity.editor.internal.ContentProvider;
 import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
@@ -54,6 +53,7 @@ public class EditingModeHandler extends AbstractHandler
      */
     public Object execute(final ExecutionEvent event) throws ExecutionException
     {
+        // Check that the correct editor is active.
         IEditorPart editor = HandlerUtil.getActiveEditor(event);
         if (!(editor instanceof SceneEditor))
         {
@@ -61,14 +61,15 @@ public class EditingModeHandler extends AbstractHandler
             throw new ExecutionException("This handler can only be executed when a Scene Editor is active.");
         }
 
+        // Check that the Editing Mode has changed.
         if (HandlerUtil.matchesRadioState(event))
         {
             return null;
         }
 
         String currentState = event.getParameter(RadioState.PARAMETER_ID);
-        ContentProvider contentProvider = ((SceneEditor) editor).getContentProvider();
 
+        // Check that the change in Editing Mode is valid.
         if (!currentState.equals("selection") && !(SceneManager.getSceneManager().getActiveNode() instanceof ModelNode))
         {
             MessageDialog.openError(editor.getSite().getShell(), "Cannot change Editing Mode",
@@ -76,19 +77,21 @@ public class EditingModeHandler extends AbstractHandler
             return (null);
         }
 
+        // Change the Editing Mode in the model.
         if (currentState.equals("rotation"))
         {
-            contentProvider.setEditingMode(EditingMode.ROTATION);
+            ((SceneEditor) editor).setEditingMode(EditingMode.ROTATION);
         }
         else if (currentState.equals("selection"))
         {
-            contentProvider.setEditingMode(EditingMode.SELECTION);
+            ((SceneEditor) editor).setEditingMode(EditingMode.SELECTION);
         }
         else if (currentState.equals("translation"))
         {
-            contentProvider.setEditingMode(EditingMode.TRANSLATION);
+            ((SceneEditor) editor).setEditingMode(EditingMode.TRANSLATION);
         }
 
+        // Update UI elements to reflect the change in Editing Mode.
         HandlerUtil.updateRadioState(event.getCommand(), currentState);
 
         return (null);

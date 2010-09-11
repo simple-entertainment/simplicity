@@ -15,16 +15,12 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.ISources;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.handlers.RadioState;
 
-import com.se.simplicity.editor.internal.ContentProvider;
 import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.SelectionMode;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.scenegraph.model.ModelNode;
 
@@ -43,35 +39,26 @@ public class SelectionModeHandler extends AbstractHandler
     public SelectionModeHandler()
     {}
 
-    /**
-     * <p>
-     * Sets the current {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} in the active editor.
-     * </p>
-     * 
-     * @param event The event this handler is executing in response to.
-     * 
-     * @throws ExecutionException Thrown if the execution fails.
-     * 
-     * @return null.
-     */
+    @Override
     public Object execute(final ExecutionEvent event) throws ExecutionException
     {
-        // This could be done more easily using: HandlerUtil.getActiveEditor(event); but that does not facilitate TDD...
-        IEditorPart editor = (IEditorPart) ((IEvaluationContext) event.getApplicationContext()).getVariable(ISources.ACTIVE_EDITOR_NAME);
+        // Check that the correct editor is active.
+        IEditorPart editor = HandlerUtil.getActiveEditor(event);
         if (!(editor instanceof SceneEditor))
         {
             Logger.getLogger(getClass()).error("This handler can only be executed when a Scene Editor is active.");
             throw new ExecutionException("This handler can only be executed when a Scene Editor is active.");
         }
 
+        // Check that the Selection Mode has changed.
         if (HandlerUtil.matchesRadioState(event))
         {
             return (null);
         }
 
         String currentState = event.getParameter(RadioState.PARAMETER_ID);
-        ContentProvider contentProvider = ((SceneEditor) editor).getContentProvider();
 
+        // Check that the change in Selection Mode is valid.
         if (!currentState.equals("model") && !(SceneManager.getSceneManager().getActiveNode() instanceof ModelNode))
         {
             MessageDialog.openError(editor.getSite().getShell(), "Cannot change Selection Mode",
@@ -79,23 +66,25 @@ public class SelectionModeHandler extends AbstractHandler
             return (null);
         }
 
-        if (currentState.equals("edges"))
-        {
-            contentProvider.setSelectionMode(SelectionMode.EDGES);
-        }
-        else if (currentState.equals("faces"))
-        {
-            contentProvider.setSelectionMode(SelectionMode.FACES);
-        }
-        else if (currentState.equals("model"))
-        {
-            contentProvider.setSelectionMode(SelectionMode.MODEL);
-        }
-        else if (currentState.equals("vertices"))
-        {
-            contentProvider.setSelectionMode(SelectionMode.VERTICES);
-        }
+        // Change the Selection Mode in the model.
+//        if (currentState.equals("edges"))
+//        {
+//            ((SceneEditor) editor).setSelectionMode(SelectionMode.EDGES);
+//        }
+//        else if (currentState.equals("faces"))
+//        {
+//            ((SceneEditor) editor).setSelectionMode(SelectionMode.FACES);
+//        }
+//        else if (currentState.equals("model"))
+//        {
+//            ((SceneEditor) editor).setSelectionMode(SelectionMode.MODEL);
+//        }
+//        else if (currentState.equals("vertices"))
+//        {
+//            ((SceneEditor) editor).setSelectionMode(SelectionMode.VERTICES);
+//        }
 
+        // Update UI elements to reflect the change in Selection Mode.
         HandlerUtil.updateRadioState(event.getCommand(), currentState);
 
         return (null);

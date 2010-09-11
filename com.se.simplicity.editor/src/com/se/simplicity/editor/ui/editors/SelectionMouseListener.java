@@ -17,7 +17,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Control;
 
-import com.se.simplicity.picking.engine.PickingEngine;
+import com.se.simplicity.editor.internal.EditingMode;
 
 /**
  * <p>
@@ -26,25 +26,25 @@ import com.se.simplicity.picking.engine.PickingEngine;
  * 
  * @author Gary Buyn
  */
-public class SceneMouseListener implements MouseListener
+public class SelectionMouseListener implements MouseListener
 {
     /**
      * <p>
-     * The <code>PickingEngine</code> to register picks with.
+     * The <code>SceneEditor</code> to register picks with.
      * </p>
      */
-    private PickingEngine fPickingEngine;
+    private SceneEditor fSceneEditor;
 
     /**
      * <p>
-     * Creates an instance of <code>SceneMouseListener</code>.
+     * Creates an instance of <code>SelectionMouseListener</code>.
      * </p>
      * 
-     * @param pickingEngine The <code>PickingEngine</code> to register picks with.
+     * @param sceneEditor The <code>SceneEditor</code> to register picks with.
      */
-    public SceneMouseListener(final PickingEngine pickingEngine)
+    public SelectionMouseListener(final SceneEditor sceneEditor)
     {
-        fPickingEngine = pickingEngine;
+        fSceneEditor = sceneEditor;
     }
 
     @Override
@@ -58,13 +58,13 @@ public class SceneMouseListener implements MouseListener
     @Override
     public void mouseUp(final MouseEvent event)
     {
-        if (event.button == 3)
+        if (event.button == 1 && fSceneEditor.getEditingMode() == EditingMode.SELECTION)
         {
             Dimension viewportSize = new Dimension();
             viewportSize.width = ((Control) event.widget).getBounds().width;
             viewportSize.height = ((Control) event.widget).getBounds().height;
 
-            fPickingEngine.pickViewport(viewportSize, event.x, event.y, 2, 2);
+            fSceneEditor.pickForSelection(viewportSize, event.x, event.y, 2, 2);
         }
     }
 }

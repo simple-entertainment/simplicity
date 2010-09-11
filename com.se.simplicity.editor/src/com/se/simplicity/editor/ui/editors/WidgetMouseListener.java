@@ -19,7 +19,8 @@ import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 
-import com.se.simplicity.editor.internal.ContentProvider;
+import com.se.simplicity.editor.internal.EditingMode;
+import com.se.simplicity.editor.internal.WidgetManager;
 
 /**
  * <p>
@@ -51,19 +52,19 @@ public class WidgetMouseListener implements MouseListener, MouseMoveListener
      * {@link com.se.simplicity.editor.internal.Widget Widget} of.
      * </p>
      */
-    private ContentProvider fContentProvider;
+    private WidgetManager fWidgetManager;
 
     /**
      * <p>
      * Creates an instance of <code>WidgetMouseListener</code>.
      * </p>
      * 
-     * @param contentProvider The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} to pick/execute a
+     * @param widgetManager The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} to pick/execute a
      * {@link com.se.simplicity.editor.internal.Widget Widget} of.
      */
-    public WidgetMouseListener(final ContentProvider contentProvider)
+    public WidgetMouseListener(final WidgetManager widgetManager)
     {
-        fContentProvider = contentProvider;
+        fWidgetManager = widgetManager;
     }
 
     @Override
@@ -73,44 +74,62 @@ public class WidgetMouseListener implements MouseListener, MouseMoveListener
     @Override
     public void mouseDown(final MouseEvent event)
     {
-        if (event.button == 1)
+        if (fWidgetManager.getWidget() == null)
         {
-            fMouseButton1DownPoint = null;
-            fMouseButton1Down = true;
+            return;
+        }
 
-            Dimension viewportSize = new Dimension();
-            viewportSize.width = ((Control) event.widget).getBounds().width;
-            viewportSize.height = ((Control) event.widget).getBounds().height;
+        if (fWidgetManager.getEditingMode() != EditingMode.SELECTION)
+        {
+            if (event.button == 1)
+            {
+                fMouseButton1DownPoint = null;
+                fMouseButton1Down = true;
 
-            fContentProvider.getWidgetPickingEngine().pickViewport(viewportSize, event.x, event.y, 2, 2);
+                Dimension viewportSize = new Dimension();
+                viewportSize.width = ((Control) event.widget).getBounds().width;
+                viewportSize.height = ((Control) event.widget).getBounds().height;
+
+                fWidgetManager.getPickingEngine().pickViewport(viewportSize, event.x, event.y, 2, 2);
+            }
         }
     }
 
     @Override
     public void mouseMove(final MouseEvent event)
     {
-        if (fMouseButton1Down)
+        if (fWidgetManager.getWidget() == null)
         {
-            if (fMouseButton1DownPoint != null)
-            {
-                fContentProvider.getCurrentWidget().executeMove(event.x - fMouseButton1DownPoint.x, event.y - fMouseButton1DownPoint.y);
-            }
+            return;
+        }
 
-            fMouseButton1DownPoint = new Point(event.x, event.y);
+        if (fWidgetManager.getEditingMode() != EditingMode.SELECTION)
+        {
+            if (fMouseButton1Down)
+            {
+                if (fMouseButton1DownPoint != null)
+                {
+                    fWidgetManager.getWidget().executeMove(event.x - fMouseButton1DownPoint.x, event.y - fMouseButton1DownPoint.y);
+                }
+
+                fMouseButton1DownPoint = new Point(event.x, event.y);
+            }
         }
     }
 
     @Override
     public void mouseUp(final MouseEvent event)
     {
-        if (event.button == 1)
+        if (fWidgetManager.getWidget() == null)
+        {
+            return;
+        }
+
+        if (event.button == 1 && fWidgetManager.getEditingMode() != EditingMode.SELECTION)
         {
             fMouseButton1Down = false;
 
-            if (fContentProvider.getCurrentWidget() != null)
-            {
-                fContentProvider.getCurrentWidget().setSelectedWidgetNode(null);
-            }
+            fWidgetManager.getWidget().setSelectedWidgetNode(null);
         }
     }
 }

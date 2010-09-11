@@ -48,18 +48,18 @@ public class NavigationMouseListener implements MouseListener, MouseMoveListener
      * The <code>Camera</code> being used to view the <code>Scene</code>.
      * </p>
      */
-    private Camera fViewingCamera;
+    private Camera fCamera;
 
     /**
      * <p>
      * Creates an instance of <code>NavigationMouseListener</code>.
      * </p>
      * 
-     * @param viewingCamera The <code>Camera</code> being used to view the <code>Scene</code>.
+     * @param camera The <code>Camera</code> being used to view the <code>Scene</code>.
      */
-    public NavigationMouseListener(final Camera viewingCamera)
+    public NavigationMouseListener(final Camera camera)
     {
-        fViewingCamera = viewingCamera;
+        fCamera = camera;
     }
 
     @Override
@@ -83,9 +83,9 @@ public class NavigationMouseListener implements MouseListener, MouseMoveListener
         {
             if (fMouseButton2DownPoint != null)
             {
-                fViewingCamera.getNode().getParent().getTransformation().rotate((float) Math.toRadians(event.x - fMouseButton2DownPoint.x) * -1.0f,
+                fCamera.getNode().getParent().getTransformation().rotate((float) Math.toRadians(event.x - fMouseButton2DownPoint.x) * -1.0f,
                         new SimpleTranslationVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-                fViewingCamera.getNode().getParent().getTransformation().rotate((float) Math.toRadians(event.y - fMouseButton2DownPoint.y) * -1.0f,
+                fCamera.getNode().getParent().getTransformation().rotate((float) Math.toRadians(event.y - fMouseButton2DownPoint.y) * -1.0f,
                         new SimpleTranslationVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
             }
 
@@ -96,7 +96,7 @@ public class NavigationMouseListener implements MouseListener, MouseMoveListener
     @Override
     public void mouseScrolled(final MouseEvent event)
     {
-        fViewingCamera.getNode().getTransformation().translate(new SimpleTranslationVectorf4(0.0f, 0.0f, event.count * -1.0f, 1.0f));
+        fCamera.getNode().getTransformation().translate(new SimpleTranslationVectorf4(0.0f, 0.0f, event.count * -1.0f, 1.0f));
     }
 
     @Override

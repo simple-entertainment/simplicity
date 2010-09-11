@@ -11,14 +11,19 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
+import java.awt.Dimension;
+
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLDrawableFactory;
 
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.opengl.GLData;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -26,13 +31,24 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
-import com.se.simplicity.editor.internal.ContentProvider;
+import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.event.SceneChangedEvent;
-import com.se.simplicity.editor.internal.event.SceneChangedEventType;
-import com.se.simplicity.editor.internal.event.SceneChangedListener;
+import com.se.simplicity.editor.internal.SceneManager2;
+import com.se.simplicity.editor.internal.WidgetManager;
+import com.se.simplicity.editor.internal.engine.DisplayAsyncJOGLCompositeEngine;
+import com.se.simplicity.jogl.JOGLComponent;
+import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
+import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.DrawingMode;
+import com.se.simplicity.rendering.ProjectionMode;
+import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
+import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.scenegraph.SimpleNode;
+import com.se.simplicity.util.metadata.scene.MetaDataScene;
 import com.se.simplicity.util.scene.SceneFactory;
+import com.se.simplicity.vector.SimpleTranslationVectorf4;
 
 /**
  * <p>
@@ -41,73 +57,140 @@ import com.se.simplicity.util.scene.SceneFactory;
  * 
  * @author Gary Buyn
  */
-public class VisualSceneEditor extends EditorPart implements SceneEditor, SceneChangedListener
+public class VisualSceneEditor extends EditorPart implements SceneEditor
 {
     /**
      * <p>
-     * The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} providing content for this
-     * <code>VisualSceneEditor</code>.
+     * The {@link com.se.simplicity.rendering.Camera Camera} the {@link com.se.simplicity.scene.Scene Scene} will be viewed through.
      * </p>
      */
-    private ContentProvider fContentProvider;
+    private Camera fCamera;
+
+    /**
+     * <p>
+     * The {@link com.se.simplicity.editor.internal.EditingMode EditingMode} used to manipulate the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     */
+    private EditingMode fEditingMode;
+
+    /**
+     * <p>
+     * The {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that will render the {@link com.se.simplicity.rendering.Camera
+     * Camera} and {@link com.se.simplicity.editor.internal.Widget Widget}s to the 3D canvas.
+     * </p>
+     */
+    private RenderingEngine fRenderingEngine;
+
+    /**
+     * <p>
+     * The {@link com.se.simplicity.scene.Scene Scene} displayed by this <code>VisualSceneEditor</code>.
+     * </p>
+     */
+    private Scene fScene;
+
+    /**
+     * <p>
+     * The manager for the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     */
+    private SceneManager2 fSceneManager;
+
+    /**
+     * <p>
+     * Determines whether the aspect ratio of the {@link com.se.simplicity.rendering.Camera Camera} is synchronised with the aspect ratio of the
+     * viewport.
+     * </p>
+     */
+    private boolean fSyncCameraAspectRatio;
+
+    /**
+     * <p>
+     * The manager for the {@link com.se.simplicity.editor.internal.Widget Widget}s used to manipulate the {@link com.se.simplicity.scene.Scene Scene}
+     * .
+     * </p>
+     */
+    private WidgetManager fWidgetManager;
 
     /**
      * <p>
      * Creates an instance of <code>VisualSceneEditor</code>.
      * </p>
-     * 
-     * @param contentProvider The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} providing content for this
-     * <code>VisualSceneEditor</code>.
      */
-    public VisualSceneEditor(final ContentProvider contentProvider)
+    public VisualSceneEditor()
     {
         super();
 
-        fContentProvider = contentProvider;
-
-        SceneManager.getSceneManager().addSceneChangedListener(this);
+        fCamera = null;
+        fEditingMode = EditingMode.SELECTION;
+        fRenderingEngine = null;
+        fScene = null;
+        fSceneManager = new SceneManager2();
+        fSyncCameraAspectRatio = true;
+        fWidgetManager = new WidgetManager();
     }
 
     @Override
     public void createPartControl(final Composite parent)
     {
-        // Setup 3D canvas.
-        GLData data = new GLData();
-        data.doubleBuffer = true;
-        data.stencilSize = 1;
-        GLCanvas canvas = new GLCanvas(parent, SWT.NONE, data);
+        Canvas canvas = null;
+        GLContext glContext = null;
+        if (fRenderingEngine instanceof JOGLComponent)
+        {
+            // Setup 3D canvas.
+            GLData data = new GLData();
+            data.doubleBuffer = true;
+            data.stencilSize = 1;
+            canvas = new GLCanvas(parent, SWT.NONE, data);
 
-        // Setup JOGL rendering environment.
-        canvas.setCurrent();
-        GLContext glContext = GLDrawableFactory.getFactory().createExternalGLContext();
-        fContentProvider.setGL(glContext.getGL());
+            // Setup JOGL rendering environment.
+            ((GLCanvas) canvas).setCurrent();
+            glContext = GLDrawableFactory.getFactory().createExternalGLContext();
+            ((JOGLComponent) fCamera).setGL(glContext.getGL());
+            ((JOGLComponent) fRenderingEngine).setGL(glContext.getGL());
+            fSceneManager.setGL(glContext.getGL());
+            fWidgetManager.setGL(glContext.getGL());
+        }
 
         // Setup viewport size and Camera synchronisation with 3D canvas size.
-        ResizeControlListener resizeListener = new ResizeControlListener(fContentProvider);
-        canvas.addControlListener(resizeListener);
+        canvas.addControlListener(new ResizeControlListener(this));
 
         // Setup mouse interaction.
-        NavigationMouseListener navigationMouseListener = new NavigationMouseListener(fContentProvider.getViewingCamera());
+        NavigationMouseListener navigationMouseListener = new NavigationMouseListener(fCamera);
         canvas.addMouseListener(navigationMouseListener);
         canvas.addMouseMoveListener(navigationMouseListener);
         canvas.addMouseWheelListener(navigationMouseListener);
 
-        SceneMouseListener sceneMouseListener = new SceneMouseListener(fContentProvider.getScenePickingEngine());
-        canvas.addMouseListener(sceneMouseListener);
+        canvas.addMouseListener(new SelectionMouseListener(this));
 
-        WidgetMouseListener widgetMouseListener = new WidgetMouseListener(fContentProvider);
+        WidgetMouseListener widgetMouseListener = new WidgetMouseListener(fWidgetManager);
         canvas.addMouseListener(widgetMouseListener);
         canvas.addMouseMoveListener(widgetMouseListener);
 
-        fContentProvider.displayContent(canvas, glContext);
+        if (fRenderingEngine instanceof JOGLComponent)
+        {
+            display((GLCanvas) canvas, glContext);
+        }
     }
 
-    @Override
-    public void dispose()
+    /**
+     * <p>
+     * Displays the content for the lifetime of the given <code>GLCanvas</code>.
+     * </p>
+     * 
+     * @param canvas The <code>GLCanvas</code> to display the contents on.
+     * @param glContext The <code>GLContext</code> to use when displaying.
+     */
+    public void display(final GLCanvas canvas, final GLContext glContext)
     {
-        SceneManager.getSceneManager().removeSceneChangedListener(this);
+        DisplayAsyncJOGLCompositeEngine compositeEngine = new DisplayAsyncJOGLCompositeEngine(canvas, glContext);
 
-        super.dispose();
+        // Widget picking should occur first because it takes precedence.
+        compositeEngine.addEngine(fWidgetManager.getPickingEngine());
+
+        compositeEngine.addEngine(fSceneManager.getPickingEngine());
+        compositeEngine.addEngine(fRenderingEngine);
+
+        compositeEngine.run();
     }
 
     @Override
@@ -119,9 +202,21 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, SceneC
     {}
 
     @Override
-    public ContentProvider getContentProvider()
+    public EditingMode getEditingMode()
     {
-        return (fContentProvider);
+        return (fEditingMode);
+    }
+
+    @Override
+    public SceneManager2 getSceneManager()
+    {
+        return (fSceneManager);
+    }
+
+    @Override
+    public WidgetManager getWidgetManager()
+    {
+        return (fWidgetManager);
     }
 
     @Override
@@ -134,10 +229,9 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, SceneC
         IFileEditorInput fileInput = (IFileEditorInput) input;
         String sceneName = fileInput.getFile().getFullPath().toString();
 
-        Scene scene;
         try
         {
-            scene = SceneFactory.loadFromSource(fileInput.getFile().getContents());
+            fScene = SceneFactory.loadFromSource(fileInput.getFile().getContents());
         }
         catch (Exception e)
         {
@@ -145,11 +239,78 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, SceneC
             throw new PartInitException("Failed to load Scene from file '" + sceneName + "'.", e);
         }
 
-        SceneManager.getSceneManager().addScene(scene, sceneName);
-        SceneManager.getSceneManager().setActiveScene(scene);
+        initCamera();
+        initRenderingEngine();
 
-        fContentProvider.setScene(scene);
-        fContentProvider.init();
+        // Set the Camera as the viewpoint for picking and rendering but do NOT add to the Scene. This stops the Camera from appearing in the
+        // various views displaying an analysis of the Scene or being synchronised into the source file.
+        fRenderingEngine.setCamera(fCamera);
+
+        fSceneManager.setScene(fScene);
+        fSceneManager.setRenderingEngine(fRenderingEngine);
+        fSceneManager.init();
+        fSceneManager.setCamera(fCamera);
+
+        fWidgetManager.setScene(fScene);
+        fWidgetManager.setRenderingEngine(fRenderingEngine);
+        fWidgetManager.init();
+        fWidgetManager.setCamera(fCamera);
+
+        setEditingMode(EditingMode.SELECTION);
+
+        SceneManager.getSceneManager().addScene(fScene, sceneName);
+        SceneManager.getSceneManager().setActiveScene(fScene);
+    }
+
+    /**
+     * <p>
+     * Initialises the {@link com.se.simplicity.rendering.Camera Camera} used to view the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     */
+    protected void initCamera()
+    {
+        fCamera = new SimpleJOGLCamera();
+        SimpleNode subjectNode = new SimpleNode();
+        SimpleNode cameraNode = new SimpleNode();
+        subjectNode.addChild(cameraNode);
+        cameraNode.getTransformation().translate(new SimpleTranslationVectorf4(0.0f, 0.0f, 5.0f, 1.0f));
+        fCamera.setNode(cameraNode);
+    }
+
+    /**
+     * <p>
+     * Initialises the {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that will render the
+     * {@link com.se.simplicity.rendering.Camera Camera} and {@link com.se.simplicity.editor.internal.Widget Widget}s to the 3D canvas.
+     * </p>
+     */
+    protected void initRenderingEngine()
+    {
+        // Retrieve preferred rendering environment if one is available.
+        String preferredRenderingEngine = null;
+        if (fScene instanceof MetaDataScene)
+        {
+            MetaDataScene metaDataScene = (MetaDataScene) fScene;
+            preferredRenderingEngine = (String) metaDataScene.getAttribute("preferredRenderingEngine");
+        }
+
+        // Initialise Rendering Engine.
+        if (preferredRenderingEngine == null)
+        {
+            fRenderingEngine = new SimpleJOGLRenderingEngine();
+        }
+        else
+        {
+            try
+            {
+                fRenderingEngine = (RenderingEngine) Class.forName(preferredRenderingEngine).newInstance();
+            }
+            catch (Exception e)
+            {
+                LogFactory.getLog(getClass()).warn("Failed to instantiate preferred Rendering Engine, instantiating default.", e);
+                fRenderingEngine = new SimpleJOGLRenderingEngine();
+            }
+        }
+        fRenderingEngine.setScene(fScene);
     }
 
     @Override
@@ -165,18 +326,86 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, SceneC
     }
 
     @Override
-    public void sceneChanged(final SceneChangedEvent event)
+    public void pickForSelection(final Dimension viewportSize, final int x, final int y, final int width, final int height)
     {
-        if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED || event.getType() == SceneChangedEventType.LIGHT_ACTIVATED
-                || event.getType() == SceneChangedEventType.NODE_ACTIVATED)
+        // Widget picking should occur first because it takes precedence.
+        fWidgetManager.getPickingEngine().pickViewport(viewportSize, x, y, width, height);
+
+        fSceneManager.getPickingEngine().pickViewport(viewportSize, x, y, width, height);
+    }
+
+    @Override
+    public void setCanvasSize(final Rectangle canvasSize)
+    {
+        Dimension viewportSize = new Dimension();
+        viewportSize.setSize(canvasSize.width, canvasSize.height);
+
+        fRenderingEngine.setViewportSize(viewportSize);
+        fSceneManager.setViewportSize(viewportSize);
+        fWidgetManager.setViewportSize(viewportSize);
+
+        if (fSyncCameraAspectRatio)
         {
-            fContentProvider.setSelectedSceneComponent(event.getSceneComponent());
+            fCamera.setFrameAspectRatio((float) canvasSize.height / (float) canvasSize.width);
         }
     }
 
     @Override
-    public void setFocus()
+    public void setDrawingMode(final DrawingMode drawingMode)
     {
-        SceneManager.getSceneManager().setActiveScene(fContentProvider.getScene());
+        fSceneManager.setDrawingMode(drawingMode);
+    }
+
+    @Override
+    public void setEditingMode(final EditingMode editingMode)
+    {
+        fEditingMode = editingMode;
+
+        fWidgetManager.setEditingMode(editingMode);
+    }
+
+    @Override
+    public void setFocus()
+    {}
+
+    @Override
+    public void setProjectionMode(final ProjectionMode projectionMode)
+    {
+        fCamera.setProjectionMode(projectionMode);
+    }
+
+    @Override
+    public void setSelectedSceneComponent(final Node selectedSceneComponent)
+    {
+        fSceneManager.setSelectedSceneComponent(selectedSceneComponent);
+        fWidgetManager.setSelectedSceneComponent(selectedSceneComponent);
+
+        SceneManager.getSceneManager().setActiveNode(selectedSceneComponent);
+    }
+
+    /**
+     * <p>
+     * Sets whether the aspect ratio of the {@link com.se.simplicity.rendering.Camera Camera} is synchronised with the aspect ratio of the viewport.
+     * </p>
+     * 
+     * @param syncCameraAspectRatio Determines whether the aspect ratio of the <code>Camera</code> is synchronised with the aspect ratio of the
+     * viewport.
+     */
+    public void setSyncCameraAspectRatio(final boolean syncCameraAspectRatio)
+    {
+        fSyncCameraAspectRatio = syncCameraAspectRatio;
+    }
+
+    /**
+     * <p>
+     * Determines whether the aspect ratio of the {@link com.se.simplicity.rendering.Camera Camera} is synchronised with the aspect ratio of the
+     * viewport.
+     * </p>
+     * 
+     * @return True if the aspect ratio of the <code>Camera</code> is synchronised with the aspect ratio of the viewport, false otherwise.
+     */
+    public boolean syncCameraAspectRatio()
+    {
+        return (fSyncCameraAspectRatio);
     }
 }
