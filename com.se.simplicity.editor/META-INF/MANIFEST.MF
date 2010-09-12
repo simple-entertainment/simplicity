@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.xml.core;bundle-version="1.1.402",
  org.eclipse.wst.xml.ui;bundle-version="1.1.2",
  org.eclipse.wst.sse.core;bundle-version="1.1.402",
- org.eclipse.wst.sse.ui;bundle-version="1.1.102"
+ org.eclipse.wst.sse.ui;bundle-version="1.1.102",
+ org.eclipse.ui.views;bundle-version="3.4.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: bin,

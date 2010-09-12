@@ -5,9 +5,6 @@
     <extension point="org.eclipse.ui.views">
         <category name="Simple Eddy" id="com.se.simplicity.editor.views" />
 
-        <view category="com.se.simplicity.editor.views" class="com.se.simplicity.editor.ui.views.SceneOutlineView" icon="icons/scene_outline.gif"
-            id="com.se.simplicity.editor.ui.views.SceneOutlineView" name="Scene Outline" />
-
         <view category="com.se.simplicity.editor.views" class="com.se.simplicity.editor.ui.views.SceneComponentView" icon="icons/scene_details.gif"
             id="com.se.simplicity.editor.ui.views.SceneComponentView" name="Component Details" />
     </extension>
@@ -176,6 +173,8 @@
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Selected Scene Component" optional="false" />
             <state class="org.eclipse.ui.handlers.RadioState:none" id="org.eclipse.ui.commands.radioState" />
         </command>
+        
+        <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.scene" name="Scene" />
 
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.edit" name="Editing Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
@@ -195,6 +194,8 @@
 
     <extension point="org.eclipse.ui.handlers">
         <handler class="com.se.simplicity.editor.handlers.DrawingModeHandler" commandId="com.se.simplicity.editor.commands.draw" />
+        
+        <handler class="com.se.simplicity.editor.handlers.SceneHandler" commandId="com.se.simplicity.editor.commands.scene" />
 
         <handler class="com.se.simplicity.editor.handlers.EditingModeHandler" commandId="com.se.simplicity.editor.commands.edit" />
         

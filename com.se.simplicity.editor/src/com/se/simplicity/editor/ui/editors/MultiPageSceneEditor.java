@@ -20,10 +20,12 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.SceneManager2;
 import com.se.simplicity.editor.internal.WidgetManager;
+import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.scenegraph.Node;
@@ -116,6 +118,24 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     public void doSaveAs()
     {
         fSourceEditor.doSaveAs();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Object getAdapter(final Class adapter)
+    {
+        Object adapterInstance = null;
+
+        if (adapter == IContentOutlinePage.class)
+        {
+            adapterInstance = new SceneOutlinePage(fVisualEditor.getScene());
+        }
+        else
+        {
+            adapterInstance = super.getAdapter(adapter);
+        }
+
+        return (adapterInstance);
     }
 
     @Override

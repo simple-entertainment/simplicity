@@ -25,17 +25,21 @@ import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.opengl.GLData;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
+import com.se.simplicity.editor.handlers.SceneHandler;
 import com.se.simplicity.editor.internal.EditingMode;
-import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.internal.SceneManager2;
 import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.editor.internal.engine.DisplayAsyncJOGLCompositeEngine;
+import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
@@ -201,10 +205,40 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
     public void doSaveAs()
     {}
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Object getAdapter(final Class adapter)
+    {
+        Object adapterInstance = null;
+
+        if (adapter == IContentOutlinePage.class)
+        {
+            adapterInstance = new SceneOutlinePage(fScene);
+        }
+        else
+        {
+            adapterInstance = super.getAdapter(adapter);
+        }
+
+        return (adapterInstance);
+    }
+
     @Override
     public EditingMode getEditingMode()
     {
         return (fEditingMode);
+    }
+
+    /**
+     * <p>
+     * Retrieves the {@link com.se.simplicity.scene.Scene Scene} displayed by this <code>VisualSceneEditor</code>.
+     * </p>
+     * 
+     * @return The {@link com.se.simplicity.scene.Scene Scene} displayed by this <code>VisualSceneEditor</code>.
+     */
+    public Scene getScene()
+    {
+        return (fScene);
     }
 
     @Override
@@ -255,11 +289,6 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
         fWidgetManager.setRenderingEngine(fRenderingEngine);
         fWidgetManager.init();
         fWidgetManager.setCamera(fCamera);
-
-        setEditingMode(EditingMode.SELECTION);
-
-        SceneManager.getSceneManager().addScene(fScene, sceneName);
-        SceneManager.getSceneManager().setActiveScene(fScene);
     }
 
     /**
@@ -334,6 +363,24 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
         fSceneManager.getPickingEngine().pickViewport(viewportSize, x, y, width, height);
     }
 
+    protected void restoreState()
+    {
+        setEditingMode(EditingMode.SELECTION);
+
+        Event event = new Event();
+        event.type = SceneHandler.SET_SCENE_EVENT_TYPE;
+        event.data = fScene;
+        IHandlerService handlerService = (IHandlerService) getSite().getService(IHandlerService.class);
+        try
+        {
+            handlerService.executeCommand("com.se.simplicity.editor.commands.scene", event);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void setCanvasSize(final Rectangle canvasSize)
     {
@@ -379,8 +426,6 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
     {
         fSceneManager.setSelectedSceneComponent(selectedSceneComponent);
         fWidgetManager.setSelectedSceneComponent(selectedSceneComponent);
-
-        SceneManager.getSceneManager().setActiveNode(selectedSceneComponent);
     }
 
     /**
