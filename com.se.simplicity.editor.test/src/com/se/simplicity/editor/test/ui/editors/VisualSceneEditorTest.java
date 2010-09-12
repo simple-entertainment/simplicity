@@ -15,7 +15,6 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Dimension;
@@ -30,12 +29,14 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.editors.VisualSceneEditor;
+import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 
 /**
@@ -63,6 +64,23 @@ public class VisualSceneEditorTest
         testObject = new VisualSceneEditor();
 
         SceneManager.getSceneManager().reset();
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#getAdapter(Class) getAdapter(Class)}.
+     * </p>
+     * 
+     * @throws PartInitException Thrown if the initialisation fails.
+     */
+    @Test
+    public void getAdapter() throws PartInitException
+    {
+        // Perform test.
+        Object adapterInstance = testObject.getAdapter(IContentOutlinePage.class);
+
+        // Verify test results.
+        assertTrue(adapterInstance instanceof SceneOutlinePage);
     }
 
     /**
@@ -100,9 +118,6 @@ public class VisualSceneEditorTest
         assertTrue(testObject.getSceneManager().getRenderingEngine() instanceof SimpleJOGLRenderingEngine);
 
         assertEquals(EditingMode.SELECTION, testObject.getEditingMode());
-
-        assertNotNull(SceneManager.getSceneManager().getScene("EasyMock for interface org.eclipse.core.runtime.IPath"));
-        assertNotNull(SceneManager.getSceneManager().getActiveScene());
     }
 
     /**
