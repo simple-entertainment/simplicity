@@ -11,6 +11,7 @@
  */
 package com.se.simplicity.editor.ui.views;
 
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Image;
@@ -19,13 +20,15 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 import com.se.simplicity.editor.internal.EditorResources;
-import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.event.SceneChangedEvent;
-import com.se.simplicity.editor.internal.event.SceneChangedEventType;
-import com.se.simplicity.editor.internal.event.SceneChangedListener;
+import com.se.simplicity.editor.internal.SceneSelection;
+import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.Light;
+import com.se.simplicity.scenegraph.Node;
 
 /**
  * <p>
@@ -34,7 +37,7 @@ import com.se.simplicity.editor.internal.event.SceneChangedListener;
  * 
  * @author Gary Buyn
  */
-public class SceneComponentView extends ViewPart implements SceneChangedListener
+public class SceneComponentView extends ViewPart implements ISelectionListener
 {
     /**
      * <p>
@@ -86,8 +89,6 @@ public class SceneComponentView extends ViewPart implements SceneChangedListener
     public SceneComponentView()
     {
         super();
-
-        SceneManager.getSceneManager().addSceneChangedListener(this);
     }
 
     @Override
@@ -110,14 +111,8 @@ public class SceneComponentView extends ViewPart implements SceneChangedListener
 
         ((StackLayout) fParent.getLayout()).topControl = fEmptyView;
         fParent.layout();
-    }
 
-    @Override
-    public void dispose()
-    {
-        SceneManager.getSceneManager().removeSceneChangedListener(this);
-
-        super.dispose();
+        getSite().getPage().addSelectionListener(this);
     }
 
     /**
@@ -133,48 +128,29 @@ public class SceneComponentView extends ViewPart implements SceneChangedListener
     }
 
     @Override
-    public void sceneChanged(final SceneChangedEvent event)
+    public void selectionChanged(final IWorkbenchPart part, final ISelection selection)
     {
-        Control topView = ((StackLayout) fParent.getLayout()).topControl;
-        if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED)
+        Object sceneComponent = ((SceneSelection) selection).getSceneComponent();
+
+        Control topView = fEmptyView;
+        if (sceneComponent instanceof Camera)
         {
-            if (event.getSceneComponent() == null)
-            {
-                topView = fEmptyView;
-            }
-            else
-            {
-                topView = fCameraView;
-            }
+            fCameraView.setCamera((Camera) sceneComponent);
+            topView = fCameraView;
         }
-        else if (event.getType() == SceneChangedEventType.LIGHT_ACTIVATED)
+        else if (sceneComponent instanceof Light)
         {
-            if (event.getSceneComponent() == null)
-            {
-                topView = fEmptyView;
-            }
-            else
-            {
-                topView = fLightView;
-            }
+            fLightView.setLight((Light) sceneComponent);
+            topView = fLightView;
         }
-        else if (event.getType() == SceneChangedEventType.NODE_ACTIVATED)
+        else if (sceneComponent instanceof Node)
         {
-            if (event.getSceneComponent() == null)
-            {
-                topView = fEmptyView;
-            }
-            else
-            {
-                topView = fNodeView;
-            }
+            fNodeView.setNode((Node) sceneComponent);
+            topView = fNodeView;
         }
 
-        if (((StackLayout) fParent.getLayout()).topControl != topView)
-        {
-            ((StackLayout) fParent.getLayout()).topControl = topView;
-            fParent.layout();
-        }
+        ((StackLayout) fParent.getLayout()).topControl = topView;
+        fParent.layout();
     }
 
     @Override

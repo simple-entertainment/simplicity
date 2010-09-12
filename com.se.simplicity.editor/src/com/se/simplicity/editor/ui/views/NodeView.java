@@ -24,10 +24,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
-import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.event.SceneChangedEvent;
-import com.se.simplicity.editor.internal.event.SceneChangedEventType;
-import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 import com.se.simplicity.vector.TransformationMatrixf;
@@ -39,7 +35,7 @@ import com.se.simplicity.vector.TransformationMatrixf;
  * 
  * @author Gary Buyn
  */
-public class NodeView extends Composite implements SceneChangedListener
+public class NodeView extends Composite
 {
     /**
      * <p>
@@ -152,10 +148,8 @@ public class NodeView extends Composite implements SceneChangedListener
     {
         super(parent, style);
 
-        fWidgetBindings = new HashMap<Widget, String>();
-
-        SceneManager.getSceneManager().addSceneChangedListener(this);
         fNodeViewListener = new NodeViewListener(fWidgetBindings);
+        fWidgetBindings = new HashMap<Widget, String>();
 
         setLayout(new GridLayout(4, false));
 
@@ -302,63 +296,51 @@ public class NodeView extends Composite implements SceneChangedListener
         fWidgetBindings.put(fTranslateZ, "translateZ");
     }
 
-    @Override
-    public void dispose()
+    /**
+     * <p>
+     * Sets the {@link com.se.simplicity.scenegraph.Node Node} this view is displaying.
+     * </p>
+     * 
+     * @param node The <code>Node</code> this view is displaying.
+     */
+    public void setNode(final Node node)
     {
-        SceneManager.getSceneManager().removeSceneChangedListener(this);
+        fNodeViewListener.disable();
 
-        super.dispose();
-    }
+        fId.setText(Integer.toString(node.getID()));
 
-    @Override
-    public void sceneChanged(final SceneChangedEvent event)
-    {
-        if (SceneManager.getSceneManager().getActiveNode() == null)
+        if (node instanceof MetaDataNode)
         {
-            return;
+            fName.setText((String) ((MetaDataNode) node).getAttribute("name"));
+        }
+        else
+        {
+            fName.setText(MetaDataNode.getDefaultName(node));
         }
 
-        if (event.getType() == SceneChangedEventType.NODE_ACTIVATED || event.getType() == SceneChangedEventType.SCENE_MODIFIED)
+        fCollidable.setSelection(node.isCollidable());
+        fModifiable.setSelection(node.isModifiable());
+        fVisible.setSelection(node.isVisible());
+
+        TransformationMatrixf transformation = node.getTransformation();
+
+        fTranslateX.setText(Float.toString(transformation.getTranslation().getX()));
+        fTranslateY.setText(Float.toString(transformation.getTranslation().getY()));
+        fTranslateZ.setText(Float.toString(transformation.getTranslation().getZ()));
+
+        fRotateX.setText(Float.toString(transformation.getXAxisRotation() * 180.0f / (float) Math.PI));
+        fRotateY.setText(Float.toString(transformation.getYAxisRotation() * 180.0f / (float) Math.PI));
+        fRotateZ.setText(Float.toString(transformation.getZAxisRotation() * 180.0f / (float) Math.PI));
+
+        if (node instanceof MetaDataNode)
         {
-            fNodeViewListener.disable();
-
-            Node node = SceneManager.getSceneManager().getActiveNode();
-
-            fId.setText(Integer.toString(node.getID()));
-
-            if (node instanceof MetaDataNode)
-            {
-                fName.setText((String) ((MetaDataNode) node).getAttribute("name"));
-            }
-            else
-            {
-                fName.setText(MetaDataNode.getDefaultName(node));
-            }
-
-            fCollidable.setSelection(node.isCollidable());
-            fModifiable.setSelection(node.isModifiable());
-            fVisible.setSelection(node.isVisible());
-
-            TransformationMatrixf transformation = node.getTransformation();
-
-            fTranslateX.setText(Float.toString(transformation.getTranslation().getX()));
-            fTranslateY.setText(Float.toString(transformation.getTranslation().getY()));
-            fTranslateZ.setText(Float.toString(transformation.getTranslation().getZ()));
-
-            fRotateX.setText(Float.toString(transformation.getXAxisRotation() * 180.0f / (float) Math.PI));
-            fRotateY.setText(Float.toString(transformation.getYAxisRotation() * 180.0f / (float) Math.PI));
-            fRotateZ.setText(Float.toString(transformation.getZAxisRotation() * 180.0f / (float) Math.PI));
-
-            if (node instanceof MetaDataNode)
-            {
-                fType.setText((String) ((MetaDataNode) node).getWrappedNode().getClass().getName());
-            }
-            else
-            {
-                fType.setText(node.getClass().getName());
-            }
-
-            fNodeViewListener.enable();
+            fType.setText((String) ((MetaDataNode) node).getWrappedNode().getClass().getName());
         }
+        else
+        {
+            fType.setText(node.getClass().getName());
+        }
+
+        fNodeViewListener.enable();
     }
 }

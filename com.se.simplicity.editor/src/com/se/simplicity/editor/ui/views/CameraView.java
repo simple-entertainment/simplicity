@@ -24,10 +24,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
-import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.event.SceneChangedEvent;
-import com.se.simplicity.editor.internal.event.SceneChangedEventType;
-import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
@@ -39,7 +35,7 @@ import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
  * 
  * @author Gary Buyn
  */
-public class CameraView extends Composite implements SceneChangedListener
+public class CameraView extends Composite
 {
     /**
      * <p>
@@ -145,10 +141,8 @@ public class CameraView extends Composite implements SceneChangedListener
     {
         super(parent, style);
 
-        fWidgetBindings = new HashMap<Widget, String>();
-
-        SceneManager.getSceneManager().addSceneChangedListener(this);
         fCameraViewListener = new CameraViewListener(fWidgetBindings);
+        fWidgetBindings = new HashMap<Widget, String>();
 
         setLayout(new GridLayout(4, false));
 
@@ -294,67 +288,55 @@ public class CameraView extends Composite implements SceneChangedListener
         fWidgetBindings.put(fType, "type");
     }
 
-    @Override
-    public void dispose()
+    /**
+     * <p>
+     * Sets the {@link com.se.simplicity.rendering.Camera Camera} this view is displaying.
+     * </p>
+     * 
+     * @param camera The <code>Camera</code> this view is displaying.
+     */
+    public void setCamera(final Camera camera)
     {
-        SceneManager.getSceneManager().removeSceneChangedListener(this);
+        fCameraViewListener.disable();
 
-        super.dispose();
-    }
-
-    @Override
-    public void sceneChanged(final SceneChangedEvent event)
-    {
-        if (SceneManager.getSceneManager().getActiveCamera() == null)
+        if (camera instanceof MetaDataCamera)
         {
-            return;
+            fName.setText((String) ((MetaDataCamera) camera).getAttribute("name"));
+        }
+        else
+        {
+            fName.setText("CameraX");
         }
 
-        if (event.getType() == SceneChangedEventType.CAMERA_ACTIVATED || event.getType() == SceneChangedEventType.SCENE_MODIFIED)
+        fNode.setText(Integer.toString(camera.getNode().getID()));
+
+        if (camera.getProjectionMode() == ProjectionMode.ORTHOGONAL)
         {
-            fCameraViewListener.disable();
-
-            Camera camera = SceneManager.getSceneManager().getActiveCamera();
-
-            if (camera instanceof MetaDataCamera)
-            {
-                fName.setText((String) ((MetaDataCamera) camera).getAttribute("name"));
-            }
-            else
-            {
-                fName.setText("CameraX");
-            }
-
-            fNode.setText(Integer.toString(camera.getNode().getID()));
-
-            if (camera.getProjectionMode() == ProjectionMode.ORTHOGONAL)
-            {
-                fProjectionMode.setText("ORTHOGONAL");
-            }
-            else if (camera.getProjectionMode() == ProjectionMode.PERSPECTIVE)
-            {
-                fProjectionMode.setText("PERSPECTIVE");
-            }
-
-            fFrameAspectRatio.setText(Float.toString(camera.getFrameAspectRatio()));
-            fFrameX.setText(Float.toString(camera.getFrameX()));
-            fFrameY.setText(Float.toString(camera.getFrameY()));
-            fFrameWidth.setText(Float.toString(camera.getFrameWidth()));
-            fFrameHeight.setText(Float.toString(camera.getFrameHeight()));
-
-            fNearClippingDistance.setText(Float.toString(camera.getNearClippingDistance()));
-            fFarClippingDistance.setText(Float.toString(camera.getFarClippingDistance()));
-
-            if (camera instanceof MetaDataCamera)
-            {
-                fType.setText((String) ((MetaDataCamera) camera).getWrappedCamera().getClass().getName());
-            }
-            else
-            {
-                fType.setText(camera.getClass().getName());
-            }
-
-            fCameraViewListener.enable();
+            fProjectionMode.setText("ORTHOGONAL");
         }
+        else if (camera.getProjectionMode() == ProjectionMode.PERSPECTIVE)
+        {
+            fProjectionMode.setText("PERSPECTIVE");
+        }
+
+        fFrameAspectRatio.setText(Float.toString(camera.getFrameAspectRatio()));
+        fFrameX.setText(Float.toString(camera.getFrameX()));
+        fFrameY.setText(Float.toString(camera.getFrameY()));
+        fFrameWidth.setText(Float.toString(camera.getFrameWidth()));
+        fFrameHeight.setText(Float.toString(camera.getFrameHeight()));
+
+        fNearClippingDistance.setText(Float.toString(camera.getNearClippingDistance()));
+        fFarClippingDistance.setText(Float.toString(camera.getFarClippingDistance()));
+
+        if (camera instanceof MetaDataCamera)
+        {
+            fType.setText((String) ((MetaDataCamera) camera).getWrappedCamera().getClass().getName());
+        }
+        else
+        {
+            fType.setText(camera.getClass().getName());
+        }
+
+        fCameraViewListener.enable();
     }
 }

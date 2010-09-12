@@ -24,10 +24,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
-import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.event.SceneChangedEvent;
-import com.se.simplicity.editor.internal.event.SceneChangedEventType;
-import com.se.simplicity.editor.internal.event.SceneChangedListener;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
@@ -39,7 +35,7 @@ import com.se.simplicity.util.metadata.rendering.MetaDataLight;
  * 
  * @author Gary Buyn
  */
-public class LightView extends Composite implements SceneChangedListener
+public class LightView extends Composite
 {
     /**
      * <p>
@@ -159,10 +155,8 @@ public class LightView extends Composite implements SceneChangedListener
     {
         super(parent, style);
 
-        fWidgetBindings = new HashMap<Widget, String>();
-
-        SceneManager.getSceneManager().addSceneChangedListener(this);
         fLightViewListener = new LightViewListener(fWidgetBindings);
+        fWidgetBindings = new HashMap<Widget, String>();
 
         setLayout(new GridLayout(5, false));
 
@@ -335,77 +329,65 @@ public class LightView extends Composite implements SceneChangedListener
         fWidgetBindings.put(fSpecularB, "specularB");
     }
 
-    @Override
-    public void dispose()
+    /**
+     * <p>
+     * Sets the {@link com.se.simplicity.rendering.Light Light} this view is displaying.
+     * </p>
+     * 
+     * @param light The <code>Light</code> this view is displaying.
+     */
+    public void setLight(final Light light)
     {
-        SceneManager.getSceneManager().removeSceneChangedListener(this);
+        fLightViewListener.disable();
 
-        super.dispose();
-    }
-
-    @Override
-    public void sceneChanged(final SceneChangedEvent event)
-    {
-        if (SceneManager.getSceneManager().getActiveLight() == null)
+        if (light instanceof MetaDataLight)
         {
-            return;
+            fName.setText((String) ((MetaDataLight) light).getAttribute("name"));
+        }
+        else
+        {
+            fName.setText("LightX");
         }
 
-        if (event.getType() == SceneChangedEventType.LIGHT_ACTIVATED || event.getType() == SceneChangedEventType.SCENE_MODIFIED)
+        fNode.setText(Integer.toString(light.getNode().getID()));
+
+        if (light.getLightingMode() == LightingMode.SCENE)
         {
-            fLightViewListener.disable();
-
-            Light light = SceneManager.getSceneManager().getActiveLight();
-
-            if (light instanceof MetaDataLight)
-            {
-                fName.setText((String) ((MetaDataLight) light).getAttribute("name"));
-            }
-            else
-            {
-                fName.setText("LightX");
-            }
-
-            fNode.setText(Integer.toString(light.getNode().getID()));
-
-            if (light.getLightingMode() == LightingMode.SCENE)
-            {
-                fLightingMode.setText("SCENE");
-            }
-            else if (light.getLightingMode() == LightingMode.SHADED)
-            {
-                fLightingMode.setText("SHADED");
-            }
-            else if (light.getLightingMode() == LightingMode.SOLID)
-            {
-                fLightingMode.setText("SOLID");
-            }
-
-            float[] ambientLight = light.getAmbientLight();
-            fAmbientR.setText(Float.toString(ambientLight[0]));
-            fAmbientG.setText(Float.toString(ambientLight[1]));
-            fAmbientB.setText(Float.toString(ambientLight[2]));
-
-            float[] diffuseLight = light.getDiffuseLight();
-            fDiffuseR.setText(Float.toString(diffuseLight[0]));
-            fDiffuseG.setText(Float.toString(diffuseLight[1]));
-            fDiffuseB.setText(Float.toString(diffuseLight[2]));
-
-            float[] specularLight = light.getSpecularLight();
-            fSpecularR.setText(Float.toString(specularLight[0]));
-            fSpecularG.setText(Float.toString(specularLight[1]));
-            fSpecularB.setText(Float.toString(specularLight[2]));
-
-            if (light instanceof MetaDataLight)
-            {
-                fType.setText((String) ((MetaDataLight) light).getWrappedLight().getClass().getName());
-            }
-            else
-            {
-                fType.setText(light.getClass().getName());
-            }
-
-            fLightViewListener.enable();
+            fLightingMode.setText("SCENE");
         }
+        else if (light.getLightingMode() == LightingMode.SHADED)
+        {
+            fLightingMode.setText("SHADED");
+        }
+        else if (light.getLightingMode() == LightingMode.SOLID)
+        {
+            fLightingMode.setText("SOLID");
+        }
+
+        float[] ambientLight = light.getAmbientLight();
+        fAmbientR.setText(Float.toString(ambientLight[0]));
+        fAmbientG.setText(Float.toString(ambientLight[1]));
+        fAmbientB.setText(Float.toString(ambientLight[2]));
+
+        float[] diffuseLight = light.getDiffuseLight();
+        fDiffuseR.setText(Float.toString(diffuseLight[0]));
+        fDiffuseG.setText(Float.toString(diffuseLight[1]));
+        fDiffuseB.setText(Float.toString(diffuseLight[2]));
+
+        float[] specularLight = light.getSpecularLight();
+        fSpecularR.setText(Float.toString(specularLight[0]));
+        fSpecularG.setText(Float.toString(specularLight[1]));
+        fSpecularB.setText(Float.toString(specularLight[2]));
+
+        if (light instanceof MetaDataLight)
+        {
+            fType.setText((String) ((MetaDataLight) light).getWrappedLight().getClass().getName());
+        }
+        else
+        {
+            fType.setText(light.getClass().getName());
+        }
+
+        fLightViewListener.enable();
     }
 }
