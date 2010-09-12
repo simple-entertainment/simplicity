@@ -11,17 +11,20 @@
  */
 package com.se.simplicity.editor.test.internal;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
+import org.eclipse.jface.viewers.ISelection;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.Widget;
 import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.editor.internal.WidgetPickListener;
+import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.picking.Hit;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.scenegraph.model.ModelNode;
@@ -49,6 +52,7 @@ public class WidgetPickListenerTest
     public void scenePicked()
     {
         // Create dependencies.
+        SceneEditor mockSceneEditor = createMock(SceneEditor.class);
         WidgetManager mockWidgetManager = createMock(WidgetManager.class);
         Widget mockWidget = createMock(Widget.class);
 
@@ -58,15 +62,16 @@ public class WidgetPickListenerTest
         ModelNode mockModelNode = createMock(ModelNode.class);
 
         // Dictate correct behaviour.
-        expect(mockWidgetManager.getEditingMode()).andStubReturn(EditingMode.ROTATION);
+        expect(mockSceneEditor.getEditingMode()).andStubReturn(EditingMode.ROTATION);
+        expect(mockSceneEditor.getWidgetManager()).andStubReturn(mockWidgetManager);
         expect(mockWidgetManager.getWidget()).andStubReturn(mockWidget);
         expect(mockEvent.getHitCount()).andStubReturn(1);
         expect(mockEvent.getCloseHit()).andStubReturn(mockHit);
         expect(mockHit.getNode()).andStubReturn(mockModelNode);
-        replay(mockWidgetManager, mockEvent, mockHit);
+        replay(mockSceneEditor, mockWidgetManager, mockEvent, mockHit);
 
         // Initialise test environment.
-        testObject = new WidgetPickListener(mockWidgetManager);
+        testObject = new WidgetPickListener(mockSceneEditor);
 
         // Dictate expected results.
         mockWidget.setSelectedWidgetNode(mockModelNode);
@@ -89,7 +94,7 @@ public class WidgetPickListenerTest
     public void scenePickedSelection()
     {
         // Create dependencies.
-        WidgetManager mockWidgetManager = createMock(WidgetManager.class);
+        SceneEditor mockSceneEditor = createMock(SceneEditor.class);
 
         PickEvent mockEvent = createMock(PickEvent.class);
         Hit mockHit = createMock(Hit.class);
@@ -97,19 +102,24 @@ public class WidgetPickListenerTest
         ModelNode mockModelNode = createMock(ModelNode.class);
 
         // Dictate correct behaviour.
-        expect(mockWidgetManager.getEditingMode()).andStubReturn(EditingMode.SELECTION);
+        expect(mockSceneEditor.getEditingMode()).andStubReturn(EditingMode.SELECTION);
         expect(mockEvent.getHitCount()).andStubReturn(1);
         expect(mockEvent.getCloseHit()).andStubReturn(mockHit);
         expect(mockHit.getNode()).andStubReturn(mockModelNode);
-        replay(mockWidgetManager, mockEvent, mockHit);
+        replay(mockEvent, mockHit);
 
         // Initialise test environment.
-        testObject = new WidgetPickListener(mockWidgetManager);
+        testObject = new WidgetPickListener(mockSceneEditor);
+
+        // Dictate expected results.
+        mockSceneEditor.setSelection((ISelection) anyObject());
+        replay(mockSceneEditor);
 
         // Perform test.
         testObject.scenePicked(mockEvent);
 
-        // TODO actually test something...
+        // Verify
+        verify(mockSceneEditor);
     }
 
     /**
@@ -122,22 +132,24 @@ public class WidgetPickListenerTest
     public void scenePickedSelectionNoHits()
     {
         // Create dependencies.
-        WidgetManager mockWidgetManager = createMock(WidgetManager.class);
+        SceneEditor mockSceneEditor = createMock(SceneEditor.class);
 
         PickEvent mockEvent = createMock(PickEvent.class);
 
         // Dictate correct behaviour.
-        expect(mockWidgetManager.getEditingMode()).andStubReturn(EditingMode.SELECTION);
+        expect(mockSceneEditor.getEditingMode()).andStubReturn(EditingMode.SELECTION);
+        mockSceneEditor.setSelection((ISelection) anyObject());
         expect(mockEvent.getHitCount()).andStubReturn(0);
-        replay(mockWidgetManager, mockEvent);
+        replay(mockSceneEditor, mockEvent);
 
         // Initialise test environment.
-        testObject = new WidgetPickListener(mockWidgetManager);
+        testObject = new WidgetPickListener(mockSceneEditor);
 
         // Perform test.
         testObject.scenePicked(mockEvent);
 
-        // TODO actually test something...
+        // Verify
+        // Just verifying that no errors occur...
     }
 
     /**
@@ -150,17 +162,17 @@ public class WidgetPickListenerTest
     public void scenePickedNoHits()
     {
         // Create dependencies.
-        WidgetManager mockWidgetManager = createMock(WidgetManager.class);
+        SceneEditor mockSceneEditor = createMock(SceneEditor.class);
 
         PickEvent mockEvent = createMock(PickEvent.class);
 
         // Dictate correct behaviour.
-        expect(mockWidgetManager.getEditingMode()).andStubReturn(EditingMode.ROTATION);
+        expect(mockSceneEditor.getEditingMode()).andStubReturn(EditingMode.ROTATION);
         expect(mockEvent.getHitCount()).andStubReturn(0);
-        replay(mockWidgetManager, mockEvent);
+        replay(mockSceneEditor, mockEvent);
 
         // Initialise test environment.
-        testObject = new WidgetPickListener(mockWidgetManager);
+        testObject = new WidgetPickListener(mockSceneEditor);
 
         // Perform test.
         testObject.scenePicked(mockEvent);

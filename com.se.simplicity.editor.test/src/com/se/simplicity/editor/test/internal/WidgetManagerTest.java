@@ -21,10 +21,11 @@ import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 
 import java.awt.Dimension;
+
+import javax.media.opengl.GL;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -125,7 +126,6 @@ public class WidgetManagerTest
         // Verify test results.
         verify(mockRenderingEngine);
 
-        assertNotSame(mockScene, testObject.getPickingEngine().getScene());
         assertNull(testObject.getWidget().getSelectedWidgetNode());
     }
 
@@ -166,8 +166,6 @@ public class WidgetManagerTest
 
         // Verify test results.
         verify(mockRenderingEngine);
-
-        assertEquals(mockScene, testObject.getPickingEngine().getScene());
     }
 
     /**

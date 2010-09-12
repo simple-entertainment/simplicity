@@ -11,14 +11,17 @@
  */
 package com.se.simplicity.editor.test.internal;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
 
-import org.junit.Before;
+import org.eclipse.jface.viewers.ISelection;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.ScenePickListener;
+import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.picking.Hit;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.scenegraph.Node;
@@ -39,17 +42,6 @@ public class ScenePickListenerTest
 
     /**
      * <p>
-     * Setup to perform before each unit test.
-     * </p>
-     */
-    @Before
-    public void before()
-    {
-        testObject = new ScenePickListener();
-    }
-
-    /**
-     * <p>
      * Unit test the method {@link com.se.simplicity.editor.internal.ScenePickListener#scenePicked(PickEvent) scenePicked(PickEvent)}.
      * </p>
      */
@@ -57,6 +49,7 @@ public class ScenePickListenerTest
     public void scenePicked()
     {
         // Create dependencies.
+        SceneEditor mockSceneEditor = createMock(SceneEditor.class);
         PickEvent mockEvent = createMock(PickEvent.class);
         Hit mockHit = createMock(Hit.class);
         Node mockNode = createMock(Node.class);
@@ -67,10 +60,18 @@ public class ScenePickListenerTest
         expect(mockHit.getNode()).andStubReturn(mockNode);
         replay(mockEvent, mockHit);
 
+        // Initialise test environment
+        testObject = new ScenePickListener(mockSceneEditor);
+
+        // Dictate expected results.
+        mockSceneEditor.setSelection((ISelection) anyObject());
+        replay(mockSceneEditor);
+
         // Perform test.
         testObject.scenePicked(mockEvent);
 
-        // TODO actually test something...
+        // Verify
+        verify(mockSceneEditor);
     }
 
     /**
@@ -89,7 +90,13 @@ public class ScenePickListenerTest
         expect(mockEvent.getHitCount()).andStubReturn(0);
         replay(mockEvent);
 
+        // Initialise test environment
+        testObject = new ScenePickListener(createMock(SceneEditor.class));
+
         // Perform test.
         testObject.scenePicked(mockEvent);
+
+        // Verify
+        // Just verifying that no errors occur...
     }
 }

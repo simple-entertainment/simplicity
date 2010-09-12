@@ -11,9 +11,11 @@
  */
 package com.se.simplicity.editor.test.ui.editors;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -24,17 +26,25 @@ import java.io.FileNotFoundException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.junit.Before;
 import org.junit.Test;
 
+import sun.org.mozilla.javascript.Node;
+
 import com.se.simplicity.editor.internal.EditingMode;
+import com.se.simplicity.editor.internal.PickSelection;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.SceneSelection;
 import com.se.simplicity.editor.ui.editors.VisualSceneEditor;
 import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
@@ -234,6 +244,54 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#selectionChanged(IWorkbenchPart, ISelection)
+     * selectionChanged(IWorkbenchPart, ISelection)}.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void selectionChanged() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        ISelectionChangedListener mockListener = createMock(ISelectionChangedListener.class);
+        SceneSelection mockSelection = createMock(SceneSelection.class);
+        Node mockNode = createMock(Node.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
+        expect(mockSelection.getPrimitive()).andStubReturn(null);
+        replay(mockInput, mockFile, mockPath, mockSelection);
+
+        // Initialise test environment.
+        testObject.init(mockSite, mockInput);
+        testObject.addSelectionChangedListener(mockListener);
+
+        // Dictate expected results.
+        replay(mockListener); // This listener should not be notified.
+
+        // Perform test.
+        testObject.selectionChanged(null, mockSelection);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(mockSelection, testObject.getSelection());
+    }
+
+    /**
+     * <p>
      * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setCanvasSize(Rectangle) setCanvasSize(Rectangle)}.
      * </p>
      * 
@@ -303,5 +361,151 @@ public class VisualSceneEditorTest
 
         // Verify results.
         assertEquals(EditingMode.TRANSLATION, testObject.getWidgetManager().getEditingMode());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setSelection(ISelection) setSelection(ISelection)}.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void setSelection() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        ISelectionChangedListener mockListener = createMock(ISelectionChangedListener.class);
+        SceneSelection mockSelection = createMock(SceneSelection.class);
+        Node mockNode = createMock(Node.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
+        expect(mockSelection.getPrimitive()).andStubReturn(null);
+        replay(mockInput, mockFile, mockPath, mockSelection);
+
+        // Initialise test environment.
+        testObject.init(mockSite, mockInput);
+        testObject.addSelectionChangedListener(mockListener);
+
+        // Dictate expected results.
+        mockListener.selectionChanged((SelectionChangedEvent) anyObject());
+        replay(mockListener);
+
+        // Perform test.
+        testObject.setSelection(mockSelection);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(mockSelection, testObject.getSelection());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setSelection(ISelection) setSelection(ISelection)} with the
+     * special condition that the selection is a PickSelection.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void setSelectionPickSelection() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        ISelectionChangedListener mockListener = createMock(ISelectionChangedListener.class);
+        PickSelection mockSelection = createMock(PickSelection.class);
+        Node mockNode = createMock(Node.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        expect(mockSelection.getSource()).andStubReturn(PickSelection.WIDGET_PICK);
+        expect(mockSelection.isEmpty()).andReturn(false);
+        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
+        replay(mockInput, mockFile, mockPath, mockSelection);
+
+        // Initialise test environment.
+        testObject.init(mockSite, mockInput);
+        testObject.addSelectionChangedListener(mockListener);
+
+        // Dictate expected results.
+        mockListener.selectionChanged((SelectionChangedEvent) anyObject());
+        replay(mockListener);
+
+        // Perform test.
+        testObject.setSelection(mockSelection);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(mockNode, ((SceneSelection) testObject.getSelection()).getSceneComponent());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setSelection(ISelection) setSelection(ISelection)} with the
+     * special condition that the selection is an empty PickSelection sourced from a Widget pick.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void setSelectionPickSelectionWidgetEmpty() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        ISelectionChangedListener mockListener = createMock(ISelectionChangedListener.class);
+        PickSelection mockSelection = createMock(PickSelection.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        expect(mockSelection.getSource()).andStubReturn(PickSelection.WIDGET_PICK);
+        expect(mockSelection.isEmpty()).andReturn(true);
+        replay(mockInput, mockFile, mockPath, mockSelection);
+
+        // Initialise test environment.
+        testObject.init(mockSite, mockInput);
+        testObject.addSelectionChangedListener(mockListener);
+        ISelection beforeSelection = testObject.getSelection();
+
+        // Dictate expected results.
+        replay(mockListener); // This listener should not be notified.
+
+        // Perform test.
+        testObject.setSelection(mockSelection);
+
+        // Verify results.
+        verify(mockListener);
+
+        assertEquals(beforeSelection, testObject.getSelection());
     }
 }

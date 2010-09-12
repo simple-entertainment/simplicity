@@ -25,6 +25,7 @@ import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.vector.SimpleTransformationMatrixf44;
+import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
  * <p>
@@ -63,8 +64,12 @@ public class SelectionWidgetTest
         Camera mockCamera = createMock(Camera.class);
         Node mockCameraNode = createMock(Node.class);
         Node mockParentCameraNode = createMock(Node.class);
-        SimpleTransformationMatrixf44 cameraTransformation = new SimpleTransformationMatrixf44();
-        cameraTransformation.setXAxisTranslation(-10.0f);
+        SimpleTransformationMatrixf44 cameraTransformation0 = new SimpleTransformationMatrixf44();
+        cameraTransformation0.setXAxisTranslation(-10.0f);
+        cameraTransformation0.setZAxisRotation((float) Math.toRadians(-10.0));
+        SimpleTransformationMatrixf44 cameraTransformation1 = new SimpleTransformationMatrixf44();
+        cameraTransformation1.setXAxisTranslation(-10.0f);
+        cameraTransformation1.setZAxisRotation((float) Math.toRadians(-10.0));
 
         Node mockSceneNode = createMock(Node.class);
         SimpleTransformationMatrixf44 sceneTransformation = new SimpleTransformationMatrixf44();
@@ -74,8 +79,8 @@ public class SelectionWidgetTest
         // Dictate correct behaviour.
         expect(mockCamera.getNode()).andStubReturn(mockCameraNode);
         expect(mockCameraNode.getParent()).andStubReturn(mockParentCameraNode);
-        expect(mockCameraNode.getAbsoluteTransformation()).andStubReturn(cameraTransformation);
-        expect(mockParentCameraNode.getTransformation()).andStubReturn(cameraTransformation);
+        expect(mockCameraNode.getAbsoluteTransformation()).andReturn(cameraTransformation0);
+        expect(mockCameraNode.getAbsoluteTransformation()).andReturn(cameraTransformation1);
         expect(mockSceneNode.getAbsoluteTransformation()).andStubReturn(sceneTransformation);
         replay(mockCamera, mockCameraNode, mockParentCameraNode, mockSceneNode);
 
@@ -86,6 +91,15 @@ public class SelectionWidgetTest
         testObject.updateView(mockCamera);
 
         // Verify test results.
+        TransformationMatrixf widgetTransformation = testObject.getRootNode().getTransformation();
+
+        assertEquals(10.0f, widgetTransformation.getXAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, widgetTransformation.getYAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, widgetTransformation.getZAxisTranslation(), 0.0001f);
+        assertEquals(0.0f, widgetTransformation.getXAxisRotation(), 0.0001f);
+        assertEquals(0.0f, widgetTransformation.getYAxisRotation(), 0.0001f);
+        assertEquals(Math.toRadians(-10.0f), widgetTransformation.getZAxisRotation(), 0.0001f);
+
         ArrayVG selectionModel = (ArrayVG) ((ModelNode) testObject.getRootNode()).getModel();
         float[] vertices = selectionModel.getVertices();
 
