@@ -62,50 +62,18 @@ public class NodeViewTest
     public void before()
     {
         testObject = new NodeView(new Shell(), SWT.NONE);
-
-        SceneManager.getSceneManager().reset();
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.NodeView#dispose() dispose()}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.NodeView#setNode(Node) setNode(Node)} with the special condition that the Node is
+     * a MetaDataNode.
      * </p>
      */
     @Test
-    public void dispose()
-    {
-        testObject.dispose();
-
-        assertTrue(!SceneManager.getSceneManager().getSceneChangedListeners().contains(testObject));
-    }
-
-    /**
-     * <p>
-     * Unit test the constructor {@link com.se.simplicity.editor.ui.views.NodeView#NodeView(Composite, int) NodeView(Composite, int)}.
-     * </p>
-     */
-    @Test
-    public void nodeView()
-    {
-        testObject = new NodeView(new Shell(), SWT.NONE);
-
-        assertTrue(SceneManager.getSceneManager().getSceneChangedListeners().contains(testObject));
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.NodeView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the event is of type 'NODE_ACTIVATED' and the <code>Node</code> that was activated was a <code>MetaDataNode</code>.
-     * </p>
-     */
-    @Test
-    public void sceneChangedMetaDataNodeActivated()
+    public void setNodeMetaDataNode()
     {
         // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
-
-        Scene mockScene = createMock(Scene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         MetaDataNode mockMetaDataNode = createMock(MetaDataNode.class);
         Node mockNode = createMock(Node.class);
 
@@ -113,10 +81,6 @@ public class NodeViewTest
         TranslationVectorf mockTranslation = createMock(TranslationVectorf.class);
 
         // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(mockMetaDataNode);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_ACTIVATED);
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockMetaDataNode);
         expect(mockMetaDataNode.getWrappedNode()).andStubReturn(mockNode);
         expect(mockMetaDataNode.getAttribute("name")).andStubReturn("Test");
         expect(mockMetaDataNode.getID()).andStubReturn(0);
@@ -131,12 +95,7 @@ public class NodeViewTest
         expect(mockTranslation.getX()).andStubReturn(5.0f);
         expect(mockTranslation.getY()).andStubReturn(10.0f);
         expect(mockTranslation.getZ()).andStubReturn(15.0f);
-        replay(mockEvent, mockScene, mockSceneGraph, mockMetaDataNode, mockNode, mockTransformation, mockTranslation);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveNode(mockMetaDataNode);
+        replay(mockMetaDataNode, mockNode, mockTransformation, mockTranslation);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -145,7 +104,7 @@ public class NodeViewTest
         assertEquals("", ((Text) idWidgets[3]).getText());
 
         // Perform test.
-        testObject.sceneChanged(mockEvent);
+        testObject.setNode(mockMetaDataNode);
 
         // Verify test.
         assertEquals("Test", ((Text) idWidgets[3]).getText());
@@ -153,28 +112,19 @@ public class NodeViewTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.NodeView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the event is of type 'NODE_ACTIVATED'.
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.NodeView#setNode(Node) setNode(Node)}.
      * </p>
      */
     @Test
-    public void sceneChangedNodeActivated()
+    public void setNode()
     {
         // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
-
-        Scene mockScene = createMock(Scene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         Node mockNode = createMock(Node.class);
 
         TransformationMatrixf mockTransformation = createMock(TransformationMatrixf.class);
         TranslationVectorf mockTranslation = createMock(TranslationVectorf.class);
 
         // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(mockNode);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_ACTIVATED);
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockNode.getID()).andStubReturn(0);
         expect(mockNode.isCollidable()).andStubReturn(true);
         expect(mockNode.isModifiable()).andStubReturn(true);
@@ -187,12 +137,7 @@ public class NodeViewTest
         expect(mockTranslation.getX()).andStubReturn(5.0f);
         expect(mockTranslation.getY()).andStubReturn(10.0f);
         expect(mockTranslation.getZ()).andStubReturn(15.0f);
-        replay(mockEvent, mockScene, mockSceneGraph, mockNode, mockTransformation, mockTranslation);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveNode(mockNode);
+        replay(mockNode, mockTransformation, mockTranslation);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -216,7 +161,7 @@ public class NodeViewTest
         assertEquals("", ((Text) rotationWidgets[5]).getText());
 
         // Perform test.
-        testObject.sceneChanged(mockEvent);
+        testObject.setNode(mockNode);
 
         // Verify test.
         assertEquals("0", ((Text) idWidgets[1]).getText());
@@ -236,18 +181,14 @@ public class NodeViewTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.NodeView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the event is of type 'NODE_ACTIVATED'.
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.NodeView#setNode(Node) setNode(Node)}, specifically the functionality related to
+     * the type of the Node.
      * </p>
      */
     @Test
-    public void sceneChangedNodeActivatedType()
+    public void setNodeType()
     {
         // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
-
-        Scene mockScene = createMock(Scene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         SimpleNode node = new SimpleNode();
         MetaDataNode mockMetaDataNode = createMock(MetaDataNode.class);
 
@@ -255,10 +196,6 @@ public class NodeViewTest
         TranslationVectorf mockTranslation = createMock(TranslationVectorf.class);
 
         // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(node);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_ACTIVATED);
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(node);
         expect(mockMetaDataNode.getAttribute("name")).andStubReturn("test");
         expect(mockMetaDataNode.getWrappedNode()).andStubReturn(node);
         expect(mockMetaDataNode.getID()).andStubReturn(0);
@@ -273,12 +210,7 @@ public class NodeViewTest
         expect(mockTranslation.getX()).andStubReturn(5.0f);
         expect(mockTranslation.getY()).andStubReturn(10.0f);
         expect(mockTranslation.getZ()).andStubReturn(15.0f);
-        replay(mockEvent, mockScene, mockSceneGraph, mockMetaDataNode, mockTransformation, mockTranslation);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveNode(node);
+        replay(mockMetaDataNode, mockTransformation, mockTranslation);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -290,47 +222,17 @@ public class NodeViewTest
         assertEquals("", ((Text) reflectiveWidgets[1]).getText());
 
         // Perform test 1.
-        testObject.sceneChanged(mockEvent);
+        testObject.setNode(node);
 
         // Verify test 1 results.
         assertEquals("SimpleNode0", ((Text) idWidgets[3]).getText());
 
         assertEquals("com.se.simplicity.scenegraph.SimpleNode", ((Text) reflectiveWidgets[1]).getText());
 
-        // Dictate correct behaviour.
-        reset(mockEvent, mockSceneGraph);
-        expect(mockEvent.getSceneComponent()).andStubReturn(mockMetaDataNode);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.NODE_ACTIVATED);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockMetaDataNode);
-        replay(mockEvent, mockSceneGraph);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().setActiveNode(mockMetaDataNode);
-
         // Perform test 2.
-        testObject.sceneChanged(mockEvent);
+        testObject.setNode(mockMetaDataNode);
 
         // Verify test 2 results.
         assertEquals("com.se.simplicity.scenegraph.SimpleNode", ((Text) reflectiveWidgets[1]).getText());
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.NodeView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the scene component held in the event is null.
-     * </p>
-     */
-    @Test
-    public void sceneChangedNullSceneComponent()
-    {
-        // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
-
-        // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(null);
-        replay(mockEvent);
-
-        // Perform test.
-        testObject.sceneChanged(mockEvent);
     }
 }

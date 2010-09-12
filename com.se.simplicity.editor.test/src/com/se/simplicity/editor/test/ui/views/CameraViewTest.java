@@ -14,11 +14,7 @@ package com.se.simplicity.editor.test.ui.views;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.reset;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
@@ -29,14 +25,10 @@ import org.eclipse.swt.widgets.Text;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.event.SceneChangedEvent;
-import com.se.simplicity.editor.internal.event.SceneChangedEventType;
 import com.se.simplicity.editor.ui.views.CameraView;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.ProjectionMode;
-import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 
@@ -63,57 +55,21 @@ public class CameraViewTest
     public void before()
     {
         testObject = new CameraView(new Shell(), SWT.NONE);
-
-        SceneManager.getSceneManager().reset();
     }
 
     /**
      * <p>
-     * Unit test the constructor {@link com.se.simplicity.editor.ui.views.CameraView#CameraView(Composite, int) CameraView(Composite, int)}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraView#setCamera(Camera) setCamera(Camera)}.
      * </p>
      */
     @Test
-    public void cameraView()
-    {
-        testObject = new CameraView(new Shell(), SWT.NONE);
-
-        assertTrue(SceneManager.getSceneManager().getSceneChangedListeners().contains(testObject));
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraView#dispose() dispose()}.
-     * </p>
-     */
-    @Test
-    public void dispose()
-    {
-        testObject.dispose();
-
-        assertTrue(!SceneManager.getSceneManager().getSceneChangedListeners().contains(testObject));
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the event is of type 'CAMERA_ACTIVATED'.
-     * </p>
-     */
-    @Test
-    public void sceneChangedCameraActivated()
+    public void setCamera()
     {
         // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         Camera mockCamera = createMock(Camera.class);
-        ArrayList<Camera> cameras = new ArrayList<Camera>();
-        cameras.add(mockCamera);
-
-        Scene mockScene = createMock(Scene.class);
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(mockCamera);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.CAMERA_ACTIVATED);
         expect(mockCamera.getNode()).andStubReturn(mockNode);
         expect(mockCamera.getProjectionMode()).andStubReturn(ProjectionMode.PERSPECTIVE);
         expect(mockCamera.getFrameAspectRatio()).andStubReturn(0.75f);
@@ -123,14 +79,8 @@ public class CameraViewTest
         expect(mockCamera.getFrameHeight()).andStubReturn(0.075f);
         expect(mockCamera.getNearClippingDistance()).andStubReturn(0.1f);
         expect(mockCamera.getFarClippingDistance()).andStubReturn(1000.0f);
-        expect(mockScene.getCameras()).andStubReturn(cameras);
         expect(mockNode.getID()).andStubReturn(0);
-        replay(mockEvent, mockCamera, mockScene, mockNode);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveCamera(mockCamera);
+        replay(mockCamera, mockNode);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -154,7 +104,7 @@ public class CameraViewTest
         assertEquals("", ((Text) clippingWidgets[3]).getText());
 
         // Perform test.
-        testObject.sceneChanged(mockEvent);
+        testObject.setCamera(mockCamera);
 
         // Verify test.
         assertEquals("CameraX", ((Text) idWidgets[1]).getText());
@@ -174,27 +124,20 @@ public class CameraViewTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the event is of type 'CAMERA_ACTIVATED'.
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraView#setCamera(Camera) setCamera(Camera)}, especially the functionality
+     * related to the type of the Camera.
      * </p>
      */
     @Test
-    public void sceneChangedCameraActivatedType()
+    public void setCameraType()
     {
         // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         SimpleJOGLCamera camera = new SimpleJOGLCamera();
         MetaDataCamera mockMetaDataCamera = createMock(MetaDataCamera.class);
-        ArrayList<Camera> cameras = new ArrayList<Camera>();
-        cameras.add(camera);
-
-        Scene mockScene = createMock(Scene.class);
         Node mockNode = createMock(Node.class);
         camera.setNode(mockNode);
 
         // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(camera);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.CAMERA_ACTIVATED);
         expect(mockMetaDataCamera.getWrappedCamera()).andStubReturn(camera);
         expect(mockMetaDataCamera.getAttribute("name")).andStubReturn("Test");
         expect(mockMetaDataCamera.getNode()).andStubReturn(mockNode);
@@ -206,14 +149,8 @@ public class CameraViewTest
         expect(mockMetaDataCamera.getFrameHeight()).andStubReturn(0.075f);
         expect(mockMetaDataCamera.getNearClippingDistance()).andStubReturn(0.1f);
         expect(mockMetaDataCamera.getFarClippingDistance()).andStubReturn(1000.0f);
-        expect(mockScene.getCameras()).andStubReturn(cameras);
         expect(mockNode.getID()).andStubReturn(0);
-        replay(mockEvent, mockMetaDataCamera, mockScene, mockNode);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveCamera(camera);
+        replay(mockMetaDataCamera, mockNode);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -222,26 +159,13 @@ public class CameraViewTest
         assertEquals("", ((Text) reflectionWidgets[1]).getText());
 
         // Perform test 1.
-        testObject.sceneChanged(mockEvent);
+        testObject.setCamera(camera);
 
         // Verify test 1 results.
         assertEquals("com.se.simplicity.jogl.rendering.SimpleJOGLCamera", ((Text) reflectionWidgets[1]).getText());
 
-        // Modify dependencies.
-        cameras.clear();
-        cameras.add(mockMetaDataCamera);
-
-        // Dictate correct behaviour.
-        reset(mockEvent);
-        expect(mockEvent.getSceneComponent()).andStubReturn(mockMetaDataCamera);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.CAMERA_ACTIVATED);
-        replay(mockEvent);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().setActiveCamera(mockMetaDataCamera);
-
         // Perform test 1.
-        testObject.sceneChanged(mockEvent);
+        testObject.setCamera(mockMetaDataCamera);
 
         // Verify test 1 results.
         assertEquals("com.se.simplicity.jogl.rendering.SimpleJOGLCamera", ((Text) reflectionWidgets[1]).getText());
@@ -249,28 +173,19 @@ public class CameraViewTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the event is of type 'CAMERA_ACTIVATED' and the <code>Camera</code> that was activated was a
-     * <code>MetaDataCamera</code>.
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraView#setCamera(Camera) setCamera(Camera)} with the special condition that
+     * the Camera is a MetaDataCamera.
      * </p>
      */
     @Test
-    public void sceneChangedMetaDataCameraActivated()
+    public void setCameraMetaDataCamera()
     {
         // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         MetaDataCamera mockMetaDataCamera = createMock(MetaDataCamera.class);
         Camera mockCamera = createMock(Camera.class);
-        ArrayList<Camera> cameras = new ArrayList<Camera>();
-        cameras.add(mockMetaDataCamera);
-
-        Scene mockScene = createMock(Scene.class);
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(mockMetaDataCamera);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.CAMERA_ACTIVATED);
-        expect(mockScene.getCameras()).andStubReturn(cameras);
         expect(mockMetaDataCamera.getWrappedCamera()).andStubReturn(mockCamera);
         expect(mockMetaDataCamera.getAttribute("name")).andStubReturn("Test");
         expect(mockMetaDataCamera.getNode()).andStubReturn(mockNode);
@@ -283,12 +198,7 @@ public class CameraViewTest
         expect(mockMetaDataCamera.getNearClippingDistance()).andStubReturn(0.1f);
         expect(mockMetaDataCamera.getFarClippingDistance()).andStubReturn(1000.0f);
         expect(mockNode.getID()).andStubReturn(0);
-        replay(mockEvent, mockScene, mockMetaDataCamera, mockCamera, mockNode);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveCamera(mockMetaDataCamera);
+        replay(mockMetaDataCamera, mockCamera, mockNode);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -297,29 +207,9 @@ public class CameraViewTest
         assertEquals("", ((Text) idWidgets[1]).getText());
 
         // Perform test.
-        testObject.sceneChanged(mockEvent);
+        testObject.setCamera(mockMetaDataCamera);
 
         // Verify test.
         assertEquals("Test", ((Text) idWidgets[1]).getText());
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.CameraView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the scene component held in the event is null.
-     * </p>
-     */
-    @Test
-    public void sceneChangedNullSceneComponent()
-    {
-        // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
-
-        // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(null);
-        replay(mockEvent);
-
-        // Perform test.
-        testObject.sceneChanged(mockEvent);
     }
 }

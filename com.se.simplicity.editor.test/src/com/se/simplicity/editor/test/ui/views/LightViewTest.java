@@ -14,11 +14,7 @@ package com.se.simplicity.editor.test.ui.views;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.reset;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
@@ -29,14 +25,10 @@ import org.eclipse.swt.widgets.Text;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.event.SceneChangedEvent;
-import com.se.simplicity.editor.internal.event.SceneChangedEventType;
 import com.se.simplicity.editor.ui.views.LightView;
 import com.se.simplicity.jogl.rendering.SimpleJOGLLight;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
-import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
 
@@ -63,70 +55,28 @@ public class LightViewTest
     public void before()
     {
         testObject = new LightView(new Shell(), SWT.NONE);
-
-        SceneManager.getSceneManager().reset();
     }
 
     /**
      * <p>
-     * Unit test the constructor {@link com.se.simplicity.editor.ui.views.LightView#LightView(Composite, int) LightView(Composite, int)}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.LightView#setLight(Light) setLight(Light)}.
      * </p>
      */
     @Test
-    public void lightView()
-    {
-        testObject = new LightView(new Shell(), SWT.NONE);
-
-        assertTrue(SceneManager.getSceneManager().getSceneChangedListeners().contains(testObject));
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.LightView#dispose() dispose()}.
-     * </p>
-     */
-    @Test
-    public void dispose()
-    {
-        testObject.dispose();
-
-        assertTrue(!SceneManager.getSceneManager().getSceneChangedListeners().contains(testObject));
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.LightView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the event is of type 'LIGHT_ACTIVATED'.
-     * </p>
-     */
-    @Test
-    public void sceneChangedLightActivated()
+    public void setLight()
     {
         // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         Light mockLight = createMock(Light.class);
-        ArrayList<Light> lights = new ArrayList<Light>();
-        lights.add(mockLight);
-
-        Scene mockScene = createMock(Scene.class);
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(mockLight);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.LIGHT_ACTIVATED);
         expect(mockLight.getNode()).andStubReturn(mockNode);
         expect(mockLight.getLightingMode()).andStubReturn(LightingMode.SCENE);
         expect(mockLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
-        expect(mockScene.getLights()).andStubReturn(lights);
         expect(mockNode.getID()).andStubReturn(0);
-        replay(mockEvent, mockLight, mockScene, mockNode);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveLight(mockLight);
+        replay(mockLight, mockNode);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -154,7 +104,7 @@ public class LightViewTest
         assertEquals("", ((Text) specularWidgets[5]).getText());
 
         // Perform test.
-        testObject.sceneChanged(mockEvent);
+        testObject.setLight(mockLight);
 
         // Verify test.
         assertEquals("LightX", ((Text) idWidgets[1]).getText());
@@ -177,42 +127,29 @@ public class LightViewTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.LightView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the event is of type 'LIGHT_ACTIVATED'.
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.LightView#setLight(Light) setLight(Light)}, specifically the functionality
+     * related to the type of the Light.
      * </p>
      */
     @Test
-    public void sceneChangedLightActivatedType()
+    public void setLightType()
     {
         // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         SimpleJOGLLight light = new SimpleJOGLLight();
         MetaDataLight mockMetaDataLight = createMock(MetaDataLight.class);
-        ArrayList<Light> lights = new ArrayList<Light>();
-        lights.add(light);
-
-        Scene mockScene = createMock(Scene.class);
         Node mockNode = createMock(Node.class);
         light.setNode(mockNode);
 
         // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(light);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.LIGHT_ACTIVATED);
         expect(mockMetaDataLight.getAttribute("name")).andStubReturn("Test");
         expect(mockMetaDataLight.getNode()).andStubReturn(mockNode);
         expect(mockMetaDataLight.getLightingMode()).andStubReturn(LightingMode.SCENE);
         expect(mockMetaDataLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockMetaDataLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockMetaDataLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
-        expect(mockScene.getLights()).andStubReturn(lights);
         expect(mockNode.getID()).andStubReturn(0);
         expect(mockMetaDataLight.getWrappedLight()).andStubReturn(light);
-        replay(mockEvent, mockMetaDataLight, mockScene, mockNode);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveLight(light);
+        replay(mockMetaDataLight, mockNode);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -221,69 +158,42 @@ public class LightViewTest
         assertEquals("", ((Text) reflectionWidgets[1]).getText());
 
         // Perform test 1.
-        testObject.sceneChanged(mockEvent);
+        testObject.setLight(light);
 
         // Verify test 1 results.
         assertEquals("com.se.simplicity.jogl.rendering.SimpleJOGLLight", ((Text) reflectionWidgets[1]).getText());
 
-        // Modify dependencies.
-        lights.clear();
-        lights.add(mockMetaDataLight);
+        // Perform test 2.
+        testObject.setLight(mockMetaDataLight);
 
-        // Dictate correct behaviour.
-        reset(mockEvent);
-        expect(mockEvent.getSceneComponent()).andStubReturn(mockMetaDataLight);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.CAMERA_ACTIVATED);
-        replay(mockEvent);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().setActiveLight(mockMetaDataLight);
-
-        // Perform test 1.
-        testObject.sceneChanged(mockEvent);
-
-        // Verify test 1 results.
+        // Verify test 2 results.
         assertEquals("com.se.simplicity.jogl.rendering.SimpleJOGLLight", ((Text) reflectionWidgets[1]).getText());
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.LightView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the event is of type 'LIGHT_ACTIVATED' and the <code>Light</code> that was activated was a
-     * <code>MetaDataLight</code>.
+     * Unit test the method {@link com.se.simplicity.editor.ui.views.LightView#setLight(Light) setLight(Light)} with the special condition that the
+     * Light is a MetaDataLight.
      * </p>
      */
     @Test
-    public void sceneChangedMetaDataLightActivated()
+    public void setLightMetaDataLight()
     {
         // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
         MetaDataLight mockMetaDataLight = createMock(MetaDataLight.class);
         Light mockLight = createMock(Light.class);
-        ArrayList<Light> lights = new ArrayList<Light>();
-        lights.add(mockMetaDataLight);
-
-        Scene mockScene = createMock(Scene.class);
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(mockMetaDataLight);
-        expect(mockEvent.getType()).andStubReturn(SceneChangedEventType.LIGHT_ACTIVATED);
         expect(mockMetaDataLight.getAttribute("name")).andStubReturn("Test");
         expect(mockMetaDataLight.getNode()).andStubReturn(mockNode);
         expect(mockMetaDataLight.getLightingMode()).andStubReturn(LightingMode.SCENE);
         expect(mockMetaDataLight.getAmbientLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockMetaDataLight.getDiffuseLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
         expect(mockMetaDataLight.getSpecularLight()).andStubReturn(new float[] {0.1f, 0.1f, 0.1f, 1.0f});
-        expect(mockScene.getLights()).andStubReturn(lights);
         expect(mockNode.getID()).andStubReturn(0);
         expect(mockMetaDataLight.getWrappedLight()).andStubReturn(mockLight);
-        replay(mockEvent, mockMetaDataLight, mockLight, mockScene, mockNode);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "Test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveLight(mockMetaDataLight);
+        replay(mockMetaDataLight, mockLight, mockNode);
 
         // Verify test environment.
         Control[] sections = testObject.getChildren();
@@ -292,29 +202,9 @@ public class LightViewTest
         assertEquals("", ((Text) idWidgets[1]).getText());
 
         // Perform test.
-        testObject.sceneChanged(mockEvent);
+        testObject.setLight(mockMetaDataLight);
 
         // Verify test.
         assertEquals("Test", ((Text) idWidgets[1]).getText());
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.views.LightView#sceneChanged(SceneChangedEvent) sceneChanged(SceneChangedEvent)} with
-     * the special condition that the scene component held in the event is null.
-     * </p>
-     */
-    @Test
-    public void sceneChangedNullSceneComponent()
-    {
-        // Create dependencies.
-        SceneChangedEvent mockEvent = createMock(SceneChangedEvent.class);
-
-        // Dictate correct behaviour.
-        expect(mockEvent.getSceneComponent()).andStubReturn(null);
-        replay(mockEvent);
-
-        // Perform test.
-        testObject.sceneChanged(mockEvent);
     }
 }
