@@ -148,9 +148,7 @@ public class SceneManager2
     {
         initRenderers();
         initPickingEngine();
-
-        fPickingEngine.addPickListener(new ScenePickListener());
-    }
+	}
 
     /**
      * <p>

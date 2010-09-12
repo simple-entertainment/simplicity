@@ -19,36 +19,43 @@ import javax.media.opengl.GLDrawableFactory;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.opengl.GLData;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
-import com.se.simplicity.editor.handlers.SceneHandler;
 import com.se.simplicity.editor.internal.EditingMode;
+import com.se.simplicity.editor.internal.PickSelection;
 import com.se.simplicity.editor.internal.SceneManager2;
+import com.se.simplicity.editor.internal.ScenePickListener;
+import com.se.simplicity.editor.internal.SceneSelection;
 import com.se.simplicity.editor.internal.WidgetManager;
+import com.se.simplicity.editor.internal.WidgetPickListener;
 import com.se.simplicity.editor.internal.engine.DisplayAsyncJOGLCompositeEngine;
 import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
-import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SimpleNode;
 import com.se.simplicity.util.metadata.scene.MetaDataScene;
 import com.se.simplicity.util.scene.SceneFactory;
@@ -61,7 +68,7 @@ import com.se.simplicity.vector.SimpleTranslationVectorf4;
  * 
  * @author Gary Buyn
  */
-public class VisualSceneEditor extends EditorPart implements SceneEditor
+public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelectionListener
 {
     /**
      * <p>
@@ -101,6 +108,13 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
 
     /**
      * <p>
+     * The selected scene component and primitive.
+     * </p>
+     */
+    private SceneSelection fSelection;
+
+    /**
+     * <p>
      * Determines whether the aspect ratio of the {@link com.se.simplicity.rendering.Camera Camera} is synchronised with the aspect ratio of the
      * viewport.
      * </p>
@@ -117,6 +131,13 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
 
     /**
      * <p>
+     * Listeners to a change in selection.
+     * </p>
+     */
+    private ListenerList fSelectionChangedListeners;
+
+    /**
+     * <p>
      * Creates an instance of <code>VisualSceneEditor</code>.
      * </p>
      */
@@ -127,10 +148,18 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
         fCamera = null;
         fEditingMode = EditingMode.SELECTION;
         fRenderingEngine = null;
+        fSelection = new SceneSelection(null, null);
+        fSelectionChangedListeners = new ListenerList();
         fScene = null;
         fSceneManager = new SceneManager2();
         fSyncCameraAspectRatio = true;
         fWidgetManager = new WidgetManager();
+    }
+
+    @Override
+    public void addSelectionChangedListener(final ISelectionChangedListener listener)
+    {
+        fSelectionChangedListeners.add(listener);
     }
 
     @Override
@@ -174,6 +203,9 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
         {
             display((GLCanvas) canvas, glContext);
         }
+
+        getSite().setSelectionProvider(this);
+        getSite().getPage().addSelectionListener(this);
     }
 
     /**
@@ -248,6 +280,12 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
     }
 
     @Override
+    public ISelection getSelection()
+    {
+        return (fSelection);
+    }
+
+    @Override
     public WidgetManager getWidgetManager()
     {
         return (fWidgetManager);
@@ -289,6 +327,11 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
         fWidgetManager.setRenderingEngine(fRenderingEngine);
         fWidgetManager.init();
         fWidgetManager.setCamera(fCamera);
+
+        fSceneManager.getPickingEngine().addPickListener(new ScenePickListener(this));
+        fWidgetManager.getPickingEngine().addPickListener(new WidgetPickListener(this));
+
+        setEditingMode(EditingMode.SELECTION);
     }
 
     /**
@@ -363,21 +406,19 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
         fSceneManager.getPickingEngine().pickViewport(viewportSize, x, y, width, height);
     }
 
-    protected void restoreState()
+    @Override
+    public void removeSelectionChangedListener(final ISelectionChangedListener listener)
     {
-        setEditingMode(EditingMode.SELECTION);
+        fSelectionChangedListeners.remove(listener);
+    }
 
-        Event event = new Event();
-        event.type = SceneHandler.SET_SCENE_EVENT_TYPE;
-        event.data = fScene;
-        IHandlerService handlerService = (IHandlerService) getSite().getService(IHandlerService.class);
-        try
+    @Override
+    public void selectionChanged(final IWorkbenchPart part, final ISelection selection)
+    {
+        if (selection instanceof SceneSelection)
         {
-            handlerService.executeCommand("com.se.simplicity.editor.commands.scene", event);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+            fSelection = (SceneSelection) selection;
+            setSelection(fSelection.getSceneComponent(), fSelection.getPrimitive());
         }
     }
 
@@ -422,10 +463,53 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor
     }
 
     @Override
-    public void setSelectedSceneComponent(final Node selectedSceneComponent)
+    public void setSelection(final ISelection selection)
     {
-        fSceneManager.setSelectedSceneComponent(selectedSceneComponent);
-        fWidgetManager.setSelectedSceneComponent(selectedSceneComponent);
+        ISelection tempSelection = selection;
+
+        // If the selection originated from a pick.
+        if (tempSelection instanceof PickSelection)
+        {
+            PickSelection pickSelection = (PickSelection) tempSelection;
+
+            // If the selection originated from a Widget pick and the selection is empty, do not process any further. Instead wait for the selection
+            // originating from a Scene pick.
+            if (pickSelection.getSource() == PickSelection.WIDGET_PICK && pickSelection.isEmpty())
+            {
+                return;
+            }
+
+            // Create a SceneSelection from the PickSelection so that the selection is processed.
+            tempSelection = new SceneSelection(((PickSelection) tempSelection).getSceneComponent(), null);
+        }
+
+        if (tempSelection instanceof SceneSelection)
+        {
+            // Set the selection internally.
+            fSelection = (SceneSelection) tempSelection;
+            setSelection(fSelection.getSceneComponent(), fSelection.getPrimitive());
+
+            // Notify listeners.
+            SelectionChangedEvent event = new SelectionChangedEvent(this, fSelection);
+            for (Object listener : fSelectionChangedListeners.getListeners())
+            {
+                ((ISelectionChangedListener) listener).selectionChanged(event);
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Sets the selected scene component and primitive in the managers.
+     * </p>
+     * 
+     * @param sceneComponent The selected scene component.
+     * @param primitive The selected primitive.
+     */
+    protected void setSelection(final Object sceneComponent, final Model primitive)
+    {
+        fSceneManager.setSelectedSceneComponent(sceneComponent);
+        fWidgetManager.setSelectedSceneComponent(sceneComponent);
     }
 
     /**

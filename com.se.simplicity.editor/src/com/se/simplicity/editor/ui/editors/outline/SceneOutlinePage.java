@@ -11,9 +11,17 @@
  */
 package com.se.simplicity.editor.ui.editors.outline;
 
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ITreeSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
+import com.se.simplicity.editor.internal.SceneSelection;
 import com.se.simplicity.scene.Scene;
 
 /**
@@ -23,7 +31,7 @@ import com.se.simplicity.scene.Scene;
  * 
  * @author Gary Buyn
  */
-public class SceneOutlinePage extends ContentOutlinePage
+public class SceneOutlinePage extends ContentOutlinePage implements ISelectionListener
 {
     /**
      * <p>
@@ -52,5 +60,28 @@ public class SceneOutlinePage extends ContentOutlinePage
         getTreeViewer().setContentProvider(new SceneContentProvider());
         getTreeViewer().setLabelProvider(new SceneLabelProvider());
         getTreeViewer().setInput(fScene);
+
+        getSite().getPage().addSelectionListener(this);
+    }
+
+    @Override
+    public void selectionChanged(final IWorkbenchPart part, final ISelection selection)
+    {
+        if (selection instanceof SceneSelection && !(part instanceof ContentOutline))
+        {
+            if (((SceneSelection) selection).getSceneComponent() != null)
+            {
+                getTreeViewer().setSelection(new StructuredSelection(((SceneSelection) selection).getSceneComponent()));
+            }
+        }
+    }
+
+    @Override
+    public void selectionChanged(final SelectionChangedEvent event)
+    {
+        Object sceneComponent = ((ITreeSelection) event.getSelection()).getFirstElement();
+        SceneSelection sceneSelection = new SceneSelection(sceneComponent, null);
+
+        fireSelectionChanged(sceneSelection);
     }
 }

@@ -204,8 +204,6 @@ public class WidgetManager
     {
         initPickingEngine();
         initWidgets();
-
-        fPickingEngine.addPickListener(new WidgetPickListener(this));
     }
 
     /**
@@ -226,7 +224,6 @@ public class WidgetManager
 
         fWidgetScene = new SimpleJOGLScene();
         fWidgetScene.setSceneGraph(new SimpleSceneGraph());
-        fPickingEngine.setScene(fWidgetScene);
     }
 
     /**
@@ -284,6 +281,8 @@ public class WidgetManager
         if (fEditingMode == EditingMode.SELECTION)
         {
             fRenderingEngine.setRendererRoot(fRenderer, fScene.getSceneGraph().getRoot());
+
+            fPickingEngine.setScene(fScene);
             fPickingRenderingEngine.setRendererRoot(fPickingRenderer, fScene.getSceneGraph().getRoot());
         }
         else
@@ -301,6 +300,8 @@ public class WidgetManager
             // to the main Scene. This stops the Widget from appearing in the various views displaying an analysis of the Scene or being synchronised
             // into the source file.
             fRenderingEngine.setRendererRoot(fRenderer, widgetSceneGraph.getRoot());
+
+            fPickingEngine.setScene(fWidgetScene);
             fPickingRenderingEngine.setRendererRoot(fPickingRenderer, widgetSceneGraph.getRoot());
 
             widget.setSelectedWidgetNode(null);
@@ -351,11 +352,6 @@ public class WidgetManager
     public void setScene(final Scene scene)
     {
         fScene = scene;
-
-        if (fPickingEngine != null)
-        {
-            fPickingEngine.setScene(fScene);
-        }
     }
 
     /**

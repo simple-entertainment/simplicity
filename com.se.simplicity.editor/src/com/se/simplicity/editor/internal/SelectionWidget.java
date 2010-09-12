@@ -98,7 +98,7 @@ public class SelectionWidget implements Widget
     {
         // Transform the Widget to the orientation of the camera.
         fRoot.setTransformation(camera.getNode().getAbsoluteTransformation());
-
+        
         // Transform the Widget to the position of the selected scene component.
         if (fSelectedSceneComponent != null)
         {

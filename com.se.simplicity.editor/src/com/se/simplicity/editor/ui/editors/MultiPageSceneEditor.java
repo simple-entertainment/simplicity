@@ -15,6 +15,8 @@ import java.awt.Dimension;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -28,7 +30,6 @@ import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.ProjectionMode;
-import com.se.simplicity.scenegraph.Node;
 
 /**
  * A multi-page eclipse editor that displays a <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment on the first page and
@@ -61,6 +62,12 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     {
         fSourceEditor = null;
         fVisualEditor = null;
+    }
+
+    @Override
+    public void addSelectionChangedListener(final ISelectionChangedListener listener)
+    {
+        fVisualEditor.addSelectionChangedListener(listener);
     }
 
     @Override
@@ -151,6 +158,12 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     }
 
     @Override
+    public ISelection getSelection()
+    {
+        return (fVisualEditor.getSelection());
+    }
+
+    @Override
     public WidgetManager getWidgetManager()
     {
         return (fVisualEditor.getWidgetManager());
@@ -174,6 +187,12 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     public void pickForSelection(final Dimension viewportSize, final int x, final int y, final int width, final int height)
     {
         fVisualEditor.pickForSelection(viewportSize, x, y, width, height);
+    }
+
+    @Override
+    public void removeSelectionChangedListener(final ISelectionChangedListener listener)
+    {
+        fVisualEditor.removeSelectionChangedListener(listener);
     }
 
     @Override
@@ -201,8 +220,8 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     }
 
     @Override
-    public void setSelectedSceneComponent(final Node selectedSceneComponent)
+    public void setSelection(final ISelection selection)
     {
-        fVisualEditor.setSelectedSceneComponent(selectedSceneComponent);
+        fVisualEditor.setSelection(selection);
     }
 }

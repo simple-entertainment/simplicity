@@ -11,20 +11,25 @@
  */
 package com.se.simplicity.editor.internal;
 
-import org.apache.log4j.Logger;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.IHandlerService;
-
+import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.scenegraph.model.ModelNode;
 
 /**
  * <p>
- * Listens for pick events on a 3D canvas and sets the picked {@link com.se.simplicity.scenegraph.Node Node} to be the currently selected
- * <code>Node</code> of the {@link com.se.simplicity.editor.internal.Widget Widget} currently being used to manipulate
- * {@link com.se.simplicity.model.Model Model}s.
+ * Listens for pick events on a 3D canvas.
+ * </p>
+ * 
+ * <p>
+ * In <code>ROTATION</code> or <code>TRANSLATION</code> mode: Sets the picked {@link com.se.simplicity.scenegraph.Node Node} to be the selected
+ * <code>Node</code> of the {@link com.se.simplicity.editor.internal.Widget Widget} being used to manipulate {@link com.se.simplicity.model.Model
+ * Model}s.
+ * </p>
+ * 
+ * <p>
+ * In <code>SELECTION</code> mode: Selects the picked scene component (the scene component that the picked
+ * {@link com.se.simplicity.editor.internal.Widget Widget} was drawn in place of).
  * </p>
  * 
  * @author Gary Buyn
@@ -33,52 +38,43 @@ public class WidgetPickListener implements PickListener
 {
     /**
      * <p>
-     * The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} containing the
-     * {@link com.se.simplicity.editor.internal.Widget Widget}.
+     * The {@link com.se.simplicity.editor.ui.editors.SceneEditor SceneEditor} to select the {@link com.se.simplicity.editor.internal.Widget Widget}
+     * for.
      * </p>
      */
-    private WidgetManager fWidgetManager;
+    private SceneEditor fSceneEditor;
 
     /**
      * <p>
      * Creates an instance of <code>WidgetPickListener</code>.
      * </p>
      * 
-     * @param widgetManager The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} containing the
+     * @param sceneEditor The {@link com.se.simplicity.rendering.editor.internal.ContentProvider ContentProvider} containing the
      * {@link com.se.simplicity.editor.internal.Widget Widget}.
      */
-    public WidgetPickListener(final WidgetManager widgetManager)
+    public WidgetPickListener(final SceneEditor sceneEditor)
     {
-        fWidgetManager = widgetManager;
+        fSceneEditor = sceneEditor;
     }
 
     @Override
     public void scenePicked(final PickEvent event)
     {
-        if (fWidgetManager.getEditingMode() == EditingMode.SELECTION)
+        if (fSceneEditor.getEditingMode() == EditingMode.SELECTION)
         {
-            Event swtEvent = new Event();
-            swtEvent.type = 1;
+            Object sceneComponent = null;
             if (event.getHitCount() > 0)
             {
-                swtEvent.data = event.getCloseHit().getNode();
+                sceneComponent = event.getCloseHit().getNode();
             }
 
-            try
-            {
-                IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
-                handlerService.executeCommand("com.se.simplicity.editor.commands.select2", swtEvent);
-            }
-            catch (Exception e)
-            {
-                Logger.getLogger(getClass()).error("Failed to select scene component.", e);
-            }
+            fSceneEditor.setSelection(new PickSelection(sceneComponent, PickSelection.WIDGET_PICK));
         }
         else
         {
             if (event.getHitCount() > 0)
             {
-                fWidgetManager.getWidget().setSelectedWidgetNode((ModelNode) event.getCloseHit().getNode());
+                fSceneEditor.getWidgetManager().getWidget().setSelectedWidgetNode((ModelNode) event.getCloseHit().getNode());
             }
         }
     }

@@ -169,11 +169,6 @@
             <state class="org.eclipse.ui.handlers.RadioState:faces" id="org.eclipse.ui.commands.radioState" />
         </command>
         
-        <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.select2" name="Select">
-            <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Selected Scene Component" optional="false" />
-            <state class="org.eclipse.ui.handlers.RadioState:none" id="org.eclipse.ui.commands.radioState" />
-        </command>
-        
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.scene" name="Scene" />
 
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.edit" name="Editing Mode">
@@ -195,15 +190,11 @@
     <extension point="org.eclipse.ui.handlers">
         <handler class="com.se.simplicity.editor.handlers.DrawingModeHandler" commandId="com.se.simplicity.editor.commands.draw" />
         
-        <handler class="com.se.simplicity.editor.handlers.SceneHandler" commandId="com.se.simplicity.editor.commands.scene" />
-
         <handler class="com.se.simplicity.editor.handlers.EditingModeHandler" commandId="com.se.simplicity.editor.commands.edit" />
         
         <handler class="com.se.simplicity.editor.handlers.ProjectionModeHandler" commandId="com.se.simplicity.editor.commands.projection" />
 
         <handler class="com.se.simplicity.editor.handlers.SelectionModeHandler" commandId="com.se.simplicity.editor.commands.select" />
-        
-        <handler class="com.se.simplicity.editor.handlers.SelectionHandler" commandId="com.se.simplicity.editor.commands.select2" />
     </extension>
 
     <extension point="org.eclipse.core.contenttype.contentTypes">

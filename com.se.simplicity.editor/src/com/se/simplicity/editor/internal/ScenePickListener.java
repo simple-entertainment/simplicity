@@ -11,17 +11,13 @@
  */
 package com.se.simplicity.editor.internal;
 
-import org.apache.log4j.Logger;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.IHandlerService;
-
+import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 
 /**
  * <p>
- * Listens for pick events on a 3D canvas and selects the picked {@link com.se.simplicity.scenegraph.Node Node}.
+ * Listens for pick events on a 3D canvas and selects the picked scene component.
  * </p>
  * 
  * @author Gary Buyn
@@ -30,30 +26,32 @@ public class ScenePickListener implements PickListener
 {
     /**
      * <p>
-     * Creates an instance of <code>ScenePickListener</code>.
+     * The {@link com.se.simplicity.editor.ui.editors.SceneEditor SceneEditor} to select the scene component for.
      * </p>
      */
-    public ScenePickListener()
-    {}
+    private SceneEditor fSceneEditor;
+
+    /**
+     * <p>
+     * Creates an instance of <code>ScenePickListener</code>.
+     * </p>
+     * 
+     * @param sceneEditor The {@link com.se.simplicity.editor.ui.editors.SceneEditor SceneEditor} to select the scene component for.
+     */
+    public ScenePickListener(final SceneEditor sceneEditor)
+    {
+        fSceneEditor = sceneEditor;
+    }
 
     @Override
     public void scenePicked(final PickEvent event)
     {
-        Event swtEvent = new Event();
-        swtEvent.type = 2;
+        Object sceneComponent = null;
         if (event.getHitCount() > 0)
         {
-            swtEvent.data = event.getCloseHit().getNode();
+            sceneComponent = event.getCloseHit().getNode();
         }
 
-        try
-        {
-            IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
-            handlerService.executeCommand("com.se.simplicity.editor.commands.select2", swtEvent);
-        }
-        catch (Exception e)
-        {
-            Logger.getLogger(getClass()).error("Failed to select scene component.", e);
-        }
+        fSceneEditor.setSelection(new PickSelection(sceneComponent, PickSelection.SCENE_PICK));
     }
 }

@@ -13,6 +13,7 @@ package com.se.simplicity.editor.ui.editors;
 
 import java.awt.Dimension;
 
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IEditorPart;
 
@@ -21,7 +22,6 @@ import com.se.simplicity.editor.internal.SceneManager2;
 import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.ProjectionMode;
-import com.se.simplicity.scenegraph.Node;
 
 /**
  * <p>
@@ -30,7 +30,7 @@ import com.se.simplicity.scenegraph.Node;
  * 
  * @author Gary Buyn
  */
-public interface SceneEditor extends IEditorPart
+public interface SceneEditor extends IEditorPart, ISelectionProvider
 {
     /**
      * <p>
@@ -110,13 +110,4 @@ public interface SceneEditor extends IEditorPart
      * @param projectionMode The <code>ProjectionMode</code> the <code>Scene</code> is displayed with.
      */
     void setProjectionMode(ProjectionMode projectionMode);
-
-    /**
-     * <p>
-     * Sets the currently selected scene component.
-     * </p>
-     * 
-     * @param selectedSceneComponent The currently selected scene component.
-     */
-    void setSelectedSceneComponent(Node selectedSceneComponent);
 }
