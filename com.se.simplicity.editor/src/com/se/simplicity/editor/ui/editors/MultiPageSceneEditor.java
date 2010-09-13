@@ -25,7 +25,7 @@ import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import com.se.simplicity.editor.internal.EditingMode;
-import com.se.simplicity.editor.internal.SceneManager2;
+import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.rendering.DrawingMode;
@@ -152,7 +152,7 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     }
 
     @Override
-    public SceneManager2 getSceneManager()
+    public SceneManager getSceneManager()
     {
         return (fVisualEditor.getSceneManager());
     }

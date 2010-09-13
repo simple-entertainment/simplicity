@@ -18,7 +18,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IEditorPart;
 
 import com.se.simplicity.editor.internal.EditingMode;
-import com.se.simplicity.editor.internal.SceneManager2;
+import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.ProjectionMode;
@@ -49,7 +49,7 @@ public interface SceneEditor extends IEditorPart, ISelectionProvider
      * 
      * @return The manager for the <code>Scene</code>.
      */
-    SceneManager2 getSceneManager();
+    SceneManager getSceneManager();
 
     /**
      * <p>

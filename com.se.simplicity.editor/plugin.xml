@@ -2,13 +2,6 @@
 <?eclipse version="3.2"?>
 <plugin>
 
-    <extension point="org.eclipse.ui.views">
-        <category name="Simple Eddy" id="com.se.simplicity.editor.views" />
-
-        <view category="com.se.simplicity.editor.views" class="com.se.simplicity.editor.ui.views.SceneComponentView" icon="icons/scene_details.gif"
-            id="com.se.simplicity.editor.ui.views.SceneComponentView" name="Component Details" />
-    </extension>
-
     <extension point="org.eclipse.ui.editors">
         <editor class="com.se.simplicity.editor.ui.editors.VisualSceneEditor" default="false" extensions="sss" icon="icons/scene_editor.gif"
             id="com.se.simplicity.editor.ui.editors.VisualSceneEditor" name="Scene Editor (Visual Only)" />

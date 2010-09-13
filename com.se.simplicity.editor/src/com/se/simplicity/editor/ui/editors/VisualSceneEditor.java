@@ -12,6 +12,7 @@
 package com.se.simplicity.editor.ui.editors;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLDrawableFactory;
@@ -19,7 +20,6 @@ import javax.media.opengl.GLDrawableFactory;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -39,13 +39,14 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import com.se.simplicity.editor.internal.EditingMode;
-import com.se.simplicity.editor.internal.PickSelection;
-import com.se.simplicity.editor.internal.SceneManager2;
+import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.internal.ScenePickListener;
-import com.se.simplicity.editor.internal.SceneSelection;
 import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.editor.internal.WidgetPickListener;
 import com.se.simplicity.editor.internal.engine.DisplayAsyncJOGLCompositeEngine;
+import com.se.simplicity.editor.internal.selection.PickSelection;
+import com.se.simplicity.editor.internal.selection.PickSelectionSource;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.rendering.SimpleJOGLCamera;
@@ -104,7 +105,7 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
      * The manager for the {@link com.se.simplicity.scene.Scene Scene}.
      * </p>
      */
-    private SceneManager2 fSceneManager;
+    private SceneManager fSceneManager;
 
     /**
      * <p>
@@ -134,7 +135,7 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
      * Listeners to a change in selection.
      * </p>
      */
-    private ListenerList fSelectionChangedListeners;
+    private ArrayList<ISelectionChangedListener> fSelectionChangedListeners;
 
     /**
      * <p>
@@ -149,9 +150,9 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
         fEditingMode = EditingMode.SELECTION;
         fRenderingEngine = null;
         fSelection = new SceneSelection(null, null);
-        fSelectionChangedListeners = new ListenerList();
+        fSelectionChangedListeners = new ArrayList<ISelectionChangedListener>();
         fScene = null;
-        fSceneManager = new SceneManager2();
+        fSceneManager = new SceneManager();
         fSyncCameraAspectRatio = true;
         fWidgetManager = new WidgetManager();
     }
@@ -274,7 +275,7 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
     }
 
     @Override
-    public SceneManager2 getSceneManager()
+    public SceneManager getSceneManager()
     {
         return (fSceneManager);
     }
@@ -474,7 +475,7 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
 
             // If the selection originated from a Widget pick and the selection is empty, do not process any further. Instead wait for the selection
             // originating from a Scene pick.
-            if (pickSelection.getSource() == PickSelection.WIDGET_PICK && pickSelection.isEmpty())
+            if (pickSelection.getSource() == PickSelectionSource.WIDGET_PICK && pickSelection.isEmpty())
             {
                 return;
             }
@@ -491,7 +492,7 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
 
             // Notify listeners.
             SelectionChangedEvent event = new SelectionChangedEvent(this, fSelection);
-            for (Object listener : fSelectionChangedListeners.getListeners())
+            for (Object listener : fSelectionChangedListeners)
             {
                 ((ISelectionChangedListener) listener).selectionChanged(event);
             }

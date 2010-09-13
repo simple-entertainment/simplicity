@@ -11,6 +11,8 @@
  */
 package com.se.simplicity.editor.internal;
 
+import com.se.simplicity.editor.internal.selection.PickSelection;
+import com.se.simplicity.editor.internal.selection.PickSelectionSource;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
@@ -52,6 +54,6 @@ public class ScenePickListener implements PickListener
             sceneComponent = event.getCloseHit().getNode();
         }
 
-        fSceneEditor.setSelection(new PickSelection(sceneComponent, PickSelection.SCENE_PICK));
+        fSceneEditor.setSelection(new PickSelection(sceneComponent, null, PickSelectionSource.SCENE_PICK));
     }
 }

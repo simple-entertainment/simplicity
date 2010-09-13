@@ -9,7 +9,7 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.internal;
+package com.se.simplicity.editor.internal.selection;
 
 import org.eclipse.jface.viewers.ISelection;
 
@@ -17,12 +17,12 @@ import com.se.simplicity.model.Model;
 
 /**
  * <p>
- * A selection within a {@link com.se.simplicity.scene.Scene Scene}.
+ * A selection within a {@link com.se.simplicity.scene.Scene Scene} made as the result of a picking event.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class SceneSelection implements ISelection
+public class PickSelection implements ISelection
 {
     /**
      * <p>
@@ -40,16 +40,25 @@ public class SceneSelection implements ISelection
 
     /**
      * <p>
-     * Creates an instance of <code>SceneSelection</code>.
+     * The source of the selection.
+     * </p>
+     */
+    private PickSelectionSource fSource;
+
+    /**
+     * <p>
+     * Creates an instance of <code>PickSelection</code>.
      * </p>
      * 
-     * @param sceneComponent The selected scene component (if one is selected).
-     * @param primitive The selected primitive (if one is selected).
+     * @param sceneComponent The selected scene component.
+     * @param primitive The selected primitive.
+     * @param source The source of the selection.
      */
-    public SceneSelection(final Object sceneComponent, final Model primitive)
+    public PickSelection(final Object sceneComponent, final Model primitive, final PickSelectionSource source)
     {
         fPrimitive = primitive;
         fSceneComponent = sceneComponent;
+        fSource = source;
     }
 
     /**
@@ -76,9 +85,21 @@ public class SceneSelection implements ISelection
         return (fSceneComponent);
     }
 
+    /**
+     * <p>
+     * Retrieves the source of the selection.
+     * </p>
+     * 
+     * @return The source of the selection.
+     */
+    public PickSelectionSource getSource()
+    {
+        return (fSource);
+    }
+
     @Override
     public boolean isEmpty()
     {
-        return (fPrimitive == null && fSceneComponent == null);
+        return (fSceneComponent == null);
     }
 }

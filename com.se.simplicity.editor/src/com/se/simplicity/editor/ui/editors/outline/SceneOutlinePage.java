@@ -21,7 +21,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
-import com.se.simplicity.editor.internal.SceneSelection;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.scene.Scene;
 
 /**
