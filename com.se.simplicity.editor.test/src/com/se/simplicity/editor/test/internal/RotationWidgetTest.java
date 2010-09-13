@@ -22,7 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.RotationWidget;
-import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.model.shape.Sphere;
 import com.se.simplicity.model.shape.Torus;
@@ -56,8 +55,6 @@ public class RotationWidgetTest
     public void before()
     {
         testObject = new RotationWidget();
-
-        SceneManager.getSceneManager().reset();
     }
 
     /**

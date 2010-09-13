@@ -95,7 +95,7 @@ public class WidgetManagerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager2#setEditingMode(EditingMode) setEditingMode(EditMode)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setEditingMode(EditingMode) setEditingMode(EditMode)}.
      * </p>
      */
     @Test
@@ -131,7 +131,7 @@ public class WidgetManagerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager2#setEditingMode(EditingMode) setEditingMode(EditMode)} with the
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setEditingMode(EditingMode) setEditingMode(EditMode)} with the
      * special condition that the current edit mode is 'SELECTION'.
      * </p>
      */

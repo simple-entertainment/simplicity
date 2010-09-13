@@ -42,9 +42,9 @@ import org.junit.Test;
 import sun.org.mozilla.javascript.Node;
 
 import com.se.simplicity.editor.internal.EditingMode;
-import com.se.simplicity.editor.internal.PickSelection;
-import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.SceneSelection;
+import com.se.simplicity.editor.internal.selection.PickSelection;
+import com.se.simplicity.editor.internal.selection.PickSelectionSource;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.editor.ui.editors.VisualSceneEditor;
 import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
@@ -72,8 +72,6 @@ public class VisualSceneEditorTest
     public void before()
     {
         testObject = new VisualSceneEditor();
-
-        SceneManager.getSceneManager().reset();
     }
 
     /**
@@ -439,7 +437,7 @@ public class VisualSceneEditorTest
         expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
         expect(mockFile.getFullPath()).andStubReturn(mockPath);
         mockPath.toString();
-        expect(mockSelection.getSource()).andStubReturn(PickSelection.WIDGET_PICK);
+        expect(mockSelection.getSource()).andStubReturn(PickSelectionSource.WIDGET_PICK);
         expect(mockSelection.isEmpty()).andReturn(false);
         expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
         replay(mockInput, mockFile, mockPath, mockSelection);
@@ -488,7 +486,7 @@ public class VisualSceneEditorTest
         expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
         expect(mockFile.getFullPath()).andStubReturn(mockPath);
         mockPath.toString();
-        expect(mockSelection.getSource()).andStubReturn(PickSelection.WIDGET_PICK);
+        expect(mockSelection.getSource()).andStubReturn(PickSelectionSource.WIDGET_PICK);
         expect(mockSelection.isEmpty()).andReturn(true);
         replay(mockInput, mockFile, mockPath, mockSelection);
 

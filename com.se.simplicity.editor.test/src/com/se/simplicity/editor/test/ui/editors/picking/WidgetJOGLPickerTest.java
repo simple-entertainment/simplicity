@@ -9,7 +9,7 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.test.internal.picking;
+package com.se.simplicity.editor.test.ui.editors.picking;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;

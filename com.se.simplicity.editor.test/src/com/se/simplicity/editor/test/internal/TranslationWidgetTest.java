@@ -21,7 +21,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.internal.TranslationWidget;
 import com.se.simplicity.model.shape.Capsule;
 import com.se.simplicity.model.shape.Shape;
@@ -56,8 +55,6 @@ public class TranslationWidgetTest
     public void before()
     {
         testObject = new TranslationWidget();
-
-        SceneManager.getSceneManager().reset();
     }
 
     /**

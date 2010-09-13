@@ -12,43 +12,36 @@
 package com.se.simplicity.editor.test.internal;
 
 import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.awt.Dimension;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.ui.IFileEditorInput;
+import javax.media.opengl.GL;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.event.SceneChangedEvent;
-import com.se.simplicity.editor.internal.event.SceneChangedListener;
-import com.se.simplicity.editor.internal.rendering.WidgetJOGLRenderer;
+import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
-import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
+import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.OutlineJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
-import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
-import com.se.simplicity.jogl.scene.SimpleJOGLScene;
+import com.se.simplicity.jogl.test.mocks.MockGL;
 import com.se.simplicity.rendering.Camera;
-import com.se.simplicity.rendering.Light;
+import com.se.simplicity.rendering.DrawingMode;
+import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
-import com.se.simplicity.scenegraph.SceneGraph;
-import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
 import com.se.simplicity.util.metadata.scene.MetaDataScene;
 
 /**
@@ -63,7 +56,7 @@ public class SceneManagerTest
     /**
      * An instance of the class being unit tested.
      */
-    private SceneManager testObject = SceneManager.getSceneManager();
+    private SceneManager testObject;
 
     /**
      * <p>
@@ -73,715 +66,277 @@ public class SceneManagerTest
     @Before
     public void before()
     {
-        testObject.reset();
+        testObject = new SceneManager();
     }
 
     /**
      * <p>
-     * Unit test the methods {@link com.se.simplicity.editor.internal.SceneManager#addSceneChangedListener(SceneChangedListener)
-     * addSceneChangedListener(SceneChangedListener)} and
-     * {@link com.se.simplicity.editor.internal.SceneManager#removeSceneChangedListener(SceneChangedListener)
-     * removeSceneChangedListener(SceneChangedListener)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#init() init()}.
      * </p>
      */
     @Test
-    public void addRemoveSceneChangedListener()
-    {
-        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
-
-        testObject.addSceneChangedListener(mockListener);
-
-        assertTrue(testObject.getSceneChangedListeners().contains(mockListener));
-
-        testObject.removeSceneChangedListener(mockListener);
-
-        assertTrue(!testObject.getSceneChangedListeners().contains(mockListener));
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#addScene(IFileEditorInput) addSceneDefinition(IFileEditorInput)}.
-     * </p>
-     * 
-     * @throws CoreException Thrown if the <code>IFileEditorInput</code> fails to retrieve the contents of the file.
-     * @throws FileNotFoundException Thrown if the source file cannot be found.
-     */
-    @Test
-    public void addSceneDefinitionIFileEditorInput() throws CoreException, FileNotFoundException
-    {
-        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
-        IFile mockFile = createMock(IFile.class);
-        IPath mockPath = createMock(IPath.class);
-
-        expect(mockInput.getFile()).andStubReturn(mockFile);
-        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
-        expect(mockFile.getFullPath()).andStubReturn(mockPath);
-        replay(mockInput, mockFile);
-
-        testObject.addScene(mockInput);
-
-        assertNotNull(testObject.getScene(mockPath.toString()));
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#addScene(InputStream, String) addSceneDefinition(InputStream,
-     * String)}.
-     * </p>
-     * 
-     * @throws FileNotFoundException Thrown if the source file cannot be found.
-     */
-    @Test
-    public void addSceneDefinitionInputStream() throws FileNotFoundException
-    {
-        testObject.addScene(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"), "test");
-
-        assertNotNull(testObject.getScene("test"));
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#addScene(Scene, String) addSceneDefinition(Scene, String)} .
-     * </p>
-     */
-    @Test
-    public void addSceneDefinitionScene()
-    {
-        testObject.addScene(createMock(Scene.class), "test");
-
-        assertNotNull(testObject.getScene("test"));
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getPickingEngineForScene(String) getPickingEngineForScene(String)}.
-     * </p>
-     */
-    @Test
-    public void getPickingEngineForScene()
-    {
-        SimpleJOGLScene scene = new SimpleJOGLScene();
-
-        testObject.addScene(scene, "test");
-
-        SimpleJOGLPickingEngine pickingEngine = testObject.getPickingEngineForScene(scene);
-
-        assertEquals(scene, pickingEngine.getScene());
-        assertNotNull(pickingEngine.getPicker());
-        assertTrue(pickingEngine.getPicker() instanceof SimpleJOGLPicker);
-        assertNotNull(((SimpleJOGLPicker) pickingEngine.getPicker()).getRenderingEngine());
-        assertNotNull(((SimpleJOGLPicker) pickingEngine.getPicker()).getRenderingEngine().getRenderers().get(0));
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getRenderingEngineForScene(String)
-     * getRenderingEngineForScene(String)}.
-     * </p>
-     */
-    @Test
-    public void getRenderingEngineForScene()
-    {
-        SimpleJOGLScene scene = new SimpleJOGLScene();
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-        scene.setSceneGraph(mockSceneGraph);
-
-        expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
-        replay(mockSceneGraph);
-
-        testObject.addScene(scene, "test");
-
-        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene(scene);
-
-        assertEquals(scene, renderingEngine.getScene());
-        assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
-        assertTrue(renderingEngine.getRenderers().get(1) instanceof OutlineJOGLRenderer);
-        assertTrue(renderingEngine.getRenderers().get(2) instanceof WidgetJOGLRenderer);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getRenderingEngineForScene(String)
-     * getRenderingEngineForScene(String)} with the special condition that the <code>Scene</code> is a <code>MetaDataScene</code> with the
-     * 'preferredRenderingEngine' and 'preferredRenderer' attributes set.
-     * </p>
-     */
-    @Test
-    public void getRenderingEngineForSceneMetaDataScene()
-    {
-        MetaDataScene scene = new MetaDataScene(new SimpleJOGLScene());
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-        MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
-        scene.setSceneGraph(mockSceneGraph);
-        scene.addCamera(mockCamera);
-
-        scene.setAttribute("preferredRenderingEngine", "com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine");
-        scene.setAttribute("preferredRenderer", "com.se.simplicity.jogl.rendering.SimpleJOGLRenderer");
-        testObject.addScene(scene, "test");
-
-        expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
-        expect(mockCamera.getAttribute("default")).andStubReturn("true");
-        replay(mockSceneGraph, mockCamera);
-
-        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene(scene);
-
-        assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
-        assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getRenderingEngineForScene(String)
-     * getRenderingEngineForScene(String)} with the special condition that the <code>Scene</code> is a <code>MetaDataScene</code> with the
-     * 'preferredRenderingEngine' and 'preferredRenderer' attributes set but the 'preferredRenderingEngine' attribute is set to an invalid value.
-     * </p>
-     */
-    @Test
-    public void getRenderingEngineForSceneMetaDataSceneInvalidRenderingEngine()
-    {
-        MetaDataScene scene = new MetaDataScene(new SimpleJOGLScene());
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-        MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
-        scene.setSceneGraph(mockSceneGraph);
-        scene.addCamera(mockCamera);
-
-        scene.setAttribute("preferredRenderingEngine", "stupid.dumb.RenderingEngine");
-        scene.setAttribute("preferredRenderer", "com.se.simplicity.jogl.rendering.SimpleJOGLRenderer");
-        testObject.addScene(scene, "test");
-
-        expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
-        expect(mockCamera.getAttribute("default")).andStubReturn("true");
-        replay(mockSceneGraph, mockCamera);
-
-        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene(scene);
-
-        assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
-        assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#getRenderingEngineForScene(String)
-     * getRenderingEngineForScene(String)} with the special condition that the <code>Scene</code> is a <code>MetaDataScene</code> with the
-     * 'preferredRenderingEngine' and 'preferredRenderer' attributes set but the 'preferredRenderer' attribute is set to an invalid value.
-     * </p>
-     */
-    @Test
-    public void getRenderingEngineForSceneMetaDataSceneInvalidRenderer()
-    {
-        MetaDataScene scene = new MetaDataScene(new SimpleJOGLScene());
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-        MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
-        scene.setSceneGraph(mockSceneGraph);
-        scene.addCamera(mockCamera);
-
-        scene.setAttribute("preferredRenderingEngine", "com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine");
-        scene.setAttribute("preferredRenderer", "stupid.dumb.Renderer");
-        testObject.addScene(scene, "test");
-
-        expect(mockSceneGraph.getRoot()).andStubReturn(createMock(Node.class));
-        expect(mockCamera.getAttribute("default")).andStubReturn("true");
-        replay(mockSceneGraph, mockCamera);
-
-        RenderingEngine renderingEngine = testObject.getRenderingEngineForScene(scene);
-
-        assertTrue(renderingEngine instanceof SimpleJOGLRenderingEngine);
-        assertTrue(renderingEngine.getRenderers().get(0) instanceof SimpleJOGLRenderer);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyCameraModified(Camera) notifyCameraModified(Camera)}.
-     * </p>
-     */
-    @Test
-    public void notifyCameraModified()
-    {
-        Scene mockScene = createMock(Scene.class);
-        ArrayList<Camera> cameras = new ArrayList<Camera>();
-        Camera mockCamera = createMock(Camera.class);
-        cameras.add(mockCamera);
-        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
-
-        expect(mockScene.getCameras()).andStubReturn(cameras);
-        replay(mockScene);
-
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-        testObject.addSceneChangedListener(mockListener);
-
-        org.easymock.classextension.EasyMock.reset(mockListener);
-        mockListener.sceneChanged((SceneChangedEvent) anyObject());
-        replay(mockListener);
-
-        testObject.notifyCameraModified(mockCamera);
-
-        verify(mockListener);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyCameraModified(Camera) notifyCameraModified(Camera)} with the
-     * special condition that the <code>Camera</code> is not in the active <code>Scene</code>.
-     * </p>
-     */
-    @Test
-    public void notifyCameraModifiedNotInScene()
-    {
-        Scene mockScene = createMock(Scene.class);
-        ArrayList<Camera> cameras = new ArrayList<Camera>();
-        Camera mockCamera = createMock(Camera.class);
-        cameras.add(mockCamera);
-
-        expect(mockScene.getCameras()).andStubReturn(cameras);
-        replay(mockScene);
-
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-
-        try
-        {
-            testObject.notifyCameraModified(mockCamera);
-        }
-        catch (IllegalArgumentException e)
-        {
-            assertEquals("Invalid Camera: The Camera must be in the active Scene.", e.getMessage());
-        }
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyLightModified(Light) notifyLightModified(Light)}.
-     * </p>
-     */
-    @Test
-    public void notifyLightModified()
-    {
-        Scene mockScene = createMock(Scene.class);
-        ArrayList<Light> lights = new ArrayList<Light>();
-        Light mockLight = createMock(Light.class);
-        lights.add(mockLight);
-        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
-
-        expect(mockScene.getLights()).andStubReturn(lights);
-        replay(mockScene);
-
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-        testObject.addSceneChangedListener(mockListener);
-
-        org.easymock.classextension.EasyMock.reset(mockListener);
-        mockListener.sceneChanged((SceneChangedEvent) anyObject());
-        replay(mockListener);
-
-        testObject.notifyLightModified(mockLight);
-
-        verify(mockListener);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyLightModified(Light) notifyLightModified(Light)} with the
-     * special condition that the <code>Light</code> is not in the active <code>Scene</code>.
-     * </p>
-     */
-    @Test
-    public void notifyLightModifiedNotInScene()
-    {
-        Scene mockScene = createMock(Scene.class);
-        ArrayList<Light> lights = new ArrayList<Light>();
-        Light mockLight = createMock(Light.class);
-        lights.add(mockLight);
-
-        expect(mockScene.getLights()).andStubReturn(lights);
-        replay(mockScene);
-
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-
-        try
-        {
-            testObject.notifyLightModified(mockLight);
-        }
-        catch (IllegalArgumentException e)
-        {
-            assertEquals("Invalid Light: The Light must be in the active Scene.", e.getMessage());
-        }
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyNodeModified(Node) notifyNodeModified(Node)}.
-     * </p>
-     */
-    @Test
-    public void notifyNodeModified()
-    {
-        Scene mockScene = createMock(Scene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-        Node mockNode = createMock(Node.class);
-        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
-
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
-        replay(mockScene, mockSceneGraph);
-
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-        testObject.addSceneChangedListener(mockListener);
-
-        org.easymock.classextension.EasyMock.reset(mockListener);
-        mockListener.sceneChanged((SceneChangedEvent) anyObject());
-        replay(mockListener);
-
-        testObject.notifyNodeModified(mockNode);
-
-        verify(mockListener);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifyNodeModified(Node) notifyNodeModified(Node)} with the special
-     * condition that the <code>Node</code> is not in the active <code>Scene</code>..
-     * </p>
-     */
-    @Test
-    public void notifyNodeModifiedNotInScene()
-    {
-        Scene mockScene = createMock(Scene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-        Node mockNode = createMock(Node.class);
-
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        replay(mockScene);
-
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-
-        try
-        {
-            testObject.notifyNodeModified(mockNode);
-        }
-        catch (IllegalArgumentException e)
-        {
-            assertEquals("Invalid Node: The Node must be in the active Scene.", e.getMessage());
-        }
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifySceneModified(String) notifySceneModified(String)}.
-     * </p>
-     */
-    @Test
-    public void notifySceneModified()
-    {
-        Scene mockScene = createMock(Scene.class);
-        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
-
-        testObject.addScene(mockScene, "test");
-        testObject.addSceneChangedListener(mockListener);
-
-        org.easymock.classextension.EasyMock.reset(mockListener);
-        mockListener.sceneChanged((SceneChangedEvent) anyObject());
-        replay(mockListener);
-
-        testObject.notifySceneModified(mockScene);
-
-        verify(mockListener);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#notifySceneModified(String) notifySceneModified(String)} with the
-     * special condition that the <code>Scene</code> is not managed by the <code>SceneManager</code>..
-     * </p>
-     */
-    @Test
-    public void notifySceneModifiedNotManaged()
-    {
-        try
-        {
-            testObject.notifySceneModified(createMock(Scene.class));
-        }
-        catch (IllegalArgumentException e)
-        {
-            assertEquals("Invalid Scene: The Scene must already be managed by this Scene Manager.", e.getMessage());
-        }
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#reset() reset()}.
-     * </p>
-     */
-    @Test
-    public void reset()
+    public void init()
     {
         // Create dependencies.
         Scene mockScene = createMock(Scene.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
 
-        ArrayList<Camera> cameras = new ArrayList<Camera>();
+        // Initialise test environment.
+        testObject.setScene(mockScene);
+        testObject.setRenderingEngine(mockRenderingEngine);
+
+        // Dictate expected results.
+        mockRenderingEngine.addRenderer(isA(SimpleJOGLRenderer.class));
+        mockRenderingEngine.addRenderer(isA(OutlineJOGLRenderer.class));
+        mockRenderingEngine.setRendererRoot(isA(OutlineJOGLRenderer.class), (Node) anyObject());
+        replay(mockRenderingEngine);
+
+        // Perform test.
+        testObject.init();
+
+        // Verify test results.
+        verify(mockRenderingEngine);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#init() init()} with the special condition that the Scene is a
+     * MetaDataScene with a preferred Renderer.
+     * </p>
+     */
+    @Test
+    public void initMetaDataScene()
+    {
+        // Create dependencies.
+        MetaDataScene mockScene = createMock(MetaDataScene.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getAttribute("preferredRenderer")).andStubReturn("com.se.simplicity.jogl.rendering.NamedJOGLRenderer");
+        replay(mockScene);
+
+        // Initialise test environment.
+        testObject.setScene(mockScene);
+        testObject.setRenderingEngine(mockRenderingEngine);
+
+        // Dictate expected results.
+        mockRenderingEngine.addRenderer(isA(NamedJOGLRenderer.class));
+        mockRenderingEngine.addRenderer((Renderer) anyObject());
+        mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
+        replay(mockRenderingEngine);
+
+        // Perform test.
+        testObject.init();
+
+        // Verify test results.
+        verify(mockRenderingEngine);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#init() init()} with the special condition that the Scene is a
+     * MetaDataScene with an invalid preferred Renderer.
+     * </p>
+     */
+    @Test
+    public void initMetaDataSceneInvalidRenderer()
+    {
+        // Create dependencies.
+        MetaDataScene mockScene = createMock(MetaDataScene.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+
+        // Dictate correct behaviour.
+        expect(mockScene.getAttribute("preferredRenderer")).andStubReturn("com.se.simplicity.jogl.rendering.StupidJOGLRenderer");
+        replay(mockScene);
+
+        // Initialise test environment.
+        testObject.setScene(mockScene);
+        testObject.setRenderingEngine(mockRenderingEngine);
+
+        // Dictate expected results.
+        mockRenderingEngine.addRenderer(isA(SimpleJOGLRenderer.class));
+        mockRenderingEngine.addRenderer((Renderer) anyObject());
+        mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
+        replay(mockRenderingEngine);
+
+        // Perform test.
+        testObject.init();
+
+        // Verify test results.
+        verify(mockRenderingEngine);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setCamera(Camera) setCamera(Camera)}.
+     * </p>
+     */
+    @Test
+    public void setCamera()
+    {
+        // Create dependencies.
+        Scene mockScene = createMock(Scene.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
         Camera mockCamera = createMock(Camera.class);
-        cameras.add(mockCamera);
 
-        ArrayList<Light> lights = new ArrayList<Light>();
-        Light mockLight = createMock(Light.class);
-        lights.add(mockLight);
+        // Initialise test environment.
+        testObject.setScene(mockScene);
+        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.init();
 
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        // Perform test.
+        testObject.setCamera(mockCamera);
+
+        // Verify test results.
+        assertEquals(mockCamera, testObject.getPickingEngine().getCamera());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setDrawingMode(DrawingMode) setDrawingMode(DrawingMode)}.
+     * </p>
+     */
+    @Test
+    public void setDrawingMode()
+    {
+        // Create dependencies.
+        Scene mockScene = createMock(Scene.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+
+        // Initialise test environment.
+        testObject.setScene(mockScene);
+        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.init();
+
+        // Perform test.
+        testObject.setDrawingMode(DrawingMode.VERTICES);
+
+        // Verify test results.
+        assertEquals(DrawingMode.VERTICES, ((SimpleJOGLPicker) testObject.getPickingEngine().getPicker()).getRenderingEngine().getRenderers().get(0)
+                .getDrawingMode());
+
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setGL(GL) setGL(GL)}.
+     * </p>
+     */
+    @Test
+    public void setGL()
+    {
+        // Create dependencies.
+        Scene mockScene = createMock(Scene.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+        MockGL mockGl = new MockGL();
+
+        // Initialise test environment.
+        testObject.setScene(mockScene);
+        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.init();
+
+        // Perform test.
+        testObject.setGL(mockGl);
+
+        SimpleJOGLPicker scenePicker = (SimpleJOGLPicker) testObject.getPickingEngine().getPicker();
+        assertNotNull(((JOGLComponent) testObject.getPickingEngine()).getGL());
+        assertNotNull(((JOGLComponent) scenePicker.getRenderingEngine()).getGL());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager2#setSelectedSceneComponent(Object).
+     * </p>
+     */
+    @Test
+    public void setSelectedSceneComponent()
+    {
+        // Create dependencies.
+        Scene mockScene = createMock(Scene.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
-        expect(mockScene.getCameras()).andStubReturn(cameras);
-        expect(mockScene.getLights()).andStubReturn(lights);
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
-        replay(mockScene, mockSceneGraph);
+        mockRenderingEngine.addRenderer((Renderer) anyObject());
+        mockRenderingEngine.addRenderer((Renderer) anyObject());
+        mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
+        replay(mockRenderingEngine);
 
         // Initialise test environment.
-        testObject.addSceneChangedListener(createMock(SceneChangedListener.class));
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-        testObject.setActiveCamera(mockCamera);
-        testObject.setActiveLight(mockLight);
-        testObject.setActiveNode(mockNode);
+        testObject.setScene(mockScene);
+        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.init();
 
-        // Verify test environment.
-        assertEquals(1, testObject.getSceneChangedListeners().size(), 0);
-        assertNotNull(testObject.getScene("test"));
-        assertNotNull(testObject.getActiveScene());
-        assertNotNull(testObject.getActiveCamera());
-        assertNotNull(testObject.getActiveLight());
-        assertNotNull(testObject.getActiveNode());
+        // Dictate expected results.
+        reset(mockRenderingEngine);
+        mockRenderingEngine.setRendererRoot(isA(OutlineJOGLRenderer.class), eq(mockNode));
+        replay(mockRenderingEngine);
 
         // Perform test.
-        testObject.reset();
+        testObject.setSelectedSceneComponent(mockNode);
 
-        // Verify results.
-        assertEquals(0, testObject.getSceneChangedListeners().size(), 0);
-        assertNull(testObject.getScene("test"));
-        assertNull(testObject.getActiveScene());
-        assertNull(testObject.getActiveCamera());
-        assertNull(testObject.getActiveLight());
-        assertNull(testObject.getActiveNode());
+        // Verify test results.
+        verify(mockRenderingEngine);
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setActiveCamera(Camera) setActiveCamera(Camera)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager2#setSelectedSceneComponent(Object).
      * </p>
      */
     @Test
-    public void setActiveCamera()
+    public void setSelectedSceneComponentNull()
     {
+        // Create dependencies.
         Scene mockScene = createMock(Scene.class);
-        ArrayList<Camera> cameras = new ArrayList<Camera>();
-        Camera mockCamera = createMock(Camera.class);
-        cameras.add(mockCamera);
-        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
-
-        expect(mockScene.getCameras()).andStubReturn(cameras);
-        replay(mockScene);
-
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-        testObject.addSceneChangedListener(mockListener);
-
-        org.easymock.classextension.EasyMock.reset(mockListener);
-        mockListener.sceneChanged((SceneChangedEvent) anyObject());
-        replay(mockListener);
-
-        testObject.setActiveCamera(mockCamera);
-
-        verify(mockListener);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setActiveCamera(Camera) setActiveCamera(Camera)} with the special
-     * condition that the <code>Camera</code> is not in the active <code>Scene</code>.
-     * </p>
-     */
-    @Test
-    public void setActiveCameraNotInScene()
-    {
-        Scene mockScene = createMock(Scene.class);
-        Camera mockCamera = createMock(Camera.class);
-
-        expect(mockScene.getCameras()).andStubReturn(new ArrayList<Camera>());
-        replay(mockScene);
-
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-
-        try
-        {
-            testObject.setActiveCamera(mockCamera);
-        }
-        catch (IllegalArgumentException e)
-        {
-            assertEquals("Invalid Camera: The Camera must be in the active Scene.", e.getMessage());
-        }
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setActiveLight(Light) setActiveLight(Light)}.
-     * </p>
-     */
-    @Test
-    public void setActiveLight()
-    {
-        Scene mockScene = createMock(Scene.class);
-        ArrayList<Light> lights = new ArrayList<Light>();
-        Light mockLight = createMock(Light.class);
-        lights.add(mockLight);
-        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
-
-        expect(mockScene.getLights()).andStubReturn(lights);
-        replay(mockScene);
-
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-        testObject.addSceneChangedListener(mockListener);
-
-        org.easymock.classextension.EasyMock.reset(mockListener);
-        mockListener.sceneChanged((SceneChangedEvent) anyObject());
-        replay(mockListener);
-
-        testObject.setActiveLight(mockLight);
-
-        verify(mockListener);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setActiveLight(Light) setActiveLight(Light)} with the special
-     * condition that the <code>Light</code> is not in the active <code>Scene</code>.
-     * </p>
-     */
-    @Test
-    public void setActiveLightNotInScene()
-    {
-        Scene mockScene = createMock(Scene.class);
-        Light mockLight = createMock(Light.class);
-
-        expect(mockScene.getLights()).andStubReturn(new ArrayList<Light>());
-        replay(mockScene);
-
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-
-        try
-        {
-            testObject.setActiveLight(mockLight);
-        }
-        catch (IllegalArgumentException e)
-        {
-            assertEquals("Invalid Light: The Light must be in the active Scene.", e.getMessage());
-        }
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setActiveNode(Node) setActiveNode(Node)}.
-     * </p>
-     */
-    @Test
-    public void setActiveNode()
-    {
-        Scene mockScene = createMock(Scene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-        Node mockNode = createMock(Node.class);
-        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
-
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
-        replay(mockScene, mockSceneGraph);
-
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
-        testObject.addSceneChangedListener(mockListener);
-
-        org.easymock.classextension.EasyMock.reset(mockListener);
-        mockListener.sceneChanged((SceneChangedEvent) anyObject());
-        replay(mockListener);
-
-        testObject.setActiveNode(mockNode);
-
-        verify(mockListener);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setActiveNode(Node) setActiveNode(Node)} with the special condition
-     * that the <code>Node</code> is not in the active <code>Scene</code>.
-     * </p>
-     */
-    @Test
-    public void setActiveNodeNotInScene()
-    {
-        Scene mockScene = createMock(Scene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
         Node mockNode = createMock(Node.class);
 
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
-        replay(mockScene, mockSceneGraph);
+        // Dictate correct behaviour.
+        mockRenderingEngine.addRenderer((Renderer) anyObject());
+        mockRenderingEngine.addRenderer((Renderer) anyObject());
+        mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
+        replay(mockRenderingEngine);
 
-        testObject.addScene(mockScene, "test");
-        testObject.setActiveScene(mockScene);
+        // Initialise test environment.
+        testObject.setScene(mockScene);
+        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.init();
 
-        try
-        {
-            testObject.setActiveNode(mockNode);
-        }
-        catch (IllegalArgumentException e)
-        {
-            assertEquals("Invalid Node: The Node must be in the active Scene.", e.getMessage());
-        }
+        // Dictate expected results.
+        reset(mockRenderingEngine);
+        mockRenderingEngine.setRendererRoot(isA(OutlineJOGLRenderer.class), eq(mockNode));
+        replay(mockRenderingEngine);
+
+        // Perform test.
+        testObject.setSelectedSceneComponent(mockNode);
+
+        // Verify test results.
+        verify(mockRenderingEngine);
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setActiveScene(String) setActiveScene(String)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setViewportSize(Dimension) setViewportSize(Dimension)}.
      * </p>
      */
     @Test
-    public void setActiveScene()
+    public void setViewportSize()
     {
+        // Create dependencies.
         Scene mockScene = createMock(Scene.class);
-        SceneChangedListener mockListener = createMock(SceneChangedListener.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+        Dimension mockDimension = createMock(Dimension.class);
 
-        testObject.addScene(mockScene, "test");
-        testObject.addSceneChangedListener(mockListener);
+        // Initialise test environment.
+        testObject.setScene(mockScene);
+        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.init();
 
-        org.easymock.classextension.EasyMock.reset(mockListener);
-        mockListener.sceneChanged((SceneChangedEvent) anyObject());
-        replay(mockListener);
+        // Perform test.
+        testObject.setViewportSize(mockDimension);
 
-        testObject.setActiveScene(mockScene);
-
-        verify(mockListener);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setActiveScene(String) setActiveScene(String)} with the special
-     * condition that the <code>Scene</code> is not managed by the <code>SceneManager</code>.
-     * </p>
-     */
-    @Test
-    public void setActiveSceneNotManaged()
-    {
-        try
-        {
-            testObject.setActiveScene(createMock(Scene.class));
-        }
-        catch (IllegalArgumentException e)
-        {
-            assertEquals("Invalid Scene: The Scene must already be managed by this Scene Manager.", e.getMessage());
-        }
+        // Verify test results.
+        assertEquals(mockDimension, ((SimpleJOGLPicker) testObject.getPickingEngine().getPicker()).getRenderingEngine().getViewportSize());
     }
 }
