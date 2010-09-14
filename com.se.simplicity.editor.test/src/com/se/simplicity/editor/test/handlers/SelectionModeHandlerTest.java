@@ -30,10 +30,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.handlers.SelectionModeHandler;
-import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
-import com.se.simplicity.scene.Scene;
-import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.scenegraph.model.ModelNode;
 
 /**
@@ -58,8 +56,6 @@ public class SelectionModeHandlerTest
     @Before
     public void before()
     {
-        SceneManager.getSceneManager().reset();
-
         testObject = new SelectionModeHandler();
     }
 
@@ -75,12 +71,9 @@ public class SelectionModeHandlerTest
     public void executeEdges() throws ExecutionException
     {
         // Create dependencies.
-        Scene mockScene = createMock(Scene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-        ModelNode mockNode = createMock(ModelNode.class);
-
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
+        SceneSelection mockSelection = createMock(SceneSelection.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -91,16 +84,12 @@ public class SelectionModeHandlerTest
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
+        expect(mockSceneEditor.getSelection()).andStubReturn(mockSelection);
+        expect(mockSelection.isEmpty()).andStubReturn(false);
+        expect(mockSelection.getSceneComponent()).andStubReturn(createMock(ModelNode.class));
         expect(mockState.getValue()).andStubReturn("model");
-        replay(mockScene, mockSceneGraph, mockContext);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveNode(mockNode);
+        replay(mockContext, mockSceneEditor, mockSelection);
 
         // Dictate expected results.
         mockState.setValue("edges");
@@ -122,12 +111,9 @@ public class SelectionModeHandlerTest
     public void executeFaces() throws ExecutionException
     {
         // Create dependencies.
-        Scene mockScene = createMock(Scene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-        ModelNode mockNode = createMock(ModelNode.class);
-
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
+        SceneSelection mockSelection = createMock(SceneSelection.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -138,16 +124,12 @@ public class SelectionModeHandlerTest
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
+        expect(mockSceneEditor.getSelection()).andStubReturn(mockSelection);
+        expect(mockSelection.isEmpty()).andStubReturn(false);
+        expect(mockSelection.getSceneComponent()).andStubReturn(createMock(ModelNode.class));
         expect(mockState.getValue()).andStubReturn("model");
-        replay(mockScene, mockSceneGraph, mockContext);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveNode(mockNode);
+        replay(mockContext, mockSceneEditor, mockSelection);
 
         // Dictate expected results.
         mockState.setValue("faces");
@@ -265,12 +247,9 @@ public class SelectionModeHandlerTest
     public void executeVertices() throws ExecutionException
     {
         // Create dependencies.
-        Scene mockScene = createMock(Scene.class);
-        SceneGraph mockSceneGraph = createMock(SceneGraph.class);
-        ModelNode mockNode = createMock(ModelNode.class);
-
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
+        SceneSelection mockSelection = createMock(SceneSelection.class);
 
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
@@ -281,16 +260,12 @@ public class SelectionModeHandlerTest
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
-        expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
-        expect(mockSceneGraph.getNode(0)).andStubReturn(mockNode);
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
+        expect(mockSceneEditor.getSelection()).andStubReturn(mockSelection);
+        expect(mockSelection.isEmpty()).andStubReturn(false);
+        expect(mockSelection.getSceneComponent()).andStubReturn(createMock(ModelNode.class));
         expect(mockState.getValue()).andStubReturn("model");
-        replay(mockScene, mockSceneGraph, mockContext);
-
-        // Initialise test environment.
-        SceneManager.getSceneManager().addScene(mockScene, "test");
-        SceneManager.getSceneManager().setActiveScene(mockScene);
-        SceneManager.getSceneManager().setActiveNode(mockNode);
+        replay(mockContext, mockSceneEditor, mockSelection);
 
         // Dictate expected results.
         mockState.setValue("vertices");
