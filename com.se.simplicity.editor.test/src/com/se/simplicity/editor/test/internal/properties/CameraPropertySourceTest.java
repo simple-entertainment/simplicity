@@ -142,6 +142,16 @@ public class CameraPropertySourceTest
         // Create dependencies.
         Camera mockCamera = createMock(Camera.class);
 
+        // Dictate correct behaviour.
+        expect(mockCamera.getNearClippingDistance()).andStubReturn(0.0f);
+        expect(mockCamera.getFarClippingDistance()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameAspectRatio()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameX()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameY()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameWidth()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameHeight()).andStubReturn(0.0f);
+        expect(mockCamera.getProjectionMode()).andStubReturn(ProjectionMode.ORTHOGONAL);
+
         // Initialise test environment.
         testObject = new CameraPropertySource(mockCamera);
 
@@ -181,6 +191,17 @@ public class CameraPropertySourceTest
     {
         // Create dependencies.
         MetaDataCamera mockCamera = createMock(MetaDataCamera.class);
+
+        // Dictate correct behaviour.
+        expect(mockCamera.getNearClippingDistance()).andStubReturn(0.0f);
+        expect(mockCamera.getFarClippingDistance()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameAspectRatio()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameX()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameY()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameWidth()).andStubReturn(0.0f);
+        expect(mockCamera.getFrameHeight()).andStubReturn(0.0f);
+        expect(mockCamera.getProjectionMode()).andStubReturn(ProjectionMode.ORTHOGONAL);
+        expect(mockCamera.getAttribute("name")).andStubReturn("oldtest");
 
         // Initialise test environment.
         testObject = new CameraPropertySource(mockCamera);

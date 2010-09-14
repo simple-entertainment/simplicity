@@ -144,6 +144,18 @@ public class NodePropertySourceTest
 
         TransformationMatrixf mockTransformation = createMock(TransformationMatrixf.class);
 
+        // Dictate expected results.
+        expect(mockNode.isCollidable()).andStubReturn(false);
+        expect(mockNode.isModifiable()).andStubReturn(false);
+        expect(mockNode.isVisible()).andStubReturn(false);
+        expect(mockNode.getTransformation()).andStubReturn(mockTransformation);
+        expect(mockTransformation.getXAxisRotation()).andStubReturn(0.0f);
+        expect(mockTransformation.getYAxisRotation()).andStubReturn(0.0f);
+        expect(mockTransformation.getZAxisRotation()).andStubReturn(0.0f);
+        expect(mockTransformation.getXAxisTranslation()).andStubReturn(0.0f);
+        expect(mockTransformation.getYAxisTranslation()).andStubReturn(0.0f);
+        expect(mockTransformation.getZAxisTranslation()).andStubReturn(0.0f);
+
         // Initialise test environment.
         testObject = new NodePropertySource(mockNode);
 
@@ -151,7 +163,6 @@ public class NodePropertySourceTest
         mockNode.setCollidable(true);
         mockNode.setModifiable(true);
         mockNode.setVisible(true);
-        expect(mockNode.getTransformation()).andStubReturn(mockTransformation);
         mockTransformation.setXAxisRotation((float) Math.toRadians(90.0));
         mockTransformation.setYAxisRotation((float) Math.toRadians(180.0));
         mockTransformation.setZAxisRotation((float) Math.toRadians(270.0f));
@@ -190,6 +201,19 @@ public class NodePropertySourceTest
 
         TransformationMatrixf mockTransformation = createMock(TransformationMatrixf.class);
 
+        // Dictate expected results.
+        expect(mockNode.getAttribute("name")).andStubReturn("oldtest");
+        expect(mockNode.isCollidable()).andStubReturn(false);
+        expect(mockNode.isModifiable()).andStubReturn(false);
+        expect(mockNode.isVisible()).andStubReturn(false);
+        expect(mockNode.getTransformation()).andStubReturn(mockTransformation);
+        expect(mockTransformation.getXAxisRotation()).andStubReturn(0.0f);
+        expect(mockTransformation.getYAxisRotation()).andStubReturn(0.0f);
+        expect(mockTransformation.getZAxisRotation()).andStubReturn(0.0f);
+        expect(mockTransformation.getXAxisTranslation()).andStubReturn(0.0f);
+        expect(mockTransformation.getYAxisTranslation()).andStubReturn(0.0f);
+        expect(mockTransformation.getZAxisTranslation()).andStubReturn(0.0f);
+
         // Initialise test environment.
         testObject = new NodePropertySource(mockNode);
 
@@ -207,7 +231,7 @@ public class NodePropertySourceTest
         mockTransformation.setZAxisTranslation(15.0f);
         replay(mockNode, mockTransformation);
 
-        // Perform test
+        // Perform testarg0
         testObject.setPropertyValue("name", "test");
         testObject.setPropertyValue("collidable", true);
         testObject.setPropertyValue("modifiable", true);

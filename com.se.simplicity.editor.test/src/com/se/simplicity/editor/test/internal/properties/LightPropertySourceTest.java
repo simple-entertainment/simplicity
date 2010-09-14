@@ -143,6 +143,9 @@ public class LightPropertySourceTest
         float[] diffuseLight = new float[] {0.0f, 0.0f, 0.0f, 1.0f};
         float[] specularLight = new float[] {0.0f, 0.0f, 0.0f, 1.0f};
 
+        // Dictate correct behaviour.
+        expect(mockLight.getLightingMode()).andStubReturn(LightingMode.SCENE);
+
         // Initialise test environment.
         testObject = new LightPropertySource(mockLight);
 
@@ -193,6 +196,10 @@ public class LightPropertySourceTest
         float[] ambientLight = new float[] {0.0f, 0.0f, 0.0f, 1.0f};
         float[] diffuseLight = new float[] {0.0f, 0.0f, 0.0f, 1.0f};
         float[] specularLight = new float[] {0.0f, 0.0f, 0.0f, 1.0f};
+
+        // Dictate correct behaviour.
+        expect(mockLight.getAttribute("name")).andStubReturn("oldtest");
+        expect(mockLight.getLightingMode()).andStubReturn(LightingMode.SCENE);
 
         // Initialise test environment.
         testObject = new LightPropertySource(mockLight);
