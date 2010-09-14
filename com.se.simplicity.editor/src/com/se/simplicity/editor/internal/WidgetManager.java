@@ -53,7 +53,7 @@ public class WidgetManager
      * Fills the select buffer with {@link com.se.simplicity.editor.internal.Widget Widget} selection data.
      * </p>
      */
-    private WidgetJOGLRenderer fPickingRenderer;
+    private NamePassingJOGLRenderer fPickingRenderer;
 
     /**
      * <p>
@@ -222,11 +222,11 @@ public class WidgetManager
         fPickingEngine = new SimpleJOGLPickingEngine();
         SimpleJOGLPicker picker = new WidgetJOGLPicker();
         fPickingRenderingEngine = new SimpleJOGLRenderingEngine();
-        fPickingRenderer = new WidgetJOGLRenderer(new NamedJOGLRenderer());
+        fPickingRenderer = new NamePassingJOGLRenderer(new WidgetJOGLRenderer(new NamedJOGLRenderer()));
 
         fPickingEngine.setPicker(picker);
         picker.setRenderingEngine(fPickingRenderingEngine);
-        fPickingRenderingEngine.addRenderer(new NamePassingJOGLRenderer(fPickingRenderer));
+        fPickingRenderingEngine.addRenderer(fPickingRenderer);
 
         fWidgetScene = new SimpleJOGLScene();
         fWidgetScene.setSceneGraph(new SimpleSceneGraph());
@@ -259,7 +259,7 @@ public class WidgetManager
         }
 
         fRenderer.setCamera(camera);
-        fPickingRenderer.setCamera(camera);
+        ((WidgetJOGLRenderer) fPickingRenderer.getRenderer()).setCamera(camera);
 
         fPickingEngine.setCamera(camera);
     }
@@ -281,7 +281,7 @@ public class WidgetManager
         fEditingMode = editingMode;
 
         fRenderer.setWidget(fWidgets.get(fEditingMode));
-        fPickingRenderer.setWidget(fWidgets.get(fEditingMode));
+        ((WidgetJOGLRenderer) fPickingRenderer.getRenderer()).setWidget(fWidgets.get(fEditingMode));
 
         // Include the full Scene in the Widget Renderer and the Widget PickingEngine.
         if (fEditingMode == EditingMode.SELECTION)
