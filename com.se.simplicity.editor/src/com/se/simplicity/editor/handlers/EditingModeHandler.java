@@ -21,9 +21,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.handlers.RadioState;
 
 import com.se.simplicity.editor.internal.EditingMode;
-import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
-import com.se.simplicity.scenegraph.model.ModelNode;
 
 /**
  * <p>
@@ -70,7 +68,7 @@ public class EditingModeHandler extends AbstractHandler
         String currentState = event.getParameter(RadioState.PARAMETER_ID);
 
         // Check that the change in Editing Mode is valid.
-        if (!currentState.equals("selection") && !(SceneManager.getSceneManager().getActiveNode() instanceof ModelNode))
+        if (!currentState.equals("selection") && ((SceneEditor) editor).getSelection().isEmpty())
         {
             MessageDialog.openError(editor.getSite().getShell(), "Cannot change Editing Mode",
                     "A Model must be selected before the Editing Mode can be changed to manipulate the Model.");

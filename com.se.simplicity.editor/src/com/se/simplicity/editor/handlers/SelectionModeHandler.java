@@ -20,7 +20,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.handlers.RadioState;
 
-import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.scenegraph.model.ModelNode;
 
@@ -59,7 +59,8 @@ public class SelectionModeHandler extends AbstractHandler
         String currentState = event.getParameter(RadioState.PARAMETER_ID);
 
         // Check that the change in Selection Mode is valid.
-        if (!currentState.equals("model") && !(SceneManager.getSceneManager().getActiveNode() instanceof ModelNode))
+        SceneSelection selection = (SceneSelection) ((SceneEditor) editor).getSelection();
+        if (!currentState.equals("model") && (selection.isEmpty() || !(selection.getSceneComponent() instanceof ModelNode)))
         {
             MessageDialog.openError(editor.getSite().getShell(), "Cannot change Selection Mode",
                     "A Model must be selected before the Selection Mode can be changed to select sub-components of a Model.");
