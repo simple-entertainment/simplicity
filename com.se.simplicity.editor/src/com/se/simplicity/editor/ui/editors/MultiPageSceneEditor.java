@@ -87,6 +87,7 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
         try
         {
             fSourceEditor = new SourceSceneEditor();
+            fSourceEditor.setScene(fVisualEditor.getScene());
             int index = addPage(fSourceEditor, getEditorInput());
             setPageText(index, "Source");
         }

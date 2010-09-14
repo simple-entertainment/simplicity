@@ -13,11 +13,13 @@ package com.se.simplicity.editor.internal.properties;
 
 import java.util.ArrayList;
 
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
+import com.se.simplicity.editor.internal.EditorPlugin;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 
@@ -212,11 +214,14 @@ public class NodePropertySource implements IPropertySource
     @Override
     public void setPropertyValue(final Object id, final Object value)
     {
+        Object oldValue = null;
+
         // Identification
         if (id.equals("name"))
         {
             if (fNode instanceof MetaDataNode)
             {
+                oldValue = ((MetaDataNode) fNode).getAttribute("name");
                 ((MetaDataNode) fNode).setAttribute("name", value);
             }
         }
@@ -224,43 +229,54 @@ public class NodePropertySource implements IPropertySource
         // General
         else if (id.equals("collidable"))
         {
+            oldValue = fNode.isCollidable();
             fNode.setCollidable((Boolean) value);
         }
         else if (id.equals("modifiable"))
         {
+            oldValue = fNode.isModifiable();
             fNode.setModifiable((Boolean) value);
         }
         else if (id.equals("visible"))
         {
+            oldValue = fNode.isVisible();
             fNode.setVisible((Boolean) value);
         }
 
         // Rotation
         else if (id.equals("xAxisRotation"))
         {
+            oldValue = fNode.getTransformation().getXAxisRotation();
             fNode.getTransformation().setXAxisRotation(Float.valueOf((String) value));
         }
         else if (id.equals("yAxisRotation"))
         {
+            oldValue = fNode.getTransformation().getYAxisRotation();
             fNode.getTransformation().setYAxisRotation(Float.valueOf((String) value));
         }
         else if (id.equals("zAxisRotation"))
         {
+            oldValue = fNode.getTransformation().getZAxisRotation();
             fNode.getTransformation().setZAxisRotation(Float.valueOf((String) value));
         }
 
         // Translation
         else if (id.equals("xAxisTranslation"))
         {
+            oldValue = fNode.getTransformation().getXAxisTranslation();
             fNode.getTransformation().setXAxisTranslation(Float.valueOf((String) value));
         }
         else if (id.equals("yAxisTranslation"))
         {
+            oldValue = fNode.getTransformation().getYAxisTranslation();
             fNode.getTransformation().setYAxisTranslation(Float.valueOf((String) value));
         }
         else if (id.equals("zAxisTranslation"))
         {
+            oldValue = fNode.getTransformation().getZAxisTranslation();
             fNode.getTransformation().setZAxisTranslation(Float.valueOf((String) value));
         }
+
+        EditorPlugin.getInstance().propertyChanged(new PropertyChangeEvent(this, (String) id, oldValue, value));
     }
 }

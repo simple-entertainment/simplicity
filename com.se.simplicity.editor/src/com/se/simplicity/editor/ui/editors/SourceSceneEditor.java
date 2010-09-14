@@ -11,34 +11,50 @@
  */
 package com.se.simplicity.editor.ui.editors;
 
+import org.apache.log4j.Logger;
+import org.eclipse.jface.text.ITextListener;
+import org.eclipse.jface.text.TextEvent;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.wst.sse.core.internal.text.BasicStructuredDocument;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.sse.ui.internal.actions.StructuredTextEditorActionConstants;
 
-import com.se.simplicity.editor.internal.SceneManager;
-import com.se.simplicity.editor.internal.event.SceneChangedEvent;
-import com.se.simplicity.editor.internal.event.SceneChangedEventType;
-import com.se.simplicity.editor.internal.event.SceneChangedListener;
+import com.se.simplicity.editor.internal.EditorPlugin;
 import com.se.simplicity.editor.internal.util.SceneDocumentSynchroniser;
+import com.se.simplicity.scene.Scene;
 
 /**
  * <p>
- * An XML editor that dynamically updates its text to match changes to the active <code>Scene</code> made externally of this editor. Also updates the
- * active <code>Scene</code> in response to changes made internally.
+ * An XML editor that synchronises itself with a {@link com.se.simplicity.scene.Scene Scene}. There are three parts to this synchronisation:
+ * </p>
+ * 
+ * <p>
+ * Firstly, it listens for {@link org.eclipse.jface.util.PropertyChangeEvent PropertyChangeEvent}s and updates its text to match the
+ * <code>Scene</code> when they occur.
+ * </p>
+ * 
+ * <p>
+ * Secondly, it updates the <code>Scene</code> in response to changes made in its text.
+ * </p>
+ * 
+ * <p>
+ * Thirdly, it notifies any {@link org.eclipse.jface.util.IPropertyChangeListener IPropertyChangeListener}s registered with the
+ * {@link com.se.simplicity.editor.internal.EditorPlugin EditorPlugin} in response to changes made in its text.
  * </p>
  * 
  * @author Gary Buyn
  */
 @SuppressWarnings("restriction")
-public class SourceSceneEditor extends StructuredTextEditor implements SceneChangedListener
+public class SourceSceneEditor extends StructuredTextEditor implements IPropertyChangeListener, ITextListener
 {
     /**
      * <p>
-     * Listens for changes in the text of this <code>SourceSceneEditor</code>.
+     * The {@link com.se.simplicity.scene.Scene Scene} this <code>SourceSceneEditor</code> is synchronised with.
      * </p>
      */
-    private SourceTextListener fSourceSceneTextListener;
+    private Scene fScene;
 
     /**
      * <p>
@@ -49,9 +65,7 @@ public class SourceSceneEditor extends StructuredTextEditor implements SceneChan
     {
         super();
 
-        fSourceSceneTextListener = new SourceTextListener(this);
-
-        SceneManager.getSceneManager().addSceneChangedListener(this);
+        fScene = null;
     }
 
     @Override
@@ -59,34 +73,80 @@ public class SourceSceneEditor extends StructuredTextEditor implements SceneChan
     {
         super.createPartControl(parent);
 
-        getTextViewer().addTextListener(fSourceSceneTextListener);
+        EditorPlugin.getInstance().addPropertyChangeListener(this);
+        getTextViewer().addTextListener(this);
     }
 
     @Override
     public void dispose()
     {
-        SceneManager.getSceneManager().removeSceneChangedListener(this);
-        getTextViewer().removeTextListener(fSourceSceneTextListener);
+        EditorPlugin.getInstance().removePropertyChangeListener(this);
+        getTextViewer().removeTextListener(this);
 
         super.dispose();
     }
 
     @Override
-    public void sceneChanged(final SceneChangedEvent event)
+    public void propertyChange(final PropertyChangeEvent event)
     {
-        // If any scene components were modified.
-        if (event.getType() == SceneChangedEventType.CAMERA_MODIFIED || event.getType() == SceneChangedEventType.LIGHT_MODIFIED
-                || event.getType() == SceneChangedEventType.NODE_MODIFIED)
+        if (event.getSource() != this)
         {
-            fSourceSceneTextListener.disable();
+            updateDocument();
+        }
+    }
 
+    /**
+     * <p>
+     * Retrieves the {@link com.se.simplicity.scene.Scene Scene} this <code>SourceSceneEditor</code> is synchronised with.
+     * </p>
+     * 
+     * @param scene The <code>Scene</code> this <code>SourceSceneEditor</code> is synchronised with.
+     */
+    public void setScene(final Scene scene)
+    {
+        fScene = scene;
+    }
+
+    @Override
+    public void textChanged(final TextEvent event)
+    {
+        updateScene();
+    }
+
+    /**
+     * <p>
+     * Updates the text in this <code>SourceSceneEditor</code> to match the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     */
+    public void updateDocument()
+    {
+        getTextViewer().removeTextListener(this);
+
+        SceneDocumentSynchroniser synchroniser = new SceneDocumentSynchroniser();
+        synchroniser.synchroniseToDocument(fScene, (BasicStructuredDocument) getTextViewer().getDocument());
+
+        getTextViewer().addTextListener(this);
+
+        getAction(StructuredTextEditorActionConstants.ACTION_NAME_FORMAT_DOCUMENT).run();
+    }
+
+    /**
+     * <p>
+     * Updates the {@link com.se.simplicity.scene.Scene Scene} to match the text in this <code>SourceSceneEditor</code>.
+     * </p>
+     */
+    public void updateScene()
+    {
+        try
+        {
             SceneDocumentSynchroniser synchroniser = new SceneDocumentSynchroniser();
-            synchroniser.synchroniseToDocument(SceneManager.getSceneManager().getActiveScene(), (BasicStructuredDocument) getTextViewer()
-                    .getDocument());
+            synchroniser.synchroniseToScene((BasicStructuredDocument) getTextViewer().getDocument(), fScene);
 
-            fSourceSceneTextListener.enable();
-
-            getAction(StructuredTextEditorActionConstants.ACTION_NAME_FORMAT_DOCUMENT).run();
+            EditorPlugin.getInstance().propertyChanged(new PropertyChangeEvent(this, "scene", null, fScene));
+        }
+        catch (Exception e)
+        {
+            Logger.getLogger(getClass()).debug("Failed to update Scene from Source.", e);
         }
     }
 }

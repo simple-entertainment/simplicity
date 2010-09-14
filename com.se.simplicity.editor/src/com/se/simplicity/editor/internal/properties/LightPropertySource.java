@@ -13,12 +13,14 @@ package com.se.simplicity.editor.internal.properties;
 
 import java.util.ArrayList;
 
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
+import com.se.simplicity.editor.internal.EditorPlugin;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
 import com.se.simplicity.util.metadata.rendering.MetaDataLight;
@@ -235,37 +237,46 @@ public class LightPropertySource implements IPropertySource
     @Override
     public void setPropertyValue(final Object id, final Object value)
     {
+        Object oldValue = null;
+
         // Ambient Light
         if (id.equals("ambientRed"))
         {
+            oldValue = fLight.getAmbientLight()[0];
             fLight.getAmbientLight()[0] = Float.valueOf((String) value);
         }
         else if (id.equals("ambientGreen"))
         {
+            oldValue = fLight.getAmbientLight()[1];
             fLight.getAmbientLight()[1] = Float.valueOf((String) value);
         }
         else if (id.equals("ambientBlue"))
         {
+            oldValue = fLight.getAmbientLight()[2];
             fLight.getAmbientLight()[2] = Float.valueOf((String) value);
         }
 
         // Diffuse Light
         if (id.equals("diffuseRed"))
         {
+            oldValue = fLight.getDiffuseLight()[0];
             fLight.getDiffuseLight()[0] = Float.valueOf((String) value);
         }
         else if (id.equals("diffuseGreen"))
         {
+            oldValue = fLight.getDiffuseLight()[1];
             fLight.getDiffuseLight()[1] = Float.valueOf((String) value);
         }
         else if (id.equals("diffuseBlue"))
         {
+            oldValue = fLight.getDiffuseLight()[2];
             fLight.getDiffuseLight()[2] = Float.valueOf((String) value);
         }
 
         // General
         if (id.equals("lightingMode"))
         {
+            oldValue = fLight.getLightingMode();
             if ((Integer) value == 0)
             {
                 fLight.setLightingMode(LightingMode.SCENE);
@@ -285,6 +296,7 @@ public class LightPropertySource implements IPropertySource
         {
             if (fLight instanceof MetaDataLight)
             {
+                oldValue = ((MetaDataLight) fLight).getAttribute("name");
                 ((MetaDataLight) fLight).setAttribute("name", value);
             }
         }
@@ -292,15 +304,20 @@ public class LightPropertySource implements IPropertySource
         // Specular Light
         if (id.equals("specularRed"))
         {
+            oldValue = fLight.getSpecularLight()[0];
             fLight.getSpecularLight()[0] = Float.valueOf((String) value);
         }
         else if (id.equals("specularGreen"))
         {
+            oldValue = fLight.getSpecularLight()[1];
             fLight.getSpecularLight()[1] = Float.valueOf((String) value);
         }
         else if (id.equals("specularBlue"))
         {
+            oldValue = fLight.getSpecularLight()[2];
             fLight.getSpecularLight()[2] = Float.valueOf((String) value);
         }
+
+        EditorPlugin.getInstance().propertyChanged(new PropertyChangeEvent(this, (String) id, oldValue, value));
     }
 }

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLDrawableFactory;
 
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.viewers.ISelection;
@@ -116,6 +115,13 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
 
     /**
      * <p>
+     * Listeners to a change in selection.
+     * </p>
+     */
+    private ArrayList<ISelectionChangedListener> fSelectionChangedListeners;
+
+    /**
+     * <p>
      * Determines whether the aspect ratio of the {@link com.se.simplicity.rendering.Camera Camera} is synchronised with the aspect ratio of the
      * viewport.
      * </p>
@@ -129,13 +135,6 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
      * </p>
      */
     private WidgetManager fWidgetManager;
-
-    /**
-     * <p>
-     * Listeners to a change in selection.
-     * </p>
-     */
-    private ArrayList<ISelectionChangedListener> fSelectionChangedListeners;
 
     /**
      * <p>
@@ -379,7 +378,7 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
             }
             catch (Exception e)
             {
-                LogFactory.getLog(getClass()).warn("Failed to instantiate preferred Rendering Engine, instantiating default.", e);
+                Logger.getLogger(getClass()).warn("Failed to instantiate preferred Rendering Engine, instantiating default.", e);
                 fRenderingEngine = new SimpleJOGLRenderingEngine();
             }
         }

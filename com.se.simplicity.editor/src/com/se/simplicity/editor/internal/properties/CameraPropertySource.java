@@ -13,12 +13,14 @@ package com.se.simplicity.editor.internal.properties;
 
 import java.util.ArrayList;
 
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
+import com.se.simplicity.editor.internal.EditorPlugin;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.util.metadata.rendering.MetaDataCamera;
@@ -214,41 +216,51 @@ public class CameraPropertySource implements IPropertySource
     @Override
     public void setPropertyValue(final Object id, final Object value)
     {
+        Object oldValue = null;
+
         // Clipping
         if (id.equals("nearClippingDistance"))
         {
+            oldValue = fCamera.getNearClippingDistance();
             fCamera.setNearClippingDistance(Float.valueOf((String) value));
         }
         else if (id.equals("farClippingDistance"))
         {
+            oldValue = fCamera.getFarClippingDistance();
             fCamera.setFarClippingDistance(Float.valueOf((String) value));
         }
 
         // Frame
         else if (id.equals("frameAspectRatio"))
         {
+            oldValue = fCamera.getFrameAspectRatio();
             fCamera.setFrameAspectRatio(Float.valueOf((String) value));
         }
         else if (id.equals("frameX"))
         {
+            oldValue = fCamera.getFrameX();
             fCamera.setFrameX(Float.valueOf((String) value));
         }
         else if (id.equals("frameY"))
         {
+            oldValue = fCamera.getFrameY();
             fCamera.setFrameY(Float.valueOf((String) value));
         }
         else if (id.equals("frameWidth"))
         {
+            oldValue = fCamera.getFrameWidth();
             fCamera.setFrameWidth(Float.valueOf((String) value));
         }
         else if (id.equals("frameHeight"))
         {
+            oldValue = fCamera.getFrameHeight();
             fCamera.setFrameHeight(Float.valueOf((String) value));
         }
 
         // General
         if (id.equals("projectionMode"))
         {
+            oldValue = fCamera.getProjectionMode();
             if ((Integer) value == 0)
             {
                 fCamera.setProjectionMode(ProjectionMode.ORTHOGONAL);
@@ -264,8 +276,11 @@ public class CameraPropertySource implements IPropertySource
         {
             if (fCamera instanceof MetaDataCamera)
             {
+                oldValue = ((MetaDataCamera) fCamera).getAttribute("name");
                 ((MetaDataCamera) fCamera).setAttribute("name", value);
             }
         }
+
+        EditorPlugin.getInstance().propertyChanged(new PropertyChangeEvent(this, (String) id, oldValue, value));
     }
 }
