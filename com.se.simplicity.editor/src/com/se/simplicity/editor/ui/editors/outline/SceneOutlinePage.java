@@ -11,6 +11,8 @@
  */
 package com.se.simplicity.editor.ui.editors.outline;
 
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -21,6 +23,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
+import com.se.simplicity.editor.internal.EditorPlugin;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.scene.Scene;
 
@@ -31,7 +34,7 @@ import com.se.simplicity.scene.Scene;
  * 
  * @author Gary Buyn
  */
-public class SceneOutlinePage extends ContentOutlinePage implements ISelectionListener
+public class SceneOutlinePage extends ContentOutlinePage implements ISelectionListener, IPropertyChangeListener
 {
     /**
      * <p>
@@ -62,6 +65,7 @@ public class SceneOutlinePage extends ContentOutlinePage implements ISelectionLi
         getTreeViewer().setInput(fScene);
 
         getSite().getPage().addSelectionListener(this);
+        EditorPlugin.getInstance().addPropertyChangeListener(this);
     }
 
     @Override
@@ -83,5 +87,11 @@ public class SceneOutlinePage extends ContentOutlinePage implements ISelectionLi
         SceneSelection sceneSelection = new SceneSelection(sceneComponent, null);
 
         fireSelectionChanged(sceneSelection);
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent event)
+    {
+        getTreeViewer().refresh();
     }
 }
