@@ -89,6 +89,12 @@ public class WidgetManager
      */
     private Scene fWidgetScene;
 
+    /**
+     * <p>
+     * The {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} used to select the
+     * {@link com.se.simplicity.editor.internal.Widget Widget}s.
+     * </p>
+     */
     private SimpleJOGLRenderingEngine fPickingRenderingEngine;
 
     /**

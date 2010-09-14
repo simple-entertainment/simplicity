@@ -70,7 +70,7 @@ public class WidgetPickListener implements PickListener
                 sceneComponent = event.getCloseHit().getNode();
             }
 
-            fSceneEditor.setSelection(new PickSelection(sceneComponent, null, PickSelectionSource.SCENE_PICK));
+            fSceneEditor.setSelection(new PickSelection(sceneComponent, null, PickSelectionSource.WIDGET_PICK));
         }
         else
         {

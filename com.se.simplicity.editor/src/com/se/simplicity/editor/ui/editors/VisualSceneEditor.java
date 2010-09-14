@@ -138,6 +138,13 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
 
     /**
      * <p>
+     * Determines whether the previous selection originating from a 'WIDGET' pick was successful.
+     * </p>
+     */
+    private boolean fWidgetPickSuccessful;
+
+    /**
+     * <p>
      * Creates an instance of <code>VisualSceneEditor</code>.
      * </p>
      */
@@ -283,6 +290,56 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
     public ISelection getSelection()
     {
         return (fSelection);
+    }
+
+    /**
+     * <p>
+     * Retrieves a {@link com.se.simplicity.editor.internal.selection.SceneSelection SceneSelection} based on the given
+     * {@link com.se.simplicity.editor.internal.selection.PickSelection PickSelection}.
+     * </p>
+     * 
+     * <p>
+     * NOTE: This method assumes that <code>PickSelection</code>s occur in pairs, the first originating from a 'WIDGET' pick and the second
+     * originating from a 'SCENE' pick. This allows it to give priority to the selection originating from a 'WIDGET' pick.
+     * </p>
+     * 
+     * @param selection The <code>PickSelection</code> to retrieve the <code>SceneSelection</code> for.
+     * 
+     * @return A <code>SceneSelection</code> based on the given <code>PickSelection</code>, or null if the selection has not been accepted due to the
+     * priority of the 'WIDGET' pick over the 'SCENE' pick.
+     */
+    protected SceneSelection getSelection(final PickSelection selection)
+    {
+        SceneSelection sceneSelection = null;
+
+        // If the selection originated from a Widget pick.
+        if (selection.getSource() == PickSelectionSource.WIDGET_PICK)
+        {
+            // If the selection is empty, accept the following selection originating from a Scene pick.
+            if (selection.isEmpty())
+            {
+                fWidgetPickSuccessful = false;
+            }
+
+            // Otherwise, accept the pick and ignore the following selection originating from a Scene pick.
+            else
+            {
+                fWidgetPickSuccessful = true;
+                sceneSelection = new SceneSelection(selection.getSceneComponent(), null);
+            }
+        }
+
+        // If the selection originated from a Scene pick.
+        if (selection.getSource() == PickSelectionSource.SCENE_PICK)
+        {
+            // If the previous Widget pick was not accepted, accept the pick.
+            if (!fWidgetPickSuccessful)
+            {
+                sceneSelection = new SceneSelection(selection.getSceneComponent(), null);
+            }
+        }
+
+        return (sceneSelection);
     }
 
     @Override
@@ -470,17 +527,7 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
         // If the selection originated from a pick.
         if (tempSelection instanceof PickSelection)
         {
-            PickSelection pickSelection = (PickSelection) tempSelection;
-
-            // If the selection originated from a Widget pick and the selection is empty, do not process any further. Instead wait for the selection
-            // originating from a Scene pick.
-            if (pickSelection.getSource() == PickSelectionSource.WIDGET_PICK && pickSelection.isEmpty())
-            {
-                return;
-            }
-
-            // Create a SceneSelection from the PickSelection so that the selection is processed.
-            tempSelection = new SceneSelection(((PickSelection) tempSelection).getSceneComponent(), null);
+            tempSelection = getSelection((PickSelection) tempSelection);
         }
 
         if (tempSelection instanceof SceneSelection)
