@@ -68,7 +68,7 @@ public class EditingModeHandler extends AbstractHandler
         String currentState = event.getParameter(RadioState.PARAMETER_ID);
 
         // Check that the change in Editing Mode is valid.
-        if (!currentState.equals("selection") && ((SceneEditor) editor).getSelection().isEmpty())
+        if (!currentState.equals("SELECTION") && ((SceneEditor) editor).getSelection().isEmpty())
         {
             MessageDialog.openError(editor.getSite().getShell(), "Cannot change Editing Mode",
                     "A Model must be selected before the Editing Mode can be changed to manipulate the Model.");
@@ -76,18 +76,7 @@ public class EditingModeHandler extends AbstractHandler
         }
 
         // Change the Editing Mode in the model.
-        if (currentState.equals("rotation"))
-        {
-            ((SceneEditor) editor).setEditingMode(EditingMode.ROTATION);
-        }
-        else if (currentState.equals("selection"))
-        {
-            ((SceneEditor) editor).setEditingMode(EditingMode.SELECTION);
-        }
-        else if (currentState.equals("translation"))
-        {
-            ((SceneEditor) editor).setEditingMode(EditingMode.TRANSLATION);
-        }
+        ((SceneEditor) editor).setEditingMode(EditingMode.valueOf(currentState));
 
         // Update UI elements to reflect the change in Editing Mode.
         HandlerUtil.updateRadioState(event.getCommand(), currentState);

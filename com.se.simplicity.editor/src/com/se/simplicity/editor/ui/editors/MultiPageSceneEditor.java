@@ -20,6 +20,8 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IPersistableEditor;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -37,8 +39,15 @@ import com.se.simplicity.rendering.ProjectionMode;
  * 
  * @author Gary Buyn
  */
-public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEditor
+public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEditor, IPersistableEditor
 {
+    /**
+     * <p>
+     * The state of the Visual Scene Editor at startup.
+     * </p>
+     */
+    private IMemento fInitialState;
+
     /**
      * <p>
      * The editor that displays serialised source representation of the <code>Scene</code>.
@@ -147,9 +156,21 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     }
 
     @Override
+    public DrawingMode getDrawingMode()
+    {
+        return (fVisualEditor.getDrawingMode());
+    }
+
+    @Override
     public EditingMode getEditingMode()
     {
         return (fVisualEditor.getEditingMode());
+    }
+
+    @Override
+    public ProjectionMode getProjectionMode()
+    {
+        return (fVisualEditor.getProjectionMode());
     }
 
     @Override
@@ -197,6 +218,18 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     }
 
     @Override
+    public void restoreState(final IMemento memento)
+    {
+        fInitialState = memento;
+    }
+
+    @Override
+    public void saveState(final IMemento memento)
+    {
+        fVisualEditor.saveState(memento);
+    }
+
+    @Override
     public void setCanvasSize(final Rectangle canvasSize)
     {
         fVisualEditor.setCanvasSize(canvasSize);
@@ -212,6 +245,15 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     public void setEditingMode(final EditingMode editingMode)
     {
         fVisualEditor.setEditingMode(editingMode);
+    }
+
+    @Override
+    public void setFocus()
+    {
+        super.setFocus();
+
+        fVisualEditor.restoreState(fInitialState);
+        fInitialState = null;
     }
 
     @Override

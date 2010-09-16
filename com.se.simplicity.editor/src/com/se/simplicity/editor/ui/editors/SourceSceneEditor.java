@@ -89,7 +89,7 @@ public class SourceSceneEditor extends StructuredTextEditor implements IProperty
     @Override
     public void propertyChange(final PropertyChangeEvent event)
     {
-        if (event.getSource() != this)
+        if (!(event.getSource() instanceof SourceSceneEditor))
         {
             updateDocument();
         }

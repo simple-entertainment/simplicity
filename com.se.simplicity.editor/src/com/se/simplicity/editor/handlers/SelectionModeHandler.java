@@ -60,7 +60,7 @@ public class SelectionModeHandler extends AbstractHandler
 
         // Check that the change in Selection Mode is valid.
         SceneSelection selection = (SceneSelection) ((SceneEditor) editor).getSelection();
-        if (!currentState.equals("model") && (selection.isEmpty() || !(selection.getSceneComponent() instanceof ModelNode)))
+        if (!currentState.equals("MODEL") && (selection.isEmpty() || !(selection.getSceneComponent() instanceof ModelNode)))
         {
             MessageDialog.openError(editor.getSite().getShell(), "Cannot change Selection Mode",
                     "A Model must be selected before the Selection Mode can be changed to select sub-components of a Model.");
@@ -68,22 +68,7 @@ public class SelectionModeHandler extends AbstractHandler
         }
 
         // Change the Selection Mode in the model.
-//        if (currentState.equals("edges"))
-//        {
-//            ((SceneEditor) editor).setSelectionMode(SelectionMode.EDGES);
-//        }
-//        else if (currentState.equals("faces"))
-//        {
-//            ((SceneEditor) editor).setSelectionMode(SelectionMode.FACES);
-//        }
-//        else if (currentState.equals("model"))
-//        {
-//            ((SceneEditor) editor).setSelectionMode(SelectionMode.MODEL);
-//        }
-//        else if (currentState.equals("vertices"))
-//        {
-//            ((SceneEditor) editor).setSelectionMode(SelectionMode.VERTICES);
-//        }
+        // ((SceneEditor) editor).setSelectionMode(SelectionMode.valueOf(currentState));
 
         // Update UI elements to reflect the change in Selection Mode.
         HandlerUtil.updateRadioState(event.getCommand(), currentState);

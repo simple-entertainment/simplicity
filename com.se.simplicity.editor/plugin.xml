@@ -26,49 +26,49 @@
                 <menu id="com.se.simplicity.editor.menus.visual.edit" label="Editing Mode" mnemonic="E">
                     <command commandId="com.se.simplicity.editor.commands.edit" id="com.se.simplicity.editor.menus.visual.edit.selection"
                         label="Selection" mnemonic="S" style="radio">
-                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="selection" />
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="SELECTION" />
                     </command>
                     <command commandId="com.se.simplicity.editor.commands.edit" id="com.se.simplicity.editor.menus.visual.edit.rotation"
                         label="Rotation" mnemonic="R" style="radio">
-                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="rotation" />
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="ROTATION" />
                     </command>
                     <command commandId="com.se.simplicity.editor.commands.edit" id="com.se.simplicity.editor.menus.visual.edit.translation"
                         label="Translation" mnemonic="T" style="radio">
-                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="translation" />
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="TRANSLATION" />
                     </command>
                 </menu>
 
                 <menu id="com.se.simplicity.editor.menus.visual.drawing" label="Drawing Mode" mnemonic="D">
                     <command commandId="com.se.simplicity.editor.commands.draw" id="com.se.simplicity.editor.menus.visual.draw.faces" label="Faces"
                         mnemonic="F" style="radio">
-                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="faces" />
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="FACES" />
                     </command>
                     <command commandId="com.se.simplicity.editor.commands.draw" id="com.se.simplicity.editor.menus.visual.draw.edges" label="Edges"
                         mnemonic="E" style="radio">
-                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="edges" />
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="EDGES" />
                     </command>
                     <command commandId="com.se.simplicity.editor.commands.draw" id="com.se.simplicity.editor.menus.visual.draw.vertices"
                         label="Vertices" mnemonic="V" style="radio">
-                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="vertices" />
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="VERTICES" />
                     </command>
                 </menu>
 
                 <menu id="com.se.simplicity.editor.menus.visual.select" label="Selection Mode" mnemonic="S">
                     <command commandId="com.se.simplicity.editor.commands.select" id="com.se.simplicity.editor.menus.visual.select.model"
                         label="Model Selection" mnemonic="M" style="radio">
-                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="model" />
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="MODEL" />
                     </command>
                     <command commandId="com.se.simplicity.editor.commands.select" id="com.se.simplicity.editor.menus.visual.select.faces"
                         label="Face Selection" mnemonic="F" style="radio">
-                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="faces" />
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="FACES" />
                     </command>
                     <command commandId="com.se.simplicity.editor.commands.select" id="com.se.simplicity.editor.menus.visual.select.edges"
                         label="Edge Selection" mnemonic="E" style="radio">
-                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="edges" />
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="EDGES" />
                     </command>
                     <command commandId="com.se.simplicity.editor.commands.select" id="com.se.simplicity.editor.menus.visual.select.vertices"
                         label="Vertex Selection" mnemonic="V" style="radio">
-                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="vertice" />
+                        <parameter name="org.eclipse.ui.commands.radioStateParameter" value="VERTICES" />
                     </command>
                 </menu>
             </menu>
@@ -83,15 +83,15 @@
 
                 <command commandId="com.se.simplicity.editor.commands.draw" icon="icons/draw_faces.gif" id="com.se.simplicity.editor.toolbars.visual.draw.faces"
                     tooltip="Faces" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="faces" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="FACES" />
                 </command>
                 <command commandId="com.se.simplicity.editor.commands.draw" icon="icons/draw_edges.gif" id="com.se.simplicity.editor.toolbars.visual.draw.edges"
                     tooltip="Edges" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="edges" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="EDGES" />
                 </command>
                 <command commandId="com.se.simplicity.editor.commands.draw" icon="icons/draw_vertices.gif" id="com.se.simplicity.editor.toolbars.visual.draw.vertices"
                     tooltip="Vertices" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="vertices" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="VERTICES" />
                 </command>
             </toolbar>
 
@@ -102,15 +102,15 @@
 
                 <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/edit_selection.gif" id="com.se.simplicity.editor.toolbars.visual.edit.selection"
                     tooltip="Selection Mode" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="selection" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="SELECTION" />
                 </command>
                 <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/edit_rotation.gif" id="com.se.simplicity.editor.toolbars.visual.edit.rotation"
                     tooltip="Rotation Mode" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="rotation" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="ROTATION" />
                 </command>
                 <command commandId="com.se.simplicity.editor.commands.edit" icon="icons/edit_translation.gif" id="com.se.simplicity.editor.toolbars.visual.edit.translation"
                     tooltip="Translation Mode" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="translation" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="TRANSLATION" />
                 </command>
             </toolbar>
 
@@ -121,19 +121,19 @@
 
                 <command commandId="com.se.simplicity.editor.commands.select" icon="icons/select_model.gif" id="com.se.simplicity.editor.toolbars.visual.select.model"
                     tooltip="Model Selection" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="model" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="MODEL" />
                 </command>
                 <command commandId="com.se.simplicity.editor.commands.select" icon="icons/select_faces.gif" id="com.se.simplicity.editor.toolbars.visual.select.faces"
                     tooltip="Face Selection" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="faces" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="FACES" />
                 </command>
                 <command commandId="com.se.simplicity.editor.commands.select" icon="icons/select_edges.gif" id="com.se.simplicity.editor.toolbars.visual.select.edges"
                     tooltip="Edge Selection" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="edges" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="EDGES" />
                 </command>
                 <command commandId="com.se.simplicity.editor.commands.select" icon="icons/select_vertices.gif" id="com.se.simplicity.editor.toolbars.visual.select.vertices"
                     tooltip="Vertex Selection" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="vertice" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="VERTICES" />
                 </command>
             </toolbar>
             
@@ -144,11 +144,11 @@
 
                 <command commandId="com.se.simplicity.editor.commands.projection" icon="icons/projection_orthogonal.gif" id="com.se.simplicity.editor.toolbars.visual.projection.orthogonal"
                     tooltip="Orthogonal" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="orthogonal" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="ORTHOGONAL" />
                 </command>
                 <command commandId="com.se.simplicity.editor.commands.projection" icon="icons/projection_perspective.gif" id="com.se.simplicity.editor.toolbars.visual.projection.perspective"
                     tooltip="Perspective" style="radio">
-                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="perspective" />
+                    <parameter name="org.eclipse.ui.commands.radioStateParameter" value="PERSPECTIVE" />
                 </command>
             </toolbar>
         </menuContribution>
@@ -159,24 +159,22 @@
 
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.draw" name="Drawing Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
-            <state class="org.eclipse.ui.handlers.RadioState:faces" id="org.eclipse.ui.commands.radioState" />
+            <state class="org.eclipse.ui.handlers.RadioState:FACES" id="org.eclipse.ui.commands.radioState" />
         </command>
         
-        <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.scene" name="Scene" />
-
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.edit" name="Editing Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
-            <state class="org.eclipse.ui.handlers.RadioState:selection" id="org.eclipse.ui.commands.radioState" />
+            <state class="org.eclipse.ui.handlers.RadioState:SELECTION" id="org.eclipse.ui.commands.radioState" />
         </command>
         
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.projection" name="Projection Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
-            <state class="org.eclipse.ui.handlers.RadioState:perspective" id="org.eclipse.ui.commands.radioState" />
+            <state class="org.eclipse.ui.handlers.RadioState:PERSPECTIVE" id="org.eclipse.ui.commands.radioState" />
         </command>
 
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.select" name="Selection Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
-            <state class="org.eclipse.ui.handlers.RadioState:model" id="org.eclipse.ui.commands.radioState" />
+            <state class="org.eclipse.ui.handlers.RadioState:MODEL" id="org.eclipse.ui.commands.radioState" />
         </command>
     </extension>
 

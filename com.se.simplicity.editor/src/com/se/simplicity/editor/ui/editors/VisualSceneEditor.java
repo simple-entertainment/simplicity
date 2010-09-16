@@ -18,6 +18,7 @@ import javax.media.opengl.GLContext;
 import javax.media.opengl.GLDrawableFactory;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.commands.Command;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -31,9 +32,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IPersistableEditor;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
@@ -53,10 +58,14 @@ import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.DrawingMode;
+import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.ProjectionMode;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
+import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.SimpleNode;
+import com.se.simplicity.scenegraph.SimpleTraversal;
+import com.se.simplicity.util.metadata.MetaData;
 import com.se.simplicity.util.metadata.scene.MetaDataScene;
 import com.se.simplicity.util.scene.SceneFactory;
 import com.se.simplicity.vector.SimpleTranslationVectorf4;
@@ -68,7 +77,7 @@ import com.se.simplicity.vector.SimpleTranslationVectorf4;
  * 
  * @author Gary Buyn
  */
-public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelectionListener
+public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelectionListener, IPersistableEditor
 {
     /**
      * <p>
@@ -79,10 +88,24 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
 
     /**
      * <p>
+     * The {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to render the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     */
+    private DrawingMode fDrawingMode;
+
+    /**
+     * <p>
      * The {@link com.se.simplicity.editor.internal.EditingMode EditingMode} used to manipulate the {@link com.se.simplicity.scene.Scene Scene}.
      * </p>
      */
     private EditingMode fEditingMode;
+
+    /**
+     * <p>
+     * The {@link com.se.simplicity.rendering.ProjectionMode ProjectionMode} the {@link com.se.simplicity.scene.Scene Scene} is displayed with.
+     * </p>
+     */
+    private ProjectionMode fProjectionMode;
 
     /**
      * <p>
@@ -153,10 +176,13 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
         super();
 
         fCamera = null;
+        fDrawingMode = DrawingMode.FACES;
         fEditingMode = EditingMode.SELECTION;
+        fProjectionMode = ProjectionMode.PERSPECTIVE;
         fRenderingEngine = null;
         fSelection = new SceneSelection(null, null);
         fSelectionChangedListeners = new ArrayList<ISelectionChangedListener>();
+        // fSelectionMode = SelectionMode.MODEL;
         fScene = null;
         fSceneManager = new SceneManager();
         fSyncCameraAspectRatio = true;
@@ -206,13 +232,13 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
         canvas.addMouseListener(widgetMouseListener);
         canvas.addMouseMoveListener(widgetMouseListener);
 
+        getSite().setSelectionProvider(this);
+        getSite().getPage().addSelectionListener(this);
+
         if (fRenderingEngine instanceof JOGLComponent)
         {
             display((GLCanvas) canvas, glContext);
         }
-
-        getSite().setSelectionProvider(this);
-        getSite().getPage().addSelectionListener(this);
     }
 
     /**
@@ -263,9 +289,21 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
     }
 
     @Override
+    public DrawingMode getDrawingMode()
+    {
+        return (fDrawingMode);
+    }
+
+    @Override
     public EditingMode getEditingMode()
     {
         return (fEditingMode);
+    }
+
+    @Override
+    public ProjectionMode getProjectionMode()
+    {
+        return (fProjectionMode);
     }
 
     /**
@@ -387,8 +425,6 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
 
         fSceneManager.getPickingEngine().addPickListener(new ScenePickListener(this));
         fWidgetManager.getPickingEngine().addPickListener(new WidgetPickListener(this));
-
-        setEditingMode(EditingMode.SELECTION);
     }
 
     /**
@@ -469,13 +505,142 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
         fSelectionChangedListeners.remove(listener);
     }
 
+    protected void restoreCommands()
+    {
+        // Restore Commands.
+        ICommandService commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
+
+        Command drawingMode = commandService.getCommand("com.se.simplicity.editor.commands.draw");
+        drawingMode.getState("org.eclipse.ui.commands.radioState").setValue(fDrawingMode.toString());
+
+        Command editingMode = commandService.getCommand("com.se.simplicity.editor.commands.edit");
+        editingMode.getState("org.eclipse.ui.commands.radioState").setValue(fEditingMode.toString());
+
+        Command projectionMode = commandService.getCommand("com.se.simplicity.editor.commands.projection");
+        projectionMode.getState("org.eclipse.ui.commands.radioState").setValue(fProjectionMode.toString());
+
+        // Command selectionMode = commandService.getCommand("com.se.simplicity.editor.commands.select");
+        // setSelectionMode(SelectionMode.valueOf((String) selectionMode.getState("org.eclipse.ui.commands.radioState").getValue()));
+    }
+
+    @Override
+    public void restoreState(final IMemento memento)
+    {
+        if (memento != null)
+        {
+            // Restore Drawing Mode.
+            fDrawingMode = DrawingMode.valueOf(memento.getString("drawingMode"));
+
+            // Restore Editing Mode.
+            fEditingMode = EditingMode.valueOf(memento.getString("editingMode"));
+
+            // Restore Projection Mode.
+            fProjectionMode = ProjectionMode.valueOf(memento.getString("projectionMode"));
+
+            // Restore Selection Mode.
+            // setSelectionMode(SelectionMode.valueOf(memento.getString("selectionMode")));
+
+            // Restore selection.
+            Object sceneComponent = null;
+            Model primitive = null;
+
+            String sceneComponentType = memento.getString("sceneComponentType");
+            if (sceneComponentType.equals("camera"))
+            {
+                for (Camera camera : fScene.getCameras())
+                {
+                    sceneComponent = camera;
+                    break;
+                }
+            }
+            else if (sceneComponentType.equals("light"))
+            {
+                for (Light light : fScene.getLights())
+                {
+                    sceneComponent = light;
+                    break;
+                }
+            }
+            else if (sceneComponentType.equals("node"))
+            {
+                SimpleTraversal traversal = new SimpleTraversal(fScene.getSceneGraph().getRoot());
+                while (traversal.hasMoreNodes())
+                {
+                    Node node = traversal.getNextNode();
+                    if (node instanceof MetaData && ((MetaData) node).getAttribute("name").equals(memento.getString("sceneComponentName")))
+                    {
+                        sceneComponent = node;
+                        break;
+                    }
+                }
+            }
+
+            fSelection = new SceneSelection(sceneComponent, primitive);
+            setSelection(fSelection);
+        }
+
+        // Restore modes.
+        setDrawingMode(fDrawingMode);
+        setEditingMode(fEditingMode);
+        setProjectionMode(fProjectionMode);
+        // setSelectionMode(fSelectionMode);
+
+        // This check is required for unit testing... unfortunately...
+        if (PlatformUI.isWorkbenchRunning())
+        {
+            restoreCommands();
+        }
+    }
+
+    @Override
+    public void saveState(final IMemento memento)
+    {
+        // Save Drawing Mode.
+        memento.putString("drawingMode", fDrawingMode.toString());
+
+        // Save Editing Mode.
+        memento.putString("editingMode", fEditingMode.toString());
+
+        // Save Projection Mode.
+        memento.putString("projectionMode", fProjectionMode.toString());
+
+        // Save Selection Mode.
+        // memento.putString("selectionMode", fSelectionMode.toString());
+
+        // Save selection.
+        if (fSelection.getSceneComponent() == null)
+        {
+            memento.putString("sceneComponentName", "");
+            memento.putString("sceneComponentType", "");
+        }
+        else if (fSelection.getSceneComponent() instanceof MetaData)
+        {
+            MetaData metaData = (MetaData) fSelection.getSceneComponent();
+
+            memento.putString("sceneComponentName", (String) metaData.getAttribute("name"));
+
+            if (fSelection.getSceneComponent() instanceof Camera)
+            {
+                memento.putString("sceneComponentType", "camera");
+            }
+            else if (fSelection.getSceneComponent() instanceof Light)
+            {
+                memento.putString("sceneComponentType", "light");
+            }
+            else if (fSelection.getSceneComponent() instanceof Node)
+            {
+                memento.putString("sceneComponentType", "node");
+            }
+        }
+    }
+
     @Override
     public void selectionChanged(final IWorkbenchPart part, final ISelection selection)
     {
-        if (selection instanceof SceneSelection)
+        if (!(part instanceof SceneEditor) && selection instanceof SceneSelection)
         {
             fSelection = (SceneSelection) selection;
-            setSelection(fSelection.getSceneComponent(), fSelection.getPrimitive());
+            setSelectionInternal(fSelection);
         }
     }
 
@@ -498,7 +663,9 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
     @Override
     public void setDrawingMode(final DrawingMode drawingMode)
     {
-        fSceneManager.setDrawingMode(drawingMode);
+        fDrawingMode = drawingMode;
+
+        fSceneManager.setDrawingMode(fDrawingMode);
     }
 
     @Override
@@ -506,17 +673,21 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
     {
         fEditingMode = editingMode;
 
-        fWidgetManager.setEditingMode(editingMode);
+        fWidgetManager.setEditingMode(fEditingMode);
     }
 
     @Override
     public void setFocus()
-    {}
+    {
+        restoreState(null);
+    }
 
     @Override
     public void setProjectionMode(final ProjectionMode projectionMode)
     {
-        fCamera.setProjectionMode(projectionMode);
+        fProjectionMode = projectionMode;
+
+        fCamera.setProjectionMode(fProjectionMode);
     }
 
     @Override
@@ -534,7 +705,7 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
         {
             // Set the selection internally.
             fSelection = (SceneSelection) tempSelection;
-            setSelection(fSelection.getSceneComponent(), fSelection.getPrimitive());
+            setSelectionInternal(fSelection);
 
             // Notify listeners.
             SelectionChangedEvent event = new SelectionChangedEvent(this, fSelection);
@@ -547,16 +718,16 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
 
     /**
      * <p>
-     * Sets the selected scene component and primitive in the managers.
+     * Sets the selected scene component and primitive.
      * </p>
      * 
-     * @param sceneComponent The selected scene component.
-     * @param primitive The selected primitive.
+     * @param selection The selected scene component and primitive.
      */
-    protected void setSelection(final Object sceneComponent, final Model primitive)
+    protected void setSelectionInternal(final SceneSelection selection)
     {
-        fSceneManager.setSelectedSceneComponent(sceneComponent);
-        fWidgetManager.setSelectedSceneComponent(sceneComponent);
+        // Update managers.
+        fSceneManager.setSelectedSceneComponent(selection.getSceneComponent());
+        fWidgetManager.setSelectedSceneComponent(selection.getSceneComponent());
     }
 
     /**

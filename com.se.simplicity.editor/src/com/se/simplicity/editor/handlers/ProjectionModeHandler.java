@@ -15,9 +15,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.ISources;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.handlers.RadioState;
 
@@ -52,14 +50,15 @@ public class ProjectionModeHandler extends AbstractHandler
      */
     public Object execute(final ExecutionEvent event) throws ExecutionException
     {
-        // This could be done more easily using: HandlerUtil.getActiveEditor(event); but that does not facilitate TDD...
-        IEditorPart editor = (IEditorPart) ((IEvaluationContext) event.getApplicationContext()).getVariable(ISources.ACTIVE_EDITOR_NAME);
+        // Check that the correct editor is active.
+        IEditorPart editor = HandlerUtil.getActiveEditor(event);
         if (!(editor instanceof SceneEditor))
         {
             Logger.getLogger(getClass()).error("This handler can only be executed when a Scene Editor is active.");
             throw new ExecutionException("This handler can only be executed when a Scene Editor is active.");
         }
 
+        // Check that the Projection Mode has changed.
         if (HandlerUtil.matchesRadioState(event))
         {
             return (null);
@@ -67,15 +66,10 @@ public class ProjectionModeHandler extends AbstractHandler
 
         String currentState = event.getParameter(RadioState.PARAMETER_ID);
 
-        if (currentState.equals("orthogonal"))
-        {
-            ((SceneEditor) editor).setProjectionMode(ProjectionMode.ORTHOGONAL);
-        }
-        else if (currentState.equals("perspective"))
-        {
-            ((SceneEditor) editor).setProjectionMode(ProjectionMode.PERSPECTIVE);
-        }
+        // Change the Projection Mode in the model.
+        ((SceneEditor) editor).setProjectionMode(ProjectionMode.valueOf(currentState));
 
+        // Update UI elements to reflect the change in Projection Mode.
         HandlerUtil.updateRadioState(event.getCommand(), currentState);
 
         return (null);

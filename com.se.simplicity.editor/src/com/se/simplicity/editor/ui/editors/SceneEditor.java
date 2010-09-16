@@ -34,6 +34,15 @@ public interface SceneEditor extends IEditorPart, ISelectionProvider
 {
     /**
      * <p>
+     * Retrieves the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to render the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     * 
+     * @return The <code>DrawingMode</code> used to render the <code>Scene</code>.
+     */
+    DrawingMode getDrawingMode();
+
+    /**
+     * <p>
      * Retrieves the {@link com.se.simplicity.editor.internal.EditingMode EditingMode} used to manipulate the {@link com.se.simplicity.scene.Scene
      * Scene}.
      * </p>
@@ -41,6 +50,16 @@ public interface SceneEditor extends IEditorPart, ISelectionProvider
      * @return The <code>EditingMode</code> used to manipulate the <code>Scene</code>.
      */
     EditingMode getEditingMode();
+
+    /**
+     * <p>
+     * Retrieves the {@link com.se.simplicity.rendering.ProjectionMode ProjectionMode} the {@link com.se.simplicity.scene.Scene Scene} is displayed
+     * with.
+     * </p>
+     * 
+     * @return The <code>ProjectionMode</code> the <code>Scene</code> is displayed with.
+     */
+    ProjectionMode getProjectionMode();
 
     /**
      * <p>

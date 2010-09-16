@@ -67,18 +67,7 @@ public class DrawingModeHandler extends AbstractHandler
         String currentState = event.getParameter(RadioState.PARAMETER_ID);
 
         // Change the Drawing Mode in the model.
-        if (currentState.equals("edges"))
-        {
-            ((SceneEditor) editor).setDrawingMode(DrawingMode.EDGES);
-        }
-        else if (currentState.equals("faces"))
-        {
-            ((SceneEditor) editor).setDrawingMode(DrawingMode.FACES);
-        }
-        else if (currentState.equals("vertices"))
-        {
-            ((SceneEditor) editor).setDrawingMode(DrawingMode.VERTICES);
-        }
+        ((SceneEditor) editor).setDrawingMode(DrawingMode.valueOf(currentState));
 
         // Update UI elements to reflect the change in Drawing Mode.
         HandlerUtil.updateRadioState(event.getCommand(), currentState);
