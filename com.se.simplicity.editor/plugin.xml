@@ -3,10 +3,10 @@
 <plugin>
 
     <extension point="org.eclipse.ui.editors">
-        <editor class="com.se.simplicity.editor.ui.editors.VisualSceneEditor" default="false" extensions="sss" icon="icons/scene_editor.gif"
+        <editor class="com.se.simplicity.editor.ui.editors.VisualSceneEditor" default="false" extensions="sss" icon="icons/scene.gif"
             id="com.se.simplicity.editor.ui.editors.VisualSceneEditor" name="Scene Editor (Visual Only)" />
 
-        <editor class="com.se.simplicity.editor.ui.editors.MultiPageSceneEditor" default="true" extensions="sss" icon="icons/scene_editor.gif"
+        <editor class="com.se.simplicity.editor.ui.editors.MultiPageSceneEditor" default="true" extensions="sss" icon="icons/scene.gif"
             id="com.se.simplicity.editor.ui.editors.MultiPageSceneEditor" name="Scene Editor" />
     </extension>
 
@@ -136,18 +136,18 @@
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="VERTICES" />
                 </command>
             </toolbar>
-            
+
             <toolbar id="com.se.simplicity.editor.toolbars.projection">
                 <visibleWhen checkEnabled="false">
                     <reference definitionId="com.se.simplicity.editor.definition.sceneEditorSelected" />
                 </visibleWhen>
 
-                <command commandId="com.se.simplicity.editor.commands.projection" icon="icons/projection_orthogonal.gif" id="com.se.simplicity.editor.toolbars.visual.projection.orthogonal"
-                    tooltip="Orthogonal" style="radio">
+                <command commandId="com.se.simplicity.editor.commands.projection" icon="icons/projection_orthogonal.gif"
+                    id="com.se.simplicity.editor.toolbars.visual.projection.orthogonal" tooltip="Orthogonal" style="radio">
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="ORTHOGONAL" />
                 </command>
-                <command commandId="com.se.simplicity.editor.commands.projection" icon="icons/projection_perspective.gif" id="com.se.simplicity.editor.toolbars.visual.projection.perspective"
-                    tooltip="Perspective" style="radio">
+                <command commandId="com.se.simplicity.editor.commands.projection" icon="icons/projection_perspective.gif"
+                    id="com.se.simplicity.editor.toolbars.visual.projection.perspective" tooltip="Perspective" style="radio">
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="PERSPECTIVE" />
                 </command>
             </toolbar>
@@ -161,12 +161,12 @@
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
             <state class="org.eclipse.ui.handlers.RadioState:FACES" id="org.eclipse.ui.commands.radioState" />
         </command>
-        
+
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.edit" name="Editing Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
             <state class="org.eclipse.ui.handlers.RadioState:SELECTION" id="org.eclipse.ui.commands.radioState" />
         </command>
-        
+
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.projection" name="Projection Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
             <state class="org.eclipse.ui.handlers.RadioState:PERSPECTIVE" id="org.eclipse.ui.commands.radioState" />
@@ -180,9 +180,9 @@
 
     <extension point="org.eclipse.ui.handlers">
         <handler class="com.se.simplicity.editor.handlers.DrawingModeHandler" commandId="com.se.simplicity.editor.commands.draw" />
-        
+
         <handler class="com.se.simplicity.editor.handlers.EditingModeHandler" commandId="com.se.simplicity.editor.commands.edit" />
-        
+
         <handler class="com.se.simplicity.editor.handlers.ProjectionModeHandler" commandId="com.se.simplicity.editor.commands.projection" />
 
         <handler class="com.se.simplicity.editor.handlers.SelectionModeHandler" commandId="com.se.simplicity.editor.commands.select" />
@@ -192,6 +192,9 @@
         <content-type id="com.se.simplicity.editor.sss" name="Simple Scene Source" base-type="org.eclipse.core.runtime.xml"
             file-extensions="sss" />
         <content-type id="com.se.simplicity.editor.ssb" name="Simple Scene Binary" file-extensions="ssb" />
+        <content-type id="com.se.simplicity.editor.sms" name="Simple Model Source" base-type="org.eclipse.core.runtime.xml"
+            file-extensions="sms" />
+        <content-type id="com.se.simplicity.editor.smb" name="Simple Model Binary" file-extensions="smb" />
     </extension>
 
     <extension point="org.eclipse.core.expressions.definitions">
@@ -200,6 +203,17 @@
                 <instanceof value="com.se.simplicity.editor.ui.editors.SceneEditor" />
             </with>
         </definition>
+    </extension>
+
+    <extension point="org.eclipse.ui.importWizards">
+        <category id="com.se.simplicity.editor.importwizards.sampleCategory" name="Simple Eddy">
+        </category>
+        <wizard category="com.se.simplicity.editor.importwizards.sampleCategory" class="com.se.simplicity.editor.importwizards.ModelImportWizard"
+            icon="icons/scene.gif" id="com.se.simplicity.editor.importwizards.ModelImportWizard" name="Model">
+            <description>
+                Import a file from the local file system into the workspace.
+          </description>
+        </wizard>
     </extension>
 
 </plugin>
