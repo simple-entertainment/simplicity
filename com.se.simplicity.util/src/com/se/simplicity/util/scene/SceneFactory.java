@@ -31,9 +31,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
-import com.se.simplicity.model.ArrayVG;
-import com.se.simplicity.model.ModelConstants;
-import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Light;
 import com.se.simplicity.rendering.LightingMode;
@@ -50,6 +47,7 @@ import com.se.simplicity.util.metadata.scene.MetaDataScene;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataModelNode;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 import com.se.simplicity.util.metadata.scenegraph.MetaDataSceneGraph;
+import com.se.simplicity.util.model.ModelFactory;
 import com.se.simplicity.vector.ArrayBackedObjectf;
 import com.se.simplicity.vector.TransformationMatrixf;
 import com.se.simplicity.vector.TranslationVectorf;
@@ -63,6 +61,20 @@ import com.se.simplicity.vector.TranslationVectorf;
  */
 public final class SceneFactory
 {
+    /**
+     * <p>
+     * The minimum number of items that a a translation can be created from.
+     * </p>
+     */
+    private static final int MINIMUM_ITEMS_IN_TRANSLATION = 3;
+
+    /**
+     * <p>
+     * The minimum number of items that a a rotation can be created from.
+     * </p>
+     */
+    private static final int MINIMUM_ITEMS_IN_ROTATION = 3;
+
     /**
      * <p>
      * Creates an instance of a <code>Camera</code> from a serialised source representation.
@@ -431,10 +443,13 @@ public final class SceneFactory
             {
                 performTransformationFromSource(contentElement, node);
             }
-            if (contentElement.getAttribute("type").equals("model"))
-            {
-                ((ModelNode) node).setModel(createModelFromSource(contentElement));
-            }
+        }
+
+        // Add a Model to the Node if one was specified.
+        Element modelElement = (Element) nodeElement.getElementsByTagName("model").item(0);
+        if (modelElement != null)
+        {
+            ((ModelNode) node).setModel(ModelFactory.createModelFromSource(modelElement));
         }
 
         return (node);
@@ -604,7 +619,7 @@ public final class SceneFactory
 
         if (node instanceof ModelNode)
         {
-            nodeElement.appendChild(createSourceFromModel(document, ((ModelNode) node).getModel()));
+            nodeElement.appendChild(ModelFactory.createSourceFromModel(document, ((ModelNode) node).getModel()));
         }
 
         return (nodeElement);
@@ -662,46 +677,6 @@ public final class SceneFactory
 
     /**
      * <p>
-     * Creates a serialised source representation from an instance of a <code>Model</code>.
-     * </p>
-     * 
-     * @param document The document the serialised source representation will be included in.
-     * @param model The <code>Model</code> to create a serialised source representation from.
-     * 
-     * @return The serialised source representation created from the <code>Model</code>.
-     */
-    private static Element createSourceFromModel(final Document document, final Model model)
-    {
-        Element vertexGroupElement = document.createElement("content");
-        vertexGroupElement.setAttribute("type", "model");
-        vertexGroupElement.setAttribute("class", model.getClass().getName());
-
-        if (model instanceof ArrayVG)
-        {
-            float[] colours = ((ArrayVG) model).getColours();
-            float[] normals = ((ArrayVG) model).getNormals();
-            float[] vertices = ((ArrayVG) model).getVertices();
-            float[] tempArray = new float[3];
-
-            for (int vertexIndex = 0; vertexIndex < vertices.length / 3; vertexIndex++)
-            {
-                Element vertexElement = document.createElement("vertex");
-                vertexGroupElement.appendChild(vertexElement);
-
-                System.arraycopy(colours, vertexIndex * 3, tempArray, 0, 3);
-                vertexElement.setAttribute("colour", getCommaSeparatedList(tempArray));
-                System.arraycopy(normals, vertexIndex * 3, tempArray, 0, 3);
-                vertexElement.setAttribute("normal", getCommaSeparatedList(tempArray));
-                System.arraycopy(vertices, vertexIndex * 3, tempArray, 0, 3);
-                vertexElement.setAttribute("vertex", getCommaSeparatedList(tempArray));
-            }
-        }
-
-        return (vertexGroupElement);
-    }
-
-    /**
-     * <p>
      * Creates a subgraph of <code>Node</code>s from a serialised source representation.
      * </p>
      * 
@@ -726,67 +701,6 @@ public final class SceneFactory
         }
 
         return (node);
-    }
-
-    /**
-     * <p>
-     * Creates a <code>Model</code> from a serialised source representation.
-     * </p>
-     * 
-     * @param modelElement The serialised source representation of the root <code>Model</code> of the subgraph.
-     * 
-     * @return The instance of a <code>Model</code> created from a serialised source representation.
-     */
-    private static Model createModelFromSource(final Element modelElement)
-    {
-        // Check that a class was specified.
-        if (modelElement.getAttribute("class").isEmpty())
-        {
-            throw new IllegalArgumentException("Invalid Model definition: Does not specify a class.");
-        }
-
-        Model model = null;
-        try
-        {
-            model = (Model) Class.forName(modelElement.getAttribute("class")).newInstance();
-        }
-        catch (Exception e)
-        {
-            throw new IllegalArgumentException("Invalid Model definition: Specifies an invalid class.", e);
-        }
-
-        if (model instanceof ArrayVG)
-        {
-            // Retrieve the vertex data.
-            NodeList verticesElement = modelElement.getElementsByTagName("vertex");
-            int vertexCount = verticesElement.getLength();
-
-            // Create arrays to contain all vertex data.
-            float[] colours = new float[vertexCount * ModelConstants.ITEMS_IN_CNV];
-            float[] normals = new float[vertexCount * ModelConstants.ITEMS_IN_CNV];
-            float[] vertices = new float[vertexCount * ModelConstants.ITEMS_IN_CNV];
-
-            // For every vertex to be added to the Vertex Group.
-            for (int index = 0; index < vertexCount; index++)
-            {
-                // Retrieve the individual vertex data.
-                Element vertexElement = (Element) verticesElement.item(index);
-                float[] vertexColours = getFloatArray(vertexElement.getAttribute("colour"));
-                float[] vertexNormals = getFloatArray(vertexElement.getAttribute("normal"));
-                float[] vertexVertices = getFloatArray(vertexElement.getAttribute("vertex"));
-
-                // Copy the vertex data to the Vertex Group arrays.
-                System.arraycopy(vertexColours, 0, colours, index * ModelConstants.ITEMS_IN_CNV, vertexColours.length);
-                System.arraycopy(vertexNormals, 0, normals, index * ModelConstants.ITEMS_IN_CNV, vertexNormals.length);
-                System.arraycopy(vertexVertices, 0, vertices, index * ModelConstants.ITEMS_IN_CNV, vertexVertices.length);
-            }
-
-            ((ArrayVG) model).setColours(colours);
-            ((ArrayVG) model).setNormals(normals);
-            ((ArrayVG) model).setVertices(vertices);
-        }
-
-        return (model);
     }
 
     /**
@@ -834,10 +748,8 @@ public final class SceneFactory
      * 
      * @param nodes The list to check the <code>Node</code> against.
      * @param newNode The <code>Node</code> to check.
-     * 
-     * @throws IllegalArgumentException Thrown if the check fails.
      */
-    private static void duplicateNodeCheck(final List<Node> nodes, final MetaDataNode newNode) throws IllegalArgumentException
+    private static void duplicateNodeCheck(final List<Node> nodes, final MetaDataNode newNode)
     {
         for (Node node : nodes)
         {
@@ -1047,7 +959,7 @@ public final class SceneFactory
         if (translationElement != null)
         {
             float[] translationArray = getFloatArray(translationElement.getAttribute("vector"));
-            if (translationArray.length < 3)
+            if (translationArray.length < MINIMUM_ITEMS_IN_TRANSLATION)
             {
                 throw new IllegalArgumentException("Invalid Translation: Does not specify X, Y and Z translation values.");
             }
@@ -1064,7 +976,7 @@ public final class SceneFactory
         if (rotationElement != null)
         {
             float[] axisAnglesArray = getFloatArray(rotationElement.getAttribute("axisAngles"));
-            if (axisAnglesArray.length < 3)
+            if (axisAnglesArray.length < MINIMUM_ITEMS_IN_ROTATION)
             {
                 throw new IllegalArgumentException("Invalid Translation: Does not specify X, Y and Z rotation values.");
             }
@@ -1241,6 +1153,14 @@ public final class SceneFactory
         }
     }
 
+    /**
+     * <p>
+     * Updates the given <code>SceneGraph</code> from a serialised source representation.
+     * </p>
+     * 
+     * @param sceneGraph The <code>SceneGraph</code> to update.
+     * @param sceneGraphElement The serialised source representation of the <code>SceneGraph</code>.
+     */
     private static void updateSceneGraphFromSource(final SceneGraph sceneGraph, final Element sceneGraphElement)
     {
         List<Node> subgraphRoots = sceneGraph.getSubgraphRoots();
@@ -1287,6 +1207,15 @@ public final class SceneFactory
         }
     }
 
+    /**
+     * <p>
+     * Updates the subgraph with the given root <code>Node</code> in the given <code>SceneGraph</code> from a new version of the subgraph.
+     * </p>
+     * 
+     * @param sceneGraph The <code>SceneGraph</code> containing the subgraph to update.
+     * @param subgraphRoot The root <code>Node</code> of the existing subgraph.
+     * @param newSubgraphRoot The root <code>Node</code> of the new version of the subgraph.
+     */
     private static void updateSubgraphFromSource(final SceneGraph sceneGraph, final Node subgraphRoot, final Node newSubgraphRoot)
     {
         List<Node> subgraphChildren = subgraphRoot.getChildren();
