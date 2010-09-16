@@ -80,7 +80,7 @@ public class SelectionModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "edges");
+        parameters.put(RadioState.PARAMETER_ID, "EDGES");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
@@ -88,11 +88,11 @@ public class SelectionModeHandlerTest
         expect(mockSceneEditor.getSelection()).andStubReturn(mockSelection);
         expect(mockSelection.isEmpty()).andStubReturn(false);
         expect(mockSelection.getSceneComponent()).andStubReturn(createMock(ModelNode.class));
-        expect(mockState.getValue()).andStubReturn("model");
+        expect(mockState.getValue()).andStubReturn("MODEL");
         replay(mockContext, mockSceneEditor, mockSelection);
 
         // Dictate expected results.
-        mockState.setValue("edges");
+        mockState.setValue("EDGES");
         replay(mockState);
 
         // Perform test.
@@ -120,7 +120,7 @@ public class SelectionModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "faces");
+        parameters.put(RadioState.PARAMETER_ID, "FACES");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
@@ -128,11 +128,11 @@ public class SelectionModeHandlerTest
         expect(mockSceneEditor.getSelection()).andStubReturn(mockSelection);
         expect(mockSelection.isEmpty()).andStubReturn(false);
         expect(mockSelection.getSceneComponent()).andStubReturn(createMock(ModelNode.class));
-        expect(mockState.getValue()).andStubReturn("model");
+        expect(mockState.getValue()).andStubReturn("MODEL");
         replay(mockContext, mockSceneEditor, mockSelection);
 
         // Dictate expected results.
-        mockState.setValue("faces");
+        mockState.setValue("FACES");
         replay(mockState);
 
         // Perform test.
@@ -159,16 +159,16 @@ public class SelectionModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "model");
+        parameters.put(RadioState.PARAMETER_ID, "MODEL");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("faces");
+        expect(mockState.getValue()).andStubReturn("FACES");
         replay(mockContext);
 
         // Dictate expected results.
-        mockState.setValue("model");
+        mockState.setValue("MODEL");
         replay(mockState);
 
         // Perform test.
@@ -195,12 +195,12 @@ public class SelectionModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "model");
+        parameters.put(RadioState.PARAMETER_ID, "MODEL");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("model");
+        expect(mockState.getValue()).andStubReturn("MODEL");
         replay(mockContext);
 
         // Dictate expected results.
@@ -256,7 +256,7 @@ public class SelectionModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "vertices");
+        parameters.put(RadioState.PARAMETER_ID, "VERTICES");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
@@ -264,11 +264,11 @@ public class SelectionModeHandlerTest
         expect(mockSceneEditor.getSelection()).andStubReturn(mockSelection);
         expect(mockSelection.isEmpty()).andStubReturn(false);
         expect(mockSelection.getSceneComponent()).andStubReturn(createMock(ModelNode.class));
-        expect(mockState.getValue()).andStubReturn("model");
+        expect(mockState.getValue()).andStubReturn("MODEL");
         replay(mockContext, mockSceneEditor, mockSelection);
 
         // Dictate expected results.
-        mockState.setValue("vertices");
+        mockState.setValue("VERTICES");
         replay(mockState);
 
         // Perform test.

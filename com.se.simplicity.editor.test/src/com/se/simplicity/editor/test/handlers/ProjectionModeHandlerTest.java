@@ -79,17 +79,17 @@ public class ProjectionModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "orthogonal");
+        parameters.put(RadioState.PARAMETER_ID, "ORTHOGONAL");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("perspective");
+        expect(mockState.getValue()).andStubReturn("PERSPECTIVE");
         replay(mockContext);
 
         // Dictate expected results.
         mockSceneEditor.setProjectionMode(ProjectionMode.ORTHOGONAL);
-        mockState.setValue("orthogonal");
+        mockState.setValue("ORTHOGONAL");
         replay(mockSceneEditor, mockState);
 
         // Perform test.
@@ -119,17 +119,17 @@ public class ProjectionModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "perspective");
+        parameters.put(RadioState.PARAMETER_ID, "PERSPECTIVE");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("orthogonal");
+        expect(mockState.getValue()).andStubReturn("ORTHOGONAL");
         replay(mockContext);
 
         // Dictate expected results.
         mockSceneEditor.setProjectionMode(ProjectionMode.PERSPECTIVE);
-        mockState.setValue("perspective");
+        mockState.setValue("PERSPECTIVE");
         replay(mockSceneEditor, mockState);
 
         // Perform test.
@@ -159,12 +159,12 @@ public class ProjectionModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "perspective");
+        parameters.put(RadioState.PARAMETER_ID, "PERSPECTIVE");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("perspective");
+        expect(mockState.getValue()).andStubReturn("PERSPECTIVE");
         replay(mockContext);
 
         // Dictate expected results.

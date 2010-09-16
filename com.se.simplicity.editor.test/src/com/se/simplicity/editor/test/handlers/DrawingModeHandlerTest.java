@@ -79,17 +79,17 @@ public class DrawingModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "edges");
+        parameters.put(RadioState.PARAMETER_ID, "EDGES");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("faces");
+        expect(mockState.getValue()).andStubReturn("FACES");
         replay(mockContext);
 
         // Dictate expected results.
         mockSceneEditor.setDrawingMode(DrawingMode.EDGES);
-        mockState.setValue("edges");
+        mockState.setValue("EDGES");
         replay(mockSceneEditor, mockState);
 
         // Perform test.
@@ -119,17 +119,17 @@ public class DrawingModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "faces");
+        parameters.put(RadioState.PARAMETER_ID, "FACES");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("edges");
+        expect(mockState.getValue()).andStubReturn("EDGES");
         replay(mockContext);
 
         // Dictate expected results.
         mockSceneEditor.setDrawingMode(DrawingMode.FACES);
-        mockState.setValue("faces");
+        mockState.setValue("FACES");
         replay(mockSceneEditor, mockState);
 
         // Perform test.
@@ -184,12 +184,12 @@ public class DrawingModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "faces");
+        parameters.put(RadioState.PARAMETER_ID, "FACES");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("faces");
+        expect(mockState.getValue()).andStubReturn("FACES");
         replay(mockContext);
 
         // Dictate expected results.
@@ -222,17 +222,17 @@ public class DrawingModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "vertices");
+        parameters.put(RadioState.PARAMETER_ID, "VERTICES");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("faces");
+        expect(mockState.getValue()).andStubReturn("FACES");
         replay(mockContext);
 
         // Dictate expected results.
         mockSceneEditor.setDrawingMode(DrawingMode.VERTICES);
-        mockState.setValue("vertices");
+        mockState.setValue("VERTICES");
         replay(mockSceneEditor, mockState);
 
         // Perform test.

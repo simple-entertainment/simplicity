@@ -35,6 +35,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -50,6 +51,8 @@ import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.editor.ui.editors.VisualSceneEditor;
 import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
+import com.se.simplicity.rendering.DrawingMode;
+import com.se.simplicity.rendering.ProjectionMode;
 
 /**
  * <p>
@@ -240,6 +243,239 @@ public class VisualSceneEditorTest
         // Verify results.
         assertEquals(1, testObject.getSceneManager().getPickingEngine().getPicks().size(), 0);
         assertEquals(1, testObject.getWidgetManager().getPickingEngine().getPicks().size(), 0);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#restoreState(IMemento) restoreState(IMemento)} with the
+     * special condition that there is a Node selection in the memento.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void restoreStateNodeSelection() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        IMemento mockMemento = createMock(IMemento.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        expect(mockMemento.getString("drawingMode")).andStubReturn("VERTICES");
+        expect(mockMemento.getString("editingMode")).andStubReturn("TRANSLATION");
+        expect(mockMemento.getString("projectionMode")).andStubReturn("ORTHOGONAL");
+        expect(mockMemento.getString("sceneComponentName")).andStubReturn("Triangle");
+        expect(mockMemento.getString("sceneComponentType")).andStubReturn("node");
+        replay(mockInput, mockFile, mockPath, mockMemento);
+
+        // Initialise test environment.
+        testObject.init(mockSite, mockInput);
+
+        // Perform test.
+        testObject.restoreState(mockMemento);
+
+        // Verify results.
+        assertEquals(DrawingMode.VERTICES, testObject.getDrawingMode());
+        assertEquals(EditingMode.TRANSLATION, testObject.getEditingMode());
+        assertEquals(ProjectionMode.ORTHOGONAL, testObject.getProjectionMode());
+        assertEquals(testObject.getScene().getSceneGraph().getNode(3), ((SceneSelection) testObject.getSelection()).getSceneComponent());
+        assertNull(((SceneSelection) testObject.getSelection()).getPrimitive());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#restoreState(IMemento) restoreState(IMemento)} with the
+     * special condition that there is no memento.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void restoreStateNoMemento() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        replay(mockInput, mockFile, mockPath);
+
+        // Initialise test environment.
+        testObject.init(mockSite, mockInput);
+
+        // Perform test.
+        testObject.restoreState(null);
+
+        // Verify results.
+        assertEquals(DrawingMode.FACES, testObject.getDrawingMode());
+        assertEquals(EditingMode.SELECTION, testObject.getEditingMode());
+        assertEquals(ProjectionMode.PERSPECTIVE, testObject.getProjectionMode());
+        assertNull(((SceneSelection) testObject.getSelection()).getSceneComponent());
+        assertNull(((SceneSelection) testObject.getSelection()).getPrimitive());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#restoreState(IMemento) restoreState(IMemento)} with the
+     * special condition that there is no selection in the memento.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void restoreStateNoSelection() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        IMemento mockMemento = createMock(IMemento.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        expect(mockMemento.getString("drawingMode")).andStubReturn("VERTICES");
+        expect(mockMemento.getString("editingMode")).andStubReturn("TRANSLATION");
+        expect(mockMemento.getString("projectionMode")).andStubReturn("ORTHOGONAL");
+        expect(mockMemento.getString("sceneComponentType")).andStubReturn("");
+        expect(mockMemento.getString("sceneComponentName")).andStubReturn("");
+        replay(mockInput, mockFile, mockPath, mockMemento);
+
+        // Initialise test environment.
+        testObject.init(mockSite, mockInput);
+
+        // Perform test.
+        testObject.restoreState(mockMemento);
+
+        // Verify results.
+        assertEquals(DrawingMode.VERTICES, testObject.getDrawingMode());
+        assertEquals(EditingMode.TRANSLATION, testObject.getEditingMode());
+        assertEquals(ProjectionMode.ORTHOGONAL, testObject.getProjectionMode());
+        assertNull(((SceneSelection) testObject.getSelection()).getSceneComponent());
+        assertNull(((SceneSelection) testObject.getSelection()).getPrimitive());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#saveState(IMemento) saveState(IMemento)} with the special
+     * condition that there is no selection.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void saveStateNoSelection() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        IMemento mockMemento = createMock(IMemento.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        replay(mockInput, mockFile, mockPath);
+
+        // Initialise test environment.
+        testObject.init(mockSite, mockInput);
+        testObject.setDrawingMode(DrawingMode.VERTICES);
+        testObject.setEditingMode(EditingMode.TRANSLATION);
+        testObject.setProjectionMode(ProjectionMode.ORTHOGONAL);
+
+        // Dictate expected results.
+        mockMemento.putString("drawingMode", "VERTICES");
+        mockMemento.putString("editingMode", "TRANSLATION");
+        mockMemento.putString("projectionMode", "ORTHOGONAL");
+        mockMemento.putString("sceneComponentName", "");
+        mockMemento.putString("sceneComponentType", "");
+        replay(mockMemento);
+
+        // Perform test.
+        testObject.saveState(mockMemento);
+
+        // Verify test results.
+        verify(mockMemento);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#saveState(IMemento) saveState(IMemento)} with the special
+     * condition that there is selection.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void saveStateSelection() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        IMemento mockMemento = createMock(IMemento.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        replay(mockInput, mockFile, mockPath);
+
+        // Initialise test environment.
+        testObject.init(mockSite, mockInput);
+        testObject.setDrawingMode(DrawingMode.VERTICES);
+        testObject.setEditingMode(EditingMode.TRANSLATION);
+        testObject.setProjectionMode(ProjectionMode.ORTHOGONAL);
+        testObject.setSelection(new SceneSelection(testObject.getScene().getSceneGraph().getNode(3), null));
+
+        // Dictate expected results.
+        mockMemento.putString("drawingMode", "VERTICES");
+        mockMemento.putString("editingMode", "TRANSLATION");
+        mockMemento.putString("projectionMode", "ORTHOGONAL");
+        mockMemento.putString("sceneComponentName", "Triangle");
+        mockMemento.putString("sceneComponentType", "node");
+        replay(mockMemento);
+
+        // Perform test.
+        testObject.saveState(mockMemento);
+
+        // Verify test results.
+        verify(mockMemento);
     }
 
     /**
@@ -476,14 +712,14 @@ public class VisualSceneEditorTest
     /**
      * <p>
      * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setSelection(ISelection) setSelection(ISelection)} with the
-     * special condition that the selection is a pair of PickSelections and the selection originating from a Widget pick is empty.
+     * special condition that the selection is a pair of PickSelections and the both selections are empty.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
      * @throws FileNotFoundException Thrown if the source file cannot be found.
      */
     @Test
-    public void setSelectionPickSelectionWidgetEmpty() throws FileNotFoundException, CoreException
+    public void setSelectionPickSelectionBothEmpty() throws FileNotFoundException, CoreException
     {
         // Create dependencies.
         IEditorSite mockSite = createMock(IEditorSite.class);
@@ -496,7 +732,6 @@ public class VisualSceneEditorTest
         PickSelection mockSelection0 = createMock(PickSelection.class);
         PickSelection mockSelection1 = createMock(PickSelection.class);
         Node mockNode = createMock(Node.class);
-        Node mockNode1 = createMock(Node.class);
 
         // Dictate correct behaviour.
         expect(mockInput.getName()).andStubReturn("triangle.xml");
@@ -510,8 +745,8 @@ public class VisualSceneEditorTest
         expect(mockSelection0.isEmpty()).andReturn(true);
         expect(mockSelection0.getSceneComponent()).andStubReturn(null);
         expect(mockSelection1.getSource()).andStubReturn(PickSelectionSource.SCENE_PICK);
-        expect(mockSelection1.isEmpty()).andReturn(false);
-        expect(mockSelection1.getSceneComponent()).andStubReturn(mockNode1);
+        expect(mockSelection1.isEmpty()).andReturn(true);
+        expect(mockSelection1.getSceneComponent()).andStubReturn(null);
         replay(mockInput, mockFile, mockPath, mockSelection, mockSelection0, mockSelection1);
 
         // Initialise test environment.
@@ -531,7 +766,7 @@ public class VisualSceneEditorTest
         // Verify results.
         verify(mockListener);
 
-        assertEquals(mockNode1, ((SceneSelection) testObject.getSelection()).getSceneComponent());
+        assertNull(((SceneSelection) testObject.getSelection()).getSceneComponent());
     }
 
     /**
@@ -598,14 +833,14 @@ public class VisualSceneEditorTest
     /**
      * <p>
      * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setSelection(ISelection) setSelection(ISelection)} with the
-     * special condition that the selection is a pair of PickSelections and the both selections are empty.
+     * special condition that the selection is a pair of PickSelections and the selection originating from a Widget pick is empty.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
      * @throws FileNotFoundException Thrown if the source file cannot be found.
      */
     @Test
-    public void setSelectionPickSelectionBothEmpty() throws FileNotFoundException, CoreException
+    public void setSelectionPickSelectionWidgetEmpty() throws FileNotFoundException, CoreException
     {
         // Create dependencies.
         IEditorSite mockSite = createMock(IEditorSite.class);
@@ -618,6 +853,7 @@ public class VisualSceneEditorTest
         PickSelection mockSelection0 = createMock(PickSelection.class);
         PickSelection mockSelection1 = createMock(PickSelection.class);
         Node mockNode = createMock(Node.class);
+        Node mockNode1 = createMock(Node.class);
 
         // Dictate correct behaviour.
         expect(mockInput.getName()).andStubReturn("triangle.xml");
@@ -631,8 +867,8 @@ public class VisualSceneEditorTest
         expect(mockSelection0.isEmpty()).andReturn(true);
         expect(mockSelection0.getSceneComponent()).andStubReturn(null);
         expect(mockSelection1.getSource()).andStubReturn(PickSelectionSource.SCENE_PICK);
-        expect(mockSelection1.isEmpty()).andReturn(true);
-        expect(mockSelection1.getSceneComponent()).andStubReturn(null);
+        expect(mockSelection1.isEmpty()).andReturn(false);
+        expect(mockSelection1.getSceneComponent()).andStubReturn(mockNode1);
         replay(mockInput, mockFile, mockPath, mockSelection, mockSelection0, mockSelection1);
 
         // Initialise test environment.
@@ -652,6 +888,6 @@ public class VisualSceneEditorTest
         // Verify results.
         verify(mockListener);
 
-        assertNull(((SceneSelection) testObject.getSelection()).getSceneComponent());
+        assertEquals(mockNode1, ((SceneSelection) testObject.getSelection()).getSceneComponent());
     }
 }

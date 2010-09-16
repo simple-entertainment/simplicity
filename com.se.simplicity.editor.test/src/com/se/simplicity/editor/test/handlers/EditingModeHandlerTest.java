@@ -81,19 +81,19 @@ public class EditingModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "rotation");
+        parameters.put(RadioState.PARAMETER_ID, "ROTATION");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
         expect(mockSceneEditor.getSelection()).andStubReturn(mockSelection);
         expect(mockSelection.isEmpty()).andStubReturn(false);
-        expect(mockState.getValue()).andStubReturn("selection");
+        expect(mockState.getValue()).andStubReturn("SELECTION");
         replay(mockSelection, mockContext);
 
         // Dictate expected results.
         mockSceneEditor.setEditingMode(EditingMode.ROTATION);
-        mockState.setValue("rotation");
+        mockState.setValue("ROTATION");
         replay(mockSceneEditor, mockState);
 
         // Perform test.
@@ -148,12 +148,12 @@ public class EditingModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "selection");
+        parameters.put(RadioState.PARAMETER_ID, "SELECTION");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("selection");
+        expect(mockState.getValue()).andStubReturn("SELECTION");
         replay(mockContext);
 
         // Dictate expected results.
@@ -186,17 +186,17 @@ public class EditingModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "selection");
+        parameters.put(RadioState.PARAMETER_ID, "SELECTION");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
-        expect(mockState.getValue()).andStubReturn("rotation");
+        expect(mockState.getValue()).andStubReturn("ROTATION");
         replay(mockContext);
 
         // Dictate expected results.
         mockSceneEditor.setEditingMode(EditingMode.SELECTION);
-        mockState.setValue("selection");
+        mockState.setValue("SELECTION");
         replay(mockSceneEditor, mockState);
 
         // Perform test.
@@ -227,19 +227,19 @@ public class EditingModeHandlerTest
         State mockState = createMock(State.class);
         command.addState(RadioState.STATE_ID, mockState);
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put(RadioState.PARAMETER_ID, "translation");
+        parameters.put(RadioState.PARAMETER_ID, "TRANSLATION");
         ExecutionEvent event = new ExecutionEvent(command, parameters, null, mockContext);
 
-        // Dictate correct behaviour.
+        // Dictate correct behaviour.translation
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
         expect(mockSceneEditor.getSelection()).andStubReturn(mockSelection);
         expect(mockSelection.isEmpty()).andStubReturn(false);
-        expect(mockState.getValue()).andStubReturn("selection");
+        expect(mockState.getValue()).andStubReturn("SELECTION");
         replay(mockContext, mockSelection);
 
         // Dictate expected results.
         mockSceneEditor.setEditingMode(EditingMode.TRANSLATION);
-        mockState.setValue("translation");
+        mockState.setValue("TRANSLATION");
         replay(mockSceneEditor, mockState);
 
         // Perform test.
