@@ -387,7 +387,7 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
             // If the previous Widget pick was not accepted, accept the pick.
             if (!fWidgetPickSuccessful)
             {
-                sceneSelection = new SceneSelection(selection.getSceneComponent(), null);
+                sceneSelection = new SceneSelection(selection.getSceneComponent(), selection.getPrimitive());
             }
         }
 
