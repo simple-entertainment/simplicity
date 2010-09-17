@@ -9,7 +9,7 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.importwizards;
+package com.se.simplicity.editor.wizards;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -62,7 +62,7 @@ public class ModelImportWizardPage extends WizardNewFileCreationPage
     {
         super(pageName, selection);
         setTitle(pageName);
-        setDescription("Import a Model in an external format into the workspace as a Model with a format compatable with The Simplicity Engine.");
+        setDescription("Import a Model in an external format.");
     }
 
     @Override
@@ -85,7 +85,7 @@ public class ModelImportWizardPage extends WizardNewFileCreationPage
             public void modifyText(final ModifyEvent e)
             {
                 IPath path = new Path(ModelImportWizardPage.this.editor.getStringValue());
-                setFileName(path.lastSegment());
+                setFileName(path.removeFileExtension().lastSegment() + ".sms");
             }
         });
         String[] extensions = new String[] {"*.obj"};

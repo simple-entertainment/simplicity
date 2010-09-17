@@ -206,13 +206,21 @@
     </extension>
 
     <extension point="org.eclipse.ui.importWizards">
-        <category id="com.se.simplicity.editor.importwizards.sampleCategory" name="Simple Eddy">
+        <category id="com.se.simplicity.editor.wizards.sampleCategory" name="Simple Eddy">
         </category>
-        <wizard category="com.se.simplicity.editor.importwizards.sampleCategory" class="com.se.simplicity.editor.importwizards.ModelImportWizard"
-            icon="icons/scene.gif" id="com.se.simplicity.editor.importwizards.ModelImportWizard" name="Model">
+        <wizard category="com.se.simplicity.editor.wizards.sampleCategory" class="com.se.simplicity.editor.wizards.ModelImportWizard" icon="icons/scene.gif"
+            id="com.se.simplicity.editor.wizards.ModelImportWizard" name="Model">
             <description>
                 Import a file from the local file system into the workspace.
           </description>
+        </wizard>
+    </extension>
+
+    <extension point="org.eclipse.ui.newWizards">
+        <category id="com.se.simplicity.editor" name="Simple Eddy">
+        </category>
+        <wizard category="com.se.simplicity.editor" class="com.se.simplicity.editor.wizards.NewSceneWizard" icon="icons/scene.gif"
+            id="com.se.simplicity.editor.wizards.NewSceneWizard" name="Scene">
         </wizard>
     </extension>
 

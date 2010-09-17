@@ -9,7 +9,7 @@
 
     You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.simplicity.editor.importwizards;
+package com.se.simplicity.editor.wizards;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -28,7 +28,7 @@ public class ModelImportWizard extends Wizard implements IImportWizard
 {
     /**
      * <p>
-     * The main page of the mizard.
+     * The main page of the wizard.
      * </p>
      */
     private ModelImportWizardPage mainPage;
@@ -44,15 +44,10 @@ public class ModelImportWizard extends Wizard implements IImportWizard
     }
 
     @Override
-    public boolean performFinish()
+    public void addPages()
     {
-        IFile file = mainPage.createNewFile();
-        if (file == null)
-        {
-            return false;
-        }
-
-        return true;
+        super.addPages();
+        addPage(mainPage);
     }
 
     @Override
@@ -64,9 +59,14 @@ public class ModelImportWizard extends Wizard implements IImportWizard
     }
 
     @Override
-    public void addPages()
+    public boolean performFinish()
     {
-        super.addPages();
-        addPage(mainPage);
+        IFile file = mainPage.createNewFile();
+        if (file == null)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
