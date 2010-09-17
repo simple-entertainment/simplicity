@@ -44,6 +44,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.SceneManager;
 import com.se.simplicity.editor.internal.ScenePickListener;
+import com.se.simplicity.editor.internal.SelectionMode;
 import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.editor.internal.WidgetPickListener;
 import com.se.simplicity.editor.internal.engine.DisplayAsyncJOGLCompositeEngine;
@@ -100,6 +101,13 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
 
     /**
      * <p>
+     * Determines if this <code>VisualSceneEditor</code> is initialised.
+     * </p>
+     */
+    private boolean fIsInitialised;
+
+    /**
+     * <p>
      * The {@link com.se.simplicity.rendering.ProjectionMode ProjectionMode} the {@link com.se.simplicity.scene.Scene Scene} is displayed with.
      * </p>
      */
@@ -143,6 +151,13 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
 
     /**
      * <p>
+     * The {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     * </p>
+     */
+    private SelectionMode fSelectionMode;
+
+    /**
+     * <p>
      * Determines whether the aspect ratio of the {@link com.se.simplicity.rendering.Camera Camera} is synchronised with the aspect ratio of the
      * viewport.
      * </p>
@@ -166,13 +181,6 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
 
     /**
      * <p>
-     * Determines if this <code>VisualSceneEditor</code> is initialised.
-     * </p>
-     */
-    private boolean fIsInitialised;
-
-    /**
-     * <p>
      * Creates an instance of <code>VisualSceneEditor</code>.
      * </p>
      */
@@ -188,7 +196,7 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         fRenderingEngine = null;
         fSelection = new SceneSelection(null, null);
         fSelectionChangedListeners = new ArrayList<ISelectionChangedListener>();
-        // fSelectionMode = SelectionMode.MODEL;
+        fSelectionMode = SelectionMode.MODEL;
         fScene = null;
         fSceneManager = null;
         fSyncCameraAspectRatio = true;
@@ -369,7 +377,7 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
             else
             {
                 fWidgetPickSuccessful = true;
-                sceneSelection = new SceneSelection(selection.getSceneComponent(), null);
+                sceneSelection = new SceneSelection(selection.getSceneComponent(), selection.getPrimitive());
             }
         }
 
@@ -384,6 +392,12 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         }
 
         return (sceneSelection);
+    }
+
+    @Override
+    public SelectionMode getSelectionMode()
+    {
+        return (fSelectionMode);
     }
 
     @Override
@@ -536,8 +550,8 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         Command projectionMode = commandService.getCommand("com.se.simplicity.editor.commands.projection");
         projectionMode.getState("org.eclipse.ui.commands.radioState").setValue(fProjectionMode.toString());
 
-        // Command selectionMode = commandService.getCommand("com.se.simplicity.editor.commands.select");
-        // setSelectionMode(SelectionMode.valueOf((String) selectionMode.getState("org.eclipse.ui.commands.radioState").getValue()));
+        Command selectionMode = commandService.getCommand("com.se.simplicity.editor.commands.select");
+        selectionMode.getState("org.eclipse.ui.commands.radioState").setValue(fSelectionMode.toString());
     }
 
     @Override
@@ -560,7 +574,7 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
             fProjectionMode = ProjectionMode.valueOf(memento.getString("projectionMode"));
 
             // Restore Selection Mode.
-            // setSelectionMode(SelectionMode.valueOf(memento.getString("selectionMode")));
+            fSelectionMode = SelectionMode.valueOf(memento.getString("selectionMode"));
 
             // Restore selection.
             Object sceneComponent = null;
@@ -605,7 +619,7 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         setDrawingMode(fDrawingMode);
         setEditingMode(fEditingMode);
         setProjectionMode(fProjectionMode);
-        // setSelectionMode(fSelectionMode);
+        setSelectionMode(fSelectionMode);
 
         // This check is required for unit testing... unfortunately...
         if (PlatformUI.isWorkbenchRunning())
@@ -627,7 +641,7 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         memento.putString("projectionMode", fProjectionMode.toString());
 
         // Save Selection Mode.
-        // memento.putString("selectionMode", fSelectionMode.toString());
+        memento.putString("selectionMode", fSelectionMode.toString());
 
         // Save selection.
         if (fSelection.getSceneComponent() != null && fSelection.getSceneComponent() instanceof MetaData)
@@ -661,8 +675,7 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
     {
         if (!(part instanceof SceneEditor) && selection instanceof SceneSelection)
         {
-            fSelection = (SceneSelection) selection;
-            setSelectionInternal(fSelection);
+            setSelectionInternal((SceneSelection) selection);
         }
     }
 
@@ -726,8 +739,7 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         if (tempSelection instanceof SceneSelection)
         {
             // Set the selection internally.
-            fSelection = (SceneSelection) tempSelection;
-            setSelectionInternal(fSelection);
+            setSelectionInternal((SceneSelection) tempSelection);
 
             // Notify listeners.
             SelectionChangedEvent event = new SelectionChangedEvent(this, fSelection);
@@ -747,9 +759,19 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
      */
     protected void setSelectionInternal(final SceneSelection selection)
     {
+        fSelection = selection;
+
         // Update managers.
-        fSceneManager.setSelectedSceneComponent(selection.getSceneComponent());
-        fWidgetManager.setSelectedSceneComponent(selection.getSceneComponent());
+        fSceneManager.setSelection(fSelection);
+        fWidgetManager.setSelection(fSelection);
+    }
+
+    @Override
+    public void setSelectionMode(final SelectionMode selectionMode)
+    {
+        fSelectionMode = selectionMode;
+
+        fSceneManager.setSelectionMode(fSelectionMode);
     }
 
     /**

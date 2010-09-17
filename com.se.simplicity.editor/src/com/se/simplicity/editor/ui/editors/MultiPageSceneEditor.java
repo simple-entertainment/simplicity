@@ -28,6 +28,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.SelectionMode;
 import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.rendering.DrawingMode;
@@ -186,6 +187,12 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     }
 
     @Override
+    public SelectionMode getSelectionMode()
+    {
+        return (fVisualEditor.getSelectionMode());
+    }
+
+    @Override
     public WidgetManager getWidgetManager()
     {
         return (fVisualEditor.getWidgetManager());
@@ -266,5 +273,11 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     public void setSelection(final ISelection selection)
     {
         fVisualEditor.setSelection(selection);
+    }
+
+    @Override
+    public void setSelectionMode(final SelectionMode selectionMode)
+    {
+        fVisualEditor.setSelectionMode(selectionMode);
     }
 }

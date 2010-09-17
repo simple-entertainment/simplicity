@@ -19,6 +19,7 @@ import org.eclipse.ui.IEditorPart;
 
 import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.SelectionMode;
 import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.ProjectionMode;
@@ -69,6 +70,15 @@ public interface SceneEditor extends IEditorPart, ISelectionProvider
      * @return The manager for the <code>Scene</code>.
      */
     SceneManager getSceneManager();
+
+    /**
+     * <p>
+     * Retrieves the {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     * </p>
+     * 
+     * @return The <code>SelectionMode</code> to select scene components / primitives with.
+     */
+    SelectionMode getSelectionMode();
 
     /**
      * <p>
@@ -129,4 +139,13 @@ public interface SceneEditor extends IEditorPart, ISelectionProvider
      * @param projectionMode The <code>ProjectionMode</code> the <code>Scene</code> is displayed with.
      */
     void setProjectionMode(ProjectionMode projectionMode);
+
+    /**
+     * <p>
+     * Sets the {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     * </p>
+     * 
+     * @param selectionMode The <code>SelectionMode</code> to select scene components / primitives with.
+     */
+    void setSelectionMode(SelectionMode selectionMode);
 }

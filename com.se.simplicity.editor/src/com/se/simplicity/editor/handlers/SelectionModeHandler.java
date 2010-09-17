@@ -20,6 +20,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.handlers.RadioState;
 
+import com.se.simplicity.editor.internal.SelectionMode;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.scenegraph.model.ModelNode;
@@ -68,7 +69,7 @@ public class SelectionModeHandler extends AbstractHandler
         }
 
         // Change the Selection Mode in the model.
-        // ((SceneEditor) editor).setSelectionMode(SelectionMode.valueOf(currentState));
+        ((SceneEditor) editor).setSelectionMode(SelectionMode.valueOf(currentState));
 
         // Update UI elements to reflect the change in Selection Mode.
         HandlerUtil.updateRadioState(event.getCommand(), currentState);
