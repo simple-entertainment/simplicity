@@ -22,24 +22,24 @@ public class EditorPerspective implements IPerspectiveFactory
 {
     /**
      * <p>
+     * The percentage of the page width to cover with the <code>SceneOutlineView</code>.
+     * </p>
+     */
+    private static final float OUTLINE_PERCENTAGE = 0.75f;
+
+    /**
+     * <p>
      * The percentage of the page width to cover with the Project Explorer view.
      * </p>
      */
-    private static final float PROJECT_EXPLORER_PERCENTAGE = 0.25f;
+    private static final float PROJECT_EXPLORER_PERCENTAGE = 0.2f;
 
     /**
      * <p>
      * The percentage of the page width to cover with the <code>SceneComponentView</code>.
      * </p>
      */
-    private static final float SCENE_COMPONENT_PERCENTAGE = 0.75f;
-
-    /**
-     * <p>
-     * The percentage of the page width to cover with the <code>SceneOutlineView</code>.
-     * </p>
-     */
-    private static final float SCENE_OUTLINE_PERCENTAGE = 0.5f;
+    private static final float PROP_SHEET_PERCENTAGE = 0.5f;
 
     /**
      * <p>
@@ -63,11 +63,11 @@ public class EditorPerspective implements IPerspectiveFactory
         IFolderLayout topLeft = factory.createFolder("topLeft", IPageLayout.LEFT, PROJECT_EXPLORER_PERCENTAGE, factory.getEditorArea());
         topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
 
-        IFolderLayout bottomLeft = factory.createFolder("bottomLeft", IPageLayout.BOTTOM, SCENE_OUTLINE_PERCENTAGE, "topLeft");
-        bottomLeft.addView("com.se.simplicity.editor.ui.views.SceneOutlineView");
+        IFolderLayout topRight = factory.createFolder("topRight", IPageLayout.RIGHT, OUTLINE_PERCENTAGE, factory.getEditorArea());
+        topRight.addView(IPageLayout.ID_OUTLINE);
 
-        IFolderLayout bottom = factory.createFolder("bottomRight", IPageLayout.BOTTOM, SCENE_COMPONENT_PERCENTAGE, factory.getEditorArea());
-        bottom.addView("com.se.simplicity.editor.ui.views.SceneComponentView");
+        IFolderLayout bottomRight = factory.createFolder("bottomRight", IPageLayout.BOTTOM, PROP_SHEET_PERCENTAGE, "topRight");
+        bottomRight.addView(IPageLayout.ID_PROP_SHEET);
     }
 
     @Override
