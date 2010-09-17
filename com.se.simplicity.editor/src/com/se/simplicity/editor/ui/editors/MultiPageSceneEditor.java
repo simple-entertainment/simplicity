@@ -115,7 +115,7 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     {
         try
         {
-            fVisualEditor = new VisualSceneEditor();
+            fVisualEditor = new SceneLoadingVisualSceneEditor();
             int index = addPage(fVisualEditor, getEditorInput());
             setPageText(index, "Visual");
         }

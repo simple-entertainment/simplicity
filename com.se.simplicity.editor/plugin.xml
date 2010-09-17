@@ -3,8 +3,11 @@
 <plugin>
 
     <extension point="org.eclipse.ui.editors">
-        <editor class="com.se.simplicity.editor.ui.editors.VisualSceneEditor" default="false" extensions="sss" icon="icons/scene.gif"
-            id="com.se.simplicity.editor.ui.editors.VisualSceneEditor" name="Scene Editor (Visual Only)" />
+        <editor class="com.se.simplicity.editor.ui.editors.ModelLoadingVisualSceneEditor" default="false" extensions="sms,smb" icon="icons/model.gif"
+            id="com.se.simplicity.editor.ui.editors.ModelLoadingVisualSceneEditor" name="Model Editor (Visual Only)" />
+        
+        <editor class="com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor" default="false" extensions="sss,ssb" icon="icons/scene.gif"
+            id="com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor" name="Scene Editor (Visual Only)" />
 
         <editor class="com.se.simplicity.editor.ui.editors.MultiPageSceneEditor" default="true" extensions="sss" icon="icons/scene.gif"
             id="com.se.simplicity.editor.ui.editors.MultiPageSceneEditor" name="Scene Editor" />
@@ -208,7 +211,7 @@
     <extension point="org.eclipse.ui.importWizards">
         <category id="com.se.simplicity.editor.wizards.sampleCategory" name="Simple Eddy">
         </category>
-        <wizard category="com.se.simplicity.editor.wizards.sampleCategory" class="com.se.simplicity.editor.wizards.ModelImportWizard" icon="icons/scene.gif"
+        <wizard category="com.se.simplicity.editor.wizards.sampleCategory" class="com.se.simplicity.editor.wizards.ModelImportWizard" icon="icons/model.gif"
             id="com.se.simplicity.editor.wizards.ModelImportWizard" name="Model">
             <description>
                 Import a file from the local file system into the workspace.

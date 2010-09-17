@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPersistableEditor;
 import org.eclipse.ui.ISelectionListener;
@@ -67,17 +66,16 @@ import com.se.simplicity.scenegraph.SimpleNode;
 import com.se.simplicity.scenegraph.SimpleTraversal;
 import com.se.simplicity.util.metadata.MetaData;
 import com.se.simplicity.util.metadata.scene.MetaDataScene;
-import com.se.simplicity.util.scene.SceneFactory;
 import com.se.simplicity.vector.SimpleTranslationVectorf4;
 
 /**
  * <p>
- * An eclipse editor that displays a <code>Scene</code> visually on a 3D canvas using the JOGL rendering environment.
+ * An eclipse editor that displays a {@link com.se.simplicity.scene.Scene Scene} visually on a 3D canvas using the JOGL rendering environment.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelectionListener, IPersistableEditor
+public abstract class VisualSceneEditor extends EditorPart implements SceneEditor, ISelectionListener, IPersistableEditor
 {
     /**
      * <p>
@@ -401,18 +399,7 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
         setInput(input);
         setPartName(input.getName());
 
-        IFileEditorInput fileInput = (IFileEditorInput) input;
-        String sceneName = fileInput.getFile().getFullPath().toString();
-
-        try
-        {
-            fScene = SceneFactory.loadFromSource(fileInput.getFile().getContents());
-        }
-        catch (Exception e)
-        {
-            Logger.getLogger(getClass()).error("Failed to load Scene from file '" + sceneName + "'.", e);
-            throw new PartInitException("Failed to load Scene from file '" + sceneName + "'.", e);
-        }
+        fScene = loadScene(input);
 
         initCamera();
         initRenderingEngine();
@@ -502,6 +489,19 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
         return (false);
     }
 
+    /**
+     * <p>
+     * Loads the {@link com.se.simplicity.scene.Scene Scene} to be displayed by this <code>VisualSceneEditor</code>.
+     * </p>
+     * 
+     * @param input The input to load the <code>Scene</code> from.
+     * 
+     * @throws PartInitException Thrown if the <code>Scene</code> to be loaded.
+     * 
+     * @return The <code>Scene</code> to be displayed by this <code>VisualSceneEditor</code>.
+     */
+    protected abstract Scene loadScene(IEditorInput input) throws PartInitException;
+
     @Override
     public void pickForSelection(final Dimension viewportSize, final int x, final int y, final int width, final int height)
     {
@@ -517,6 +517,11 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
         fSelectionChangedListeners.remove(listener);
     }
 
+    /**
+     * <p>
+     * Restores the stateful eclipse commands associated with this editor.
+     * </p>
+     */
     protected void restoreCommands()
     {
         // Restore Commands.
