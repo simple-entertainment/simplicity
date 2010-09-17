@@ -22,6 +22,7 @@ import org.junit.Test;
 
 import com.se.simplicity.editor.internal.ScenePickListener;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.picking.Hit;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.scenegraph.Node;
@@ -53,11 +54,13 @@ public class ScenePickListenerTest
         PickEvent mockEvent = createMock(PickEvent.class);
         Hit mockHit = createMock(Hit.class);
         Node mockNode = createMock(Node.class);
+        Model mockPrimitive = createMock(Model.class);
 
         // Dictate correct behaviour.
         expect(mockEvent.getHitCount()).andStubReturn(1);
         expect(mockEvent.getCloseHit()).andStubReturn(mockHit);
         expect(mockHit.getNode()).andStubReturn(mockNode);
+        expect(mockHit.getPrimitive()).andStubReturn(mockPrimitive);
         replay(mockEvent, mockHit);
 
         // Initialise test environment

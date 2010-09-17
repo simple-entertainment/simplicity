@@ -25,6 +25,7 @@ import com.se.simplicity.editor.internal.Widget;
 import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.editor.internal.WidgetPickListener;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.picking.Hit;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.scenegraph.model.ModelNode;
@@ -100,12 +101,14 @@ public class WidgetPickListenerTest
         Hit mockHit = createMock(Hit.class);
 
         ModelNode mockModelNode = createMock(ModelNode.class);
+        Model mockPrimitive = createMock(Model.class);
 
         // Dictate correct behaviour.
         expect(mockSceneEditor.getEditingMode()).andStubReturn(EditingMode.SELECTION);
         expect(mockEvent.getHitCount()).andStubReturn(1);
         expect(mockEvent.getCloseHit()).andStubReturn(mockHit);
         expect(mockHit.getNode()).andStubReturn(mockModelNode);
+        expect(mockHit.getPrimitive()).andStubReturn(mockPrimitive);
         replay(mockEvent, mockHit);
 
         // Initialise test environment.
