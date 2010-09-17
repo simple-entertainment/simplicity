@@ -630,12 +630,7 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         // memento.putString("selectionMode", fSelectionMode.toString());
 
         // Save selection.
-        if (fSelection.getSceneComponent() == null)
-        {
-            memento.putString("sceneComponentName", "");
-            memento.putString("sceneComponentType", "");
-        }
-        else if (fSelection.getSceneComponent() instanceof MetaData)
+        if (fSelection.getSceneComponent() != null && fSelection.getSceneComponent() instanceof MetaData)
         {
             MetaData metaData = (MetaData) fSelection.getSceneComponent();
 
@@ -653,6 +648,11 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
             {
                 memento.putString("sceneComponentType", "node");
             }
+        }
+        else
+        {
+            memento.putString("sceneComponentName", "");
+            memento.putString("sceneComponentType", "");
         }
     }
 

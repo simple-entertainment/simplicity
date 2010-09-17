@@ -20,6 +20,9 @@ import com.se.simplicity.jogl.scene.SimpleJOGLScene;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.SimpleSceneGraph;
 import com.se.simplicity.scenegraph.model.SimpleModelNode;
+import com.se.simplicity.util.metadata.scene.MetaDataScene;
+import com.se.simplicity.util.metadata.scenegraph.MetaDataModelNode;
+import com.se.simplicity.util.metadata.scenegraph.MetaDataNode;
 import com.se.simplicity.util.model.ModelFactory;
 
 /**
@@ -47,10 +50,11 @@ public class ModelLoadingVisualSceneEditor extends VisualSceneEditor
         IFileEditorInput fileInput = (IFileEditorInput) input;
         String sceneName = fileInput.getFile().getFullPath().toString();
 
-        Scene scene = new SimpleJOGLScene();
+        MetaDataScene scene = new MetaDataScene(new SimpleJOGLScene());
         scene.setSceneGraph(new SimpleSceneGraph());
-        SimpleModelNode modelNode = new SimpleModelNode();
+        MetaDataModelNode modelNode = new MetaDataModelNode(new SimpleModelNode());
         scene.getSceneGraph().addSubgraph(modelNode);
+        modelNode.setAttribute("name", MetaDataNode.getDefaultName(modelNode));
 
         try
         {

@@ -14,6 +14,7 @@ package com.se.simplicity.editor.internal;
 import com.se.simplicity.editor.internal.selection.PickSelection;
 import com.se.simplicity.editor.internal.selection.PickSelectionSource;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.picking.event.PickListener;
 import com.se.simplicity.scenegraph.model.ModelNode;
@@ -65,12 +66,14 @@ public class WidgetPickListener implements PickListener
         if (fSceneEditor.getEditingMode() == EditingMode.SELECTION)
         {
             Object sceneComponent = null;
+            Model primitive = null;
             if (event.getHitCount() > 0)
             {
                 sceneComponent = event.getCloseHit().getNode();
+                primitive = event.getCloseHit().getPrimitive();
             }
 
-            fSceneEditor.setSelection(new PickSelection(sceneComponent, null, PickSelectionSource.WIDGET_PICK));
+            fSceneEditor.setSelection(new PickSelection(sceneComponent, primitive, PickSelectionSource.WIDGET_PICK));
         }
         else
         {
