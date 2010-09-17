@@ -48,7 +48,7 @@ import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.selection.PickSelection;
 import com.se.simplicity.editor.internal.selection.PickSelectionSource;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
-import com.se.simplicity.editor.ui.editors.VisualSceneEditor;
+import com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor;
 import com.se.simplicity.editor.ui.editors.outline.SceneOutlinePage;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.rendering.DrawingMode;
@@ -56,17 +56,17 @@ import com.se.simplicity.rendering.ProjectionMode;
 
 /**
  * <p>
- * Unit tests for the class {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor VisualSceneEditor}.
+ * Unit tests for the class {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor SceneLoadingVisualSceneEditor}.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class VisualSceneEditorTest
+public class SceneLoadingVisualSceneEditorTest
 {
     /**
      * An instance of the class being unit tested.
      */
-    private VisualSceneEditor testObject;
+    private SceneLoadingVisualSceneEditor testObject;
 
     /**
      * <p>
@@ -76,12 +76,12 @@ public class VisualSceneEditorTest
     @Before
     public void before()
     {
-        testObject = new VisualSceneEditor();
+        testObject = new SceneLoadingVisualSceneEditor();
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#getAdapter(Class) getAdapter(Class)}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#getAdapter(Class) getAdapter(Class)}.
      * </p>
      * 
      * @throws PartInitException Thrown if the initialisation fails.
@@ -98,7 +98,7 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#init(IEditorSite, IEditorInput) init(IEditorSite,
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#init(IEditorSite, IEditorInput) init(IEditorSite,
      * IEditorInput)}.
      * </p>
      * 
@@ -129,54 +129,11 @@ public class VisualSceneEditorTest
         assertEquals("triangle.xml", testObject.getPartName());
 
         assertTrue(testObject.getSceneManager().getRenderingEngine() instanceof SimpleJOGLRenderingEngine);
-
-        assertEquals(EditingMode.SELECTION, testObject.getEditingMode());
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#init(IEditorSite, IEditorInput) init(IEditorSite,
-     * IEditorInput)} with the special condition that the source file is invalid.
-     * </p>
-     * 
-     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
-     * @throws FileNotFoundException Thrown if the source file cannot be found.
-     */
-    @Test
-    public void initInvalidFile() throws FileNotFoundException, CoreException
-    {
-        // Create dependencies.
-        IEditorSite mockSite = createMock(IEditorSite.class);
-        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
-        IFile mockFile = createMock(IFile.class);
-        IPath mockPath = createMock(IPath.class);
-
-        // Dictate correct behaviour.
-        expect(mockInput.getName()).andStubReturn("triangleMalformed.xml");
-        expect(mockInput.getFile()).andStubReturn(mockFile);
-        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangleMalformed.xml"));
-        expect(mockFile.getFullPath()).andStubReturn(mockPath);
-        mockPath.toString();
-        replay(mockInput, mockFile, mockPath);
-
-        // Initialise test environment.
-        testObject = new VisualSceneEditor();
-
-        try
-        {
-            // Perform test.
-            testObject.init(mockSite, mockInput);
-        }
-        catch (PartInitException e)
-        {
-            // Verify test results.
-            assertEquals("Failed to load Scene from file 'EasyMock for interface org.eclipse.core.runtime.IPath'.", e.getMessage());
-        }
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#init(IEditorSite, IEditorInput) init(IEditorSite,
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#init(IEditorSite, IEditorInput) init(IEditorSite,
      * IEditorInput)} with the special condition that the preferred RenderingEngine is invalid.
      * </p>
      * 
@@ -210,7 +167,85 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#pickForSelection(Dimension, int, int, int, int)
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#loadScene(IEditorInput) loadScene(IEditorInput)}.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void loadScene() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangle.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        replay(mockInput, mockFile, mockPath);
+
+        // Initialise test environment.
+        testObject = new SceneLoadingVisualSceneEditor();
+
+        // Perform test.
+        testObject.init(mockSite, mockInput);
+
+        // Verify test results.
+        assertEquals(1, testObject.getScene().getCameras().size(), 0);
+        assertEquals(1, testObject.getScene().getLights().size(), 0);
+        assertEquals(3, testObject.getScene().getSceneGraph().getSubgraphRoots().size(), 0);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#loadScene(IEditorInput) loadScene(IEditorInput)}
+     * with the special condition that the source file is invalid.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void loadSceneInvalidFile() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IEditorSite mockSite = createMock(IEditorSite.class);
+        IFileEditorInput mockInput = createMock(IFileEditorInput.class);
+        IFile mockFile = createMock(IFile.class);
+        IPath mockPath = createMock(IPath.class);
+
+        // Dictate correct behaviour.
+        expect(mockInput.getName()).andStubReturn("triangleMalformed.xml");
+        expect(mockInput.getFile()).andStubReturn(mockFile);
+        expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangleMalformed.xml"));
+        expect(mockFile.getFullPath()).andStubReturn(mockPath);
+        mockPath.toString();
+        replay(mockInput, mockFile, mockPath);
+
+        // Initialise test environment.
+        testObject = new SceneLoadingVisualSceneEditor();
+
+        try
+        {
+            // Perform test.
+            testObject.init(mockSite, mockInput);
+        }
+        catch (PartInitException e)
+        {
+            // Verify test results.
+            assertEquals("Failed to load Scene from file 'EasyMock for interface org.eclipse.core.runtime.IPath'.", e.getMessage());
+        }
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#pickForSelection(Dimension, int, int, int, int)
      * pickForSelection(Dimension, int, int, int, int)}.
      * </p>
      * 
@@ -247,8 +282,8 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#restoreState(IMemento) restoreState(IMemento)} with the
-     * special condition that there is a Node selection in the memento.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#restoreState(IMemento) restoreState(IMemento)}
+     * with the special condition that there is a Node selection in the memento.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -294,8 +329,8 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#restoreState(IMemento) restoreState(IMemento)} with the
-     * special condition that there is no memento.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#restoreState(IMemento) restoreState(IMemento)}
+     * with the special condition that there is no memento.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -334,8 +369,8 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#restoreState(IMemento) restoreState(IMemento)} with the
-     * special condition that there is no selection in the memento.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#restoreState(IMemento) restoreState(IMemento)}
+     * with the special condition that there is no selection in the memento.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -381,8 +416,8 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#restoreState(IMemento) restoreState(IMemento)} with the
-     * special condition that the editor has not been (successfully) initialised.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#restoreState(IMemento) restoreState(IMemento)}
+     * with the special condition that the editor has not been (successfully) initialised.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -415,8 +450,8 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#saveState(IMemento) saveState(IMemento)} with the special
-     * condition that there is no selection.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#saveState(IMemento) saveState(IMemento)} with the
+     * special condition that there is no selection.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -464,8 +499,8 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#saveState(IMemento) saveState(IMemento)} with the special
-     * condition that there is selection.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#saveState(IMemento) saveState(IMemento)} with the
+     * special condition that there is selection.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -514,7 +549,7 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#selectionChanged(IWorkbenchPart, ISelection)
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#selectionChanged(IWorkbenchPart, ISelection)
      * selectionChanged(IWorkbenchPart, ISelection)}.
      * </p>
      * 
@@ -562,7 +597,8 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setCanvasSize(Rectangle) setCanvasSize(Rectangle)}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#setCanvasSize(Rectangle)
+     * setCanvasSize(Rectangle)}.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -600,7 +636,8 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setEditingMode(EditingMode) setEditingMode(EditingMode)}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#setEditingMode(EditingMode)
+     * setEditingMode(EditingMode)}.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -635,7 +672,8 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setSelection(ISelection) setSelection(ISelection)}.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#setSelection(ISelection)
+     * setSelection(ISelection)}.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -683,8 +721,8 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setSelection(ISelection) setSelection(ISelection)} with the
-     * special condition that the selection is a pair of PickSelections.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#setSelection(ISelection)
+     * setSelection(ISelection)} with the special condition that the selection is a pair of PickSelections.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -745,8 +783,8 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setSelection(ISelection) setSelection(ISelection)} with the
-     * special condition that the selection is a pair of PickSelections and the both selections are empty.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#setSelection(ISelection)
+     * setSelection(ISelection)} with the special condition that the selection is a pair of PickSelections and the both selections are empty.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -805,8 +843,9 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setSelection(ISelection) setSelection(ISelection)} with the
-     * special condition that the selection is a pair of PickSelections and the selection originating from a Scene pick is empty.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#setSelection(ISelection)
+     * setSelection(ISelection)} with the special condition that the selection is a pair of PickSelections and the selection originating from a Scene
+     * pick is empty.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
@@ -866,8 +905,9 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#setSelection(ISelection) setSelection(ISelection)} with the
-     * special condition that the selection is a pair of PickSelections and the selection originating from a Widget pick is empty.
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.SceneLoadingVisualSceneEditor#setSelection(ISelection)
+     * setSelection(ISelection)} with the special condition that the selection is a pair of PickSelections and the selection originating from a Widget
+     * pick is empty.
      * </p>
      * 
      * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
