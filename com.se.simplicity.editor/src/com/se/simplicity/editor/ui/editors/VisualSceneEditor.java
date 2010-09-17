@@ -168,6 +168,13 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
 
     /**
      * <p>
+     * Determines if this <code>VisualSceneEditor</code> is initialised.
+     * </p>
+     */
+    private boolean fIsInitialised;
+
+    /**
+     * <p>
      * Creates an instance of <code>VisualSceneEditor</code>.
      * </p>
      */
@@ -178,15 +185,16 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
         fCamera = null;
         fDrawingMode = DrawingMode.FACES;
         fEditingMode = EditingMode.SELECTION;
+        fIsInitialised = false;
         fProjectionMode = ProjectionMode.PERSPECTIVE;
         fRenderingEngine = null;
         fSelection = new SceneSelection(null, null);
         fSelectionChangedListeners = new ArrayList<ISelectionChangedListener>();
         // fSelectionMode = SelectionMode.MODEL;
         fScene = null;
-        fSceneManager = new SceneManager();
+        fSceneManager = null;
         fSyncCameraAspectRatio = true;
-        fWidgetManager = new WidgetManager();
+        fWidgetManager = null;
     }
 
     @Override
@@ -413,11 +421,13 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
         // various views displaying an analysis of the Scene or being synchronised into the source file.
         fRenderingEngine.setCamera(fCamera);
 
+        fSceneManager = new SceneManager();
         fSceneManager.setScene(fScene);
         fSceneManager.setRenderingEngine(fRenderingEngine);
         fSceneManager.init();
         fSceneManager.setCamera(fCamera);
 
+        fWidgetManager = new WidgetManager();
         fWidgetManager.setScene(fScene);
         fWidgetManager.setRenderingEngine(fRenderingEngine);
         fWidgetManager.init();
@@ -425,6 +435,8 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
 
         fSceneManager.getPickingEngine().addPickListener(new ScenePickListener(this));
         fWidgetManager.getPickingEngine().addPickListener(new WidgetPickListener(this));
+
+        fIsInitialised = true;
     }
 
     /**
@@ -526,6 +538,11 @@ public class VisualSceneEditor extends EditorPart implements SceneEditor, ISelec
     @Override
     public void restoreState(final IMemento memento)
     {
+        if (!fIsInitialised)
+        {
+            return;
+        }
+
         if (memento != null)
         {
             // Restore Drawing Mode.
