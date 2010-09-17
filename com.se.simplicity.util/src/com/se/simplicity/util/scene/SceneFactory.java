@@ -929,11 +929,11 @@ public final class SceneFactory
     private static SceneGraph loadSceneGraphFromSource(final Element sceneGraphElement)
     {
         MetaDataSceneGraph sceneGraph = new MetaDataSceneGraph(new SimpleSceneGraph());
-        NodeList childrenElement = sceneGraphElement.getChildNodes().item(1).getChildNodes();
+        NodeList childrenElements = sceneGraphElement.getChildNodes().item(1).getChildNodes();
 
-        for (int index = 0; index < childrenElement.getLength(); index++)
+        for (int index = 0; index < childrenElements.getLength(); index++)
         {
-            org.w3c.dom.Node childElement = childrenElement.item(index);
+            org.w3c.dom.Node childElement = childrenElements.item(index);
 
             if (childElement.getNodeName().equals("node"))
             {
