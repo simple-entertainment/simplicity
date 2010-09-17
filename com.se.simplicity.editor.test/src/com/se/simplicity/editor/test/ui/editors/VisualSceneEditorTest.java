@@ -381,6 +381,40 @@ public class VisualSceneEditorTest
 
     /**
      * <p>
+     * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#restoreState(IMemento) restoreState(IMemento)} with the
+     * special condition that the editor has not been (successfully) initialised.
+     * </p>
+     * 
+     * @throws CoreException Thrown if the contents of the source file fail to be retrieved.
+     * @throws FileNotFoundException Thrown if the source file cannot be found.
+     */
+    @Test
+    public void restoreStateNotInitialised() throws FileNotFoundException, CoreException
+    {
+        // Create dependencies.
+        IMemento mockMemento = createMock(IMemento.class);
+
+        // Dictate correct behaviour.
+        expect(mockMemento.getString("drawingMode")).andStubReturn("VERTICES");
+        expect(mockMemento.getString("editingMode")).andStubReturn("TRANSLATION");
+        expect(mockMemento.getString("projectionMode")).andStubReturn("ORTHOGONAL");
+        expect(mockMemento.getString("sceneComponentType")).andStubReturn("");
+        expect(mockMemento.getString("sceneComponentName")).andStubReturn("");
+        replay(mockMemento);
+
+        // Perform test.
+        testObject.restoreState(mockMemento);
+
+        // Verify results.
+        assertEquals(DrawingMode.FACES, testObject.getDrawingMode());
+        assertEquals(EditingMode.SELECTION, testObject.getEditingMode());
+        assertEquals(ProjectionMode.PERSPECTIVE, testObject.getProjectionMode());
+        assertNull(((SceneSelection) testObject.getSelection()).getSceneComponent());
+        assertNull(((SceneSelection) testObject.getSelection()).getPrimitive());
+    }
+
+    /**
+     * <p>
      * Unit test the method {@link com.se.simplicity.editor.ui.editors.VisualSceneEditor#saveState(IMemento) saveState(IMemento)} with the special
      * condition that there is no selection.
      * </p>
