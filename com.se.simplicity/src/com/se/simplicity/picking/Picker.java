@@ -13,6 +13,7 @@ package com.se.simplicity.picking;
 
 import com.se.simplicity.picking.event.PickEvent;
 import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.scene.Scene;
 
 /**
@@ -34,6 +35,16 @@ public interface Picker
 
     /**
      * <p>
+     * Retrieves the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to create {@link com.se.simplicity.picking.event.PickEvent
+     * PickEvent}s from the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     * 
+     * @return The <code>DrawingMode</code> used to create <code>PickEvent</code>s from the <code>Scene</code>.
+     */
+    DrawingMode getDrawingMode();
+
+    /**
+     * <p>
      * Initialises the picking environment.
      * </p>
      */
@@ -52,4 +63,13 @@ public interface Picker
      * @return An event containing any picked components of the <code>Scene</code>.
      */
     PickEvent pickScene(Scene scene, Camera camera, Pick pick);
+
+    /**
+     * <p>
+     * Sets the drawing mode used to pick the {@link com.se.simplicity.scene.Scene Scene}.
+     * </p>
+     * 
+     * @param mode The drawing mode used to pick the {@link com.se.simplicity.scene.Scene Scene}.
+     */
+    void setDrawingMode(final DrawingMode mode);
 }
