@@ -126,12 +126,12 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
             hit.setMinimumDistance(fSelectBuffer.get(bufferIndex++));
             hit.setMaximumDistance(fSelectBuffer.get(bufferIndex++));
 
-            hit.setNode(scene.getSceneGraph().getNode(fSelectBuffer.get(bufferIndex++)));
+            hit.setNode(scene.getSceneGraph().getNode(fSelectBuffer.get(bufferIndex)));
 
             Model model = ((ModelNode) hit.getNode()).getModel();
             if (model instanceof VertexGroup)
             {
-                hit.setPrimitive(getSubsetVG((VertexGroup) model, fSelectBuffer.get(bufferIndex)));
+                hit.setPrimitive(getSubsetVG((VertexGroup) model, fSelectBuffer.get(bufferIndex + 1)));
             }
             else if (model instanceof Shape)
             {
