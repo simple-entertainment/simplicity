@@ -149,14 +149,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
     public void dispose()
     {}
 
-    /**
-     * <p>
-     * Retrieves the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to create {@link com.se.simplicity.picking.event.PickEvent
-     * PickEvent}s from the {@link com.se.simplicity.scene.Scene Scene}.
-     * </p>
-     * 
-     * @return The <code>DrawingMode</code> used to create <code>PickEvent</code>s from the <code>Scene</code>.
-     */
+    @Override
     public DrawingMode getDrawingMode()
     {
         return (fDrawingMode);
@@ -272,13 +265,7 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
         return (createPickEvent(scene, numberOfHits));
     }
 
-    /**
-     * <p>
-     * Sets the drawing mode used to pick the {@link com.se.simplicity.scene.Scene Scene}.
-     * </p>
-     * 
-     * @param mode The drawing mode used to pick the {@link com.se.simplicity.scene.Scene Scene}.
-     */
+    @Override
     public void setDrawingMode(final DrawingMode mode)
     {
         fDrawingMode = mode;
