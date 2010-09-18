@@ -118,9 +118,15 @@ public class OutlineJOGLRenderer extends AdaptingJOGLRenderer
         byte[] cullFaceEnabledParams = new byte[1];
         gl.glGetBooleanv(GL.GL_CULL_FACE, cullFaceEnabledParams, 0);
 
+        // Prepare for setting the stencil.
+        gl.glDrawBuffer(GL.GL_NONE);
+
         fAlwaysStencil.init();
         fAlwaysStencil.renderModel(model);
         fAlwaysStencil.dispose();
+
+        // Restore rendering environment settings.
+        gl.glDrawBuffer(GL.GL_BACK);
 
         // Prepare for rendering the outline.
         if (cullFaceEnabledParams[0] == 1)
