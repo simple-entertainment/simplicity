@@ -30,6 +30,13 @@ public class SelectionMouseListener implements MouseListener
 {
     /**
      * <p>
+     * The size of the area on the viewport to pick.
+     * </p>
+     */
+    private static final int PICK_SIZE = 5;
+
+    /**
+     * <p>
      * The <code>SceneEditor</code> to register picks with.
      * </p>
      */
@@ -64,7 +71,7 @@ public class SelectionMouseListener implements MouseListener
             viewportSize.width = ((Control) event.widget).getBounds().width;
             viewportSize.height = ((Control) event.widget).getBounds().height;
 
-            fSceneEditor.pickForSelection(viewportSize, event.x, event.y, 2, 2);
+            fSceneEditor.pickForSelection(viewportSize, event.x, event.y, PICK_SIZE, PICK_SIZE);
         }
     }
 }

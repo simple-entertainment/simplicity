@@ -34,6 +34,13 @@ public class WidgetMouseListener implements MouseListener, MouseMoveListener
 {
     /**
      * <p>
+     * The size of the area on the viewport to pick.
+     * </p>
+     */
+    private static final int PICK_SIZE = 5;
+
+    /**
+     * <p>
      * Determines if mouse button 1 is currently down.
      * </p>
      */
@@ -90,7 +97,7 @@ public class WidgetMouseListener implements MouseListener, MouseMoveListener
                 viewportSize.width = ((Control) event.widget).getBounds().width;
                 viewportSize.height = ((Control) event.widget).getBounds().height;
 
-                fWidgetManager.getPickingEngine().pickViewport(viewportSize, event.x, event.y, 2, 2);
+                fWidgetManager.getPickingEngine().pickViewport(viewportSize, event.x, event.y, PICK_SIZE, PICK_SIZE);
             }
         }
     }
