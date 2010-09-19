@@ -356,8 +356,8 @@ public class SceneManagerTest
         // Initialise test environment.
         testObject.setScene(mockScene);
         testObject.setRenderingEngine(mockRenderingEngine);
-        testObject.setSelectionMode(SelectionMode.FACES);
         testObject.init();
+        testObject.setSelectionMode(SelectionMode.FACES);
 
         // Dictate expected results.
         reset(mockRenderingEngine);

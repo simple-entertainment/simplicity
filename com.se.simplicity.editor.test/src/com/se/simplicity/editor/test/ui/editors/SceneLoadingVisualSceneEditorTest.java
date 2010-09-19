@@ -45,6 +45,7 @@ import org.junit.Test;
 import sun.org.mozilla.javascript.Node;
 
 import com.se.simplicity.editor.internal.EditingMode;
+import com.se.simplicity.editor.internal.SelectionMode;
 import com.se.simplicity.editor.internal.selection.PickSelection;
 import com.se.simplicity.editor.internal.selection.PickSelectionSource;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
@@ -309,6 +310,7 @@ public class SceneLoadingVisualSceneEditorTest
         expect(mockMemento.getString("drawingMode")).andStubReturn("VERTICES");
         expect(mockMemento.getString("editingMode")).andStubReturn("TRANSLATION");
         expect(mockMemento.getString("projectionMode")).andStubReturn("ORTHOGONAL");
+        expect(mockMemento.getString("selectionMode")).andStubReturn("VERTICES");
         expect(mockMemento.getString("sceneComponentName")).andStubReturn("Triangle");
         expect(mockMemento.getString("sceneComponentType")).andStubReturn("node");
         replay(mockInput, mockFile, mockPath, mockMemento);
@@ -323,6 +325,7 @@ public class SceneLoadingVisualSceneEditorTest
         assertEquals(DrawingMode.VERTICES, testObject.getDrawingMode());
         assertEquals(EditingMode.TRANSLATION, testObject.getEditingMode());
         assertEquals(ProjectionMode.ORTHOGONAL, testObject.getProjectionMode());
+        assertEquals(SelectionMode.VERTICES, testObject.getSelectionMode());
         assertEquals(testObject.getScene().getSceneGraph().getNode(3), ((SceneSelection) testObject.getSelection()).getSceneComponent());
         assertNull(((SceneSelection) testObject.getSelection()).getPrimitive());
     }
@@ -396,6 +399,7 @@ public class SceneLoadingVisualSceneEditorTest
         expect(mockMemento.getString("drawingMode")).andStubReturn("VERTICES");
         expect(mockMemento.getString("editingMode")).andStubReturn("TRANSLATION");
         expect(mockMemento.getString("projectionMode")).andStubReturn("ORTHOGONAL");
+        expect(mockMemento.getString("selectionMode")).andStubReturn("VERTICES");
         expect(mockMemento.getString("sceneComponentType")).andStubReturn("");
         expect(mockMemento.getString("sceneComponentName")).andStubReturn("");
         replay(mockInput, mockFile, mockPath, mockMemento);
@@ -410,6 +414,7 @@ public class SceneLoadingVisualSceneEditorTest
         assertEquals(DrawingMode.VERTICES, testObject.getDrawingMode());
         assertEquals(EditingMode.TRANSLATION, testObject.getEditingMode());
         assertEquals(ProjectionMode.ORTHOGONAL, testObject.getProjectionMode());
+        assertEquals(SelectionMode.VERTICES, testObject.getSelectionMode());
         assertNull(((SceneSelection) testObject.getSelection()).getSceneComponent());
         assertNull(((SceneSelection) testObject.getSelection()).getPrimitive());
     }
@@ -481,11 +486,13 @@ public class SceneLoadingVisualSceneEditorTest
         testObject.setDrawingMode(DrawingMode.VERTICES);
         testObject.setEditingMode(EditingMode.TRANSLATION);
         testObject.setProjectionMode(ProjectionMode.ORTHOGONAL);
+        testObject.setSelectionMode(SelectionMode.VERTICES);
 
         // Dictate expected results.
         mockMemento.putString("drawingMode", "VERTICES");
         mockMemento.putString("editingMode", "TRANSLATION");
         mockMemento.putString("projectionMode", "ORTHOGONAL");
+        mockMemento.putString("selectionMode", "VERTICES");
         mockMemento.putString("sceneComponentName", "");
         mockMemento.putString("sceneComponentType", "");
         replay(mockMemento);
@@ -530,12 +537,14 @@ public class SceneLoadingVisualSceneEditorTest
         testObject.setDrawingMode(DrawingMode.VERTICES);
         testObject.setEditingMode(EditingMode.TRANSLATION);
         testObject.setProjectionMode(ProjectionMode.ORTHOGONAL);
+        testObject.setSelectionMode(SelectionMode.VERTICES);
         testObject.setSelection(new SceneSelection(testObject.getScene().getSceneGraph().getNode(3), null));
 
         // Dictate expected results.
         mockMemento.putString("drawingMode", "VERTICES");
         mockMemento.putString("editingMode", "TRANSLATION");
         mockMemento.putString("projectionMode", "ORTHOGONAL");
+        mockMemento.putString("selectionMode", "VERTICES");
         mockMemento.putString("sceneComponentName", "Triangle");
         mockMemento.putString("sceneComponentType", "node");
         replay(mockMemento);
@@ -756,9 +765,11 @@ public class SceneLoadingVisualSceneEditorTest
         expect(mockSelection0.getSource()).andStubReturn(PickSelectionSource.WIDGET_PICK);
         expect(mockSelection0.isEmpty()).andReturn(false);
         expect(mockSelection0.getSceneComponent()).andStubReturn(mockNode0);
+        expect(mockSelection0.getPrimitive()).andStubReturn(null);
         expect(mockSelection1.getSource()).andStubReturn(PickSelectionSource.SCENE_PICK);
         expect(mockSelection1.isEmpty()).andReturn(false);
         expect(mockSelection1.getSceneComponent()).andStubReturn(mockNode1);
+        expect(mockSelection1.getPrimitive()).andStubReturn(null);
         replay(mockInput, mockFile, mockPath, mockSelection, mockSelection0, mockSelection1);
 
         // Initialise test environment.
@@ -816,9 +827,11 @@ public class SceneLoadingVisualSceneEditorTest
         expect(mockSelection0.getSource()).andStubReturn(PickSelectionSource.WIDGET_PICK);
         expect(mockSelection0.isEmpty()).andReturn(true);
         expect(mockSelection0.getSceneComponent()).andStubReturn(null);
+        expect(mockSelection0.getPrimitive()).andStubReturn(null);
         expect(mockSelection1.getSource()).andStubReturn(PickSelectionSource.SCENE_PICK);
         expect(mockSelection1.isEmpty()).andReturn(true);
         expect(mockSelection1.getSceneComponent()).andStubReturn(null);
+        expect(mockSelection1.getPrimitive()).andStubReturn(null);
         replay(mockInput, mockFile, mockPath, mockSelection, mockSelection0, mockSelection1);
 
         // Initialise test environment.
@@ -878,9 +891,11 @@ public class SceneLoadingVisualSceneEditorTest
         expect(mockSelection0.getSource()).andStubReturn(PickSelectionSource.WIDGET_PICK);
         expect(mockSelection0.isEmpty()).andReturn(false);
         expect(mockSelection0.getSceneComponent()).andStubReturn(mockNode0);
+        expect(mockSelection0.getPrimitive()).andStubReturn(null);
         expect(mockSelection1.getSource()).andStubReturn(PickSelectionSource.SCENE_PICK);
         expect(mockSelection1.isEmpty()).andReturn(true);
         expect(mockSelection1.getSceneComponent()).andStubReturn(null);
+        expect(mockSelection1.getPrimitive()).andStubReturn(null);
         replay(mockInput, mockFile, mockPath, mockSelection, mockSelection0, mockSelection1);
 
         // Initialise test environment.
@@ -940,9 +955,11 @@ public class SceneLoadingVisualSceneEditorTest
         expect(mockSelection0.getSource()).andStubReturn(PickSelectionSource.WIDGET_PICK);
         expect(mockSelection0.isEmpty()).andReturn(true);
         expect(mockSelection0.getSceneComponent()).andStubReturn(null);
+        expect(mockSelection0.getPrimitive()).andStubReturn(null);
         expect(mockSelection1.getSource()).andStubReturn(PickSelectionSource.SCENE_PICK);
         expect(mockSelection1.isEmpty()).andReturn(false);
         expect(mockSelection1.getSceneComponent()).andStubReturn(mockNode1);
+        expect(mockSelection1.getPrimitive()).andStubReturn(null);
         replay(mockInput, mockFile, mockPath, mockSelection, mockSelection0, mockSelection1);
 
         // Initialise test environment.

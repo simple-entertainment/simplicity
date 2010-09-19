@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.handlers.SelectionModeHandler;
+import com.se.simplicity.editor.internal.SelectionMode;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.scenegraph.model.ModelNode;
@@ -89,11 +90,12 @@ public class SelectionModeHandlerTest
         expect(mockSelection.isEmpty()).andStubReturn(false);
         expect(mockSelection.getSceneComponent()).andStubReturn(createMock(ModelNode.class));
         expect(mockState.getValue()).andStubReturn("MODEL");
-        replay(mockContext, mockSceneEditor, mockSelection);
+        replay(mockContext, mockSelection);
 
         // Dictate expected results.
         mockState.setValue("EDGES");
-        replay(mockState);
+        mockSceneEditor.setSelectionMode(SelectionMode.EDGES);
+        replay(mockSceneEditor, mockState);
 
         // Perform test.
         testObject.execute(event);
@@ -129,11 +131,12 @@ public class SelectionModeHandlerTest
         expect(mockSelection.isEmpty()).andStubReturn(false);
         expect(mockSelection.getSceneComponent()).andStubReturn(createMock(ModelNode.class));
         expect(mockState.getValue()).andStubReturn("MODEL");
-        replay(mockContext, mockSceneEditor, mockSelection);
+        replay(mockContext, mockSelection);
 
         // Dictate expected results.
         mockState.setValue("FACES");
-        replay(mockState);
+        mockSceneEditor.setSelectionMode(SelectionMode.FACES);
+        replay(mockSceneEditor, mockState);
 
         // Perform test.
         testObject.execute(event);
@@ -154,6 +157,7 @@ public class SelectionModeHandlerTest
         IEvaluationContext mockContext = createMock(IEvaluationContext.class);
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
 
+        SceneSelection mockSelection = createMock(SceneSelection.class);
         CommandManager commandManager = new CommandManager();
         Command command = commandManager.getCommand("test");
         State mockState = createMock(State.class);
@@ -164,12 +168,16 @@ public class SelectionModeHandlerTest
 
         // Dictate correct behaviour.
         expect(mockContext.getVariable(ISources.ACTIVE_EDITOR_NAME)).andStubReturn(mockSceneEditor);
+        expect(mockSceneEditor.getSelection()).andStubReturn(mockSelection);
+        expect(mockSelection.isEmpty()).andStubReturn(false);
+        expect(mockSelection.getSceneComponent()).andStubReturn(createMock(ModelNode.class));
         expect(mockState.getValue()).andStubReturn("FACES");
-        replay(mockContext);
+        replay(mockContext, mockSelection);
 
         // Dictate expected results.
         mockState.setValue("MODEL");
-        replay(mockState);
+        mockSceneEditor.setSelectionMode(SelectionMode.MODEL);
+        replay(mockSceneEditor, mockState);
 
         // Perform test.
         testObject.execute(event);
@@ -265,11 +273,12 @@ public class SelectionModeHandlerTest
         expect(mockSelection.isEmpty()).andStubReturn(false);
         expect(mockSelection.getSceneComponent()).andStubReturn(createMock(ModelNode.class));
         expect(mockState.getValue()).andStubReturn("MODEL");
-        replay(mockContext, mockSceneEditor, mockSelection);
+        replay(mockContext, mockSelection);
 
         // Dictate expected results.
         mockState.setValue("VERTICES");
-        replay(mockState);
+        mockSceneEditor.setSelectionMode(SelectionMode.VERTICES);
+        replay(mockSceneEditor, mockState);
 
         // Perform test.
         testObject.execute(event);
