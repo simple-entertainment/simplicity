@@ -11,6 +11,7 @@
  */
 package com.se.simplicity.editor.internal;
 
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.model.shape.GLUSphere;
 import com.se.simplicity.jogl.model.shape.GLUTorus;
 import com.se.simplicity.model.shape.Shape;
@@ -108,7 +109,7 @@ public class RotationWidget implements Widget
      * The currently selected scene component.
      * </p>
      */
-    private Object fSelectedSceneComponent;
+    private SceneSelection fSelection;
 
     /**
      * <p>
@@ -204,12 +205,12 @@ public class RotationWidget implements Widget
     @Override
     public void executeMove(final int x, final int y)
     {
-        if (fSelectedSceneComponent == null)
+        if (fSelection.isEmpty())
         {
             return;
         }
 
-        if (fSelectedSceneComponent instanceof Node)
+        if (fSelection.getSceneComponent() instanceof Node)
         {
             int invertedY = y * -1;
             float angle = 0.0f;
@@ -231,7 +232,7 @@ public class RotationWidget implements Widget
                 axis.translateZ(1.0f);
             }
 
-            ((Node) fSelectedSceneComponent).getTransformation().rotate((float) Math.toRadians(angle), axis);
+            ((Node) fSelection.getSceneComponent()).getTransformation().rotate((float) Math.toRadians(angle), axis);
             fRoot.getTransformation().rotate((float) Math.toRadians(angle), axis);
         }
     }
@@ -243,9 +244,9 @@ public class RotationWidget implements Widget
     }
 
     @Override
-    public Object getSelectedSceneComponent()
+    public SceneSelection getSelection()
     {
-        return (fSelectedSceneComponent);
+        return (fSelection);
     }
 
     @Override
@@ -255,9 +256,9 @@ public class RotationWidget implements Widget
     }
 
     @Override
-    public void setSelectedSceneComponent(final Object selectedSceneComponent)
+    public void setSelection(final SceneSelection selection)
     {
-        fSelectedSceneComponent = selectedSceneComponent;
+        fSelection = selection;
     }
 
     @Override
@@ -280,11 +281,11 @@ public class RotationWidget implements Widget
     public void updateView(final Camera camera)
     {
         // Transform the Widget to the position and orientation of the selected scene component.
-        if (fSelectedSceneComponent != null)
+        if (!fSelection.isEmpty())
         {
-            if (fSelectedSceneComponent instanceof Node)
+            if (fSelection.getSceneComponent() instanceof Node)
             {
-                fRoot.setTransformation(((Node) fSelectedSceneComponent).getAbsoluteTransformation());
+                fRoot.setTransformation(((Node) fSelection.getSceneComponent()).getAbsoluteTransformation());
             }
         }
 

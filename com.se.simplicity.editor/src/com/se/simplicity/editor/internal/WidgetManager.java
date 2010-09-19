@@ -1,5 +1,7 @@
 package com.se.simplicity.editor.internal;
 
+import static com.se.simplicity.model.ModelConstants.ITEMS_IN_CNV;
+
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +11,7 @@ import javax.media.opengl.GL;
 
 import com.se.simplicity.editor.internal.picking.WidgetJOGLPicker;
 import com.se.simplicity.editor.internal.rendering.WidgetJOGLRenderer;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
@@ -17,12 +20,16 @@ import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
+import com.se.simplicity.model.ArrayVG;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.scenegraph.SimpleSceneGraph;
+import com.se.simplicity.vector.SimpleTranslationVectorf4;
+import com.se.simplicity.vector.TranslationVectorf;
 
 /**
  * <p>
@@ -161,6 +168,36 @@ public class WidgetManager
     public PickingEngine getPickingEngine()
     {
         return (fPickingEngine);
+    }
+
+    protected TranslationVectorf getPrimitiveTranslation(final Model primitive)
+    {
+        SimpleTranslationVectorf4 translation = new SimpleTranslationVectorf4();
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+
+        if (primitive instanceof ArrayVG)
+        {
+            float[] vertices = ((ArrayVG) primitive).getVertices();
+            int vertexCount = vertices.length / ITEMS_IN_CNV;
+            for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
+            {
+                x += vertices[vertexIndex];
+                y += vertices[vertexIndex] + 1;
+                z += vertices[vertexIndex] + 2;
+            }
+
+            x /= vertexCount;
+            y /= vertexCount;
+            z /= vertexCount;
+        }
+
+        translation.setX(x);
+        translation.setY(y);
+        translation.setZ(z);
+
+        return (translation);
     }
 
     /**
@@ -362,16 +399,16 @@ public class WidgetManager
 
     /**
      * <p>
-     * Sets the currently selected scene component.
+     * Sets the selected scene component and primitive.
      * </p>
      * 
-     * @param selectedSceneComponent The currently selected scene component.
+     * @param selection The selected scene component and primitive.
      */
-    public void setSelectedSceneComponent(final Object selectedSceneComponent)
+    public void setSelection(final SceneSelection selection)
     {
         for (Entry<EditingMode, Widget> widgetEntry : fWidgets.entrySet())
         {
-            widgetEntry.getValue().setSelectedSceneComponent(selectedSceneComponent);
+            widgetEntry.getValue().setSelection(selection);
         }
     }
 

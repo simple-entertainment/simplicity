@@ -1,5 +1,6 @@
 package com.se.simplicity.editor.internal;
 
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.model.ModelNode;
@@ -34,12 +35,12 @@ public interface Widget
 
     /**
      * <p>
-     * Retrieves the currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this <code>Widget</code>.
+     * Retrieves the selected scene component and primitive.
      * </p>
      * 
-     * @return The currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this <code>Widget</code>.
+     * @return The selected scene component and primitive.
      */
-    Object getSelectedSceneComponent();
+    SceneSelection getSelection();
 
     /**
      * <p>
@@ -52,12 +53,12 @@ public interface Widget
 
     /**
      * <p>
-     * Sets the currently selected scene component.
+     * Sets the selected scene component and primitive.
      * </p>
      * 
-     * @param selectedSceneComponent The currently selected scene component.
+     * @param selection The selected scene component and primitive.
      */
-    void setSelectedSceneComponent(Object selectedSceneComponent);
+    void setSelection(SceneSelection selection);
 
     /**
      * <p>

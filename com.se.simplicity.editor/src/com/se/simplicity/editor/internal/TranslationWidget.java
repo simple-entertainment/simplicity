@@ -1,5 +1,6 @@
 package com.se.simplicity.editor.internal;
 
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.model.shape.GLUCapsule;
 import com.se.simplicity.jogl.model.shape.GLUSphere;
 import com.se.simplicity.model.shape.Capsule;
@@ -26,13 +27,6 @@ public class TranslationWidget implements Widget
 {
     /**
      * <p>
-     * The angle to rotate the models by so they sit on the correct axis.
-     * </p>
-     */
-    private static final float MODEL_ROTATION = 90.0f;
-
-    /**
-     * <p>
      * The factor to scale the length of each {@link com.se.simplicity.jogl.model.shape.GLUCapsule GLUCapsule} by.
      * </p>
      */
@@ -51,6 +45,13 @@ public class TranslationWidget implements Widget
      * </p>
      */
     private static final int CAPSULE_SLICES = 20;
+
+    /**
+     * <p>
+     * The angle to rotate the models by so they sit on the correct axis.
+     * </p>
+     */
+    private static final float MODEL_ROTATION = 90.0f;
 
     /**
      * <p>
@@ -96,10 +97,10 @@ public class TranslationWidget implements Widget
 
     /**
      * <p>
-     * The currently selected scene component.
+     * The selected scene component and primitive.
      * </p>
      */
-    private Object fSelectedSceneComponent;
+    private SceneSelection fSelection;
 
     /**
      * <p>
@@ -175,7 +176,7 @@ public class TranslationWidget implements Widget
     @Override
     public void executeMove(final int x, final int y)
     {
-        if (fSelectedSceneComponent instanceof Node)
+        if (fSelection.getSceneComponent() instanceof Node)
         {
             int invertedY = y * -1;
             SimpleTranslationVectorf4 translation = new SimpleTranslationVectorf4();
@@ -193,7 +194,7 @@ public class TranslationWidget implements Widget
                 translation.translateZ((x + invertedY) * TRANSLATION_FACTOR);
             }
 
-            ((Node) fSelectedSceneComponent).getTransformation().translate(translation);
+            ((Node) fSelection.getSceneComponent()).getTransformation().translate(translation);
             fRoot.getTransformation().translate(translation);
         }
     }
@@ -205,21 +206,15 @@ public class TranslationWidget implements Widget
     }
 
     @Override
-    public Object getSelectedSceneComponent()
-    {
-        return (fSelectedSceneComponent);
-    }
-
-    @Override
     public ModelNode getSelectedWidgetNode()
     {
         return (fSelectedWidgetNode);
     }
 
     @Override
-    public void setSelectedSceneComponent(final Object selectedSceneComponent)
+    public SceneSelection getSelection()
     {
-        fSelectedSceneComponent = selectedSceneComponent;
+        return (fSelection);
     }
 
     @Override
@@ -239,14 +234,20 @@ public class TranslationWidget implements Widget
     }
 
     @Override
+    public void setSelection(final SceneSelection selection)
+    {
+        fSelection = selection;
+    }
+
+    @Override
     public void updateView(final Camera camera)
     {
         // Transform the Widget to the position and orientation of the selected scene component.
-        if (fSelectedSceneComponent != null)
+        if (!fSelection.isEmpty())
         {
-            if (fSelectedSceneComponent instanceof Node)
+            if (fSelection.getSceneComponent() instanceof Node)
             {
-                fRoot.setTransformation(((Node) fSelectedSceneComponent).getAbsoluteTransformation());
+                fRoot.setTransformation(((Node) fSelection.getSceneComponent()).getAbsoluteTransformation());
             }
         }
 

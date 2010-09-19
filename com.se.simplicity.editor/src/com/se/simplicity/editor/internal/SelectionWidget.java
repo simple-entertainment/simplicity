@@ -1,5 +1,6 @@
 package com.se.simplicity.editor.internal;
 
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
@@ -26,10 +27,10 @@ public class SelectionWidget implements Widget
 
     /**
      * <p>
-     * The currently selected scene component.
+     * The selected scene component and primitive.
      * </p>
      */
-    private Object fSelectedSceneComponent;
+    private SceneSelection fSelection;
 
     /**
      * <p>
@@ -52,15 +53,15 @@ public class SelectionWidget implements Widget
     }
 
     @Override
-    public Object getSelectedSceneComponent()
-    {
-        return (fSelectedSceneComponent);
-    }
-
-    @Override
     public ModelNode getSelectedWidgetNode()
     {
         return (fRoot);
+    }
+
+    @Override
+    public SceneSelection getSelection()
+    {
+        return (fSelection);
     }
 
     /**
@@ -84,27 +85,27 @@ public class SelectionWidget implements Widget
     }
 
     @Override
-    public void setSelectedSceneComponent(final Object selectedSceneComponent)
-    {
-        fSelectedSceneComponent = selectedSceneComponent;
-    }
-
-    @Override
     public void setSelectedWidgetNode(final ModelNode selectedWidgetNode)
     {}
+
+    @Override
+    public void setSelection(final SceneSelection selection)
+    {
+        fSelection = selection;
+    }
 
     @Override
     public void updateView(final Camera camera)
     {
         // Transform the Widget to the orientation of the camera.
         fRoot.setTransformation(camera.getNode().getAbsoluteTransformation());
-        
+
         // Transform the Widget to the position of the selected scene component.
-        if (fSelectedSceneComponent != null)
+        if (!fSelection.isEmpty())
         {
-            if (fSelectedSceneComponent instanceof Node)
+            if (fSelection.getSceneComponent() instanceof Node)
             {
-                fRoot.getTransformation().setTranslation(((Node) fSelectedSceneComponent).getAbsoluteTransformation().getTranslation());
+                fRoot.getTransformation().setTranslation(((Node) fSelection.getSceneComponent()).getAbsoluteTransformation().getTranslation());
             }
         }
 
