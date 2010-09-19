@@ -11,9 +11,7 @@
  */
 package com.se.simplicity.jogl.rendering;
 
-import static com.se.simplicity.model.ModelConstants.CNV_ITEMS_IN_FACE;
 import static com.se.simplicity.model.ModelConstants.ITEMS_IN_CNV;
-import static com.se.simplicity.model.ModelConstants.VERTICES_IN_A_FACE;
 
 import javax.media.opengl.GL;
 
@@ -76,20 +74,15 @@ public class MonoColourJOGLRenderer extends SimpleJOGLRenderer
         float[] normals = vertexGroup.getNormals();
         float[] vertices = vertexGroup.getVertices();
 
-        for (int faceIndex = 0; faceIndex < vertices.length / CNV_ITEMS_IN_FACE; faceIndex++)
+        gl.glBegin(getJOGLDrawingMode(getDrawingMode()));
         {
-            gl.glBegin(getJOGLDrawingMode(getDrawingMode()));
+            for (int index = 0; index < vertices.length; index += ITEMS_IN_CNV)
             {
-                for (int vertexIndex = 0; vertexIndex < CNV_ITEMS_IN_FACE; vertexIndex += ITEMS_IN_CNV)
-                {
-                    int vertex = faceIndex * CNV_ITEMS_IN_FACE + vertexIndex;
-
-                    gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
-                    gl.glVertex3f(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
-                }
+                gl.glNormal3f(normals[index], normals[index + 1], normals[index + 2]);
+                gl.glVertex3f(vertices[index], vertices[index + 1], vertices[index + 2]);
             }
-            gl.glEnd();
         }
+        gl.glEnd();
     }
 
     @Override
@@ -100,22 +93,18 @@ public class MonoColourJOGLRenderer extends SimpleJOGLRenderer
         int[] indices = vertexGroup.getIndices();
         float[] normals = vertexGroup.getNormals();
         float[] vertices = vertexGroup.getVertices();
-        int vertex;
 
-        for (int faceIndex = 0; faceIndex < indices.length / VERTICES_IN_A_FACE; faceIndex++)
+        gl.glBegin(getJOGLDrawingMode(getDrawingMode()));
         {
-            gl.glBegin(getJOGLDrawingMode(getDrawingMode()));
+            for (int indicesIndex = 0; indicesIndex < indices.length; indicesIndex++)
             {
-                for (int vertexIndex = 0; vertexIndex < CNV_ITEMS_IN_FACE; vertexIndex += ITEMS_IN_CNV)
-                {
-                    vertex = indices[faceIndex * VERTICES_IN_A_FACE] * ITEMS_IN_CNV + vertexIndex;
+                int vertexIndex = indices[indicesIndex] * ITEMS_IN_CNV;
 
-                    gl.glNormal3f(normals[vertex], normals[vertex + 1], normals[vertex + 2]);
-                    gl.glVertex3f(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
-                }
+                gl.glNormal3f(normals[vertexIndex], normals[vertexIndex + 1], normals[vertexIndex + 2]);
+                gl.glVertex3f(vertices[vertexIndex], vertices[vertexIndex + 1], vertices[vertexIndex + 2]);
             }
-            gl.glEnd();
         }
+        gl.glEnd();
     }
 
     /**

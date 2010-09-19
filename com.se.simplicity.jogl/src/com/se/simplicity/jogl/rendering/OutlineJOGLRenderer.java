@@ -13,6 +13,7 @@ package com.se.simplicity.jogl.rendering;
 
 import javax.media.opengl.GL;
 
+import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
@@ -26,7 +27,7 @@ import com.se.simplicity.vector.RGBColourVectorf;
  * 
  * @author Gary Buyn
  */
-public class OutlineJOGLRenderer extends AdaptingJOGLRenderer
+public class OutlineJOGLRenderer implements Renderer, JOGLComponent
 {
     /**
      * <p>
@@ -41,6 +42,13 @@ public class OutlineJOGLRenderer extends AdaptingJOGLRenderer
      * </p>
      */
     private AlwaysStencilJOGLRenderer fAlwaysStencil;
+
+    /**
+     * <p>
+     * The JOGL rendering environment.
+     * </p>
+     */
+    private GL fGl;
 
     /**
      * <p>
@@ -68,19 +76,29 @@ public class OutlineJOGLRenderer extends AdaptingJOGLRenderer
      * <p>
      * Creates an instance of <code>OutlineJOGLRenderer</code>.
      * </p>
-     * 
-     * @param renderer The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} whose rendered {@link com.se.simplicity.model.Model Model}s
-     * will have an outline added to them.
      */
-    public OutlineJOGLRenderer(final Renderer renderer)
+    public OutlineJOGLRenderer()
     {
-        super(renderer);
-
-        fAlwaysStencil = new AlwaysStencilJOGLRenderer(renderer);
         fMonoColour = new MonoColourJOGLRenderer();
+        fAlwaysStencil = new AlwaysStencilJOGLRenderer(fMonoColour);
         fNotEqualStencil = new NotEqualStencilJOGLRenderer(fMonoColour);
-
         fOutlineWidth = DEFAULT_OUTLINE_WIDTH;
+    }
+
+    @Override
+    public void dispose()
+    {}
+
+    @Override
+    public DrawingMode getDrawingMode()
+    {
+        return (fMonoColour.getDrawingMode());
+    }
+
+    @Override
+    public GL getGL()
+    {
+        return (fGl);
     }
 
     /**
@@ -109,74 +127,83 @@ public class OutlineJOGLRenderer extends AdaptingJOGLRenderer
     }
 
     @Override
+    public void init()
+    {}
+
+    @Override
     public void renderModel(final Model model)
     {
-        GL gl = getGL();
-
         byte[] lightingEnabledParams = new byte[1];
-        gl.glGetBooleanv(GL.GL_LIGHTING, lightingEnabledParams, 0);
+        fGl.glGetBooleanv(GL.GL_LIGHTING, lightingEnabledParams, 0);
         byte[] cullFaceEnabledParams = new byte[1];
-        gl.glGetBooleanv(GL.GL_CULL_FACE, cullFaceEnabledParams, 0);
+        fGl.glGetBooleanv(GL.GL_CULL_FACE, cullFaceEnabledParams, 0);
 
         // Prepare for setting the stencil.
-        gl.glDrawBuffer(GL.GL_NONE);
+        fGl.glDrawBuffer(GL.GL_NONE);
+        if (cullFaceEnabledParams[0] == 1)
+        {
+            fGl.glDisable(GL.GL_CULL_FACE);
+        }
 
         fAlwaysStencil.init();
         fAlwaysStencil.renderModel(model);
         fAlwaysStencil.dispose();
 
         // Restore rendering environment settings.
-        gl.glDrawBuffer(GL.GL_BACK);
+        fGl.glDrawBuffer(GL.GL_BACK);
 
         // Prepare for rendering the outline.
-        if (cullFaceEnabledParams[0] == 1)
-        {
-            gl.glDisable(GL.GL_CULL_FACE);
-        }
+
         if (lightingEnabledParams[0] == 1)
         {
-            gl.glDisable(GL.GL_LIGHTING);
+            fGl.glDisable(GL.GL_LIGHTING);
         }
 
         // If outlines need to be drawn for the edges or faces, draw them.
         if (getDrawingMode() != DrawingMode.VERTICES)
         {
-            gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
-            gl.glLineWidth(fOutlineWidth);
+            fGl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
+            fGl.glLineWidth(fOutlineWidth);
 
             fNotEqualStencil.init();
             fNotEqualStencil.renderModel(model);
             fNotEqualStencil.dispose();
 
-            gl.glLineWidth(1.0f);
+            fGl.glLineWidth(1.0f);
         }
 
         // Draw outlines for the vertices (if edges or faces are being drawn this just gives nice rounded corners).
-        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_POINT);
-        gl.glPointSize(fOutlineWidth);
+        fGl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_POINT);
+        fGl.glPointSize(fOutlineWidth);
 
         fNotEqualStencil.init();
         fNotEqualStencil.renderModel(model);
         fNotEqualStencil.dispose();
 
-        gl.glPointSize(1.0f);
+        fGl.glPointSize(1.0f);
 
         // Restore rendering environment settings.
-        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_FILL);
+        fGl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_FILL);
         if (lightingEnabledParams[0] == 1)
         {
-            gl.glEnable(GL.GL_LIGHTING);
+            fGl.glEnable(GL.GL_LIGHTING);
         }
         if (cullFaceEnabledParams[0] == 1)
         {
-            gl.glEnable(GL.GL_CULL_FACE);
+            fGl.glEnable(GL.GL_CULL_FACE);
         }
+    }
+
+    @Override
+    public void setDrawingMode(final DrawingMode mode)
+    {
+        fMonoColour.setDrawingMode(mode);
     }
 
     @Override
     public void setGL(final GL gl)
     {
-        super.setGL(gl);
+        fGl = gl;
 
         fAlwaysStencil.setGL(gl);
         fMonoColour.setGL(gl);
