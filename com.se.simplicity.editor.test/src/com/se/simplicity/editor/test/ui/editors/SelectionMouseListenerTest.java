@@ -76,7 +76,7 @@ public class SelectionMouseListenerTest
         testObject = new SelectionMouseListener(mockSceneEditor);
 
         // Dictate expected results.
-        mockSceneEditor.pickForSelection(dimension, 100, 100, 2, 2);
+        mockSceneEditor.pickForSelection(dimension, 100, 100, 5, 5);
         replay(mockSceneEditor);
 
         // Perform test.

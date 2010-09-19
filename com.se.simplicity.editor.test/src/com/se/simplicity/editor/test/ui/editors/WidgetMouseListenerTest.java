@@ -82,7 +82,7 @@ public class WidgetMouseListenerTest
         testObject = new WidgetMouseListener(mockWidgetManager);
 
         // Dictate expected results.
-        mockPickingEngine.pickViewport(dimension, 100, 100, 2, 2);
+        mockPickingEngine.pickViewport(dimension, 100, 100, 5, 5);
         replay(mockPickingEngine);
 
         // Perform test.
