@@ -1,5 +1,7 @@
 package com.se.simplicity.editor.internal;
 
+import org.eclipse.jface.util.PropertyChangeEvent;
+
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.model.shape.GLUCapsule;
 import com.se.simplicity.jogl.model.shape.GLUSphere;
@@ -137,6 +139,9 @@ public class TranslationWidget implements Widget
      */
     public TranslationWidget()
     {
+        fSelectedWidgetNode = null;
+        fSelection = new SceneSelection(null, null);
+
         fRoot = new SimpleNode();
 
         GLUCapsule xCapsule = new GLUCapsule();

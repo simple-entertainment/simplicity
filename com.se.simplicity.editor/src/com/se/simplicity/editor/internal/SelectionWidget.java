@@ -40,6 +40,7 @@ public class SelectionWidget implements Widget
     public SelectionWidget()
     {
         fRoot = new SimpleModelNode();
+        fSelection = new SceneSelection(null, null);
     }
 
     @Override

@@ -11,6 +11,8 @@
  */
 package com.se.simplicity.editor.internal;
 
+import org.eclipse.jface.util.PropertyChangeEvent;
+
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.model.shape.GLUSphere;
 import com.se.simplicity.jogl.model.shape.GLUTorus;
@@ -146,6 +148,9 @@ public class RotationWidget implements Widget
      */
     public RotationWidget()
     {
+        fSelectedWidgetNode = null;
+        fSelection = new SceneSelection(null, null);
+
         fRoot = new SimpleNode();
 
         GLUTorus xTorus = new GLUTorus();

@@ -137,6 +137,9 @@ public class WidgetMouseListener implements MouseListener, MouseMoveListener
             fMouseButton1Down = false;
 
             fWidgetManager.getWidget().setSelectedWidgetNode(null);
+            // TODO implement when rotation getter/setters work properly.
+            // EditorPlugin.getInstance().propertyChanged(
+            // new PropertyChangeEvent(this, "node", null, fWidgetManager.getWidget().getSelection().getSceneComponent()));
         }
     }
 }
