@@ -19,25 +19,26 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
+import com.se.simplicity.jogl.rendering.MonoColourJOGLRenderer;
 import com.se.simplicity.jogl.test.mocks.MockGL;
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.IndexedArrayVG;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.DrawingMode;
 
 /**
  * <p>
- * Unit tests for the class {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderer SimpleJOGLRenderer}.
+ * Unit tests for the class {@link com.se.simplicity.jogl.rendering.MonoColourJOGLRenderer MonoColourJOGLRenderer}.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class SimpleJOGLRendererTest
+public class MonoColourJOGLRendererTest
 {
     /**
      * An instance of the class being unit tested.
      */
-    private SimpleJOGLRenderer testObject;
+    private MonoColourJOGLRenderer testObject;
 
     /**
      * <p>
@@ -47,12 +48,12 @@ public class SimpleJOGLRendererTest
     @Before
     public final void before()
     {
-        testObject = new SimpleJOGLRenderer();
+        testObject = new MonoColourJOGLRenderer();
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.MonoColourJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
      * condition that the <code>Model</code> is an instance of <code>ArrayVG</code> and is to be rendered as edges.
      * </p>
      */
@@ -77,24 +78,21 @@ public class SimpleJOGLRendererTest
         testObject.renderModel(mockModel);
 
         // Verify test results.
-        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_LINE_LOOP}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_LINE_LOOP}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}, 0, "glEnd", null));
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.MonoColourJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
      * condition that the <code>Model</code> is an instance of <code>ArrayVG</code> and is to be rendered as faces.
      * </p>
      */
@@ -119,24 +117,21 @@ public class SimpleJOGLRendererTest
         testObject.renderModel(mockModel);
 
         // Verify test results.
-        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_TRIANGLES}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_TRIANGLES}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}, 0, "glEnd", null));
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.MonoColourJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
      * condition that the <code>Model</code> is an instance of <code>ArrayVG</code> and is to be rendered as vertices.
      * </p>
      */
@@ -161,24 +156,21 @@ public class SimpleJOGLRendererTest
         testObject.renderModel(mockModel);
 
         // Verify test results.
-        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}, 0, "glEnd", null));
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.MonoColourJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
      * condition that the <code>Model</code> is an instance of <code>IndexedArrayVG</code> and is to be rendered as edges.
      * </p>
      */
@@ -204,24 +196,21 @@ public class SimpleJOGLRendererTest
         testObject.renderModel(mockModel);
 
         // Verify test results.
-        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_LINE_LOOP}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_LINE_LOOP}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}, 0, "glEnd", null));
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.MonoColourJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
      * condition that the <code>Model</code> is an instance of <code>IndexedArrayVG</code> and is to be rendered as faces.
      * </p>
      */
@@ -247,24 +236,21 @@ public class SimpleJOGLRendererTest
         testObject.renderModel(mockModel);
 
         // Verify test results.
-        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_TRIANGLES}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_TRIANGLES}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}, 0, "glEnd", null));
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.SimpleJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.MonoColourJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
      * condition that the <code>Model</code> is an instance of <code>IndexedArrayVG</code> and is to be rendered as vertices.
      * </p>
      */
@@ -290,17 +276,14 @@ public class SimpleJOGLRendererTest
         testObject.renderModel(mockModel);
 
         // Verify test results.
-        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
 
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
         assertTrue(mockGl.methodCallOrderCheck(2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}, 0, "glEnd", null));
     }

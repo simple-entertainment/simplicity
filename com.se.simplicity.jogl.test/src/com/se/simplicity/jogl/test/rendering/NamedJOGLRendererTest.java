@@ -52,76 +52,26 @@ public class NamedJOGLRendererTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer.renderVertexGroup renderVertexGroup()} with the special
-     * condition that the <code>VertexGroup</code> is an instance of <code>ArrayVG</code> and is to be rendered as vertices.
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
+     * condition that the <code>Model</code> is an instance of <code>ArrayVG</code> and is to be rendered as edges.
      * </p>
      */
     @Test
-    public void renderVertexGroupArrayVGVertices()
+    public void renderModelArrayVGEdges()
     {
         MockGL mockGl = new MockGL();
-        ArrayVG mockVertexGroup = createMock(ArrayVG.class);
+        ArrayVG mockModel = createMock(ArrayVG.class);
 
-        expect(mockVertexGroup.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
+        expect(mockModel.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
 
-        replay(mockVertexGroup);
-
-        testObject.setGL(mockGl);
-        testObject.setDrawingMode(DrawingMode.VERTICES);
-
-        testObject.renderModel(mockVertexGroup, 123);
-
-        assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
-
-        assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {0}, 0, "glBegin", new Object[] {MockGL.GL_POINTS}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 0, "glEnd", null));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glEnd", null, 0, "glPopName", null));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glPopName", null, 0, "glPushName", new Object[] {1}));
-
-        assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {1}, 1, "glBegin", new Object[] {MockGL.GL_POINTS}));
-        assertTrue(mockGl.methodCallOrderCheck(1, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 1, "glEnd", null));
-        assertTrue(mockGl.methodCallOrderCheck(1, "glEnd", null, 1, "glPopName", null));
-        assertTrue(mockGl.methodCallOrderCheck(1, "glPopName", null, 0, "glPushName", new Object[] {2}));
-
-        assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {2}, 2, "glBegin", new Object[] {MockGL.GL_POINTS}));
-        assertTrue(mockGl.methodCallOrderCheck(2, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}));
-        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}, 2, "glEnd", null));
-        assertTrue(mockGl.methodCallOrderCheck(2, "glEnd", null, 2, "glPopName", null));
-        assertTrue(mockGl.methodCallOrderCheck(2, "glPopName", null, 3, "glPopName", null));
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer.renderVertexGroup renderVertexGroup()} with the special
-     * condition that the <code>VertexGroup</code> is an instance of <code>ArrayVG</code> and is to be rendered as edges.
-     * </p>
-     */
-    @Test
-    public void renderVertexGroupArrayVGEdges()
-    {
-        MockGL mockGl = new MockGL();
-        ArrayVG mockVertexGroup = createMock(ArrayVG.class);
-
-        expect(mockVertexGroup.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
-
-        replay(mockVertexGroup);
+        replay(mockModel);
 
         testObject.setGL(mockGl);
         testObject.setDrawingMode(DrawingMode.EDGES);
 
-        testObject.renderModel(mockVertexGroup, 123);
+        testObject.renderModel(mockModel, 123);
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {0}, 0, "glBegin", new Object[] {MockGL.GL_LINE_LOOP}));
@@ -154,26 +104,26 @@ public class NamedJOGLRendererTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer.renderVertexGroup renderVertexGroup()} with the special
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
      * condition that the <code>VertexGroup</code> is an instance of <code>ArrayVG</code> and is to be rendered as faces.
      * </p>
      */
     @Test
-    public void renderVertexGroupArrayVGFaces()
+    public void renderModelArrayVGFaces()
     {
         MockGL mockGl = new MockGL();
-        ArrayVG mockVertexGroup = createMock(ArrayVG.class);
+        ArrayVG mockModel = createMock(ArrayVG.class);
 
-        expect(mockVertexGroup.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
+        expect(mockModel.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
 
-        replay(mockVertexGroup);
+        replay(mockModel);
 
         testObject.setGL(mockGl);
         testObject.setDrawingMode(DrawingMode.FACES);
 
-        testObject.renderModel(mockVertexGroup, 123);
+        testObject.renderModel(mockModel, 123);
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {0}, 0, "glBegin", new Object[] {MockGL.GL_TRIANGLES}));
@@ -197,27 +147,26 @@ public class NamedJOGLRendererTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer.renderVertexGroup renderVertexGroup()} with the special
-     * condition that the <code>VertexGroup</code> is an instance of <code>IndexedArrayVG</code> and is to be rendered as vertices.
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
+     * condition that the <code>Model</code> is an instance of <code>ArrayVG</code> and is to be rendered as vertices.
      * </p>
      */
     @Test
-    public void renderVertexGroupIndexedArrayVGVertices()
+    public void renderModelArrayVGVertices()
     {
         MockGL mockGl = new MockGL();
-        IndexedArrayVG mockVertexGroup = createMock(IndexedArrayVG.class);
+        ArrayVG mockModel = createMock(ArrayVG.class);
 
-        expect(mockVertexGroup.getIndices()).andStubReturn(new int[] {0, 1, 2});
-        expect(mockVertexGroup.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
+        expect(mockModel.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
 
-        replay(mockVertexGroup);
+        replay(mockModel);
 
         testObject.setGL(mockGl);
         testObject.setDrawingMode(DrawingMode.VERTICES);
 
-        testObject.renderModel(mockVertexGroup, 123);
+        testObject.renderModel(mockModel, 123);
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
 
@@ -248,27 +197,27 @@ public class NamedJOGLRendererTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer.renderVertexGroup renderVertexGroup()} with the special
-     * condition that the <code>VertexGroup</code> is an instance of <code>IndexedArrayVG</code> and is to be rendered as edges.
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
+     * condition that the <code>Model</code> is an instance of <code>IndexedArrayVG</code> and is to be rendered as edges.
      * </p>
      */
     @Test
-    public void renderVertexGroupIndexedArrayVGEdges()
+    public void renderModelIndexedArrayVGEdges()
     {
         MockGL mockGl = new MockGL();
-        IndexedArrayVG mockVertexGroup = createMock(IndexedArrayVG.class);
+        IndexedArrayVG mockModel = createMock(IndexedArrayVG.class);
 
-        expect(mockVertexGroup.getIndices()).andStubReturn(new int[] {0, 1, 2});
-        expect(mockVertexGroup.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
+        expect(mockModel.getIndices()).andStubReturn(new int[] {0, 1, 2});
+        expect(mockModel.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
 
-        replay(mockVertexGroup);
+        replay(mockModel);
 
         testObject.setGL(mockGl);
         testObject.setDrawingMode(DrawingMode.EDGES);
 
-        testObject.renderModel(mockVertexGroup, 123);
+        testObject.renderModel(mockModel, 123);
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {0}, 0, "glBegin", new Object[] {MockGL.GL_LINE_LOOP}));
@@ -301,27 +250,27 @@ public class NamedJOGLRendererTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer.renderVertexGroup renderVertexGroup()} with the special
-     * condition that the <code>VertexGroup</code> is an instance of <code>IndexedArrayVG</code> and is to be rendered as faces.
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
+     * condition that the <code>Model</code> is an instance of <code>IndexedArrayVG</code> and is to be rendered as faces.
      * </p>
      */
     @Test
-    public void renderVertexGroupIndexedArrayVGFaces()
+    public void renderModelIndexedArrayVGFaces()
     {
         MockGL mockGl = new MockGL();
-        IndexedArrayVG mockVertexGroup = createMock(IndexedArrayVG.class);
+        IndexedArrayVG mockModel = createMock(IndexedArrayVG.class);
 
-        expect(mockVertexGroup.getIndices()).andStubReturn(new int[] {0, 1, 2});
-        expect(mockVertexGroup.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
-        expect(mockVertexGroup.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
+        expect(mockModel.getIndices()).andStubReturn(new int[] {0, 1, 2});
+        expect(mockModel.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
 
-        replay(mockVertexGroup);
+        replay(mockModel);
 
         testObject.setGL(mockGl);
         testObject.setDrawingMode(DrawingMode.FACES);
 
-        testObject.renderModel(mockVertexGroup, 123);
+        testObject.renderModel(mockModel, 123);
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
         assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {0}, 0, "glBegin", new Object[] {MockGL.GL_TRIANGLES}));
@@ -341,5 +290,56 @@ public class NamedJOGLRendererTest
 
         assertTrue(mockGl.methodCallOrderCheck(0, "glEnd", null, 0, "glPopName", null));
         assertTrue(mockGl.methodCallOrderCheck(0, "glPopName", null, 1, "glPopName", null));
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.jogl.rendering.NamedJOGLRenderer#renderModel(Model) renderModel(Model)} with the special
+     * condition that the <code>Model</code> is an instance of <code>IndexedArrayVG</code> and is to be rendered as vertices.
+     * </p>
+     */
+    @Test
+    public void renderModelIndexedArrayVGVertices()
+    {
+        MockGL mockGl = new MockGL();
+        IndexedArrayVG mockModel = createMock(IndexedArrayVG.class);
+
+        expect(mockModel.getIndices()).andStubReturn(new int[] {0, 1, 2});
+        expect(mockModel.getColours()).andStubReturn(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getNormals()).andStubReturn(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
+        expect(mockModel.getVertices()).andStubReturn(new float[] {0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f});
+
+        replay(mockModel);
+
+        testObject.setGL(mockGl);
+        testObject.setDrawingMode(DrawingMode.VERTICES);
+
+        testObject.renderModel(mockModel, 123);
+
+        assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {123}, 0, "glPushName", new Object[] {0}));
+
+        assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {0}, 0, "glBegin", new Object[] {MockGL.GL_POINTS}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {1.0f, 0.0f, 0.0f}, 0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {0.0f, 2.0f, 0.0f}, 0, "glEnd", null));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glEnd", null, 0, "glPopName", null));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glPopName", null, 0, "glPushName", new Object[] {1}));
+
+        assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {1}, 1, "glBegin", new Object[] {MockGL.GL_POINTS}));
+        assertTrue(mockGl.methodCallOrderCheck(1, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 1.0f, 0.0f}, 1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(1, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {1.0f, 0.0f, 0.0f}, 1, "glEnd", null));
+        assertTrue(mockGl.methodCallOrderCheck(1, "glEnd", null, 1, "glPopName", null));
+        assertTrue(mockGl.methodCallOrderCheck(1, "glPopName", null, 0, "glPushName", new Object[] {2}));
+
+        assertTrue(mockGl.methodCallOrderCheck(0, "glPushName", new Object[] {2}, 2, "glBegin", new Object[] {MockGL.GL_POINTS}));
+        assertTrue(mockGl.methodCallOrderCheck(2, "glBegin", new Object[] {MockGL.GL_POINTS}, 0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glColor3f", new Object[] {0.0f, 0.0f, 1.0f}, 2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(2, "glNormal3f", new Object[] {0.0f, 0.0f, 1.0f}, 0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}));
+        assertTrue(mockGl.methodCallOrderCheck(0, "glVertex3f", new Object[] {-1.0f, 0.0f, 0.0f}, 2, "glEnd", null));
+        assertTrue(mockGl.methodCallOrderCheck(2, "glEnd", null, 2, "glPopName", null));
+        assertTrue(mockGl.methodCallOrderCheck(2, "glPopName", null, 3, "glPopName", null));
     }
 }
