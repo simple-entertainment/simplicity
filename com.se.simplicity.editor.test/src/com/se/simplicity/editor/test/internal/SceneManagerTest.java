@@ -15,6 +15,7 @@ import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.isNull;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
@@ -30,12 +31,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.SceneManager;
+import com.se.simplicity.editor.internal.SelectionMode;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.OutlineJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.test.mocks.MockGL;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
@@ -245,22 +249,26 @@ public class SceneManagerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager2#setSelectedSceneComponent(Object).
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setSelectedSceneComponent(Object) with the special condition that no
+     * scene component is selected.
      * </p>
      */
     @Test
-    public void setSelectedSceneComponent()
+    public void setSelectionEmpty()
     {
         // Create dependencies.
         Scene mockScene = createMock(Scene.class);
         RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
-        Node mockNode = createMock(Node.class);
+
+        SceneSelection mockSelection = createMock(SceneSelection.class);
 
         // Dictate correct behaviour.
         mockRenderingEngine.addRenderer((Renderer) anyObject());
         mockRenderingEngine.addRenderer((Renderer) anyObject());
         mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
-        replay(mockRenderingEngine);
+        expect(mockSelection.getSceneComponent()).andStubReturn(null);
+        expect(mockSelection.getPrimitive()).andStubReturn(null);
+        replay(mockRenderingEngine, mockSelection);
 
         // Initialise test environment.
         testObject.setScene(mockScene);
@@ -269,11 +277,11 @@ public class SceneManagerTest
 
         // Dictate expected results.
         reset(mockRenderingEngine);
-        mockRenderingEngine.setRendererRoot(isA(OutlineJOGLRenderer.class), eq(mockNode));
+        mockRenderingEngine.setRendererRoot(isA(OutlineJOGLRenderer.class), (Node) isNull());
         replay(mockRenderingEngine);
 
         // Perform test.
-        testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelection(mockSelection);
 
         // Verify test results.
         verify(mockRenderingEngine);
@@ -281,22 +289,27 @@ public class SceneManagerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager2#setSelectedSceneComponent(Object).
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setSelection(SceneSelection) with the special condition that the
+     * selected scene component is a Node.
      * </p>
      */
     @Test
-    public void setSelectedSceneComponentNull()
+    public void setSelectionNode()
     {
         // Create dependencies.
         Scene mockScene = createMock(Scene.class);
         RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+
+        SceneSelection mockSelection = createMock(SceneSelection.class);
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
         mockRenderingEngine.addRenderer((Renderer) anyObject());
         mockRenderingEngine.addRenderer((Renderer) anyObject());
         mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
-        replay(mockRenderingEngine);
+        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
+        expect(mockSelection.getPrimitive()).andStubReturn(null);
+        replay(mockRenderingEngine, mockSelection);
 
         // Initialise test environment.
         testObject.setScene(mockScene);
@@ -309,7 +322,50 @@ public class SceneManagerTest
         replay(mockRenderingEngine);
 
         // Perform test.
-        testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelection(mockSelection);
+
+        // Verify test results.
+        verify(mockRenderingEngine);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setSelection(SceneSelection) with the special condition that the
+     * selected scene component is a Node and the selection mode is NOT 'MODEL'.
+     * </p>
+     */
+    @Test
+    public void setSelectionPrimitive()
+    {
+        // Create dependencies.
+        Scene mockScene = createMock(Scene.class);
+        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
+
+        SceneSelection mockSelection = createMock(SceneSelection.class);
+        Node mockNode = createMock(Node.class);
+        Model mockPrimitive = createMock(Model.class);
+
+        // Dictate correct behaviour.
+        mockRenderingEngine.addRenderer((Renderer) anyObject());
+        mockRenderingEngine.addRenderer((Renderer) anyObject());
+        mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
+        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
+        expect(mockSelection.getPrimitive()).andStubReturn(mockPrimitive);
+        replay(mockRenderingEngine, mockSelection);
+
+        // Initialise test environment.
+        testObject.setScene(mockScene);
+        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject.setSelectionMode(SelectionMode.FACES);
+        testObject.init();
+
+        // Dictate expected results.
+        reset(mockRenderingEngine);
+        mockRenderingEngine.setRendererRoot(isA(OutlineJOGLRenderer.class), (Node) anyObject());
+        replay(mockRenderingEngine);
+
+        // Perform test.
+        testObject.setSelection(mockSelection);
 
         // Verify test results.
         verify(mockRenderingEngine);
