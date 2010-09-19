@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.SelectionWidget;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
@@ -71,6 +72,7 @@ public class SelectionWidgetTest
         cameraTransformation1.setXAxisTranslation(-10.0f);
         cameraTransformation1.setZAxisRotation((float) Math.toRadians(-10.0));
 
+        SceneSelection mockSelection = createMock(SceneSelection.class);
         Node mockSceneNode = createMock(Node.class);
         SimpleTransformationMatrixf44 sceneTransformation = new SimpleTransformationMatrixf44();
         sceneTransformation.setXAxisTranslation(10.0f);
@@ -81,11 +83,13 @@ public class SelectionWidgetTest
         expect(mockCameraNode.getParent()).andStubReturn(mockParentCameraNode);
         expect(mockCameraNode.getAbsoluteTransformation()).andReturn(cameraTransformation0);
         expect(mockCameraNode.getAbsoluteTransformation()).andReturn(cameraTransformation1);
+        expect(mockSelection.isEmpty()).andStubReturn(false);
+        expect(mockSelection.getSceneComponent()).andStubReturn(mockSceneNode);
         expect(mockSceneNode.getAbsoluteTransformation()).andStubReturn(sceneTransformation);
-        replay(mockCamera, mockCameraNode, mockParentCameraNode, mockSceneNode);
+        replay(mockCamera, mockCameraNode, mockParentCameraNode, mockSelection, mockSceneNode);
 
         // Initialise test environment.
-        testObject.setSelectedSceneComponent(mockSceneNode);
+        testObject.setSelection(mockSelection);
 
         // Perform test.
         testObject.updateView(mockCamera);

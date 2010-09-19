@@ -33,6 +33,7 @@ import org.junit.Test;
 import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.WidgetManager;
 import com.se.simplicity.editor.internal.rendering.WidgetJOGLRenderer;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.test.mocks.MockGL;
@@ -224,23 +225,24 @@ public class WidgetManagerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.WidgetManager#setSelectedSceneComponent(Object)
-     * setSelectedSceneComponent(Object)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.WidgetManager#setSelection(Object) setSelectedSceneComponent(Object)}.
      * </p>
      */
     @Test
     public void setSelectedSceneComponent()
     {
         // Create dependencies.
+        SceneSelection mockSelection = createMock(SceneSelection.class);
         Scene mockScene = createMock(Scene.class);
         RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
         SceneGraph mockSceneGraph = createMock(SceneGraph.class);
         Node mockNode = createMock(Node.class);
 
         // Dictate expected results.
+        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
         expect(mockScene.getSceneGraph()).andStubReturn(mockSceneGraph);
         expect(mockSceneGraph.getRoot()).andStubReturn(mockNode);
-        replay(mockScene, mockSceneGraph);
+        replay(mockSelection, mockScene, mockSceneGraph);
 
         // Initialise test environment.
         testObject.setScene(mockScene);
@@ -248,17 +250,17 @@ public class WidgetManagerTest
         testObject.init();
 
         // Perform test.
-        testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelection(mockSelection);
 
         // Verify results.
         testObject.setEditingMode(EditingMode.ROTATION);
-        assertEquals(mockNode, testObject.getWidget().getSelectedSceneComponent());
+        assertEquals(mockSelection, testObject.getWidget().getSelection());
 
         testObject.setEditingMode(EditingMode.SELECTION);
-        assertEquals(mockNode, testObject.getWidget().getSelectedSceneComponent());
+        assertEquals(mockSelection, testObject.getWidget().getSelection());
 
         testObject.setEditingMode(EditingMode.TRANSLATION);
-        assertEquals(mockNode, testObject.getWidget().getSelectedSceneComponent());
+        assertEquals(mockSelection, testObject.getWidget().getSelection());
     }
 
     /**

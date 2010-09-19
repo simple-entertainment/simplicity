@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.RotationWidget;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.model.shape.Sphere;
 import com.se.simplicity.model.shape.Torus;
@@ -67,15 +68,18 @@ public class RotationWidgetTest
     public void executeMoveXAxis()
     {
         // Create dependencies.
+        SceneSelection mockSelection = createMock(SceneSelection.class);
         Node mockNode = createMock(Node.class);
         SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
 
         // Dictate correct behaviour.
+        expect(mockSelection.isEmpty()).andStubReturn(false);
+        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
         expect(mockNode.getTransformation()).andStubReturn(transformation);
-        replay(mockNode);
+        replay(mockSelection, mockNode);
 
         // Initialise test environment.
-        testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelection(mockSelection);
         testObject.setSelectedWidgetNode((ModelNode) testObject.getRootNode().getChildren().get(0));
 
         // Perform test.
@@ -97,15 +101,18 @@ public class RotationWidgetTest
     public void executeMoveYAxis()
     {
         // Create dependencies.
+        SceneSelection mockSelection = createMock(SceneSelection.class);
         Node mockNode = createMock(Node.class);
         SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
 
         // Dictate correct behaviour.
+        expect(mockSelection.isEmpty()).andStubReturn(false);
+        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
         expect(mockNode.getTransformation()).andStubReturn(transformation);
-        replay(mockNode);
+        replay(mockSelection, mockNode);
 
         // Initialise test environment.
-        testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelection(mockSelection);
         testObject.setSelectedWidgetNode((ModelNode) testObject.getRootNode().getChildren().get(1));
 
         // Perform test.
@@ -127,15 +134,18 @@ public class RotationWidgetTest
     public void executeMoveZAxis()
     {
         // Create dependencies.
+        SceneSelection mockSelection = createMock(SceneSelection.class);
         Node mockNode = createMock(Node.class);
         SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
 
         // Dictate correct behaviour.
+        expect(mockSelection.isEmpty()).andStubReturn(false);
+        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
         expect(mockNode.getTransformation()).andStubReturn(transformation);
-        replay(mockNode);
+        replay(mockSelection, mockNode);
 
         // Initialise test environment.
-        testObject.setSelectedSceneComponent(mockNode);
+        testObject.setSelection(mockSelection);
         testObject.setSelectedWidgetNode((ModelNode) testObject.getRootNode().getChildren().get(2));
 
         // Perform test.
@@ -149,12 +159,11 @@ public class RotationWidgetTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.RotationWidget#setSelectedNodeComponent(ModelNode)
-     * setSelectedNodeComponent(ModelNode)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.RotationWidget#setSelection(SceneSelection) setSelection(SceneSelection)}.
      * </p>
      */
     @Test
-    public void setSelectedNodeComponent()
+    public void setSelection()
     {
         // Create dependencies.
         ModelNode mockModelNode = createMock(ModelNode.class);
@@ -226,6 +235,7 @@ public class RotationWidgetTest
         SimpleTransformationMatrixf44 cameraTransformation = new SimpleTransformationMatrixf44();
         cameraTransformation.setXAxisTranslation(-10.0f);
 
+        SceneSelection mockSelection = createMock(SceneSelection.class);
         Node mockSceneNode = createMock(Node.class);
         SimpleTransformationMatrixf44 sceneTransformation = new SimpleTransformationMatrixf44();
         sceneTransformation.setXAxisTranslation(10.0f);
@@ -234,11 +244,13 @@ public class RotationWidgetTest
         // Dictate correct behaviour.
         expect(mockCamera.getNode()).andStubReturn(mockCameraNode);
         expect(mockCameraNode.getAbsoluteTransformation()).andStubReturn(cameraTransformation);
+        expect(mockSelection.isEmpty()).andStubReturn(false);
+        expect(mockSelection.getSceneComponent()).andStubReturn(mockSceneNode);
         expect(mockSceneNode.getAbsoluteTransformation()).andStubReturn(sceneTransformation);
-        replay(mockCamera, mockCameraNode, mockSceneNode);
+        replay(mockCamera, mockCameraNode, mockSelection, mockSceneNode);
 
         // Initialise test environment.
-        testObject.setSelectedSceneComponent(mockSceneNode);
+        testObject.setSelection(mockSelection);
 
         // Perform test.
         testObject.updateView(mockCamera);

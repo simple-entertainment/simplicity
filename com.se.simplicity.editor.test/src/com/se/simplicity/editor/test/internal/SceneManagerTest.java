@@ -249,7 +249,7 @@ public class SceneManagerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setSelectedSceneComponent(Object) with the special condition that no
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setSelection(Object) with the special condition that no
      * scene component is selected.
      * </p>
      */
