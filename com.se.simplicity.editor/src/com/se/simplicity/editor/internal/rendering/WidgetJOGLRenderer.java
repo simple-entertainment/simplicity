@@ -15,6 +15,7 @@ import javax.media.opengl.GL;
 
 import com.se.simplicity.editor.internal.SelectionWidget;
 import com.se.simplicity.editor.internal.Widget;
+import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.rendering.AdaptingJOGLRenderer;
 import com.se.simplicity.jogl.rendering.BlendingJOGLRenderer;
 import com.se.simplicity.jogl.rendering.DepthClearingJOGLRenderer;
@@ -22,6 +23,7 @@ import com.se.simplicity.jogl.rendering.OutlineJOGLRenderer;
 import com.se.simplicity.jogl.rendering.StencilClearingJOGLRenderer;
 import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.vector.ArrayBackedObjectf;
@@ -53,7 +55,7 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
      * SelectionWidget}.
      * </p>
      */
-    private OutlineJOGLRenderer fOutlineWidgetRenderer;
+    private Renderer fOutlineWidgetRenderer;
 
     /**
      * <p>
@@ -61,7 +63,7 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
      * except the {@link com.se.simplicity.editor.internal.SelectionWidget SelectionWidget}.
      * </p>
      */
-    private BlendingJOGLRenderer fStandardWidgetRenderer;
+    private AdaptingJOGLRenderer fStandardWidgetRenderer;
 
     /**
      * <p>
@@ -85,7 +87,7 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
         fWidget = null;
 
         fStandardWidgetRenderer = new BlendingJOGLRenderer(new DepthClearingJOGLRenderer(renderer));
-        fOutlineWidgetRenderer = new OutlineJOGLRenderer(new StencilClearingJOGLRenderer(fStandardWidgetRenderer));
+        fOutlineWidgetRenderer = new StencilClearingJOGLRenderer(new OutlineJOGLRenderer());
     }
 
     @Override
@@ -93,13 +95,11 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
     {
         if (fWidget != null)
         {
+            fStandardWidgetRenderer.dispose();
+
             if (fWidget instanceof SelectionWidget)
             {
                 fOutlineWidgetRenderer.dispose();
-            }
-            else
-            {
-                fStandardWidgetRenderer.dispose();
             }
         }
     }
@@ -135,13 +135,11 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
     {
         if (fWidget != null)
         {
+            fStandardWidgetRenderer.init();
+
             if (fWidget instanceof SelectionWidget)
             {
                 fOutlineWidgetRenderer.init();
-            }
-            else
-            {
-                fStandardWidgetRenderer.init();
             }
         }
     }
@@ -162,7 +160,9 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
                 fCamera.apply();
                 gl.glMultMatrixf(((ArrayBackedObjectf) fWidget.getRootNode().getTransformation()).getArray(), 0);
 
-                fOutlineWidgetRenderer.renderModel(((ModelNode) fWidget.getRootNode()).getModel());
+                Model widgetModel = ((ModelNode) fWidget.getRootNode()).getModel();
+                fStandardWidgetRenderer.renderModel(widgetModel);
+                fOutlineWidgetRenderer.renderModel(widgetModel);
 
                 gl.glPopMatrix();
             }
@@ -191,7 +191,7 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
     {
         super.setGL(gl);
 
-        fOutlineWidgetRenderer.setGL(gl);
+        ((JOGLComponent) fOutlineWidgetRenderer).setGL(gl);
         fStandardWidgetRenderer.setGL(gl);
     }
 
