@@ -17,6 +17,7 @@ import javax.media.opengl.GL;
 
 import org.apache.commons.logging.LogFactory;
 
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
@@ -24,6 +25,7 @@ import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.OutlineJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.DrawingMode;
@@ -31,6 +33,7 @@ import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
 import com.se.simplicity.scenegraph.Node;
+import com.se.simplicity.scenegraph.model.SimpleModelNode;
 import com.se.simplicity.util.metadata.scene.MetaDataScene;
 
 /**
@@ -60,6 +63,13 @@ public class SceneManager
 
     /**
      * <p>
+     * Fills the select buffer with {@link com.se.simplicity.scene.Scene Scene} selection data.
+     * </p>
+     */
+    private Renderer fPickingRenderer;
+
+    /**
+     * <p>
      * Renders the {@link com.se.simplicity.scene.Scene Scene}.
      * </p>
      */
@@ -79,6 +89,13 @@ public class SceneManager
      * </p>
      */
     private Scene fScene;
+
+    /**
+     * <p>
+     * The {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     * </p>
+     */
+    private SelectionMode fSelectionMode;
 
     /**
      * <p>
@@ -159,7 +176,7 @@ public class SceneManager
     {
         initRenderers();
         initPickingEngine();
-	}
+    }
 
     /**
      * <p>
@@ -172,16 +189,13 @@ public class SceneManager
         fPickingEngine = new SimpleJOGLPickingEngine();
         SimpleJOGLPicker picker = new SimpleJOGLPicker();
         SimpleJOGLRenderingEngine renderingEngine = new SimpleJOGLRenderingEngine();
-        NamedJOGLRenderer renderer = new NamedJOGLRenderer();
+        fPickingRenderer = new NamedJOGLRenderer();
 
         fPickingEngine.setPicker(picker);
         picker.setRenderingEngine(renderingEngine);
-        renderingEngine.addRenderer(renderer);
+        renderingEngine.addRenderer(fPickingRenderer);
 
-        if (fScene != null)
-        {
-            fPickingEngine.setScene(fScene);
-        }
+        fPickingEngine.setScene(fScene);
     }
 
     /**
@@ -223,7 +237,7 @@ public class SceneManager
             }
         }
 
-        fOutlineRenderer = new OutlineJOGLRenderer(fRenderer);
+        fOutlineRenderer = new OutlineJOGLRenderer();
 
         fRenderingEngine.addRenderer(fRenderer);
         fRenderingEngine.addRenderer(fOutlineRenderer);
@@ -262,7 +276,6 @@ public class SceneManager
         }
 
         fRenderer.setDrawingMode(drawingMode);
-        fOutlineRenderer.setDrawingMode(drawingMode);
 
         ((SimpleJOGLPicker) fPickingEngine.getPicker()).getRenderingEngine().getRenderers().get(0).setDrawingMode(drawingMode);
     }
@@ -276,11 +289,6 @@ public class SceneManager
      */
     public void setGL(final GL gl)
     {
-        if (fPickingEngine == null)
-        {
-            throw new IllegalStateException("This Scene Manager must be initialised before the JOGL rendering environment can be set.");
-        }
-
         ((JOGLComponent) fPickingEngine).setGL(gl);
         ((JOGLComponent) ((SimpleJOGLPicker) fPickingEngine.getPicker()).getRenderingEngine()).setGL(gl);
     }
@@ -308,34 +316,40 @@ public class SceneManager
     public void setScene(final Scene scene)
     {
         fScene = scene;
-
-        if (fPickingEngine != null)
-        {
-            fPickingEngine.setScene(fScene);
-        }
     }
 
     /**
      * <p>
-     * Sets the currently selected scene component.
+     * Sets the selected scene component and primitive.
      * </p>
      * 
-     * @param selectedSceneComponent The currently selected scene component.
+     * @param selection The selected scene component and primitive.
      */
-    public void setSelectedSceneComponent(final Object selectedSceneComponent)
+    public void setSelection(final SceneSelection selection)
     {
-        if (fOutlineRenderer == null)
-        {
-            throw new IllegalStateException("This Scene Manager must be initialised before a scene component can be selected.");
-        }
+        Object sceneComponent = selection.getSceneComponent();
+        Model primitive = selection.getPrimitive();
 
-        if (selectedSceneComponent == null)
+        if (sceneComponent instanceof Node)
+        {
+            if (primitive != null && fSelectionMode != SelectionMode.MODEL)
+            {
+                SimpleModelNode primitiveNode = new SimpleModelNode();
+                primitiveNode.setModel(primitive);
+
+                // Translate the primitive model to its correct position.
+                primitiveNode.setTransformation(((Node) sceneComponent).getAbsoluteTransformation());
+
+                fRenderingEngine.setRendererRoot(fOutlineRenderer, primitiveNode);
+            }
+            else
+            {
+                fRenderingEngine.setRendererRoot(fOutlineRenderer, (Node) sceneComponent);
+            }
+        }
+        else
         {
             fRenderingEngine.setRendererRoot(fOutlineRenderer, null);
-        }
-        else if (selectedSceneComponent instanceof Node)
-        {
-            fRenderingEngine.setRendererRoot(fOutlineRenderer, (Node) selectedSceneComponent);
         }
     }
 
@@ -348,11 +362,37 @@ public class SceneManager
      */
     public void setViewportSize(final Dimension viewportSize)
     {
-        if (fPickingEngine == null)
-        {
-            throw new IllegalStateException("This Scene Manager must be initialised before a viewport size can be set.");
-        }
-
         ((SimpleJOGLPicker) fPickingEngine.getPicker()).getRenderingEngine().setViewportSize(viewportSize);
+    }
+
+    /**
+     * <p>
+     * Sets the {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     * </p>
+     * 
+     * @param selectionMode The {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     */
+    public void setSelectionMode(final SelectionMode selectionMode)
+    {
+        fSelectionMode = selectionMode;
+
+        if (fSelectionMode == SelectionMode.EDGES)
+        {
+            fOutlineRenderer.setDrawingMode(DrawingMode.EDGES);
+            fPickingEngine.getPicker().setDrawingMode(DrawingMode.EDGES);
+            fPickingRenderer.setDrawingMode(DrawingMode.EDGES);
+        }
+        else if (fSelectionMode == SelectionMode.VERTICES)
+        {
+            fOutlineRenderer.setDrawingMode(DrawingMode.VERTICES);
+            fPickingEngine.getPicker().setDrawingMode(DrawingMode.VERTICES);
+            fPickingRenderer.setDrawingMode(DrawingMode.VERTICES);
+        }
+        else
+        {
+            fOutlineRenderer.setDrawingMode(DrawingMode.FACES);
+            fPickingEngine.getPicker().setDrawingMode(DrawingMode.FACES);
+            fPickingRenderer.setDrawingMode(DrawingMode.FACES);
+        }
     }
 }
