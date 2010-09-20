@@ -1,7 +1,5 @@
 package com.se.simplicity.editor.internal;
 
-import static com.se.simplicity.model.ModelConstants.ITEMS_IN_CNV;
-
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,26 +8,26 @@ import java.util.Map.Entry;
 import javax.media.opengl.GL;
 
 import com.se.simplicity.editor.internal.picking.WidgetJOGLPicker;
-import com.se.simplicity.editor.internal.rendering.WidgetJOGLRenderer;
+import com.se.simplicity.editor.internal.rendering.ManipulationWidgetJOGLRenderer;
+import com.se.simplicity.editor.internal.rendering.SelectionWidgetJOGLRenderer;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
+import com.se.simplicity.jogl.rendering.AdaptingJOGLRenderer;
+import com.se.simplicity.jogl.rendering.BlendingJOGLRenderer;
+import com.se.simplicity.jogl.rendering.DepthClearingJOGLRenderer;
 import com.se.simplicity.jogl.rendering.NamePassingJOGLRenderer;
 import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.jogl.scene.SimpleJOGLScene;
-import com.se.simplicity.model.ArrayVG;
-import com.se.simplicity.model.Model;
 import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.Camera;
+import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
-import com.se.simplicity.scenegraph.SceneGraph;
 import com.se.simplicity.scenegraph.SimpleSceneGraph;
-import com.se.simplicity.vector.SimpleTranslationVectorf4;
-import com.se.simplicity.vector.TranslationVectorf;
 
 /**
  * <p>
@@ -49,6 +47,25 @@ public class WidgetManager
 
     /**
      * <p>
+     * Fills the select buffer with {@link com.se.simplicity.editor.internal.Widget Widget} selection data.
+     * </p>
+     */
+    private AdaptingJOGLRenderer fManipulationPickingRenderer;
+
+    /**
+     * <p>
+     * Renders the manipulation {@link com.se.simplicity.editor.internal.Widget Widget}s.
+     * </p>
+     */
+    private ManipulationWidgetJOGLRenderer fManipulationWidgetRenderer;
+
+    /**
+     * The {@link com.se.simplicity.scene.Scene Scene} that contains the manipulation {@link com.se.simplicity.editor.internal.Widget Widget}.
+     */
+    private Scene fManipulationWidgetScene;
+
+    /**
+     * <p>
      * The {@link com.se.simplicity.picking.engine.PickingEngine PickingEngine} used to select the {@link com.se.simplicity.editor.internal.Widget
      * Widget}s.
      * </p>
@@ -57,17 +74,11 @@ public class WidgetManager
 
     /**
      * <p>
-     * Fills the select buffer with {@link com.se.simplicity.editor.internal.Widget Widget} selection data.
+     * The {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} used to select the
+     * {@link com.se.simplicity.editor.internal.Widget Widget}s.
      * </p>
      */
-    private NamePassingJOGLRenderer fPickingRenderer;
-
-    /**
-     * <p>
-     * Renders the {@link com.se.simplicity.editor.internal.Widget Widget}s.
-     * </p>
-     */
-    private WidgetJOGLRenderer fRenderer;
+    private SimpleJOGLRenderingEngine fPickingRenderingEngine;
 
     /**
      * <p>
@@ -86,41 +97,24 @@ public class WidgetManager
 
     /**
      * <p>
+     * Fills the select buffer with {@link com.se.simplicity.scene.Scene Scene} selection data.
+     * </p>
+     */
+    private AdaptingJOGLRenderer fSelectionPickingRenderer;
+
+    /**
+     * <p>
+     * Renders the selection {@link com.se.simplicity.editor.internal.Widget Widget}.
+     * </p>
+     */
+    private SelectionWidgetJOGLRenderer fSelectionWidgetRenderer;
+
+    /**
+     * <p>
      * The {@link com.se.simplicity.editor.internal.Widget Widget}s used to manipulate {@link com.se.simplicity.model.Model Model}s.
      * </p>
      */
     private Map<EditingMode, Widget> fWidgets;
-
-    /**
-     * The {@link com.se.simplicity.scene.Scene Scene} that contains the current {@link com.se.simplicity.editor.internal.Widget Widget}.
-     */
-    private Scene fWidgetScene;
-
-    /**
-     * <p>
-     * The {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} used to select the
-     * {@link com.se.simplicity.editor.internal.Widget Widget}s.
-     * </p>
-     */
-    private SimpleJOGLRenderingEngine fPickingRenderingEngine;
-
-    /**
-     * <p>
-     * Creates an instance of <code>WidgetManager</code>.
-     * </p>
-     */
-    public WidgetManager()
-    {
-        fEditingMode = null;
-        fPickingEngine = null;
-        fPickingRenderer = null;
-        fPickingRenderingEngine = null;
-        fRenderer = new WidgetJOGLRenderer(new SimpleJOGLRenderer());
-        fRenderingEngine = null;
-        fScene = null;
-        fWidgets = new HashMap<EditingMode, Widget>();
-        fWidgetScene = null;
-    }
 
     /**
      * <p>
@@ -129,19 +123,26 @@ public class WidgetManager
      * 
      * @param scene The {@link com.se.simplicity.scene.Scene Scene} displayed by the {@link com.se.simplicity.editor.ui.editors.SceneEditor
      * SceneEditor}.
+     * @param renderingEngine The {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that will render the
+     * {@link com.se.simplicity.editor.internal.Widget Widget}s to the 3D canvas.
      */
-    public WidgetManager(final Scene scene)
+    public WidgetManager(final Scene scene, final RenderingEngine renderingEngine)
     {
+        fRenderingEngine = renderingEngine;
         fScene = scene;
 
+        Renderer basePickingRenderer = new NamedJOGLRenderer();
+        Renderer baseWidgetRenderer = new BlendingJOGLRenderer(new DepthClearingJOGLRenderer(new SimpleJOGLRenderer()));
+
         fEditingMode = null;
+        fManipulationPickingRenderer = new NamePassingJOGLRenderer(new ManipulationWidgetJOGLRenderer(basePickingRenderer));
+        fManipulationWidgetRenderer = new ManipulationWidgetJOGLRenderer(baseWidgetRenderer);
+        fManipulationWidgetScene = null;
         fPickingEngine = null;
-        fPickingRenderer = null;
         fPickingRenderingEngine = null;
-        fRenderer = new WidgetJOGLRenderer(new SimpleJOGLRenderer());
-        fRenderingEngine = null;
+        fSelectionPickingRenderer = new NamePassingJOGLRenderer(new SelectionWidgetJOGLRenderer(basePickingRenderer));
+        fSelectionWidgetRenderer = new SelectionWidgetJOGLRenderer(baseWidgetRenderer);
         fWidgets = new HashMap<EditingMode, Widget>();
-        fWidgetScene = null;
     }
 
     /**
@@ -168,36 +169,6 @@ public class WidgetManager
     public PickingEngine getPickingEngine()
     {
         return (fPickingEngine);
-    }
-
-    protected TranslationVectorf getPrimitiveTranslation(final Model primitive)
-    {
-        SimpleTranslationVectorf4 translation = new SimpleTranslationVectorf4();
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-
-        if (primitive instanceof ArrayVG)
-        {
-            float[] vertices = ((ArrayVG) primitive).getVertices();
-            int vertexCount = vertices.length / ITEMS_IN_CNV;
-            for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
-            {
-                x += vertices[vertexIndex];
-                y += vertices[vertexIndex] + 1;
-                z += vertices[vertexIndex] + 2;
-            }
-
-            x /= vertexCount;
-            y /= vertexCount;
-            z /= vertexCount;
-        }
-
-        translation.setX(x);
-        translation.setY(y);
-        translation.setZ(z);
-
-        return (translation);
     }
 
     /**
@@ -247,6 +218,10 @@ public class WidgetManager
     {
         initPickingEngine();
         initWidgets();
+
+        // The selection renderers are used with only one widget so it can be set during initialisation.
+        fSelectionWidgetRenderer.setWidget(fWidgets.get(EditingMode.SELECTION));
+        ((SelectionWidgetJOGLRenderer) fSelectionPickingRenderer.getRenderer()).setWidget(fWidgets.get(EditingMode.SELECTION));
     }
 
     /**
@@ -257,16 +232,11 @@ public class WidgetManager
     protected void initPickingEngine()
     {
         fPickingEngine = new SimpleJOGLPickingEngine();
-        SimpleJOGLPicker picker = new WidgetJOGLPicker();
+        WidgetJOGLPicker picker = new WidgetJOGLPicker();
         fPickingRenderingEngine = new SimpleJOGLRenderingEngine();
-        fPickingRenderer = new NamePassingJOGLRenderer(new WidgetJOGLRenderer(new NamedJOGLRenderer()));
 
         fPickingEngine.setPicker(picker);
         picker.setRenderingEngine(fPickingRenderingEngine);
-        fPickingRenderingEngine.addRenderer(fPickingRenderer);
-
-        fWidgetScene = new SimpleJOGLScene();
-        fWidgetScene.setSceneGraph(new SimpleSceneGraph());
     }
 
     /**
@@ -279,6 +249,11 @@ public class WidgetManager
         fWidgets.put(EditingMode.ROTATION, new RotationWidget());
         fWidgets.put(EditingMode.SELECTION, new SelectionWidget());
         fWidgets.put(EditingMode.TRANSLATION, new TranslationWidget());
+
+        fManipulationWidgetScene = new SimpleJOGLScene();
+        fManipulationWidgetScene.setSceneGraph(new SimpleSceneGraph());
+        fManipulationWidgetScene.getSceneGraph().addSubgraph(fWidgets.get(EditingMode.ROTATION).getRootNode());
+        fManipulationWidgetScene.getSceneGraph().addSubgraph(fWidgets.get(EditingMode.TRANSLATION).getRootNode());
     }
 
     /**
@@ -290,15 +265,12 @@ public class WidgetManager
      */
     public void setCamera(final Camera camera)
     {
-        if (fPickingEngine == null)
-        {
-            throw new IllegalStateException("This Widget Manager must be initialised before the Camera can be set.");
-        }
-
-        fRenderer.setCamera(camera);
-        ((WidgetJOGLRenderer) fPickingRenderer.getRenderer()).setCamera(camera);
+        fManipulationWidgetRenderer.setCamera(camera);
+        fSelectionWidgetRenderer.setCamera(camera);
 
         fPickingEngine.setCamera(camera);
+        ((ManipulationWidgetJOGLRenderer) fManipulationPickingRenderer.getRenderer()).setCamera(camera);
+        ((SelectionWidgetJOGLRenderer) fSelectionPickingRenderer.getRenderer()).setCamera(camera);
     }
 
     /**
@@ -310,44 +282,50 @@ public class WidgetManager
      */
     public void setEditingMode(final EditingMode editingMode)
     {
-        if (fPickingEngine == null)
-        {
-            throw new IllegalStateException("This Widget Manager must be initialised before the Editing Mode can be set.");
-        }
-
         fEditingMode = editingMode;
 
-        fRenderer.setWidget(fWidgets.get(fEditingMode));
-        ((WidgetJOGLRenderer) fPickingRenderer.getRenderer()).setWidget(fWidgets.get(fEditingMode));
-
-        // Include the full Scene in the Widget Renderer and the Widget PickingEngine.
+        // Setup rendering engine.
         if (fEditingMode == EditingMode.SELECTION)
         {
-            fRenderingEngine.setRendererRoot(fRenderer, fScene.getSceneGraph().getRoot());
+            // Configure the rendering engine to render ONLY the selection widget.
+            fRenderingEngine.addRenderer(fSelectionWidgetRenderer);
+            fRenderingEngine.removeRenderer(fManipulationWidgetRenderer);
 
-            fPickingEngine.setScene(fScene);
-            fPickingRenderingEngine.setRendererRoot(fPickingRenderer, fScene.getSceneGraph().getRoot());
         }
         else
         {
             Widget widget = fWidgets.get(fEditingMode);
-            SceneGraph widgetSceneGraph = fWidgetScene.getSceneGraph();
-
-            if (!widgetSceneGraph.getSubgraphRoots().isEmpty())
-            {
-                widgetSceneGraph.removeSubgraph(widgetSceneGraph.getSubgraphRoots().get(0));
-            }
-            widgetSceneGraph.addSubgraph(widget.getRootNode());
-
-            // Set the root of the widget to be the root for the Widget Renderer and include it in the Widget PickingEngine's Scene but do NOT add it
-            // to the main Scene. This stops the Widget from appearing in the various views displaying an analysis of the Scene or being synchronised
-            // into the source file.
-            fRenderingEngine.setRendererRoot(fRenderer, widgetSceneGraph.getRoot());
-
-            fPickingEngine.setScene(fWidgetScene);
-            fPickingRenderingEngine.setRendererRoot(fPickingRenderer, widgetSceneGraph.getRoot());
-
             widget.setSelectedWidgetNode(null);
+
+            // Configure the renderer to render the appropriate manipulation widget.
+            fManipulationWidgetRenderer.setWidget(widget);
+
+            // Configure the rendering engine to render ONLY the appropriate manipulation widget.
+            fRenderingEngine.removeRenderer(fSelectionWidgetRenderer);
+            fRenderingEngine.addRenderer(fManipulationWidgetRenderer);
+            fRenderingEngine.setRendererRoot(fManipulationWidgetRenderer, widget.getRootNode());
+
+        }
+
+        // Setup picking engine.
+        if (fEditingMode == EditingMode.SELECTION)
+        {
+            // Configure the picking engine to pick ONLY the main scene (in reality it will be picking the selection widgets drawn instead of the
+            // models in the main scene).
+            fPickingEngine.setScene(fScene);
+            fPickingRenderingEngine.addRenderer(fSelectionPickingRenderer);
+            fPickingRenderingEngine.removeRenderer(fManipulationPickingRenderer);
+        }
+        else
+        {
+            // Configure the renderer to render the appropriate manipulation widget.
+            ((ManipulationWidgetJOGLRenderer) fManipulationPickingRenderer.getRenderer()).setWidget(fWidgets.get(fEditingMode));
+
+            // Configure the picking engine to pick ONLY the manipulation widget.
+            fPickingEngine.setScene(fManipulationWidgetScene);
+            fPickingRenderingEngine.removeRenderer(fSelectionPickingRenderer);
+            fPickingRenderingEngine.addRenderer(fManipulationPickingRenderer);
+            fPickingRenderingEngine.setRendererRoot(fManipulationPickingRenderer, fWidgets.get(fEditingMode).getRootNode());
         }
     }
 
@@ -360,41 +338,8 @@ public class WidgetManager
      */
     public void setGL(final GL gl)
     {
-        if (fPickingEngine == null)
-        {
-            throw new IllegalStateException("This Widget Manager must be initialised before the JOGL rendering environment can be set.");
-        }
-
         ((JOGLComponent) fPickingEngine).setGL(gl);
         ((JOGLComponent) ((SimpleJOGLPicker) fPickingEngine.getPicker()).getRenderingEngine()).setGL(gl);
-    }
-
-    /**
-     * <p>
-     * Sets the {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that will render the
-     * {@link com.se.simplicity.editor.internal.Widget Widget}s to the 3D canvas.
-     * </p>
-     * 
-     * @param renderingEngine The <code>RenderingEngine</code> that will render the <code>Widget</code>s to the 3D canvas.
-     */
-    public void setRenderingEngine(final RenderingEngine renderingEngine)
-    {
-        fRenderingEngine = renderingEngine;
-
-        renderingEngine.addRenderer(fRenderer);
-        renderingEngine.setRendererRoot(fRenderer, null);
-    }
-
-    /**
-     * <p>
-     * Sets the {@link com.se.simplicity.scene.Scene Scene} displayed by this <code>ContentProvider</code>.
-     * </p>
-     * 
-     * @param scene The <code>Scene</code> displayed by this <code>ContentProvider</code>.
-     */
-    public void setScene(final Scene scene)
-    {
-        fScene = scene;
     }
 
     /**
@@ -422,11 +367,6 @@ public class WidgetManager
      */
     public void setViewportSize(final Dimension viewportSize)
     {
-        if (fPickingEngine == null)
-        {
-            throw new IllegalStateException("This Widget Manager must be initialised before the viewport size can be set.");
-        }
-
         ((SimpleJOGLPicker) fPickingEngine.getPicker()).getRenderingEngine().setViewportSize(viewportSize);
     }
 }

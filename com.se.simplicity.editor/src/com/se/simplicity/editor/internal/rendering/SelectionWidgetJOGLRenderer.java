@@ -11,36 +11,35 @@
  */
 package com.se.simplicity.editor.internal.rendering;
 
+import static com.se.simplicity.model.ModelConstants.ITEMS_IN_CNV;
+
 import javax.media.opengl.GL;
 
-import com.se.simplicity.editor.internal.SelectionWidget;
 import com.se.simplicity.editor.internal.Widget;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.rendering.AdaptingJOGLRenderer;
-import com.se.simplicity.jogl.rendering.BlendingJOGLRenderer;
-import com.se.simplicity.jogl.rendering.DepthClearingJOGLRenderer;
 import com.se.simplicity.jogl.rendering.OutlineJOGLRenderer;
 import com.se.simplicity.jogl.rendering.StencilClearingJOGLRenderer;
+import com.se.simplicity.model.ArrayVG;
 import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
-import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.vector.ArrayBackedObjectf;
+import com.se.simplicity.vector.SimpleTransformationMatrixf44;
+import com.se.simplicity.vector.SimpleTranslationVectorf4;
+import com.se.simplicity.vector.TranslationVectorf;
 
 /**
  * <p>
- * Renders the {@link com.se.simplicity.editor.internal.Widget Widget} in a JOGL environment using internally configured
- * {@link com.se.simplicity.rendering.Renderer Renderer}s. If the <code>Widget</code> to be rendered is a
- * {@link com.se.simplicity.editor.internal.SelectionWidget SelectionWidget}, the modelview matrix is manipulated to ensure only the transformation
- * from the root {@link com.se.simplicity.scenegraph.Node Node} of the <code>Widget</code> is applied (after the
- * {@link com.se.simplicity.rendering.Camera Camera} is applied) and the <code>SelectionWidget</code> is rendered with an outline. The depth buffer is
- * cleared and blending is enabled before rendering all <code>Widgets</code>.
+ * Renders a selection {@link com.se.simplicity.editor.internal.Widget Widget} in a JOGL environment. The modelview matrix is manipulated to ensure
+ * only the transformation from the root {@link com.se.simplicity.scenegraph.Node Node} of the <code>Widget</code> is applied (after the
+ * {@link com.se.simplicity.rendering.Camera Camera} is applied) and the <code>Widget</code> is rendered with an outline.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
+public class SelectionWidgetJOGLRenderer extends AdaptingJOGLRenderer
 {
     /**
      * <p>
@@ -55,15 +54,7 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
      * SelectionWidget}.
      * </p>
      */
-    private Renderer fOutlineWidgetRenderer;
-
-    /**
-     * <p>
-     * The {@link com.se.simplicity.rendering.Renderer Renderer} that is executed for all {@link com.se.simplicity.editor.internal.Widget Widget}s
-     * except the {@link com.se.simplicity.editor.internal.SelectionWidget SelectionWidget}.
-     * </p>
-     */
-    private AdaptingJOGLRenderer fStandardWidgetRenderer;
+    private Renderer fOutlineRenderer;
 
     /**
      * <p>
@@ -80,28 +71,20 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
      * @param renderer The wrapped {@link com.se.simplicity.rendering.Renderer Renderer} that will render the
      * {@link com.se.simplicity.editor.internal.Widget Widget}.
      */
-    public WidgetJOGLRenderer(final Renderer renderer)
+    public SelectionWidgetJOGLRenderer(final Renderer renderer)
     {
         super(renderer);
 
         fWidget = null;
-
-        fStandardWidgetRenderer = new BlendingJOGLRenderer(new DepthClearingJOGLRenderer(renderer));
-        fOutlineWidgetRenderer = new StencilClearingJOGLRenderer(new OutlineJOGLRenderer());
+        fOutlineRenderer = new StencilClearingJOGLRenderer(new OutlineJOGLRenderer());
     }
 
     @Override
     public void dispose()
     {
-        if (fWidget != null)
-        {
-            fStandardWidgetRenderer.dispose();
+        super.dispose();
 
-            if (fWidget instanceof SelectionWidget)
-            {
-                fOutlineWidgetRenderer.dispose();
-            }
-        }
+        fOutlineRenderer.dispose();
     }
 
     /**
@@ -116,6 +99,36 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
     public Camera getCamera()
     {
         return (fCamera);
+    }
+
+    protected TranslationVectorf getPrimitiveTranslation(final Model primitive)
+    {
+        SimpleTranslationVectorf4 translation = new SimpleTranslationVectorf4();
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+
+        if (primitive instanceof ArrayVG)
+        {
+            float[] vertices = ((ArrayVG) primitive).getVertices();
+            int vertexCount = vertices.length / ITEMS_IN_CNV;
+            for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
+            {
+                x += vertices[vertexIndex];
+                y += vertices[vertexIndex] + 1;
+                z += vertices[vertexIndex] + 2;
+            }
+
+            x /= vertexCount;
+            y /= vertexCount;
+            z /= vertexCount;
+        }
+
+        translation.setX(x);
+        translation.setY(y);
+        translation.setZ(z);
+
+        return (translation);
     }
 
     /**
@@ -133,44 +146,34 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
     @Override
     public void init()
     {
-        if (fWidget != null)
-        {
-            fStandardWidgetRenderer.init();
+        fOutlineRenderer.init();
 
-            if (fWidget instanceof SelectionWidget)
-            {
-                fOutlineWidgetRenderer.init();
-            }
-        }
+        super.init();
     }
 
     @Override
     public void renderModel(final Model model)
     {
-        if (fWidget != null)
+        // Retrieve the current MODELVIEW matrix and remove the influence of the Camera.
+        SimpleTransformationMatrixf44 modelViewMatrix = new SimpleTransformationMatrixf44();
+        getGL().glGetFloatv(GL.GL_MODELVIEW_MATRIX, modelViewMatrix.getArray(), 0);
+        modelViewMatrix.multiplyLeft(fCamera.getNode().getAbsoluteTransformation());
+
+        fWidget.updateView(fCamera, modelViewMatrix, model);
+
+        GL gl = getGL();
+
+        gl.glPushMatrix();
         {
-            fWidget.updateView(fCamera);
+            gl.glLoadIdentity();
+            fCamera.apply();
+            gl.glMultMatrixf(((ArrayBackedObjectf) fWidget.getRootNode().getTransformation()).getArray(), 0);
 
-            if (fWidget instanceof SelectionWidget)
-            {
-                GL gl = getGL();
-
-                gl.glPushMatrix();
-                gl.glLoadIdentity();
-                fCamera.apply();
-                gl.glMultMatrixf(((ArrayBackedObjectf) fWidget.getRootNode().getTransformation()).getArray(), 0);
-
-                Model widgetModel = ((ModelNode) fWidget.getRootNode()).getModel();
-                fStandardWidgetRenderer.renderModel(widgetModel);
-                fOutlineWidgetRenderer.renderModel(widgetModel);
-
-                gl.glPopMatrix();
-            }
-            else
-            {
-                fStandardWidgetRenderer.renderModel(model);
-            }
+            Model widgetModel = ((ModelNode) fWidget.getRootNode()).getModel();
+            super.renderModel(widgetModel);
+            fOutlineRenderer.renderModel(widgetModel);
         }
+        gl.glPopMatrix();
     }
 
     /**
@@ -191,16 +194,7 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer
     {
         super.setGL(gl);
 
-        ((JOGLComponent) fOutlineWidgetRenderer).setGL(gl);
-        fStandardWidgetRenderer.setGL(gl);
-    }
-
-    @Override
-    public void setRenderer(final Renderer renderer)
-    {
-        super.setRenderer(renderer);
-
-        ((AdaptingJOGLRenderer) fStandardWidgetRenderer.getRenderer()).setRenderer(renderer);
+        ((JOGLComponent) fOutlineRenderer).setGL(gl);
     }
 
     /**

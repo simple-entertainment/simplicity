@@ -1,7 +1,10 @@
 package com.se.simplicity.editor.internal;
 
+import static com.se.simplicity.model.ModelConstants.ITEMS_IN_CNV;
+
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.model.ArrayVG;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.model.ModelNode;
@@ -85,6 +88,30 @@ public class SelectionWidget implements Widget
         fRoot.setModel(selectionModel);
     }
 
+    /**
+     * <p>
+     * Sets the colour of the widget based on whether the given {@link com.se.simplicity.model.Model Model} is the selected scene component.
+     * </p>
+     * 
+     * @param model The <code>Model</code> to check against the selected scene component.
+     */
+    public void initColours(final Model model)
+    {
+        if (!fSelection.isEmpty() && fSelection.getSceneComponent() instanceof ModelNode)
+        {
+            if (model == ((ModelNode) fSelection.getSceneComponent()).getModel())
+            {
+                float[] colours = ((ArrayVG) fRoot.getModel()).getColours();
+                for (int index = 0; index < colours.length; index += ITEMS_IN_CNV)
+                {
+                    colours[index] = 0.0f;
+                    colours[index + 1] = 1.0f;
+                    colours[index + 2] = 1.0f;
+                }
+            }
+        }
+    }
+
     @Override
     public void setSelectedWidgetNode(final ModelNode selectedWidgetNode)
     {}
@@ -96,27 +123,23 @@ public class SelectionWidget implements Widget
     }
 
     @Override
-    public void updateView(final Camera camera)
+    public void updateView(final Camera camera, final TransformationMatrixf sceneTransformation, final Model model)
     {
         // Transform the Widget to the orientation of the camera.
         fRoot.setTransformation(camera.getNode().getAbsoluteTransformation());
 
         // Transform the Widget to the position of the selected scene component.
-        if (!fSelection.isEmpty())
-        {
-            if (fSelection.getSceneComponent() instanceof Node)
-            {
-                fRoot.getTransformation().setTranslation(((Node) fSelection.getSceneComponent()).getAbsoluteTransformation().getTranslation());
-            }
-        }
+        fRoot.getTransformation().setTranslation(sceneTransformation.getTranslation());
 
         // Determine the distance between the Camera and the Widget.
         TransformationMatrixf cameraTransformation = camera.getNode().getAbsoluteTransformation();
         Vectorf vectorCameraToWidget = cameraTransformation.getTranslation().subtractRightCopy(fRoot.getAbsoluteTransformation().getTranslation());
         float distanceCameraToWidget = Math.abs(vectorCameraToWidget.getLength());
 
-        // Scale the Widget based on the distance.
         initModel();
+        initColours(model);
+
+        // Scale the Widget based on the distance.
         ArrayVG selectionModel = (ArrayVG) fRoot.getModel();
 
         float[] vertices = selectionModel.getVertices();

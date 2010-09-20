@@ -1,10 +1,9 @@
 package com.se.simplicity.editor.internal;
 
-import org.eclipse.jface.util.PropertyChangeEvent;
-
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.model.shape.GLUCapsule;
 import com.se.simplicity.jogl.model.shape.GLUSphere;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.model.shape.Capsule;
 import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.model.shape.Sphere;
@@ -245,7 +244,7 @@ public class TranslationWidget implements Widget
     }
 
     @Override
-    public void updateView(final Camera camera)
+    public void updateView(final Camera camera, final TransformationMatrixf sceneTransformation, final Model model)
     {
         // Transform the Widget to the position and orientation of the selected scene component.
         if (!fSelection.isEmpty())

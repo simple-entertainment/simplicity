@@ -101,32 +101,22 @@ public class SceneManager
      * <p>
      * Creates an instance of <code>SceneManager</code>.
      * </p>
-     */
-    public SceneManager()
-    {
-        fOutlineRenderer = null;
-        fPickingEngine = null;
-        fRenderer = null;
-        fRenderingEngine = null;
-        fScene = null;
-    }
-
-    /**
-     * <p>
-     * Creates an instance of <code>SceneManager</code>.
-     * </p>
      * 
      * @param scene The {@link com.se.simplicity.scene.Scene Scene} displayed by the {@link com.se.simplicity.editor.ui.editors.SceneEditor
      * SceneEditor}.
+     * @param renderingEngine The {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that will render the <code>Scene</code>
+     * to the 3D canvas.
      */
-    public SceneManager(final Scene scene)
+    public SceneManager(final Scene scene, final RenderingEngine renderingEngine)
     {
+        fRenderingEngine = renderingEngine;
         fScene = scene;
 
         fOutlineRenderer = null;
         fPickingEngine = null;
+        fPickingRenderer = null;
         fRenderer = null;
-        fRenderingEngine = null;
+        fSelectionMode = null;
     }
 
     /**
@@ -206,11 +196,6 @@ public class SceneManager
      */
     protected void initRenderers()
     {
-        if (fScene == null || fRenderingEngine == null)
-        {
-            throw new IllegalStateException("This Scene Manager must have a Scene and Rendering Engine before it can be initialised.");
-        }
-
         // Retrieve preferred rendering environment if one is available.
         String preferredRenderer = null;
         if (fScene instanceof MetaDataScene)
@@ -253,11 +238,6 @@ public class SceneManager
      */
     public void setCamera(final Camera camera)
     {
-        if (fPickingEngine == null)
-        {
-            throw new IllegalStateException("This Scene Manager must be initialised before the Camera can be set.");
-        }
-
         fPickingEngine.setCamera(camera);
     }
 
@@ -270,11 +250,6 @@ public class SceneManager
      */
     public void setDrawingMode(final DrawingMode drawingMode)
     {
-        if (fRenderer == null)
-        {
-            throw new IllegalStateException("This Scene Manager must be initialised before the Drawing Mode can be set.");
-        }
-
         fRenderer.setDrawingMode(drawingMode);
 
         ((SimpleJOGLPicker) fPickingEngine.getPicker()).getRenderingEngine().getRenderers().get(0).setDrawingMode(drawingMode);
@@ -291,31 +266,6 @@ public class SceneManager
     {
         ((JOGLComponent) fPickingEngine).setGL(gl);
         ((JOGLComponent) ((SimpleJOGLPicker) fPickingEngine.getPicker()).getRenderingEngine()).setGL(gl);
-    }
-
-    /**
-     * <p>
-     * Sets the {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine} that will render the {@link com.se.simplicity.scene.Scene
-     * Scene} to the 3D canvas.
-     * </p>
-     * 
-     * @param renderingEngine The <code>RenderingEngine</code> that will render the <code>Scene</code> to the 3D canvas.
-     */
-    public void setRenderingEngine(final RenderingEngine renderingEngine)
-    {
-        fRenderingEngine = renderingEngine;
-    }
-
-    /**
-     * <p>
-     * Sets the {@link com.se.simplicity.scene.Scene Scene} displayed by the {@link com.se.simplicity.editor.ui.editors.SceneEditor SceneEditor}.
-     * </p>
-     * 
-     * @param scene The <code>Scene</code> displayed by the <code>SceneEditor</code>.
-     */
-    public void setScene(final Scene scene)
-    {
-        fScene = scene;
     }
 
     /**
@@ -355,18 +305,6 @@ public class SceneManager
 
     /**
      * <p>
-     * Sets the size of the viewport the {@link com.se.simplicity.scene.Scene Scene} is being viewed through (the size of the 3D canvas).
-     * </p>
-     * 
-     * @param viewportSize The size of the viewport the <code>Scene</code> is being viewed through (the size of the 3D canvas).
-     */
-    public void setViewportSize(final Dimension viewportSize)
-    {
-        ((SimpleJOGLPicker) fPickingEngine.getPicker()).getRenderingEngine().setViewportSize(viewportSize);
-    }
-
-    /**
-     * <p>
      * Sets the {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
      * </p>
      * 
@@ -394,5 +332,17 @@ public class SceneManager
             fPickingEngine.getPicker().setDrawingMode(DrawingMode.FACES);
             fPickingRenderer.setDrawingMode(DrawingMode.FACES);
         }
+    }
+
+    /**
+     * <p>
+     * Sets the size of the viewport the {@link com.se.simplicity.scene.Scene Scene} is being viewed through (the size of the 3D canvas).
+     * </p>
+     * 
+     * @param viewportSize The size of the viewport the <code>Scene</code> is being viewed through (the size of the 3D canvas).
+     */
+    public void setViewportSize(final Dimension viewportSize)
+    {
+        ((SimpleJOGLPicker) fPickingEngine.getPicker()).getRenderingEngine().setViewportSize(viewportSize);
     }
 }

@@ -418,20 +418,15 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         initCamera();
         initRenderingEngine();
 
+        fSceneManager = new SceneManager(fScene, fRenderingEngine);
+        fSceneManager.init();
+        fWidgetManager = new WidgetManager(fScene, fRenderingEngine);
+        fWidgetManager.init();
+
         // Set the Camera as the viewpoint for picking and rendering but do NOT add to the Scene. This stops the Camera from appearing in the
         // various views displaying an analysis of the Scene or being synchronised into the source file.
         fRenderingEngine.setCamera(fCamera);
-
-        fSceneManager = new SceneManager();
-        fSceneManager.setScene(fScene);
-        fSceneManager.setRenderingEngine(fRenderingEngine);
-        fSceneManager.init();
         fSceneManager.setCamera(fCamera);
-
-        fWidgetManager = new WidgetManager();
-        fWidgetManager.setScene(fScene);
-        fWidgetManager.setRenderingEngine(fRenderingEngine);
-        fWidgetManager.init();
         fWidgetManager.setCamera(fCamera);
 
         fSceneManager.getPickingEngine().addPickListener(new ScenePickListener(this));

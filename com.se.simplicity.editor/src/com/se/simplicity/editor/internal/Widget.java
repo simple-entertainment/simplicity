@@ -1,9 +1,11 @@
 package com.se.simplicity.editor.internal;
 
 import com.se.simplicity.editor.internal.selection.SceneSelection;
+import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.model.ModelNode;
+import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
  * <p>
@@ -76,6 +78,8 @@ public interface Widget
      * </p>
      * 
      * @param camera The camera through which this <code>Widget</code> is being viewed.
+     * @param sceneTransformation The position and orientation in the {@link com.se.simplicity.scene.Scene Scene}.
+     * @param model The <code>Model</code> the {@link com.se.simplicity.rendering.Renderer Renderer} is attempting to render.
      */
-    void updateView(Camera camera);
+    void updateView(Camera camera, TransformationMatrixf sceneTransformation, Model model);
 }
