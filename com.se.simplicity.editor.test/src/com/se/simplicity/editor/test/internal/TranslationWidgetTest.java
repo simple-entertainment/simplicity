@@ -253,7 +253,7 @@ public class TranslationWidgetTest
         testObject.setSelection(mockSelection);
 
         // Perform test.
-        testObject.updateView(mockCamera);
+        testObject.updateView(mockCamera, null, null);
 
         // Verify test results.
         TransformationMatrixf testTransformation = testObject.getRootNode().getTransformation();

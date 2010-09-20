@@ -27,12 +27,12 @@ import java.awt.Dimension;
 
 import javax.media.opengl.GL;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.WidgetManager;
-import com.se.simplicity.editor.internal.rendering.WidgetJOGLRenderer;
+import com.se.simplicity.editor.internal.rendering.ManipulationWidgetJOGLRenderer;
+import com.se.simplicity.editor.internal.rendering.SelectionWidgetJOGLRenderer;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
@@ -60,17 +60,6 @@ public class WidgetManagerTest
 
     /**
      * <p>
-     * Setup to perform before each unit test.
-     * </p>
-     */
-    @Before
-    public void before()
-    {
-        testObject = new WidgetManager();
-    }
-
-    /**
-     * <p>
      * Unit test the method {@link com.se.simplicity.editor.internal.WidgetManager2#setCamera(Camera) setCamera(Camera)}.
      * </p>
      */
@@ -83,8 +72,7 @@ public class WidgetManagerTest
         Camera mockCamera = createMock(Camera.class);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new WidgetManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Perform test.
@@ -112,13 +100,14 @@ public class WidgetManagerTest
         replay(mockRenderingEngine);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new WidgetManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Dictate expected results.
         reset(mockRenderingEngine);
-        mockRenderingEngine.setRendererRoot(isA(WidgetJOGLRenderer.class), (Node) anyObject());
+        mockRenderingEngine.removeRenderer(isA(SelectionWidgetJOGLRenderer.class));
+        mockRenderingEngine.addRenderer(isA(ManipulationWidgetJOGLRenderer.class));
+        mockRenderingEngine.setRendererRoot(isA(ManipulationWidgetJOGLRenderer.class), (Node) anyObject());
         replay(mockRenderingEngine);
 
         // Perform test.
@@ -153,13 +142,13 @@ public class WidgetManagerTest
         replay(mockScene, mockRenderingEngine, mockSceneGraph);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new WidgetManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Dictate expected results.
         reset(mockRenderingEngine);
-        mockRenderingEngine.setRendererRoot(isA(WidgetJOGLRenderer.class), eq(mockNode));
+        mockRenderingEngine.addRenderer(isA(SelectionWidgetJOGLRenderer.class));
+        mockRenderingEngine.removeRenderer(isA(ManipulationWidgetJOGLRenderer.class));
         replay(mockRenderingEngine);
 
         // Perform test.
@@ -183,8 +172,7 @@ public class WidgetManagerTest
         MockGL mockGl = new MockGL();
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new WidgetManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Perform test.
@@ -193,34 +181,6 @@ public class WidgetManagerTest
         SimpleJOGLPicker scenePicker = (SimpleJOGLPicker) testObject.getPickingEngine().getPicker();
         assertNotNull(((JOGLComponent) testObject.getPickingEngine()).getGL());
         assertNotNull(((JOGLComponent) scenePicker.getRenderingEngine()).getGL());
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.WidgetManager#setRenderingEngine(RenderingEngine)
-     * setRenderingEngine(RenderingEngine)}.
-     * </p>
-     */
-    @Test
-    public void setRenderingEngine()
-    {
-        // Create dependencies.
-        Scene mockScene = createMock(Scene.class);
-        RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
-
-        // Initialise test environment.
-        testObject.setScene(mockScene);
-
-        // Dictate expected results.
-        mockRenderingEngine.addRenderer(isA(WidgetJOGLRenderer.class));
-        mockRenderingEngine.setRendererRoot(isA(WidgetJOGLRenderer.class), (Node) anyObject());
-        replay(mockRenderingEngine);
-
-        // Perform test.
-        testObject.setRenderingEngine(mockRenderingEngine);
-
-        // Verify results.
-        verify(mockRenderingEngine);
     }
 
     /**
@@ -245,8 +205,7 @@ public class WidgetManagerTest
         replay(mockSelection, mockScene, mockSceneGraph);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new WidgetManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Perform test.
@@ -277,8 +236,7 @@ public class WidgetManagerTest
         Dimension mockDimension = createMock(Dimension.class);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new WidgetManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Perform test.

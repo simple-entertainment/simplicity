@@ -27,7 +27,6 @@ import java.awt.Dimension;
 
 import javax.media.opengl.GL;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.editor.internal.SceneManager;
@@ -64,17 +63,6 @@ public class SceneManagerTest
 
     /**
      * <p>
-     * Setup to perform before each unit test.
-     * </p>
-     */
-    @Before
-    public void before()
-    {
-        testObject = new SceneManager();
-    }
-
-    /**
-     * <p>
      * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#init() init()}.
      * </p>
      */
@@ -86,8 +74,7 @@ public class SceneManagerTest
         RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new SceneManager(mockScene, mockRenderingEngine);
 
         // Dictate expected results.
         mockRenderingEngine.addRenderer(isA(SimpleJOGLRenderer.class));
@@ -120,8 +107,7 @@ public class SceneManagerTest
         replay(mockScene);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new SceneManager(mockScene, mockRenderingEngine);
 
         // Dictate expected results.
         mockRenderingEngine.addRenderer(isA(NamedJOGLRenderer.class));
@@ -154,8 +140,7 @@ public class SceneManagerTest
         replay(mockScene);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new SceneManager(mockScene, mockRenderingEngine);
 
         // Dictate expected results.
         mockRenderingEngine.addRenderer(isA(SimpleJOGLRenderer.class));
@@ -184,8 +169,7 @@ public class SceneManagerTest
         Camera mockCamera = createMock(Camera.class);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new SceneManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Perform test.
@@ -208,8 +192,7 @@ public class SceneManagerTest
         RenderingEngine mockRenderingEngine = createMock(RenderingEngine.class);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new SceneManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Perform test.
@@ -235,8 +218,7 @@ public class SceneManagerTest
         MockGL mockGl = new MockGL();
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new SceneManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Perform test.
@@ -249,8 +231,8 @@ public class SceneManagerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setSelection(Object) with the special condition that no
-     * scene component is selected.
+     * Unit test the method {@link com.se.simplicity.editor.internal.SceneManager#setSelection(Object) with the special condition that no scene
+     * component is selected.
      * </p>
      */
     @Test
@@ -271,8 +253,7 @@ public class SceneManagerTest
         replay(mockRenderingEngine, mockSelection);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new SceneManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Dictate expected results.
@@ -312,8 +293,7 @@ public class SceneManagerTest
         replay(mockRenderingEngine, mockSelection);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new SceneManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Dictate expected results.
@@ -354,8 +334,7 @@ public class SceneManagerTest
         replay(mockRenderingEngine, mockSelection);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new SceneManager(mockScene, mockRenderingEngine);
         testObject.init();
         testObject.setSelectionMode(SelectionMode.FACES);
 
@@ -385,8 +364,7 @@ public class SceneManagerTest
         Dimension mockDimension = createMock(Dimension.class);
 
         // Initialise test environment.
-        testObject.setScene(mockScene);
-        testObject.setRenderingEngine(mockRenderingEngine);
+        testObject = new SceneManager(mockScene, mockRenderingEngine);
         testObject.init();
 
         // Perform test.
