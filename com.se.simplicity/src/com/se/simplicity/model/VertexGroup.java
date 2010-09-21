@@ -90,6 +90,15 @@ public interface VertexGroup extends Model
 
     /**
      * <p>
+     * Retrieves number of vertices.
+     * </p>
+     * 
+     * @return The number of vertices.
+     */
+    int getVertexCount();
+
+    /**
+     * <p>
      * Determines if this <code>VertexGroup</code> is a subgroup of a parent <code>VertexGroup</code>.
      * </p>
      * 

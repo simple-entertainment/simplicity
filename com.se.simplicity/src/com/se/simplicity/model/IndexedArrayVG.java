@@ -248,6 +248,12 @@ public class IndexedArrayVG implements VertexGroup
         return (fParent);
     }
 
+    @Override
+    public int getVertexCount()
+    {
+        return fIndices.length;
+    }
+
     /**
      * <p>
      * Retrieves the coordinates of all the vertices in this <code>IndexedArrayVG</code>.

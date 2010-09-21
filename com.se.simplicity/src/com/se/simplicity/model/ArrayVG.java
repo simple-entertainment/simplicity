@@ -226,6 +226,12 @@ public class ArrayVG implements VertexGroup
         return (fParent);
     }
 
+    @Override
+    public int getVertexCount()
+    {
+        return (fVertices.length / ITEMS_IN_CNV);
+    }
+
     /**
      * <p>
      * Retrieves the coordinates of all the vertices in this <code>ArrayVG</code>.
