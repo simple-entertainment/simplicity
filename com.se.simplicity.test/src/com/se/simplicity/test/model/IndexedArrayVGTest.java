@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import com.se.simplicity.SEInvalidOperationException;
 import com.se.simplicity.model.IndexedArrayVG;
+import com.se.simplicity.vector.TranslationVectorf;
 
 /**
  * <p>
@@ -188,6 +189,24 @@ public class IndexedArrayVGTest
         assertEquals(-1.0f, subsetVertices[0], 0.0f);
         assertEquals(-1.0f, subsetVertices[1], 0.0f);
         assertEquals(0.0f, subsetVertices[2], 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG#getCenter() getCenter()}.
+     * </p>
+     */
+    @Test
+    public void getCenter()
+    {
+        // Perform test.
+        TranslationVectorf center = testObject.getCenter();
+
+        // Verify test results.
+        assertEquals(0.0f, center.getX(), 0.0f);
+        assertEquals(0.0f, center.getY(), 0.0f);
+        assertEquals(0.0f, center.getZ(), 0.0f);
+        assertEquals(1.0f, center.getW(), 0.0f);
     }
 
     /**
