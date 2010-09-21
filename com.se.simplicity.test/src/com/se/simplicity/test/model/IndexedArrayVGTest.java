@@ -211,6 +211,18 @@ public class IndexedArrayVGTest
 
     /**
      * <p>
+     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG#getVertexCount() getVertexCount()}.
+     * </p>
+     */
+    @Test
+    public void getVertexCount()
+    {
+        // Perform test / Verify test results.
+        assertEquals(4, testObject.getVertexCount(), 0);
+    }
+
+    /**
+     * <p>
      * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG.mergeWithParent mergeWithParent()}.
      * </p>
      * 

@@ -12,6 +12,7 @@
 package com.se.simplicity.test.model;
 
 import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -187,6 +188,18 @@ public class ArrayVGTest
         assertEquals(0.0f, center.getY(), 0.0f);
         assertEquals(0.0f, center.getZ(), 0.0f);
         assertEquals(1.0f, center.getW(), 0.0f);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.model.ArrayVG#getVertexCount() getVertexCount()}.
+     * </p>
+     */
+    @Test
+    public void getVertexCount()
+    {
+        // Perform test / Verify test results.
+        assertEquals(4, testObject.getVertexCount(), 0);
     }
 
     /**
