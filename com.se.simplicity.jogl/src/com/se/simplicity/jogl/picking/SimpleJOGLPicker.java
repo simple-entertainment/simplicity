@@ -36,6 +36,19 @@ import com.se.simplicity.scenegraph.model.ModelNode;
  * Picks from a JOGL rendering environment. This implementation uses only simple picking techniques and properties.
  * </p>
  * 
+ * <p>
+ * {@link com.se.simplicity.rendering.engine.RenderingEngine RenderingEngine}s and {@link com.se.simplicity.rendering.Renderer Renderer}s used in
+ * conjunction with a <code>SimpleJOGLPicker</code> must name rendered scene components using the following convention for picking to function
+ * correctly:
+ * </p>
+ * 
+ * <ul>
+ * <li>{@link com.se.simplicity.model.Model Model}s must be named after the ID of the {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode}
+ * they are contained in.</li>
+ * <li>Primitives within the <code>Model</code>s can optionally be named after the index of the primitive within the <code>Model</code>. If they are
+ * not named the resulting {@link com.se.simplicity.picking.Hit Hit} will contain the <code>ModelNode</code> ONLY and not the primitive.</li>
+ * </ul>
+ * 
  * @author Gary Buyn
  */
 public class SimpleJOGLPicker implements Picker, JOGLComponent
@@ -131,7 +144,10 @@ public class SimpleJOGLPicker implements Picker, JOGLComponent
             Model model = ((ModelNode) hit.getNode()).getModel();
             if (model instanceof VertexGroup)
             {
-                hit.setPrimitive(getSubsetVG((VertexGroup) model, fSelectBuffer.get(bufferIndex + 1)));
+                if (numberOfNames > 1)
+                {
+                    hit.setPrimitive(getSubsetVG((VertexGroup) model, fSelectBuffer.get(bufferIndex + 1)));
+                }
             }
             else if (model instanceof Shape)
             {
