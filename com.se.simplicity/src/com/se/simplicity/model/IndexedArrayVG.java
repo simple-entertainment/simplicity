@@ -15,6 +15,8 @@ import static com.se.simplicity.model.ModelConstants.ITEMS_IN_CNV;
 import static com.se.simplicity.model.ModelConstants.VERTICES_IN_A_FACE;
 
 import com.se.simplicity.SEInvalidOperationException;
+import com.se.simplicity.vector.SimpleTranslationVectorf4;
+import com.se.simplicity.vector.TranslationVectorf;
 
 /**
  * <p>
@@ -70,17 +72,17 @@ public class IndexedArrayVG implements VertexGroup
     private int fIndexWithinParent;
 
     /**
+     * The indices of all the vertices in this <code>IndexedArrayVG</code>.
+     */
+    private int[] fIndices;
+
+    /**
      * <p>
      * The subset status. Determines if this <code>IndexedArrayVG</code> is a subgroup of a parent <code>IndexedArrayVG</code>. Subset
      * <code>IndexedArrayVG</code>s contain a copy of a subset of the parent <code>IndexedArrayVG</code>s data.
      * </p>
      */
     private boolean fIsSubset;
-
-    /**
-     * The indices of all the vertices in this <code>IndexedArrayVG</code>.
-     */
-    private int[] fIndices;
 
     /**
      * The surface normals of all the vertices in this <code>IndexedArrayVG</code>.
@@ -125,6 +127,77 @@ public class IndexedArrayVG implements VertexGroup
 
         fIndexWithinParent = -1;
         fIsSubset = true;
+    }
+
+    @Override
+    public VertexGroup createEdgeSubsetVG(final int index)
+    {
+        return (createSubsetVG(index, 2));
+    }
+
+    @Override
+    public VertexGroup createFaceSubsetVG(final int index)
+    {
+        return (createSubsetVG(index * VERTICES_IN_A_FACE, VERTICES_IN_A_FACE));
+    }
+
+    @Override
+    public VertexGroup createSubsetVG(final int index, final int length)
+    {
+        int[] subsetIndices = new int[length];
+        float[] subsetColours = new float[length * ITEMS_IN_CNV];
+        float[] subsetNormals = new float[length * ITEMS_IN_CNV];
+        float[] subsetVertices = new float[length * ITEMS_IN_CNV];
+
+        System.arraycopy(fIndices, index, subsetIndices, 0, subsetIndices.length);
+
+        for (int currentIndex = 0; currentIndex < subsetIndices.length; currentIndex++)
+        {
+            System.arraycopy(fColours, subsetIndices[currentIndex] * ITEMS_IN_CNV, subsetColours, currentIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
+            System.arraycopy(fNormals, subsetIndices[currentIndex] * ITEMS_IN_CNV, subsetNormals, currentIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
+            System.arraycopy(fVertices, subsetIndices[currentIndex] * ITEMS_IN_CNV, subsetVertices, currentIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
+        }
+
+        IndexedArrayVG subsetVertexGroup = new IndexedArrayVG(this);
+        subsetVertexGroup.setIndexWithinParent(index);
+        subsetVertexGroup.setIndices(subsetIndices);
+        subsetVertexGroup.setColours(subsetColours);
+        subsetVertexGroup.setNormals(subsetNormals);
+        subsetVertexGroup.setVertices(subsetVertices);
+
+        return (subsetVertexGroup);
+    }
+
+    @Override
+    public VertexGroup createVertexSubsetVG(final int index)
+    {
+        return (createSubsetVG(index, 1));
+    }
+
+    @Override
+    public TranslationVectorf getCenter()
+    {
+        SimpleTranslationVectorf4 translation = new SimpleTranslationVectorf4();
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+
+        for (int vertexIndex = 0; vertexIndex < fIndices.length; vertexIndex++)
+        {
+            x += fVertices[fIndices[vertexIndex] * ITEMS_IN_CNV];
+            y += fVertices[fIndices[vertexIndex] * ITEMS_IN_CNV + 1];
+            z += fVertices[fIndices[vertexIndex] * ITEMS_IN_CNV + 2];
+        }
+
+        x /= fIndices.length;
+        y /= fIndices.length;
+        z /= fIndices.length;
+
+        translation.setX(x);
+        translation.setY(y);
+        translation.setZ(z);
+
+        return (translation);
     }
 
     /**
@@ -175,6 +248,12 @@ public class IndexedArrayVG implements VertexGroup
         return (fNormals);
     }
 
+    @Override
+    public VertexGroup getParent()
+    {
+        return (fParent);
+    }
+
     /**
      * <p>
      * Retrieves the coordinates of all the vertices in this <code>IndexedArrayVG</code>.
@@ -185,6 +264,33 @@ public class IndexedArrayVG implements VertexGroup
     public float[] getVertices()
     {
         return (fVertices);
+    }
+
+    @Override
+    public boolean isSubset()
+    {
+        return (fIsSubset);
+    }
+
+    @Override
+    public void mergeWithParent() throws SEInvalidOperationException
+    {
+        if (!fIsSubset)
+        {
+            throw new SEInvalidOperationException("Cannot merge this Vertex Group because it is not a subset.");
+        }
+
+        for (int currentIndex = 0; currentIndex < fIndices.length; currentIndex++)
+        {
+            int parentCopyIndex = ((IndexedArrayVG) fParent).getIndices()[fIndexWithinParent + currentIndex];
+
+            System.arraycopy(fColours, fIndices[currentIndex] * ITEMS_IN_CNV, ((IndexedArrayVG) fParent).getColours(),
+                    parentCopyIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
+            System.arraycopy(fNormals, fIndices[currentIndex] * ITEMS_IN_CNV, ((IndexedArrayVG) fParent).getNormals(),
+                    parentCopyIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
+            System.arraycopy(fVertices, fIndices[currentIndex] * ITEMS_IN_CNV, ((IndexedArrayVG) fParent).getVertices(), parentCopyIndex
+                    * ITEMS_IN_CNV, ITEMS_IN_CNV);
+        }
     }
 
     /**
@@ -246,83 +352,5 @@ public class IndexedArrayVG implements VertexGroup
     public void setVertices(final float[] vertices)
     {
         fVertices = vertices;
-    }
-
-    @Override
-    public VertexGroup createSubsetVG(final int index, final int length)
-    {
-        int[] subsetIndices = new int[length];
-        float[] subsetColours = new float[length * ITEMS_IN_CNV];
-        float[] subsetNormals = new float[length * ITEMS_IN_CNV];
-        float[] subsetVertices = new float[length * ITEMS_IN_CNV];
-
-        System.arraycopy(fIndices, index, subsetIndices, 0, subsetIndices.length);
-
-        for (int currentIndex = 0; currentIndex < subsetIndices.length; currentIndex++)
-        {
-            System.arraycopy(fColours, subsetIndices[currentIndex] * ITEMS_IN_CNV, subsetColours, currentIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
-            System.arraycopy(fNormals, subsetIndices[currentIndex] * ITEMS_IN_CNV, subsetNormals, currentIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
-            System.arraycopy(fVertices, subsetIndices[currentIndex] * ITEMS_IN_CNV, subsetVertices, currentIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
-        }
-
-        IndexedArrayVG subsetVertexGroup = new IndexedArrayVG(this);
-        subsetVertexGroup.setIndexWithinParent(index);
-        subsetVertexGroup.setIndices(subsetIndices);
-        subsetVertexGroup.setColours(subsetColours);
-        subsetVertexGroup.setNormals(subsetNormals);
-        subsetVertexGroup.setVertices(subsetVertices);
-
-        return (subsetVertexGroup);
-    }
-
-    @Override
-    public VertexGroup createEdgeSubsetVG(final int index)
-    {
-        return (createSubsetVG(index, 2));
-    }
-
-    @Override
-    public VertexGroup createFaceSubsetVG(final int index)
-    {
-        return (createSubsetVG(index * VERTICES_IN_A_FACE, VERTICES_IN_A_FACE));
-    }
-
-    @Override
-    public VertexGroup createVertexSubsetVG(final int index)
-    {
-        return (createSubsetVG(index, 1));
-    }
-
-    @Override
-    public VertexGroup getParent()
-    {
-        return (fParent);
-    }
-
-    @Override
-    public boolean isSubset()
-    {
-        return (fIsSubset);
-    }
-
-    @Override
-    public void mergeWithParent() throws SEInvalidOperationException
-    {
-        if (!fIsSubset)
-        {
-            throw new SEInvalidOperationException("Cannot merge this Vertex Group because it is not a subset.");
-        }
-
-        for (int currentIndex = 0; currentIndex < fIndices.length; currentIndex++)
-        {
-            int parentCopyIndex = ((IndexedArrayVG) fParent).getIndices()[fIndexWithinParent + currentIndex];
-
-            System.arraycopy(fColours, fIndices[currentIndex] * ITEMS_IN_CNV, ((IndexedArrayVG) fParent).getColours(),
-                    parentCopyIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
-            System.arraycopy(fNormals, fIndices[currentIndex] * ITEMS_IN_CNV, ((IndexedArrayVG) fParent).getNormals(),
-                    parentCopyIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
-            System.arraycopy(fVertices, fIndices[currentIndex] * ITEMS_IN_CNV, ((IndexedArrayVG) fParent).getVertices(), parentCopyIndex
-                    * ITEMS_IN_CNV, ITEMS_IN_CNV);
-        }
     }
 }

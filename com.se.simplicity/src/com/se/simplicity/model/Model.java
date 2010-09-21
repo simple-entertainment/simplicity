@@ -13,6 +13,8 @@ package com.se.simplicity.model;
 
 import java.io.Serializable;
 
+import com.se.simplicity.vector.TranslationVectorf;
+
 /**
  * <p>
  * A visible element in a virtual universe.
@@ -21,4 +23,13 @@ import java.io.Serializable;
  * @author Gary Buyn
  */
 public interface Model extends Serializable
-{}
+{
+    /**
+     * <p>
+     * Retrieves the point at the center of this <code>Model</code>.
+     * </p>
+     * 
+     * @return The point at the center of this <code>Model</code>.
+     */
+    TranslationVectorf getCenter();
+}

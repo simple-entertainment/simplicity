@@ -15,6 +15,8 @@ import static com.se.simplicity.model.ModelConstants.ITEMS_IN_CNV;
 import static com.se.simplicity.model.ModelConstants.VERTICES_IN_A_FACE;
 
 import com.se.simplicity.SEInvalidOperationException;
+import com.se.simplicity.vector.SimpleTranslationVectorf4;
+import com.se.simplicity.vector.TranslationVectorf;
 
 /**
  * <p>
@@ -159,6 +161,33 @@ public class ArrayVG implements VertexGroup
     public VertexGroup createVertexSubsetVG(final int index)
     {
         return (createSubsetVG(index, 1));
+    }
+
+    @Override
+    public TranslationVectorf getCenter()
+    {
+        SimpleTranslationVectorf4 translation = new SimpleTranslationVectorf4();
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+
+        int vertexCount = fVertices.length / ITEMS_IN_CNV;
+        for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
+        {
+            x += fVertices[vertexIndex * ITEMS_IN_CNV];
+            y += fVertices[vertexIndex * ITEMS_IN_CNV + 1];
+            z += fVertices[vertexIndex * ITEMS_IN_CNV + 2];
+        }
+
+        x /= vertexCount;
+        y /= vertexCount;
+        z /= vertexCount;
+
+        translation.setX(x);
+        translation.setY(y);
+        translation.setZ(z);
+
+        return (translation);
     }
 
     /**

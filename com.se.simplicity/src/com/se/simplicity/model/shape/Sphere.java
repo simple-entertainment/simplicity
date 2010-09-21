@@ -13,6 +13,8 @@ package com.se.simplicity.model.shape;
 
 import com.se.simplicity.vector.RGBColourVectorf;
 import com.se.simplicity.vector.SimpleRGBColourVectorf4;
+import com.se.simplicity.vector.SimpleTranslationVectorf4;
+import com.se.simplicity.vector.TranslationVectorf;
 
 /**
  * <p>
@@ -53,6 +55,12 @@ public class Sphere implements Shape
     {
         fColour = new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 1.0f);
         fRadius = 1.0f;
+    }
+
+    @Override
+    public TranslationVectorf getCenter()
+    {
+        return (new SimpleTranslationVectorf4());
     }
 
     @Override
