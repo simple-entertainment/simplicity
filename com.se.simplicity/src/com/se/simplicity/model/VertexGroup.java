@@ -46,17 +46,6 @@ public interface VertexGroup extends Model
 
     /**
      * <p>
-     * Creates a subset <code>VertexGroup</code> that contains only the vertex at the given index within this <code>VertexGroup</code>.
-     * </p>
-     * 
-     * @param index The index of the vertex to create a subset <code>VertexGroup</code> for.
-     * 
-     * @return A subset <code>VertexGroup</code> that contains only the vertex at the given index within this <code>VertexGroup</code>.
-     */
-    VertexGroup createVertexSubsetVG(int index);
-
-    /**
-     * <p>
      * Creates a subset <code>VertexGroup</code> that contains the given length of consecutive vertices starting at the given index within this
      * <code>VertexGroup</code>.
      * </p>
@@ -68,6 +57,26 @@ public interface VertexGroup extends Model
      * <code>VertexGroup</code>.
      */
     VertexGroup createSubsetVG(int index, int length);
+
+    /**
+     * <p>
+     * Creates a subset <code>VertexGroup</code> that contains only the vertex at the given index within this <code>VertexGroup</code>.
+     * </p>
+     * 
+     * @param index The index of the vertex to create a subset <code>VertexGroup</code> for.
+     * 
+     * @return A subset <code>VertexGroup</code> that contains only the vertex at the given index within this <code>VertexGroup</code>.
+     */
+    VertexGroup createVertexSubsetVG(int index);
+
+    /**
+     * <p>
+     * Retrieves the index of the vertex in the parent <code>VertexGroup</code> from which the data in this <code>VertexGroup</code> was copied.
+     * </p>
+     * 
+     * @return The index of the vertex in the parent <code>VertexGroup</code> from which the data in this <code>VertexGroup</code> was copied.
+     */
+    int getIndexWithinParent();
 
     /**
      * <p>
@@ -96,4 +105,14 @@ public interface VertexGroup extends Model
      * @throws SEInvalidOperationException If this Vertex Group is not a subset.
      */
     void mergeWithParent() throws SEInvalidOperationException;
+
+    /**
+     * <p>
+     * Sets the index of the vertex in the parent <code>VertexGroup</code> from which the data in this <code>VertexGroup</code> was copied.
+     * </p>
+     * 
+     * @param indexWithinParent The index of the vertex in the parent <code>VertexGroup</code> from which the data in this <code>VertexGroup</code>
+     * was copied.
+     */
+    void setIndexWithinParent(final int indexWithinParent);
 }

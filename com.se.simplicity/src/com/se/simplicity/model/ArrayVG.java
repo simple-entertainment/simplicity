@@ -202,13 +202,7 @@ public class ArrayVG implements VertexGroup
         return (fColours);
     }
 
-    /**
-     * <p>
-     * Retrieves the index in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
-     * </p>
-     * 
-     * @return The index in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
-     */
+    @Override
     public int getIndexWithinParent()
     {
         return (fIndexWithinParent);
@@ -275,13 +269,7 @@ public class ArrayVG implements VertexGroup
         fColours = colours;
     }
 
-    /**
-     * <p>
-     * Sets the index in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
-     * </p>
-     * 
-     * @param indexWithinParent The index in the parent <code>ArrayVG</code> from which the data in this <code>ArrayVG</code> was copied.
-     */
+    @Override
     public void setIndexWithinParent(final int indexWithinParent)
     {
         fIndexWithinParent = indexWithinParent;
