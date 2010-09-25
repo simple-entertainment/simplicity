@@ -20,7 +20,10 @@ import static org.easymock.classextension.EasyMock.verify;
 import org.eclipse.jface.viewers.ISelection;
 import org.junit.Test;
 
+import com.se.simplicity.editor.internal.EditingMode;
 import com.se.simplicity.editor.internal.ScenePickListener;
+import com.se.simplicity.editor.internal.SelectionMode;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.model.Model;
 import com.se.simplicity.picking.Hit;
@@ -51,17 +54,22 @@ public class ScenePickListenerTest
     {
         // Create dependencies.
         SceneEditor mockSceneEditor = createMock(SceneEditor.class);
+        SceneSelection mockSelection = createMock(SceneSelection.class);
         PickEvent mockEvent = createMock(PickEvent.class);
         Hit mockHit = createMock(Hit.class);
         Node mockNode = createMock(Node.class);
         Model mockPrimitive = createMock(Model.class);
 
         // Dictate correct behaviour.
+        expect(mockSceneEditor.getSelection()).andStubReturn(mockSelection);
+        expect(mockSceneEditor.getEditingMode()).andStubReturn(EditingMode.SELECTION);
+        expect(mockSceneEditor.getSelectionMode()).andStubReturn(SelectionMode.MODEL);
+        expect(mockSelection.getSceneComponent()).andStubReturn(null);
         expect(mockEvent.getHitCount()).andStubReturn(1);
         expect(mockEvent.getCloseHit()).andStubReturn(mockHit);
         expect(mockHit.getNode()).andStubReturn(mockNode);
         expect(mockHit.getPrimitive()).andStubReturn(mockPrimitive);
-        replay(mockEvent, mockHit);
+        replay(mockSelection, mockEvent, mockHit);
 
         // Initialise test environment
         testObject = new ScenePickListener(mockSceneEditor);
@@ -87,14 +95,24 @@ public class ScenePickListenerTest
     public void scenePickedNoHits()
     {
         // Create dependencies.
+        SceneEditor mockSceneEditor = createMock(SceneEditor.class);
+        SceneSelection mockSelection = createMock(SceneSelection.class);
         PickEvent mockEvent = createMock(PickEvent.class);
 
         // Dictate correct behaviour.
+        expect(mockSceneEditor.getSelection()).andStubReturn(mockSelection);
+        expect(mockSceneEditor.getEditingMode()).andStubReturn(EditingMode.SELECTION);
+        expect(mockSceneEditor.getSelectionMode()).andStubReturn(SelectionMode.MODEL);
+        expect(mockSelection.getSceneComponent()).andStubReturn(null);
         expect(mockEvent.getHitCount()).andStubReturn(0);
-        replay(mockEvent);
+        replay(mockSelection, mockEvent);
 
         // Initialise test environment
-        testObject = new ScenePickListener(createMock(SceneEditor.class));
+        testObject = new ScenePickListener(mockSceneEditor);
+
+        // Dictate expected results.
+        mockSceneEditor.setSelection((ISelection) anyObject());
+        replay(mockSceneEditor);
 
         // Perform test.
         testObject.scenePicked(mockEvent);
