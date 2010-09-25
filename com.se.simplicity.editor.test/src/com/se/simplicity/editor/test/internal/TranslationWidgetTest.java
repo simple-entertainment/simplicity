@@ -72,8 +72,7 @@ public class TranslationWidgetTest
         SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
 
         // Dictate correct behaviour.
-        expect(mockSelection.isEmpty()).andStubReturn(false);
-        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
+        expect(mockSelection.getNode()).andStubReturn(mockNode);
         expect(mockNode.getTransformation()).andStubReturn(transformation);
         replay(mockSelection, mockNode);
 
@@ -105,8 +104,7 @@ public class TranslationWidgetTest
         SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
 
         // Dictate correct behaviour.
-        expect(mockSelection.isEmpty()).andStubReturn(false);
-        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
+        expect(mockSelection.getNode()).andStubReturn(mockNode);
         expect(mockNode.getTransformation()).andStubReturn(transformation);
         replay(mockSelection, mockNode);
 
@@ -138,8 +136,7 @@ public class TranslationWidgetTest
         SimpleTransformationMatrixf44 transformation = new SimpleTransformationMatrixf44();
 
         // Dictate correct behaviour.
-        expect(mockSelection.isEmpty()).andStubReturn(false);
-        expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
+        expect(mockSelection.getNode()).andStubReturn(mockNode);
         expect(mockNode.getTransformation()).andStubReturn(transformation);
         replay(mockSelection, mockNode);
 
