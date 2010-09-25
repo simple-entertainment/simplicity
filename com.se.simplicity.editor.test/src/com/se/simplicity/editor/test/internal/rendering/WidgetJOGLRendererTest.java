@@ -131,7 +131,7 @@ public class WidgetJOGLRendererTest
         expect(mockModel0.getVertexCount()).andStubReturn(3);
         expect(mockModel0Subset.getCenter()).andStubReturn(new SimpleTranslationVectorf4());
         expect(mockWidget.getSelection()).andStubReturn(mockSelection);
-        expect(mockWidget.atSelectionOnly()).andStubReturn(true);
+        expect(mockWidget.atSelectionOnly()).andStubReturn(false);
         expect(mockWidget.alwaysFacesCamera()).andStubReturn(false);
         expect(mockWidget.getRootNode()).andStubReturn(mockNode0);
         expect(mockWidget.isOutlined()).andStubReturn(false);
@@ -152,10 +152,10 @@ public class WidgetJOGLRendererTest
         // Dictate expected results.
         reset(mockRenderer);
         expect(mockModel0.createEdgeSubsetVG(0)).andStubReturn(mockModel0Subset);
-        mockWidget.init(null, true);
+        mockWidget.init(null, false);
         mockRenderer.renderModel(mockModel1);
         expect(mockModel0.createEdgeSubsetVG(1)).andStubReturn(mockModel0Subset);
-        mockWidget.init(null, true);
+        mockWidget.init(null, false);
         mockRenderer.renderModel(mockModel1);
         replay(mockModel0, mockRenderer, mockWidget);
 
@@ -192,7 +192,7 @@ public class WidgetJOGLRendererTest
         expect(mockModel0.getVertexCount()).andStubReturn(3);
         expect(mockModel0Subset.getCenter()).andStubReturn(new SimpleTranslationVectorf4());
         expect(mockWidget.getSelection()).andStubReturn(mockSelection);
-        expect(mockWidget.atSelectionOnly()).andStubReturn(true);
+        expect(mockWidget.atSelectionOnly()).andStubReturn(false);
         expect(mockWidget.alwaysFacesCamera()).andStubReturn(false);
         expect(mockWidget.getRootNode()).andStubReturn(mockNode0);
         expect(mockWidget.isOutlined()).andStubReturn(false);
@@ -213,7 +213,7 @@ public class WidgetJOGLRendererTest
         // Dictate expected results.
         reset(mockRenderer);
         expect(mockModel0.createFaceSubsetVG(0)).andStubReturn(mockModel0Subset);
-        mockWidget.init(null, true);
+        mockWidget.init(null, false);
         mockRenderer.renderModel(mockModel1);
         replay(mockModel0, mockRenderer, mockWidget);
 
@@ -305,7 +305,7 @@ public class WidgetJOGLRendererTest
         expect(mockModel0.getVertexCount()).andStubReturn(3);
         expect(mockModel0Subset.getCenter()).andStubReturn(new SimpleTranslationVectorf4());
         expect(mockWidget.getSelection()).andStubReturn(mockSelection);
-        expect(mockWidget.atSelectionOnly()).andStubReturn(true);
+        expect(mockWidget.atSelectionOnly()).andStubReturn(false);
         expect(mockWidget.alwaysFacesCamera()).andStubReturn(false);
         expect(mockWidget.getRootNode()).andStubReturn(mockNode0);
         expect(mockWidget.isOutlined()).andStubReturn(false);
@@ -326,13 +326,13 @@ public class WidgetJOGLRendererTest
         // Dictate expected results.
         reset(mockRenderer);
         expect(mockModel0.createVertexSubsetVG(0)).andStubReturn(mockModel0Subset);
-        mockWidget.init(null, true);
+        mockWidget.init(null, false);
         mockRenderer.renderModel(mockModel1);
         expect(mockModel0.createVertexSubsetVG(1)).andStubReturn(mockModel0Subset);
-        mockWidget.init(null, true);
+        mockWidget.init(null, false);
         mockRenderer.renderModel(mockModel1);
         expect(mockModel0.createVertexSubsetVG(2)).andStubReturn(mockModel0Subset);
-        mockWidget.init(null, true);
+        mockWidget.init(null, false);
         mockRenderer.renderModel(mockModel1);
         replay(mockModel0, mockRenderer, mockWidget);
 

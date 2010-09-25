@@ -11,6 +11,7 @@
  */
 package com.se.simplicity.editor.test.handlers;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
@@ -23,6 +24,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.State;
 import org.eclipse.core.expressions.IEvaluationContext;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISources;
 import org.eclipse.ui.handlers.RadioState;
@@ -94,6 +96,7 @@ public class SelectionModeHandlerTest
 
         // Dictate expected results.
         mockState.setValue("EDGES");
+        mockSceneEditor.setSelection((ISelection) anyObject());
         mockSceneEditor.setSelectionMode(SelectionMode.EDGES);
         replay(mockSceneEditor, mockState);
 
@@ -135,6 +138,7 @@ public class SelectionModeHandlerTest
 
         // Dictate expected results.
         mockState.setValue("FACES");
+        mockSceneEditor.setSelection((ISelection) anyObject());
         mockSceneEditor.setSelectionMode(SelectionMode.FACES);
         replay(mockSceneEditor, mockState);
 
@@ -176,6 +180,7 @@ public class SelectionModeHandlerTest
 
         // Dictate expected results.
         mockState.setValue("MODEL");
+        mockSceneEditor.setSelection((ISelection) anyObject());
         mockSceneEditor.setSelectionMode(SelectionMode.MODEL);
         replay(mockSceneEditor, mockState);
 
@@ -277,6 +282,7 @@ public class SelectionModeHandlerTest
 
         // Dictate expected results.
         mockState.setValue("VERTICES");
+        mockSceneEditor.setSelection((ISelection) anyObject());
         mockSceneEditor.setSelectionMode(SelectionMode.VERTICES);
         replay(mockSceneEditor, mockState);
 
