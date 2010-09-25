@@ -767,6 +767,7 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         fSelectionMode = selectionMode;
 
         fSceneManager.setSelectionMode(fSelectionMode);
+        fWidgetManager.setSelectionMode(fSelectionMode);
     }
 
     /**

@@ -1,10 +1,7 @@
 package com.se.simplicity.editor.internal;
 
-import static com.se.simplicity.model.ModelConstants.ITEMS_IN_CNV;
-
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.model.ArrayVG;
-import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.model.ModelNode;
@@ -47,6 +44,18 @@ public class SelectionWidget implements Widget
     }
 
     @Override
+    public boolean alwaysFacesCamera()
+    {
+        return (true);
+    }
+
+    @Override
+    public boolean atSelectionOnly()
+    {
+        return (false);
+    }
+
+    @Override
     public void executeMove(final int x, final int y)
     {}
 
@@ -68,17 +77,47 @@ public class SelectionWidget implements Widget
         return (fSelection);
     }
 
+    @Override
+    public void init(final Camera camera, final boolean isSelection)
+    {
+        // Determine the distance between the Camera and the Widget.
+        TransformationMatrixf cameraTransformation = camera.getNode().getAbsoluteTransformation();
+        Vectorf vectorCameraToWidget = cameraTransformation.getTranslation().subtractRightCopy(fRoot.getAbsoluteTransformation().getTranslation());
+        float distanceCameraToWidget = Math.abs(vectorCameraToWidget.getLength());
+
+        initModel(isSelection);
+
+        // Scale the Widget based on the distance.
+        ArrayVG selectionModel = (ArrayVG) fRoot.getModel();
+
+        float[] vertices = selectionModel.getVertices();
+        for (int index = 0; index < vertices.length; index++)
+        {
+            vertices[index] *= distanceCameraToWidget;
+        }
+    }
+
     /**
      * <p>
      * Initialises the {@link com.se.simplicity.model.Model Model} for this <code>Widget</code>.
      * </p>
+     * 
+     * @param isSelection Determines if the <code>Widget</code> is being rendered for the selected scene component / primitive.
      */
-    protected void initModel()
+    protected void initModel(final boolean isSelection)
     {
         ArrayVG selectionModel = new ArrayVG();
 
-        selectionModel.setColours(new float[] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f});
+        if (isSelection)
+        {
+            selectionModel.setColours(new float[] {0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+                    1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f});
+        }
+        else
+        {
+            selectionModel.setColours(new float[] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+                    0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f});
+        }
         selectionModel.setNormals(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
                 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
         selectionModel.setVertices(new float[] {-0.015f, 0.007f, 0.0f, 0.015f, -0.007f, 0.0f, -0.007f, 0.015f, 0.0f, -0.015f, 0.007f, 0.0f, 0.007f,
@@ -88,28 +127,10 @@ public class SelectionWidget implements Widget
         fRoot.setModel(selectionModel);
     }
 
-    /**
-     * <p>
-     * Sets the colour of the widget based on whether the given {@link com.se.simplicity.model.Model Model} is the selected scene component.
-     * </p>
-     * 
-     * @param model The <code>Model</code> to check against the selected scene component.
-     */
-    public void initColours(final Model model)
+    @Override
+    public boolean isOutlined()
     {
-        if (!fSelection.isEmpty() && fSelection.getSceneComponent() instanceof ModelNode)
-        {
-            if (model == ((ModelNode) fSelection.getSceneComponent()).getModel())
-            {
-                float[] colours = ((ArrayVG) fRoot.getModel()).getColours();
-                for (int index = 0; index < colours.length; index += ITEMS_IN_CNV)
-                {
-                    colours[index] = 0.0f;
-                    colours[index + 1] = 1.0f;
-                    colours[index + 2] = 1.0f;
-                }
-            }
-        }
+        return (true);
     }
 
     @Override
@@ -120,32 +141,5 @@ public class SelectionWidget implements Widget
     public void setSelection(final SceneSelection selection)
     {
         fSelection = selection;
-    }
-
-    @Override
-    public void updateView(final Camera camera, final TransformationMatrixf sceneTransformation, final Model model)
-    {
-        // Transform the Widget to the orientation of the camera.
-        fRoot.setTransformation(camera.getNode().getAbsoluteTransformation());
-
-        // Transform the Widget to the position of the selected scene component.
-        fRoot.getTransformation().setTranslation(sceneTransformation.getTranslation());
-
-        // Determine the distance between the Camera and the Widget.
-        TransformationMatrixf cameraTransformation = camera.getNode().getAbsoluteTransformation();
-        Vectorf vectorCameraToWidget = cameraTransformation.getTranslation().subtractRightCopy(fRoot.getAbsoluteTransformation().getTranslation());
-        float distanceCameraToWidget = Math.abs(vectorCameraToWidget.getLength());
-
-        initModel();
-        initColours(model);
-
-        // Scale the Widget based on the distance.
-        ArrayVG selectionModel = (ArrayVG) fRoot.getModel();
-
-        float[] vertices = selectionModel.getVertices();
-        for (int index = 0; index < vertices.length; index++)
-        {
-            vertices[index] *= distanceCameraToWidget;
-        }
     }
 }

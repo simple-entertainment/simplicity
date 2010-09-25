@@ -159,6 +159,18 @@ public class SceneManager
 
     /**
      * <p>
+     * Retrieves the {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     * </p>
+     * 
+     * @return The {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     */
+    public SelectionMode getSelectionMode()
+    {
+        return (fSelectionMode);
+    }
+
+    /**
+     * <p>
      * Initialises this <code>SceneManager</code>.
      * </p>
      */

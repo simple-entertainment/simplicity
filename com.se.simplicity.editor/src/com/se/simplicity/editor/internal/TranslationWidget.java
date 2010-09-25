@@ -3,7 +3,6 @@ package com.se.simplicity.editor.internal;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.model.shape.GLUCapsule;
 import com.se.simplicity.jogl.model.shape.GLUSphere;
-import com.se.simplicity.model.Model;
 import com.se.simplicity.model.shape.Capsule;
 import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.model.shape.Sphere;
@@ -98,17 +97,17 @@ public class TranslationWidget implements Widget
 
     /**
      * <p>
-     * The selected scene component and primitive.
-     * </p>
-     */
-    private SceneSelection fSelection;
-
-    /**
-     * <p>
      * The currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this widget.
      * </p>
      */
     private ModelNode fSelectedWidgetNode;
+
+    /**
+     * <p>
+     * The selected scene component and primitive.
+     * </p>
+     */
+    private SceneSelection fSelection;
 
     /**
      * <p>
@@ -178,6 +177,18 @@ public class TranslationWidget implements Widget
     }
 
     @Override
+    public boolean alwaysFacesCamera()
+    {
+        return (false);
+    }
+
+    @Override
+    public boolean atSelectionOnly()
+    {
+        return (true);
+    }
+
+    @Override
     public void executeMove(final int x, final int y)
     {
         if (fSelection.getSceneComponent() instanceof Node)
@@ -222,6 +233,34 @@ public class TranslationWidget implements Widget
     }
 
     @Override
+    public void init(final Camera camera, final boolean isSelection)
+    {
+        // Determine the distance between the Camera and the Widget.
+        TransformationMatrixf cameraTransformation = camera.getNode().getAbsoluteTransformation();
+        Vectorf vectorCameraToWidget = cameraTransformation.getTranslation().subtractRightCopy(fRoot.getAbsoluteTransformation().getTranslation());
+        float distanceCameraToWidget = Math.abs(vectorCameraToWidget.getLength());
+
+        // Scale the Widget based on the distance.
+        float capsuleLength = CAPSULE_LENGTH_SCALE_FACTOR * distanceCameraToWidget;
+        float capsuleRadius = CAPSULE_RADIUS_SCALE_FACTOR * distanceCameraToWidget;
+        float sphereRadius = SPHERE_RADIUS_SCALE_FACTOR * distanceCameraToWidget;
+
+        ((Capsule) fXCapsuleNode.getModel()).setLength(capsuleLength);
+        ((Capsule) fXCapsuleNode.getModel()).setRadius(capsuleRadius);
+        ((Capsule) fYCapsuleNode.getModel()).setLength(capsuleLength);
+        ((Capsule) fYCapsuleNode.getModel()).setRadius(capsuleRadius);
+        ((Capsule) fZCapsuleNode.getModel()).setLength(capsuleLength);
+        ((Capsule) fZCapsuleNode.getModel()).setRadius(capsuleRadius);
+        ((Sphere) fFreeSphereNode.getModel()).setRadius(sphereRadius);
+    }
+
+    @Override
+    public boolean isOutlined()
+    {
+        return (false);
+    }
+
+    @Override
     public void setSelectedWidgetNode(final ModelNode selectedWidgetNode)
     {
         if (fSelectedWidgetNode != null)
@@ -241,36 +280,5 @@ public class TranslationWidget implements Widget
     public void setSelection(final SceneSelection selection)
     {
         fSelection = selection;
-    }
-
-    @Override
-    public void updateView(final Camera camera, final TransformationMatrixf sceneTransformation, final Model model)
-    {
-        // Transform the Widget to the position and orientation of the selected scene component.
-        if (!fSelection.isEmpty())
-        {
-            if (fSelection.getSceneComponent() instanceof Node)
-            {
-                fRoot.setTransformation(((Node) fSelection.getSceneComponent()).getAbsoluteTransformation());
-            }
-        }
-
-        // Determine the distance between the Camera and the Widget.
-        TransformationMatrixf cameraTransformation = camera.getNode().getAbsoluteTransformation();
-        Vectorf vectorCameraToWidget = cameraTransformation.getTranslation().subtractRightCopy(fRoot.getAbsoluteTransformation().getTranslation());
-        float distanceCameraToWidget = Math.abs(vectorCameraToWidget.getLength());
-
-        // Scale the Widget based on the distance.
-        float capsuleLength = CAPSULE_LENGTH_SCALE_FACTOR * distanceCameraToWidget;
-        float capsuleRadius = CAPSULE_RADIUS_SCALE_FACTOR * distanceCameraToWidget;
-        float sphereRadius = SPHERE_RADIUS_SCALE_FACTOR * distanceCameraToWidget;
-
-        ((Capsule) fXCapsuleNode.getModel()).setLength(capsuleLength);
-        ((Capsule) fXCapsuleNode.getModel()).setRadius(capsuleRadius);
-        ((Capsule) fYCapsuleNode.getModel()).setLength(capsuleLength);
-        ((Capsule) fYCapsuleNode.getModel()).setRadius(capsuleRadius);
-        ((Capsule) fZCapsuleNode.getModel()).setLength(capsuleLength);
-        ((Capsule) fZCapsuleNode.getModel()).setRadius(capsuleRadius);
-        ((Sphere) fFreeSphereNode.getModel()).setRadius(sphereRadius);
     }
 }

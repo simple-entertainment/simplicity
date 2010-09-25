@@ -14,7 +14,6 @@ package com.se.simplicity.editor.internal;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.model.shape.GLUSphere;
 import com.se.simplicity.jogl.model.shape.GLUTorus;
-import com.se.simplicity.model.Model;
 import com.se.simplicity.model.shape.Shape;
 import com.se.simplicity.model.shape.Sphere;
 import com.se.simplicity.model.shape.Torus;
@@ -39,17 +38,17 @@ public class RotationWidget implements Widget
 {
     /**
      * <p>
-     * The angle to rotate the models by so they sit on the correct axis.
-     * </p>
-     */
-    private static final float MODEL_ROTATION = 90.0f;
-
-    /**
-     * <p>
      * The factor to scale the inner radius of each {@link com.se.simplicity.jogl.model.shape.GLUTorus GLUTorus} by.
      * </p>
      */
     private static final float INNER_RADIUS_SCALE_FACTOR = 0.01f;
+
+    /**
+     * <p>
+     * The angle to rotate the models by so they sit on the correct axis.
+     * </p>
+     */
+    private static final float MODEL_ROTATION = 90.0f;
 
     /**
      * <p>
@@ -107,17 +106,17 @@ public class RotationWidget implements Widget
 
     /**
      * <p>
-     * The currently selected scene component.
-     * </p>
-     */
-    private SceneSelection fSelection;
-
-    /**
-     * <p>
      * The currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this widget.
      * </p>
      */
     private ModelNode fSelectedWidgetNode;
+
+    /**
+     * <p>
+     * The currently selected scene component.
+     * </p>
+     */
+    private SceneSelection fSelection;
 
     /**
      * <p>
@@ -207,6 +206,18 @@ public class RotationWidget implements Widget
     }
 
     @Override
+    public boolean alwaysFacesCamera()
+    {
+        return (false);
+    }
+
+    @Override
+    public boolean atSelectionOnly()
+    {
+        return (true);
+    }
+
+    @Override
     public void executeMove(final int x, final int y)
     {
         if (fSelection.isEmpty())
@@ -248,51 +259,20 @@ public class RotationWidget implements Widget
     }
 
     @Override
-    public SceneSelection getSelection()
-    {
-        return (fSelection);
-    }
-
-    @Override
     public ModelNode getSelectedWidgetNode()
     {
         return (fSelectedWidgetNode);
     }
 
     @Override
-    public void setSelection(final SceneSelection selection)
+    public SceneSelection getSelection()
     {
-        fSelection = selection;
+        return (fSelection);
     }
 
     @Override
-    public void setSelectedWidgetNode(final ModelNode selectedWidgetNode)
+    public void init(final Camera camera, final boolean isSelection)
     {
-        if (fSelectedWidgetNode != null)
-        {
-            ((SimpleRGBColourVectorf4) ((Shape) fSelectedWidgetNode.getModel()).getColour()).setAlpha(UNSELECTED_MODEL_ALPHA);
-        }
-
-        if (selectedWidgetNode != null)
-        {
-            ((SimpleRGBColourVectorf4) ((Shape) selectedWidgetNode.getModel()).getColour()).setAlpha(1.0f);
-        }
-
-        fSelectedWidgetNode = selectedWidgetNode;
-    }
-
-    @Override
-    public void updateView(final Camera camera, final TransformationMatrixf sceneTransformation, final Model model)
-    {
-        // Transform the Widget to the position and orientation of the selected scene component.
-        if (!fSelection.isEmpty())
-        {
-            if (fSelection.getSceneComponent() instanceof Node)
-            {
-                fRoot.setTransformation(((Node) fSelection.getSceneComponent()).getAbsoluteTransformation());
-            }
-        }
-
         // Determine the distance between the Camera and the Widget.
         TransformationMatrixf cameraTransformation = camera.getNode().getAbsoluteTransformation();
         Vectorf vectorCameraToWidget = cameraTransformation.getTranslation().subtractRightCopy(fRoot.getAbsoluteTransformation().getTranslation());
@@ -316,5 +296,33 @@ public class RotationWidget implements Widget
         fFreeSphereNode3.getTransformation().setYAxisTranslation(-outerRadius);
         fFreeSphereNode4.getTransformation().setZAxisTranslation(outerRadius);
         fFreeSphereNode5.getTransformation().setZAxisTranslation(-outerRadius);
+    }
+
+    @Override
+    public boolean isOutlined()
+    {
+        return (false);
+    }
+
+    @Override
+    public void setSelectedWidgetNode(final ModelNode selectedWidgetNode)
+    {
+        if (fSelectedWidgetNode != null)
+        {
+            ((SimpleRGBColourVectorf4) ((Shape) fSelectedWidgetNode.getModel()).getColour()).setAlpha(UNSELECTED_MODEL_ALPHA);
+        }
+
+        if (selectedWidgetNode != null)
+        {
+            ((SimpleRGBColourVectorf4) ((Shape) selectedWidgetNode.getModel()).getColour()).setAlpha(1.0f);
+        }
+
+        fSelectedWidgetNode = selectedWidgetNode;
+    }
+
+    @Override
+    public void setSelection(final SceneSelection selection)
+    {
+        fSelection = selection;
     }
 }

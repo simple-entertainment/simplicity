@@ -1,11 +1,9 @@
 package com.se.simplicity.editor.internal;
 
 import com.se.simplicity.editor.internal.selection.SceneSelection;
-import com.se.simplicity.model.Model;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.model.ModelNode;
-import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
  * <p>
@@ -16,6 +14,15 @@ import com.se.simplicity.vector.TransformationMatrixf;
  */
 public interface Widget
 {
+    /**
+     * <p>
+     * Determines whether this <code>Widget</code> should only be rendered at the selected scene component / primitive.
+     * </p>
+     * 
+     * @return True if this <code>Widget</code> should only be rendered at the selected scene component / primitive, false otherwise.
+     */
+    boolean atSelectionOnly();
+
     /**
      * <p>
      * Executes this <code>Widget</code> given a movement in viewport coordinates.
@@ -37,15 +44,6 @@ public interface Widget
 
     /**
      * <p>
-     * Retrieves the selected scene component and primitive.
-     * </p>
-     * 
-     * @return The selected scene component and primitive.
-     */
-    SceneSelection getSelection();
-
-    /**
-     * <p>
      * Retrieves the currently selected {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode} of this <code>Widget</code>.
      * </p>
      * 
@@ -55,12 +53,31 @@ public interface Widget
 
     /**
      * <p>
-     * Sets the selected scene component and primitive.
+     * Retrieves the selected scene component and primitive.
      * </p>
      * 
-     * @param selection The selected scene component and primitive.
+     * @return The selected scene component and primitive.
      */
-    void setSelection(SceneSelection selection);
+    SceneSelection getSelection();
+
+    /**
+     * <p>
+     * Ensures that this <code>Widget</code> is correctly scaled, positioned and orientated etc.
+     * </p>
+     * 
+     * @param camera The {@link com.se.simplicity.rendering.Camera Camera} through which this <code>Widget</code> is being viewed.
+     * @param isSelection Determines if the <code>Widget</code> is being rendered for the selected scene component / primitive.
+     */
+    void init(Camera camera, boolean isSelection);
+
+    /**
+     * <p>
+     * Determines whether this <code>Widget</code> should bee rendered with an outline.
+     * </p>
+     * 
+     * @return True if this <code>Widget</code> should bee rendered with an outline, false otherwise.
+     */
+    boolean isOutlined();
 
     /**
      * <p>
@@ -73,13 +90,19 @@ public interface Widget
 
     /**
      * <p>
-     * Ensures that this <code>Widget</code> is correctly scaled, positioned and orientated. Can also effect the functionality of this
-     * <code>Widget</code>.
+     * Sets the selected scene component and primitive.
      * </p>
      * 
-     * @param camera The camera through which this <code>Widget</code> is being viewed.
-     * @param sceneTransformation The position and orientation in the {@link com.se.simplicity.scene.Scene Scene}.
-     * @param model The <code>Model</code> the {@link com.se.simplicity.rendering.Renderer Renderer} is attempting to render.
+     * @param selection The selected scene component and primitive.
      */
-    void updateView(Camera camera, TransformationMatrixf sceneTransformation, Model model);
+    void setSelection(SceneSelection selection);
+
+    /**
+     * <p>
+     * Determines if this <code>Widget</code> should always be rendered facing the {@link com.se.simplicity.rendering.Camera Camera}.
+     * </p>
+     * 
+     * @return True if this <code>Widget</code> should always be rendered facing the <code>Camera</code>, false otherwise.
+     */
+    boolean alwaysFacesCamera();
 }

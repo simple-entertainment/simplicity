@@ -7,27 +7,20 @@ import java.util.Map.Entry;
 
 import javax.media.opengl.GL;
 
-import com.se.simplicity.editor.internal.picking.WidgetJOGLPicker;
-import com.se.simplicity.editor.internal.rendering.ManipulationWidgetJOGLRenderer;
-import com.se.simplicity.editor.internal.rendering.SelectionWidgetJOGLRenderer;
+import com.se.simplicity.editor.internal.rendering.WidgetJOGLRenderer;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
-import com.se.simplicity.jogl.rendering.AdaptingJOGLRenderer;
 import com.se.simplicity.jogl.rendering.BlendingJOGLRenderer;
 import com.se.simplicity.jogl.rendering.DepthClearingJOGLRenderer;
-import com.se.simplicity.jogl.rendering.NamePassingJOGLRenderer;
-import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
-import com.se.simplicity.jogl.scene.SimpleJOGLScene;
 import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.Camera;
-import com.se.simplicity.rendering.Renderer;
+import com.se.simplicity.rendering.DrawingMode;
 import com.se.simplicity.rendering.engine.RenderingEngine;
 import com.se.simplicity.scene.Scene;
-import com.se.simplicity.scenegraph.SimpleSceneGraph;
 
 /**
  * <p>
@@ -47,22 +40,10 @@ public class WidgetManager
 
     /**
      * <p>
-     * Fills the select buffer with {@link com.se.simplicity.editor.internal.Widget Widget} selection data.
+     * Renders the {@link com.se.simplicity.editor.internal.Widget Widget}s.
      * </p>
      */
-    private AdaptingJOGLRenderer fManipulationPickingRenderer;
-
-    /**
-     * <p>
-     * Renders the manipulation {@link com.se.simplicity.editor.internal.Widget Widget}s.
-     * </p>
-     */
-    private ManipulationWidgetJOGLRenderer fManipulationWidgetRenderer;
-
-    /**
-     * The {@link com.se.simplicity.scene.Scene Scene} that contains the manipulation {@link com.se.simplicity.editor.internal.Widget Widget}.
-     */
-    private Scene fManipulationWidgetScene;
+    private WidgetJOGLRenderer fRenderer;
 
     /**
      * <p>
@@ -78,7 +59,7 @@ public class WidgetManager
      * {@link com.se.simplicity.editor.internal.Widget Widget}s.
      * </p>
      */
-    private SimpleJOGLRenderingEngine fPickingRenderingEngine;
+    private RenderingEngine fPickingRenderingEngine;
 
     /**
      * <p>
@@ -97,17 +78,10 @@ public class WidgetManager
 
     /**
      * <p>
-     * Fills the select buffer with {@link com.se.simplicity.scene.Scene Scene} selection data.
+     * The {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
      * </p>
      */
-    private AdaptingJOGLRenderer fSelectionPickingRenderer;
-
-    /**
-     * <p>
-     * Renders the selection {@link com.se.simplicity.editor.internal.Widget Widget}.
-     * </p>
-     */
-    private SelectionWidgetJOGLRenderer fSelectionWidgetRenderer;
+    private SelectionMode fSelectionMode;
 
     /**
      * <p>
@@ -131,17 +105,11 @@ public class WidgetManager
         fRenderingEngine = renderingEngine;
         fScene = scene;
 
-        Renderer basePickingRenderer = new NamedJOGLRenderer();
-        Renderer baseWidgetRenderer = new BlendingJOGLRenderer(new DepthClearingJOGLRenderer(new SimpleJOGLRenderer()));
-
         fEditingMode = null;
-        fManipulationPickingRenderer = new NamePassingJOGLRenderer(new ManipulationWidgetJOGLRenderer(basePickingRenderer));
-        fManipulationWidgetRenderer = new ManipulationWidgetJOGLRenderer(baseWidgetRenderer);
-        fManipulationWidgetScene = null;
         fPickingEngine = null;
         fPickingRenderingEngine = null;
-        fSelectionPickingRenderer = new NamePassingJOGLRenderer(new SelectionWidgetJOGLRenderer(basePickingRenderer));
-        fSelectionWidgetRenderer = new SelectionWidgetJOGLRenderer(baseWidgetRenderer);
+        fRenderer = new WidgetJOGLRenderer(new DepthClearingJOGLRenderer(new BlendingJOGLRenderer(new SimpleJOGLRenderer())));
+        fSelectionMode = SelectionMode.MODEL;
         fWidgets = new HashMap<EditingMode, Widget>();
     }
 
@@ -198,6 +166,18 @@ public class WidgetManager
 
     /**
      * <p>
+     * Retrieves the {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     * </p>
+     * 
+     * @return The {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     */
+    public SelectionMode getSelectionMode()
+    {
+        return (fSelectionMode);
+    }
+
+    /**
+     * <p>
      * Retrieves the {@link com.se.simplicity.editor.internal.Widget Widget} currently being used to manipulate {@link com.se.simplicity.model.Model
      * Model}s.
      * </p>
@@ -219,9 +199,10 @@ public class WidgetManager
         initPickingEngine();
         initWidgets();
 
-        // The selection renderers are used with only one widget so it can be set during initialisation.
-        fSelectionWidgetRenderer.setWidget(fWidgets.get(EditingMode.SELECTION));
-        ((SelectionWidgetJOGLRenderer) fSelectionPickingRenderer.getRenderer()).setWidget(fWidgets.get(EditingMode.SELECTION));
+        fRenderingEngine.addRenderer(fRenderer);
+
+        fPickingEngine.setScene(fScene);
+        fPickingRenderingEngine.addRenderer(fRenderer);
     }
 
     /**
@@ -232,7 +213,7 @@ public class WidgetManager
     protected void initPickingEngine()
     {
         fPickingEngine = new SimpleJOGLPickingEngine();
-        WidgetJOGLPicker picker = new WidgetJOGLPicker();
+        SimpleJOGLPicker picker = new SimpleJOGLPicker();
         fPickingRenderingEngine = new SimpleJOGLRenderingEngine();
 
         fPickingEngine.setPicker(picker);
@@ -249,11 +230,6 @@ public class WidgetManager
         fWidgets.put(EditingMode.ROTATION, new RotationWidget());
         fWidgets.put(EditingMode.SELECTION, new SelectionWidget());
         fWidgets.put(EditingMode.TRANSLATION, new TranslationWidget());
-
-        fManipulationWidgetScene = new SimpleJOGLScene();
-        fManipulationWidgetScene.setSceneGraph(new SimpleSceneGraph());
-        fManipulationWidgetScene.getSceneGraph().addSubgraph(fWidgets.get(EditingMode.ROTATION).getRootNode());
-        fManipulationWidgetScene.getSceneGraph().addSubgraph(fWidgets.get(EditingMode.TRANSLATION).getRootNode());
     }
 
     /**
@@ -265,12 +241,8 @@ public class WidgetManager
      */
     public void setCamera(final Camera camera)
     {
-        fManipulationWidgetRenderer.setCamera(camera);
-        fSelectionWidgetRenderer.setCamera(camera);
-
+        fRenderer.setCamera(camera);
         fPickingEngine.setCamera(camera);
-        ((ManipulationWidgetJOGLRenderer) fManipulationPickingRenderer.getRenderer()).setCamera(camera);
-        ((SelectionWidgetJOGLRenderer) fSelectionPickingRenderer.getRenderer()).setCamera(camera);
     }
 
     /**
@@ -284,49 +256,9 @@ public class WidgetManager
     {
         fEditingMode = editingMode;
 
-        // Setup rendering engine.
-        if (fEditingMode == EditingMode.SELECTION)
-        {
-            // Configure the rendering engine to render ONLY the selection widget.
-            fRenderingEngine.addRenderer(fSelectionWidgetRenderer);
-            fRenderingEngine.removeRenderer(fManipulationWidgetRenderer);
-
-        }
-        else
-        {
-            Widget widget = fWidgets.get(fEditingMode);
-            widget.setSelectedWidgetNode(null);
-
-            // Configure the renderer to render the appropriate manipulation widget.
-            fManipulationWidgetRenderer.setWidget(widget);
-
-            // Configure the rendering engine to render ONLY the appropriate manipulation widget.
-            fRenderingEngine.removeRenderer(fSelectionWidgetRenderer);
-            fRenderingEngine.addRenderer(fManipulationWidgetRenderer);
-            fRenderingEngine.setRendererRoot(fManipulationWidgetRenderer, widget.getRootNode());
-
-        }
-
-        // Setup picking engine.
-        if (fEditingMode == EditingMode.SELECTION)
-        {
-            // Configure the picking engine to pick ONLY the main scene (in reality it will be picking the selection widgets drawn instead of the
-            // models in the main scene).
-            fPickingEngine.setScene(fScene);
-            fPickingRenderingEngine.addRenderer(fSelectionPickingRenderer);
-            fPickingRenderingEngine.removeRenderer(fManipulationPickingRenderer);
-        }
-        else
-        {
-            // Configure the renderer to render the appropriate manipulation widget.
-            ((ManipulationWidgetJOGLRenderer) fManipulationPickingRenderer.getRenderer()).setWidget(fWidgets.get(fEditingMode));
-
-            // Configure the picking engine to pick ONLY the manipulation widget.
-            fPickingEngine.setScene(fManipulationWidgetScene);
-            fPickingRenderingEngine.removeRenderer(fSelectionPickingRenderer);
-            fPickingRenderingEngine.addRenderer(fManipulationPickingRenderer);
-            fPickingRenderingEngine.setRendererRoot(fManipulationPickingRenderer, fWidgets.get(fEditingMode).getRootNode());
-        }
+        Widget widget = fWidgets.get(fEditingMode);
+        widget.setSelectedWidgetNode(null);
+        fRenderer.setWidget(widget);
     }
 
     /**
@@ -339,7 +271,7 @@ public class WidgetManager
     public void setGL(final GL gl)
     {
         ((JOGLComponent) fPickingEngine).setGL(gl);
-        ((JOGLComponent) ((SimpleJOGLPicker) fPickingEngine.getPicker()).getRenderingEngine()).setGL(gl);
+        ((JOGLComponent) fPickingRenderingEngine).setGL(gl);
     }
 
     /**
@@ -351,9 +283,51 @@ public class WidgetManager
      */
     public void setSelection(final SceneSelection selection)
     {
+        if (fSelectionMode == SelectionMode.MODEL)
+        {
+            fRenderingEngine.setRendererRoot(fRenderer, fScene.getSceneGraph().getRoot());
+            fPickingRenderingEngine.setRendererRoot(fRenderer, fScene.getSceneGraph().getRoot());
+        }
+        else
+        {
+            fRenderingEngine.setRendererRoot(fRenderer, selection.getNode());
+            fPickingRenderingEngine.setRendererRoot(fRenderer, selection.getNode());
+        }
+
         for (Entry<EditingMode, Widget> widgetEntry : fWidgets.entrySet())
         {
             widgetEntry.getValue().setSelection(selection);
+        }
+    }
+
+    /**
+     * <p>
+     * Sets the {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     * </p>
+     * 
+     * @param selectionMode The {@link com.se.simplicity.editor.internal.SelectionMode SelectionMode} to select scene components / primitives with.
+     */
+    public void setSelectionMode(final SelectionMode selectionMode)
+    {
+        fSelectionMode = selectionMode;
+
+        fRenderer.setSelectionMode(fSelectionMode);
+
+        if (fSelectionMode == SelectionMode.EDGES)
+        {
+            fPickingEngine.getPicker().setDrawingMode(DrawingMode.EDGES);
+        }
+        else if (fSelectionMode == SelectionMode.FACES)
+        {
+            fPickingEngine.getPicker().setDrawingMode(DrawingMode.FACES);
+        }
+        else if (fSelectionMode == SelectionMode.MODEL)
+        {
+            fPickingEngine.getPicker().setDrawingMode(DrawingMode.FACES);
+        }
+        else if (fSelectionMode == SelectionMode.VERTICES)
+        {
+            fPickingEngine.getPicker().setDrawingMode(DrawingMode.VERTICES);
         }
     }
 
