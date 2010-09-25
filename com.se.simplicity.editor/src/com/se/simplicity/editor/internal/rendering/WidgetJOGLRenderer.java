@@ -256,7 +256,7 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer implements NamedRen
                         matchesSelection = true;
                     }
                 }
-                else
+                else if (fSelectionMode == SelectionMode.MODEL)
                 {
                     matchesSelection = true;
                 }

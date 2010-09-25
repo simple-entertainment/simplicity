@@ -68,6 +68,9 @@ public class SelectionModeHandler extends AbstractHandler
             return (null);
         }
 
+        // Remove the primitive from the Selection.
+        ((SceneEditor) editor).setSelection(new SceneSelection(selection.getSceneComponent(), null));
+
         // Change the Selection Mode in the model.
         ((SceneEditor) editor).setSelectionMode(SelectionMode.valueOf(currentState));
 
