@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.media.opengl.GLContext;
 
+import org.apache.log4j.Logger;
 import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.widgets.Display;
 
@@ -112,7 +113,14 @@ public class DisplayAsyncJOGLCompositeEngine implements CompositeEngine
 
         for (Engine engine : fEngines)
         {
-            engine.advance();
+            try
+            {
+                engine.advance();
+            }
+            catch (Exception e)
+            {
+                Logger.getLogger(getClass()).error("Managed engine failed to advance.", e);
+            }
         }
 
         fCanvas.swapBuffers();
