@@ -245,20 +245,39 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer implements NamedRen
     {
         boolean matchesSelection = false;
 
-        if (fWidget.getSelection().getNode() instanceof ModelNode)
+        Node node = fWidget.getSelection().getNode();
+        Model primitive = fWidget.getSelection().getPrimitive();
+
+        // If a Model is selected.
+        if (node instanceof ModelNode && model == ((ModelNode) node).getModel())
         {
-            if (model == ((ModelNode) fWidget.getSelection().getNode()).getModel())
+            // If primitives are not being displayed as Widgets.
+            if (fSelectionMode == SelectionMode.MODEL)
             {
-                if (fWidget.getSelection().getPrimitive() != null && model instanceof VertexGroup)
+                matchesSelection = true;
+            }
+            else if (primitive != null)
+            {
+                // If the selected Model is a VertexGroup
+                if (model instanceof VertexGroup)
                 {
-                    if (primitiveIndex == ((VertexGroup) fWidget.getSelection().getPrimitive()).getIndexWithinParent())
+                    int vertexIndex = ((VertexGroup) primitive).getIndexWithinParent();
+                    int faceIndex = vertexIndex / VERTICES_IN_A_FACE;
+
+                    if (fSelectionMode == SelectionMode.FACES)
                     {
-                        matchesSelection = true;
+                        if (faceIndex == primitiveIndex)
+                        {
+                            matchesSelection = true;
+                        }
                     }
-                }
-                else if (fSelectionMode == SelectionMode.MODEL)
-                {
-                    matchesSelection = true;
+                    else if (fSelectionMode == SelectionMode.EDGES || fSelectionMode == SelectionMode.VERTICES)
+                    {
+                        if (vertexIndex == primitiveIndex)
+                        {
+                            matchesSelection = true;
+                        }
+                    }
                 }
             }
         }
@@ -420,7 +439,7 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer implements NamedRen
      */
     public void setSelectionMode(final SelectionMode selectionMode)
     {
-        this.fSelectionMode = selectionMode;
+        fSelectionMode = selectionMode;
     }
 
     /**
@@ -433,6 +452,6 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer implements NamedRen
      */
     public void setWidget(final Widget widget)
     {
-        this.fWidget = widget;
+        fWidget = widget;
     }
 }
