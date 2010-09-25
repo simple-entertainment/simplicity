@@ -307,6 +307,7 @@ public class SceneLoadingVisualSceneEditorTest
         expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
         expect(mockFile.getFullPath()).andStubReturn(mockPath);
         mockPath.toString();
+        expect(mockMemento.getBoolean("cullFaceMode")).andStubReturn(true);
         expect(mockMemento.getString("drawingMode")).andStubReturn("VERTICES");
         expect(mockMemento.getString("editingMode")).andStubReturn("TRANSLATION");
         expect(mockMemento.getString("projectionMode")).andStubReturn("ORTHOGONAL");
@@ -322,6 +323,7 @@ public class SceneLoadingVisualSceneEditorTest
         testObject.restoreState(mockMemento);
 
         // Verify results.
+        assertEquals(true, testObject.isCullFaceModeOn());
         assertEquals(DrawingMode.VERTICES, testObject.getDrawingMode());
         assertEquals(EditingMode.TRANSLATION, testObject.getEditingMode());
         assertEquals(ProjectionMode.ORTHOGONAL, testObject.getProjectionMode());
@@ -396,6 +398,7 @@ public class SceneLoadingVisualSceneEditorTest
         expect(mockFile.getContents()).andStubReturn(new FileInputStream("src/com/se/simplicity/editor/test/ui/editors/triangle.xml"));
         expect(mockFile.getFullPath()).andStubReturn(mockPath);
         mockPath.toString();
+        expect(mockMemento.getBoolean("cullFaceMode")).andStubReturn(true);
         expect(mockMemento.getString("drawingMode")).andStubReturn("VERTICES");
         expect(mockMemento.getString("editingMode")).andStubReturn("TRANSLATION");
         expect(mockMemento.getString("projectionMode")).andStubReturn("ORTHOGONAL");
@@ -411,6 +414,7 @@ public class SceneLoadingVisualSceneEditorTest
         testObject.restoreState(mockMemento);
 
         // Verify results.
+        assertEquals(true, testObject.isCullFaceModeOn());
         assertEquals(DrawingMode.VERTICES, testObject.getDrawingMode());
         assertEquals(EditingMode.TRANSLATION, testObject.getEditingMode());
         assertEquals(ProjectionMode.ORTHOGONAL, testObject.getProjectionMode());
@@ -483,12 +487,14 @@ public class SceneLoadingVisualSceneEditorTest
 
         // Initialise test environment.
         testObject.init(mockSite, mockInput);
+        testObject.setCullFaceMode(true);
         testObject.setDrawingMode(DrawingMode.VERTICES);
         testObject.setEditingMode(EditingMode.TRANSLATION);
         testObject.setProjectionMode(ProjectionMode.ORTHOGONAL);
         testObject.setSelectionMode(SelectionMode.VERTICES);
 
         // Dictate expected results.
+        mockMemento.putBoolean("cullFaceMode", true);
         mockMemento.putString("drawingMode", "VERTICES");
         mockMemento.putString("editingMode", "TRANSLATION");
         mockMemento.putString("projectionMode", "ORTHOGONAL");
@@ -534,6 +540,7 @@ public class SceneLoadingVisualSceneEditorTest
 
         // Initialise test environment.
         testObject.init(mockSite, mockInput);
+        testObject.setCullFaceMode(true);
         testObject.setDrawingMode(DrawingMode.VERTICES);
         testObject.setEditingMode(EditingMode.TRANSLATION);
         testObject.setProjectionMode(ProjectionMode.ORTHOGONAL);
@@ -541,6 +548,7 @@ public class SceneLoadingVisualSceneEditorTest
         testObject.setSelection(new SceneSelection(testObject.getScene().getSceneGraph().getNode(3), null));
 
         // Dictate expected results.
+        mockMemento.putBoolean("cullFaceMode", true);
         mockMemento.putString("drawingMode", "VERTICES");
         mockMemento.putString("editingMode", "TRANSLATION");
         mockMemento.putString("projectionMode", "ORTHOGONAL");

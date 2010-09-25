@@ -34,6 +34,7 @@ import com.se.simplicity.editor.internal.SelectionMode;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
+import com.se.simplicity.jogl.rendering.CullFaceJOGLRenderer;
 import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.OutlineJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
@@ -80,6 +81,8 @@ public class SceneManagerTest
         mockRenderingEngine.addRenderer(isA(SimpleJOGLRenderer.class));
         mockRenderingEngine.addRenderer(isA(OutlineJOGLRenderer.class));
         mockRenderingEngine.setRendererRoot(isA(OutlineJOGLRenderer.class), (Node) anyObject());
+        mockRenderingEngine.addRenderer(isA(CullFaceJOGLRenderer.class));
+        mockRenderingEngine.setRendererRoot(isA(CullFaceJOGLRenderer.class), (Node) anyObject());
         replay(mockRenderingEngine);
 
         // Perform test.
@@ -113,6 +116,8 @@ public class SceneManagerTest
         mockRenderingEngine.addRenderer(isA(NamedJOGLRenderer.class));
         mockRenderingEngine.addRenderer((Renderer) anyObject());
         mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
+        mockRenderingEngine.addRenderer(isA(CullFaceJOGLRenderer.class));
+        mockRenderingEngine.setRendererRoot(isA(CullFaceJOGLRenderer.class), (Node) anyObject());
         replay(mockRenderingEngine);
 
         // Perform test.
@@ -146,6 +151,8 @@ public class SceneManagerTest
         mockRenderingEngine.addRenderer(isA(SimpleJOGLRenderer.class));
         mockRenderingEngine.addRenderer((Renderer) anyObject());
         mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
+        mockRenderingEngine.addRenderer(isA(CullFaceJOGLRenderer.class));
+        mockRenderingEngine.setRendererRoot(isA(CullFaceJOGLRenderer.class), (Node) anyObject());
         replay(mockRenderingEngine);
 
         // Perform test.
@@ -245,12 +252,9 @@ public class SceneManagerTest
         SceneSelection mockSelection = createMock(SceneSelection.class);
 
         // Dictate correct behaviour.
-        mockRenderingEngine.addRenderer((Renderer) anyObject());
-        mockRenderingEngine.addRenderer((Renderer) anyObject());
-        mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
         expect(mockSelection.getSceneComponent()).andStubReturn(null);
         expect(mockSelection.getPrimitive()).andStubReturn(null);
-        replay(mockRenderingEngine, mockSelection);
+        replay(mockSelection);
 
         // Initialise test environment.
         testObject = new SceneManager(mockScene, mockRenderingEngine);
@@ -285,12 +289,9 @@ public class SceneManagerTest
         Node mockNode = createMock(Node.class);
 
         // Dictate correct behaviour.
-        mockRenderingEngine.addRenderer((Renderer) anyObject());
-        mockRenderingEngine.addRenderer((Renderer) anyObject());
-        mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
         expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
         expect(mockSelection.getPrimitive()).andStubReturn(null);
-        replay(mockRenderingEngine, mockSelection);
+        replay(mockSelection);
 
         // Initialise test environment.
         testObject = new SceneManager(mockScene, mockRenderingEngine);
@@ -326,12 +327,9 @@ public class SceneManagerTest
         Model mockPrimitive = createMock(Model.class);
 
         // Dictate correct behaviour.
-        mockRenderingEngine.addRenderer((Renderer) anyObject());
-        mockRenderingEngine.addRenderer((Renderer) anyObject());
-        mockRenderingEngine.setRendererRoot((Renderer) anyObject(), (Node) anyObject());
         expect(mockSelection.getSceneComponent()).andStubReturn(mockNode);
         expect(mockSelection.getPrimitive()).andStubReturn(mockPrimitive);
-        replay(mockRenderingEngine, mockSelection);
+        replay(mockSelection);
 
         // Initialise test environment.
         testObject = new SceneManager(mockScene, mockRenderingEngine);
