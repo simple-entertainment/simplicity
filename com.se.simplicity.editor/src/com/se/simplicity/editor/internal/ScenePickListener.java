@@ -13,6 +13,7 @@ package com.se.simplicity.editor.internal;
 
 import com.se.simplicity.editor.internal.selection.PickSelection;
 import com.se.simplicity.editor.internal.selection.PickSelectionSource;
+import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.editor.ui.editors.SceneEditor;
 import com.se.simplicity.model.Model;
 import com.se.simplicity.picking.event.PickEvent;
@@ -57,6 +58,12 @@ public class ScenePickListener implements PickListener
             primitive = event.getCloseHit().getPrimitive();
         }
 
-        fSceneEditor.setSelection(new PickSelection(sceneComponent, primitive, PickSelectionSource.SCENE_PICK));
+        // Only allow a selection that is not for the already selected scene component if the EditingMode is 'SELECTION' and the SelectionMode is
+        // 'MODEL'.
+        if (sceneComponent == ((SceneSelection) fSceneEditor.getSelection()).getSceneComponent()
+                || (fSceneEditor.getEditingMode() == EditingMode.SELECTION && fSceneEditor.getSelectionMode() == SelectionMode.MODEL))
+        {
+            fSceneEditor.setSelection(new PickSelection(sceneComponent, primitive, PickSelectionSource.SCENE_PICK));
+        }
     }
 }
