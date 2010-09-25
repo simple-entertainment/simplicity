@@ -69,6 +69,52 @@ public class SceneSelection implements IStructuredSelection
         fSceneComponent = sceneComponent;
     }
 
+    @Override
+    public Object getFirstElement()
+    {
+        Object firstElement = null;
+
+        if (!toList().isEmpty())
+        {
+            firstElement = toList().get(0);
+        }
+
+        return (firstElement);
+    }
+
+    /**
+     * <p>
+     * Returns the {@link coom.se.simplicity.scenegraph.Node Node} related for the selected scene component.
+     * </p>
+     * 
+     * <ul>
+     * <li>If the scene component is a {@link coom.se.simplicity.rendering.Camera Camera}, returns the <code>Camera</code>'s <code>Node</code>.</li>
+     * <li>If the scene component is a {@link coom.se.simplicity.rendering.Light Light}, returns the <code>Light</code>'s <code>Node</code>.</li>
+     * <li>If the scene component is a <code>Node</code>, returns the scene component.</li>
+     * </ul>
+     * 
+     * @return The <code>Node</code> related for the selected scene component.
+     */
+    public Node getNode()
+    {
+        Node node = null;
+
+        if (fSceneComponent instanceof Camera)
+        {
+            node = ((Camera) fSceneComponent).getNode();
+        }
+        else if (fSceneComponent instanceof Light)
+        {
+            node = ((Light) fSceneComponent).getNode();
+        }
+        else if (fSceneComponent instanceof Node)
+        {
+            node = (Node) fSceneComponent;
+        }
+
+        return (node);
+    }
+
     /**
      * <p>
      * Retrieves the selected primitive (if one is selected).
@@ -97,19 +143,6 @@ public class SceneSelection implements IStructuredSelection
     public boolean isEmpty()
     {
         return (fPrimitive == null && fSceneComponent == null);
-    }
-
-    @Override
-    public Object getFirstElement()
-    {
-        Object firstElement = null;
-
-        if (!toList().isEmpty())
-        {
-            firstElement = toList().get(0);
-        }
-
-        return (firstElement);
     }
 
     @SuppressWarnings("unchecked")
