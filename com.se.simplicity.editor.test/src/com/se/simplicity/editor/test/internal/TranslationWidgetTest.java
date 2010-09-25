@@ -31,7 +31,6 @@ import com.se.simplicity.scenegraph.Node;
 import com.se.simplicity.scenegraph.model.ModelNode;
 import com.se.simplicity.vector.SimpleRGBColourVectorf4;
 import com.se.simplicity.vector.SimpleTransformationMatrixf44;
-import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
  * <p>
@@ -223,11 +222,11 @@ public class TranslationWidgetTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.editor.internal.TranslationWidget#updateView(Camera) updateView(Camera)}.
+     * Unit test the method {@link com.se.simplicity.editor.internal.TranslationWidget#init(Camera, boolean) init(Camera, boolean)}.
      * </p>
      */
     @Test
-    public void updateView()
+    public void init()
     {
         // Create dependencies.
         Camera mockCamera = createMock(Camera.class);
@@ -235,48 +234,28 @@ public class TranslationWidgetTest
         SimpleTransformationMatrixf44 cameraTransformation = new SimpleTransformationMatrixf44();
         cameraTransformation.setXAxisTranslation(-10.0f);
 
-        SceneSelection mockSelection = createMock(SceneSelection.class);
-        Node mockSceneNode = createMock(Node.class);
-        SimpleTransformationMatrixf44 sceneTransformation = new SimpleTransformationMatrixf44();
-        sceneTransformation.setXAxisTranslation(10.0f);
-        sceneTransformation.setZAxisRotation((float) Math.toRadians(10.0));
-
         // Dictate correct behaviour.
         expect(mockCamera.getNode()).andStubReturn(mockCameraNode);
         expect(mockCameraNode.getAbsoluteTransformation()).andStubReturn(cameraTransformation);
-        expect(mockSelection.isEmpty()).andStubReturn(false);
-        expect(mockSelection.getSceneComponent()).andStubReturn(mockSceneNode);
-        expect(mockSceneNode.getAbsoluteTransformation()).andStubReturn(sceneTransformation);
-        replay(mockCamera, mockCameraNode, mockSelection, mockSceneNode);
-
-        // Initialise test environment.
-        testObject.setSelection(mockSelection);
+        replay(mockCamera, mockCameraNode);
 
         // Perform test.
-        testObject.updateView(mockCamera, null, null);
+        testObject.init(mockCamera, true);
 
         // Verify test results.
-        TransformationMatrixf testTransformation = testObject.getRootNode().getTransformation();
-        assertEquals(0.0f, testTransformation.getXAxisRotation(), 0.0001f);
-        assertEquals(0.0f, testTransformation.getYAxisRotation(), 0.0001f);
-        assertEquals(Math.toRadians(10.0), testTransformation.getZAxisRotation(), 0.0001f);
-        assertEquals(10.0f, testTransformation.getXAxisTranslation(), 0.0001f);
-        assertEquals(0.0f, testTransformation.getYAxisTranslation(), 0.0001f);
-        assertEquals(0.0f, testTransformation.getZAxisTranslation(), 0.0001f);
-
         ModelNode xCapsuleNode = (ModelNode) testObject.getRootNode().getChildren().get(0);
-        assertEquals(2.0f, ((Capsule) xCapsuleNode.getModel()).getLength(), 0.0001f);
-        assertEquals(0.2f, ((Capsule) xCapsuleNode.getModel()).getRadius(), 0.0001f);
+        assertEquals(1.0f, ((Capsule) xCapsuleNode.getModel()).getLength(), 0.0001f);
+        assertEquals(0.1f, ((Capsule) xCapsuleNode.getModel()).getRadius(), 0.0001f);
 
         ModelNode yCapsuleNode = (ModelNode) testObject.getRootNode().getChildren().get(1);
-        assertEquals(2.0f, ((Capsule) yCapsuleNode.getModel()).getLength(), 0.0001f);
-        assertEquals(0.2f, ((Capsule) yCapsuleNode.getModel()).getRadius(), 0.0001f);
+        assertEquals(1.0f, ((Capsule) yCapsuleNode.getModel()).getLength(), 0.0001f);
+        assertEquals(0.1f, ((Capsule) yCapsuleNode.getModel()).getRadius(), 0.0001f);
 
         ModelNode zCapsuleNode = (ModelNode) testObject.getRootNode().getChildren().get(2);
-        assertEquals(2.0f, ((Capsule) zCapsuleNode.getModel()).getLength(), 0.0001f);
-        assertEquals(0.2f, ((Capsule) zCapsuleNode.getModel()).getRadius(), 0.0001f);
+        assertEquals(1.0f, ((Capsule) zCapsuleNode.getModel()).getLength(), 0.0001f);
+        assertEquals(0.1f, ((Capsule) zCapsuleNode.getModel()).getRadius(), 0.0001f);
 
         ModelNode freeSphereNode = (ModelNode) testObject.getRootNode().getChildren().get(3);
-        assertEquals(0.4f, ((Sphere) freeSphereNode.getModel()).getRadius(), 0.0001f);
+        assertEquals(0.2f, ((Sphere) freeSphereNode.getModel()).getRadius(), 0.0001f);
     }
 }
