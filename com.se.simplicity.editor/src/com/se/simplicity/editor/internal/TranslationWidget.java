@@ -191,7 +191,9 @@ public class TranslationWidget implements Widget
     @Override
     public void executeMove(final int x, final int y)
     {
-        if (fSelection.getSceneComponent() instanceof Node)
+        Node node = fSelection.getNode();
+
+        if (node != null)
         {
             int invertedY = y * -1;
             SimpleTranslationVectorf4 translation = new SimpleTranslationVectorf4();
@@ -209,8 +211,7 @@ public class TranslationWidget implements Widget
                 translation.translateZ((x + invertedY) * TRANSLATION_FACTOR);
             }
 
-            ((Node) fSelection.getSceneComponent()).getTransformation().translate(translation);
-            fRoot.getTransformation().translate(translation);
+            node.getTransformation().translate(translation);
         }
     }
 
@@ -252,6 +253,12 @@ public class TranslationWidget implements Widget
         ((Capsule) fZCapsuleNode.getModel()).setLength(capsuleLength);
         ((Capsule) fZCapsuleNode.getModel()).setRadius(capsuleRadius);
         ((Sphere) fFreeSphereNode.getModel()).setRadius(sphereRadius);
+    }
+
+    @Override
+    public boolean isHittable()
+    {
+        return (true);
     }
 
     @Override

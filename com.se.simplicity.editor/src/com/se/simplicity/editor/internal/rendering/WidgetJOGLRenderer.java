@@ -352,7 +352,7 @@ public class WidgetJOGLRenderer extends AdaptingJOGLRenderer implements NamedRen
             // Render the current node if it is a model.
             if (currentNode instanceof ModelNode)
             {
-                if (getRenderer() instanceof NamedRenderer)
+                if (renderer instanceof NamedRenderer)
                 {
                     ((NamedRenderer) renderer).renderModel(((ModelNode) currentNode).getModel(), currentNode.getID());
                 }

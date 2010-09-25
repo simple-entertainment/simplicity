@@ -128,6 +128,12 @@ public class SelectionWidget implements Widget
     }
 
     @Override
+    public boolean isHittable()
+    {
+        return (false);
+    }
+
+    @Override
     public boolean isOutlined()
     {
         return (true);

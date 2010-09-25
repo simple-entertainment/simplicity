@@ -16,6 +16,15 @@ public interface Widget
 {
     /**
      * <p>
+     * Determines if this <code>Widget</code> should always be rendered facing the {@link com.se.simplicity.rendering.Camera Camera}.
+     * </p>
+     * 
+     * @return True if this <code>Widget</code> should always be rendered facing the <code>Camera</code>, false otherwise.
+     */
+    boolean alwaysFacesCamera();
+
+    /**
+     * <p>
      * Determines whether this <code>Widget</code> should only be rendered at the selected scene component / primitive.
      * </p>
      * 
@@ -72,6 +81,17 @@ public interface Widget
 
     /**
      * <p>
+     * Determines if the {@link com.se.simplicity.picking.Picker Picker} used to pick this <code>Widget</code> should create the hit from this
+     * <code>Widget</code>'s select buffer contents or the {@link com.se.simplicity.scene.Scene}s select buffer contents.
+     * </p>
+     * 
+     * @return True if the <code>Picker</code> used to pick this <code>Widget</code> should create the hit from this <code>Widget</code>'s select
+     * buffer contents, false otherwise.
+     */
+    boolean isHittable();
+
+    /**
+     * <p>
      * Determines whether this <code>Widget</code> should bee rendered with an outline.
      * </p>
      * 
@@ -96,13 +116,4 @@ public interface Widget
      * @param selection The selected scene component and primitive.
      */
     void setSelection(SceneSelection selection);
-
-    /**
-     * <p>
-     * Determines if this <code>Widget</code> should always be rendered facing the {@link com.se.simplicity.rendering.Camera Camera}.
-     * </p>
-     * 
-     * @return True if this <code>Widget</code> should always be rendered facing the <code>Camera</code>, false otherwise.
-     */
-    boolean alwaysFacesCamera();
 }

@@ -220,12 +220,9 @@ public class RotationWidget implements Widget
     @Override
     public void executeMove(final int x, final int y)
     {
-        if (fSelection.isEmpty())
-        {
-            return;
-        }
+        Node node = fSelection.getNode();
 
-        if (fSelection.getSceneComponent() instanceof Node)
+        if (node != null)
         {
             int invertedY = y * -1;
             float angle = 0.0f;
@@ -247,8 +244,7 @@ public class RotationWidget implements Widget
                 axis.translateZ(1.0f);
             }
 
-            ((Node) fSelection.getSceneComponent()).getTransformation().rotate((float) Math.toRadians(angle), axis);
-            fRoot.getTransformation().rotate((float) Math.toRadians(angle), axis);
+            node.getTransformation().rotate((float) Math.toRadians(angle), axis);
         }
     }
 
@@ -296,6 +292,12 @@ public class RotationWidget implements Widget
         fFreeSphereNode3.getTransformation().setYAxisTranslation(-outerRadius);
         fFreeSphereNode4.getTransformation().setZAxisTranslation(outerRadius);
         fFreeSphereNode5.getTransformation().setZAxisTranslation(-outerRadius);
+    }
+
+    @Override
+    public boolean isHittable()
+    {
+        return (true);
     }
 
     @Override

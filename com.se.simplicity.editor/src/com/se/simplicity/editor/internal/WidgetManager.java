@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import javax.media.opengl.GL;
 
+import com.se.simplicity.editor.internal.picking.WidgetJOGLPicker;
 import com.se.simplicity.editor.internal.rendering.WidgetJOGLRenderer;
 import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.JOGLComponent;
@@ -14,7 +15,8 @@ import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
 import com.se.simplicity.jogl.rendering.BlendingJOGLRenderer;
 import com.se.simplicity.jogl.rendering.DepthClearingJOGLRenderer;
-import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
+import com.se.simplicity.jogl.rendering.NamePassingJOGLRenderer;
+import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.engine.SimpleJOGLRenderingEngine;
 import com.se.simplicity.picking.engine.PickingEngine;
 import com.se.simplicity.rendering.Camera;
@@ -40,10 +42,10 @@ public class WidgetManager
 
     /**
      * <p>
-     * Renders the {@link com.se.simplicity.editor.internal.Widget Widget}s.
+     * Picks the {@link com.se.simplicity.scene.Scene Scene} and/or {@link com.se.simplicity.editor.internal.Widget Widget}s.
      * </p>
      */
-    private WidgetJOGLRenderer fRenderer;
+    private WidgetJOGLPicker fPicker;
 
     /**
      * <p>
@@ -60,6 +62,13 @@ public class WidgetManager
      * </p>
      */
     private RenderingEngine fPickingRenderingEngine;
+
+    /**
+     * <p>
+     * Renders the {@link com.se.simplicity.editor.internal.Widget Widget}s.
+     * </p>
+     */
+    private WidgetJOGLRenderer fRenderer;
 
     /**
      * <p>
@@ -106,9 +115,11 @@ public class WidgetManager
         fScene = scene;
 
         fEditingMode = null;
+        fPicker = null;
         fPickingEngine = null;
         fPickingRenderingEngine = null;
-        fRenderer = new WidgetJOGLRenderer(new DepthClearingJOGLRenderer(new BlendingJOGLRenderer(new SimpleJOGLRenderer())));
+        fRenderer = new WidgetJOGLRenderer(new NamePassingJOGLRenderer(new DepthClearingJOGLRenderer(
+                new BlendingJOGLRenderer(new NamedJOGLRenderer()))));
         fSelectionMode = SelectionMode.MODEL;
         fWidgets = new HashMap<EditingMode, Widget>();
     }
@@ -213,11 +224,11 @@ public class WidgetManager
     protected void initPickingEngine()
     {
         fPickingEngine = new SimpleJOGLPickingEngine();
-        SimpleJOGLPicker picker = new SimpleJOGLPicker();
+        fPicker = new WidgetJOGLPicker();
         fPickingRenderingEngine = new SimpleJOGLRenderingEngine();
 
-        fPickingEngine.setPicker(picker);
-        picker.setRenderingEngine(fPickingRenderingEngine);
+        fPickingEngine.setPicker(fPicker);
+        fPicker.setRenderingEngine(fPickingRenderingEngine);
     }
 
     /**
@@ -258,7 +269,9 @@ public class WidgetManager
 
         Widget widget = fWidgets.get(fEditingMode);
         widget.setSelectedWidgetNode(null);
+
         fRenderer.setWidget(widget);
+        fPicker.setWidget(widget);
     }
 
     /**
