@@ -207,6 +207,12 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     }
 
     @Override
+    public boolean isCullFaceModeOn()
+    {
+        return (fVisualEditor.isCullFaceModeOn());
+    }
+
+    @Override
     public boolean isSaveAsAllowed()
     {
         return (fSourceEditor.isSaveAsAllowed());
@@ -240,6 +246,12 @@ public class MultiPageSceneEditor extends MultiPageEditorPart implements SceneEd
     public void setCanvasSize(final Rectangle canvasSize)
     {
         fVisualEditor.setCanvasSize(canvasSize);
+    }
+
+    @Override
+    public void setCullFaceMode(final boolean cullFaceMode)
+    {
+        fVisualEditor.setCullFaceMode(cullFaceMode);
     }
 
     @Override

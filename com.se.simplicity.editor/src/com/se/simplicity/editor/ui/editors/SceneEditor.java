@@ -92,6 +92,15 @@ public interface SceneEditor extends IEditorPart, ISelectionProvider
 
     /**
      * <p>
+     * Determines whether 'Cull Face' mode is on and off.
+     * </p>
+     * 
+     * @return True if 'Cull Face' is on, or false otherwise.
+     */
+    boolean isCullFaceModeOn();
+
+    /**
+     * <p>
      * Picks the {@link com.se.simplicity.editor.internal.Widget Widget}s and the {@link com.se.simplicity.scene.Scene Scene} to determine the
      * selected scene component (if any). Selection of a <code>Widget</code> takes precedence over selection of a scene component.
      * </p>
@@ -112,6 +121,15 @@ public interface SceneEditor extends IEditorPart, ISelectionProvider
      * @param canvasSize The size of the 3D canvas to reflect.
      */
     void setCanvasSize(Rectangle canvasSize);
+
+    /**
+     * <p>
+     * Turns 'Cull Face' mode on and off.
+     * </p>
+     * 
+     * @param cullFaceMode Determines whether 'Cull Face' mode is on or off.
+     */
+    void setCullFaceMode(boolean cullFaceMode);
 
     /**
      * <p>

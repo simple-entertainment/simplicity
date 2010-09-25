@@ -487,6 +487,12 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
     }
 
     @Override
+    public boolean isCullFaceModeOn()
+    {
+        return (fSceneManager.isCullFaceModeOn());
+    }
+
+    @Override
     public boolean isDirty()
     {
         return (false);
@@ -536,6 +542,9 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         // Restore Commands.
         ICommandService commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
 
+        Command cullFaceMode = commandService.getCommand("com.se.simplicity.editor.commands.cull");
+        cullFaceMode.getState("org.eclipse.ui.commands.toggleState").setValue(fSceneManager.isCullFaceModeOn());
+
         Command drawingMode = commandService.getCommand("com.se.simplicity.editor.commands.draw");
         drawingMode.getState("org.eclipse.ui.commands.radioState").setValue(fDrawingMode.toString());
 
@@ -559,6 +568,9 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
 
         if (memento != null)
         {
+            // Restore Cull Face Mode.
+            fSceneManager.setCullFaceMode(memento.getBoolean("cullFaceMode"));
+
             // Restore Drawing Mode.
             fDrawingMode = DrawingMode.valueOf(memento.getString("drawingMode"));
 
@@ -626,6 +638,9 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
     @Override
     public void saveState(final IMemento memento)
     {
+        // Save Cull Face Mode.
+        memento.putBoolean("cullFaceMode", fSceneManager.isCullFaceModeOn());
+
         // Save Drawing Mode.
         memento.putString("drawingMode", fDrawingMode.toString());
 
@@ -639,7 +654,7 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         memento.putString("selectionMode", fSelectionMode.toString());
 
         // Save selection.
-        if (fSelection.getSceneComponent() != null && fSelection.getSceneComponent() instanceof MetaData)
+        if (fSelection.getSceneComponent() instanceof MetaData)
         {
             MetaData metaData = (MetaData) fSelection.getSceneComponent();
 
@@ -688,6 +703,12 @@ public abstract class VisualSceneEditor extends EditorPart implements SceneEdito
         {
             fCamera.setFrameAspectRatio((float) canvasSize.height / (float) canvasSize.width);
         }
+    }
+
+    @Override
+    public void setCullFaceMode(final boolean cullFaceMode)
+    {
+        fSceneManager.setCullFaceMode(cullFaceMode);
     }
 
     @Override

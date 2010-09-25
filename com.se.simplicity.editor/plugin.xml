@@ -154,34 +154,50 @@
                     <parameter name="org.eclipse.ui.commands.radioStateParameter" value="PERSPECTIVE" />
                 </command>
             </toolbar>
+            
+            <toolbar id="com.se.simplicity.editor.toolbars.visibility">
+                <visibleWhen checkEnabled="false">
+                    <reference definitionId="com.se.simplicity.editor.definition.sceneEditorSelected" />
+                </visibleWhen>
+
+                <command commandId="com.se.simplicity.editor.commands.cull" icon="icons/cull_face.gif"
+                    id="com.se.simplicity.editor.toolbars.visual.visibility.cull" tooltip="Culled Faces" style="toggle">
+                </command>
+            </toolbar>
         </menuContribution>
     </extension>
 
     <extension point="org.eclipse.ui.commands">
         <category id="com.se.simplicity.editor.commands" name="Simple Eddy" />
 
+		<command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.cull" name="Culled Faces">
+            <state class="org.eclipse.jface.commands.ToggleState" id="org.eclipse.ui.commands.toggleState" />
+        </command>
+        
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.draw" name="Drawing Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
-            <state class="org.eclipse.ui.handlers.RadioState:FACES" id="org.eclipse.ui.commands.radioState" />
+            <state class="org.eclipse.ui.handlers.RadioState" id="org.eclipse.ui.commands.radioState" />
         </command>
 
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.edit" name="Editing Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
-            <state class="org.eclipse.ui.handlers.RadioState:SELECTION" id="org.eclipse.ui.commands.radioState" />
+            <state class="org.eclipse.ui.handlers.RadioState" id="org.eclipse.ui.commands.radioState" />
         </command>
 
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.projection" name="Projection Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
-            <state class="org.eclipse.ui.handlers.RadioState:PERSPECTIVE" id="org.eclipse.ui.commands.radioState" />
+            <state class="org.eclipse.ui.handlers.RadioState" id="org.eclipse.ui.commands.radioState" />
         </command>
 
         <command categoryId="com.se.simplicity.editor.commands" id="com.se.simplicity.editor.commands.select" name="Selection Mode">
             <commandParameter id="org.eclipse.ui.commands.radioStateParameter" name="Active Mode" optional="false" />
-            <state class="org.eclipse.ui.handlers.RadioState:MODEL" id="org.eclipse.ui.commands.radioState" />
+            <state class="org.eclipse.ui.handlers.RadioState" id="org.eclipse.ui.commands.radioState" />
         </command>
     </extension>
 
     <extension point="org.eclipse.ui.handlers">
+    	<handler class="com.se.simplicity.editor.handlers.CullFaceModeHandler" commandId="com.se.simplicity.editor.commands.cull" />
+    
         <handler class="com.se.simplicity.editor.handlers.DrawingModeHandler" commandId="com.se.simplicity.editor.commands.draw" />
 
         <handler class="com.se.simplicity.editor.handlers.EditingModeHandler" commandId="com.se.simplicity.editor.commands.edit" />

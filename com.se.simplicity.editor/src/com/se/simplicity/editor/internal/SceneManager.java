@@ -21,6 +21,7 @@ import com.se.simplicity.editor.internal.selection.SceneSelection;
 import com.se.simplicity.jogl.JOGLComponent;
 import com.se.simplicity.jogl.picking.SimpleJOGLPicker;
 import com.se.simplicity.jogl.picking.engine.SimpleJOGLPickingEngine;
+import com.se.simplicity.jogl.rendering.CullFaceJOGLRenderer;
 import com.se.simplicity.jogl.rendering.NamedJOGLRenderer;
 import com.se.simplicity.jogl.rendering.OutlineJOGLRenderer;
 import com.se.simplicity.jogl.rendering.SimpleJOGLRenderer;
@@ -46,6 +47,13 @@ import com.se.simplicity.util.metadata.scene.MetaDataScene;
  */
 public class SceneManager
 {
+    /**
+     * <p>
+     * Renders the selected scene component in 'Cull Face' mode.
+     * </p>
+     */
+    private Renderer fCullFaceRenderer;
+
     /**
      * <p>
      * Renders the outline of the selected scene component.
@@ -112,6 +120,7 @@ public class SceneManager
         fRenderingEngine = renderingEngine;
         fScene = scene;
 
+        fCullFaceRenderer = null;
         fOutlineRenderer = null;
         fPickingEngine = null;
         fPickingRenderer = null;
@@ -239,6 +248,10 @@ public class SceneManager
         fRenderingEngine.addRenderer(fRenderer);
         fRenderingEngine.addRenderer(fOutlineRenderer);
         fRenderingEngine.setRendererRoot(fOutlineRenderer, null);
+
+        fCullFaceRenderer = new CullFaceJOGLRenderer();
+        fRenderingEngine.addRenderer(fCullFaceRenderer);
+        fRenderingEngine.setRendererRoot(fCullFaceRenderer, null);
     }
 
     /**
@@ -251,6 +264,27 @@ public class SceneManager
     public void setCamera(final Camera camera)
     {
         fPickingEngine.setCamera(camera);
+    }
+
+    /**
+     * <p>
+     * Turns 'Cull Face' mode on and off.
+     * </p>
+     * 
+     * @param cullFaceMode Determines whether 'Cull Face' mode is on or off.
+     */
+    public void setCullFaceMode(final boolean cullFaceMode)
+    {
+        if (cullFaceMode)
+        {
+            fRenderingEngine.setRendererRoot(fRenderer, null);
+            fRenderingEngine.setRendererRoot(fCullFaceRenderer, fScene.getSceneGraph().getRoot());
+        }
+        else
+        {
+            fRenderingEngine.setRendererRoot(fRenderer, fScene.getSceneGraph().getRoot());
+            fRenderingEngine.setRendererRoot(fCullFaceRenderer, null);
+        }
     }
 
     /**
@@ -356,5 +390,24 @@ public class SceneManager
     public void setViewportSize(final Dimension viewportSize)
     {
         ((SimpleJOGLPicker) fPickingEngine.getPicker()).getRenderingEngine().setViewportSize(viewportSize);
+    }
+
+    /**
+     * <p>
+     * Determines whether 'Cull Face' mode is on and off.
+     * </p>
+     * 
+     * @return True if 'Cull Face' is on, or false otherwise.
+     */
+    public boolean isCullFaceModeOn()
+    {
+        boolean isCullFaceModeOn = false;
+
+        if (fRenderingEngine.getRendererRoot(fCullFaceRenderer) != null)
+        {
+            isCullFaceModeOn = true;
+        }
+
+        return (isCullFaceModeOn);
     }
 }
