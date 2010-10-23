@@ -15,6 +15,7 @@ import java.awt.Dimension;
 import java.util.List;
 
 import com.se.simplicity.engine.Engine;
+import com.se.simplicity.engine.EngineInput;
 import com.se.simplicity.rendering.Camera;
 import com.se.simplicity.rendering.Renderer;
 import com.se.simplicity.scene.Scene;
@@ -79,9 +80,13 @@ public interface RenderingEngine extends Engine
      * <p>
      * Renders the {@link com.se.simplicity.scene.Scene Scene}.
      * </p>
+     * 
+     * @param engineInput The {@link com.se.simplicity.engine.EngineInput} to process during this advancement.
+     * 
+     * @return The <code>EngineInput</code> for the next {@link com.se.simplicity.engine.Engine Engine} in the chain.
      */
     @Override
-    void advance();
+    EngineInput advance(EngineInput engineInput);
 
     /**
      * <p>

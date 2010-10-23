@@ -13,7 +13,9 @@ package com.se.simplicity.engine;
 
 /**
  * <p>
- * A system that repeats a cycle of functionality. The cycles of functionality are atomic in the context of the <code>Engine</code>.
+ * A system that repeats a cycle of functionality. The cycles of functionality are atomic in the context of the <code>Engine</code>. In environments
+ * where two or more <code>Engine</code>s are 'chained' together, the {@link com.se.simplicity.engine.EngineInput EngineInput} can be used to pass
+ * information from one <code>Engine</code> to the next.
  * </p>
  * 
  * @author Gary Buyn
@@ -22,10 +24,23 @@ public interface Engine extends Runnable
 {
     /**
      * <p>
-     * Advances this <code>Engine</code> by one cycle.
+     * The number of milliseconds in a second.
      * </p>
      */
-    void advance();
+    double MILLISECONDS_IN_A_SECOND = 1000.0;
+
+    /**
+     * <p>
+     * Advances this <code>Engine</code> by one cycle.
+     * </p>
+     * 
+     * @param input The {@link com.se.simplicity.engine.EngineInput EngineInput} to process during this advancement.
+     * 
+     * @throws SEEngineAdvancementException If this <code>Engine</code> fails to advance.
+     * 
+     * @return The <code>EngineInput</code> for the next {@link com.se.simplicity.engine.Engine Engine} in the chain.
+     */
+    EngineInput advance(EngineInput input) throws SEEngineAdvancementException;
 
     /**
      * <p>

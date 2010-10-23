@@ -32,17 +32,10 @@ public class SimpleCompositeEngine implements CompositeEngine
 {
     /**
      * <p>
-     * The number of milliseconds in a second.
-     * </p>
-     */
-    private static final double MILLISECONDS_IN_A_SECOND = 1000.0;
-
-    /**
-     * <p>
      * The index of the current advancement.
      * </p>
      */
-    private int advanceIndex;
+    private int fAdvanceIndex;
 
     /**
      * <p>
@@ -50,21 +43,21 @@ public class SimpleCompositeEngine implements CompositeEngine
      * frequencies of its sub-engines.
      * </p>
      */
-    private int compositeFrequency;
+    private int fCompositeFrequency;
 
     /**
      * <p>
      * The sub-engines managed by this <code>SimpleCompositeEngine</code>.
      * </p>
      */
-    private List<Engine> engines;
+    private List<Engine> fEngines;
 
     /**
      * <p>
      * Logs messages associated with this class.
      * </p>
      */
-    private Logger logger;
+    private Logger fLogger;
 
     /**
      * <p>
@@ -72,7 +65,7 @@ public class SimpleCompositeEngine implements CompositeEngine
      * only sleep this long if the previous advancement was instantaneous.
      * </p>
      */
-    private long sleepTime;
+    private long fSleepTime;
 
     /**
      * <p>
@@ -81,28 +74,31 @@ public class SimpleCompositeEngine implements CompositeEngine
      */
     public SimpleCompositeEngine()
     {
-        engines = new ArrayList<Engine>();
-        logger = Logger.getLogger(getClass().getName());
+        fEngines = new ArrayList<Engine>();
+        fLogger = Logger.getLogger(getClass().getName());
     }
 
     @Override
     public void addEngine(final Engine engine)
     {
-        engines.add(engine);
+        fEngines.add(engine);
     }
 
     @Override
-    public synchronized void advance()
+    public synchronized EngineInput advance(final EngineInput input) throws SEEngineAdvancementException
     {
-        advanceIndex++;
+        fAdvanceIndex++;
+        EngineInput currentInput = input;
 
-        for (Engine engine : engines)
+        for (Engine engine : fEngines)
         {
-            if (advanceIndex % (compositeFrequency / engine.getPreferredFrequency()) == 0)
+            if (fAdvanceIndex % (fCompositeFrequency / engine.getPreferredFrequency()) == 0)
             {
-                engine.advance();
+                currentInput = engine.advance(currentInput);
             }
         }
+
+        return (currentInput);
     }
 
     /**
@@ -135,7 +131,7 @@ public class SimpleCompositeEngine implements CompositeEngine
     @Override
     public void destroy()
     {
-        for (Engine engine : engines)
+        for (Engine engine : fEngines)
         {
             engine.destroy();
         }
@@ -164,13 +160,13 @@ public class SimpleCompositeEngine implements CompositeEngine
     {
         int newCompositeFrequency = 1;
 
-        if (!engines.isEmpty())
+        if (!fEngines.isEmpty())
         {
-            newCompositeFrequency = engines.get(0).getPreferredFrequency();
+            newCompositeFrequency = fEngines.get(0).getPreferredFrequency();
 
-            for (int index = 1; index < engines.size(); index++)
+            for (int index = 1; index < fEngines.size(); index++)
             {
-                int preferredFrequency = engines.get(index).getPreferredFrequency();
+                int preferredFrequency = fEngines.get(index).getPreferredFrequency();
 
                 if (newCompositeFrequency < preferredFrequency)
                 {
@@ -197,7 +193,7 @@ public class SimpleCompositeEngine implements CompositeEngine
     {
         initInternal();
 
-        for (Engine engine : engines)
+        for (Engine engine : fEngines)
         {
             engine.init();
         }
@@ -210,15 +206,15 @@ public class SimpleCompositeEngine implements CompositeEngine
      */
     protected void initInternal()
     {
-        advanceIndex = 0;
-        compositeFrequency = getCompositeFrequency();
-        sleepTime = (long) MILLISECONDS_IN_A_SECOND / compositeFrequency;
+        fAdvanceIndex = 0;
+        fCompositeFrequency = getCompositeFrequency();
+        fSleepTime = (long) MILLISECONDS_IN_A_SECOND / fCompositeFrequency;
     }
 
     @Override
     public void removeEngine(final Engine engine)
     {
-        engines.remove(engine);
+        fEngines.remove(engine);
     }
 
     @Override
@@ -226,7 +222,7 @@ public class SimpleCompositeEngine implements CompositeEngine
     {
         initInternal();
 
-        for (Engine engine : engines)
+        for (Engine engine : fEngines)
         {
             engine.reset();
         }
@@ -238,13 +234,21 @@ public class SimpleCompositeEngine implements CompositeEngine
         init();
 
         long beforeAdvanceTime = 0;
-        long adjustedSleepTime = sleep(sleepTime);
+        long adjustedSleepTime = sleep(fSleepTime);
 
         while (!Thread.interrupted())
         {
             beforeAdvanceTime = System.currentTimeMillis();
 
-            advance();
+            try
+            {
+                advance(null);
+            }
+            catch (Exception e)
+            {
+                Thread.currentThread().interrupt();
+                fLogger.error("Failed to advance the engine.", e);
+            }
 
             adjustedSleepTime -= System.currentTimeMillis() - beforeAdvanceTime;
 
@@ -287,15 +291,14 @@ public class SimpleCompositeEngine implements CompositeEngine
             catch (InterruptedException e)
             {
                 Thread.currentThread().interrupt();
-
-                logger.debug("The engine was interrupted while sleeping.");
+                fLogger.debug("The engine was interrupted while sleeping.");
             }
 
-            return (sleepTime);
+            return (fSleepTime);
         }
 
-        logger.warn("One or more sub-engines caused the engine to run over time.");
+        fLogger.warn("One or more sub-engines caused the engine to run over time.");
 
-        return (adjustedSleepTime + sleepTime);
+        return (adjustedSleepTime + fSleepTime);
     }
 }

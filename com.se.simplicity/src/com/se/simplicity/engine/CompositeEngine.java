@@ -26,7 +26,7 @@ public interface CompositeEngine extends Engine
      * Adds an {@link com.se.simplicity.engine.Engine Engine} to the set of engines managed by this <code>CompositeEngine</code>.
      * </p>
      * 
-     * @param engine The {@link com.se.simplicity.engine.Engine Engine} to add to the set of engines managed by this <code>CompositeEngine</code>.
+     * @param engine The <code>Engine</code> to add to the set of engines managed by this <code>CompositeEngine</code>.
      */
     void addEngine(Engine engine);
 
@@ -35,8 +35,7 @@ public interface CompositeEngine extends Engine
      * Removes an {@link com.se.simplicity.engine.Engine Engine} from the set of engines managed by this <code>CompositeEngine</code>.
      * </p>
      * 
-     * @param engine The {@link com.se.simplicity.engine.Engine Engine} to remove from the set of engines managed by this <code>CompositeEngine</code>
-     * .
+     * @param engine The <code>Engine</code> to remove from the set of engines managed by this <code>CompositeEngine</code> .
      */
     void removeEngine(Engine engine);
 }
