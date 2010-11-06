@@ -104,7 +104,7 @@ public interface MockObject
 
     /**
      * <p>
-     * Resets this <code>MockObject<code>.
+     * Resets this <code>MockObject</code>.
      * </p>
      */
     void reset();
