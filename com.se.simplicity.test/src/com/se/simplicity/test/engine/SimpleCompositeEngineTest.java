@@ -11,17 +11,20 @@
  */
 package com.se.simplicity.test.engine;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createStrictControl;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.junit.Assert.assertEquals;
 
-import org.easymock.EasyMock;
 import org.easymock.IMocksControl;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.se.simplicity.engine.Engine;
+import com.se.simplicity.engine.EngineInput;
+import com.se.simplicity.engine.SEEngineAdvancementException;
 import com.se.simplicity.engine.SimpleCompositeEngine;
-import com.se.simplicity.test.mocks.MockEngine;
 
 /**
  * <p>
@@ -35,187 +38,186 @@ public class SimpleCompositeEngineTest
     /**
      * An instance of the class being unit tested.
      */
-    private SimpleCompositeEngine testObject;
+    private SimpleCompositeEngine fTestObject;
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine.advance advance()}.
+     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine#advance(EngineInput) advance(EngineInput)}.
      * </p>
+     * 
+     * @throws SEEngineAdvancementException Thrown if the engine fails to advance.
      */
     @Test
-    public void advance()
+    public void advance() throws SEEngineAdvancementException
     {
+        // Create dependencies.
         IMocksControl mockControl = createStrictControl();
         Engine mockEngine1 = (Engine) mockControl.createMock(Engine.class);
         Engine mockEngine2 = (Engine) mockControl.createMock(Engine.class);
         Engine mockEngine3 = (Engine) mockControl.createMock(Engine.class);
 
-        testObject.addEngine(mockEngine1);
-        testObject.addEngine(mockEngine2);
-        testObject.addEngine(mockEngine3);
+        // Initialise test environment.
+        fTestObject.addEngine(mockEngine1);
+        fTestObject.addEngine(mockEngine2);
+        fTestObject.addEngine(mockEngine3);
 
+        // Dictate correct behaviour.
         mockControl.reset();
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        expect(mockEngine1.getPreferredFrequency()).andStubReturn(3);
+        expect(mockEngine2.getPreferredFrequency()).andStubReturn(4);
+        expect(mockEngine3.getPreferredFrequency()).andStubReturn(6);
         mockEngine1.init();
         mockEngine2.init();
         mockEngine3.init();
 
+        // Dictate expected results.
         // First advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Second advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Third advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        expect(mockEngine2.advance(null)).andReturn(null);
 
         // Fourth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        mockEngine1.advance();
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine1.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Fifth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Sixth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine2.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Seventh advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Eighth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        mockEngine1.advance();
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine1.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Ninth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        expect(mockEngine2.advance(null)).andReturn(null);
 
         // Tenth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Eleventh advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Twelfth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        mockEngine1.advance();
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine1.advance(null)).andReturn(null);
+        expect(mockEngine2.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Thirteenth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Fourteenth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Fifteenth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        expect(mockEngine2.advance(null)).andReturn(null);
 
         // Sixteenth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        mockEngine1.advance();
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine1.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Seventeenth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Eighteenth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine2.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Nineteenth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Twentieth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        mockEngine1.advance();
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine1.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Twenty First advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        expect(mockEngine2.advance(null)).andReturn(null);
 
         // Twenty Second advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Twenty Third advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Twenty Fourth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        mockEngine1.advance();
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine1.advance(null)).andReturn(null);
+        expect(mockEngine2.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
+
         mockControl.replay();
 
-        testObject.init();
+        // Perform test.
+        fTestObject.init();
 
         for (int index = 0; index < 24; index++)
         {
-            testObject.advance();
+            fTestObject.advance(null);
         }
 
+        // Verify test results.
+        mockControl.verify();
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine#advance(EngineInput) advance(EngineInput)}, specifically the
+     * functionality that passes the {@link com.se.simplicity.engine.EngineInput EngineInput} from one {@link com.se.simplicity.engine.Engine Engine}
+     * to the next.
+     * </p>
+     * 
+     * @throws SEEngineAdvancementException Thrown if the engine fails to advance.
+     */
+    @Test
+    public void advancePassEngineInput() throws SEEngineAdvancementException
+    {
+        // Create dependencies.
+        IMocksControl mockControl = createStrictControl();
+        Engine mockEngine1 = mockControl.createMock(Engine.class);
+        Engine mockEngine2 = mockControl.createMock(Engine.class);
+        Engine mockEngine3 = mockControl.createMock(Engine.class);
+        EngineInput mockInput0 = createMock(EngineInput.class);
+        EngineInput mockInput1 = createMock(EngineInput.class);
+        EngineInput mockInput2 = createMock(EngineInput.class);
+        EngineInput mockInput3 = createMock(EngineInput.class);
+
+        // Dictate correct behaviour.
+        expect(mockEngine1.getPreferredFrequency()).andStubReturn(1);
+        expect(mockEngine2.getPreferredFrequency()).andStubReturn(1);
+        expect(mockEngine3.getPreferredFrequency()).andStubReturn(1);
+        mockEngine1.init();
+        mockEngine2.init();
+        mockEngine3.init();
+        mockControl.replay();
+
+        // Initialise test environment.
+        fTestObject.addEngine(mockEngine1);
+        fTestObject.addEngine(mockEngine2);
+        fTestObject.addEngine(mockEngine3);
+        fTestObject.init();
+
+        // Dictate expected results.
+        mockControl.reset();
+        expect(mockEngine1.getPreferredFrequency()).andStubReturn(1);
+        expect(mockEngine2.getPreferredFrequency()).andStubReturn(1);
+        expect(mockEngine3.getPreferredFrequency()).andStubReturn(1);
+        expect(mockEngine1.advance(mockInput0)).andReturn(mockInput1);
+        expect(mockEngine2.advance(mockInput1)).andReturn(mockInput2);
+        expect(mockEngine3.advance(mockInput2)).andReturn(mockInput3);
+        mockControl.replay();
+
+        // Perform test.
+        fTestObject.advance(mockInput0);
+
+        // Verify test results.
         mockControl.verify();
     }
 
@@ -227,296 +229,177 @@ public class SimpleCompositeEngineTest
     @Before
     public void before()
     {
-        testObject = new SimpleCompositeEngine();
+        fTestObject = new SimpleCompositeEngine();
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine.getCompositeFrequency getCompositeFrequency()}.
+     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine#getCompositeFrequency() getCompositeFrequency()}.
      * </p>
      */
     @Test
     public void getCompositeFrequency()
     {
+        // Create dependencies.
         Engine mockEngine1 = (Engine) createMock(Engine.class);
         Engine mockEngine2 = (Engine) createMock(Engine.class);
         Engine mockEngine3 = (Engine) createMock(Engine.class);
 
-        testObject.addEngine(mockEngine1);
-        testObject.addEngine(mockEngine2);
-        testObject.addEngine(mockEngine3);
-
-        EasyMock.reset(mockEngine1, mockEngine2, mockEngine3);
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // Dictate correct behaviour.
+        expect(mockEngine1.getPreferredFrequency()).andStubReturn(3);
+        expect(mockEngine2.getPreferredFrequency()).andStubReturn(4);
+        expect(mockEngine3.getPreferredFrequency()).andStubReturn(6);
+        mockEngine1.init();
+        mockEngine2.init();
+        mockEngine3.init();
         replay(mockEngine1, mockEngine2, mockEngine3);
 
-        assertEquals(testObject.getCompositeFrequency(), 12, 0);
+        // Initialise test environment.
+        fTestObject.addEngine(mockEngine1);
+        fTestObject.addEngine(mockEngine2);
+        fTestObject.addEngine(mockEngine3);
+        fTestObject.init();
+
+        // Perform test - Verify test results.
+        assertEquals(fTestObject.getPreferredFrequency(), 12, 0);
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine.getCompositeFrequency getCompositeFrequency()} with the special
+     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine#getCompositeFrequency() getCompositeFrequency()} with the special
      * condition that the {@link com.se.simplicity.engine.SimpleCompositeEngine SimpleCompositeEngine} being tested does not have any sub-engines.
      * </p>
      */
     @Test
     public void getCompositeFrequencyNoEngines()
     {
-        assertEquals(testObject.getCompositeFrequency(), 1, 0);
+        // Perform test - Verify test results.
+        assertEquals(fTestObject.getPreferredFrequency(), 1, 0);
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine.reset reset()}.
+     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine#reset() reset()}.
      * </p>
+     * 
+     * @throws SEEngineAdvancementException Thrown if the engine fails to advance.
      */
     @Test
-    public void reset()
+    public void reset() throws SEEngineAdvancementException
     {
+        // Create dependencies.
         IMocksControl mockControl = createStrictControl();
         Engine mockEngine1 = (Engine) mockControl.createMock(Engine.class);
         Engine mockEngine2 = (Engine) mockControl.createMock(Engine.class);
         Engine mockEngine3 = (Engine) mockControl.createMock(Engine.class);
 
-        testObject.addEngine(mockEngine1);
-        testObject.addEngine(mockEngine2);
-        testObject.addEngine(mockEngine3);
+        // Initialise test environment.
+        fTestObject.addEngine(mockEngine1);
+        fTestObject.addEngine(mockEngine2);
+        fTestObject.addEngine(mockEngine3);
 
+        // Dictate correct behaviour.
         mockControl.reset();
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        expect(mockEngine1.getPreferredFrequency()).andStubReturn(3);
+        expect(mockEngine2.getPreferredFrequency()).andStubReturn(4);
+        expect(mockEngine3.getPreferredFrequency()).andStubReturn(6);
         mockEngine1.init();
         mockEngine2.init();
         mockEngine3.init();
 
+        // Dictate expected results.
         // First advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Second advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Third advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        expect(mockEngine2.advance(null)).andReturn(null);
 
         // Fourth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        mockEngine1.advance();
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine1.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Fifth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Reset.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
         mockEngine1.reset();
         mockEngine2.reset();
         mockEngine3.reset();
 
         // First advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Second advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Third advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        expect(mockEngine2.advance(null)).andReturn(null);
 
         // Fourth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        mockEngine1.advance();
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine1.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Fifth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Sixth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine2.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Seventh advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Eighth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        mockEngine1.advance();
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine1.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Ninth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        expect(mockEngine2.advance(null)).andReturn(null);
 
         // Tenth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine3.advance(null)).andReturn(null);
 
         // Eleventh advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
+        // No engines advance.
 
         // Twelfth advance.
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3);
-        mockEngine1.advance();
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4);
-        mockEngine2.advance();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6);
-        mockEngine3.advance();
+        expect(mockEngine1.advance(null)).andReturn(null);
+        expect(mockEngine2.advance(null)).andReturn(null);
+        expect(mockEngine3.advance(null)).andReturn(null);
+
         mockControl.replay();
 
-        testObject.init();
+        // Perform test.
+        fTestObject.init();
 
         for (int index = 0; index < 5; index++)
         {
-            testObject.advance();
+            fTestObject.advance(null);
         }
 
-        testObject.reset();
+        fTestObject.reset();
 
         for (int index = 0; index < 12; index++)
         {
-            testObject.advance();
+            fTestObject.advance(null);
         }
 
+        // Verify test results.
         mockControl.verify();
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine.run run()}.
+     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine#setPreferredFrequency(int) setPreferredFrequency(int)}.
      * </p>
-     * 
-     * @throws InterruptedException If the test is interrupted while it is waiting for the {@link com.se.simplicity.engine.SimpleCompositeEngine
-     * SimpleCompositeEngine} to run.
      */
     @Test
-    public void run() throws InterruptedException
+    public void setPreferredFrequency()
     {
-        Engine mockEngine1 = (Engine) createMock(Engine.class);
-        Engine mockEngine2 = (Engine) createMock(Engine.class);
-        Engine mockEngine3 = (Engine) createMock(Engine.class);
-
-        testObject.addEngine(mockEngine1);
-        testObject.addEngine(mockEngine2);
-        testObject.addEngine(mockEngine3);
-
-        org.easymock.EasyMock.reset(mockEngine1, mockEngine2, mockEngine3);
-        expect(mockEngine1.getPreferredFrequency()).andReturn(3).anyTimes();
-        expect(mockEngine2.getPreferredFrequency()).andReturn(4).anyTimes();
-        expect(mockEngine3.getPreferredFrequency()).andReturn(6).anyTimes();
-        mockEngine1.init();
-        mockEngine2.init();
-        mockEngine3.init();
-        mockEngine1.advance();
-        mockEngine1.advance();
-        mockEngine1.advance();
-        mockEngine1.advance();
-        mockEngine1.advance();
-        mockEngine1.advance();
-        mockEngine1.advance();
-        mockEngine2.advance();
-        mockEngine2.advance();
-        mockEngine2.advance();
-        mockEngine2.advance();
-        mockEngine2.advance();
-        mockEngine2.advance();
-        mockEngine2.advance();
-        mockEngine2.advance();
-        mockEngine2.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine3.advance();
-        mockEngine1.destroy();
-        mockEngine2.destroy();
-        mockEngine3.destroy();
-        replay(mockEngine1, mockEngine2, mockEngine3);
-
-        Thread engineThread = new Thread(testObject);
-        engineThread.start();
-
-        Thread.sleep(2400);
-
-        engineThread.interrupt();
-        engineThread.join();
-
-        verify(mockEngine1, mockEngine2, mockEngine3);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.engine.SimpleCompositeEngine.run run()} with the special condition that one of the sub-engines
-     * runs longer than is allowed by its preferred frequency.
-     * </p>
-     * 
-     * @throws InterruptedException If the test is interrupted while it is waiting for the {@link com.se.simplicity.engine.SimpleCompositeEngine
-     * SimpleCompositeEngine} to run.
-     */
-    @Test
-    public void runSubEngineOverrunFrequency() throws InterruptedException
-    {
-        MockEngine mockEngine = new MockEngine();
-        mockEngine.setPreferredFrequency(5);
-
-        testObject.addEngine(mockEngine);
-
-        Thread engineThread = new Thread(testObject);
-        engineThread.start();
-
-        Thread.sleep(2500);
-
-        engineThread.interrupt();
-        engineThread.join();
-
-        assertEquals(12, mockEngine.getMethodCallCountIgnoreParams("advance"), 0);
+        // Perform test - Verify test results.
+        fTestObject.setPreferredFrequency(5);
     }
 }
