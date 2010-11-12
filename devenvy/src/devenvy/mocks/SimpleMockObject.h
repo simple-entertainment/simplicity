@@ -55,7 +55,7 @@ namespace devenvy
             addMethodCall(const string& name, const vector<any>& parameters);
 
             optional<MethodCall>
-            getMethodCall(const int& callIndex, const string& name, const vector<any>& parameters);
+            getMethodCall(const int callIndex, const string& name, const vector<any>& parameters);
 
             int
             getMethodCallCount(const string& name, const vector<any>& parameters);
@@ -64,14 +64,14 @@ namespace devenvy
             getMethodCallCountIgnoreParams(const string& name);
 
             optional<MethodCall>
-            getMethodCallIgnoreParams(const int& callIndex, const string& name);
+            getMethodCallIgnoreParams(const int callIndex, const string& name);
 
             bool
-            methodCallOrderCheck(const int& beforeCallIndex, const string& beforeMethodName, const vector<any>& beforeMethodParameters,
-                    const int& afterCallIndex, const string& afterMethodName, const vector<any>& afterMethodParameters);
+            methodCallOrderCheck(const int beforeCallIndex, const string& beforeMethodName, const vector<any>& beforeMethodParameters,
+                    const int afterCallIndex, const string& afterMethodName, const vector<any>& afterMethodParameters);
 
             bool
-            methodCallOrderCheckIgnoreParams(const int& beforeCallIndex, const string& beforeMethodName, const int& afterCallIndex,
+            methodCallOrderCheckIgnoreParams(const int beforeCallIndex, const string& beforeMethodName, const int afterCallIndex,
                     const string& afterMethodName);
 
             void

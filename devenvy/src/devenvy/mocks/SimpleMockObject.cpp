@@ -30,25 +30,25 @@ namespace devenvy
         methodCall.name = name;
         methodCall.parameters = parameters;
 
-        fMethodCalls.insert(fMethodCalls.end(), methodCall);
+        fMethodCalls.push_back(methodCall);
     }
 
     optional<MethodCall>
-    SimpleMockObject::getMethodCall(const int& callIndex, const string& name, const vector<any>& parameters)
+    SimpleMockObject::getMethodCall(const int callIndex, const string& name, const vector<any>& parameters)
     {
         int calls = 0;
 
         for (unsigned int index = 0; index < fMethodCalls.size(); index++)
         {
-            MethodCall* methodCall = &fMethodCalls.at(index);
+            MethodCall methodCall = fMethodCalls.at(index);
 
             // If the current Method Call is a match.
-            if (methodCall->name == name && parametersEqual(methodCall->parameters, parameters))
+            if (methodCall.name == name && parametersEqual(methodCall.parameters, parameters))
             {
                 // If the correct index has been reached.
                 if (calls == callIndex)
                 {
-                    return (*methodCall);
+                    return (methodCall);
                 }
 
                 calls++;
@@ -65,10 +65,10 @@ namespace devenvy
 
         for (unsigned int index = 0; index < fMethodCalls.size(); index++)
         {
-            MethodCall* methodCall = &fMethodCalls.at(index);
+            MethodCall methodCall = fMethodCalls.at(index);
 
             // If the current Method Call is a match.
-            if (methodCall->name == name && parametersEqual(methodCall->parameters, parameters))
+            if (methodCall.name == name && parametersEqual(methodCall.parameters, parameters))
             {
                 methodCallCount++;
             }
@@ -84,10 +84,10 @@ namespace devenvy
 
         for (unsigned int index = 0; index < fMethodCalls.size(); index++)
         {
-            MethodCall* methodCall = &fMethodCalls.at(index);
+            MethodCall methodCall = fMethodCalls.at(index);
 
             // If the current Method Call is a match.
-            if (methodCall->name == name)
+            if (methodCall.name == name)
             {
                 methodCallCount++;
             }
@@ -97,21 +97,21 @@ namespace devenvy
     }
 
     optional<MethodCall>
-    SimpleMockObject::getMethodCallIgnoreParams(const int& callIndex, const string& name)
+    SimpleMockObject::getMethodCallIgnoreParams(const int callIndex, const string& name)
     {
         int calls = 0;
 
         for (unsigned int index = 0; index < fMethodCalls.size(); index++)
         {
-            MethodCall* methodCall = &fMethodCalls.at(index);
+            MethodCall methodCall = fMethodCalls.at(index);
 
             // If the current Method Call is a match.
-            if (methodCall->name == name)
+            if (methodCall.name == name)
             {
                 // If the correct index has been reached.
                 if (calls == callIndex)
                 {
-                    return (*methodCall);
+                    return (methodCall);
                 }
 
                 calls++;
@@ -122,8 +122,8 @@ namespace devenvy
     }
 
     bool
-    SimpleMockObject::methodCallOrderCheck(const int& beforeCallIndex, const string& beforeMethodName, const vector<any>& beforeMethodParameters,
-            const int& afterCallIndex, const string& afterMethodName, const vector<any>& afterMethodParameters)
+    SimpleMockObject::methodCallOrderCheck(const int beforeCallIndex, const string& beforeMethodName, const vector<any>& beforeMethodParameters,
+            const int afterCallIndex, const string& afterMethodName, const vector<any>& afterMethodParameters)
     {
         int beforeCalls = 0;
         int afterCalls = 0;
@@ -131,10 +131,10 @@ namespace devenvy
 
         for (unsigned int index = 0; index < fMethodCalls.size(); index++)
         {
-            MethodCall* methodCall = &fMethodCalls.at(index);
+            MethodCall methodCall = fMethodCalls.at(index);
 
             // If the current Method Call is a match for the before method.
-            if (methodCall->name == beforeMethodName && parametersEqual(methodCall->parameters, beforeMethodParameters))
+            if (methodCall.name == beforeMethodName && parametersEqual(methodCall.parameters, beforeMethodParameters))
             {
                 // If the before index has been reached.
                 if (beforeCalls == beforeCallIndex)
@@ -146,7 +146,7 @@ namespace devenvy
             }
 
             // If the current Method Call is a match for the after method.
-            if (methodCall->name == afterMethodName && parametersEqual(methodCall->parameters, afterMethodParameters))
+            if (methodCall.name == afterMethodName && parametersEqual(methodCall.parameters, afterMethodParameters))
             {
                 // If the after index has been reached.
                 if (afterCalls == afterCallIndex)
@@ -170,7 +170,7 @@ namespace devenvy
     }
 
     bool
-    SimpleMockObject::methodCallOrderCheckIgnoreParams(const int& beforeCallIndex, const string& beforeMethodName, const int& afterCallIndex,
+    SimpleMockObject::methodCallOrderCheckIgnoreParams(const int beforeCallIndex, const string& beforeMethodName, const int afterCallIndex,
             const string& afterMethodName)
     {
         int beforeCalls = 0;
@@ -179,10 +179,10 @@ namespace devenvy
 
         for (unsigned int index = 0; index < fMethodCalls.size(); index++)
         {
-            MethodCall* methodCall = &fMethodCalls.at(index);
+            MethodCall methodCall = fMethodCalls.at(index);
 
             // If the current Method Call is a match for the before method.
-            if (methodCall->name == beforeMethodName)
+            if (methodCall.name == beforeMethodName)
             {
                 // If the before index has been reached.
                 if (beforeCalls == beforeCallIndex)
@@ -194,7 +194,7 @@ namespace devenvy
             }
 
             // If the current Method Call is a match for the after method.
-            if (methodCall->name == afterMethodName)
+            if (methodCall.name == afterMethodName)
             {
                 // If the after index has been reached.
                 if (afterCalls == afterCallIndex)

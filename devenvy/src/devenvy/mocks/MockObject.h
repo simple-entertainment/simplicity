@@ -12,13 +12,41 @@
 #ifndef MOCKOBJECT_H_
 #define MOCKOBJECT_H_
 
+#include <vector>
+#include <string>
+using namespace std;
+
+#include <boost/any.hpp>
 #include <boost/optional.hpp>
 using namespace boost;
 
-#include "MethodCall.h"
-
 namespace devenvy
 {
+    /**
+     * <p>
+     * A method call that has been made to a {@link devenvy::MockObject MockObject}.
+     * </p>
+     *
+     * @author Gary Buyn
+     */
+    struct MethodCall
+    {
+        public:
+            /**
+             * <p>
+             * The name of the method called.
+             * </p>
+             */
+            string name;
+
+            /**
+             * <p>
+             * The parameters passed to the method.
+             * </p>
+             */
+            vector<any> parameters;
+    };
+
     /**
      * <p>
      * A mock object that can be used in situations where EasyMock cannot provide a suitable mock. Can count method calls and assert the number of calls
@@ -42,7 +70,7 @@ namespace devenvy
              * @return The nth call made to the given method with the given parameters on this <code>MockObject</code>.
              */
             virtual optional<MethodCall>
-            getMethodCall(const int& callIndex, const string& name, const vector<any>& parameters) = 0;
+            getMethodCall(const int callIndex, const string& name, const vector<any>& parameters) = 0;
 
             /**
              * <p>
@@ -80,7 +108,7 @@ namespace devenvy
              * @return The nth call made to the given method on this <code>MockObject</code>.
              */
             virtual optional<MethodCall>
-            getMethodCallIgnoreParams(const int& callIndex, const string& name) = 0;
+            getMethodCallIgnoreParams(const int callIndex, const string& name) = 0;
 
             /**
              * <p>
@@ -98,8 +126,8 @@ namespace devenvy
              * @return True if the <code>n</code>th call to one method was made before the <code>m</code>th call to another.
              */
             virtual bool
-            methodCallOrderCheck(const int& beforeCallIndex, const string& beforeMethodName, const vector<any>& beforeMethodParameters,
-                    const int& afterCallIndex, const string& afterMethodName, const vector<any>& afterMethodParameters) = 0;
+            methodCallOrderCheck(const int beforeCallIndex, const string& beforeMethodName, const vector<any>& beforeMethodParameters,
+                    const int afterCallIndex, const string& afterMethodName, const vector<any>& afterMethodParameters) = 0;
 
             /**
              * <p>
@@ -114,7 +142,7 @@ namespace devenvy
              * @return True if the <code>n</code>th call to one method was made before the <code>m</code>th call to another.
              */
             virtual bool
-            methodCallOrderCheckIgnoreParams(const int& beforeCallIndex, const string& beforeMethodName, const int& afterCallIndex,
+            methodCallOrderCheckIgnoreParams(const int beforeCallIndex, const string& beforeMethodName, const int afterCallIndex,
                     const string& afterMethodName) = 0;
 
             /**
