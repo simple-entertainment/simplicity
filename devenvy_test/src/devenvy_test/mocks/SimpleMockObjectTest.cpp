@@ -25,7 +25,7 @@ namespace devenvy_test
     {
         // Create dependencies.
         vector<any> parameters;
-        parameters.insert(parameters.end(), string());
+        parameters.push_back(string());
 
         // Perform test.
         fTestObject.addMethodCall("test", parameters);
@@ -43,7 +43,7 @@ namespace devenvy_test
     {
         // Create dependencies.
         vector<any> parameters;
-        parameters.insert(parameters.end(), string());
+        parameters.push_back(string());
 
         // Initialise test environment.
         fTestObject.addMethodCall("test", parameters);
@@ -61,7 +61,7 @@ namespace devenvy_test
     {
         // Create dependencies.
         vector<any> parameters;
-        parameters.insert(parameters.end(), string());
+        parameters.push_back(string());
 
         // Perform test 1 - Verify test 1 results.
         ASSERT_EQ(0, fTestObject.getMethodCallCount("test", parameters));
@@ -90,9 +90,9 @@ namespace devenvy_test
         // Create dependencies.
         vector<any> parameters0;
         vector<any> parameters1;
-        parameters1.insert(parameters1.end(), string());
+        parameters1.push_back(string());
         vector<any> parameters2;
-        parameters2.insert(parameters2.end(), string());
+        parameters2.push_back(string());
 
         // Perform test 1 - Verify test 1 results.
         ASSERT_EQ(0, fTestObject.getMethodCallCountIgnoreParams("test"));
@@ -126,7 +126,7 @@ namespace devenvy_test
     {
         // Create dependencies.
         vector<any> parameters;
-        parameters.insert(parameters.end(), string());
+        parameters.push_back(string());
 
         // Initialise test environment.
         fTestObject.addMethodCall("test", parameters);
@@ -206,9 +206,9 @@ namespace devenvy_test
     {
         // Initialise test environment.
         vector<any> parameters0;
-        parameters0.insert(parameters0.end(), string());
+        parameters0.push_back(string());
         vector<any> parameters1;
-        parameters1.insert(parameters1.end(), string());
+        parameters1.push_back(string());
 
         fTestObject.addMethodCall("test0", parameters0);
         fTestObject.addMethodCall("test1", parameters1);
@@ -228,9 +228,9 @@ namespace devenvy_test
     {
         // Initialise test environment.
         vector<any> parameters0;
-        parameters0.insert(parameters0.end(), string());
+        parameters0.push_back(string());
         vector<any> parameters1;
-        parameters1.insert(parameters1.end(), string());
+        parameters1.push_back(string());
 
         fTestObject.addMethodCall("test0", parameters0);
 
@@ -249,9 +249,9 @@ namespace devenvy_test
     {
         // Initialise test environment.
         vector<any> parameters0;
-        parameters0.insert(parameters0.end(), string());
+        parameters0.push_back(string());
         vector<any> parameters1;
-        parameters1.insert(parameters1.end(), string());
+        parameters1.push_back(string());
 
         fTestObject.addMethodCall("test1", parameters1);
 
@@ -346,9 +346,9 @@ namespace devenvy_test
     {
         // Initialise test environment.
         vector<any> parameters0;
-        parameters0.insert(parameters0.end(), string());
+        parameters0.push_back(string());
         vector<any> parameters1;
-        parameters1.insert(parameters1.end(), string());
+        parameters1.push_back(string());
 
         // Perform test - Verify test results.
         ASSERT_FALSE(fTestObject.methodCallOrderCheck(0, "test1", parameters1, 0, "test0", parameters0));
@@ -365,7 +365,7 @@ namespace devenvy_test
     {
         // Initialise test environment.
         vector<any> parameters0;
-        parameters0.insert(parameters0.end(), string());
+        parameters0.push_back(string());
 
         fTestObject.addMethodCall("test", parameters0);
         fTestObject.addMethodCall("test", parameters0);
@@ -386,7 +386,7 @@ namespace devenvy_test
         // Create dependencies.
         vector<any> parameters0;
         vector<any> parameters1;
-        parameters1.insert(parameters1.end(), string());
+        parameters1.push_back(string());
 
         // Initialise test environment.
         fTestObject.addMethodCall("test", parameters0);
@@ -406,10 +406,10 @@ namespace devenvy_test
     {
         // Create dependencies.
         vector<any> parameters0;
-        parameters0.insert(parameters0.end(), string());
+        parameters0.push_back(string());
         vector<any> parameters1;
-        parameters1.insert(parameters1.end(), string());
-        parameters1.insert(parameters1.end(), string());
+        parameters1.push_back(string());
+        parameters1.push_back(string());
 
         // Initialise test environment.
         fTestObject.addMethodCall("test", parameters0);
@@ -430,11 +430,11 @@ namespace devenvy_test
         // Create dependencies.
         vector<any> parameters0;
         vector<any> parameters1;
-        parameters1.insert(parameters1.end(), string("test0"));
+        parameters1.push_back(string("test0"));
         vector<any> parameters2;
-        parameters2.insert(parameters2.end(), string("test0"));
+        parameters2.push_back(string("test0"));
         vector<any> parameters3;
-        parameters3.insert(parameters3.end(), string("test1"));
+        parameters3.push_back(string("test1"));
 
         // Initialise test environment.
         fTestObject.addMethodCall("test", parameters1);
@@ -457,7 +457,7 @@ namespace devenvy_test
     {
         // Create dependencies.
         vector<any> parameters0;
-        parameters0.insert(parameters0.end(), vector<string>());
+        parameters0.push_back(vector<string>());
 
         // Initialise test environment.
         fTestObject.addMethodCall("test", parameters0);
