@@ -19,6 +19,13 @@ using namespace testing;
 
 namespace simplicity_test
 {
+    /**
+     * <p>
+     * Unit tests for the class {@link simplicity::RunnableEngine RunnableEngine}.
+     * </p>
+     *
+     * @author Gary Buyn
+     */
     class RunnableEngineTest : public Test
     {
         protected:

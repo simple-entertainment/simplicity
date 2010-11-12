@@ -20,6 +20,13 @@ using namespace simplicity;
 
 namespace simplicity_test
 {
+    /**
+     * <p>
+     * Unit tests for the class {@link simplicity::SimpleCompositeEngine SimpleCompositeEngine}.
+     * </p>
+     *
+     * @author Gary Buyn
+     */
     class SimpleCompositeEngineTest : public Test
     {
         protected:
