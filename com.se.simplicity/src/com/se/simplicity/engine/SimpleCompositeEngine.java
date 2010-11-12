@@ -14,21 +14,15 @@ package com.se.simplicity.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
-import com.se.simplicity.SENotSupportedException;
-
 /**
  * <p>
  * Manages its sub-engines by running at the lowest common frequency (advancements per second) of these sub-engines and advancing them at their
- * preferred frequency. If the advancement of the sub-engines takes longer than the time allowed by the lowest common frequency, this
- * <code>SimpleCompositeEngine</code> will attempt to 'catch up' by advancing continuously until the correct number of advancements have been made for
- * the time this <code>SimpleCompositeEngine</code> has been running.
+ * preferred frequency.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class SimpleCompositeEngine implements CompositeEngine
+public class SimpleCompositeEngine extends RunnableEngine implements CompositeEngine
 {
     /**
      * <p>
@@ -54,28 +48,16 @@ public class SimpleCompositeEngine implements CompositeEngine
 
     /**
      * <p>
-     * Logs messages associated with this class.
-     * </p>
-     */
-    private Logger fLogger;
-
-    /**
-     * <p>
-     * The unadjusted time for this <code>SimpleCompositeEngine</code> to sleep between advancements. This <code>SimpleCompositeEngine</code> would
-     * only sleep this long if the previous advancement was instantaneous.
-     * </p>
-     */
-    private long fSleepTime;
-
-    /**
-     * <p>
      * Creates an instance of <code>SimpleCompositeEngine</code>.
      * </p>
      */
     public SimpleCompositeEngine()
     {
+        super();
+
+        fAdvanceIndex = 0;
+        fCompositeFrequency = 1;
         fEngines = new ArrayList<Engine>();
-        fLogger = Logger.getLogger(getClass().getName());
     }
 
     @Override
@@ -111,7 +93,7 @@ public class SimpleCompositeEngine implements CompositeEngine
      * 
      * @return The lowest common denominator of the two integer values given.
      */
-    protected int calculateLCD(final int a, final int b)
+    private int calculateLCD(final int a, final int b)
     {
         int gcd = a;
 
@@ -156,7 +138,7 @@ public class SimpleCompositeEngine implements CompositeEngine
      * @return the lowest common frequency (advancements per second) at which this <code>SimpleCompositeEngine</code> can run that will support the
      * preferred frequencies of its sub-engines.
      */
-    public int getCompositeFrequency()
+    private int getCompositeFrequency()
     {
         int newCompositeFrequency = 1;
 
@@ -183,12 +165,6 @@ public class SimpleCompositeEngine implements CompositeEngine
     }
 
     @Override
-    public int getPreferredFrequency()
-    {
-        return (-1);
-    }
-
-    @Override
     public void init()
     {
         initInternal();
@@ -208,7 +184,9 @@ public class SimpleCompositeEngine implements CompositeEngine
     {
         fAdvanceIndex = 0;
         fCompositeFrequency = getCompositeFrequency();
-        fSleepTime = (long) MILLISECONDS_IN_A_SECOND / fCompositeFrequency;
+
+        super.setPreferredFrequency(fCompositeFrequency);
+        super.init();
     }
 
     @Override
@@ -226,79 +204,5 @@ public class SimpleCompositeEngine implements CompositeEngine
         {
             engine.reset();
         }
-    }
-
-    @Override
-    public void run()
-    {
-        init();
-
-        long beforeAdvanceTime = 0;
-        long adjustedSleepTime = sleep(fSleepTime);
-
-        while (!Thread.interrupted())
-        {
-            beforeAdvanceTime = System.currentTimeMillis();
-
-            try
-            {
-                advance(null);
-            }
-            catch (Exception e)
-            {
-                Thread.currentThread().interrupt();
-                fLogger.error("Failed to advance the engine.", e);
-            }
-
-            adjustedSleepTime -= System.currentTimeMillis() - beforeAdvanceTime;
-
-            adjustedSleepTime = sleep(adjustedSleepTime);
-        }
-
-        destroy();
-    }
-
-    @Override
-    public void setPreferredFrequency(final int preferredFrequency)
-    {
-        throw new SENotSupportedException();
-    }
-
-    /**
-     * <p>
-     * Causes this <code>SimpleCompositeEngine</code> to sleep for the adjusted time given (assuming it is it's own thread). The adjusted sleep time
-     * is then updated to account for the fact that this <code>SimpleCompositeEngine</code> has just slept.
-     * </p>
-     * 
-     * <p>
-     * In the case that the adjusted sleep time was positive, it is simply reset to the regular sleep time. In the case that it was negative (or
-     * zero), the regular sleep time is added to it (and no delay is actually effected).
-     * </p>
-     * 
-     * @param adjustedSleepTime The adjusted time this <code>SimpleCompositeEngine</code> is required to sleep. The 'adjusted time' is the time taken
-     * to execute the previous advancement subtracted from the 'regular time' (the time between advancements).
-     * 
-     * @return The updated adjusted sleep time.
-     */
-    protected long sleep(final long adjustedSleepTime)
-    {
-        if (adjustedSleepTime > 0)
-        {
-            try
-            {
-                Thread.sleep(adjustedSleepTime);
-            }
-            catch (InterruptedException e)
-            {
-                Thread.currentThread().interrupt();
-                fLogger.debug("The engine was interrupted while sleeping.");
-            }
-
-            return (fSleepTime);
-        }
-
-        fLogger.warn("One or more sub-engines caused the engine to run over time.");
-
-        return (adjustedSleepTime + fSleepTime);
     }
 }

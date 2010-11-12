@@ -20,7 +20,7 @@ package com.se.simplicity.engine;
  * 
  * @author Gary Buyn
  */
-public interface Engine extends Runnable
+public interface Engine
 {
     /**
      * <p>
