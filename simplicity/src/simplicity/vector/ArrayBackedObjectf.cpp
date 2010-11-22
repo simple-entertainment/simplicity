@@ -20,7 +20,7 @@ namespace simplicity
 
     ArrayBackedObjectf::~ArrayBackedObjectf()
     {
-        delete fArray;
+        delete[] fArray;
     }
 
     float*
@@ -70,7 +70,7 @@ namespace simplicity
     void
     ArrayBackedObjectf::setArray(float* const array)
     {
-        delete fArray;
+        delete []fArray;
 
         fArray = array;
     }
