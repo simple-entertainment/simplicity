@@ -30,8 +30,16 @@ namespace simplicity_test
     class SimpleMatrixf44Test : public Test
     {
         protected:
+            /**
+             * An instance of the class being unit tested.
+             */
             SimpleMatrixf44 fTestObject;
 
+            /**
+             * <p>
+             * Setup to perform before each unit test.
+             * </p>
+             */
             void
             SetUp()
             {

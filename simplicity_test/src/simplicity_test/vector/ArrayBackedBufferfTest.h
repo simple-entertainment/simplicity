@@ -36,6 +36,9 @@ namespace simplicity_test
             }
 
         protected:
+            /**
+             * An instance of the class being unit tested.
+             */
             LengthSettableMockArrayBackedObjectf fTestObject;
     };
 

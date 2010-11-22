@@ -30,6 +30,9 @@ namespace simplicity_test
     class SimpleTransformationMatrixf44Test : public Test
     {
         protected:
+            /**
+             * An instance of the class being unit tested.
+             */
             SimpleTransformationMatrixf44 fTestObject;
     };
 }

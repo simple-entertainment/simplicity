@@ -30,8 +30,16 @@ namespace simplicity_test
     class SimpleVectorf4Test : public Test
     {
         protected:
+            /**
+             * An instance of the class being unit tested.
+             */
             SimpleVectorf4 fTestObject;
 
+            /**
+             * <p>
+             * Setup to perform before each unit test.
+             * </p>
+             */
             void
             SetUp()
             {
