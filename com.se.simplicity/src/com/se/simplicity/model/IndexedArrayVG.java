@@ -109,9 +109,13 @@ public class IndexedArrayVG implements VertexGroup
      */
     public IndexedArrayVG()
     {
+        fColours = null;
         fIndexWithinParent = -1;
+        fIndices = null;
         fIsSubset = false;
+        fNormals = null;
         fParent = null;
+        fVertices = null;
     }
 
     /**
@@ -125,8 +129,12 @@ public class IndexedArrayVG implements VertexGroup
     {
         fParent = parent;
 
+        fColours = null;
         fIndexWithinParent = -1;
+        fIndices = null;
+        fNormals = null;
         fIsSubset = true;
+        fVertices = null;
     }
 
     @Override
@@ -251,7 +259,7 @@ public class IndexedArrayVG implements VertexGroup
     @Override
     public int getVertexCount()
     {
-        return fIndices.length;
+        return (fIndices.length);
     }
 
     /**
@@ -280,16 +288,14 @@ public class IndexedArrayVG implements VertexGroup
             throw new SEInvalidOperationException("Cannot merge this Vertex Group because it is not a subset.");
         }
 
-        for (int currentIndex = 0; currentIndex < fIndices.length; currentIndex++)
+        for (int index = 0; index < fIndices.length; index++)
         {
-            int parentCopyIndex = ((IndexedArrayVG) fParent).getIndices()[fIndexWithinParent + currentIndex];
+            int arrayIndex = fIndices[index] * ITEMS_IN_CNV;
+            int parentArrayIndex = ((IndexedArrayVG) fParent).getIndices()[fIndexWithinParent + index] * ITEMS_IN_CNV;
 
-            System.arraycopy(fColours, fIndices[currentIndex] * ITEMS_IN_CNV, ((IndexedArrayVG) fParent).getColours(),
-                    parentCopyIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
-            System.arraycopy(fNormals, fIndices[currentIndex] * ITEMS_IN_CNV, ((IndexedArrayVG) fParent).getNormals(),
-                    parentCopyIndex * ITEMS_IN_CNV, ITEMS_IN_CNV);
-            System.arraycopy(fVertices, fIndices[currentIndex] * ITEMS_IN_CNV, ((IndexedArrayVG) fParent).getVertices(), parentCopyIndex
-                    * ITEMS_IN_CNV, ITEMS_IN_CNV);
+            System.arraycopy(fColours, arrayIndex, ((IndexedArrayVG) fParent).getColours(), parentArrayIndex, ITEMS_IN_CNV);
+            System.arraycopy(fNormals, arrayIndex, ((IndexedArrayVG) fParent).getNormals(), parentArrayIndex, ITEMS_IN_CNV);
+            System.arraycopy(fVertices, arrayIndex, ((IndexedArrayVG) fParent).getVertices(), parentArrayIndex, ITEMS_IN_CNV);
         }
     }
 

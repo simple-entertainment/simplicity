@@ -18,7 +18,7 @@ package com.se.simplicity.model;
  * </p>
  * 
  * <p>
- * An example where <code>BoundingVolume</code>s are used is collision deteection. Collision of the two <code>BoundingVolume</code>s can be tested
+ * An example where <code>BoundingVolume</code>s are used is collision detection. Collision of the two <code>BoundingVolume</code>s can be tested
  * before collision of the actual geometry contained in them. If the <code>BoundingVolume</code>s do not collide the (possibly very complex)
  * calculations required to test for collisions between the actual geometry is avoided.
  * </p>

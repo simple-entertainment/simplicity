@@ -123,5 +123,5 @@ public interface VertexGroup extends Model
      * @param indexWithinParent The index of the vertex in the parent <code>VertexGroup</code> from which the data in this <code>VertexGroup</code>
      * was copied.
      */
-    void setIndexWithinParent(final int indexWithinParent);
+    void setIndexWithinParent(int indexWithinParent);
 }

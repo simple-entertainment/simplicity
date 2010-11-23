@@ -105,9 +105,12 @@ public class ArrayVG implements VertexGroup
      */
     public ArrayVG()
     {
+        fColours = null;
         fIndexWithinParent = -1;
         fIsSubset = false;
+        fNormals = null;
         fParent = null;
+        fVertices = null;
     }
 
     /**
@@ -117,12 +120,15 @@ public class ArrayVG implements VertexGroup
      * 
      * @param parent The parent of this <code>ArrayVG</code>.
      */
-    protected ArrayVG(final ArrayVG parent)
+    private ArrayVG(final ArrayVG parent)
     {
         fParent = parent;
 
+        fColours = null;
         fIndexWithinParent = -1;
         fIsSubset = true;
+        fNormals = null;
+        fVertices = null;
     }
 
     @Override
