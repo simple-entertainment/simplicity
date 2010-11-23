@@ -148,7 +148,7 @@ namespace simplicity
              * </p>
              *
              * <p>
-             * This <code>IndexedVectorVG</code> will assume ownership of the given vector.
+             * This <code>IndexedVectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
              * </p>
              *
              * @param colours The colours of all the vertices in this <code>IndexedVectorVG</code>.
@@ -162,7 +162,7 @@ namespace simplicity
              * </p>
              *
              * <p>
-             * This <code>IndexedVectorVG</code> will assume ownership of the given vector.
+             * This <code>IndexedVectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
              * </p>
              *
              * @param indices The indices of all the vertices in this <code>IndexedVectorVG</code>.
@@ -179,7 +179,7 @@ namespace simplicity
              * </p>
              *
              * <p>
-             * This <code>IndexedVectorVG</code> will assume ownership of the given vector.
+             * This <code>IndexedVectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
              * </p>
              *
              * @param normals The surface normals of all the vertices in this <code>IndexedVectorVG</code>.
@@ -193,7 +193,7 @@ namespace simplicity
              * </p>
              *
              * <p>
-             * This <code>IndexedVectorVG</code> will assume ownership of the given vector.
+             * This <code>IndexedVectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
              * </p>
              *
              * @param vertices The coordinates of all the vertices in this <code>IndexedVectorVG</code>.

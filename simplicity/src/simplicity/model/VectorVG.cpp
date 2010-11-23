@@ -157,6 +157,8 @@ namespace simplicity
     void
     VectorVG::setColours(vector<float>* const colours)
     {
+        delete fColours;
+
         fColours = colours;
     }
 
@@ -169,12 +171,16 @@ namespace simplicity
     void
     VectorVG::setNormals(vector<float>* const normals)
     {
+        delete fNormals;
+
         fNormals = normals;
     }
 
     void
     VectorVG::setVertices(vector<float>* const vertices)
     {
+        delete fVertices;
+
         fVertices = vertices;
     }
 }

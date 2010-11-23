@@ -171,6 +171,8 @@ namespace simplicity
     void
     IndexedVectorVG::setColours(vector<float>* const colours)
     {
+        delete fColours;
+
         fColours = colours;
     }
 
@@ -183,18 +185,24 @@ namespace simplicity
     void
     IndexedVectorVG::setIndices(vector<int>* const indices)
     {
+        delete fIndices;
+
         fIndices = indices;
     }
 
     void
     IndexedVectorVG::setNormals(vector<float>* const normals)
     {
+        delete fNormals;
+
         fNormals = normals;
     }
 
     void
     IndexedVectorVG::setVertices(vector<float>* const vertices)
     {
+        delete fVertices;
+
         fVertices = vertices;
     }
 }
