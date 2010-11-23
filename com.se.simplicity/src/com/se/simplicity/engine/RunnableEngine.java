@@ -72,9 +72,11 @@ public abstract class RunnableEngine implements Engine, Runnable
     {
         init();
 
+        // Start by sleeping.
         long beforeAdvanceTime = 0;
         long adjustedSleepTime = sleep(fSleepTime);
 
+        // While the engine has not been interrupted.
         while (!Thread.interrupted())
         {
             beforeAdvanceTime = System.currentTimeMillis();
@@ -85,12 +87,15 @@ public abstract class RunnableEngine implements Engine, Runnable
             }
             catch (Exception e)
             {
+             // Interrupt the engine.
                 Thread.currentThread().interrupt();
                 fLogger.error("Failed to advance the engine.", e);
             }
 
+            // Subtract the time taken to advance the engine from the time it needs to sleep for.
             adjustedSleepTime -= System.currentTimeMillis() - beforeAdvanceTime;
 
+            // Sleep until the next advancement is due.
             adjustedSleepTime = sleep(adjustedSleepTime);
         }
 
@@ -121,6 +126,7 @@ public abstract class RunnableEngine implements Engine, Runnable
      */
     private long sleep(final long adjustedSleepTime)
     {
+        // If the engine needs to sleep.
         if (adjustedSleepTime > 0)
         {
             try
@@ -129,15 +135,20 @@ public abstract class RunnableEngine implements Engine, Runnable
             }
             catch (InterruptedException e)
             {
+                // Interrupt the engine.
                 Thread.currentThread().interrupt();
                 fLogger.debug("The engine was interrupted while sleeping.");
             }
 
+            // Return the standard sleep duration.
             return (fSleepTime);
         }
+        else
+        {
+            fLogger.warn("The engine ran over time.");
 
-        fLogger.warn("The engine ran over time.");
-
-        return (adjustedSleepTime + fSleepTime);
+            // The engine has not slept as a result it has 'caught up' by the standard sleep duration.
+            return (adjustedSleepTime + fSleepTime);
+        }
     }
 }

@@ -72,8 +72,10 @@ public class SimpleCompositeEngine extends RunnableEngine implements CompositeEn
         fAdvanceIndex++;
         EngineInput currentInput = input;
 
+        // For every sub-engine.
         for (Engine engine : fEngines)
         {
+            // If the sub-engine should be advanced at this time (if it's preferred frequency is a multiple of the composite frequency).
             if (fAdvanceIndex % (fCompositeFrequency / engine.getPreferredFrequency()) == 0)
             {
                 currentInput = engine.advance(currentInput);
@@ -88,26 +90,26 @@ public class SimpleCompositeEngine extends RunnableEngine implements CompositeEn
      * Calculates the lowest common denominator of the two integer values given.
      * </p>
      * 
-     * @param a The largest of the two integers to calculate the lowest common denominator of.
-     * @param b The smallest of the two integers to calculate the lowest common denominator of.
+     * @param big The largest of the two integers to calculate the lowest common denominator of.
+     * @param small The smallest of the two integers to calculate the lowest common denominator of.
      * 
      * @return The lowest common denominator of the two integer values given.
      */
-    private int calculateLCD(final int a, final int b)
+    private int calculateLCD(final int big, final int small)
     {
-        int gcd = a;
+        int gcd = big;
 
-        if (b != 0)
+        if (small != 0)
         {
-            gcd = a % b;
+            gcd = big % small;
         }
 
         if (gcd == 0)
         {
-            return (a);
+            return (big);
         }
 
-        return (a * b / gcd);
+        return (big * small / gcd);
     }
 
     @Override
@@ -142,14 +144,17 @@ public class SimpleCompositeEngine extends RunnableEngine implements CompositeEn
     {
         int newCompositeFrequency = 1;
 
+        // If there is at least 1 sub-engine.
         if (!fEngines.isEmpty())
         {
             newCompositeFrequency = fEngines.get(0).getPreferredFrequency();
 
+            // For every sub-engine (except for the first one).
             for (int index = 1; index < fEngines.size(); index++)
             {
                 int preferredFrequency = fEngines.get(index).getPreferredFrequency();
 
+                // Ensure that preferreFrequency contains the smaller of the two frequencies (required for the calculateLCD method).
                 if (newCompositeFrequency < preferredFrequency)
                 {
                     int temp = newCompositeFrequency;
