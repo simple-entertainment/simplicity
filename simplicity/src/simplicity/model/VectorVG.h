@@ -131,6 +131,10 @@ namespace simplicity
              * Sets the colours of all the vertices in this <code>VectorVG</code>.
              * </p>
              *
+             * <p>
+             * This <code>VectorVG</code> will assume ownership of the given vector.
+             * </p>
+             *
              * @param colours The colours of all the vertices in this <code>VectorVG</code>.
              */
             void
@@ -144,6 +148,10 @@ namespace simplicity
              * Sets the surface normals of all the vertices in this <code>VectorVG</code>.
              * </p>
              *
+             * <p>
+             * This <code>VectorVG</code> will assume ownership of the given vector.
+             * </p>
+             *
              * @param normals The surface normals of all the vertices in this <code>VectorVG</code>.
              */
             void
@@ -152,6 +160,10 @@ namespace simplicity
             /**
              * <p>
              * Sets the coordinates of all the vertices in this <code>VectorVG</code>.
+             * </p>
+             *
+             * <p>
+             * This <code>VectorVG</code> will assume ownership of the given vector.
              * </p>
              *
              * @param vertices The coordinates of all the vertices in this <code>VectorVG</code>.

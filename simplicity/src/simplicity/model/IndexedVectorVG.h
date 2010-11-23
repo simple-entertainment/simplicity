@@ -147,6 +147,10 @@ namespace simplicity
              * Sets the colours of all the vertices in this <code>IndexedVectorVG</code>.
              * </p>
              *
+             * <p>
+             * This <code>IndexedVectorVG</code> will assume ownership of the given vector.
+             * </p>
+             *
              * @param colours The colours of all the vertices in this <code>IndexedVectorVG</code>.
              */
             void
@@ -155,6 +159,10 @@ namespace simplicity
             /**
              * <p>
              * Sets the indices of all the vertices in this <code>IndexedVectorVG</code>.
+             * </p>
+             *
+             * <p>
+             * This <code>IndexedVectorVG</code> will assume ownership of the given vector.
              * </p>
              *
              * @param indices The indices of all the vertices in this <code>IndexedVectorVG</code>.
@@ -170,6 +178,10 @@ namespace simplicity
              * Sets the surface normals of all the vertices in this <code>IndexedVectorVG</code>.
              * </p>
              *
+             * <p>
+             * This <code>IndexedVectorVG</code> will assume ownership of the given vector.
+             * </p>
+             *
              * @param normals The surface normals of all the vertices in this <code>IndexedVectorVG</code>.
              */
             void
@@ -178,6 +190,10 @@ namespace simplicity
             /**
              * <p>
              * Sets the coordinates of all the vertices in this <code>IndexedVectorVG</code>.
+             * </p>
+             *
+             * <p>
+             * This <code>IndexedVectorVG</code> will assume ownership of the given vector.
              * </p>
              *
              * @param vertices The coordinates of all the vertices in this <code>IndexedVectorVG</code>.
