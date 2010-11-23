@@ -31,15 +31,6 @@ public interface TransformationMatrixf extends Matrixf
 
     /**
      *<p>
-     * Retrieves the x axis rotation of this <code>TransformationMatrixf</code> in radians.
-     *</p>
-     * 
-     * @return The x axis rotation of this <code>TransformationMatrixf</code> in radians.
-     */
-    float getXAxisRotation();
-
-    /**
-     *<p>
      * Retrieves the x axis translation of this <code>TransformationMatrixf</code>.
      *</p>
      * 
@@ -49,30 +40,12 @@ public interface TransformationMatrixf extends Matrixf
 
     /**
      *<p>
-     * Retrieves the y axis rotation of this <code>TransformationMatrixf</code> in radians.
-     *</p>
-     * 
-     * @return The y axis rotation of this <code>TransformationMatrixf</code> in radians.
-     */
-    float getYAxisRotation();
-
-    /**
-     *<p>
      * Retrieves the y axis translation of this <code>TransformationMatrixf</code>.
      *</p>
      * 
      * @return The y axis translation of this <code>TransformationMatrixf</code>.
      */
     float getYAxisTranslation();
-
-    /**
-     *<p>
-     * Retrieves the z axis rotation of this <code>TransformationMatrixf</code> in radians.
-     *</p>
-     * 
-     * @return The z axis rotation of this <code>TransformationMatrixf</code> in radians.
-     */
-    float getZAxisRotation();
 
     /**
      *<p>
@@ -103,13 +76,6 @@ public interface TransformationMatrixf extends Matrixf
     void setTranslation(TranslationVectorf translation);
 
     /**
-     * Sets the x axis rotation of this <code>TransformationMatrixf</code> in radians.
-     * 
-     * @param angle The x axis rotation of this <code>TransformationMatrixf</code> in radians.
-     */
-    void setXAxisRotation(float angle);
-
-    /**
      *<p>
      * Sets the x axis translation of this <code>TransformationMatrixf</code>.
      *</p>
@@ -119,13 +85,6 @@ public interface TransformationMatrixf extends Matrixf
     void setXAxisTranslation(float distance);
 
     /**
-     * Sets the y axis rotation of this <code>TransformationMatrixf</code> in radians.
-     * 
-     * @param angle The y axis rotation of this <code>TransformationMatrixf</code> in radians.
-     */
-    void setYAxisRotation(float angle);
-
-    /**
      *<p>
      * Sets the y axis translation of this <code>TransformationMatrixf</code>.
      *</p>
@@ -133,13 +92,6 @@ public interface TransformationMatrixf extends Matrixf
      * @param distance The y axis translation of this <code>TransformationMatrixf</code>.
      */
     void setYAxisTranslation(float distance);
-
-    /**
-     * Sets the z axis rotation of this <code>TransformationMatrixf</code> in radians.
-     * 
-     * @param angle The z axis rotation of this <code>TransformationMatrixf</code> in radians.
-     */
-    void setZAxisRotation(float angle);
 
     /**
      *<p>

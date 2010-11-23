@@ -131,7 +131,7 @@ public class SimpleMatrixf44 extends ArrayBackedObjectf implements Matrixf
      * 
      * @return The determinant of a 3x3 column-major matrix.
      */
-    protected float getDeterminant33(final float f00, final float f10, final float f20, final float f01, final float f11, final float f21,
+    private float getDeterminant33(final float f00, final float f10, final float f20, final float f01, final float f11, final float f21,
             final float f02, final float f12, final float f22)
     {
         return (f00 * (f11 * f22 - f12 * f21) - f10 * (f01 * f22 - f02 * f21) + f20 * (f01 * f12 - f02 * f11));
@@ -208,7 +208,7 @@ public class SimpleMatrixf44 extends ArrayBackedObjectf implements Matrixf
      * 
      * @return An array that contains the result of the multiplication.
      */
-    protected float[] multiply(final SimpleMatrixf44 leftMatrix, final SimpleMatrixf44 rightMatrix)
+    private float[] multiply(final SimpleMatrixf44 leftMatrix, final SimpleMatrixf44 rightMatrix)
     {
         float[] leftArray = leftMatrix.getArray();
         float[] rightArray = rightMatrix.getArray();

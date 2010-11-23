@@ -106,14 +106,15 @@ public class SimpleVectorf4 extends ArrayBackedObjectf implements Vectorf, Seria
      * This method assumes both <code>SimpleVectorf</code>s to be homogenised.
      * </p>
      * 
-     * @param vector The <code>SimpleVectorf</code> to add this <code>SimpleVectorf</code> to.
+     * @param leftVector The <code>SimpleVectorf4</code> to be placed on the left hand side of the equation.
+     * @param rightVector The <code>SimpleVectorf4</code> to be placed on the right hand side of the equation.
      * 
      * @return An array that contains the result of the addition.
      */
-    protected float[] add(final SimpleVectorf4 vector)
+    private float[] add(final SimpleVectorf4 leftVector, final SimpleVectorf4 rightVector)
     {
-        float[] leftArray = getArray();
-        float[] rightArray = vector.getArray();
+        float[] leftArray = leftVector.getArray();
+        float[] rightArray = rightVector.getArray();
         float[] addArray = new float[CELLS_IN_VECTOR];
 
         addArray[0] = leftArray[0] + rightArray[0];
@@ -127,13 +128,13 @@ public class SimpleVectorf4 extends ArrayBackedObjectf implements Vectorf, Seria
     @Override
     public void add(final Vectorf vector)
     {
-        setArray(add((SimpleVectorf4) vector));
+        setArray(add(this, (SimpleVectorf4) vector));
     }
 
     @Override
     public Vectorf addCopy(final Vectorf vector)
     {
-        return (new SimpleVectorf4(add((SimpleVectorf4) vector)));
+        return (new SimpleVectorf4(add(this, (SimpleVectorf4) vector)));
     }
 
     /**
@@ -150,7 +151,7 @@ public class SimpleVectorf4 extends ArrayBackedObjectf implements Vectorf, Seria
      * 
      * @return An array that contains the result of the cross product.
      */
-    protected float[] crossProduct(final SimpleVectorf4 leftVector, final SimpleVectorf4 rightVector)
+    private float[] crossProduct(final SimpleVectorf4 leftVector, final SimpleVectorf4 rightVector)
     {
         float[] leftArray = leftVector.getArray();
         float[] rightArray = rightVector.getArray();
@@ -235,7 +236,7 @@ public class SimpleVectorf4 extends ArrayBackedObjectf implements Vectorf, Seria
      * 
      * @return An array that contains the result of the multiplication.
      */
-    protected float[] multiply(final SimpleVectorf4 leftVector, final SimpleVectorf4 rightVector)
+    private float[] multiply(final SimpleVectorf4 leftVector, final SimpleVectorf4 rightVector)
     {
         float[] leftArray = leftVector.getArray();
         float[] rightArray = rightVector.getArray();
@@ -277,7 +278,7 @@ public class SimpleVectorf4 extends ArrayBackedObjectf implements Vectorf, Seria
      * 
      * @return An array that contains the result of the multiplication.
      */
-    protected float[] multiplyLeft(final SimpleMatrixf44 matrix)
+    private float[] multiplyLeft(final SimpleMatrixf44 matrix)
     {
         float[] mArray = matrix.getArray();
         float[] vArray = getArray();
@@ -337,7 +338,7 @@ public class SimpleVectorf4 extends ArrayBackedObjectf implements Vectorf, Seria
      * 
      * @return An array that contains the result of the multiplication.
      */
-    protected float[] multiplyRight(final SimpleMatrixf44 matrix)
+    private float[] multiplyRight(final SimpleMatrixf44 matrix)
     {
         float[] vArray = getArray();
         float[] mArray = matrix.getArray();
@@ -417,7 +418,7 @@ public class SimpleVectorf4 extends ArrayBackedObjectf implements Vectorf, Seria
      * 
      * @return An array that contains the result of the subtraction.
      */
-    protected float[] subtract(final SimpleVectorf4 leftVector, final SimpleVectorf4 rightVector)
+    private float[] subtract(final SimpleVectorf4 leftVector, final SimpleVectorf4 rightVector)
     {
         float[] leftArray = leftVector.getArray();
         float[] rightArray = rightVector.getArray();

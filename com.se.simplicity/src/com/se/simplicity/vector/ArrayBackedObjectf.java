@@ -32,7 +32,17 @@ public abstract class ArrayBackedObjectf implements Serializable
      * The array that contains the data for this object.
      * </p>
      */
-    private float[] array = null;
+    private float[] fArray;
+
+    /**
+     * <p>
+     * Creates an instance of <code>ArrayBackedObjectf</code>.
+     * </p>
+     */
+    public ArrayBackedObjectf()
+    {
+        fArray = null;
+    }
 
     /**
      * <p>
@@ -58,14 +68,14 @@ public abstract class ArrayBackedObjectf implements Serializable
 
         ArrayBackedObjectf otherArrayBackedObjectf = (ArrayBackedObjectf) other;
 
-        if (array.length != otherArrayBackedObjectf.getArray().length)
+        if (fArray.length != otherArrayBackedObjectf.getArray().length)
         {
             return (false);
         }
 
-        for (int index = 0; index < array.length; index++)
+        for (int index = 0; index < fArray.length; index++)
         {
-            if (array[index] != otherArrayBackedObjectf.getArray()[index])
+            if (fArray[index] != otherArrayBackedObjectf.getArray()[index])
             {
                 return (false);
             }
@@ -83,7 +93,7 @@ public abstract class ArrayBackedObjectf implements Serializable
      */
     public float[] getArray()
     {
-        return (array);
+        return (fArray);
     }
 
     /**
@@ -95,8 +105,8 @@ public abstract class ArrayBackedObjectf implements Serializable
      */
     public float[] getArrayCopy()
     {
-        float[] arrayCopy = new float[array.length];
-        System.arraycopy(array, 0, arrayCopy, 0, array.length);
+        float[] arrayCopy = new float[fArray.length];
+        System.arraycopy(fArray, 0, arrayCopy, 0, fArray.length);
 
         return (arrayCopy);
     }
@@ -106,10 +116,10 @@ public abstract class ArrayBackedObjectf implements Serializable
      * Sets the array that contains the data for this object.
      * </p>
      * 
-     * @param newArray The array that contains the data for this object.
+     * @param array The array that contains the data for this object.
      */
-    public void setArray(final float[] newArray)
+    public void setArray(final float[] array)
     {
-        array = newArray;
+        fArray = array;
     }
 }
