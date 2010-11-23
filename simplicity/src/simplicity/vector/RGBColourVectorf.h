@@ -23,7 +23,7 @@ namespace simplicity
      *
      * @author Gary Buyn
      */
-    class RGBColourVectorf : public Vectorf
+    class RGBColourVectorf : public virtual Vectorf
     {
         public:
             /**
