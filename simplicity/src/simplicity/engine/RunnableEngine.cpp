@@ -62,11 +62,14 @@ namespace simplicity
     {
         init();
 
+        // Start by sleeping.
         ptime beforeAdvanceTime;
         long adjustedSleepTime = sleep(fSleepTime);
 
+        // While the engine has not been interrupted.
         while (!fInterrupted)
         {
+            // Interrupt the engine if the thread has been interrupted.
             interruption_point();
 
             beforeAdvanceTime = microsec_clock::local_time();
@@ -77,12 +80,15 @@ namespace simplicity
             }
             catch (thread_interrupted& e)
             {
+                // Interrupt the engine.
                 fInterrupted = true;
                 fLogger->error("Failed to advance the engine.", e);
             }
 
+            // Subtract the time taken to advance the engine from the time it needs to sleep for.
             adjustedSleepTime -= time_period(beforeAdvanceTime, microsec_clock::local_time()).length().total_milliseconds();
 
+            // Sleep until the next advancement is due.
             adjustedSleepTime = sleep(adjustedSleepTime);
         }
 
@@ -98,6 +104,7 @@ namespace simplicity
     long
     RunnableEngine::sleep(const long adjustedSleepTime)
     {
+        // If the engine needs to sleep.
         if (adjustedSleepTime > 0)
         {
             try
@@ -106,15 +113,20 @@ namespace simplicity
             }
             catch (thread_interrupted& e)
             {
+                // Interrupt the engine.
                 fInterrupted = true;
                 fLogger->debug("The engine was interrupted while sleeping.");
             }
 
+            // Return the standard sleep duration.
             return (fSleepTime);
         }
+        else
+        {
+            fLogger->warn("The engine ran over time.");
 
-        fLogger->warn("The engine ran over time.");
-
-        return (adjustedSleepTime + fSleepTime);
+            // The engine has not slept as a result it has 'caught up' by the standard sleep duration.
+            return (adjustedSleepTime + fSleepTime);
+        }
     }
 }

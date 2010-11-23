@@ -35,8 +35,10 @@ namespace simplicity
         fAdvanceIndex++;
         EngineInput* currentInput = input;
 
+        // For every sub-engine.
         for (unsigned int index = 0; index < fEngines.size(); index++)
         {
+            // If the sub-engine should be advanced at this time (if it's preferred frequency is a multiple of the composite frequency).
             if (fAdvanceIndex % (fCompositeFrequency / fEngines.at(index)->getPreferredFrequency()) == 0)
             {
                 currentInput = fEngines.at(index)->advance(currentInput);
@@ -47,21 +49,21 @@ namespace simplicity
     }
 
     int
-    SimpleCompositeEngine::calculateLCD(const int a, const int b)
+    SimpleCompositeEngine::calculateLCD(const int big, const int small)
     {
-        int gcd = a;
+        int gcd = big;
 
-        if (b != 0)
+        if (small != 0)
         {
-            gcd = a % b;
+            gcd = big % small;
         }
 
         if (gcd == 0)
         {
-            return (a);
+            return (big);
         }
 
-        return (a * b / gcd);
+        return (big * small / gcd);
     }
 
     void
@@ -82,10 +84,12 @@ namespace simplicity
         {
             newCompositeFrequency = fEngines.at(0)->getPreferredFrequency();
 
+            // For every sub-engine (except for the first one).
             for (unsigned int index = 0; index < fEngines.size(); index++)
             {
                 int preferredFrequency = fEngines.at(index)->getPreferredFrequency();
 
+                // Ensure that preferreFrequency contains the smaller of the two frequencies (required for the calculateLCD method).
                 if (newCompositeFrequency < preferredFrequency)
                 {
                     int temp = newCompositeFrequency;
