@@ -32,7 +32,7 @@ public class ArrayVGTest
     /**
      * An instance of the class being unit tested.
      */
-    private ArrayVG testObject;
+    private ArrayVG fTestObject;
 
     /**
      * <p>
@@ -42,23 +42,25 @@ public class ArrayVGTest
     @Before
     public void before()
     {
-        testObject = new ArrayVG();
+        fTestObject = new ArrayVG();
 
-        testObject.setColours(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f});
-        testObject.setNormals(new float[] {-0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f});
-        testObject.setVertices(new float[] {-1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f});
+        fTestObject.setColours(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f});
+        fTestObject.setNormals(new float[] {-0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f});
+        fTestObject.setVertices(new float[] {-1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f});
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.model.ArrayVG.createEdgeSubsetVG createEdgeSubsetVG()}.
+     * Unit test the method {@link com.se.simplicity.model.ArrayVG#createEdgeSubsetVG(int) createEdgeSubsetVG(int)}.
      * </p>
      */
     @Test
     public void createEdgeSubsetVG()
     {
-        ArrayVG subsetVG = (ArrayVG) testObject.createEdgeSubsetVG(0);
+        // Perform test.
+        ArrayVG subsetVG = (ArrayVG) fTestObject.createEdgeSubsetVG(0);
 
+        // Verify test results.
         float[] subsetColours = subsetVG.getColours();
 
         assertEquals(6, subsetColours.length, 0);
@@ -92,14 +94,16 @@ public class ArrayVGTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.model.ArrayVG.createFaceSubsetVG createFaceSubsetVG()}.
+     * Unit test the method {@link simplicity::VectorVG#createFaceSubsetVG(int) createFaceSubsetVG(int)}.
      * </p>
      */
     @Test
     public void createFaceSubsetVG()
     {
-        ArrayVG subsetVG = (ArrayVG) testObject.createFaceSubsetVG(0);
+        // Perform test.
+        ArrayVG subsetVG = (ArrayVG) fTestObject.createFaceSubsetVG(0);
 
+        // Verify test results.
         float[] subsetColours = subsetVG.getColours();
 
         assertEquals(9, subsetColours.length, 0);
@@ -142,14 +146,16 @@ public class ArrayVGTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.model.ArrayVG.createVertexSubsetVG createVertexSubsetVG()}.
+     * Unit test the method {@link simplicity::VectorVG#createVertexSubsetVG createVertexSubsetVG()}.
      * </p>
      */
     @Test
     public void createVertexSubsetVG()
     {
-        ArrayVG subsetVG = (ArrayVG) testObject.createVertexSubsetVG(0);
+        // Perform test.
+        ArrayVG subsetVG = (ArrayVG) fTestObject.createVertexSubsetVG(0);
 
+        // Verify test results.
         float[] subsetColours = subsetVG.getColours();
 
         assertEquals(3, subsetColours.length, 0);
@@ -181,7 +187,7 @@ public class ArrayVGTest
     public void getCenter()
     {
         // Perform test.
-        TranslationVectorf center = testObject.getCenter();
+        TranslationVectorf center = fTestObject.getCenter();
 
         // Verify test results.
         assertEquals(0.0f, center.getX(), 0.0f);
@@ -198,13 +204,13 @@ public class ArrayVGTest
     @Test
     public void getVertexCount()
     {
-        // Perform test / Verify test results.
-        assertEquals(4, testObject.getVertexCount(), 0);
+        // Perform test - Verify test results.
+        assertEquals(4, fTestObject.getVertexCount(), 0);
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.model.ArrayVG.mergeWithParent mergeWithParent()}.
+     * Unit test the method {@link com.se.simplicity.model.ArrayVG#mergeWithParent() mergeWithParent()}.
      * </p>
      * 
      * @throws SEInvalidOperationException Thrown by the method being unit tested.
@@ -212,15 +218,18 @@ public class ArrayVGTest
     @Test
     public void mergeWithParent() throws SEInvalidOperationException
     {
-        ArrayVG subsetVG = (ArrayVG) testObject.createFaceSubsetVG(0);
+        // Initialise test environment.
+        ArrayVG subsetVG = (ArrayVG) fTestObject.createFaceSubsetVG(0);
 
         subsetVG.setColours(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f});
         subsetVG.setNormals(new float[] {0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, -0.5f, 0.0f});
         subsetVG.setVertices(new float[] {-2.0f, -2.0f, 0.0f, -2.0f, 2.0f, 0.0f, 2.0f, 2.0f, 0.0f});
 
+        // Perform test.
         subsetVG.mergeWithParent();
 
-        float[] colours = testObject.getColours();
+        // Verify test results.
+        float[] colours = fTestObject.getColours();
 
         assertEquals(12, colours.length, 0);
         assertEquals(0.0f, colours[0], 0.0f);
@@ -236,7 +245,7 @@ public class ArrayVGTest
         assertEquals(1.0f, colours[10], 0.0f);
         assertEquals(1.0f, colours[11], 0.0f);
 
-        float[] normals = testObject.getNormals();
+        float[] normals = fTestObject.getNormals();
 
         assertEquals(12, normals.length, 0);
         assertEquals(0.5f, normals[0], 0.0f);
@@ -252,7 +261,7 @@ public class ArrayVGTest
         assertEquals(-0.5f, normals[10], 0.0f);
         assertEquals(0.0f, normals[11], 0.0f);
 
-        float[] vertices = testObject.getVertices();
+        float[] vertices = fTestObject.getVertices();
 
         assertEquals(12, vertices.length, 0);
         assertEquals(-2.0f, vertices[0], 0.0f);
@@ -271,7 +280,7 @@ public class ArrayVGTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.model.ArrayVG.mergeWithParent mergeWithParent()} for the special condition where the
+     * Unit test the method {@link com.se.simplicity.model.ArrayVG#mergeWithParent() mergeWithParent()} for the special condition where the
      * {@link com.se.simplicity.model.ArrayVG ArrayVG} being tested is not a subset.
      * </p>
      * 
@@ -280,6 +289,7 @@ public class ArrayVGTest
     @Test(expected = SEInvalidOperationException.class)
     public void mergeWithParentNotSubset() throws SEInvalidOperationException
     {
-        testObject.mergeWithParent();
+        // Perform test - Verify test results.
+        fTestObject.mergeWithParent();
     }
 }

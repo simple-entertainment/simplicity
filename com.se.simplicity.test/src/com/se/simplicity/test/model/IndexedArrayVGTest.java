@@ -22,7 +22,7 @@ import com.se.simplicity.vector.TranslationVectorf;
 
 /**
  * <p>
- * Unit tests for the class {@link com.se.simplicity.model.IndexedArrayVGTest IndexedArrayVGTest}.
+ * Unit tests for the class {@link com.se.simplicity.model.IndexedArrayVG IndexedArrayVG}.
  * </p>
  * 
  * @author Gary Buyn
@@ -32,7 +32,7 @@ public class IndexedArrayVGTest
     /**
      * An instance of the class being unit tested.
      */
-    private IndexedArrayVG testObject;
+    private IndexedArrayVG fTestObject;
 
     /**
      * <p>
@@ -42,23 +42,23 @@ public class IndexedArrayVGTest
     @Before
     public void before()
     {
-        testObject = new IndexedArrayVG();
+        fTestObject = new IndexedArrayVG();
 
-        testObject.setColours(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f});
-        testObject.setNormals(new float[] {-0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f});
-        testObject.setVertices(new float[] {-1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f});
-        testObject.setIndices(new int[] {0, 1, 2, 3});
+        fTestObject.setColours(new float[] {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f});
+        fTestObject.setNormals(new float[] {-0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f});
+        fTestObject.setVertices(new float[] {-1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f});
+        fTestObject.setIndices(new int[] {0, 1, 2, 3});
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG.createEdgeSubsetVG createEdgeSubsetVG()}.
+     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG#createEdgeSubsetVG(int) createEdgeSubsetVG(int)}.
      * </p>
      */
     @Test
     public void createEdgeSubsetVG()
     {
-        IndexedArrayVG subsetVG = (IndexedArrayVG) testObject.createEdgeSubsetVG(0);
+        IndexedArrayVG subsetVG = (IndexedArrayVG) fTestObject.createEdgeSubsetVG(0);
 
         int[] subsetIndices = subsetVG.getIndices();
 
@@ -99,13 +99,13 @@ public class IndexedArrayVGTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG.createFaceSubsetVG createFaceSubsetVG()}.
+     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG#createFaceSubsetVG(int) createFaceSubsetVG(int)}.
      * </p>
      */
     @Test
     public void createFaceSubsetVG()
     {
-        IndexedArrayVG subsetVG = (IndexedArrayVG) testObject.createFaceSubsetVG(0);
+        IndexedArrayVG subsetVG = (IndexedArrayVG) fTestObject.createFaceSubsetVG(0);
 
         int[] subsetIndices = subsetVG.getIndices();
 
@@ -156,13 +156,13 @@ public class IndexedArrayVGTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG.createVertexSubsetVG createVertexSubsetVG()}.
+     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG#createVertexSubsetVG(int) createVertexSubsetVG(int)}.
      * </p>
      */
     @Test
     public void createVertexSubsetVG()
     {
-        IndexedArrayVG subsetVG = (IndexedArrayVG) testObject.createVertexSubsetVG(0);
+        IndexedArrayVG subsetVG = (IndexedArrayVG) fTestObject.createVertexSubsetVG(0);
 
         int[] subsetIndices = subsetVG.getIndices();
 
@@ -200,7 +200,7 @@ public class IndexedArrayVGTest
     public void getCenter()
     {
         // Perform test.
-        TranslationVectorf center = testObject.getCenter();
+        TranslationVectorf center = fTestObject.getCenter();
 
         // Verify test results.
         assertEquals(0.0f, center.getX(), 0.0f);
@@ -218,12 +218,12 @@ public class IndexedArrayVGTest
     public void getVertexCount()
     {
         // Perform test / Verify test results.
-        assertEquals(4, testObject.getVertexCount(), 0);
+        assertEquals(4, fTestObject.getVertexCount(), 0);
     }
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG.mergeWithParent mergeWithParent()}.
+     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG#mergeWithParent() mergeWithParent()}.
      * </p>
      * 
      * @throws SEInvalidOperationException Thrown by the method being unit tested.
@@ -231,7 +231,7 @@ public class IndexedArrayVGTest
     @Test
     public void mergeWithParent() throws SEInvalidOperationException
     {
-        IndexedArrayVG subsetVG = (IndexedArrayVG) testObject.createFaceSubsetVG(0);
+        IndexedArrayVG subsetVG = (IndexedArrayVG) fTestObject.createFaceSubsetVG(0);
 
         subsetVG.setColours(new float[] {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f});
         subsetVG.setNormals(new float[] {0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, -0.5f, 0.0f});
@@ -239,7 +239,7 @@ public class IndexedArrayVGTest
 
         subsetVG.mergeWithParent();
 
-        int[] indices = testObject.getIndices();
+        int[] indices = fTestObject.getIndices();
 
         assertEquals(4, indices.length, 0);
         assertEquals(0, indices[0], 0);
@@ -247,7 +247,7 @@ public class IndexedArrayVGTest
         assertEquals(2, indices[2], 0);
         assertEquals(3, indices[3], 0);
 
-        float[] colours = testObject.getColours();
+        float[] colours = fTestObject.getColours();
 
         assertEquals(12, colours.length, 0);
         assertEquals(0.0f, colours[0], 0.0f);
@@ -263,7 +263,7 @@ public class IndexedArrayVGTest
         assertEquals(1.0f, colours[10], 0.0f);
         assertEquals(1.0f, colours[11], 0.0f);
 
-        float[] normals = testObject.getNormals();
+        float[] normals = fTestObject.getNormals();
 
         assertEquals(12, normals.length, 0);
         assertEquals(0.5f, normals[0], 0.0f);
@@ -279,7 +279,7 @@ public class IndexedArrayVGTest
         assertEquals(-0.5f, normals[10], 0.0f);
         assertEquals(0.0f, normals[11], 0.0f);
 
-        float[] vertices = testObject.getVertices();
+        float[] vertices = fTestObject.getVertices();
 
         assertEquals(12, vertices.length, 0);
         assertEquals(-2.0f, vertices[0], 0.0f);
@@ -298,7 +298,7 @@ public class IndexedArrayVGTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG.mergeWithParent mergeWithParent()} for the special condition where the
+     * Unit test the method {@link com.se.simplicity.model.IndexedArrayVG#mergeWithParent() mergeWithParent()} for the special condition where the
      * {@link com.se.simplicity.model.IndexedArrayVG IndexedArrayVG} being tested is not a subset.
      * </p>
      * 
@@ -307,6 +307,6 @@ public class IndexedArrayVGTest
     @Test(expected = SEInvalidOperationException.class)
     public void mergeWithParentNotSubset() throws SEInvalidOperationException
     {
-        testObject.mergeWithParent();
+        fTestObject.mergeWithParent();
     }
 }
