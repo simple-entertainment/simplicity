@@ -79,7 +79,7 @@ public class Torus implements Shape
 
     /**
      * <p>
-     * Retrieves the inner radius. The default is 0.5.
+     * Retrieves the inner radius. The default is 1.0.
      * </p>
      * 
      * @return The inner radius.
@@ -91,7 +91,7 @@ public class Torus implements Shape
 
     /**
      * <p>
-     * Retrieves the outer radius. The default is 0.5.
+     * Retrieves the outer radius. The default is 2.0.
      * </p>
      * 
      * @return The outer radius.
@@ -109,7 +109,7 @@ public class Torus implements Shape
 
     /**
      * <p>
-     * Sets the inner radius. The default is 0.5.
+     * Sets the inner radius. The default is 1.0.
      * </p>
      * 
      * @param innerRadius The inner radius.
@@ -121,7 +121,7 @@ public class Torus implements Shape
 
     /**
      * <p>
-     * Sets the outer radius. The default is 0.5.
+     * Sets the outer radius. The default is 2.0.
      * </p>
      * 
      * @param outerRadius The outer radius.
