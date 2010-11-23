@@ -32,7 +32,7 @@ public class SimpleTransformationMatrixf44Test
     /**
      * An instance of the class being unit tested.
      */
-    private SimpleTransformationMatrixf44 testObject;
+    private SimpleTransformationMatrixf44 fTestObject;
 
     /**
      * <p>
@@ -42,79 +42,7 @@ public class SimpleTransformationMatrixf44Test
     @Before
     public void before()
     {
-        testObject = new SimpleTransformationMatrixf44();
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.vector.SimpleTransformationMatrixf44.getXAxisRotation getXAxisRotation()}.
-     * </p>
-     */
-    @Test
-    public void getXAxisRotation()
-    {
-        assertEquals(0.0f, testObject.getXAxisRotation(), 0.0f);
-
-        testObject.rotate((float) (90.0f * Math.PI / 180.0f), new SimpleVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
-
-        assertEquals(90.0f * Math.PI / 180.0f, testObject.getXAxisRotation(), 0.0001f);
-
-        testObject.setIdentity();
-        testObject.rotate((float) (179.0f * Math.PI / 180.0f), new SimpleVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
-
-        assertEquals(179.0f * Math.PI / 180.0f, testObject.getXAxisRotation(), 0.0001f);
-
-        // For angles above 180 degrees the rotation is correct but offset -360 degrees from what is expected
-        testObject.setIdentity();
-        testObject.rotate((float) (181.0f * Math.PI / 180.0f), new SimpleVectorf4(1.0f, 0.0f, 0.0f, 1.0f));
-
-        assertEquals((181.0f - 360.0f) * Math.PI / 180.0f, testObject.getXAxisRotation(), 0.0001f);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.vector.SimpleTransformationMatrixf44.getYAxisRotation getYAxisRotation()}.
-     * </p>
-     */
-    @Test
-    public void getYAxisRotation()
-    {
-        assertEquals(0.0f, testObject.getYAxisRotation(), 0.0f);
-
-        testObject.rotate((float) (90.0f * Math.PI / 180.0f), new SimpleVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-
-        assertEquals(90.0f * Math.PI / 180.0f, testObject.getYAxisRotation(), 0.0001f);
-
-        testObject.setIdentity();
-        testObject.rotate((float) (179.0f * Math.PI / 180.0f), new SimpleVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
-
-        assertEquals(179.0f * Math.PI / 180.0f, testObject.getYAxisRotation(), 0.0001f);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.vector.SimpleTransformationMatrixf44.getZAxisRotation getZAxisRotation()}.
-     * </p>
-     */
-    @Test
-    public void getZAxisRotation()
-    {
-        assertEquals(0.0f, testObject.getZAxisRotation(), 0.0f);
-
-        testObject.rotate((float) (90.0f * Math.PI / 180.0f), new SimpleVectorf4(0.0f, 0.0f, 1.0f, 1.0f));
-
-        assertEquals(90.0f * Math.PI / 180.0f, testObject.getZAxisRotation(), 0.0001f);
-
-        testObject.setIdentity();
-        testObject.rotate((float) (179.0f * Math.PI / 180.0f), new SimpleVectorf4(0.0f, 0.0f, 1.0f, 1.0f));
-
-        assertEquals(179.0f * Math.PI / 180.0f, testObject.getZAxisRotation(), 0.0001f);
-
-        // For angles above 180 degrees the rotation is correct but offset -360 degrees from what is expected
-        testObject.setIdentity();
-        testObject.rotate((float) (181.0f * Math.PI / 180.0f), new SimpleVectorf4(0.0f, 0.0f, 1.0f, 1.0f));
-
-        assertEquals((181.0f - 360.0f) * Math.PI / 180.0f, testObject.getZAxisRotation(), 0.0001f);
+        fTestObject = new SimpleTransformationMatrixf44();
     }
 
     /**
@@ -125,9 +53,9 @@ public class SimpleTransformationMatrixf44Test
     @Test
     public void rotate()
     {
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
-        testObject.rotate((float) Math.PI / 2.0f, new SimpleVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
+        fTestObject.rotate((float) Math.PI / 2.0f, new SimpleVectorf4(0.0f, 1.0f, 0.0f, 1.0f));
 
         assertEquals(0.0f, array[0], 0.0000001f);
         assertEquals(0.0f, array[1], 0.0000001f);
@@ -142,80 +70,19 @@ public class SimpleTransformationMatrixf44Test
 
     /**
      * <p>
-     * Unit test the method {@link com.se.simplicity.vector.SimpleTransformationMatrixf44.setXAxisRotation setXAxisRotation()}.
-     * </p>
-     */
-    @Test
-    public void setXAxisRotation()
-    {
-        testObject.setXAxisRotation((float) (90.0f * Math.PI / 180.0f));
-
-        assertEquals(90.0f * Math.PI / 180.0f, testObject.getXAxisRotation(), 0.0001f);
-
-        testObject.setXAxisRotation((float) (179.0f * Math.PI / 180.0f));
-
-        assertEquals(179.0f * Math.PI / 180.0f, testObject.getXAxisRotation(), 0.0001f);
-
-        // For angles above 180 degrees the rotation is correct but offset -360 degrees from what is expected
-        testObject.setXAxisRotation((float) (181.0f * Math.PI / 180.0f));
-
-        assertEquals((181.0f - 360.0f) * Math.PI / 180.0f, testObject.getXAxisRotation(), 0.0001f);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.vector.SimpleTransformationMatrixf44.setYAxisRotation setYAxisRotation()}.
-     * </p>
-     */
-    @Test
-    public void setYAxisRotation()
-    {
-        testObject.setYAxisRotation((float) (90.0f * Math.PI / 180.0f));
-
-        assertEquals(90.0f * Math.PI / 180.0f, testObject.getYAxisRotation(), 0.0001f);
-
-        testObject.setYAxisRotation((float) (179.0f * Math.PI / 180.0f));
-
-        assertEquals(179.0f * Math.PI / 180.0f, testObject.getYAxisRotation(), 0.0001f);
-    }
-
-    /**
-     * <p>
-     * Unit test the method {@link com.se.simplicity.vector.SimpleTransformationMatrixf44.setZAxisRotation setZAxisRotation()}.
-     * </p>
-     */
-    @Test
-    public void setZAxisRotation()
-    {
-        testObject.setZAxisRotation((float) (90.0f * Math.PI / 180.0f));
-
-        assertEquals(90.0f * Math.PI / 180.0f, testObject.getZAxisRotation(), 0.0001f);
-
-        testObject.setZAxisRotation((float) (179.0f * Math.PI / 180.0f));
-
-        assertEquals(179.0f * Math.PI / 180.0f, testObject.getZAxisRotation(), 0.0001f);
-
-        // For angles above 180 degrees the rotation is correct but offset -360 degrees from what is expected
-        testObject.setZAxisRotation((float) (181.0f * Math.PI / 180.0f));
-
-        assertEquals((181.0f - 360.0f) * Math.PI / 180.0f, testObject.getZAxisRotation(), 0.0001f);
-    }
-
-    /**
-     * <p>
      * Unit test the method {@link com.se.simplicity.vector.SimpleTransformationMatrixf44.translate translate()}.
      * </p>
      */
     @Test
     public void translate()
     {
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         array[12] = 1.0f;
         array[13] = 2.0f;
         array[14] = 3.0f;
 
-        testObject.translate(new SimpleTranslationVectorf4(1.0f, 2.0f, 3.0f, 1.0f));
+        fTestObject.translate(new SimpleTranslationVectorf4(1.0f, 2.0f, 3.0f, 1.0f));
 
         assertEquals(2.0f, array[12], 0.0f);
         assertEquals(4.0f, array[13], 0.0f);

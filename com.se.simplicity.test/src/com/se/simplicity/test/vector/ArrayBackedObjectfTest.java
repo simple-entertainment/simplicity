@@ -30,7 +30,7 @@ public class ArrayBackedObjectfTest
     /**
      * An instance of the class being unit tested.
      */
-    private ArrayBackedObjectf testObject;
+    private ArrayBackedObjectf fTestObject;
 
     /**
      * <p>
@@ -40,7 +40,7 @@ public class ArrayBackedObjectfTest
     @Before
     public void before()
     {
-        testObject = new SimpleVectorf4();
+        fTestObject = new SimpleVectorf4();
     }
 
     /**
@@ -51,12 +51,12 @@ public class ArrayBackedObjectfTest
     @Test
     public void getArrayCopy()
     {
-        assertNotNull(testObject.getArrayCopy());
-        assertNotSame(testObject.getArray(), testObject.getArrayCopy());
-        assertNotSame(testObject.getArrayCopy(), testObject.getArrayCopy());
+        assertNotNull(fTestObject.getArrayCopy());
+        assertNotSame(fTestObject.getArray(), fTestObject.getArrayCopy());
+        assertNotSame(fTestObject.getArrayCopy(), fTestObject.getArrayCopy());
 
-        float[] arrayCopy1 = testObject.getArrayCopy();
-        float[] arrayCopy2 = testObject.getArrayCopy();
+        float[] arrayCopy1 = fTestObject.getArrayCopy();
+        float[] arrayCopy2 = fTestObject.getArrayCopy();
 
         for (int index = 0; index < arrayCopy1.length; index++)
         {

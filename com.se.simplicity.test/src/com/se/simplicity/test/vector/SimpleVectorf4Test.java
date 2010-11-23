@@ -31,7 +31,7 @@ public class SimpleVectorf4Test
     /**
      * An instance of the class being unit tested.
      */
-    private SimpleVectorf4 testObject;
+    private SimpleVectorf4 fTestObject;
 
     /**
      * <p>
@@ -41,9 +41,9 @@ public class SimpleVectorf4Test
     @Test
     public void add()
     {
-        testObject.add(new SimpleVectorf4(4.0f, 2.0f, 7.5f, 3.9f));
+        fTestObject.add(new SimpleVectorf4(4.0f, 2.0f, 7.5f, 3.9f));
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(5.0f, array[0], 0.0f);
         assertEquals(4.0f, array[1], 0.0f);
@@ -59,9 +59,9 @@ public class SimpleVectorf4Test
     @Before
     public void before()
     {
-        testObject = new SimpleVectorf4();
+        fTestObject = new SimpleVectorf4();
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         array[0] = 1.0f;
         array[1] = 2.0f;
@@ -77,9 +77,9 @@ public class SimpleVectorf4Test
     @Test
     public void crossProduct()
     {
-        testObject.crossProductRight(new SimpleVectorf4(3.0f, 2.0f, 1.0f, 0.0f));
+        fTestObject.crossProductRight(new SimpleVectorf4(3.0f, 2.0f, 1.0f, 0.0f));
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(-4.0f, array[0], 0.0f);
         assertEquals(8.0f, array[1], 0.0f);
@@ -95,7 +95,7 @@ public class SimpleVectorf4Test
     @Test
     public void dotProduct()
     {
-        assertEquals(30.5f, testObject.dotProduct(new SimpleVectorf4(4.0f, 2.0f, 7.5f, 3.9f)), 0.0f);
+        assertEquals(30.5f, fTestObject.dotProduct(new SimpleVectorf4(4.0f, 2.0f, 7.5f, 3.9f)), 0.0f);
     }
 
     /**
@@ -106,7 +106,7 @@ public class SimpleVectorf4Test
     @Test
     public void getLength()
     {
-        assertEquals(3.741657387f, testObject.getLength(), 0.0f);
+        assertEquals(3.741657387f, fTestObject.getLength(), 0.0f);
     }
 
     /**
@@ -117,7 +117,7 @@ public class SimpleVectorf4Test
     @Test
     public void getLengthSquared()
     {
-        assertEquals(14.0f, testObject.getLengthSquared(), 0.0f);
+        assertEquals(14.0f, fTestObject.getLengthSquared(), 0.0f);
     }
 
     /**
@@ -128,14 +128,14 @@ public class SimpleVectorf4Test
     @Test
     public void homogenize()
     {
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         array[0] = 2.0f;
         array[1] = 4.0f;
         array[2] = 6.0f;
         array[3] = 2.0f;
 
-        testObject.homogenize();
+        fTestObject.homogenize();
 
         assertEquals(1.0f, array[0], 0.0f);
         assertEquals(2.0f, array[1], 0.0f);
@@ -152,9 +152,9 @@ public class SimpleVectorf4Test
     @Test
     public void homogenizeNotRequired()
     {
-        testObject.homogenize();
+        fTestObject.homogenize();
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(1.0f, array[0], 0.0f);
         assertEquals(2.0f, array[1], 0.0f);
@@ -190,9 +190,9 @@ public class SimpleVectorf4Test
         matrixArray[11] = 0.0f;
         matrixArray[15] = 1.0f;
 
-        testObject.multiplyLeft(matrix);
+        fTestObject.multiplyLeft(matrix);
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(18.0f, array[0], 0.0f);
         assertEquals(19.0f, array[1], 0.0f);
@@ -228,9 +228,9 @@ public class SimpleVectorf4Test
         matrixArray[11] = 0.0f;
         matrixArray[15] = 1.0f;
 
-        testObject.multiplyRight(matrix);
+        fTestObject.multiplyRight(matrix);
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(14.0f, array[0], 0.0f);
         assertEquals(16.0f, array[1], 0.0f);
@@ -254,9 +254,9 @@ public class SimpleVectorf4Test
         otherArray[2] = 6.0f;
         otherArray[3] = 1.0f;
 
-        testObject.multiplyRight(otherVector);
+        fTestObject.multiplyRight(otherVector);
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(4.0f, array[0], 0.0f);
         assertEquals(10.0f, array[1], 0.0f);
@@ -272,9 +272,9 @@ public class SimpleVectorf4Test
     @Test
     public void negate()
     {
-        testObject.negate();
+        fTestObject.negate();
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(-1.0f, array[0], 0.0f);
         assertEquals(-2.0f, array[1], 0.0f);
@@ -290,16 +290,16 @@ public class SimpleVectorf4Test
     @Test
     public void normalize()
     {
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         array[0] = 0.0f;
         array[1] = 0.0f;
         array[2] = 3.0f;
         array[3] = 1.0f;
 
-        testObject.normalize();
+        fTestObject.normalize();
 
-        array = testObject.getArray();
+        array = fTestObject.getArray();
 
         assertEquals(0.0f, array[0], 0.0f);
         assertEquals(0.0f, array[1], 0.0f);
@@ -315,9 +315,9 @@ public class SimpleVectorf4Test
     @Test
     public void subtract()
     {
-        testObject.subtractRight(new SimpleVectorf4(4.0f, 2.0f, 7.5f, 3.9f));
+        fTestObject.subtractRight(new SimpleVectorf4(4.0f, 2.0f, 7.5f, 3.9f));
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(-3.0f, array[0], 0.0f);
         assertEquals(0.0f, array[1], 0.0f);

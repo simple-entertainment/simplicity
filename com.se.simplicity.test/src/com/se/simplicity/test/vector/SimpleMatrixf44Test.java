@@ -30,7 +30,7 @@ public class SimpleMatrixf44Test
     /**
      * An instance of the class being unit tested.
      */
-    private SimpleMatrixf44 testObject;
+    private SimpleMatrixf44 fTestObject;
 
     /**
      * <p>
@@ -40,9 +40,9 @@ public class SimpleMatrixf44Test
     @Before
     public void before()
     {
-        testObject = new SimpleMatrixf44();
+        fTestObject = new SimpleMatrixf44();
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         array[0] = 1.0f;
         array[4] = 2.0f;
@@ -70,7 +70,7 @@ public class SimpleMatrixf44Test
     @Test
     public void getDeterminant()
     {
-        assertEquals(20.0f, testObject.getDeterminant(), 0.0f);
+        assertEquals(20.0f, fTestObject.getDeterminant(), 0.0f);
     }
 
     /**
@@ -83,9 +83,9 @@ public class SimpleMatrixf44Test
     @Test
     public void invert() throws SEInvalidOperationException
     {
-        testObject.invert();
+        fTestObject.invert();
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(-0.75f, array[0], 0.0f);
         assertEquals(0.5f, array[1], 0.0f);
@@ -116,7 +116,7 @@ public class SimpleMatrixf44Test
     @Test(expected = SEInvalidOperationException.class)
     public void invertDeterminant0() throws SEInvalidOperationException
     {
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         array[0] = 0.0f;
         array[4] = 0.0f;
@@ -135,7 +135,7 @@ public class SimpleMatrixf44Test
         array[11] = 0.0f;
         array[15] = 0.0f;
 
-        testObject.invert();
+        fTestObject.invert();
     }
 
     /**
@@ -166,9 +166,9 @@ public class SimpleMatrixf44Test
         otherArray[11] = 0.0f;
         otherArray[15] = 1.0f;
 
-        testObject.multiplyLeft(otherMatrix);
+        fTestObject.multiplyLeft(otherMatrix);
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(14.0f, array[0], 0.0f);
         assertEquals(16.0f, array[1], 0.0f);
@@ -196,9 +196,9 @@ public class SimpleMatrixf44Test
     @Test
     public void setIdentity()
     {
-        testObject.setIdentity();
+        fTestObject.setIdentity();
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(1.0f, array[0], 0.0f);
         assertEquals(0.0f, array[1], 0.0f);
@@ -226,9 +226,9 @@ public class SimpleMatrixf44Test
     @Test
     public void transpose()
     {
-        testObject.transpose();
+        fTestObject.transpose();
 
-        float[] array = testObject.getArray();
+        float[] array = fTestObject.getArray();
 
         assertEquals(1.0f, array[0], 0.0f);
         assertEquals(2.0f, array[1], 0.0f);
