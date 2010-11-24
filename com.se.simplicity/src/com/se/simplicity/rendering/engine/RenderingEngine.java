@@ -35,7 +35,7 @@ import com.se.simplicity.vector.SimpleVectorf4;
  * </p>
  * 
  * <p>
- * When used within a <code>RenderingEngine</code>, the {@link com.se.simplicity.rendering.engine.Renderer Renderer} acts as a rendering pass. Adding
+ * When used within a <code>RenderingEngine</code>, the {@link com.se.simplicity.rendering.Renderer Renderer} acts as a rendering pass. Adding
  * multiple <code>Renderer</code>s to a <code>RenderingEngine</code> effectively creates a multi pass rendering environment.
  * </p>
  * 
@@ -54,9 +54,9 @@ public interface RenderingEngine extends Engine
 
     /**
      * <p>
-     * Adds a {@link com.se.simplicity.rendering.Renderer Renderer}. During the {@link com.se.simplicity.rendering.engine.RenderingEngine#advance()
-     * advance()} method, the <code>Renderer</code>s are executed against the {@link com.se.simplicity.scene.Scene Scene} in the order they were
-     * added.
+     * Adds a {@link com.se.simplicity.rendering.Renderer Renderer}. During the
+     * {@link com.se.simplicity.rendering.engine.RenderingEngine#advance(EngineInput) advance(EngineInput)} method, the <code>Renderer</code>s are
+     * executed against the {@link com.se.simplicity.scene.Scene Scene} in the order they were added.
      * </p>
      * 
      * @param renderer The <code>Renderer</code> to be added.
@@ -66,9 +66,9 @@ public interface RenderingEngine extends Engine
     /**
      * <p>
      * Adds a {@link com.se.simplicity.rendering.Renderer Renderer} at the given index. During the
-     * {@link com.se.simplicity.rendering.engine.RenderingEngine#advance() advance()} method, the <code>Renderer</code>s are executed against the
-     * {@link com.se.simplicity.scene.Scene Scene} in the order they were added. By adding a <code>Renderer</code> at a specific index, it can be
-     * executed before others that were added before it.
+     * {@link com.se.simplicity.rendering.engine.RenderingEngine#advance(EngineInput) advance(EngineInput)} method, the <code>Renderer</code>s are
+     * executed against the {@link com.se.simplicity.scene.Scene Scene} in the order they were added. By adding a <code>Renderer</code> at a specific
+     * index, it can be executed before others that were added before it.
      * </p>
      * 
      * @param index The index to add the <code>Renderer</code> at.
@@ -121,7 +121,7 @@ public interface RenderingEngine extends Engine
     /**
      * <p>
      * Retrieves the {@link com.se.simplicity.rendering.Renderer Renderer}s that will be executed against the {@link com.se.simplicity.scene.Scene
-     * Scene} during the {@link com.se.simplicity.rendering.engine.RenderingEngine#advance() advance()} method.
+     * Scene} during the {@link com.se.simplicity.rendering.engine.RenderingEngine#advance(EngineInput) advance(EngineInput)} method.
      * </p>
      * 
      * <p>
@@ -168,7 +168,7 @@ public interface RenderingEngine extends Engine
      * <p>
      * Preparation of the rendering environment including {@link com.se.simplicity.rendering.Camera Camera} and
      * {@link com.se.simplicity.rendering.Light Light} applications should not be performed from within this method. Instead this should be performed
-     * in the {@link com.se.simplicity.rendering.engine.RenderingEngine#advance() advance()} method.
+     * in the {@link com.se.simplicity.rendering.engine.RenderingEngine#advance(EngineInput) advance(EngineInput)} method.
      * </p>
      * 
      * @param renderer The <code>Renderer</code> that will render the portion of the <code>Scene</code>.
@@ -220,7 +220,7 @@ public interface RenderingEngine extends Engine
      * Sets the {@link com.se.simplicity.scene.Scene Scene} to be rendered.
      * </p>
      * 
-     * @param scene The {@link com.se.simplicity.scene.Scene Scene} to be rendered.
+     * @param scene The <code>Scene</code> to be rendered.
      */
     void setScene(Scene scene);
 
