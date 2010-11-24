@@ -35,7 +35,7 @@ public class PickEventTest
     /**
      * An instance of the class being unit tested.
      */
-    private PickEvent testObject;
+    private PickEvent fTestObject;
 
     /**
      * <p>
@@ -45,7 +45,7 @@ public class PickEventTest
     @Before
     public void before()
     {
-        testObject = new PickEvent();
+        fTestObject = new PickEvent();
     }
 
     /**
@@ -66,11 +66,11 @@ public class PickEventTest
         replay(mockHit0, mockHit1);
 
         // Initialise test environment.
-        testObject.addHit(mockHit0);
-        testObject.addHit(mockHit1);
+        fTestObject.addHit(mockHit0);
+        fTestObject.addHit(mockHit1);
 
         // Perform test.
-        Hit hit = testObject.getCloseHit();
+        Hit hit = fTestObject.getCloseHit();
 
         // Verify test results.
         assertEquals(mockHit1, hit);
