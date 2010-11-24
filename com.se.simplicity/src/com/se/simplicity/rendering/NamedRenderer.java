@@ -24,7 +24,7 @@ public interface NamedRenderer extends Renderer
 {
     /**
      * <p>
-     * Renders the given {@link com.se.simplicity.rendering.Model Model} with the given {@link com.se.simplicity.rendering.DrawingMode
+     * Renders the given {@link com.se.simplicity.model.Model Model} with the given {@link com.se.simplicity.rendering.DrawingMode
      * DrawingMode} and names it with the given name.
      * </p>
      * 

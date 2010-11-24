@@ -20,7 +20,7 @@ import com.se.simplicity.model.Model;
  * 
  * <p>
  * Any changes to settings made during the {@link com.se.simplicity.rendering.Renderer#init() init()} or
- * {@link com.se.simplicity.rendering.Renderer#renderModel(Model, DrawingMode) renderModel(Model, DrawingMode)} methods should be reverted during the
+ * {@link com.se.simplicity.rendering.Renderer#renderModel(Model) renderModel(Model)} methods should be reverted during the
  * {@link com.se.simplicity.rendering.Renderer#dispose() dispose()} method. It is the responsibility of the <code>Renderer</code> to leave the
  * rendering environment as it was found (except for contents of buffers) so that multiple <code>Renderer</code>s may be used together without
  * effecting each other.
@@ -48,7 +48,7 @@ public interface Renderer
      * Receives the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to render the {@link com.se.simplicity.model.Model Model}s.
      * </p>
      * 
-     * @return The <code>DrawingMode</code> used to render the <code>VertexGroup</code>s.
+     * @return The <code>DrawingMode</code> used to render the <code>Model</code>s.
      */
     DrawingMode getDrawingMode();
 
@@ -61,7 +61,7 @@ public interface Renderer
 
     /**
      * <p>
-     * Renders the given {@link com.se.simplicity.rendering.Model Model}.
+     * Renders the given {@link com.se.simplicity.model.Model Model}.
      * </p>
      * 
      * @param model The <code>Model</code> to render.
@@ -73,7 +73,7 @@ public interface Renderer
      * Sets the {@link com.se.simplicity.rendering.DrawingMode DrawingMode} used to render the {@link com.se.simplicity.model.Model Model} s.
      * </p>
      * 
-     * @param mode The <code>DrawingMode</code> used to render the <code>VertexGroup</code>s.
+     * @param mode The <code>DrawingMode</code> used to render the <code>Model</code>s.
      */
     void setDrawingMode(DrawingMode mode);
 }

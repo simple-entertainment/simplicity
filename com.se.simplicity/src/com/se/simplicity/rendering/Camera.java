@@ -17,7 +17,7 @@ import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
  * <p>
- * A viewpoint within a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+ * A viewpoint within a {@link com.se.simplicity.scene.Scene Scene}.
  * </p>
  * 
  * @author Gary Buyn
@@ -33,7 +33,8 @@ public interface Camera
 
     /**
      * <p>
-     * Retrieves the distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     * Retrieves the distance from the eye past which components of the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} will be clipped
+     * (not drawn).
      * </p>
      * 
      * @return The distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
@@ -87,7 +88,8 @@ public interface Camera
 
     /**
      * <p>
-     * Retrieves the distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     * Retrieves the distance from the eye before which components of the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} will be clipped
+     * (not drawn).
      * </p>
      * 
      * @return The distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
@@ -99,7 +101,7 @@ public interface Camera
      * Retrieves the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Camera</code>'s location and orientation.
      * </p>
      * 
-     * @return The {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Camera</code>'s location and orientation.
+     * @return The <code>Node</code> that represents this <code>Camera</code>'s location and orientation.
      */
     Node getNode();
 
@@ -116,7 +118,7 @@ public interface Camera
 
     /**
      * <p>
-     * Retrieves the projection mode used to render a <code>Scene</code>.
+     * Retrieves the projection mode used to render a {@link com.se.simplicity.scene.Scene Scene}.
      * </p>
      * 
      * @return The projection mode used to render a <code>Scene</code>.
@@ -128,8 +130,8 @@ public interface Camera
      * Retrieves the inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Camera</code>.
      * </p>
      * 
-     * @return The inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Camera</code>, or null if the
-     * {@link com.se.simplicity.scenegraph.Node Node} does not exist.
+     * @return The inverted absolute transformation for the <code>Node</code> of this <code>Camera</code>, or null if the <code>Node</code> does not
+     * exist.
      */
     TransformationMatrixf getTransformation();
 
@@ -151,7 +153,8 @@ public interface Camera
 
     /**
      * <p>
-     * Sets the distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     * Sets the distance from the eye past which components of the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} will be clipped (not
+     * drawn).
      * </p>
      * 
      * @param farClippingDistance The distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
@@ -214,7 +217,8 @@ public interface Camera
 
     /**
      * <p>
-     * Sets the distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
+     * Sets the distance from the eye before which components of the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} will be clipped (not
+     * drawn).
      * </p>
      * 
      * @param nearClippingDistance The distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
@@ -226,13 +230,13 @@ public interface Camera
      * Sets the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Camera</code>'s location and orientation.
      * </p>
      * 
-     * @param node The {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Camera</code>'s location and orientation.
+     * @param node The <code>Node</code> that represents this <code>Camera</code>'s location and orientation.
      */
     void setNode(Node node);
 
     /**
      * <p>
-     * Sets the projection mode used to render a <code>Scene</code>.
+     * Sets the projection mode used to render a {@link com.se.simplicity.scene.Scene Scene}.
      * </p>
      * 
      * @param projectionMode The projection mode used to render a <code>Scene</code>.

@@ -16,7 +16,7 @@ import com.se.simplicity.vector.TransformationMatrixf;
 
 /**
  * <p>
- * A light within a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+ * A light within a {@link com.se.simplicity.scene.Scene Scene}.
  * </p>
  * 
  * @author Gary Buyn
@@ -50,10 +50,10 @@ public interface Light
 
     /**
      * <p>
-     * Retrieves the lighting mode used to render a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * Retrieves the lighting mode used to render a {@link com.se.simplicity.scene.Scene Scene}.
      * </p>
      * 
-     * @return The lighting mode used to render a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * @return The lighting mode used to render a <code>Scene</code>.
      */
     LightingMode getLightingMode();
 
@@ -62,7 +62,7 @@ public interface Light
      * Retrieves the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Light</code>'s location and orientation.
      * </p>
      * 
-     * @return The {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Light</code>'s location and orientation.
+     * @return The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
      */
     Node getNode();
 
@@ -80,8 +80,8 @@ public interface Light
      * Retrieves the inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Light</code>.
      * </p>
      * 
-     * @return The inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Light</code>, or null if the
-     * {@link com.se.simplicity.scenegraph.Node Node} does not exist.
+     * @return The inverted absolute transformation for the <code>Node</code> of this <code>Light</code>, or null if the <code>Node</code> does not
+     * exist.
      */
     TransformationMatrixf getTransformation();
 
@@ -130,10 +130,10 @@ public interface Light
 
     /**
      * <p>
-     * Sets the lighting mode used to render a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * Sets the lighting mode used to render a {@link com.se.simplicity.scene.Scene Scene}.
      * </p>
      * 
-     * @param lightingMode The lighting mode used to render a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * @param lightingMode The lighting mode used to render a <code>Scene</code>.
      */
     void setLightingMode(LightingMode lightingMode);
 
@@ -142,7 +142,7 @@ public interface Light
      * Sets the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Light</code>'s location and orientation.
      * </p>
      * 
-     * @param node The {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Light</code>'s location and orientation.
+     * @param node The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
      */
     void setNode(Node node);
 
