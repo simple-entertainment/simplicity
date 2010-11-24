@@ -26,28 +26,41 @@ public class Pick
      * The height of the area being picked.
      * </p>
      */
-    private float height;
+    private float fHeight;
 
     /**
      * <p>
      * The width of the area being picked.
      * </p>
      */
-    private float width;
+    private float fWidth;
 
     /**
      * <p>
      * The position on the <code>x</code> axis being picked.
      * </p>
      */
-    private float x;
+    private float fX;
 
     /**
      * <p>
      * The position on the <code>y</code> axis being picked.
      * </p>
      */
-    private float y;
+    private float fY;
+
+    /**
+     * <p>
+     * Creates an instance of <code>Pick</code>.
+     * </p>
+     */
+    public Pick()
+    {
+        fHeight = 0.0f;
+        fWidth = 0.0f;
+        fX = 0.0f;
+        fY = 0.0f;
+    }
 
     /**
      * <p>
@@ -58,7 +71,7 @@ public class Pick
      */
     public float getHeight()
     {
-        return height;
+        return (fHeight);
     }
 
     /**
@@ -70,7 +83,7 @@ public class Pick
      */
     public float getWidth()
     {
-        return width;
+        return (fWidth);
     }
 
     /**
@@ -82,7 +95,7 @@ public class Pick
      */
     public float getX()
     {
-        return x;
+        return (fX);
     }
 
     /**
@@ -94,7 +107,7 @@ public class Pick
      */
     public float getY()
     {
-        return y;
+        return (fY);
     }
 
     /**
@@ -102,11 +115,11 @@ public class Pick
      * Sets the height of the area being picked.
      * </p>
      * 
-     * @param newHeight The height of the area being picked.
+     * @param height The height of the area being picked.
      */
-    public void setHeight(final float newHeight)
+    public void setHeight(final float height)
     {
-        height = newHeight;
+        fHeight = height;
     }
 
     /**
@@ -114,11 +127,11 @@ public class Pick
      * Sets the width of the area being picked.
      * </p>
      * 
-     * @param newWidth The height of the area being picked.
+     * @param width The height of the area being picked.
      */
-    public void setWidth(final float newWidth)
+    public void setWidth(final float width)
     {
-        width = newWidth;
+        fWidth = width;
     }
 
     /**
@@ -126,11 +139,11 @@ public class Pick
      * Sets the position on the <code>x</code> axis being picked.
      * </p>
      * 
-     * @param newX The position on the <code>x</code> axis being picked.
+     * @param x The position on the <code>x</code> axis being picked.
      */
-    public void setX(final float newX)
+    public void setX(final float x)
     {
-        x = newX;
+        fX = x;
     }
 
     /**
@@ -138,10 +151,10 @@ public class Pick
      * Sets the position on the <code>y</code> axis being picked.
      * </p>
      * 
-     * @param newY The position on the <code>y</code> axis being picked.
+     * @param y The position on the <code>y</code> axis being picked.
      */
-    public void setY(final float newY)
+    public void setY(final float y)
     {
-        y = newY;
+        fY = y;
     }
 }
