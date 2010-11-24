@@ -32,76 +32,77 @@ public class SimpleScene implements Scene
      * The {@link com.se.simplicity.rendering.Camera Camera}s that can be used to view this <code>Scene</code> from specific angles.
      * </p>
      */
-    private List<Camera> cameras;
+    private List<Camera> fCameras;
 
     /**
      * <p>
      * The {@link com.se.simplicity.rendering.Light Light}s that can be used to illuminate this <code>Scene</code>.
      * </p>
      */
-    private List<Light> lights;
+    private List<Light> fLights;
 
     /**
      * <p>
      * The {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} that describes the relative locations of this <code>Scene</code>'s content.
      * </p>
      */
-    private SceneGraph sceneGraph;
+    private SceneGraph fSceneGraph;
 
     /**
      * Creates an instance of <code>SimpleScene</code>.
      */
     public SimpleScene()
     {
-        cameras = new ArrayList<Camera>();
-        lights = new ArrayList<Light>();
+        fCameras = new ArrayList<Camera>();
+        fLights = new ArrayList<Light>();
+        fSceneGraph = null;
     }
 
     @Override
-    public void addCamera(final Camera newCamera)
+    public void addCamera(final Camera camera)
     {
-        cameras.add(newCamera);
+        fCameras.add(camera);
     }
 
     @Override
-    public void addLight(final Light newLight)
+    public void addLight(final Light light)
     {
-        lights.add(newLight);
+        fLights.add(light);
     }
 
     @Override
     public List<Camera> getCameras()
     {
-        return (cameras);
+        return (fCameras);
     }
 
     @Override
     public List<Light> getLights()
     {
-        return (lights);
+        return (fLights);
     }
 
     @Override
     public SceneGraph getSceneGraph()
     {
-        return (sceneGraph);
+        return (fSceneGraph);
     }
 
     @Override
-    public void setCameras(final List<Camera> newCameras)
+    public void setCameras(final List<Camera> cameras)
     {
-        cameras = newCameras;
+        fCameras = cameras;
     }
 
     @Override
-    public void setLights(final List<Light> newLights)
+    public void setLights(final List<Light> lights)
     {
-        lights = newLights;
+        fLights = lights;
     }
 
     @Override
-    public void setSceneGraph(final SceneGraph newSceneGraph)
+    public void setSceneGraph(final SceneGraph sceneGraph)
     {
-        sceneGraph = newSceneGraph;
+        fSceneGraph = sceneGraph;
     }
 }

@@ -19,7 +19,7 @@ import com.se.simplicity.scenegraph.SceneGraph;
 
 /**
  * <p>
- * A 3D environment that can be displayed and picked via a {@link com.se.simplicity.viewport.Viewport Viewport}.
+ * A 3D environment.
  * </p>
  * 
  * @author Gary Buyn
@@ -31,25 +31,25 @@ public interface Scene
      * Adds a {@link com.se.simplicity.rendering.Camera Camera}s that can be used to view this <code>Scene</code> from specific angles.
      * </p>
      * 
-     * @param newCamera The {@link com.se.simplicity.rendering.Camera Camera}s that can be used to view this <code>Scene</code> from specific angles.
+     * @param camera The <code>Camera</code>s that can be used to view this <code>Scene</code> from specific angles.
      */
-    void addCamera(Camera newCamera);
+    void addCamera(Camera camera);
 
     /**
      * <p>
      * Adds a {@link com.se.simplicity.rendering.Light Light} that can be used to illuminate this <code>Scene</code>.
      * </p>
      * 
-     * @param newLight The {@link com.se.simplicity.rendering.Light Light} that can be used to illuminate this <code>Scene</code>.
+     * @param light The <code>Light</code> that can be used to illuminate this <code>Scene</code>.
      */
-    void addLight(Light newLight);
+    void addLight(Light light);
 
     /**
      * <p>
      * Retrieves the {@link com.se.simplicity.rendering.Camera Camera}s that can be used to view this <code>Scene</code> from specific angles.
      * </p>
      * 
-     * @return The {@link com.se.simplicity.rendering.Camera Camera}s that can be used to view this <code>Scene</code> from specific angles.
+     * @return The <code>Camera</code>s that can be used to view this <code>Scene</code> from specific angles.
      */
     List<Camera> getCameras();
 
@@ -58,7 +58,7 @@ public interface Scene
      * Retrieves the {@link com.se.simplicity.rendering.Light Light}s that can be used to illuminate this <code>Scene</code>.
      * </p>
      * 
-     * @return The {@link com.se.simplicity.rendering.Light Light}s that can be used to illuminate this <code>Scene</code>.
+     * @return The <code>Light</code>s that can be used to illuminate this <code>Scene</code>.
      */
     List<Light> getLights();
 
@@ -68,8 +68,7 @@ public interface Scene
      * content.
      * </p>
      * 
-     * @return The {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} that describes the relative locations of this <code>Scene</code>'s
-     * content.
+     * @return The <code>SceneGraph</code> that describes the relative locations of this <code>Scene</code>'s content.
      */
     SceneGraph getSceneGraph();
 
@@ -78,26 +77,25 @@ public interface Scene
      * Sets the {@link com.se.simplicity.rendering.Camera Camera}s that can be used to view this <code>Scene</code> from specific angles.
      * </p>
      * 
-     * @param newCameras The {@link com.se.simplicity.rendering.Camera Camera}s that can be used to view this <code>Scene</code> from specific angles.
+     * @param cameras The <code>Camera</code>s that can be used to view this <code>Scene</code> from specific angles.
      */
-    void setCameras(List<Camera> newCameras);
+    void setCameras(List<Camera> cameras);
 
     /**
      * <p>
      * Sets the {@link com.se.simplicity.rendering.Light Light}s that can be used to illuminate this <code>Scene</code>.
      * </p>
      * 
-     * @param newLights The {@link com.se.simplicity.rendering.Light Light}s that can be used to illuminate this <code>Scene</code>.
+     * @param lights The <code>Light</code>s that can be used to illuminate this <code>Scene</code>.
      */
-    void setLights(List<Light> newLights);
+    void setLights(List<Light> lights);
 
     /**
      * <p>
      * Sets the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} that describes the relative locations of this <code>Scene</code>'s content.
      * </p>
      * 
-     * @param newSceneGraph The {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} that describes the relative locations of this
-     * <code>Scene</code>'s content.
+     * @param sceneGraph The <code>SceneGraph</code> that describes the relative locations of this <code>Scene</code>'s content.
      */
-    void setSceneGraph(SceneGraph newSceneGraph);
+    void setSceneGraph(SceneGraph sceneGraph);
 }
