@@ -30,10 +30,20 @@ public class SimpleModelNode extends SimpleNode implements ModelNode
 
     /**
      * <p>
-     * The {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
+     * The {@link com.se.simplicity.model.Model Model} at this <code>SimpleModelNode</code>'s position and orientation.
      * </p>
      */
     private Model fModel;
+    
+    /**
+     * <p>
+     * Creates an instance of <code>SimpleModelNode</code>.
+     * </p>
+     */
+    public SimpleModelNode()
+    {
+        fModel = null;
+    }
 
     @Override
     public Model getModel()

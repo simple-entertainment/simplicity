@@ -28,7 +28,7 @@ public interface ModelNode extends Node
      * Retrieves the {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
      * </p>
      * 
-     * @return The {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
+     * @return The <code>Model</code> at this <code>ModelNode</code>'s position and orientation.
      */
     Model getModel();
 
@@ -37,7 +37,7 @@ public interface ModelNode extends Node
      * Sets the {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
      * </p>
      * 
-     * @param model The {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
+     * @param model The <code>Model</code> at this <code>ModelNode</code>'s position and orientation.
      */
     void setModel(Model model);
 }
