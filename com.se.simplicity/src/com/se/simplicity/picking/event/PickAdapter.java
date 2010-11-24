@@ -20,6 +20,14 @@ package com.se.simplicity.picking.event;
  */
 public class PickAdapter implements PickListener
 {
+    /**
+     * <p>
+     * Creates an instance of <code>PickAdapter</code>.
+     * </p>
+     */
+    public PickAdapter()
+    {}
+
     @Override
     public void scenePicked(final PickEvent event)
     {}
