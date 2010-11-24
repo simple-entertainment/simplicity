@@ -27,32 +27,35 @@ public class SimpleTraversal implements Traversal
      * The number of backtracks required to get to the next {@link com.se.simplicity.scenegraph.Node Node}.
      * </p>
      */
-    private int backtracksToNextNode;
+    private int fBacktracksToNextNode;
 
     /**
      * <p>
      * The next {@link com.se.simplicity.scenegraph.Node Node} to retrieve from this traversal.
      * </p>
      */
-    private Node nextNode;
+    private Node fNextNode;
 
     /**
      * <p>
      * The root {@link com.se.simplicity.scenegraph.Node Node} of the graph to traverse.
      * </p>
      */
-    private Node root;
+    private Node fRoot;
 
     /**
      * <p>
      * Creates an instance of <code>SimpleTraversal</code>.
      * </p>
      * 
-     * @param newRoot The root {@link com.se.simplicity.scenegraph.Node Node} of the graph to traverse.
+     * @param root The root {@link com.se.simplicity.scenegraph.Node Node} of the graph to traverse.
      */
-    public SimpleTraversal(final Node newRoot)
+    public SimpleTraversal(final Node root)
     {
-        root = newRoot;
+        fRoot = root;
+
+        fBacktracksToNextNode = 0;
+        fNextNode = null;
 
         reset();
     }
@@ -62,51 +65,51 @@ public class SimpleTraversal implements Traversal
      * Finds the next {@link com.se.simplicity.scenegraph.Node Node} in this traversal, updating the state variables appropriately.
      * </p>
      * 
-     * @return The next {@link com.se.simplicity.scenegraph.Node Node} in this traversal,
+     * @return The next <code>Node</code> in this traversal,
      */
-    protected Node findNextNode()
+    private Node findNextNode()
     {
-        backtracksToNextNode = 0;
+        fBacktracksToNextNode = 0;
 
         // If the only node in the traversal is the root, end the traversal.
-        if (nextNode == root && !nextNode.hasChildren())
+        if (fNextNode == fRoot && !fNextNode.hasChildren())
         {
-            backtracksToNextNode++;
+            fBacktracksToNextNode++;
 
             return (null);
         }
 
         // If the current node has children, move to it's first child.
-        if (nextNode.hasChildren())
+        if (fNextNode.hasChildren())
         {
-            return (nextNode.getChildren().get(0));
+            return (fNextNode.getChildren().get(0));
         }
 
         // If the current node has no children, backtrack to the next sibling.
-        List<Node> siblings = nextNode.getParent().getChildren();
+        List<Node> siblings = fNextNode.getParent().getChildren();
 
         // While the current node has no more siblings, move to it's parent.
-        while (siblings.indexOf(nextNode) + 1 == siblings.size())
+        while (siblings.indexOf(fNextNode) + 1 == siblings.size())
         {
-            backtracksToNextNode++;
+            fBacktracksToNextNode++;
 
-            nextNode = nextNode.getParent();
+            fNextNode = fNextNode.getParent();
 
             // If the next node is the root, end the traversal.
-            if (nextNode == root)
+            if (fNextNode == fRoot)
             {
-                backtracksToNextNode++;
+                fBacktracksToNextNode++;
 
                 return (null);
             }
 
-            siblings = nextNode.getParent().getChildren();
+            siblings = fNextNode.getParent().getChildren();
         }
 
         // If the next node has more siblings, move to it's next sibling.
-        backtracksToNextNode++;
+        fBacktracksToNextNode++;
 
-        return (siblings.get(siblings.indexOf(nextNode) + 1));
+        return (siblings.get(siblings.indexOf(fNextNode) + 1));
     }
 
     /**
@@ -120,24 +123,24 @@ public class SimpleTraversal implements Traversal
      * initial downward movement to the root when <code>getNextNode()</code> is first called.
      * </p>
      * 
-     * @return The number of backtracks required to get to the next {@link com.se.simplicity.scenegraph.Node Node}.
+     * @return The number of backtracks required to get to the next <code>Node</code>.
      */
     public int getBacktracksToNextNode()
     {
-        return (backtracksToNextNode);
+        return (fBacktracksToNextNode);
     }
 
     @Override
     public Node getNextNode()
     {
         // If the traversal has ended.
-        if (nextNode == null)
+        if (fNextNode == null)
         {
             return (null);
         }
 
-        Node currentNode = nextNode;
-        nextNode = findNextNode();
+        Node currentNode = fNextNode;
+        fNextNode = findNextNode();
 
         return (currentNode);
     }
@@ -145,13 +148,13 @@ public class SimpleTraversal implements Traversal
     @Override
     public boolean hasMoreNodes()
     {
-        return (nextNode != null);
+        return (fNextNode != null);
     }
 
     @Override
     public void reset()
     {
-        backtracksToNextNode = 0;
-        nextNode = root;
+        fBacktracksToNextNode = 0;
+        fNextNode = fRoot;
     }
 }

@@ -50,8 +50,7 @@ public interface Node extends Serializable
      * root.
      * </p>
      * 
-     * @return A volume containing all the {@link com.se.simplicity.model.Model Model}s within the subgraph of which this <code>Node</code> is the
-     * root.
+     * @return A volume containing all the <code>Model</code>s within the subgraph of which this <code>Node</code> is the root.
      */
     BoundingVolume getBounds();
 
@@ -60,7 +59,7 @@ public interface Node extends Serializable
      * Retrieves the <code>Node</code>s directly below this <code>Node</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
      * </p>
      * 
-     * @return The <code>Node</code>s directly below this <code>Node</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * @return The <code>Node</code>s directly below this <code>Node</code> in a <code>SceneGraph</code>.
      */
     List<Node> getChildren();
 
@@ -78,7 +77,7 @@ public interface Node extends Serializable
      * Retrieves the <code>Node</code> directly above this <code>Node</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
      * </p>
      * 
-     * @return The <code>Node</code> directly above this <code>Node</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+     * @return The <code>Node</code> directly above this <code>Node</code> in a <code>SceneGraph</code>.
      */
     Node getParent();
 
@@ -116,8 +115,7 @@ public interface Node extends Serializable
      * SceneGraph} (determines if it should be included in collision detection).
      * </p>
      * 
-     * @return True if this <code>Node</code> can collide with other <code>Node</code>s in the {@link com.se.simplicity.scenegraph.SceneGraph
-     * SceneGraph}, false otherwise.
+     * @return True if this <code>Node</code> can collide with other <code>Node</code>s in the <code>SceneGraph</code>, false otherwise.
      */
     boolean isCollidable();
 
@@ -164,8 +162,7 @@ public interface Node extends Serializable
      * root.
      * </p>
      * 
-     * @param bounds A volume containing all the {@link com.se.simplicity.model.Model Model}s within the subgraph of which this <code>Node</code> is
-     * the root.
+     * @param bounds A volume containing all the <code>Model</code>s within the subgraph of which this <code>Node</code> is the root.
      */
     void setBounds(final BoundingVolume bounds);
 

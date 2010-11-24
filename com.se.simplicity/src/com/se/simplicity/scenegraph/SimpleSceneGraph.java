@@ -36,14 +36,14 @@ public class SimpleSceneGraph implements SceneGraph, Serializable
 
     /**
      * <p>
-     * The {@link com.se.simplicity.scenegraph.Node Node}s within this <code>SceneGraph</code>.
+     * The {@link com.se.simplicity.scenegraph.Node Node}s within this <code>SimpleSceneGraph</code>.
      * </p>
      */
     private Hashtable<Integer, Node> fNodes;
 
     /**
      * <p>
-     * The root {@link com.se.simplicity.scenegraph.Node Node} of this <code>SceneGraph</code>.
+     * The root {@link com.se.simplicity.scenegraph.Node Node} of this <code>SimpleSceneGraph</code>.
      * </p>
      */
     private Node fRoot;
@@ -91,7 +91,7 @@ public class SimpleSceneGraph implements SceneGraph, Serializable
      * 
      * @return A unique identifier to assign to the next {@link com.se.simplicity.scenegraph.Node Node} added to the <code>SimpleSceneGraph</code>.
      */
-    protected int getNextNodeID()
+    private int getNextNodeID()
     {
         return (fLastNodeID++);
     }

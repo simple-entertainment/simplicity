@@ -35,7 +35,7 @@ public interface SceneGraph
      * manually adding a subgraph to maintain the integrity of the <code>SceneGraph</code>.
      * </p>
      * 
-     * @param subgraphRoot The root {@link com.se.simplicity.scenegraph.Node Node} of the subgraph to add.
+     * @param subgraphRoot The root <code>Node</code> of the subgraph to add.
      */
     void addSubgraph(Node subgraphRoot);
 
@@ -49,8 +49,8 @@ public interface SceneGraph
      * manually adding a subgraph to maintain the integrity of the <code>SceneGraph</code>.
      * </p>
      * 
-     * @param subgraphRoot The root {@link com.se.simplicity.scenegraph.Node Node} of the subgraph to add.
-     * @param parent The {@link com.se.simplicity.scenegraph.Node Node} within the <code>SceneGraph</code> to add the subgraph under.
+     * @param subgraphRoot The root <code>Node</code> of the subgraph to add.
+     * @param parent The <code>Node</code> within the <code>SceneGraph</code> to add the subgraph under.
      */
     void addSubgraph(Node subgraphRoot, Node parent);
 
@@ -59,16 +59,16 @@ public interface SceneGraph
      * Retrieves the {@link com.se.simplicity.scenegraph.Node Node} with the given ID.
      * </p>
      * 
-     * @param id The ID of the {@link com.se.simplicity.scenegraph.Node Node} to retrieve.
+     * @param id The ID of the <code>Node</code> to retrieve.
      * 
-     * @return The {@link com.se.simplicity.scenegraph.Node Node} with the given ID.
+     * @return The <code>Node</code> with the given ID.
      */
     Node getNode(int id);
 
     /**
      * Retrieves the root {@link com.se.simplicity.scenegraph.Node Node} of this <code>SceneGraph</code>.
      * 
-     * @return The root {@link com.se.simplicity.scenegraph.Node Node} of this <code>SceneGraph</code>.
+     * @return The root <code>Node</code> of this <code>SceneGraph</code>.
      */
     Node getRoot();
 
@@ -77,7 +77,7 @@ public interface SceneGraph
      * Retrieves the root {@link com.se.simplicity.scenegraph.Node Node}s off all the subgraphs in this <code>SceneGraph</code>.
      * </p>
      * 
-     * @return The root {@link com.se.simplicity.scenegraph.Node Node}s off all the subgraphs in this <code>SceneGraph</code>.
+     * @return The root <code>Node</code>s off all the subgraphs in this <code>SceneGraph</code>.
      */
     List<Node> getSubgraphRoots();
 
@@ -91,7 +91,7 @@ public interface SceneGraph
      * removing it from its parent to maintain the integrity of the <code>SceneGraph</code>.
      * </p>
      * 
-     * @param subgraphRoot The root {@link com.se.simplicity.scenegraph.Node Node} of the subgraph to remove.
+     * @param subgraphRoot The root <code>Node</code> of the subgraph to remove.
      */
     void removeSubgraph(Node subgraphRoot);
 

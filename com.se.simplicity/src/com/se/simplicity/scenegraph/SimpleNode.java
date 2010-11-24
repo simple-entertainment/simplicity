@@ -98,6 +98,7 @@ public class SimpleNode implements Node
      */
     public SimpleNode()
     {
+        fBounds = null;
         fChildren = new ArrayList<Node>();
         fCollidable = true;
         fId = 0;
@@ -231,15 +232,15 @@ public class SimpleNode implements Node
     }
 
     @Override
-    public void setBounds(final BoundingVolume newBounds)
+    public void setBounds(final BoundingVolume bounds)
     {
-        fBounds = newBounds;
+        fBounds = bounds;
     }
 
     @Override
-    public void setCollidable(final boolean newCollidable)
+    public void setCollidable(final boolean collidable)
     {
-        fCollidable = newCollidable;
+        fCollidable = collidable;
     }
 
     @Override
@@ -249,26 +250,26 @@ public class SimpleNode implements Node
     }
 
     @Override
-    public void setModifiable(final boolean newModifiable)
+    public void setModifiable(final boolean modifiable)
     {
-        fModifiable = newModifiable;
+        fModifiable = modifiable;
     }
 
     @Override
-    public void setParent(final Node newParent)
+    public void setParent(final Node parent)
     {
-        fParent = newParent;
+        fParent = parent;
     }
 
     @Override
-    public void setTransformation(final TransformationMatrixf newTransformation)
+    public void setTransformation(final TransformationMatrixf transformation)
     {
-        fTransformation = newTransformation;
+        fTransformation = transformation;
     }
 
     @Override
-    public void setVisible(final boolean newVisible)
+    public void setVisible(final boolean visible)
     {
-        fVisible = newVisible;
+        fVisible = visible;
     }
 }
