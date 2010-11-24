@@ -39,8 +39,7 @@ public interface PickingEngine extends Engine
      * SceneGraph} is picked.
      * </p>
      * 
-     * @param listener A {@link com.se.simplicity.picking.event.PickListener PickListener} to be invoked when a
-     * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
+     * @param listener A <code>PickListener</code> to be invoked when a <code>SceneGraph</code> is picked.
      */
     void addPickListener(PickListener listener);
 
@@ -57,8 +56,7 @@ public interface PickingEngine extends Engine
      * for processing.
      * </p>
      * 
-     * @param event The {@link com.se.simplicity.picking.event.PickEvent PickEvent} to be fired to all
-     * {@link com.se.simplicity.picking.event.PickListener PickListener}s.
+     * @param event The <code>PickEvent</code> to be fired to all <code>PickListener</code>s.
      */
     void firePickEvent(PickEvent event);
 
@@ -77,8 +75,7 @@ public interface PickingEngine extends Engine
      * this <code>PickingEngine</code>.
      * </p>
      * 
-     * @return The {@link com.se.simplicity.picking.Picker Picker} that picks the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} for this
-     * <code>PickingEngine</code>.
+     * @return The <code>Picker</code> that picks the <code>SceneGraph</code> for this <code>PickingEngine</code>.
      */
     Picker getPicker();
 
@@ -88,8 +85,7 @@ public interface PickingEngine extends Engine
      * SceneGraph}.
      * </p>
      * 
-     * @return The outstanding picks to be performed against this <code>PickingEngine</code>'s {@link com.se.simplicity.scenegraph.SceneGraph
-     * SceneGraph}.
+     * @return The outstanding picks to be performed against this <code>PickingEngine</code>'s <code>SceneGraph</code>.
      */
     List<Pick> getPicks();
 
@@ -154,20 +150,19 @@ public interface PickingEngine extends Engine
      * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
      * </p>
      * 
-     * @param newListener A {@link com.se.simplicity.picking.event.PickListener PickListener} that was to be invoked when a
-     * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} is picked.
+     * @param listener A <code>PickListener</code> that was to be invoked when a <code>SceneGraph</code> is picked.
      */
-    void removePickListener(PickListener newListener);
+    void removePickListener(PickListener listener);
 
     /**
      * <p>
      * Sets the viewpoint that will be adapted to create the picking viewpoint.
      * </p>
      * 
-     * @param newCamera The viewpoint that will be adapted to create the picking viewpoint. The {@link com.se.simplicity.rendering.Camera Camera}
+     * @param camera The viewpoint that will be adapted to create the picking viewpoint. The {@link com.se.simplicity.rendering.Camera Camera}
      * given will not be modified when creating the picking viewpoint.
      */
-    void setCamera(Camera newCamera);
+    void setCamera(Camera camera);
 
     /**
      * <p>
@@ -175,17 +170,17 @@ public interface PickingEngine extends Engine
      * <code>PickingEngine</code>.
      * </p>
      * 
-     * @param newPicker The {@link com.se.simplicity.picking.Picker Picker} that picks the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}
+     * @param picker The {@link com.se.simplicity.picking.Picker Picker} that picks the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}
      * for this <code>PickingEngine</code>.
      */
-    void setPicker(Picker newPicker);
+    void setPicker(Picker picker);
 
     /**
      * <p>
      * Sets the {@link com.se.simplicity.scene.Scene Scene} to be picked.
      * </p>
      * 
-     * @param newScene The <code>Scene</code> to be picked.
+     * @param scene The <code>Scene</code> to be picked.
      */
-    void setScene(Scene newScene);
+    void setScene(Scene scene);
 }
