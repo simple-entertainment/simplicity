@@ -9,43 +9,53 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef PICKLISTENER_H_
-#define PICKLISTENER_H_
+#ifndef SIMPLEMODELNODE_H_
+#define SIMPLEMODELNODE_H_
 
-#include "PickEvent.h"
+#include "ModelNode.h"
+#include "../SimpleNode.h"
 
 namespace simplicity
 {
     /**
      * <p>
-     * A listener for {@link simplicity::PickEvent PickEvent} events.
+     * A simple implementation of a {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode}.
      * </p>
      *
      * @author Gary Buyn
      */
-    class PickListener
+    class SimpleModelNode : public SimpleNode, public ModelNode
     {
         public:
             /**
              * <p>
-             * Disposes of an instance of <code>PickListener</code> (included to allow polymorphic deletion).
+             * Creates an instance of <code>SimpleModelNode</code>.
              * </p>
              */
-            virtual
-            ~PickListener()
-            {
-            }
+            SimpleModelNode();
 
             /**
              * <p>
-             * Processes a fired {@link simplicity::PickEvent PickEvent}.
+             * Disposes of an instance of <code>SimpleModelNode</code>.
              * </p>
-             *
-             * @param event The <code>PickEvent</code> to process.
              */
-            virtual void
-            scenePicked(const PickEvent event) = 0;
+            virtual
+            ~SimpleModelNode();
+
+            Model*
+            getModel();
+
+            void
+            setModel(Model* const model);
+
+        private:
+            /**
+             * <p>
+             * The {@link simplicity::Model Model} at this <code>SimpleModelNode</code>'s position and orientation.
+             * </p>
+             */
+            Model* fModel;
     };
 }
 
-#endif /* PICKLISTENER_H_ */
+#endif /* SIMPLEMODELNODE_H_ */

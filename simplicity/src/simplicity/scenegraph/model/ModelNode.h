@@ -9,47 +9,48 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef MODEL_H_
-#define MODEL_H_
+#ifndef MODELNODE_H_
+#define MODELNODE_H_
 
-#include "../vector/TranslationVectorf.h"
+#include "../Node.h"
+#include "../../model/Model.h"
 
 namespace simplicity
 {
     /**
      * <p>
-     * A visible element in a virtual universe.
+     * A {@link simplicity::Node Node} that contains a {@link simplicity::Model Model}.
      * </p>
      *
      * @author Gary Buyn
      */
-    class Model
+    class ModelNode : public Node
     {
         public:
             /**
              * <p>
-             * Disposes of an instance of <code>Model</code> (included to allow polymorphic deletion).
+             * Retrieves the {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
              * </p>
+             *
+             * @return The <code>Model</code> at this <code>ModelNode</code>'s position and orientation.
              */
-            virtual
-            ~Model()
-            {
-            }
+            virtual Model*
+            getModel() = 0;
 
             /**
              * <p>
-             * Retrieves the point at the center of this <code>Model</code>.
+             * Sets the {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
              * </p>
              *
              * <p>
-             * The caller must assume ownership of the returned <code>TranslationVectorf</code>.
+             * This <code>ModelNode</code> will assume ownership of the given <code>Model</code> and the previously held <code>Model</code> will be deleted.
              * </p>
              *
-             * @return The point at the center of this <code>Model</code>.
+             * @param model The <code>Model</code> at this <code>ModelNode</code>'s position and orientation.
              */
-            virtual TranslationVectorf*
-            getCenter() = 0;
+            virtual void
+            setModel(Model* const model) = 0;
     };
 }
 
-#endif /* MODEL_H_ */
+#endif /* MODELNODE_H_ */

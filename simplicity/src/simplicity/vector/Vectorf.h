@@ -28,6 +28,16 @@ namespace simplicity
         public:
             /**
              * <p>
+             * Disposes of an instance of <code>Vectorf</code> (included to allow polymorphic deletion).
+             * </p>
+             */
+            virtual
+            ~Vectorf()
+            {
+            }
+
+            /**
+             * <p>
              * Adds the <code>Vectorf</code> given to this <code>Vectorf</code>.
              * <p>
              *

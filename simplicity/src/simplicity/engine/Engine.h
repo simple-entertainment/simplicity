@@ -31,6 +31,16 @@ namespace simplicity
         public:
             /**
              * <p>
+             * Disposes of an instance of <code>Engine</code> (included to allow polymorphic deletion).
+             * </p>
+             */
+            virtual
+            ~Engine()
+            {
+            }
+
+            /**
+             * <p>
              * The number of milliseconds in a second.
              * </p>
              */

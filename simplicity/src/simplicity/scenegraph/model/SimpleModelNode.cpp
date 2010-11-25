@@ -9,31 +9,31 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ENGINEINPUT_H_
-#define ENGINEINPUT_H_
+#include "SimpleModelNode.h"
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * The information used by an {@link simplicity::Engine Engine} during an advancement.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class EngineInput
+    SimpleModelNode::SimpleModelNode() :
+        fModel(0)
     {
-        public:
-            /**
-             * <p>
-             * Disposes of an instance of <code>EngineInput</code> (included to allow polymorphic deletion).
-             * </p>
-             */
-            virtual
-            ~EngineInput()
-            {
-            }
-    };
-}
+    }
 
-#endif /* ENGINEINPUT_H_ */
+    SimpleModelNode::~SimpleModelNode()
+    {
+        delete fModel;
+    }
+
+    Model*
+    SimpleModelNode::getModel()
+    {
+        return (fModel);
+    }
+
+    void
+    SimpleModelNode::setModel(Model* const model)
+    {
+        delete fModel;
+
+        fModel = model;
+    }
+}

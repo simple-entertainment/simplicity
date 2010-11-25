@@ -42,6 +42,16 @@ namespace simplicity
         public:
             /**
              * <p>
+             * Disposes of an instance of <code>Renderer</code> (included to allow polymorphic deletion).
+             * </p>
+             */
+            virtual
+            ~Renderer()
+            {
+            }
+
+            /**
+             * <p>
              * Reverts the rendering environment.
              * </p>
              */

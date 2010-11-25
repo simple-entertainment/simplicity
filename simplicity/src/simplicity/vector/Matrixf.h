@@ -28,6 +28,16 @@ namespace simplicity
         public:
             /**
              * <p>
+             * Disposes of an instance of <code>Matrixf</code> (included to allow polymorphic deletion).
+             * </p>
+             */
+            virtual
+            ~Matrixf()
+            {
+            }
+
+            /**
+             * <p>
              * Retrieves the determinant of this <code>Matrixf</code>.
              * </p>
              *

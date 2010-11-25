@@ -33,6 +33,16 @@ namespace simplicity
         public:
             /**
              * <p>
+             * Disposes of an instance of <code>Scene</code> (included to allow polymorphic deletion).
+             * </p>
+             */
+            virtual
+            ~Scene()
+            {
+            }
+
+            /**
+             * <p>
              * Adds a {@link simplicity::Camera Camera}s that can be used to view this <code>Scene</code> from specific angles.
              * </p>
              *

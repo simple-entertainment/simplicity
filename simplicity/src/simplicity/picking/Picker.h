@@ -27,6 +27,16 @@ namespace simplicity
         public:
             /**
              * <p>
+             * Disposes of an instance of <code>Picker</code> (included to allow polymorphic deletion).
+             * </p>
+             */
+            virtual
+            ~Picker()
+            {
+            }
+
+            /**
+             * <p>
              * Reverts the picking environment.
              * </p>
              */

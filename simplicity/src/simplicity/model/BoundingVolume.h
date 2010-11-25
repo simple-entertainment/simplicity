@@ -33,6 +33,16 @@ namespace simplicity
         public:
             /**
              * <p>
+             * Disposes of an instance of <code>BoundingVolume</code> (included to allow polymorphic deletion).
+             * </p>
+             */
+            virtual
+            ~BoundingVolume()
+            {
+            }
+
+            /**
+             * <p>
              * Determines if this <code>BoundingVolume</code> intersects with the given <code>BoundingVolume</code>.
              * </p>
              *

@@ -33,6 +33,16 @@ namespace simplicity
         public:
             /**
              * <p>
+             * Disposes of an instance of <code>Light</code> (included to allow polymorphic deletion).
+             * </p>
+             */
+            virtual
+            ~Light()
+            {
+            }
+
+            /**
+             * <p>
              * Applies this <code>Light</code> to the rendering environment.
              * </p>
              */

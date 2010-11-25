@@ -31,6 +31,16 @@ namespace simplicity
         public:
             /**
              * <p>
+             * Disposes of an instance of <code>Camera</code> (included to allow polymorphic deletion).
+             * </p>
+             */
+            virtual
+            ~Camera()
+            {
+            }
+
+            /**
+             * <p>
              * Applies this <code>Camera</code> to the rendering environment.
              * </p>
              */
