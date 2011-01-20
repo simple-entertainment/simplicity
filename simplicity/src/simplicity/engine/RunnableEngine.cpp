@@ -9,10 +9,9 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
+#include <exception>
 #include <string>
 using namespace std;
-
-#include <boost/lexical_cast.hpp>
 
 #include <boost/date_time.hpp>
 #include <boost/thread.hpp>
@@ -78,11 +77,11 @@ namespace simplicity
             {
                 advance(NULL);
             }
-            catch (thread_interrupted& e)
+            catch (std::exception& e)
             {
                 // Interrupt the engine.
                 fInterrupted = true;
-                fLogger->error("Failed to advance the engine.", e);
+                fLogger->error("Failed to advance the engine.");
             }
 
             // Subtract the time taken to advance the engine from the time it needs to sleep for.
