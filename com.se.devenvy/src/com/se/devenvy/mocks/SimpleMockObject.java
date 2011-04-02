@@ -28,7 +28,7 @@ public class SimpleMockObject implements MockObject
      * The threshold of equality for number comparisons.
      * </p>
      */
-    private static double NUMBER_COMPARISON_THRESHOLD = 0.0001;
+    private static final double NUMBER_COMPARISON_THRESHOLD = 0.0001;
 
     /**
      * <p>
@@ -248,7 +248,6 @@ public class SimpleMockObject implements MockObject
      * 
      * @return True if the sets of parameters are equal, false otherwise.
      */
-    @SuppressWarnings("unchecked")
     private boolean parametersEqual(final Object[] parameterSetA, final Object[] parameterSetB)
     {
         boolean parameterSetANullEmpty = false;
@@ -288,7 +287,7 @@ public class SimpleMockObject implements MockObject
             // Compare Enum types.
             if (parameterSetA[index].getClass().isEnum() && parameterSetB[index].getClass().isEnum())
             {
-                if (((Enum) parameterSetA[index]) != ((Enum) parameterSetB[index]))
+                if (((Enum<?>) parameterSetA[index]) != ((Enum<?>) parameterSetB[index]))
                 {
                     return (false);
                 }
