@@ -299,6 +299,7 @@ public abstract class TcpClient implements Client
             if (e.getMessage().equals(SOCKET_CLOSED_MESSAGE))
             {
                 fLogger.debug("The connection to " + fSocket.getRemoteSocketAddress() + " was closed locally.");
+                dispose();
             }
             else
             {

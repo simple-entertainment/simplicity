@@ -38,10 +38,10 @@ public abstract class TcpServer implements Runnable, Server
 
     /**
      * <p>
-     * The threads that continually listen for data from individual {@link Client}s.
+     * The individual {@link Client}s this <code>TcpServer</code> is connected to.
      * </p>
      */
-    private Collection<Thread> fClientListenerThreads;
+    private Collection<Client> fClients;
 
     /**
      * <p>
@@ -68,28 +68,16 @@ public abstract class TcpServer implements Runnable, Server
     {
         fServerSocket = serverSocket;
 
-        fClientListenerThreads = new ArrayList<Thread>();
+        fClients = new ArrayList<Client>();
         fLogger = Logger.getLogger(getClass());
     }
 
     @Override
     public final void dispose() throws IOException
     {
-        for (Thread clientThread : fClientListenerThreads)
+        for (Client client : fClients)
         {
-            clientThread.interrupt();
-        }
-
-        try
-        {
-            for (Thread clientThread : fClientListenerThreads)
-            {
-                clientThread.join();
-            }
-        }
-        catch (InterruptedException e)
-        {
-            fLogger.error("Interrupted while waiting for a client listener to finish.", e);
+            client.dispose();
         }
 
         fServerSocket.close();
@@ -138,6 +126,7 @@ public abstract class TcpServer implements Runnable, Server
                     if (e.getMessage().equals(SOCKET_CLOSED_MESSAGE))
                     {
                         fLogger.debug("The connection accepter was closed.");
+                        dispose();
                     }
                     else
                     {
@@ -174,7 +163,7 @@ public abstract class TcpServer implements Runnable, Server
                 try
                 {
                     // While the connection to the client is open.
-                    while (client.isConnected() && !Thread.interrupted())
+                    while (client.isConnected())
                     {
                         client.receiveData();
                     }
@@ -187,6 +176,6 @@ public abstract class TcpServer implements Runnable, Server
         };
         clientThread.start();
 
-        fClientListenerThreads.add(clientThread);
+        fClients.add(client);
     }
 }
