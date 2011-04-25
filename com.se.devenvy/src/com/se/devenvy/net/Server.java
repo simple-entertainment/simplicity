@@ -9,36 +9,25 @@
 
     You should have received a copy of the GNU General Public License along with Dev Envy. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.se.devenvy.mocks;
+package com.se.devenvy.net;
+
+import java.io.IOException;
 
 /**
  * <p>
- * A method call that has been made to a {@link com.se.devenvy.mocks.MockObject MockObject}.
+ * Continually listens for new connections and continually listens for data on those connections in separate threads.
  * </p>
  * 
  * @author Gary Buyn
  */
-public class MethodCall
+public interface Server
 {
     /**
      * <p>
-     * The name of the method called.
+     * Stops listening for new connections and closes all existing connections.
      * </p>
+     * 
+     * @throws IOException Thrown if the <code>ServerSocket</code> closure fails.
      */
-    public String name;
-
-    /**
-     * <p>
-     * The parameters passed to the method.
-     * </p>
-     */
-    public Object[] parameters;
-
-    /**
-     * <p>
-     * Creates an instance of <code>MethodCall</code>.
-     * </p>
-     */
-    public MethodCall()
-    {}
+    void dispose() throws IOException;
 }
