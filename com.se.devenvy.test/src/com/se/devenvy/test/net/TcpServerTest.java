@@ -95,6 +95,7 @@ public class TcpServerTest
         expect(mockSocket.getRemoteSocketAddress()).andReturn(null).anyTimes();
         expect(mockSocket.getInputStream()).andReturn(mockInputStream).anyTimes();
         mockServerSocket.close();
+        mockSocket.close();
         replay(mockServerSocket);
 
         // Dictate expected results.
@@ -164,6 +165,7 @@ public class TcpServerTest
         // Dictate correct behaviour.
         expect(mockServerSocket.isClosed()).andReturn(false);
         expect(mockServerSocket.accept()).andThrow(new SocketException("Socket closed"));
+        mockServerSocket.close();
         expect(mockServerSocket.isClosed()).andReturn(true);
         replay(mockServerSocket);
 

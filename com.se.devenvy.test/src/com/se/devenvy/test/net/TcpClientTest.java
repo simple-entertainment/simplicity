@@ -239,14 +239,18 @@ public class TcpClientTest
         Socket mockSocket = createMock(Socket.class);
         InputStream mockInputStream = createMock(InputStream.class);
 
+        // Initialise test environment.
+        fTestObject = new MockTcpClient(mockSocket);
+
         // Dictate correct behaviour.
         expect(mockInputStream.read((byte[]) anyObject())).andThrow(new SocketException("Socket closed")).anyTimes();
         expect(mockSocket.getInputStream()).andReturn(mockInputStream).anyTimes();
         expect(mockSocket.getRemoteSocketAddress()).andReturn(null).anyTimes();
-        replay(mockInputStream, mockSocket);
+        replay(mockInputStream);
 
-        // Initialise test environment.
-        fTestObject = new MockTcpClient(mockSocket);
+        // Dictate expected results.
+        mockSocket.close();
+        replay(mockSocket);
 
         // Perform test.
         fTestObject.receiveData();
