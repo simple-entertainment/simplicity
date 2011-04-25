@@ -207,19 +207,27 @@ public abstract class TcpClient implements Client
      * </p>
      * 
      * @param data The data to compare against the 'heartbeat' data.
+     * @param dataLength The length of the data to compare against the 'heartbeat' data.
      * 
      * @return True if the given data represents a 'heartbeat' sent to this <code>Client</code>, false otherwise.
      */
-    private boolean isHeartbeat(final byte[] data)
+    private boolean isHeartbeat(final byte[] data, final int dataLength)
     {
         boolean heartbeat = true;
 
-        for (int index = 0; index < fHeartbeatData.length; index++)
+        if (dataLength != fHeartbeatData.length)
         {
-            if (data[index] != fHeartbeatData[index])
+            heartbeat = false;
+        }
+        else
+        {
+            for (int index = 0; index < fHeartbeatData.length; index++)
             {
-                heartbeat = false;
-                break;
+                if (data[index] != fHeartbeatData[index])
+                {
+                    heartbeat = false;
+                    break;
+                }
             }
         }
 
@@ -254,8 +262,9 @@ public abstract class TcpClient implements Client
      * </p>
      * 
      * @param data The data received.
+     * @param dataLength The length of the data received.
      */
-    protected abstract void onReceiveData(byte[] data);
+    protected abstract void onReceiveData(byte[] data, final int dataLength);
 
     @Override
     public void receiveData() throws IOException
@@ -269,18 +278,19 @@ public abstract class TcpClient implements Client
         try
         {
             // If the connection to the client was closed remotely.
-            if (fSocket.getInputStream().read(fData) == -1)
+            int dataLength = fSocket.getInputStream().read(fData);
+            if (dataLength == -1)
             {
                 fLogger.debug("The connection to " + fSocket.getRemoteSocketAddress() + " was closed remotely.");
                 dispose();
             }
-            else if (isHeartbeat(fData))
+            else if (isHeartbeat(fData, dataLength))
             {
                 fLogger.debug("Heartbeat received.");
             }
             else
             {
-                onReceiveData(fData);
+                onReceiveData(fData, dataLength);
             }
         }
         catch (SocketException e)
