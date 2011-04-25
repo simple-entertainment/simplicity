@@ -34,7 +34,7 @@ public abstract class TcpServer implements Runnable, Server
      * The message of a {@link java.net.SocketException SocketException} that signifies a {@link java.net.Socket Socket} has been closed.
      * </p>
      */
-    private static final String SOCKET_CLOSED_MESSAGE = "Socket is closed";
+    private static final String SOCKET_CLOSED_MESSAGE = "Socket closed";
 
     /**
      * <p>
