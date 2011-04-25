@@ -27,7 +27,7 @@ public class SleepingMockTcpClient extends TcpClient
     }
 
     @Override
-    protected void onReceiveData(final byte[] data)
+    protected void onReceiveData(final byte[] data, final int dataLength)
     {
         try
         {
