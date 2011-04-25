@@ -163,7 +163,7 @@ public class TcpServerTest
 
         // Dictate correct behaviour.
         expect(mockServerSocket.isClosed()).andReturn(false);
-        expect(mockServerSocket.accept()).andThrow(new SocketException("Socket is closed"));
+        expect(mockServerSocket.accept()).andThrow(new SocketException("Socket closed"));
         expect(mockServerSocket.isClosed()).andReturn(true);
         replay(mockServerSocket);
 
