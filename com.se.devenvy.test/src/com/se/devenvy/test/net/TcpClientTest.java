@@ -18,7 +18,6 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.makeThreadSafe;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
-
 import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayInputStream;
@@ -288,5 +287,99 @@ public class TcpClientTest
 
         // Perform test.
         fTestObject.receiveData();
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.devenvy.net.TcpClient#sendData() sendData()}.
+     * </p>
+     * 
+     * @throws IOException Thrown if an I/O error occurs.
+     */
+    @Test
+    public void sendData() throws IOException
+    {
+        // Create dependencies.
+        Socket mockSocket = createMock(Socket.class);
+        OutputStream mockOutputStream = createMock(OutputStream.class);
+
+        // Dictate correct behaviour.
+        expect(mockSocket.getOutputStream()).andReturn(mockOutputStream).anyTimes();
+        replay(mockSocket);
+
+        // Dictate expected results.
+        mockOutputStream.write((byte[]) anyObject());
+        replay(mockOutputStream);
+
+        // Initialise test environment.
+        fTestObject = new MockTcpClient(mockSocket);
+
+        // Perform test.
+        fTestObject.sendData("XYZ".getBytes());
+
+        // Verify test results.
+        verify(mockOutputStream);
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.devenvy.net.TcpClient#sendData() sendData()}.
+     * </p>
+     * 
+     * @throws IOException Thrown if an I/O error occurs.
+     */
+    @Test(expected = SocketException.class)
+    public void sendDataClosedLocally() throws IOException
+    {
+        // Create dependencies.
+        Socket mockSocket = createMock(Socket.class);
+        OutputStream mockOutputStream = createMock(OutputStream.class);
+
+        // Dictate correct behaviour.
+        expect(mockSocket.getOutputStream()).andReturn(mockOutputStream).anyTimes();
+        mockOutputStream.write((byte[]) anyObject());
+        expectLastCall().andThrow(new SocketException("Socket is closed")).anyTimes();
+        replay(mockSocket, mockOutputStream);
+
+        // Initialise test environment.
+        fTestObject = new MockTcpClient(mockSocket);
+
+        // Perform test.
+        fTestObject.sendData("XYZ".getBytes());
+    }
+
+    /**
+     * <p>
+     * Unit test the method {@link com.se.devenvy.net.TcpClient#sendData() sendData()}.
+     * </p>
+     * 
+     * @throws IOException Thrown if an I/O error occurs.
+     */
+    @Test
+    public void sendDataClosedRemotely() throws IOException
+    {
+        // Create dependencies.
+        Socket mockSocket = createMock(Socket.class);
+        OutputStream mockOutputStream = createMock(OutputStream.class);
+
+        // Dictate correct behaviour.
+        expect(mockSocket.getOutputStream()).andReturn(mockOutputStream).anyTimes();
+        mockOutputStream.write((byte[]) anyObject());
+        expectLastCall().andThrow(new SocketException("Broken pipe")).anyTimes();
+        expect(mockSocket.getRemoteSocketAddress()).andReturn(null).anyTimes();
+        replay(mockOutputStream);
+
+        // Dictate expected results.
+        mockSocket.close();
+        replay(mockSocket);
+
+        // Initialise test environment.
+        fTestObject = new MockTcpClient(mockSocket);
+
+        // Perform test.
+        fTestObject.sendData("XYZ".getBytes());
+
+        // Verify test results.
+        verify(mockSocket);
     }
 }
