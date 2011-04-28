@@ -76,6 +76,13 @@ public abstract class TcpClient implements Client
 
     /**
      * <p>
+     * The message of a {@link java.net.SocketException SocketException} that signifies a {@link java.net.Socket Socket} has been closed locally.
+     * </p>
+     */
+    private static final Object BROKEN_PIPE_MESSAGE = "Broken pipe";
+
+    /**
+     * <p>
      * The default data that is sent periodically to ensure the connection is still 'alive'.
      * </p>
      */
@@ -97,7 +104,7 @@ public abstract class TcpClient implements Client
 
     /**
      * <p>
-     * The message of a {@link java.net.SocketException SocketException} that signifies a {@link java.net.Socket Socket} has been closed.
+     * The message of a {@link java.net.SocketException SocketException} that signifies a {@link java.net.Socket Socket} has been closed remotely.
      * </p>
      */
     private static final String SOCKET_CLOSED_MESSAGE = "Socket closed";
@@ -299,20 +306,37 @@ public abstract class TcpClient implements Client
             if (e.getMessage().equals(SOCKET_CLOSED_MESSAGE))
             {
                 fLogger.debug("The connection to " + fSocket.getRemoteSocketAddress() + " was closed locally.");
-                dispose();
             }
             else
             {
-                dispose();
                 throw e;
             }
+
+            dispose();
         }
     }
 
     @Override
     public void sendData(final byte[] data) throws IOException
     {
-        fSocket.getOutputStream().write(data);
+        try
+        {
+            fSocket.getOutputStream().write(data);
+        }
+        catch (SocketException e)
+        {
+            // If the connection to the client was closed remotely.
+            if (e.getMessage().equals(BROKEN_PIPE_MESSAGE))
+            {
+                fLogger.debug("The connection to " + fSocket.getRemoteSocketAddress() + " was closed remotely.");
+            }
+            else
+            {
+                throw e;
+            }
+
+            dispose();
+        }
     }
 
     /**
@@ -324,8 +348,7 @@ public abstract class TcpClient implements Client
      */
     private void sendHeartbeat() throws IOException
     {
-        fSocket.getOutputStream().write(fHeartbeatData);
-        fLogger.debug("Heartbeat sent.");
+        sendData(fHeartbeatData);
     }
 
     @Override
