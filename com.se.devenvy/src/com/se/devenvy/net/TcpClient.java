@@ -107,7 +107,7 @@ public abstract class TcpClient implements Client
      * The message of a {@link java.net.SocketException SocketException} that signifies a {@link java.net.Socket Socket} has been closed remotely.
      * </p>
      */
-    private static final String SOCKET_CLOSED_MESSAGE = "Socket closed";
+    private static final String SOCKET_CLOSED_MESSAGE = "socket closed";
 
     /**
      * <p>
@@ -303,7 +303,7 @@ public abstract class TcpClient implements Client
         catch (SocketException e)
         {
             // If the connection to the client was closed locally.
-            if (e.getMessage().equals(SOCKET_CLOSED_MESSAGE))
+            if (e.getMessage().equalsIgnoreCase(SOCKET_CLOSED_MESSAGE))
             {
                 fLogger.debug("The connection to " + fSocket.getRemoteSocketAddress() + " was closed locally.");
             }
