@@ -83,9 +83,11 @@ public class TcpClientNetworkTest
     @Test(expected = SocketException.class)
     public void receiveClosedByReceiver() throws IOException
     {
+        // Initialise test environment.
         MockTcpClient client1 = new MockTcpClient(fSenderSocket);
         MockTcpClient client2 = new MockTcpClient(fReceiverSocket);
 
+        // Perform test - verify test results.
         client1.sendData("XYZ".getBytes());
         client2.dispose();
         client2.receiveData();
@@ -101,14 +103,17 @@ public class TcpClientNetworkTest
     @Test
     public void receiveClosedBySender() throws IOException
     {
+        // Initialise test environment.
         MockTcpClient client1 = new MockTcpClient(fSenderSocket);
         MockTcpClient client2 = new MockTcpClient(fReceiverSocket);
 
         assertTrue(client2.isConnected());
 
+        // Perform test.
         client1.dispose();
         client2.receiveData();
 
+        // Verify test results.
         assertFalse(client2.isConnected());
     }
 
@@ -122,12 +127,15 @@ public class TcpClientNetworkTest
     @Test
     public void sendAndReceive() throws IOException
     {
+        // Initialise test environment.
         MockTcpClient client1 = new MockTcpClient(fSenderSocket);
         MockTcpClient client2 = new MockTcpClient(fReceiverSocket);
 
+        // Perform test.
         client1.sendData("XYZ".getBytes());
         client2.receiveData();
 
+        // Verify test results.
         byte[] expected = new byte[1024];
         expected[0] = 'X';
         expected[1] = 'Y';
@@ -145,15 +153,18 @@ public class TcpClientNetworkTest
     @Test
     public void sendClosedByReceiver() throws IOException
     {
+        // Initialise test environment.
         MockTcpClient client1 = new MockTcpClient(fSenderSocket);
         MockTcpClient client2 = new MockTcpClient(fReceiverSocket);
 
         assertTrue(client1.isConnected());
 
+        // Perform test.
         client2.dispose();
         client1.sendData("XYZ".getBytes());
         client1.sendData("XYZ".getBytes());
 
+        // Verify test results.
         assertFalse(client1.isConnected());
     }
 
@@ -167,8 +178,10 @@ public class TcpClientNetworkTest
     @Test(expected = SocketException.class)
     public void sendClosedBySender() throws IOException
     {
+        // Initialise test environment.
         MockTcpClient client1 = new MockTcpClient(fSenderSocket);
 
+        // Perform test - verify test results.
         client1.dispose();
         client1.sendData("XYZ".getBytes());
     }
