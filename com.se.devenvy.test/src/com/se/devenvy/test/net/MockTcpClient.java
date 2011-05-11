@@ -41,6 +41,8 @@ public class MockTcpClient extends TcpClient
     public MockTcpClient(final Socket socket)
     {
         super(socket);
+
+        fReceivedData = null;
     }
 
     /**

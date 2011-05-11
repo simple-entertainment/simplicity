@@ -150,7 +150,7 @@ public class TcpServerTest
 
     /**
      * <p>
-     * Unit test the method {@link com.se.devenvy.net.TcpServer#run() run()} with the special condition that the {@link java.net.ServeSocket
+     * Unit test the method {@link com.se.devenvy.net.TcpServer#run() run()} with the special condition that the {@link java.net.ServerSocket
      * ServerSocket} closed during an attempt to accept a new connection.
      * </p>
      * 
