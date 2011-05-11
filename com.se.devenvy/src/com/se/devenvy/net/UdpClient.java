@@ -1,30 +1,20 @@
-/*
-    This file is part of Dev Envy.
-
-    Dev Envy is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
-    by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-    Dev Envy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License along with Dev Envy. If not, see <http://www.gnu.org/licenses/>.
- */
 package com.se.devenvy.net;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.net.SocketException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 import org.apache.log4j.Logger;
 
 /**
  * <p>
- * A client that can receive and send data to and from another <code>TcpClient</code> over an IP network using the TCP protocol.
+ * A client that can receive and send data to and from another <code>UdpClient</code> over an IP network using the UDP protocol.
  * </p>
  * 
  * @author Gary Buyn
  */
-public abstract class TcpClient implements Client
+public abstract class UdpClient implements Client
 {
     /**
      * <p>
@@ -57,11 +47,6 @@ public abstract class TcpClient implements Client
                     {
                         Thread.currentThread().interrupt();
                     }
-                    catch (IOException e)
-                    {
-                        fLogger.debug("The connection to " + fSocket.getRemoteSocketAddress() + " was closed remotely.");
-                        dispose();
-                    }
                 }
                 while (isConnected() && !Thread.interrupted());
             }
@@ -73,13 +58,6 @@ public abstract class TcpClient implements Client
             fLogger.debug("Heartbeat stopped.");
         }
     }
-
-    /**
-     * <p>
-     * The message of a {@link java.net.SocketException SocketException} that signifies a {@link java.net.Socket Socket} has been closed locally.
-     * </p>
-     */
-    private static final Object BROKEN_PIPE_MESSAGE = "Broken pipe";
 
     /**
      * <p>
@@ -104,17 +82,17 @@ public abstract class TcpClient implements Client
 
     /**
      * <p>
-     * The message of a {@link java.net.SocketException SocketException} that signifies a {@link java.net.Socket Socket} has been closed remotely.
-     * </p>
-     */
-    private static final String SOCKET_CLOSED_MESSAGE = "socket closed";
-
-    /**
-     * <p>
      * The bytes that have been received during the last call to {@link #receiveData()}.
      * </p>
      */
     private byte[] fData;
+
+    /**
+     * <p>
+     * The socket over which the UDP data is sent and received.
+     * </p>
+     */
+    private DatagramSocket fDatagramSocket;
 
     /**
      * <p>
@@ -153,34 +131,64 @@ public abstract class TcpClient implements Client
 
     /**
      * <p>
-     * The socket over which the TCP connection is made.
+     * The remote host with which this <code>UdpClient</code> is communicating.
      * </p>
      */
-    private Socket fSocket;
+    private InetAddress fRemoteHost;
 
     /**
      * <p>
-     * Creates an instance of <code>TcpClient</code>.
+     * The remote port with which this <code>UdpClient</code> is communicating.
+     * </p>
+     */
+    private int fRemotePort;
+
+    /**
+     * <p>
+     * Creates an instance of <code>UdpClient</code>.
      * </p>
      * 
-     * @param socket The socket over which the TCP connection is made.
+     * @param datagramSocket The socket over which the UDP data is sent and received.
      */
-    public TcpClient(final Socket socket)
+    public UdpClient(final DatagramSocket datagramSocket)
     {
-        fSocket = socket;
-
         fData = null;
+        fDatagramSocket = datagramSocket;
         fHeartbeatData = DEFAULT_HEARTBEAT_DATA;
         fHeartbeatInterval = DEFAULT_HEARTBEAT_INTERVAL;
         fHeartbeatThread = null;
         fLogger = Logger.getLogger(getClass());
         fMaxDataReceivable = DEFAULT_MAX_DATA_RECEIVABLE;
+        fRemoteHost = null;
+        fRemotePort = -1;
+    }
+
+    /**
+     * <p>
+     * Creates an instance of <code>UdpClient</code>.
+     * </p>
+     * 
+     * @param datagramSocket The socket over which the UDP data is sent and received.
+     * @param remoteHost The remote host with which this <code>UdpClient</code> is communicating.
+     * @param remotePort The remote port with which this <code>UdpClient</code> is communicating.
+     */
+    public UdpClient(final DatagramSocket datagramSocket, final InetAddress remoteHost, final int remotePort)
+    {
+        fData = null;
+        fDatagramSocket = datagramSocket;
+        fHeartbeatData = DEFAULT_HEARTBEAT_DATA;
+        fHeartbeatInterval = DEFAULT_HEARTBEAT_INTERVAL;
+        fHeartbeatThread = null;
+        fLogger = Logger.getLogger(getClass());
+        fMaxDataReceivable = DEFAULT_MAX_DATA_RECEIVABLE;
+        fRemoteHost = remoteHost;
+        fRemotePort = remotePort;
     }
 
     @Override
     public void dispose() throws IOException
     {
-        fSocket.close();
+        fDatagramSocket.close();
         maintainHeartbeat(false);
     }
 
@@ -205,24 +213,23 @@ public abstract class TcpClient implements Client
     @Override
     public boolean isConnected()
     {
-        return (fSocket.isConnected() && !fSocket.isClosed());
+        return (!fDatagramSocket.isClosed());
     }
 
     /**
      * <p>
-     * Determines whether the given data represents a 'heartbeat' sent to this <code>TcpClient</code>.
+     * Determines whether the given data represents a 'heartbeat' sent to this <code>UdpClient</code>.
      * </p>
      * 
-     * @param data The data to compare against the 'heartbeat' data.
-     * @param dataLength The length of the data to compare against the 'heartbeat' data.
+     * @param packet The data to compare against the 'heartbeat' data.
      * 
-     * @return True if the given data represents a 'heartbeat' sent to this <code>TcpClient</code>, false otherwise.
+     * @return True if the given data represents a 'heartbeat' sent to this <code>UdpClient</code>, false otherwise.
      */
-    private boolean isHeartbeat(final byte[] data, final int dataLength)
+    private boolean isHeartbeat(final DatagramPacket packet)
     {
         boolean heartbeat = true;
 
-        if (dataLength != fHeartbeatData.length)
+        if (packet.getLength() != fHeartbeatData.length)
         {
             heartbeat = false;
         }
@@ -230,7 +237,7 @@ public abstract class TcpClient implements Client
         {
             for (int index = 0; index < fHeartbeatData.length; index++)
             {
-                if (data[index] != fHeartbeatData[index])
+                if (packet.getData()[index] != fHeartbeatData[index])
                 {
                     heartbeat = false;
                     break;
@@ -268,10 +275,9 @@ public abstract class TcpClient implements Client
      * A callback that must be implemented by subclasses to process the data received.
      * </p>
      * 
-     * @param data The data received.
-     * @param dataLength The length of the data received.
+     * @param packet The data received.
      */
-    protected abstract void onReceiveData(byte[] data, final int dataLength);
+    protected abstract void onReceiveData(final DatagramPacket packet);
 
     @Override
     public void receiveData() throws IOException
@@ -284,35 +290,20 @@ public abstract class TcpClient implements Client
 
         try
         {
-            int dataLength = fSocket.getInputStream().read(fData);
+            DatagramPacket packet = new DatagramPacket(fData, fData.length);
+            fDatagramSocket.receive(packet);
 
-            // If the connection to the client was closed remotely.
-            if (dataLength == -1)
-            {
-                fLogger.debug("The connection to " + fSocket.getRemoteSocketAddress() + " was closed remotely.");
-                dispose();
-            }
-            else if (isHeartbeat(fData, dataLength))
+            if (isHeartbeat(packet))
             {
                 fLogger.debug("Heartbeat received.");
             }
             else
             {
-                onReceiveData(fData, dataLength);
+                onReceiveData(packet);
             }
         }
-        catch (SocketException e)
+        catch (IOException e)
         {
-            // If the connection to the client was closed locally.
-            if (e.getMessage().equalsIgnoreCase(SOCKET_CLOSED_MESSAGE))
-            {
-                fLogger.debug("The connection to " + fSocket.getRemoteSocketAddress() + " was closed locally.");
-            }
-            else
-            {
-                throw e;
-            }
-
             dispose();
         }
     }
@@ -322,20 +313,10 @@ public abstract class TcpClient implements Client
     {
         try
         {
-            fSocket.getOutputStream().write(data);
+            fDatagramSocket.send(new DatagramPacket(data, data.length, fRemoteHost, fRemotePort));
         }
-        catch (SocketException e)
+        catch (IOException e)
         {
-            // If the connection to the client was closed remotely.
-            if (e.getMessage().equals(BROKEN_PIPE_MESSAGE))
-            {
-                fLogger.debug("The connection to " + fSocket.getRemoteSocketAddress() + " was closed remotely.");
-            }
-            else
-            {
-                throw e;
-            }
-
             dispose();
         }
     }
@@ -345,7 +326,7 @@ public abstract class TcpClient implements Client
      * Sends a 'heartbeat'.
      * </p>
      * 
-     * @throws IOException Thrown if the underlying socket fails to send the 'heartbeat' data.
+     * @throws IOException Thrown if the underlying datagram socket fails to send the 'heartbeat' data.
      */
     private void sendHeartbeat() throws IOException
     {
@@ -369,4 +350,5 @@ public abstract class TcpClient implements Client
     {
         fMaxDataReceivable = maxDataReceivable;
     }
+
 }
