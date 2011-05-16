@@ -17,13 +17,6 @@ public class MockUdpClient extends UdpClient
 {
     /**
      * <p>
-     * The data received during the last call to {@link #receiveData()}.
-     * </p>
-     */
-    private DatagramPacket fReceivedData;
-
-    /**
-     * <p>
      * Creates an instance of <code>MockUdpClient</code>.
      * </p>
      * 
@@ -32,8 +25,6 @@ public class MockUdpClient extends UdpClient
     public MockUdpClient(final DatagramSocket datagramSocket)
     {
         super(datagramSocket);
-
-        fReceivedData = null;
     }
 
     /**
@@ -48,25 +39,9 @@ public class MockUdpClient extends UdpClient
     public MockUdpClient(final DatagramSocket datagramSocket, final InetAddress remoteHost, final int remotePort)
     {
         super(datagramSocket, remoteHost, remotePort);
-
-        fReceivedData = null;
-    }
-
-    /**
-     * <p>
-     * Retrieves the data received during the last call to {@link #receiveData()}.
-     * </p>
-     * 
-     * @return The data received during the last call to <code>receiveData()</code>.
-     */
-    public DatagramPacket getReceivedData()
-    {
-        return (fReceivedData);
     }
 
     @Override
     protected void onReceiveData(final DatagramPacket packet)
-    {
-        fReceivedData = packet;
-    }
+    {}
 }
