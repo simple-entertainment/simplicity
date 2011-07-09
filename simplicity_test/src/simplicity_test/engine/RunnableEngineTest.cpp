@@ -17,51 +17,50 @@ using namespace boost;
 
 namespace simplicity_test
 {
-    /**
-     * <p>
-     * Unit test the method {@link simplicity::RunnableEngine#run() run()}.
-     * </p>
-     */
-    TEST_F(RunnableEngineTest, run)
-    {
-        // Initialise test environment.
-        fTestObject.setPreferredFrequency(5);
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::RunnableEngine#run() run()}.
+   * </p>
+   */TEST_F(RunnableEngineTest, run)
+  {
+    // Initialise test environment.
+    fTestObject.setPreferredFrequency(5);
 
-        // Perform test.
-        thread engineThread(bind(&OverrunningMockRunnableEngine::run, &fTestObject));
+    // Perform test.
+    thread engineThread(bind(&OverrunningMockRunnableEngine::run, &fTestObject));
 
-        this_thread::sleep(posix_time::milliseconds(2500));
+    this_thread::sleep(posix_time::milliseconds(2500));
 
-        engineThread.interrupt();
-        engineThread.join();
+    engineThread.interrupt();
+    engineThread.join();
 
-        // Verify test results.
-        ASSERT_EQ(1, fTestObject.getMethodCallCountIgnoreParams("init"));
-        ASSERT_EQ(12, fTestObject.getMethodCallCountIgnoreParams("advance"));
-        ASSERT_EQ(1, fTestObject.getMethodCallCountIgnoreParams("destroy"));
-    }
+    // Verify test results.
+    ASSERT_EQ(1, fTestObject.getMethodCallCountIgnoreParams("init"));
+    ASSERT_EQ(12, fTestObject.getMethodCallCountIgnoreParams("advance"));
+    ASSERT_EQ(1, fTestObject.getMethodCallCountIgnoreParams("destroy"));
+  }
 
-    /**
-     * <p>
-     * Unit test the method {@link simplicity::RunnableEngine#run() run()} with the special condition that it runs longer than is allowed
-     * by its preferred frequency.
-     * </p>
-     */
-    TEST_F(RunnableEngineTest, runOverrunFrequency)
-    {
-        // Initialise test environment.
-        fTestObject.setPreferredFrequency(5);
-        fTestObject.setOverrunIndex(2);
+/**
+ * <p>
+ * Unit test the method {@link simplicity::RunnableEngine#run() run()} with the special condition that it runs longer than is allowed
+ * by its preferred frequency.
+ * </p>
+ */
+TEST_F(RunnableEngineTest, runOverrunFrequency)
+  {
+    // Initialise test environment.
+    fTestObject.setPreferredFrequency(5);
+    fTestObject.setOverrunIndex(2);
 
-        // Perform test.
-        thread engineThread(bind(&OverrunningMockRunnableEngine::run, &fTestObject));
+    // Perform test.
+    thread engineThread(bind(&OverrunningMockRunnableEngine::run, &fTestObject));
 
-        this_thread::sleep(posix_time::milliseconds(2500));
+    this_thread::sleep(posix_time::milliseconds(2500));
 
-        engineThread.interrupt();
-        engineThread.join();
+    engineThread.interrupt();
+    engineThread.join();
 
-        // Verify test results.
-        ASSERT_EQ(12, fTestObject.getMethodCallCountIgnoreParams("advance"));
-    }
+    // Verify test results.
+    ASSERT_EQ(12, fTestObject.getMethodCallCountIgnoreParams("advance"));
+  }
 }

@@ -19,23 +19,23 @@ using namespace simplicity;
 
 namespace simplicity_test
 {
-    /**
-     * <p>
-     * A mock implementation of {@link simplicity::Engine Engine}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class MockEngine : public Engine
-    {
-        public:
-            MOCK_METHOD1(advance, EngineInput*(EngineInput* const input));
-            MOCK_METHOD0(destroy, void());
-            MOCK_METHOD0(getPreferredFrequency, int());
-            MOCK_METHOD0(init, void());
-            MOCK_METHOD0(reset, void());
-            MOCK_METHOD1(setPreferredFrequency, void(const int preferredFrequency));
-    };
+  /**
+   * <p>
+   * A mock implementation of {@link simplicity::Engine Engine}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class MockEngine : public Engine
+  {
+    public:
+      MOCK_METHOD1(advance, EngineInput *(EngineInput const * const input));
+      MOCK_METHOD0(destroy, void());
+      MOCK_CONST_METHOD0(getPreferredFrequency, int());
+      MOCK_METHOD0(init, void());
+      MOCK_METHOD0(reset, void());
+      MOCK_METHOD1(setPreferredFrequency, void(int const preferredFrequency));
+  };
 }
 
 #endif /* MOCKENGINE_H_ */

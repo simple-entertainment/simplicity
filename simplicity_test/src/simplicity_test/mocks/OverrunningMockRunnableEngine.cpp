@@ -16,108 +16,109 @@ using namespace boost;
 
 namespace simplicity_test
 {
-    Category* OverrunningMockRunnableEngine::fLogger = &Category::getInstance("simplicity::RunnableEngine");
+  Category * OverrunningMockRunnableEngine::fLogger = &Category::getInstance("simplicity::RunnableEngine");
 
-    OverrunningMockRunnableEngine::OverrunningMockRunnableEngine() :
-        fAdvanceIndex(0), fMockObject(), fOverrunIndex(-1)
-    {
-    }
+  OverrunningMockRunnableEngine::OverrunningMockRunnableEngine() :
+    fAdvanceIndex(0), fMockObject(), fOverrunIndex(-1)
+  {
+  }
 
-    OverrunningMockRunnableEngine::~OverrunningMockRunnableEngine()
-    {
-    }
+  OverrunningMockRunnableEngine::~OverrunningMockRunnableEngine()
+  {
+  }
 
-    EngineInput*
-    OverrunningMockRunnableEngine::advance(EngineInput* const input)
-    {
-        fMockObject.addMethodCall("advance", vector<any> ());
+  EngineInput *
+  OverrunningMockRunnableEngine::advance(EngineInput const * const input)
+  {
+    fMockObject.addMethodCall("advance", vector<any> ());
 
-        if (++fAdvanceIndex == fOverrunIndex)
-        {
-            try
-            {
-                this_thread::sleep(posix_time::milliseconds(MILLISECONDS_IN_A_SECOND / getPreferredFrequency() * FRACTION_OF_FREQUENCY_TO_WAIT));
-            }
-            catch (thread_interrupted& e)
-            {
-                fLogger->error("The engine was interrupted while advancing.");
-            }
-        }
+    if (++fAdvanceIndex == fOverrunIndex)
+      {
+        try
+          {
+            this_thread::sleep(
+                posix_time::milliseconds(MILLISECONDS_IN_A_SECOND / getPreferredFrequency() * FRACTION_OF_FREQUENCY_TO_WAIT));
+          }
+        catch (thread_interrupted& e)
+          {
+            fLogger->error("The engine was interrupted while advancing.");
+          }
+      }
 
-        return (NULL);
-    }
+    return (NULL);
+  }
 
-    void
-    OverrunningMockRunnableEngine::destroy()
-    {
-        fMockObject.addMethodCall("destroy", vector<any> ());
-    }
+  void
+  OverrunningMockRunnableEngine::destroy()
+  {
+    fMockObject.addMethodCall("destroy", vector<any> ());
+  }
 
-    optional<MethodCall>
-    OverrunningMockRunnableEngine::getMethodCall(const int callIndex, const string& name, const vector<any>& parameters)
-    {
-        return (fMockObject.getMethodCall(callIndex, name, parameters));
-    }
+  optional<MethodCall>
+  OverrunningMockRunnableEngine::getMethodCall(int const callIndex, string const & name, vector<any> const & parameters) const
+  {
+    return (fMockObject.getMethodCall(callIndex, name, parameters));
+  }
 
-    int
-    OverrunningMockRunnableEngine::getMethodCallCount(const string& name, const vector<any>& parameters)
-    {
-        return (fMockObject.getMethodCallCount(name, parameters));
-    }
+  int
+  OverrunningMockRunnableEngine::getMethodCallCount(string const & name, vector<any> const & parameters) const
+  {
+    return (fMockObject.getMethodCallCount(name, parameters));
+  }
 
-    int
-    OverrunningMockRunnableEngine::getMethodCallCountIgnoreParams(const string& name)
-    {
-        return (fMockObject.getMethodCallCountIgnoreParams(name));
-    }
+  int
+  OverrunningMockRunnableEngine::getMethodCallCountIgnoreParams(string const & name) const
+  {
+    return (fMockObject.getMethodCallCountIgnoreParams(name));
+  }
 
-    optional<MethodCall>
-    OverrunningMockRunnableEngine::getMethodCallIgnoreParams(const int callIndex, const string& name)
-    {
-        return (fMockObject.getMethodCallIgnoreParams(callIndex, name));
-    }
+  optional<MethodCall>
+  OverrunningMockRunnableEngine::getMethodCallIgnoreParams(int const callIndex, string const & name) const
+  {
+    return (fMockObject.getMethodCallIgnoreParams(callIndex, name));
+  }
 
-    bool
-    OverrunningMockRunnableEngine::methodCallOrderCheck(const int beforeCallIndex, const string& beforeMethodName,
-            const vector<any>& beforeMethodParameters, const int afterCallIndex, const string& afterMethodName,
-            const vector<any>& afterMethodParameters)
-    {
-        return (fMockObject.methodCallOrderCheck(beforeCallIndex, beforeMethodName, beforeMethodParameters, afterCallIndex, afterMethodName,
-                afterMethodParameters));
-    }
+  bool
+  OverrunningMockRunnableEngine::methodCallOrderCheck(int const beforeCallIndex, string const & beforeMethodName,
+      vector<any> const & beforeMethodParameters, int const afterCallIndex, string const & afterMethodName,
+      vector<any> const & afterMethodParameters) const
+  {
+    return (fMockObject.methodCallOrderCheck(beforeCallIndex, beforeMethodName, beforeMethodParameters, afterCallIndex,
+        afterMethodName, afterMethodParameters));
+  }
 
-    bool
-    OverrunningMockRunnableEngine::methodCallOrderCheckIgnoreParams(const int beforeCallIndex, const string& beforeMethodName,
-            const int afterCallIndex, const string& afterMethodName)
-    {
-        return (fMockObject.methodCallOrderCheckIgnoreParams(beforeCallIndex, beforeMethodName, afterCallIndex, afterMethodName));
-    }
+  bool
+  OverrunningMockRunnableEngine::methodCallOrderCheckIgnoreParams(int const beforeCallIndex, string const & beforeMethodName,
+      int const afterCallIndex, string const & afterMethodName) const
+  {
+    return (fMockObject.methodCallOrderCheckIgnoreParams(beforeCallIndex, beforeMethodName, afterCallIndex, afterMethodName));
+  }
 
-    int
-    OverrunningMockRunnableEngine::getOverrunIndex()
-    {
-        return (fOverrunIndex);
-    }
+  int
+  OverrunningMockRunnableEngine::getOverrunIndex() const
+  {
+    return (fOverrunIndex);
+  }
 
-    void
-    OverrunningMockRunnableEngine::initInternal()
-    {
-        fMockObject.addMethodCall("init", vector<any> ());
+  void
+  OverrunningMockRunnableEngine::initInternal()
+  {
+    fMockObject.addMethodCall("init", vector<any> ());
 
-        RunnableEngine::initInternal();
-    }
+    RunnableEngine::initInternal();
+  }
 
-    void
-    OverrunningMockRunnableEngine::reset()
-    {
-        fMockObject.addMethodCall("reset", vector<any> ());
+  void
+  OverrunningMockRunnableEngine::reset()
+  {
+    fMockObject.addMethodCall("reset", vector<any> ());
 
-        fMockObject.reset();
-    }
+    fMockObject.reset();
+  }
 
-    void
-    OverrunningMockRunnableEngine::setOverrunIndex(const int overrunIndex)
-    {
-        fOverrunIndex = overrunIndex;
-    }
+  void
+  OverrunningMockRunnableEngine::setOverrunIndex(int const overrunIndex)
+  {
+    fOverrunIndex = overrunIndex;
+  }
 }

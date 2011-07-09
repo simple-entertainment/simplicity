@@ -19,21 +19,21 @@ using namespace testing;
 
 namespace simplicity_test
 {
-    /**
-     * <p>
-     * Unit tests for the class {@link simplicity::RunnableEngine RunnableEngine}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class RunnableEngineTest : public Test
-    {
-        protected:
-            /**
-             * An instance of the class being unit tested.
-             */
-            OverrunningMockRunnableEngine fTestObject;
-    };
+  /**
+   * <p>
+   * Unit tests for the class {@link simplicity::RunnableEngine RunnableEngine}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class RunnableEngineTest : public Test
+  {
+    protected:
+      /**
+       * An instance of the class being unit tested.
+       */
+      OverrunningMockRunnableEngine fTestObject;
+  };
 }
 
 #endif /* RUNNABLEENGINETEST_H_ */

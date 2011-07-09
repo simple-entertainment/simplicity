@@ -17,16 +17,16 @@ using namespace simplicity;
 
 namespace simplicity_test
 {
-    /**
-     * <p>
-     * A mock implementation of {@link simplicity::EngineInput EngineInput}
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class MockEngineInput : public EngineInput
-    {
-    };
+  /**
+   * <p>
+   * A mock implementation of {@link simplicity::EngineInput EngineInput}
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class MockEngineInput : public EngineInput
+  {
+  };
 }
 
 #endif /* MOCKENGINEINPUT_H_ */
