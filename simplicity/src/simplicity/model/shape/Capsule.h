@@ -16,101 +16,101 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A capsule-shaped {@link simplicity::Model Model}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class Capsule : public Shape
-    {
-        public:
-            /**
-             * <p>
-             * Creates an instance of <code>Capsule</code>.
-             * </p>
-             */
-            Capsule();
+  /**
+   * <p>
+   * A capsule-shaped {@link simplicity::Model Model}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class Capsule : public Shape
+  {
+    public:
+      /**
+       * <p>
+       * Creates an instance of <code>Capsule</code>.
+       * </p>
+       */
+      Capsule();
 
-            /**
-             * <p>
-             * Disposes of an instance of <code>Capsule</code>.
-             * </p>
-             */
-            ~Capsule();
+      /**
+       * <p>
+       * Disposes of an instance of <code>Capsule</code>.
+       * </p>
+       */
+      ~Capsule();
 
-            TranslationVectorf*
-            getCenter();
+      TranslationVector<float> *
+      getCenter() const;
 
-            RGBColourVectorf*
-            getColour();
+      RGBColourVector<float> *
+      getColour() const;
 
-            /**
-             * <p>
-             * Retrieves the length. The default is 1.0.
-             * </p>
-             *
-             * @return The length.
-             */
-            float
-            getLength();
+      /**
+       * <p>
+       * Retrieves the length. The default is 1.0.
+       * </p>
+       *
+       * @return The length.
+       */
+      float
+      getLength() const;
 
-            /**
-             * <p>
-             * Retrieves the radius. The default is 1.0.
-             * </p>
-             *
-             * @return The radius.
-             */
-            float
-            getRadius();
+      /**
+       * <p>
+       * Retrieves the radius. The default is 1.0.
+       * </p>
+       *
+       * @return The radius.
+       */
+      float
+      getRadius() const;
 
-            void
-            setColour(RGBColourVectorf* const colour);
+      void
+      setColour(RGBColourVector<float> * const colour);
 
-            /**
-             * <p>
-             * Sets the length. The default is 1.0.
-             * </p>
-             *
-             * @param length The length.
-             */
-            void
-            setLength(const float length);
+      /**
+       * <p>
+       * Sets the length. The default is 1.0.
+       * </p>
+       *
+       * @param length The length.
+       */
+      void
+      setLength(float const length);
 
-            /**
-             * <p>
-             * Sets the radius. The default is 1.0.
-             * </p>
-             *
-             * @param radius The radius.
-             */
-            void
-            setRadius(const float radius);
+      /**
+       * <p>
+       * Sets the radius. The default is 1.0.
+       * </p>
+       *
+       * @param radius The radius.
+       */
+      void
+      setRadius(float const radius);
 
-        private:
-            /**
-             * <p>
-             * The colour to render this <code>Capsule</code> as.
-             * </p>
-             */
-            RGBColourVectorf* fColour;
+    private:
+      /**
+       * <p>
+       * The colour to render this <code>Capsule</code> as.
+       * </p>
+       */
+      RGBColourVector<float> * fColour;
 
-            /**
-             * <p>
-             * The length.
-             * </p>
-             */
-            float fLength;
+      /**
+       * <p>
+       * The length.
+       * </p>
+       */
+      float fLength;
 
-            /**
-             * <p>
-             * The radius.
-             * </p>
-             */
-            float fRadius;
-    };
+      /**
+       * <p>
+       * The radius.
+       * </p>
+       */
+      float fRadius;
+  };
 }
 
 #endif /* CAPSULE_H_ */

@@ -20,40 +20,43 @@ using namespace simplicity;
 
 namespace simplicity_test
 {
-    /**
-     * <p>
-     * Unit tests for the class {@link simplicity::VectorVG VectorVG}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class VectorVGTest : public Test
-    {
-        protected:
-            /**
-             * An instance of the class being unit tested.
-             */
-            VectorVG fTestObject;
+  /**
+   * <p>
+   * Unit tests for the class {@link simplicity::VectorVG VectorVG}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class VectorVGTest : public Test
+  {
+    protected:
+      /**
+       * An instance of the class being unit tested.
+       */
+      VectorVG fTestObject;
 
-            /**
-             * <p>
-             * Setup to perform before each unit test.
-             * </p>
-             */
-            void
-            SetUp()
-            {
-                float colours[12] = {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f};
-                vector<float>* coloursVector = new vector<float> (colours, colours + 12);
-                fTestObject.setColours(coloursVector);
-                float normals[12] = {-0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f};
-                vector<float>* normalsVector = new vector<float> (normals, normals + 12);
-                fTestObject.setNormals(normalsVector);
-                float vertices[12] = {-1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f};
-                vector<float>* verticesVector = new vector<float> (vertices, vertices + 12);
-                fTestObject.setVertices(verticesVector);
-            }
-    };
+      /**
+       * <p>
+       * Setup to perform before each unit test.
+       * </p>
+       */
+      void
+      SetUp()
+      {
+        float colours[12] =
+          { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+        vector<float> coloursVector(colours, colours + 12);
+        fTestObject.setColours(coloursVector);
+        float normals[12] =
+          { -0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f };
+        vector<float> normalsVector(normals, normals + 12);
+        fTestObject.setNormals(normalsVector);
+        float vertices[12] =
+          { -1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f };
+        vector<float> verticesVector(vertices, vertices + 12);
+        fTestObject.setVertices(verticesVector);
+      }
+  };
 }
 
 #endif /* VECTORVGTEST_H_ */

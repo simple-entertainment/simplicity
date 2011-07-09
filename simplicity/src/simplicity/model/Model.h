@@ -12,44 +12,44 @@
 #ifndef MODEL_H_
 #define MODEL_H_
 
-#include "../vector/TranslationVectorf.h"
+#include "../vector/TranslationVector.h"
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A visible element in a virtual universe.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class Model
-    {
-        public:
-            /**
-             * <p>
-             * Disposes of an instance of <code>Model</code> (included to allow polymorphic deletion).
-             * </p>
-             */
-            virtual
-            ~Model()
-            {
-            }
+  /**
+   * <p>
+   * A visible element in a virtual universe.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class Model
+  {
+    public:
+      /**
+       * <p>
+       * Disposes of an instance of <code>Model</code> (included to allow polymorphic deletion).
+       * </p>
+       */
+      virtual
+      ~Model()
+      {
+      }
 
-            /**
-             * <p>
-             * Retrieves the point at the center of this <code>Model</code>.
-             * </p>
-             *
-             * <p>
-             * The caller must assume ownership of the returned <code>TranslationVectorf</code>.
-             * </p>
-             *
-             * @return The point at the center of this <code>Model</code>.
-             */
-            virtual TranslationVectorf*
-            getCenter() = 0;
-    };
+      /**
+       * <p>
+       * Retrieves the point at the center of this <code>Model</code>.
+       * </p>
+       *
+       * <p>
+       * The caller must assume ownership of the returned <code>TranslationVector</code>.
+       * </p>
+       *
+       * @return The point at the center of this <code>Model</code>.
+       */
+      virtual TranslationVector<float> *
+      getCenter() const = 0;
+  };
 }
 
 #endif /* MODEL_H_ */

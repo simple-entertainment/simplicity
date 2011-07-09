@@ -9,61 +9,61 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../../vector/SimpleRGBColourVectorf4.h"
-#include "../../vector/SimpleTranslationVectorf4.h"
+#include "../../vector/SimpleRGBColourVector4.h"
+#include "../../vector/SimpleTranslationVector4.h"
 #include "Capsule.h"
 
 namespace simplicity
 {
-    Capsule::Capsule() :
-        fColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 1.0f)), fLength(1.0f), fRadius(1.0f)
-    {
-    }
+  Capsule::Capsule() :
+    fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)), fLength(1.0f), fRadius(1.0f)
+  {
+  }
 
-    Capsule::~Capsule()
-    {
-        delete fColour;
-    }
+  Capsule::~Capsule()
+  {
+    delete fColour;
+  }
 
-    TranslationVectorf*
-    Capsule::getCenter()
-    {
-        return (new SimpleTranslationVectorf4());
-    }
+  TranslationVector<float> *
+  Capsule::getCenter() const
+  {
+    return (new SimpleTranslationVector4<float> ());
+  }
 
-    RGBColourVectorf*
-    Capsule::getColour()
-    {
-        return (fColour);
-    }
+  RGBColourVector<float> *
+  Capsule::getColour() const
+  {
+    return (fColour);
+  }
 
-    float
-    Capsule::getLength()
-    {
-        return (fLength);
-    }
+  float
+  Capsule::getLength() const
+  {
+    return (fLength);
+  }
 
-    float
-    Capsule::getRadius()
-    {
-        return (fRadius);
-    }
+  float
+  Capsule::getRadius() const
+  {
+    return (fRadius);
+  }
 
-    void
-    Capsule::setColour(RGBColourVectorf* const colour)
-    {
-        fColour = colour;
-    }
+  void
+  Capsule::setColour(RGBColourVector<float> * const colour)
+  {
+    fColour = colour;
+  }
 
-    void
-    Capsule::setLength(const float length)
-    {
-        fLength = length;
-    }
+  void
+  Capsule::setLength(float const length)
+  {
+    fLength = length;
+  }
 
-    void
-    Capsule::setRadius(const float radius)
-    {
-        fRadius = radius;
-    }
+  void
+  Capsule::setRadius(float const radius)
+  {
+    fRadius = radius;
+  }
 }

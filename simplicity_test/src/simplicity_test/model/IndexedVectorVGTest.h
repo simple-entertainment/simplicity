@@ -21,36 +21,40 @@ using namespace simplicity;
 namespace simplicity_test
 {
 
-    class IndexedVectorVGTest : public Test
-    {
-        protected:
-            /**
-             * An instance of the class being unit tested.
-             */
-            IndexedVectorVG fTestObject;
+  class IndexedVectorVGTest : public Test
+  {
+    protected:
+      /**
+       * An instance of the class being unit tested.
+       */
+      IndexedVectorVG fTestObject;
 
-            /**
-             * <p>
-             * Setup to perform before each unit test.
-             * </p>
-             */
-            void
-            SetUp()
-            {
-                float colours[12] = {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f};
-                vector<float>* coloursVector = new vector<float> (colours, colours + 12);
-                fTestObject.setColours(coloursVector);
-                float normals[12] = {-0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f};
-                vector<float>* normalsVector = new vector<float> (normals, normals + 12);
-                fTestObject.setNormals(normalsVector);
-                float vertices[12] = {-1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f};
-                vector<float>* verticesVector = new vector<float> (vertices, vertices + 12);
-                fTestObject.setVertices(verticesVector);
-                int indices[4] = {0, 1, 2, 3};
-                vector<int>* indicesVector = new vector<int> (indices, indices + 4);
-                fTestObject.setIndices(indicesVector);
-            }
-    };
+      /**
+       * <p>
+       * Setup to perform before each unit test.
+       * </p>
+       */
+      void
+      SetUp()
+      {
+        float colours[12] =
+          { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+        vector<float> coloursVector(colours, colours + 12);
+        fTestObject.setColours(coloursVector);
+        float normals[12] =
+          { -0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f };
+        vector<float> normalsVector(normals, normals + 12);
+        fTestObject.setNormals(normalsVector);
+        float vertices[12] =
+          { -1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f };
+        vector<float> verticesVector(vertices, vertices + 12);
+        fTestObject.setVertices(verticesVector);
+        int indices[4] =
+          { 0, 1, 2, 3 };
+        vector<int> indicesVector(indices, indices + 4);
+        fTestObject.setIndices(indicesVector);
+      }
+  };
 
 }
 

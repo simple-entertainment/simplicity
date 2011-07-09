@@ -15,215 +15,215 @@
 #include <vector>
 using namespace std;
 
-#include "../vector/TranslationVectorf.h"
+#include "../vector/TranslationVector.h"
 #include "VertexGroup.h"
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A {@link simplicity::VertexGroup VertexGroup} that contains its vertices in vectors.
-     * </p>
-     *
-     * <p>
-     * Three separate vectors are used to store the information for the vertices. One for the coordinates, one for the colours and one for the surface
-     * normals.
-     * </p>
-     *
-     * <p>
-     * Each vertex is stored as three consecutive values in each vector as follows:
-     * </p>
-     *
-     * <pre>
-     * coordinates = {x1, y1, z1, x2, y2, z2, x3, y3, z3,..}
-     * colours = {r1, g1, b1, r2, g2, b2, r3, g3, b3,..}
-     * surface normals = {x1, y1, z1, x2, y2, z2, x3, y3, z3,..}
-     * </pre>
-     *
-     * <p>
-     * For all the vectors the numbers show which vertex the value relates to. For coordinates, the letters x, y and z show which axis the value relates
-     * to. For colours the letters r, g and b show which component of the RGB colour model the value relates to. For surface normals the letters x, y and
-     * z show which axis the value relates to.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class VectorVG : public VertexGroup
-    {
-        public:
-            /**
-             * <p>
-             * Creates an instance of <code>VectorVG</code>.
-             * </p>
-             */
-            VectorVG();
+  /**
+   * <p>
+   * A {@link simplicity::VertexGroup VertexGroup} that contains its vertices in vectors.
+   * </p>
+   *
+   * <p>
+   * Three separate vectors are used to store the information for the vertices. One for the coordinates, one for the colours and one for the surface
+   * normals.
+   * </p>
+   *
+   * <p>
+   * Each vertex is stored as three consecutive values in each vector as follows:
+   * </p>
+   *
+   * <pre>
+   * coordinates = {x1, y1, z1, x2, y2, z2, x3, y3, z3,..}
+   * colours = {r1, g1, b1, r2, g2, b2, r3, g3, b3,..}
+   * surface normals = {x1, y1, z1, x2, y2, z2, x3, y3, z3,..}
+   * </pre>
+   *
+   * <p>
+   * For all the vectors the numbers show which vertex the value relates to. For coordinates, the letters x, y and z show which axis the value relates
+   * to. For colours the letters r, g and b show which component of the RGB colour model the value relates to. For surface normals the letters x, y and
+   * z show which axis the value relates to.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class VectorVG : public VertexGroup
+  {
+    public:
+      /**
+       * <p>
+       * Creates an instance of <code>VectorVG</code>.
+       * </p>
+       */
+      VectorVG();
 
-            /**
-             * <p>
-             * Disposes of an instance of <code>VectorVG</code>.
-             * </p>
-             */
-            virtual
-            ~VectorVG();
+      /**
+       * <p>
+       * Disposes of an instance of <code>VectorVG</code>.
+       * </p>
+       */
+      virtual
+      ~VectorVG();
 
-            VertexGroup*
-            createEdgeSubsetVG(const int index);
+      VertexGroup *
+      createEdgeSubsetVG(int const index);
 
-            VertexGroup*
-            createFaceSubsetVG(const int index);
+      VertexGroup *
+      createFaceSubsetVG(int const index);
 
-            VertexGroup*
-            createSubsetVG(const int index, const int length);
+      VertexGroup *
+      createSubsetVG(int const index, int const length);
 
-            VertexGroup*
-            createVertexSubsetVG(const int index);
+      VertexGroup *
+      createVertexSubsetVG(int const index);
 
-            TranslationVectorf*
-            getCenter();
+      TranslationVector<float> *
+      getCenter() const;
 
-            /**
-             * <p>
-             * Retrieves the colours of all the vertices in this <code>VectorVG</code>.
-             * </p>
-             *
-             * @return The colours of all the vertices in this <code>VectorVG</code>.
-             */
-            vector<float>*
-            getColours();
+      /**
+       * <p>
+       * Retrieves the colours of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       *
+       * @return The colours of all the vertices in this <code>VectorVG</code>.
+       */
+      vector<float> &
+      getColours();
 
-            int
-            getIndexWithinParent();
+      int
+      getIndexWithinParent() const;
 
-            /**
-             * <p>
-             * Retrieves the surface normals of all the vertices in this <code>VectorVG</code>.
-             * </p>
-             *
-             * @return The surface normals of all the vertices in this <code>VectorVG</code>.
-             */
-            vector<float>*
-            getNormals();
+      /**
+       * <p>
+       * Retrieves the surface normals of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       *
+       * @return The surface normals of all the vertices in this <code>VectorVG</code>.
+       */
+      vector<float> &
+      getNormals();
 
-            VertexGroup*
-            getParent();
+      VertexGroup *
+      getParent() const;
 
-            int
-            getVertexCount();
+      int
+      getVertexCount() const;
 
-            /**
-             * <p>
-             * Retrieves the coordinates of all the vertices in this <code>VectorVG</code>.
-             * </p>
-             *
-             * @return The coordinates of all the vertices in this <code>VectorVG</code>.
-             */
-            vector<float>*
-            getVertices();
+      /**
+       * <p>
+       * Retrieves the coordinates of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       *
+       * @return The coordinates of all the vertices in this <code>VectorVG</code>.
+       */
+      vector<float> &
+      getVertices();
 
-            bool
-            isSubset();
+      bool
+      isSubset() const;
 
-            void
-            mergeWithParent() throw (SEInvalidOperationException);
+      void
+      mergeWithParent() const throw (SEInvalidOperationException);
 
-            /**
-             * <p>
-             * Sets the colours of all the vertices in this <code>VectorVG</code>.
-             * </p>
-             *
-             * <p>
-             * This <code>VectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
-             * </p>
-             *
-             * @param colours The colours of all the vertices in this <code>VectorVG</code>.
-             */
-            void
-            setColours(vector<float>* const colours);
+      /**
+       * <p>
+       * Sets the colours of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       *
+       * <p>
+       * This <code>VectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
+       * </p>
+       *
+       * @param colours The colours of all the vertices in this <code>VectorVG</code>.
+       */
+      void
+      setColours(vector<float> colours);
 
-            void
-            setIndexWithinParent(const int indexWithinParent);
+      void
+      setIndexWithinParent(int const indexWithinParent);
 
-            /**
-             * <p>
-             * Sets the surface normals of all the vertices in this <code>VectorVG</code>.
-             * </p>
-             *
-             * <p>
-             * This <code>VectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
-             * </p>
-             *
-             * @param normals The surface normals of all the vertices in this <code>VectorVG</code>.
-             */
-            void
-            setNormals(vector<float>* const normals);
+      /**
+       * <p>
+       * Sets the surface normals of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       *
+       * <p>
+       * This <code>VectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
+       * </p>
+       *
+       * @param normals The surface normals of all the vertices in this <code>VectorVG</code>.
+       */
+      void
+      setNormals(vector<float> normals);
 
-            /**
-             * <p>
-             * Sets the coordinates of all the vertices in this <code>VectorVG</code>.
-             * </p>
-             *
-             * <p>
-             * This <code>VectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
-             * </p>
-             *
-             * @param vertices The coordinates of all the vertices in this <code>VectorVG</code>.
-             */
-            void
-            setVertices(vector<float>* const vertices);
+      /**
+       * <p>
+       * Sets the coordinates of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       *
+       * <p>
+       * This <code>VectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
+       * </p>
+       *
+       * @param vertices The coordinates of all the vertices in this <code>VectorVG</code>.
+       */
+      void
+      setVertices(vector<float> vertices);
 
-        private:
-            /**
-             * <p>
-             * Creates an instance of <code>VectorVG</code>. This constructor should only be used when creating subset <code>ArrayVG</code> s.
-             * </p>
-             *
-             * @param parent The parent of this <code>VectorVG</code>.
-             */
-            VectorVG(VectorVG* const parent);
+    private:
+      /**
+       * <p>
+       * Creates an instance of <code>VectorVG</code>. This constructor should only be used when creating subset <code>VectorVG</code> s.
+       * </p>
+       *
+       * @param parent The parent of this <code>VectorVG</code>.
+       */
+      VectorVG(VectorVG * const parent);
 
-            /**
-             * <p>
-             * The colours of all the vertices in this <code>VectorVG</code>.
-             * </p>
-             */
-            vector<float>* fColours;
+      /**
+       * <p>
+       * The colours of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       */
+      vector<float> fColours;
 
-            /**
-             * <p>
-             * The index in the parent <code>VectorVG</code> from which the data in this <code>VectorVG</code> was copied.
-             * </p>
-             */
-            int fIndexWithinParent;
+      /**
+       * <p>
+       * The index in the parent <code>VectorVG</code> from which the data in this <code>VectorVG</code> was copied.
+       * </p>
+       */
+      int fIndexWithinParent;
 
-            /**
-             * <p>
-             * The subset status. Determines if this <code>VectorVG</code> is a subgroup of a parent <code>VectorVG</code>. Subset <code>ArrayVG</code>s contain
-             * a copy of a subset of the parent <code>VectorVG</code>s data.
-             * </p>
-             */
-            bool fIsSubset;
+      /**
+       * <p>
+       * The subset status. Determines if this <code>VectorVG</code> is a subgroup of a parent <code>VectorVG</code>. Subset <code>ArrayVG</code>s contain
+       * a copy of a subset of the parent <code>VectorVG</code>s data.
+       * </p>
+       */
+      bool fIsSubset;
 
-            /**
-             * <p>
-             * The surface normals of all the vertices in this <code>VectorVG</code>.
-             * </p>
-             */
-            vector<float>* fNormals;
+      /**
+       * <p>
+       * The surface normals of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       */
+      vector<float> fNormals;
 
-            /**
-             * <p>
-             * The parent of this <code>VectorVG</code>. The parent should be set to <code>null</code> unless this <code>VectorVG</code> is a subset.
-             * </p>
-             */
-            VectorVG* fParent;
+      /**
+       * <p>
+       * The parent of this <code>VectorVG</code>. The parent should be set to <code>null</code> unless this <code>VectorVG</code> is a subset.
+       * </p>
+       */
+      VectorVG * fParent;
 
-            /**
-             * <p>
-             * The coordinates of all the vertices in this <code>VectorVG</code>.
-             * </p>
-             */
-            vector<float>* fVertices;
-    };
+      /**
+       * <p>
+       * The coordinates of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       */
+      vector<float> fVertices;
+  };
 }
 
 #endif /* VECTORVG_H_ */

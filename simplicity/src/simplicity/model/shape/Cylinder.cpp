@@ -9,61 +9,61 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../../vector/SimpleRGBColourVectorf4.h"
-#include "../../vector/SimpleTranslationVectorf4.h"
+#include "../../vector/SimpleRGBColourVector4.h"
+#include "../../vector/SimpleTranslationVector4.h"
 #include "Cylinder.h"
 
 namespace simplicity
 {
-    Cylinder::Cylinder() :
-        fColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 1.0f)), fLength(1.0f), fRadius(1.0f)
-    {
-    }
+  Cylinder::Cylinder() :
+    fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)), fLength(1.0f), fRadius(1.0f)
+  {
+  }
 
-    Cylinder::~Cylinder()
-    {
-        delete fColour;
-    }
+  Cylinder::~Cylinder()
+  {
+    delete fColour;
+  }
 
-    TranslationVectorf*
-    Cylinder::getCenter()
-    {
-        return (new SimpleTranslationVectorf4());
-    }
+  TranslationVector<float> *
+  Cylinder::getCenter() const
+  {
+    return (new SimpleTranslationVector4<float> ());
+  }
 
-    RGBColourVectorf*
-    Cylinder::getColour()
-    {
-        return (fColour);
-    }
+  RGBColourVector<float> *
+  Cylinder::getColour() const
+  {
+    return (fColour);
+  }
 
-    float
-    Cylinder::getLength()
-    {
-        return (fLength);
-    }
+  float
+  Cylinder::getLength() const
+  {
+    return (fLength);
+  }
 
-    float
-    Cylinder::getRadius()
-    {
-        return (fRadius);
-    }
+  float
+  Cylinder::getRadius() const
+  {
+    return (fRadius);
+  }
 
-    void
-    Cylinder::setColour(RGBColourVectorf* const colour)
-    {
-        fColour = colour;
-    }
+  void
+  Cylinder::setColour(RGBColourVector<float> * const colour)
+  {
+    fColour = colour;
+  }
 
-    void
-    Cylinder::setLength(const float length)
-    {
-        fLength = length;
-    }
+  void
+  Cylinder::setLength(float const length)
+  {
+    fLength = length;
+  }
 
-    void
-    Cylinder::setRadius(const float radius)
-    {
-        fRadius = radius;
-    }
+  void
+  Cylinder::setRadius(float const radius)
+  {
+    fRadius = radius;
+  }
 }

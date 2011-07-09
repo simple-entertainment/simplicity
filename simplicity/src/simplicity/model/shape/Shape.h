@@ -13,44 +13,44 @@
 #define SHAPE_H_
 
 #include "../Model.h"
-#include "../../vector/RGBColourVectorf.h"
+#include "../../vector/RGBColourVector.h"
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A {@link simplicity::Model Model} described by a single atomic shape.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class Shape : public Model
-    {
-        public:
-            /**
-             * <p>
-             * Retrieves the colour to render this <code>Shape</code> as.
-             * </p>
-             *
-             * @return The colour to render this <code>Shape</code> as.
-             */
-            virtual RGBColourVectorf*
-            getColour() = 0;
+  /**
+   * <p>
+   * A {@link simplicity::Model Model} described by a single atomic shape.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class Shape : public Model
+  {
+    public:
+      /**
+       * <p>
+       * Retrieves the colour to render this <code>Shape</code> as.
+       * </p>
+       *
+       * @return The colour to render this <code>Shape</code> as.
+       */
+      virtual RGBColourVector<float> *
+      getColour() const = 0;
 
-            /**
-             * <p>
-             * Sets the colour to render this <code>Shape</code> as.
-             * </p>
-             *
-             * <p>
-             * This <code>Shape</code> will assume ownership of the given <code>RGBColourVectorf</code>.
-             * </p>
-             *
-             * @param colour The colour to render this <code>Shape</code> as.
-             */
-            virtual void
-            setColour(RGBColourVectorf* const colour) = 0;
-    };
+      /**
+       * <p>
+       * Sets the colour to render this <code>Shape</code> as.
+       * </p>
+       *
+       * <p>
+       * This <code>Shape</code> will assume ownership of the given <code>RGBColourVector</code>.
+       * </p>
+       *
+       * @param colour The colour to render this <code>Shape</code> as.
+       */
+      virtual void
+      setColour(RGBColourVector<float> * const colour) = 0;
+  };
 }
 
 #endif /* SHAPE_H_ */

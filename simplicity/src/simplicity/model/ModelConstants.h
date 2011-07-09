@@ -14,37 +14,37 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * Constants often used by objects that manipulate {@link simplicity::Model Model}s.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class ModelConstants
-    {
-        public:
-            /**
-             * <p>
-             * The number of data items in a colour, normal or vertex array required to represent one vertex.
-             * </p>
-             */
-            static const int ITEMS_IN_CNV = 3;
+  /**
+   * <p>
+   * Constants often used by objects that manipulate {@link simplicity::Model Model}s.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class ModelConstants
+  {
+    public:
+      /**
+       * <p>
+       * The number of data items in a colour, normal or vertex array required to represent one vertex.
+       * </p>
+       */
+      static int const ITEMS_IN_CNV = 3;
 
-            /**
-             * <p>
-             * The number of vertices in a face.
-             * </p>
-             */
-            static const int VERTICES_IN_A_FACE = 3;
+      /**
+       * <p>
+       * The number of vertices in a face.
+       * </p>
+       */
+      static int const VERTICES_IN_A_FACE = 3;
 
-            /**
-             * <p>
-             * The number of data items in a colour, normal or vertex array required to represent one face.
-             * </p>
-             */
-            static const int CNV_ITEMS_IN_FACE = VERTICES_IN_A_FACE * ITEMS_IN_CNV;
-    };
+      /**
+       * <p>
+       * The number of data items in a colour, normal or vertex array required to represent one face.
+       * </p>
+       */
+      static int const CNV_ITEMS_IN_FACE = VERTICES_IN_A_FACE * ITEMS_IN_CNV;
+  };
 }
 
 #endif /* MODELCONSTANTS_H_ */

@@ -16,74 +16,74 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A spherical {@link simplicity::Model Model}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class Sphere : public Shape
-    {
-        public:
-            /**
-             * <p>
-             * Creates an instance of <code>Sphere</code>.
-             * </p>
-             */
-            Sphere();
+  /**
+   * <p>
+   * A spherical {@link simplicity::Model Model}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class Sphere : public Shape
+  {
+    public:
+      /**
+       * <p>
+       * Creates an instance of <code>Sphere</code>.
+       * </p>
+       */
+      Sphere();
 
-            /**
-             * <p>
-             * Disposes of an instance of <code>Sphere</code>.
-             * </p>
-             */
-            ~Sphere();
+      /**
+       * <p>
+       * Disposes of an instance of <code>Sphere</code>.
+       * </p>
+       */
+      ~Sphere();
 
-            TranslationVectorf*
-            getCenter();
+      TranslationVector<float> *
+      getCenter() const;
 
-            RGBColourVectorf*
-            getColour();
+      RGBColourVector<float> *
+      getColour() const;
 
-            /**
-             * <p>
-             * Retrieves the radius. The default is 1.0.
-             * </p>
-             *
-             * @return The radius.
-             */
-            float
-            getRadius();
+      /**
+       * <p>
+       * Retrieves the radius. The default is 1.0.
+       * </p>
+       *
+       * @return The radius.
+       */
+      float
+      getRadius() const;
 
-            void
-            setColour(RGBColourVectorf* const colour);
+      void
+      setColour(RGBColourVector<float> * const colour);
 
-            /**
-             * <p>
-             * Sets the radius. The default is 1.0.
-             * </p>
-             *
-             * @param radius The radius.
-             */
-            void
-            setRadius(const float radius);
+      /**
+       * <p>
+       * Sets the radius. The default is 1.0.
+       * </p>
+       *
+       * @param radius The radius.
+       */
+      void
+      setRadius(float const radius);
 
-        private:
-            /**
-             * <p>
-             * The colour to render this <code>Sphere</code> as.
-             * </p>
-             */
-            RGBColourVectorf* fColour;
+    private:
+      /**
+       * <p>
+       * The colour to render this <code>Sphere</code> as.
+       * </p>
+       */
+      RGBColourVector<float> * fColour;
 
-            /**
-             * <p>
-             * The radius.
-             * </p>
-             */
-            float fRadius;
-    };
+      /**
+       * <p>
+       * The radius.
+       * </p>
+       */
+      float fRadius;
+  };
 }
 
 #endif /* SPHERE_H_ */

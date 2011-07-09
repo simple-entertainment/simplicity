@@ -9,61 +9,61 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../../vector/SimpleRGBColourVectorf4.h"
-#include "../../vector/SimpleTranslationVectorf4.h"
+#include "../../vector/SimpleRGBColourVector4.h"
+#include "../../vector/SimpleTranslationVector4.h"
 #include "Torus.h"
 
 namespace simplicity
 {
-    Torus::Torus() :
-        fColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 1.0f)), fInnerRadius(1.0f), fOuterRadius(2.0f)
-    {
-    }
+  Torus::Torus() :
+    fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)), fInnerRadius(1.0f), fOuterRadius(2.0f)
+  {
+  }
 
-    Torus::~Torus()
-    {
-        delete fColour;
-    }
+  Torus::~Torus()
+  {
+    delete fColour;
+  }
 
-    TranslationVectorf*
-    Torus::getCenter()
-    {
-        return (new SimpleTranslationVectorf4());
-    }
+  TranslationVector<float> *
+  Torus::getCenter() const
+  {
+    return (new SimpleTranslationVector4<float> ());
+  }
 
-    RGBColourVectorf*
-    Torus::getColour()
-    {
-        return (fColour);
-    }
+  RGBColourVector<float> *
+  Torus::getColour() const
+  {
+    return (fColour);
+  }
 
-    float
-    Torus::getInnerRadius()
-    {
-        return (fInnerRadius);
-    }
+  float
+  Torus::getInnerRadius() const
+  {
+    return (fInnerRadius);
+  }
 
-    float
-    Torus::getOuterRadius()
-    {
-        return (fOuterRadius);
-    }
+  float
+  Torus::getOuterRadius() const
+  {
+    return (fOuterRadius);
+  }
 
-    void
-    Torus::setColour(RGBColourVectorf* const colour)
-    {
-        fColour = colour;
-    }
+  void
+  Torus::setColour(RGBColourVector<float> * const colour)
+  {
+    fColour = colour;
+  }
 
-    void
-    Torus::setInnerRadius(const float innerRadius)
-    {
-        fInnerRadius = innerRadius;
-    }
+  void
+  Torus::setInnerRadius(float const innerRadius)
+  {
+    fInnerRadius = innerRadius;
+  }
 
-    void
-    Torus::setOuterRadius(const float outerRadius)
-    {
-        fOuterRadius = outerRadius;
-    }
+  void
+  Torus::setOuterRadius(float const outerRadius)
+  {
+    fOuterRadius = outerRadius;
+  }
 }

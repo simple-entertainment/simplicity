@@ -9,49 +9,49 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../../vector/SimpleRGBColourVectorf4.h"
-#include "../../vector/SimpleTranslationVectorf4.h"
+#include "../../vector/SimpleRGBColourVector4.h"
+#include "../../vector/SimpleTranslationVector4.h"
 #include "Sphere.h"
 
 namespace simplicity
 {
-    Sphere::Sphere() :
-        fColour(new SimpleRGBColourVectorf4(1.0f, 1.0f, 1.0f, 1.0f)), fRadius(1.0f)
-    {
-    }
+  Sphere::Sphere() :
+    fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)), fRadius(1.0f)
+  {
+  }
 
-    Sphere::~Sphere()
-    {
-        delete fColour;
-    }
+  Sphere::~Sphere()
+  {
+    delete fColour;
+  }
 
-    TranslationVectorf*
-    Sphere::getCenter()
-    {
-        return (new SimpleTranslationVectorf4());
-    }
+  TranslationVector<float> *
+  Sphere::getCenter() const
+  {
+    return (new SimpleTranslationVector4<float> ());
+  }
 
-    RGBColourVectorf*
-    Sphere::getColour()
-    {
-        return (fColour);
-    }
+  RGBColourVector<float> *
+  Sphere::getColour() const
+  {
+    return (fColour);
+  }
 
-    float
-    Sphere::getRadius()
-    {
-        return (fRadius);
-    }
+  float
+  Sphere::getRadius() const
+  {
+    return (fRadius);
+  }
 
-    void
-    Sphere::setColour(RGBColourVectorf* const colour)
-    {
-        fColour = colour;
-    }
+  void
+  Sphere::setColour(RGBColourVector<float> * const colour)
+  {
+    fColour = colour;
+  }
 
-    void
-    Sphere::setRadius(const float radius)
-    {
-        fRadius = radius;
-    }
+  void
+  Sphere::setRadius(float const radius)
+  {
+    fRadius = radius;
+  }
 }

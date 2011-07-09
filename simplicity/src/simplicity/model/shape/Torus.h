@@ -16,102 +16,102 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A torus-shaped {@link simplicity::Model Model}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class Torus : public Shape
-    {
-        public:
-            /**
-             * <p>
-             * Creates an instance of <code>Torus</code>.
-             * </p>
-             */
-            Torus();
+  /**
+   * <p>
+   * A torus-shaped {@link simplicity::Model Model}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class Torus : public Shape
+  {
+    public:
+      /**
+       * <p>
+       * Creates an instance of <code>Torus</code>.
+       * </p>
+       */
+      Torus();
 
-            /**
-             * <p>
-             * Disposes of an instance of <code>Torus</code>.
-             * </p>
-             */
-            virtual
-            ~Torus();
+      /**
+       * <p>
+       * Disposes of an instance of <code>Torus</code>.
+       * </p>
+       */
+      virtual
+      ~Torus();
 
-            TranslationVectorf*
-            getCenter();
+      TranslationVector<float> *
+      getCenter() const;
 
-            RGBColourVectorf*
-            getColour();
+      RGBColourVector<float> *
+      getColour() const;
 
-            /**
-             * <p>
-             * Retrieves the inner radius. The default is 1.0.
-             * </p>
-             *
-             * @return The inner radius.
-             */
-            float
-            getInnerRadius();
+      /**
+       * <p>
+       * Retrieves the inner radius. The default is 1.0.
+       * </p>
+       *
+       * @return The inner radius.
+       */
+      float
+      getInnerRadius() const;
 
-            /**
-             * <p>
-             * Retrieves the outer radius. The default is 2.0.
-             * </p>
-             *
-             * @return The outer radius.
-             */
-            float
-            getOuterRadius();
+      /**
+       * <p>
+       * Retrieves the outer radius. The default is 2.0.
+       * </p>
+       *
+       * @return The outer radius.
+       */
+      float
+      getOuterRadius() const;
 
-            void
-            setColour(RGBColourVectorf* const colour);
+      void
+      setColour(RGBColourVector<float> * const colour);
 
-            /**
-             * <p>
-             * Sets the inner radius. The default is 1.0.
-             * </p>
-             *
-             * @param innerRadius The inner radius.
-             */
-            void
-            setInnerRadius(const float innerRadius);
+      /**
+       * <p>
+       * Sets the inner radius. The default is 1.0.
+       * </p>
+       *
+       * @param innerRadius The inner radius.
+       */
+      void
+      setInnerRadius(float const innerRadius);
 
-            /**
-             * <p>
-             * Sets the outer radius. The default is 2.0.
-             * </p>
-             *
-             * @param outerRadius The outer radius.
-             */
-            void
-            setOuterRadius(const float outerRadius);
+      /**
+       * <p>
+       * Sets the outer radius. The default is 2.0.
+       * </p>
+       *
+       * @param outerRadius The outer radius.
+       */
+      void
+      setOuterRadius(float const outerRadius);
 
-        private:
-            /**
-             * <p>
-             * The colour to render this <code>Sphere</code> as.
-             * </p>
-             */
-            RGBColourVectorf* fColour;
+    private:
+      /**
+       * <p>
+       * The colour to render this <code>Sphere</code> as.
+       * </p>
+       */
+      RGBColourVector<float> * fColour;
 
-            /**
-             * <p>
-             * The inner radius.
-             * </p>
-             */
-            float fInnerRadius;
+      /**
+       * <p>
+       * The inner radius.
+       * </p>
+       */
+      float fInnerRadius;
 
-            /**
-             * <p>
-             * The outer radius.
-             * </p>
-             */
-            float fOuterRadius;
-    };
+      /**
+       * <p>
+       * The outer radius.
+       * </p>
+       */
+      float fOuterRadius;
+  };
 }
 
 #endif /* TORUS_H_ */
