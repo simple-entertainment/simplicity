@@ -16,38 +16,38 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * An {@link simplicity::Engine Engine} that is composed of several sub-engines. The <code>CompositeEngine</code> manages how the
-     * sub-engines are run.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class CompositeEngine : public virtual Engine
-    {
-        public:
-            /**
-             * <p>
-             * Adds an {@link simplicity::Engine Engine} to the set of engines managed by this <code>CompositeEngine</code>.
-             * </p>
-             *
-             * @param engine The <code>Engine</code> to add to the set of engines managed by this <code>CompositeEngine</code>.
-             */
-            virtual void
-            addEngine(Engine* const engine) = 0;
+  /**
+   * <p>
+   * An {@link simplicity::Engine Engine} that is composed of several sub-engines. The <code>CompositeEngine</code> manages how the
+   * sub-engines are run.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class CompositeEngine : public virtual Engine
+  {
+    public:
+      /**
+       * <p>
+       * Adds an {@link simplicity::Engine Engine} to the set of engines managed by this <code>CompositeEngine</code>.
+       * </p>
+       *
+       * @param engine The <code>Engine</code> to add to the set of engines managed by this <code>CompositeEngine</code>.
+       */
+      virtual void
+      addEngine(Engine const * const engine) = 0;
 
-            /**
-             * <p>
-             * Removes an {@link simplicity::Engine Engine} from the set of engines managed by this <code>CompositeEngine</code>.
-             * </p>
-             *
-             * @param engine The <code>Engine<code> to remove from the set of engines managed by this <code>CompositeEngine</code>
-             * .
-             */
-            virtual void
-            removeEngine(Engine* const engine) = 0;
-    };
+      /**
+       * <p>
+       * Removes an {@link simplicity::Engine Engine} from the set of engines managed by this <code>CompositeEngine</code>.
+       * </p>
+       *
+       * @param engine The <code>Engine<code> to remove from the set of engines managed by this <code>CompositeEngine</code>
+       * .
+       */
+      virtual void
+      removeEngine(Engine const * const engine) = 0;
+  };
 }
 
 #endif /* COMPOSITEENGINE_H_ */

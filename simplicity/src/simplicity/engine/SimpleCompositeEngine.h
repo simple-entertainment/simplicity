@@ -21,103 +21,103 @@ using namespace std;
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * Manages its sub-engines by running at the lowest common frequency (advancements per second) of these sub-engines and advancing them at their
-     * preferred frequency.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class SimpleCompositeEngine : public RunnableEngine, public CompositeEngine
-    {
-        public:
-            /**
-             * <p>
-             * Creates an instance of <code>SimpleCompositeEngine</code>.
-             * </p>
-             */
-            SimpleCompositeEngine();
+  /**
+   * <p>
+   * Manages its sub-engines by running at the lowest common frequency (advancements per second) of these sub-engines and advancing them at their
+   * preferred frequency.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class SimpleCompositeEngine : public RunnableEngine, public CompositeEngine
+  {
+    public:
+      /**
+       * <p>
+       * Creates an instance of <code>SimpleCompositeEngine</code>.
+       * </p>
+       */
+      SimpleCompositeEngine();
 
-            /**
-             * <p>
-             * Disposes of an instance of <code>SimpleCompositeEngine</code>.
-             * </p>
-             */
-            virtual
-            ~SimpleCompositeEngine();
+      /**
+       * <p>
+       * Disposes of an instance of <code>SimpleCompositeEngine</code>.
+       * </p>
+       */
+      virtual
+      ~SimpleCompositeEngine();
 
-            void
-            addEngine(Engine* const engine);
+      void
+      addEngine(Engine const * const engine);
 
-            EngineInput*
-            advance(EngineInput* const input);
+      EngineInput *
+      advance(EngineInput const * const input);
 
-            void
-            destroy();
+      void
+      destroy();
 
-            void
-            removeEngine(Engine* const engine);
+      void
+      removeEngine(Engine const * const engine);
 
-            void
-            reset();
+      void
+      reset();
 
-        private:
-            /**
-             * <p>
-             * Calculates the lowest common denominator of the two integer values given.
-             * </p>
-             *
-             * @param a The largest of the two integers to calculate the lowest common denominator of.
-             * @param b The smallest of the two integers to calculate the lowest common denominator of.
-             *
-             * @return The lowest common denominator of the two integer values given.
-             */
-            int
-            calculateLCD(const int a, const int b);
+    private:
+      /**
+       * <p>
+       * Calculates the lowest common denominator of the two integer values given.
+       * </p>
+       *
+       * @param a The largest of the two integers to calculate the lowest common denominator of.
+       * @param b The smallest of the two integers to calculate the lowest common denominator of.
+       *
+       * @return The lowest common denominator of the two integer values given.
+       */
+      int
+      calculateLCD(int const a, int const b) const;
 
-            /**
-             * <p>
-             * Retrieves the lowest common frequency (advancements per second) at which this <code>SimpleCompositeEngine</code> can run that will support the
-             * preferred frequencies of its sub-engines.
-             * </p>
-             *
-             * @return the lowest common frequency (advancements per second) at which this <code>SimpleCompositeEngine</code> can run that will support the
-             * preferred frequencies of its sub-engines.
-             */
-            int
-            getCompositeFrequency();
+      /**
+       * <p>
+       * Retrieves the lowest common frequency (advancements per second) at which this <code>SimpleCompositeEngine</code> can run that will support the
+       * preferred frequencies of its sub-engines.
+       * </p>
+       *
+       * @return the lowest common frequency (advancements per second) at which this <code>SimpleCompositeEngine</code> can run that will support the
+       * preferred frequencies of its sub-engines.
+       */
+      int
+      getCompositeFrequency() const;
 
-            /**
-             * <p>
-             * Initialises the internal components of this <code>SimpleCompositeEngine</code> only. Does not initialise the sub-engines.
-             * </p>
-             */
-            void
-            initInternal();
+      /**
+       * <p>
+       * Initialises the internal components of this <code>SimpleCompositeEngine</code> only. Does not initialise the sub-engines.
+       * </p>
+       */
+      void
+      initInternal();
 
-            /**
-             * <p>
-             * The index of the current advancement.
-             * </p>
-             */
-            int fAdvanceIndex;
+      /**
+       * <p>
+       * The index of the current advancement.
+       * </p>
+       */
+      int fAdvanceIndex;
 
-            /**
-             * <p>
-             * The lowest common frequency (advancements per second) at which this <code>SimpleCompositeEngine</code> can run that will support the preferred
-             * frequencies of its sub-engines.
-             * </p>
-             */
-            int fCompositeFrequency;
+      /**
+       * <p>
+       * The lowest common frequency (advancements per second) at which this <code>SimpleCompositeEngine</code> can run that will support the preferred
+       * frequencies of its sub-engines.
+       * </p>
+       */
+      int fCompositeFrequency;
 
-            /**
-             * <p>
-             * The sub-engines managed by this <code>SimpleCompositeEngine</code>.
-             * </p>
-             */
-            vector<Engine*> fEngines;
-    };
+      /**
+       * <p>
+       * The sub-engines managed by this <code>SimpleCompositeEngine</code>.
+       * </p>
+       */
+      vector<Engine *> fEngines;
+  };
 }
 
 #endif /* SIMPLECOMPOSITEENGINE_H_ */

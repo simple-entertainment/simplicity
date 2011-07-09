@@ -16,19 +16,19 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * An exception thrown by The Simplicity Engine. Signifies that an {@link com.se.simplicity.engine.Engine Engine} failed to advance.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class SEEngineAdvancementException : public std::exception
-    {
-        public:
-            virtual const char*
-            what() const throw ();
-    };
+  /**
+   * <p>
+   * An exception thrown by The Simplicity Engine. Signifies that an {@link com.se.simplicity.engine.Engine Engine} failed to advance.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class SEEngineAdvancementException : public std::exception
+  {
+    public:
+      virtual char const *
+      what() const throw ();
+  };
 }
 
 #endif /* SEENGINEADVANCEMENTEXCEPTION_H_ */

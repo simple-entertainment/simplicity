@@ -14,26 +14,26 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * The information used by an {@link simplicity::Engine Engine} during an advancement.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class EngineInput
-    {
-        public:
-            /**
-             * <p>
-             * Disposes of an instance of <code>EngineInput</code> (included to allow polymorphic deletion).
-             * </p>
-             */
-            virtual
-            ~EngineInput()
-            {
-            }
-    };
+  /**
+   * <p>
+   * The information used by an {@link simplicity::Engine Engine} during an advancement.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class EngineInput
+  {
+    public:
+      /**
+       * <p>
+       * Disposes of an instance of <code>EngineInput</code> (included to allow polymorphic deletion).
+       * </p>
+       */
+      virtual
+      ~EngineInput()
+      {
+      }
+  };
 }
 
 #endif /* ENGINEINPUT_H_ */

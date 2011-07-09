@@ -14,135 +14,135 @@
 
 namespace simplicity
 {
-    SimpleCompositeEngine::SimpleCompositeEngine() :
-        fEngines()
-    {
-    }
+  SimpleCompositeEngine::SimpleCompositeEngine() :
+    fEngines()
+  {
+  }
 
-    SimpleCompositeEngine::~SimpleCompositeEngine()
-    {
-    }
+  SimpleCompositeEngine::~SimpleCompositeEngine()
+  {
+  }
 
-    void
-    SimpleCompositeEngine::addEngine(Engine* const engine)
-    {
-        fEngines.push_back(engine);
-    }
+  void
+  SimpleCompositeEngine::addEngine(Engine const * const engine)
+  {
+    fEngines.push_back((Engine *) engine);
+  }
 
-    EngineInput*
-    SimpleCompositeEngine::advance(EngineInput* const input)
-    {
-        fAdvanceIndex++;
-        EngineInput* currentInput = input;
+  EngineInput*
+  SimpleCompositeEngine::advance(EngineInput const * const input)
+  {
+    fAdvanceIndex++;
+    EngineInput * currentInput = (EngineInput *) input;
 
-        // For every sub-engine.
+    // For every sub-engine.
+    for (unsigned int index = 0; index < fEngines.size(); index++)
+      {
+        // If the sub-engine should be advanced at this time (if it's preferred frequency is a multiple of the composite frequency).
+        if (fAdvanceIndex % (fCompositeFrequency / fEngines.at(index)->getPreferredFrequency()) == 0)
+          {
+            currentInput = fEngines.at(index)->advance(currentInput);
+          }
+      }
+
+    return (currentInput);
+  }
+
+  int
+  SimpleCompositeEngine::calculateLCD(int const big, int const small) const
+  {
+    int gcd = big;
+
+    if (small != 0)
+      {
+        gcd = big % small;
+      }
+
+    if (gcd == 0)
+      {
+        return (big);
+      }
+
+    return (big * small / gcd);
+  }
+
+  void
+  SimpleCompositeEngine::destroy()
+  {
+    for (unsigned int index = 0; index < fEngines.size(); index++)
+      {
+        fEngines.at(index)->destroy();
+      }
+  }
+
+  int
+  SimpleCompositeEngine::getCompositeFrequency() const
+  {
+    int newCompositeFrequency = 1;
+
+    if (!fEngines.empty())
+      {
+        newCompositeFrequency = fEngines.at(0)->getPreferredFrequency();
+
+        // For every sub-engine (except for the first one).
         for (unsigned int index = 0; index < fEngines.size(); index++)
-        {
-            // If the sub-engine should be advanced at this time (if it's preferred frequency is a multiple of the composite frequency).
-            if (fAdvanceIndex % (fCompositeFrequency / fEngines.at(index)->getPreferredFrequency()) == 0)
-            {
-                currentInput = fEngines.at(index)->advance(currentInput);
-            }
-        }
+          {
+            int preferredFrequency = fEngines.at(index)->getPreferredFrequency();
 
-        return (currentInput);
-    }
+            // Ensure that preferreFrequency contains the smaller of the two frequencies (required for the calculateLCD method).
+            if (newCompositeFrequency < preferredFrequency)
+              {
+                int temp = newCompositeFrequency;
+                newCompositeFrequency = preferredFrequency;
+                preferredFrequency = temp;
+              }
 
-    int
-    SimpleCompositeEngine::calculateLCD(const int big, const int small)
-    {
-        int gcd = big;
+            newCompositeFrequency = calculateLCD(newCompositeFrequency, preferredFrequency);
+          }
+      }
 
-        if (small != 0)
-        {
-            gcd = big % small;
-        }
+    return (newCompositeFrequency);
+  }
 
-        if (gcd == 0)
-        {
-            return (big);
-        }
+  void
+  SimpleCompositeEngine::initInternal()
+  {
+    fAdvanceIndex = 0;
+    fCompositeFrequency = getCompositeFrequency();
 
-        return (big * small / gcd);
-    }
+    RunnableEngine::setPreferredFrequency(fCompositeFrequency);
+    RunnableEngine::initInternal();
 
-    void
-    SimpleCompositeEngine::destroy()
-    {
-        for (unsigned int index = 0; index < fEngines.size(); index++)
-        {
-            fEngines.at(index)->destroy();
-        }
-    }
+    for (unsigned int index = 0; index < fEngines.size(); index++)
+      {
+        fEngines.at(index)->init();
+      }
+  }
 
-    int
-    SimpleCompositeEngine::getCompositeFrequency()
-    {
-        int newCompositeFrequency = 1;
+  void
+  SimpleCompositeEngine::removeEngine(Engine const * const engine)
+  {
+    vector<Engine*>::iterator iterator = fEngines.begin();
+    for (unsigned int index = 0; index < fEngines.size(); index++)
+      {
+        if (fEngines.at(index) == engine)
+          {
+            fEngines.erase(iterator);
+            break;
+          }
 
-        if (!fEngines.empty())
-        {
-            newCompositeFrequency = fEngines.at(0)->getPreferredFrequency();
+        iterator++;
+      }
+  }
 
-            // For every sub-engine (except for the first one).
-            for (unsigned int index = 0; index < fEngines.size(); index++)
-            {
-                int preferredFrequency = fEngines.at(index)->getPreferredFrequency();
+  void
+  SimpleCompositeEngine::reset()
+  {
+    initInternal();
 
-                // Ensure that preferreFrequency contains the smaller of the two frequencies (required for the calculateLCD method).
-                if (newCompositeFrequency < preferredFrequency)
-                {
-                    int temp = newCompositeFrequency;
-                    newCompositeFrequency = preferredFrequency;
-                    preferredFrequency = temp;
-                }
-
-                newCompositeFrequency = calculateLCD(newCompositeFrequency, preferredFrequency);
-            }
-        }
-
-        return (newCompositeFrequency);
-    }
-
-    void
-    SimpleCompositeEngine::initInternal()
-    {
-        fAdvanceIndex = 0;
-        fCompositeFrequency = getCompositeFrequency();
-
-        RunnableEngine::setPreferredFrequency(fCompositeFrequency);
-        RunnableEngine::initInternal();
-
-        for (unsigned int index = 0; index < fEngines.size(); index++)
-        {
-            fEngines.at(index)->init();
-        }
-    }
-
-    void
-    SimpleCompositeEngine::removeEngine(Engine* const engine)
-    {
-        vector<Engine*>::iterator iterator = fEngines.begin();
-        for (unsigned int index = 0; index < fEngines.size(); index++)
-        {
-            if (fEngines.at(index) == engine)
-            {
-                fEngines.erase(iterator);
-                break;
-            }
-
-            iterator++;
-        }
-    }
-
-    void
-    SimpleCompositeEngine::reset()
-    {
-        initInternal();
-
-        for (unsigned int index = 0; index < fEngines.size(); index++)
-        {
-            fEngines.at(index)->reset();
-        }
-    }
+    for (unsigned int index = 0; index < fEngines.size(); index++)
+      {
+        fEngines.at(index)->reset();
+      }
+  }
 }

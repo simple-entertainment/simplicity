@@ -13,9 +13,9 @@
 
 namespace simplicity
 {
-    const char*
-    SEEngineAdvancementException::what() const throw ()
-    {
-        return ("Failed to advance the engine.");
-    }
+  char const *
+  SEEngineAdvancementException::what() const throw ()
+  {
+    return ("Failed to advance the engine.");
+  }
 }
