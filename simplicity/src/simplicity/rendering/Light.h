@@ -16,178 +16,178 @@
 using namespace std;
 
 #include "../scenegraph/Node.h"
-#include "../vector/TransformationMatrixf.h"
+#include "../vector/TransformationMatrix.h"
 #include "LightingMode.h"
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A light within a {@link simplicity::SceneGraph SceneGraph}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class Light
-    {
-        public:
-            /**
-             * <p>
-             * Disposes of an instance of <code>Light</code> (included to allow polymorphic deletion).
-             * </p>
-             */
-            virtual
-            ~Light()
-            {
-            }
+  /**
+   * <p>
+   * A light within a {@link simplicity::SceneGraph SceneGraph}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class Light
+  {
+    public:
+      /**
+       * <p>
+       * Disposes of an instance of <code>Light</code> (included to allow polymorphic deletion).
+       * </p>
+       */
+      virtual
+      ~Light()
+      {
+      }
 
-            /**
-             * <p>
-             * Applies this <code>Light</code> to the rendering environment.
-             * </p>
-             */
-            virtual void
-            apply() = 0;
+      /**
+       * <p>
+       * Applies this <code>Light</code> to the rendering environment.
+       * </p>
+       */
+      virtual void
+      apply() = 0;
 
-            /**
-             * <p>
-             * Retrieves the ambient component of this <code>Light</code>.
-             * </p>
-             *
-             * @return The ambient component of this <code>Light</code>.
-             */
-            virtual vector<float>*
-            getAmbientLight() = 0;
+      /**
+       * <p>
+       * Retrieves the ambient component of this <code>Light</code>.
+       * </p>
+       *
+       * @return The ambient component of this <code>Light</code>.
+       */
+      virtual vector<float>
+      getAmbientLight() const = 0;
 
-            /**
-             * <p>
-             * Retrieves the diffuse component of this <code>Light</code>.
-             * </p>
-             *
-             * @return The diffuse component of this <code>Light</code>.
-             */
-            virtual vector<float>*
-            getDiffuseLight() = 0;
+      /**
+       * <p>
+       * Retrieves the diffuse component of this <code>Light</code>.
+       * </p>
+       *
+       * @return The diffuse component of this <code>Light</code>.
+       */
+      virtual vector<float>
+      getDiffuseLight() const = 0;
 
-            /**
-             * <p>
-             * Retrieves the lighting mode used to render a {@link com.se.simplicity.scene.Scene Scene}.
-             * </p>
-             *
-             * @return The lighting mode used to render a <code>Scene</code>.
-             */
-            virtual LightingMode
-            getLightingMode() = 0;
+      /**
+       * <p>
+       * Retrieves the lighting mode used to render a {@link com.se.simplicity.scene.Scene Scene}.
+       * </p>
+       *
+       * @return The lighting mode used to render a <code>Scene</code>.
+       */
+      virtual LightingMode
+      getLightingMode() const = 0;
 
-            /**
-             * <p>
-             * Retrieves the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Light</code>'s location and orientation.
-             * </p>
-             *
-             * @return The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
-             */
-            virtual Node*
-            getNode() = 0;
+      /**
+       * <p>
+       * Retrieves the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Light</code>'s location and orientation.
+       * </p>
+       *
+       * @return The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
+       */
+      virtual Node *
+      getNode() const = 0;
 
-            /**
-             * <p>
-             * Retrieves the specular component of this <code>Light</code>.
-             * </p>
-             *
-             * @return The specular component of this <code>Light</code>.
-             */
-            virtual vector<float>*
-            getSpecularLight() = 0;
+      /**
+       * <p>
+       * Retrieves the specular component of this <code>Light</code>.
+       * </p>
+       *
+       * @return The specular component of this <code>Light</code>.
+       */
+      virtual vector<float>
+      getSpecularLight() const = 0;
 
-            /**
-             * <p>
-             * Retrieves the inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Light</code>.
-             * </p>
-             *
-             * @return The inverted absolute transformation for the <code>Node</code> of this <code>Light</code>, or null if the <code>Node</code> does not
-             * exist.
-             */
-            virtual TransformationMatrixf*
-            getTransformation() = 0;
+      /**
+       * <p>
+       * Retrieves the inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Light</code>.
+       * </p>
+       *
+       * @return The inverted absolute transformation for the <code>Node</code> of this <code>Light</code>, or null if the <code>Node</code> does not
+       * exist.
+       */
+      virtual TransformationMatrix<float> *
+      getTransformation() const = 0;
 
-            /**
-             * <p>
-             * Initialises this <code>Light</code>.
-             * </p>
-             */
-            virtual void
-            init() = 0;
+      /**
+       * <p>
+       * Initialises this <code>Light</code>.
+       * </p>
+       */
+      virtual void
+      init() = 0;
 
-            /**
-             * <p>
-             * Determines the initialisation status of this <code>Light</code>.
-             * </p>
-             *
-             * @return True if this <code>Light</code> has been initialised, false otherwise.
-             */
-            virtual bool
-            isInitialised() = 0;
+      /**
+       * <p>
+       * Determines the initialisation status of this <code>Light</code>.
+       * </p>
+       *
+       * @return True if this <code>Light</code> has been initialised, false otherwise.
+       */
+      virtual bool
+      isInitialised() const = 0;
 
-            /**
-             * <p>
-             * Sets the ambient component of this <code>Light</code>.
-             * </p>
-             *
-             * @param ambientLight The ambient component of this <code>Light</code>.
-             */
-            virtual void
-            setAmbientLight(vector<float>* const ambientLight) = 0;
+      /**
+       * <p>
+       * Sets the ambient component of this <code>Light</code>.
+       * </p>
+       *
+       * @param ambientLight The ambient component of this <code>Light</code>.
+       */
+      virtual void
+      setAmbientLight(vector<float> const ambientLight) = 0;
 
-            /**
-             * <p>
-             * Sets the diffuse component of this <code>Light</code>.
-             * </p>
-             *
-             * @param diffuseLight The diffuse component of this <code>Light</code>.
-             */
-            virtual void
-            setDiffuseLight(vector<float>* const diffuseLight) = 0;
+      /**
+       * <p>
+       * Sets the diffuse component of this <code>Light</code>.
+       * </p>
+       *
+       * @param diffuseLight The diffuse component of this <code>Light</code>.
+       */
+      virtual void
+      setDiffuseLight(vector<float> const diffuseLight) = 0;
 
-            /**
-             * <p>
-             * Sets the initialisation status of this <code>Light</code>.
-             * </p>
-             *
-             * @param isInitialised The initialisation status of this <code>Light</code>.
-             */
-            virtual void
-            setInitialised(const bool isInitialised) = 0;
+      /**
+       * <p>
+       * Sets the initialisation status of this <code>Light</code>.
+       * </p>
+       *
+       * @param isInitialised The initialisation status of this <code>Light</code>.
+       */
+      virtual void
+      setInitialised(bool const isInitialised) = 0;
 
-            /**
-             * <p>
-             * Sets the lighting mode used to render a {@link com.se.simplicity.scene.Scene Scene}.
-             * </p>
-             *
-             * @param lightingMode The lighting mode used to render a <code>Scene</code>.
-             */
-            virtual void
-            setLightingMode(LightingMode lightingMode) = 0;
+      /**
+       * <p>
+       * Sets the lighting mode used to render a {@link com.se.simplicity.scene.Scene Scene}.
+       * </p>
+       *
+       * @param lightingMode The lighting mode used to render a <code>Scene</code>.
+       */
+      virtual void
+      setLightingMode(LightingMode const lightingMode) = 0;
 
-            /**
-             * <p>
-             * Sets the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Light</code>'s location and orientation.
-             * </p>
-             *
-             * @param node The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
-             */
-            virtual void
-            setNode(Node* const node) = 0;
+      /**
+       * <p>
+       * Sets the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Light</code>'s location and orientation.
+       * </p>
+       *
+       * @param node The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
+       */
+      virtual void
+      setNode(Node * const node) = 0;
 
-            /**
-             * <p>
-             * Sets the specular component of this <code>Light</code>.
-             * </p>
-             *
-             * @param specularLight The specular component of this <code>Light</code>.
-             */
-            virtual void
-            setSpecularLight(vector<float>* const specularLight) = 0;
-    };
+      /**
+       * <p>
+       * Sets the specular component of this <code>Light</code>.
+       * </p>
+       *
+       * @param specularLight The specular component of this <code>Light</code>.
+       */
+      virtual void
+      setSpecularLight(vector<float> const specularLight) = 0;
+  };
 }
 
 #endif /* LIGHT_H_ */

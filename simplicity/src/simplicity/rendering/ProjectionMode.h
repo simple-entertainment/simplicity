@@ -14,29 +14,29 @@
 
 namespace simplicity
 {
+  /**
+   * <p>
+   * The projection mode used to render a {@link simplicity::SceneGraph SceneGraph}. The modes are as follows:
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  enum ProjectionMode
+  {
     /**
      * <p>
-     * The projection mode used to render a {@link simplicity::SceneGraph SceneGraph}. The modes are as follows:
+     * An orthogonal projection (does not employ foreshortening).
      * </p>
-     *
-     * @author Gary Buyn
      */
-    enum ProjectionMode
-    {
-        /**
-         * <p>
-         * An orthogonal projection (does not employ foreshortening).
-         * </p>
-         */
-        ORTHOGONAL,
+    ORTHOGONAL,
 
-        /**
-         * <p>
-         * A perspective projection (employs foreshortening, this means objects further away appear smaller).
-         * </p>
-         */
-        PERSPECTIVE
-    };
+    /**
+     * <p>
+     * A perspective projection (employs foreshortening, this means objects further away appear smaller).
+     * </p>
+     */
+    PERSPECTIVE
+  };
 }
 
 #endif /* PROJECTIONMODE_H_ */

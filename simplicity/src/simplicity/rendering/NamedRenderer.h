@@ -16,28 +16,28 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * Renders {@link simplicity::Model Model}s and names them at the same time so that they may be picked.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class NamedRenderer : public Renderer
-    {
-        public:
-            /**
-             * <p>
-             * Renders the given {@link simplicity::Model Model} with the given {@link simplicity::DrawingMode
-             * DrawingMode} and names it with the given name.
-             * </p>
-             *
-             * @param model The <code>Model</code> to render.
-             * @param name The name to assign to the <code>Model</code> being rendered.
-             */
-            void
-            renderModel(Model* const model, const int name);
-    };
+  /**
+   * <p>
+   * Renders {@link simplicity::Model Model}s and names them at the same time so that they may be picked.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class NamedRenderer : public Renderer
+  {
+    public:
+      /**
+       * <p>
+       * Renders the given {@link simplicity::Model Model} with the given {@link simplicity::DrawingMode
+       * DrawingMode} and names it with the given name.
+       * </p>
+       *
+       * @param model The <code>Model</code> to render.
+       * @param name The name to assign to the <code>Model</code> being rendered.
+       */
+      void
+      renderModel(Model * const model, int const name);
+  };
 }
 
 #endif /* NAMEDRENDERER_H_ */

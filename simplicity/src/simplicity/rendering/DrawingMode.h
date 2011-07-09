@@ -14,36 +14,36 @@
 
 namespace simplicity
 {
+  /**
+   * <p>
+   * The drawing mode used to render a {@link simplicity::SceneGraph SceneGraph}. The modes are as follows:
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  enum DrawingMode
+  {
     /**
      * <p>
-     * The drawing mode used to render a {@link simplicity::SceneGraph SceneGraph}. The modes are as follows:
+     * Renders only the edges of the models.
      * </p>
-     *
-     * @author Gary Buyn
      */
-    enum DrawingMode
-    {
-        /**
-         * <p>
-         * Renders only the edges of the models.
-         * </p>
-         */
-        EDGES,
+    EDGES,
 
-        /**
-         * <p>
-         * Renders only the faces of the models.
-         * </p>
-         */
-        FACES,
+    /**
+     * <p>
+     * Renders only the faces of the models.
+     * </p>
+     */
+    FACES,
 
-        /**
-         * <p>
-         * Renders only the vertices of the models.
-         * </p>
-         */
-        VERTICES
-    };
+    /**
+     * <p>
+     * Renders only the vertices of the models.
+     * </p>
+     */
+    VERTICES
+  };
 }
 
 #endif /* DRAWINGMODE_H_ */

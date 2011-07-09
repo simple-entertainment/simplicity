@@ -14,36 +14,36 @@
 
 namespace simplicity
 {
+  /**
+   * <p>
+   * The lighting mode used to render a {@link simplicity::SceneGraph SceneGraph}. The modes are as follows:
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  enum LightingMode
+  {
     /**
      * <p>
-     * The lighting mode used to render a {@link simplicity::SceneGraph SceneGraph}. The modes are as follows:
+     * Renders the models with shading determined by the Lights within the SceneGraph.
      * </p>
-     *
-     * @author Gary Buyn
      */
-    enum LightingMode
-    {
-        /**
-         * <p>
-         * Renders the models with shading determined by the Lights within the SceneGraph.
-         * </p>
-         */
-        SCENE,
+    SCENE,
 
-        /**
-         * <p>
-         * Renders the models with simple shading. Lights to create the shading effects are added by the SceneGraph and are implementation specific.
-         * </p>
-         */
-        SHADED,
+    /**
+     * <p>
+     * Renders the models with simple shading. Lights to create the shading effects are added by the SceneGraph and are implementation specific.
+     * </p>
+     */
+    SHADED,
 
-        /**
-         * <p>
-         * Renders the models with solid shading. Lights to create the shading effects are added by the SceneGraph and are implementation specific.
-         * </p>
-         */
-        SOLID
-    };
+    /**
+     * <p>
+     * Renders the models with solid shading. Lights to create the shading effects are added by the SceneGraph and are implementation specific.
+     * </p>
+     */
+    SOLID
+  };
 }
 
 #endif /* LIGHTINGMODE_H_ */
