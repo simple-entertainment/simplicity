@@ -17,12 +17,12 @@
 namespace simplicity
 {
 
-    class SEInvalidOperationException : public std::exception
-    {
-        public:
-            virtual const char*
-            what() const throw ();
-    };
+  class SEInvalidOperationException : public std::exception
+  {
+    public:
+      virtual char const *
+      what() const throw ();
+  };
 
 }
 

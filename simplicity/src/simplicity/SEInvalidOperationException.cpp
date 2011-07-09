@@ -13,9 +13,9 @@
 
 namespace simplicity
 {
-    const char*
-    SEInvalidOperationException::what() const throw ()
-    {
-        return ("This operation is invalid.");
-    }
+  char const *
+  SEInvalidOperationException::what() const throw ()
+  {
+    return ("This operation is invalid.");
+  }
 }

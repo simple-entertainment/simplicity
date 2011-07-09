@@ -16,19 +16,19 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A runtime exception thrown by a simple enterprises project. Signifies that the functionality being invoked is not supported.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class SENotSupportedException : public std::exception
-    {
-        public:
-            virtual const char*
-            what() const throw ();
-    };
+  /**
+   * <p>
+   * A runtime exception thrown by a simple enterprises project. Signifies that the functionality being invoked is not supported.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class SENotSupportedException : public std::exception
+  {
+    public:
+      virtual char const *
+      what() const throw ();
+  };
 }
 
 #endif /* SENOTSUPPORTEDEXCEPTION_H_ */

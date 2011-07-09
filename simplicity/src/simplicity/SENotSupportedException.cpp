@@ -13,9 +13,9 @@
 
 namespace simplicity
 {
-    const char*
-    SENotSupportedException::what() const throw ()
-    {
-        return ("This operation is not supported.");
-    }
+  char const *
+  SENotSupportedException::what() const throw ()
+  {
+    return ("This operation is not supported.");
+  }
 }
