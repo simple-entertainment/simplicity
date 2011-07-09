@@ -16,34 +16,34 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * An empty implementation of a {@link simplicity::PickListener PickListener} for convenience to facilitate extension.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class PickAdapter : public PickListener
-    {
-        public:
-            /**
-             * <p>
-             * Creates an instance of <code>PickAdapter</code>.
-             * </p>
-             */
-            PickAdapter();
+  /**
+   * <p>
+   * An empty implementation of a {@link simplicity::PickListener PickListener} for convenience to facilitate extension.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class PickAdapter : public PickListener
+  {
+    public:
+      /**
+       * <p>
+       * Creates an instance of <code>PickAdapter</code>.
+       * </p>
+       */
+      PickAdapter();
 
-            /**
-             * <p>
-             * Disposes of an instance of <code>PickAdapter</code>.
-             * </p>
-             */
-            virtual
-            ~PickAdapter();
+      /**
+       * <p>
+       * Disposes of an instance of <code>PickAdapter</code>.
+       * </p>
+       */
+      virtual
+      ~PickAdapter();
 
-            void
-            scenePicked(const PickEvent event);
-    };
+      void
+      scenePicked(PickEvent const event);
+  };
 }
 
 #endif /* PICKADAPTER_H_ */

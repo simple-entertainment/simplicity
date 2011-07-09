@@ -13,45 +13,45 @@
 
 namespace simplicity
 {
-    PickEvent::PickEvent() :
-        fHits(vector<Hit> ())
-    {
-    }
+  PickEvent::PickEvent() :
+    fHits(vector<Hit> ())
+  {
+  }
 
-    PickEvent::~PickEvent()
-    {
-    }
+  PickEvent::~PickEvent()
+  {
+  }
 
-    void
-    PickEvent::addHit(const Hit hit)
-    {
-        fHits.push_back(hit);
-    }
+  void
+  PickEvent::addHit(Hit const hit)
+  {
+    fHits.push_back(hit);
+  }
 
-    optional<Hit>
-    PickEvent::getCloseHit()
-    {
-        optional<Hit> closeHit;
-        for (unsigned int index = 0; index < fHits.size(); index++)
-        {
-            if (!closeHit || fHits.at(index).getMinimumDistance() < closeHit->getMinimumDistance())
-            {
-                closeHit = optional<Hit> (fHits.at(index));
-            }
-        }
+  optional<Hit>
+  PickEvent::getCloseHit() const
+  {
+    optional<Hit> closeHit;
+    for (unsigned int index = 0; index < fHits.size(); index++)
+      {
+        if (!closeHit || fHits.at(index).getMinimumDistance() < closeHit->getMinimumDistance())
+          {
+            closeHit = optional<Hit> (fHits.at(index));
+          }
+      }
 
-        return (closeHit);
-    }
+    return (closeHit);
+  }
 
-    Hit
-    PickEvent::getHit(const int index)
-    {
-        return (fHits.at(index));
-    }
+  Hit
+  PickEvent::getHit(int const index) const
+  {
+    return (fHits.at(index));
+  }
 
-    int
-    PickEvent::getHitCount()
-    {
-        return (fHits.size());
-    }
+  int
+  PickEvent::getHitCount() const
+  {
+    return (fHits.size());
+  }
 }

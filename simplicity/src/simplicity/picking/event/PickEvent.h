@@ -22,83 +22,83 @@ using namespace boost;
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * An event that indicates a {@link simplicity::Picker Picker} has been invoked against a
-     * {@link simplicity::SceneGraph SceneGraph} (a {@link simplicity::SceneGraph SceneGraph} has been picked) and
-     * contains the hits made as a result of this pick.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class PickEvent
-    {
-        public:
-            /**
-             * <p>
-             * Creates an instance of <code>PickEvent</code>.
-             * </p>
-             */
-            PickEvent();
+  /**
+   * <p>
+   * An event that indicates a {@link simplicity::Picker Picker} has been invoked against a
+   * {@link simplicity::SceneGraph SceneGraph} (a {@link simplicity::SceneGraph SceneGraph} has been picked) and
+   * contains the hits made as a result of this pick.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class PickEvent
+  {
+    public:
+      /**
+       * <p>
+       * Creates an instance of <code>PickEvent</code>.
+       * </p>
+       */
+      PickEvent();
 
-            /**
-             * <p>
-             * Disposes of an instance of <code>PickEvent</code>.
-             * </p>
-             */
-            virtual
-            ~PickEvent();
+      /**
+       * <p>
+       * Disposes of an instance of <code>PickEvent</code>.
+       * </p>
+       */
+      virtual
+      ~PickEvent();
 
-            /**
-             * <p>
-             * Adds a hit made as a result of the pick.
-             * </p>
-             *
-             * @param hit A hit made as a result of the pick.
-             */
-            void
-            addHit(const Hit hit);
+      /**
+       * <p>
+       * Adds a hit made as a result of the pick.
+       * </p>
+       *
+       * @param hit A hit made as a result of the pick.
+       */
+      void
+      addHit(Hit const hit);
 
-            /**
-             * <p>
-             * Retrieves the closest hit made as a result of the pick.
-             * </p>
-             *
-             * @return The closest hit made as a result of the pick.
-             */
-            optional<Hit>
-            getCloseHit();
+      /**
+       * <p>
+       * Retrieves the closest hit made as a result of the pick.
+       * </p>
+       *
+       * @return The closest hit made as a result of the pick.
+       */
+      optional<Hit>
+      getCloseHit() const;
 
-            /**
-             * <p>
-             * Retrieves a hit made as a result of the pick.
-             * </p>
-             *
-             * @param index The index of the hit to retrieve.
-             *
-             * @return A hit made as a result of the pick.
-             */
-            Hit
-            getHit(const int index);
+      /**
+       * <p>
+       * Retrieves a hit made as a result of the pick.
+       * </p>
+       *
+       * @param index The index of the hit to retrieve.
+       *
+       * @return A hit made as a result of the pick.
+       */
+      Hit
+      getHit(int const index) const;
 
-            /**
-             * <p>
-             * Retrieves the number of hits made as a result of the pick.
-             * </p>
-             *
-             * @return The number of hits made as a result of the pick.
-             */
-            int
-            getHitCount();
+      /**
+       * <p>
+       * Retrieves the number of hits made as a result of the pick.
+       * </p>
+       *
+       * @return The number of hits made as a result of the pick.
+       */
+      int
+      getHitCount() const;
 
-        private:
-            /**
-             * <p>
-             * The hits made as a result of the pick.
-             * </p>
-             */
-            vector<Hit> fHits;
-    };
+    private:
+      /**
+       * <p>
+       * The hits made as a result of the pick.
+       * </p>
+       */
+      vector<Hit> fHits;
+  };
 }
 
 #endif /* PICKEVENT_H_ */

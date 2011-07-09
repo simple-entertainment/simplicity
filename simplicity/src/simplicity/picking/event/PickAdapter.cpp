@@ -13,16 +13,16 @@
 
 namespace simplicity
 {
-    PickAdapter::PickAdapter()
-    {
-    }
+  PickAdapter::PickAdapter()
+  {
+  }
 
-    PickAdapter::~PickAdapter()
-    {
-    }
+  PickAdapter::~PickAdapter()
+  {
+  }
 
-    void
-    PickAdapter::scenePicked(const PickEvent event)
-    {
-    }
+  void
+  PickAdapter::scenePicked(PickEvent const event)
+  {
+  }
 }

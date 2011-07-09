@@ -13,30 +13,30 @@
 
 namespace simplicity_test
 {
-    /**
-     * <p>
-     * Unit test the method {@link simplicity::PickEvent#getCloseHit() getCloseHit()}.
-     * </p>
-     */
-    TEST_F(PickEventTest, getCloseHit)
-    {
-        // Create dependencies.
-        // TODO not mocked!!
-        Hit hit0;
-        Hit hit1;
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::PickEvent#getCloseHit() getCloseHit()}.
+   * </p>
+   */
+  TEST_F(PickEventTest, getCloseHit)
+  {
+    // Create dependencies.
+    // TODO not mocked!!
+    Hit hit0;
+    Hit hit1;
 
-        // Dictate correct behaviour.
-        hit0.setMinimumDistance(20);
-        hit1.setMinimumDistance(10);
+    // Dictate correct behaviour.
+    hit0.setMinimumDistance(20);
+    hit1.setMinimumDistance(10);
 
-        // Initialise test environment.
-        fTestObject.addHit(hit0);
-        fTestObject.addHit(hit1);
+    // Initialise test environment.
+    fTestObject.addHit(hit0);
+    fTestObject.addHit(hit1);
 
-        // Perform test.
-        optional<Hit> hit = fTestObject.getCloseHit();
+    // Perform test.
+    optional<Hit> hit = fTestObject.getCloseHit();
 
-        // Verify test results.
-        ASSERT_EQ(10, hit->getMinimumDistance());
-    }
+    // Verify test results.
+    ASSERT_EQ(10, hit->getMinimumDistance());
+  }
 }

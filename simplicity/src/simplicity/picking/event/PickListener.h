@@ -16,36 +16,36 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A listener for {@link simplicity::PickEvent PickEvent} events.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class PickListener
-    {
-        public:
-            /**
-             * <p>
-             * Disposes of an instance of <code>PickListener</code> (included to allow polymorphic deletion).
-             * </p>
-             */
-            virtual
-            ~PickListener()
-            {
-            }
+  /**
+   * <p>
+   * A listener for {@link simplicity::PickEvent PickEvent} events.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class PickListener
+  {
+    public:
+      /**
+       * <p>
+       * Disposes of an instance of <code>PickListener</code> (included to allow polymorphic deletion).
+       * </p>
+       */
+      virtual
+      ~PickListener()
+      {
+      }
 
-            /**
-             * <p>
-             * Processes a fired {@link simplicity::PickEvent PickEvent}.
-             * </p>
-             *
-             * @param event The <code>PickEvent</code> to process.
-             */
-            virtual void
-            scenePicked(const PickEvent event) = 0;
-    };
+      /**
+       * <p>
+       * Processes a fired {@link simplicity::PickEvent PickEvent}.
+       * </p>
+       *
+       * @param event The <code>PickEvent</code> to process.
+       */
+      virtual void
+      scenePicked(PickEvent const event) = 0;
+  };
 }
 
 #endif /* PICKLISTENER_H_ */

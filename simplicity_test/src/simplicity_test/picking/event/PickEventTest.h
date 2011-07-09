@@ -20,18 +20,18 @@ using namespace simplicity;
 
 namespace simplicity_test
 {
-    /**
-     * <p>
-     * Unit tests for the class {@link simplicity::PickEvent PickEvent}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class PickEventTest : public Test
-    {
-        protected:
-            PickEvent fTestObject;
-    };
+  /**
+   * <p>
+   * Unit tests for the class {@link simplicity::PickEvent PickEvent}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class PickEventTest : public Test
+  {
+    protected:
+      PickEvent fTestObject;
+  };
 }
 
 #endif /* PICKEVENTTEST_H_ */

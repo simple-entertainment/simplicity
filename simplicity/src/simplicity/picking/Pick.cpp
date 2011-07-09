@@ -13,60 +13,60 @@
 
 namespace simplicity
 {
-    Pick::Pick() :
-        fHeight(0.0f), fWidth(0.0f), fX(0.0f), fY(0.0f)
-    {
-    }
+  Pick::Pick() :
+    fHeight(0.0f), fWidth(0.0f), fX(0.0f), fY(0.0f)
+  {
+  }
 
-    Pick::~Pick()
-    {
-    }
+  Pick::~Pick()
+  {
+  }
 
-    float
-    Pick::getHeight()
-    {
-        return (fHeight);
-    }
+  float
+  Pick::getHeight() const
+  {
+    return (fHeight);
+  }
 
-    float
-    Pick::getWidth()
-    {
-        return (fWidth);
-    }
+  float
+  Pick::getWidth() const
+  {
+    return (fWidth);
+  }
 
-    float
-    Pick::getX()
-    {
-        return (fX);
-    }
+  float
+  Pick::getX() const
+  {
+    return (fX);
+  }
 
-    float
-    Pick::getY()
-    {
-        return (fY);
-    }
+  float
+  Pick::getY() const
+  {
+    return (fY);
+  }
 
-    void
-    Pick::setHeight(const float height)
-    {
-        fHeight = height;
-    }
+  void
+  Pick::setHeight(float const height)
+  {
+    fHeight = height;
+  }
 
-    void
-    Pick::setWidth(const float width)
-    {
-        fWidth = width;
-    }
+  void
+  Pick::setWidth(float const width)
+  {
+    fWidth = width;
+  }
 
-    void
-    Pick::setX(const float x)
-    {
-        fX = x;
-    }
+  void
+  Pick::setX(float const x)
+  {
+    fX = x;
+  }
 
-    void
-    Pick::setY(const float y)
-    {
-        fY = y;
-    }
+  void
+  Pick::setY(float const y)
+  {
+    fY = y;
+  }
 }

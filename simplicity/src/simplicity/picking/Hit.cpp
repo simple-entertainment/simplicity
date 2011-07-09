@@ -13,60 +13,60 @@
 
 namespace simplicity
 {
-    Hit::Hit() :
-        fMaximumDistance(0), fMinimumDistance(0), fNode(0), fPrimitive(0)
-    {
-    }
+  Hit::Hit() :
+    fMaximumDistance(0), fMinimumDistance(0), fNode(0), fPrimitive(0)
+  {
+  }
 
-    Hit::~Hit()
-    {
-    }
+  Hit::~Hit()
+  {
+  }
 
-    int
-    Hit::getMaximumDistance()
-    {
-        return (fMaximumDistance);
-    }
+  int
+  Hit::getMaximumDistance() const
+  {
+    return (fMaximumDistance);
+  }
 
-    int
-    Hit::getMinimumDistance()
-    {
-        return (fMinimumDistance);
-    }
+  int
+  Hit::getMinimumDistance() const
+  {
+    return (fMinimumDistance);
+  }
 
-    Node*
-    Hit::getNode()
-    {
-        return (fNode);
-    }
+  Node *
+  Hit::getNode() const
+  {
+    return (fNode);
+  }
 
-    Model*
-    Hit::getPrimitive()
-    {
-        return (fPrimitive);
-    }
+  Model *
+  Hit::getPrimitive() const
+  {
+    return (fPrimitive);
+  }
 
-    void
-    Hit::setMaximumDistance(const int maximumDistance)
-    {
-        fMaximumDistance = maximumDistance;
-    }
+  void
+  Hit::setMaximumDistance(int const maximumDistance)
+  {
+    fMaximumDistance = maximumDistance;
+  }
 
-    void
-    Hit::setMinimumDistance(const int minimumDistance)
-    {
-        fMinimumDistance = minimumDistance;
-    }
+  void
+  Hit::setMinimumDistance(int const minimumDistance)
+  {
+    fMinimumDistance = minimumDistance;
+  }
 
-    void
-    Hit::setNode(Node* const node)
-    {
-        fNode = node;
-    }
+  void
+  Hit::setNode(Node * const node)
+  {
+    fNode = node;
+  }
 
-    void
-    Hit::setPrimitive(Model* const primitive)
-    {
-        fPrimitive = primitive;
-    }
+  void
+  Hit::setPrimitive(Model * const primitive)
+  {
+    fPrimitive = primitive;
+  }
 }
