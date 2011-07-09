@@ -13,69 +13,63 @@
 
 namespace simplicity
 {
-    SimpleScene::SimpleScene() :
-        fCameras(new vector<Camera*> ()), fLights(new vector<Light*> ()), fSceneGraph(0)
-    {
-    }
+  SimpleScene::SimpleScene() :
+    fCameras(vector<Camera *> ()), fLights(vector<Light *> ()), fSceneGraph(0)
+  {
+  }
 
-    SimpleScene::~SimpleScene()
-    {
-        delete fCameras;
-        delete fLights;
-        delete fSceneGraph;
-    }
+  SimpleScene::~SimpleScene()
+  {
+    delete fSceneGraph;
+  }
 
-    void
-    SimpleScene::addCamera(Camera* const camera)
-    {
-        fCameras->push_back(camera);
-    }
+  void
+  SimpleScene::addCamera(Camera * const camera)
+  {
+    fCameras.push_back(camera);
+  }
 
-    void
-    SimpleScene::addLight(Light* const light)
-    {
-        fLights->push_back(light);
-    }
+  void
+  SimpleScene::addLight(Light * const light)
+  {
+    fLights.push_back(light);
+  }
 
-    vector<Camera*>*
-    SimpleScene::getCameras()
-    {
-        return (fCameras);
-    }
+  vector<Camera *>
+  SimpleScene::getCameras() const
+  {
+    return (fCameras);
+  }
 
-    vector<Light*>*
-    SimpleScene::getLights()
-    {
-        return (fLights);
-    }
+  vector<Light *>
+  SimpleScene::getLights() const
+  {
+    return (fLights);
+  }
 
-    SceneGraph*
-    SimpleScene::getSceneGraph()
-    {
-        return (fSceneGraph);
-    }
+  SceneGraph *
+  SimpleScene::getSceneGraph() const
+  {
+    return (fSceneGraph);
+  }
 
-    void
-    SimpleScene::setCameras(vector<Camera*>* const cameras)
-    {
-        delete fCameras;
+  void
+  SimpleScene::setCameras(vector<Camera *> const cameras)
+  {
+    fCameras = cameras;
+  }
 
-        fCameras = cameras;
-    }
+  void
+  SimpleScene::setLights(vector<Light *> const lights)
+  {
+    fLights = lights;
+  }
 
-    void
-    SimpleScene::setLights(vector<Light*>* const lights)
-    {
-        delete fLights;
+  void
+  SimpleScene::setSceneGraph(SceneGraph * const sceneGraph)
+  {
+    delete fSceneGraph;
 
-        fLights = lights;
-    }
-
-    void
-    SimpleScene::setSceneGraph(SceneGraph* const sceneGraph)
-    {
-        delete fSceneGraph;
-
-        fSceneGraph = sceneGraph;
-    }
+    fSceneGraph = sceneGraph;
+  }
 }

@@ -16,73 +16,73 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A simple implementation of a {@link simplicity::Scene Scene}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class SimpleScene : public Scene
-    {
-        public:
-            /**
-             * Creates an instance of <code>SimpleScene</code>.
-             */
-            SimpleScene();
+  /**
+   * <p>
+   * A simple implementation of a {@link simplicity::Scene Scene}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class SimpleScene : public Scene
+  {
+    public:
+      /**
+       * Creates an instance of <code>SimpleScene</code>.
+       */
+      SimpleScene();
 
-            /**
-             * Disposes of an instance of <code>SimpleScene</code>.
-             */
-            virtual
-            ~SimpleScene();
+      /**
+       * Disposes of an instance of <code>SimpleScene</code>.
+       */
+      virtual
+      ~SimpleScene();
 
-            void
-            addCamera(Camera* const camera);
+      void
+      addCamera(Camera * const camera);
 
-            void
-            addLight(Light* const light);
+      void
+      addLight(Light * const light);
 
-            vector<Camera*>*
-            getCameras();
+      vector<Camera *>
+      getCameras() const;
 
-            vector<Light*>*
-            getLights();
+      vector<Light *>
+      getLights() const;
 
-            SceneGraph*
-            getSceneGraph();
+      SceneGraph *
+      getSceneGraph() const;
 
-            void
-            setCameras(vector<Camera*>* const cameras);
+      void
+      setCameras(vector<Camera *> const cameras);
 
-            void
-            setLights(vector<Light*>* const lights);
+      void
+      setLights(vector<Light *> const lights);
 
-            void
-            setSceneGraph(SceneGraph* const sceneGraph);
+      void
+      setSceneGraph(SceneGraph * const sceneGraph);
 
-        private:
-            /**
-             * <p>
-             * The {@link simplicity::Camera Camera}s that can be used to view this <code>Scene</code> from specific angles.
-             * </p>
-             */
-            vector<Camera*>* fCameras;
+    private:
+      /**
+       * <p>
+       * The {@link simplicity::Camera Camera}s that can be used to view this <code>Scene</code> from specific angles.
+       * </p>
+       */
+      vector<Camera *> fCameras;
 
-            /**
-             * <p>
-             * The {@link simplicity::Light Light}s that can be used to illuminate this <code>Scene</code>.
-             * </p>
-             */
-            vector<Light*>* fLights;
+      /**
+       * <p>
+       * The {@link simplicity::Light Light}s that can be used to illuminate this <code>Scene</code>.
+       * </p>
+       */
+      vector<Light *> fLights;
 
-            /**
-             * <p>
-             * The {@link simplicity::SceneGraph SceneGraph} that describes the relative locations of this <code>Scene</code>'s content.
-             * </p>
-             */
-            SceneGraph* fSceneGraph;
-    };
+      /**
+       * <p>
+       * The {@link simplicity::SceneGraph SceneGraph} that describes the relative locations of this <code>Scene</code>'s content.
+       * </p>
+       */
+      SceneGraph * fSceneGraph;
+  };
 }
 
 #endif /* SIMPLESCENE_H_ */
