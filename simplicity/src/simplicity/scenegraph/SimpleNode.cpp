@@ -11,199 +11,200 @@
  */
 #include "SimpleNode.h"
 #include "SimpleTraversal.h"
-#include "../vector/SimpleTransformationMatrixf44.h"
+#include "../vector/SimpleTransformationMatrix44.h"
 
 namespace simplicity
 {
-    SimpleNode::SimpleNode() :
-        fBounds(0), fChildren(new vector<Node*> ()), fCollidable(true), fId(0), fModifiable(true), fParent(0), fTransformation(
-                new SimpleTransformationMatrixf44()), fVisible(true)
-    {
-    }
+  SimpleNode::SimpleNode() :
+    fBounds(0), fChildren(vector<Node *> ()), fCollidable(true), fId(0), fModifiable(true), fParent(0),
+        fTransformation(new SimpleTransformationMatrix44<float> ()), fVisible(true)
+  {
+  }
 
-    SimpleNode::~SimpleNode()
-    {
-        delete fBounds;
-        delete fChildren;
-        delete fTransformation;
-    }
+  SimpleNode::~SimpleNode()
+  {
+    delete fBounds;
+    delete fTransformation;
+  }
 
-    void
-    SimpleNode::addChild(Node* const child)
-    {
-        fChildren->push_back(child);
-        child->setParent(this);
-    }
+  void
+  SimpleNode::addChild(Node * const child)
+  {
+    fChildren.push_back(child);
+    child->setParent(this);
+  }
 
-    TransformationMatrixf*
-    SimpleNode::getAbsoluteTransformation()
-    {
-        TransformationMatrixf* transformation = new SimpleTransformationMatrixf44();
-        Node* currentNode = this;
+  TransformationMatrix<float> *
+  SimpleNode::getAbsoluteTransformation() const
+  {
+    TransformationMatrix<float> * transformation = new SimpleTransformationMatrix44<float> ();
+    Node * currentNode = (Node *) this;
 
-        while (currentNode)
-        {
-            transformation->multiplyLeft(currentNode->getTransformation());
+    while (currentNode)
+      {
+        transformation->multiplyLeft(currentNode->getTransformation());
 
-            currentNode = currentNode->getParent();
-        }
+        currentNode = currentNode->getParent();
+      }
 
-        return (transformation);
-    }
+    return (transformation);
+  }
 
-    BoundingVolume*
-    SimpleNode::getBounds()
-    {
-        return (fBounds);
-    }
+  BoundingVolume *
+  SimpleNode::getBounds() const
+  {
+    return (fBounds);
+  }
 
-    vector<Node*>*
-    SimpleNode::getChildren()
-    {
-        return (fChildren);
-    }
+  vector<Node *>
+  SimpleNode::getChildren() const
+  {
+    return (fChildren);
+  }
 
-    int
-    SimpleNode::getID()
-    {
-        return (fId);
-    }
+  int
+  SimpleNode::getID() const
+  {
+    return (fId);
+  }
 
-    Node*
-    SimpleNode::getParent()
-    {
-        return (fParent);
-    }
+  Node *
+  SimpleNode::getParent() const
+  {
+    return (fParent);
+  }
 
-    TransformationMatrixf*
-    SimpleNode::getTransformation()
-    {
-        return (fTransformation);
-    }
+  TransformationMatrix<float> *
+  SimpleNode::getTransformation() const
+  {
+    return (fTransformation);
+  }
 
-    bool
-    SimpleNode::hasChildren()
-    {
-        if (fChildren->size() == 0)
-        {
-            return (false);
-        }
+  bool
+  SimpleNode::hasChildren() const
+  {
+    bool children = false;
 
-        return (true);
-    }
+    if (!fChildren.empty())
+      {
+        children = true;
+      }
 
-    bool
-    SimpleNode::isAncestor(Node* const ancestor)
-    {
-        Node* currentParent = fParent;
+    return (children);
+  }
 
-        while (currentParent)
-        {
-            if (currentParent == ancestor)
-            {
-                return (true);
-            }
+  bool
+  SimpleNode::isAncestor(Node const * const ancestor) const
+  {
+    Node * currentParent = fParent;
 
-            currentParent = currentParent->getParent();
-        }
+    while (currentParent)
+      {
+        if (currentParent == ancestor)
+          {
+            return (true);
+          }
 
-        return (false);
-    }
+        currentParent = currentParent->getParent();
+      }
 
-    bool
-    SimpleNode::isCollidable()
-    {
-        return (fCollidable);
-    }
+    return (false);
+  }
 
-    bool
-    SimpleNode::isModifiable()
-    {
-        return (fModifiable);
-    }
+  bool
+  SimpleNode::isCollidable() const
+  {
+    return (fCollidable);
+  }
 
-    bool
-    SimpleNode::isSuccessor(Node* const successor)
-    {
-        SimpleTraversal traversal(this);
+  bool
+  SimpleNode::isModifiable() const
+  {
+    return (fModifiable);
+  }
 
-        while (traversal.hasMoreNodes())
-        {
-            if (traversal.getNextNode() == successor && successor != this)
-            {
-                return (true);
-            }
-        }
+  bool
+  SimpleNode::isSuccessor(Node const * const successor) const
+  {
+    SimpleTraversal traversal(this);
 
-        return (false);
-    }
+    while (traversal.hasMoreNodes())
+      {
+        if (traversal.getNextNode() == successor && successor != this)
+          {
+            return (true);
+          }
+      }
 
-    bool
-    SimpleNode::isVisible()
-    {
-        return (fVisible);
-    }
+    return (false);
+  }
 
-    void
-    SimpleNode::removeChild(Node* const child)
-    {
-        vector<Node*>::iterator iterator = fChildren->begin();
-        for (unsigned int index = 0; index < fChildren->size(); index++)
-        {
-            if (fChildren->at(index) == child)
-            {
-                fChildren->erase(iterator);
-                child->setParent(NULL);
-                break;
-            }
+  bool
+  SimpleNode::isVisible() const
+  {
+    return (fVisible);
+  }
 
-            iterator++;
-        }
-    }
+  void
+  SimpleNode::removeChild(Node * const child)
+  {
+    vector<Node *>::iterator iterator = fChildren.begin();
+    for (unsigned int index = 0; index < fChildren.size(); index++)
+      {
+        if (fChildren.at(index) == child)
+          {
+            fChildren.erase(iterator);
+            child->setParent(NULL);
+            break;
+          }
 
-    void
-    SimpleNode::setBounds(BoundingVolume* const bounds)
-    {
-        delete fBounds;
+        iterator++;
+      }
+  }
 
-        fBounds = bounds;
-    }
+  void
+  SimpleNode::setBounds(BoundingVolume const * const bounds)
+  {
+    delete fBounds;
 
-    void
-    SimpleNode::setCollidable(const bool collidable)
-    {
-        fCollidable = collidable;
-    }
+    fBounds = (BoundingVolume *) bounds;
+  }
 
-    void
-    SimpleNode::setID(const int id)
-    {
-        fId = id;
-    }
+  void
+  SimpleNode::setCollidable(bool const collidable)
+  {
+    fCollidable = collidable;
+  }
 
-    void
-    SimpleNode::setModifiable(const bool modifiable)
-    {
-        fModifiable = modifiable;
-    }
+  void
+  SimpleNode::setID(int const id)
+  {
+    fId = id;
+  }
 
-    void
-    SimpleNode::setParent(Node* const parent)
-    {
-        fParent = parent;
-    }
+  void
+  SimpleNode::setModifiable(bool const modifiable)
+  {
+    fModifiable = modifiable;
+  }
 
-    void
-    SimpleNode::setTransformation(TransformationMatrixf* const transformation)
-    {
-        delete fTransformation;
+  void
+  SimpleNode::setParent(Node const * const parent)
+  {
+    fParent = (Node *) parent;
+  }
 
-        fTransformation = transformation;
-    }
+  void
+  SimpleNode::setTransformation(TransformationMatrix<float> const * const transformation)
+  {
+    delete fTransformation;
 
-    void
-    SimpleNode::setVisible(const bool visible)
-    {
-        fVisible = visible;
-    }
+    fTransformation = (TransformationMatrix<float> *) transformation;
+  }
+
+  void
+  SimpleNode::setVisible(bool const visible)
+  {
+    fVisible = visible;
+  }
 }

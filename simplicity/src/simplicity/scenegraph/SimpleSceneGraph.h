@@ -19,72 +19,72 @@ using namespace std;
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * This implementation uses only simple scene graph techniques and properties.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class SimpleSceneGraph : public SceneGraph
-    {
-        public:
-            SimpleSceneGraph();
+  /**
+   * <p>
+   * This implementation uses only simple scene graph techniques and properties.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class SimpleSceneGraph : public SceneGraph
+  {
+    public:
+      SimpleSceneGraph();
 
-            virtual
-            ~SimpleSceneGraph();
+      virtual
+      ~SimpleSceneGraph();
 
-            void
-            addSubgraph(Node* const subgraphRoot);
+      void
+      addSubgraph(Node * const subgraphRoot);
 
-            void
-            addSubgraph(Node* const subgraphRoot, Node* const parent);
+      void
+      addSubgraph(Node * const subgraphRoot, Node * const parent);
 
-            Node*
-            getNode(const int id);
+      Node *
+      getNode(int const id) const;
 
-            Node*
-            getRoot();
+      Node *
+      getRoot() const;
 
-            vector<Node*>*
-            getSubgraphRoots();
+      vector<Node *>
+      getSubgraphRoots() const;
 
-            void
-            removeSubgraph(Node* const subgraphRoot);
+      void
+      removeSubgraph(Node * const subgraphRoot);
 
-            void
-            resetIDs();
+      void
+      resetIDs();
 
-        private:
-            /**
-             * The unique identifier that was assigned to the last {@link com.se.simplicity.scenegraph.Node Node} added to the <code>SimpleSceneGraph</code>.
-             */
-            int fLastNodeID;
+    private:
+      /**
+       * The unique identifier that was assigned to the last {@link com.se.simplicity.scenegraph.Node Node} added to the <code>SimpleSceneGraph</code>.
+       */
+      int fLastNodeID;
 
-            /**
-             * <p>
-             * The {@link simplicity::Node Node}s within this <code>SimpleSceneGraph</code>.
-             * </p>
-             */
-            map<int, Node*>* fNodes;
+      /**
+       * <p>
+       * The {@link simplicity::Node Node}s within this <code>SimpleSceneGraph</code>.
+       * </p>
+       */
+      map<int, Node *> fNodes;
 
-            /**
-             * <p>
-             * The root {@link simplicity::Node Node} of this <code>SimpleSceneGraph</code>.
-             * </p>
-             */
-            Node* fRoot;
+      /**
+       * <p>
+       * The root {@link simplicity::Node Node} of this <code>SimpleSceneGraph</code>.
+       * </p>
+       */
+      Node * fRoot;
 
-            /**
-             * <p>
-             * Retrieves a unique identifier to assign to the next {@link com.se.simplicity.scenegraph.Node Node} added to the <code>SimpleSceneGraph</code>.
-             * </p>
-             *
-             * @return A unique identifier to assign to the next <code>Node</code> added to the <code>SimpleSceneGraph</code>.
-             */
-            int
-            getNextNodeID();
-    };
+      /**
+       * <p>
+       * Retrieves a unique identifier to assign to the next {@link com.se.simplicity.scenegraph.Node Node} added to the <code>SimpleSceneGraph</code>.
+       * </p>
+       *
+       * @return A unique identifier to assign to the next <code>Node</code> added to the <code>SimpleSceneGraph</code>.
+       */
+      int
+      getNextNodeID();
+  };
 }
 
 #endif /* SIMPLESCENEGRAPH_H_ */

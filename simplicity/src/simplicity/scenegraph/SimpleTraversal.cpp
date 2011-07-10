@@ -9,97 +9,101 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
+#include <algorithm>
+
 #include "SimpleTraversal.h"
 
 namespace simplicity
 {
-    SimpleTraversal::SimpleTraversal(Node* const root) :
-        fBacktracksToNextNode(0), fNextNode(0), fRoot(root)
-    {
-        reset();
-    }
+  SimpleTraversal::SimpleTraversal(Node const * const root) :
+    fBacktracksToNextNode(0), fNextNode(0), fRoot(root)
+  {
+    reset();
+  }
 
-    SimpleTraversal::~SimpleTraversal()
-    {
-    }
+  SimpleTraversal::~SimpleTraversal()
+  {
+  }
 
-    Node*
-    SimpleTraversal::findNextNode()
-    {
-        fBacktracksToNextNode = 0;
+  Node *
+  SimpleTraversal::findNextNode()
+  {
+    fBacktracksToNextNode = 0;
 
-        // If the only node in the traversal is the root, end the traversal.
-        if (fNextNode == fRoot && !fNextNode->hasChildren())
-        {
-            fBacktracksToNextNode++;
-
-            return (NULL);
-        }
-
-        // If the current node has children, move to it's first child.
-        if (fNextNode->hasChildren())
-        {
-            return (fNextNode->getChildren()->at(0));
-        }
-
-        // If the current node has no children, backtrack to the next sibling.
-        vector<Node*>* siblings = fNextNode->getParent()->getChildren();
-
-        // While the current node has no more siblings, move to it's parent.
-        while (fNextNode == siblings->back())
-        {
-            fBacktracksToNextNode++;
-
-            fNextNode = fNextNode->getParent();
-
-            // If the next node is the root, end the traversal.
-            if (fNextNode == fRoot)
-            {
-                fBacktracksToNextNode++;
-
-                return (NULL);
-            }
-
-            siblings = fNextNode->getParent()->getChildren();
-        }
-
-        // If the next node has more siblings, move to it's next sibling.
+    // If the only node in the traversal is the root, end the traversal.
+    if (fNextNode == fRoot && !fNextNode->hasChildren())
+      {
         fBacktracksToNextNode++;
 
-        return (fNextNode + 1);
-    }
+        return (NULL);
+      }
 
-    int
-    SimpleTraversal::getBacktracksToNextNode()
-    {
-        return (fBacktracksToNextNode);
-    }
+    // If the current node has children, move to it's first child.
+    if (fNextNode->hasChildren())
+      {
+        return (fNextNode->getChildren().at(0));
+      }
 
-    Node*
-    SimpleTraversal::getNextNode()
-    {
-        // If the traversal has ended.
-        if (!fNextNode)
-        {
+    // If the current node has no children, backtrack to the next sibling.
+    vector<Node *> siblings = fNextNode->getParent()->getChildren();
+
+    // While the current node has no more siblings, move to it's parent.
+    while (fNextNode == siblings.back())
+      {
+        fBacktracksToNextNode++;
+
+        fNextNode = fNextNode->getParent();
+
+        // If the next node is the root, end the traversal.
+        if (fNextNode == fRoot)
+          {
+            fBacktracksToNextNode++;
+
             return (NULL);
-        }
+          }
 
-        Node* currentNode = fNextNode;
-        fNextNode = findNextNode();
+        siblings = fNextNode->getParent()->getChildren();
+      }
+    fBacktracksToNextNode++;
 
-        return (currentNode);
-    }
+    // If the next node has more siblings, move to it's next sibling.
+    vector<Node *>::iterator iterator = find(siblings.begin(), siblings.end(), fNextNode);
+    iterator++;
 
-    bool
-    SimpleTraversal::hasMoreNodes()
-    {
-        return (fNextNode);
-    }
+    return (*iterator);
+  }
 
-    void
-    SimpleTraversal::reset()
-    {
-        fBacktracksToNextNode = 0;
-        fNextNode = fRoot;
-    }
+  int
+  SimpleTraversal::getBacktracksToNextNode() const
+  {
+    return (fBacktracksToNextNode);
+  }
+
+  Node *
+  SimpleTraversal::getNextNode()
+  {
+    // If the traversal has ended.
+    if (!fNextNode)
+      {
+        return (NULL);
+      }
+
+    Node * currentNode = fNextNode;
+    fNextNode = findNextNode();
+
+    return (currentNode);
+  }
+
+  bool
+  SimpleTraversal::hasMoreNodes() const
+  {
+    return (fNextNode);
+  }
+
+  void
+  SimpleTraversal::reset()
+  {
+    fBacktracksToNextNode = 0;
+    fNextNode = (Node *) fRoot;
+  }
 }

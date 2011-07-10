@@ -17,40 +17,40 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A {@link simplicity::Node Node} that contains a {@link simplicity::Model Model}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class ModelNode : public Node
-    {
-        public:
-            /**
-             * <p>
-             * Retrieves the {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
-             * </p>
-             *
-             * @return The <code>Model</code> at this <code>ModelNode</code>'s position and orientation.
-             */
-            virtual Model*
-            getModel() = 0;
+  /**
+   * <p>
+   * A {@link simplicity::Node Node} that contains a {@link simplicity::Model Model}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class ModelNode : public virtual Node
+  {
+    public:
+      /**
+       * <p>
+       * Retrieves the {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
+       * </p>
+       *
+       * @return The <code>Model</code> at this <code>ModelNode</code>'s position and orientation.
+       */
+      virtual Model *
+      getModel() const = 0;
 
-            /**
-             * <p>
-             * Sets the {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
-             * </p>
-             *
-             * <p>
-             * This <code>ModelNode</code> will assume ownership of the given <code>Model</code> and the previously held <code>Model</code> will be deleted.
-             * </p>
-             *
-             * @param model The <code>Model</code> at this <code>ModelNode</code>'s position and orientation.
-             */
-            virtual void
-            setModel(Model* const model) = 0;
-    };
+      /**
+       * <p>
+       * Sets the {@link com.se.simplicity.model.Model Model} at this <code>ModelNode</code>'s position and orientation.
+       * </p>
+       *
+       * <p>
+       * This <code>ModelNode</code> will assume ownership of the given <code>Model</code> and the previously held <code>Model</code> will be deleted.
+       * </p>
+       *
+       * @param model The <code>Model</code> at this <code>ModelNode</code>'s position and orientation.
+       */
+      virtual void
+      setModel(Model * const model) = 0;
+  };
 }
 
 #endif /* MODELNODE_H_ */

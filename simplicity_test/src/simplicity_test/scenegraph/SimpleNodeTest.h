@@ -9,31 +9,29 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "SimpleModelNode.h"
+#ifndef SIMPLENODETEST_H_
+#define SIMPLENODETEST_H_
 
-namespace simplicity
+#include <gtest/gtest.h>
+using namespace testing;
+
+#include <simplicity/scenegraph/SimpleNode.h>
+using namespace simplicity;
+
+namespace simplicity_test
 {
-  SimpleModelNode::SimpleModelNode() :
-    fModel(0)
+  /**
+   * <p>
+   * Unit tests for the class {@link simplicity::SimpleNode SimpleNode}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class SimpleNodeTest : public Test
   {
-  }
-
-  SimpleModelNode::~SimpleModelNode()
-  {
-    delete fModel;
-  }
-
-  Model *
-  SimpleModelNode::getModel() const
-  {
-    return (fModel);
-  }
-
-  void
-  SimpleModelNode::setModel(Model * const model)
-  {
-    delete fModel;
-
-    fModel = model;
-  }
+    protected:
+      SimpleNode fTestObject;
+  };
 }
+
+#endif /* SIMPLENODETEST_H_ */

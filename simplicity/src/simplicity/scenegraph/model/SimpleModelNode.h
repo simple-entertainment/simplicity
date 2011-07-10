@@ -17,45 +17,45 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A simple implementation of a {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class SimpleModelNode : public SimpleNode, public ModelNode
-    {
-        public:
-            /**
-             * <p>
-             * Creates an instance of <code>SimpleModelNode</code>.
-             * </p>
-             */
-            SimpleModelNode();
+  /**
+   * <p>
+   * A simple implementation of a {@link com.se.simplicity.scenegraph.model.ModelNode ModelNode}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class SimpleModelNode : public SimpleNode, public ModelNode
+  {
+    public:
+      /**
+       * <p>
+       * Creates an instance of <code>SimpleModelNode</code>.
+       * </p>
+       */
+      SimpleModelNode();
 
-            /**
-             * <p>
-             * Disposes of an instance of <code>SimpleModelNode</code>.
-             * </p>
-             */
-            virtual
-            ~SimpleModelNode();
+      /**
+       * <p>
+       * Disposes of an instance of <code>SimpleModelNode</code>.
+       * </p>
+       */
+      virtual
+      ~SimpleModelNode();
 
-            Model*
-            getModel();
+      Model *
+      getModel() const;
 
-            void
-            setModel(Model* const model);
+      void
+      setModel(Model * const model);
 
-        private:
-            /**
-             * <p>
-             * The {@link simplicity::Model Model} at this <code>SimpleModelNode</code>'s position and orientation.
-             * </p>
-             */
-            Model* fModel;
-    };
+    private:
+      /**
+       * <p>
+       * The {@link simplicity::Model Model} at this <code>SimpleModelNode</code>'s position and orientation.
+       * </p>
+       */
+      Model * fModel;
+  };
 }
 
 #endif /* SIMPLEMODELNODE_H_ */

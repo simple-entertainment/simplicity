@@ -16,154 +16,154 @@
 
 namespace simplicity
 {
-    /**
-     * <p>
-     * A component of a {@link simplicity::SceneGraph SceneGraph}.
-     * </p>
-     *
-     * @author Gary Buyn
-     */
-    class SimpleNode : public Node
-    {
-        public:
-            /**
-             * <p>
-             * Creates an instance of <code>SimpleNode</code>.
-             * </p>
-             */
-            SimpleNode();
+  /**
+   * <p>
+   * A component of a {@link simplicity::SceneGraph SceneGraph}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class SimpleNode : public virtual Node
+  {
+    public:
+      /**
+       * <p>
+       * Creates an instance of <code>SimpleNode</code>.
+       * </p>
+       */
+      SimpleNode();
 
-            /**
-             * <p>
-             * Disposes of an instance of <code>SimpleNode</code>.
-             * </p>
-             */
-            virtual
-            ~SimpleNode();
+      /**
+       * <p>
+       * Disposes of an instance of <code>SimpleNode</code>.
+       * </p>
+       */
+      virtual
+      ~SimpleNode();
 
-            void
-            addChild(Node* const child);
+      void
+      addChild(Node * const child);
 
-            TransformationMatrixf*
-            getAbsoluteTransformation();
+      TransformationMatrix<float> *
+      getAbsoluteTransformation()const;
 
-            BoundingVolume*
-            getBounds();
+      BoundingVolume*
+      getBounds() const;
 
-            vector<Node*>*
-            getChildren();
+      vector<Node *>
+      getChildren() const;
 
-            int
-            getID();
+      int
+      getID() const;
 
-            Node*
-            getParent();
+      Node *
+      getParent() const;
 
-            TransformationMatrixf*
-            getTransformation();
+      TransformationMatrix<float> *
+      getTransformation() const;
 
-            bool
-            hasChildren();
+      bool
+      hasChildren() const;
 
-            bool
-            isAncestor(Node* const ancestor);
+      bool
+      isAncestor(Node const * const ancestor) const;
 
-            bool
-            isCollidable();
+      bool
+      isCollidable() const;
 
-            bool
-            isModifiable();
+      bool
+      isModifiable() const;
 
-            bool
-            isSuccessor(Node* const successor);
+      bool
+      isSuccessor(Node const * const successor) const;
 
-            bool
-            isVisible();
+      bool
+      isVisible() const;
 
-            void
-            removeChild(Node* const child);
+      void
+      removeChild(Node * const child);
 
-            void
-            setBounds(BoundingVolume* const bounds);
+      void
+      setBounds(BoundingVolume const * const bounds);
 
-            void
-            setCollidable(const bool collidable);
+      void
+      setCollidable(bool const collidable);
 
-            void
-            setID(const int id);
+      void
+      setID(int const id);
 
-            void
-            setModifiable(const bool modifiable);
+      void
+      setModifiable(bool const modifiable);
 
-            void
-            setParent(Node* const parent);
+      void
+      setParent(Node const * const parent);
 
-            void
-            setTransformation(TransformationMatrixf* const transformation);
+      void
+      setTransformation(TransformationMatrix<float> const * const transformation);
 
-            void
-            setVisible(const bool visible);
+      void
+      setVisible(bool const visible);
 
-        private:
-            /**
-             * <p>
-             * A volume containing all the {@link com.se.simplicity.model.Model Model}s within the subgraph of which this <code>SimpleNode</code>
-             * is the root.
-             * </p>
-             */
-            BoundingVolume* fBounds;
+    private:
+      /**
+       * <p>
+       * A volume containing all the {@link com.se.simplicity.model.Model Model}s within the subgraph of which this <code>SimpleNode</code>
+       * is the root.
+       * </p>
+       */
+      BoundingVolume * fBounds;
 
-            /**
-             * <p>
-             * The <code>SimpleNode</code>s directly below this <code>SimpleNode</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
-             * </p>
-             */
-            vector<Node*>* fChildren;
+      /**
+       * <p>
+       * The <code>SimpleNode</code>s directly below this <code>SimpleNode</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
+       * </p>
+       */
+      vector<Node *> fChildren;
 
-            /**
-             * <p>
-             * The collision mode. Determines if this <code>SimpleNode</code> can collide with other <code>SimpleNode</code>s in the
-             * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} (determines if it should be included in collision detection).
-             * </p>
-             */
-            bool fCollidable;
+      /**
+       * <p>
+       * The collision mode. Determines if this <code>SimpleNode</code> can collide with other <code>SimpleNode</code>s in the
+       * {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} (determines if it should be included in collision detection).
+       * </p>
+       */
+      bool fCollidable;
 
-            /**
-             * <p>
-             * This <code>SimpleNode</code>'s unique identifier. This unique identifier is managed by the {@link com.se.simplicity.scenegraph.SceneGraph
-             * SceneGraph}.
-             * </p>
-             */
-            int fId;
+      /**
+       * <p>
+       * This <code>SimpleNode</code>'s unique identifier. This unique identifier is managed by the {@link com.se.simplicity.scenegraph.SceneGraph
+       * SceneGraph}.
+       * </p>
+       */
+      int fId;
 
-            /**
-             * <p>
-             * The modification mode. Determines if this <code>SimpleNode</code> can be modified.
-             * </p>
-             */
-            bool fModifiable;
+      /**
+       * <p>
+       * The modification mode. Determines if this <code>SimpleNode</code> can be modified.
+       * </p>
+       */
+      bool fModifiable;
 
-            /**
-             * <p>
-             * The <code>SimpleNode</code> directly above this <code>SimpleNode</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} .
-             * </p>
-             */
-            Node* fParent;
+      /**
+       * <p>
+       * The <code>SimpleNode</code> directly above this <code>SimpleNode</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} .
+       * </p>
+       */
+      Node * fParent;
 
-            /**
-             * <p>
-             * This <code>SimpleNode</code>'s relative position and orientation.
-             * </p>
-             */
-            TransformationMatrixf* fTransformation;
+      /**
+       * <p>
+       * This <code>SimpleNode</code>'s relative position and orientation.
+       * </p>
+       */
+      TransformationMatrix<float> * fTransformation;
 
-            /**
-             * <p>
-             * The visibility mode. Determines if this <code>SimpleNode</code> is visible (determines if it should be rendered).
-             * </p>
-             */
-            bool fVisible;
-    };
+      /**
+       * <p>
+       * The visibility mode. Determines if this <code>SimpleNode</code> is visible (determines if it should be rendered).
+       * </p>
+       */
+      bool fVisible;
+  };
 }
 
 #endif /* SIMPLENODE_H_ */

@@ -1,0 +1,56 @@
+/*
+ This file is part of The Simplicity Engine.
+
+ The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+ by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
+#ifndef MOCKNODE_H_
+#define MOCKNODE_H_
+
+#include <gmock/gmock.h>
+
+#include <simplicity/scenegraph/Node.h>
+using namespace simplicity;
+
+namespace simplicity_test
+{
+  /**
+   * <p>
+   * A mock implementation of {@link simplicity::MockNode MockNode}.
+   * </p>
+   *
+   * @author Gary Buyn
+   */
+  class MockNode : public Node
+  {
+    public:
+      MOCK_METHOD1(addChild, void(Node * const child));
+      MOCK_CONST_METHOD0(getAbsoluteTransformation, TransformationMatrix<float> *());
+      MOCK_CONST_METHOD0(getBounds, BoundingVolume *());
+      MOCK_CONST_METHOD0(getChildren, vector<Node *>());
+      MOCK_CONST_METHOD0(getID, int());
+      MOCK_CONST_METHOD0(getParent, Node *());
+      MOCK_CONST_METHOD0(getTransformation, TransformationMatrix<float> *());
+      MOCK_CONST_METHOD0(hasChildren, bool());
+      MOCK_CONST_METHOD1(isAncestor, bool(Node const * const ancestor));
+      MOCK_CONST_METHOD0(isCollidable, bool());
+      MOCK_CONST_METHOD0(isModifiable, bool());
+      MOCK_CONST_METHOD1(isSuccessor, bool(Node const * const successor));
+      MOCK_CONST_METHOD0(isVisible, bool());
+      MOCK_METHOD1(removeChild, void(Node * const child));
+      MOCK_METHOD1(setBounds, void(BoundingVolume const * const bounds));
+      MOCK_METHOD1(setCollidable, void(bool const collidable));
+      MOCK_METHOD1(setID, void(int const id));
+      MOCK_METHOD1(setModifiable, void(bool const modifiable));
+      MOCK_METHOD1(setParent, void(Node const * const parent));
+      MOCK_METHOD1(setTransformation, void(TransformationMatrix<float> const * const transformation));
+      MOCK_METHOD1(setVisible, void(bool const visible));
+  };
+}
+
+#endif /* MOCKNODE_H_ */
