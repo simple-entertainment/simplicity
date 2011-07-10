@@ -13,6 +13,7 @@
 #define VERTEXGROUP_H_
 
 #include "../SEInvalidOperationException.h"
+#include "Model.h"
 
 namespace simplicity
 {
@@ -23,7 +24,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class VertexGroup
+  class VertexGroup : public Model
   {
     public:
       /**
