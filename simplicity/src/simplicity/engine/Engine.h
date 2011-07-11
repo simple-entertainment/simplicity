@@ -13,7 +13,6 @@
 #define ENGINE_H_
 
 #include "EngineInput.h"
-#include "SEEngineAdvancementException.h"
 
 namespace simplicity
 {
