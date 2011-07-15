@@ -39,7 +39,7 @@ namespace simplicity
 
     while (traversal.hasMoreNodes())
       {
-        Node* node = traversal.getNextNode();
+        Node * node = traversal.getNextNode();
 
         node->setID(getNextNodeID());
         fNodes.insert(pair<int, Node *> (node->getID(), node));
@@ -95,7 +95,7 @@ namespace simplicity
 
     while (traversal.hasMoreNodes())
       {
-        Node* node = traversal.getNextNode();
+        Node * node = traversal.getNextNode();
 
         node->setID(getNextNodeID());
         fNodes.insert(pair<int, Node *> (node->getID(), node));

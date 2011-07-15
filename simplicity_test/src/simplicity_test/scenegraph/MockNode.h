@@ -43,12 +43,12 @@ namespace simplicity_test
       MOCK_CONST_METHOD1(isSuccessor, bool(Node const * const successor));
       MOCK_CONST_METHOD0(isVisible, bool());
       MOCK_METHOD1(removeChild, void(Node * const child));
-      MOCK_METHOD1(setBounds, void(BoundingVolume const * const bounds));
+      MOCK_METHOD1(setBounds, void(BoundingVolume * const bounds));
       MOCK_METHOD1(setCollidable, void(bool const collidable));
       MOCK_METHOD1(setID, void(int const id));
       MOCK_METHOD1(setModifiable, void(bool const modifiable));
-      MOCK_METHOD1(setParent, void(Node const * const parent));
-      MOCK_METHOD1(setTransformation, void(TransformationMatrix<float> const * const transformation));
+      MOCK_METHOD1(setParent, void(Node * const parent));
+      MOCK_METHOD1(setTransformation, void(TransformationMatrix<float> * const transformation));
       MOCK_METHOD1(setVisible, void(bool const visible));
   };
 }

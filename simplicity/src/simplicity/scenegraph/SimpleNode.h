@@ -47,7 +47,7 @@ namespace simplicity
       TransformationMatrix<float> *
       getAbsoluteTransformation()const;
 
-      BoundingVolume*
+      BoundingVolume *
       getBounds() const;
 
       vector<Node *>
@@ -84,7 +84,7 @@ namespace simplicity
       removeChild(Node * const child);
 
       void
-      setBounds(BoundingVolume const * const bounds);
+      setBounds(BoundingVolume * const bounds);
 
       void
       setCollidable(bool const collidable);
@@ -96,10 +96,10 @@ namespace simplicity
       setModifiable(bool const modifiable);
 
       void
-      setParent(Node const * const parent);
+      setParent(Node * const parent);
 
       void
-      setTransformation(TransformationMatrix<float> const * const transformation);
+      setTransformation(TransformationMatrix<float> * const transformation);
 
       void
       setVisible(bool const visible);

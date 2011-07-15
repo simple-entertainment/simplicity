@@ -203,7 +203,7 @@ namespace simplicity
        * the root.
        */
       virtual void
-      setBounds(BoundingVolume const * const bounds) = 0;
+      setBounds(BoundingVolume * const bounds) = 0;
 
       /**
        * <p>
@@ -245,7 +245,7 @@ namespace simplicity
        * @param parent The <code>Node</code> directly above this <code>Node</code> in a {@link simplicity.scenegraph.SceneGraph SceneGraph}.
        */
       virtual void
-      setParent(Node const * const parent) = 0;
+      setParent(Node * const parent) = 0;
 
       /**
        * <p>
@@ -259,7 +259,7 @@ namespace simplicity
        * @param transformation This <code>Node</code>'s relative position and orientation.
        */
       virtual void
-      setTransformation(TransformationMatrix<float> const * const transformation) = 0;
+      setTransformation(TransformationMatrix<float> * const transformation) = 0;
 
       /**
        * <p>

@@ -29,7 +29,7 @@ namespace simplicity_test
   TEST_F(SimpleNodeTest, addChild)
   {
     // Create dependencies.
-    SimpleNode* child = new SimpleNode();
+    SimpleNode * child = new SimpleNode();
 
     // Perform test.
     fTestObject.addChild(child);

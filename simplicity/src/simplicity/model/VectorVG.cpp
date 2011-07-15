@@ -69,7 +69,7 @@ namespace simplicity
   TranslationVector<float> *
   VectorVG::getCenter() const
   {
-    SimpleTranslationVector4<float>* translation = new SimpleTranslationVector4<float> ();
+    SimpleTranslationVector4<float> * translation = new SimpleTranslationVector4<float> ();
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;

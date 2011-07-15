@@ -163,11 +163,11 @@ namespace simplicity
   }
 
   void
-  SimpleNode::setBounds(BoundingVolume const * const bounds)
+  SimpleNode::setBounds(BoundingVolume * const bounds)
   {
     delete fBounds;
 
-    fBounds = (BoundingVolume *) bounds;
+    fBounds = bounds;
   }
 
   void
@@ -189,17 +189,17 @@ namespace simplicity
   }
 
   void
-  SimpleNode::setParent(Node const * const parent)
+  SimpleNode::setParent(Node * const parent)
   {
-    fParent = (Node *) parent;
+    fParent = parent;
   }
 
   void
-  SimpleNode::setTransformation(TransformationMatrix<float> const * const transformation)
+  SimpleNode::setTransformation(TransformationMatrix<float> * const transformation)
   {
     delete fTransformation;
 
-    fTransformation = (TransformationMatrix<float> *) transformation;
+    fTransformation = transformation;
   }
 
   void

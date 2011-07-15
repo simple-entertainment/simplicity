@@ -121,7 +121,7 @@ namespace simplicity
   VertexGroup *
   IndexedVectorVG::getParent() const
   {
-    return ((VertexGroup *) fParent);
+    return (fParent);
   }
 
   int
@@ -153,7 +153,7 @@ namespace simplicity
     for (unsigned int index = 0; index < fIndices.size(); index++)
       {
         int vectorIndex = fIndices.at(index) * ModelConstants::ITEMS_IN_CNV;
-        int parentVectorIndex = ((IndexedVectorVG*) fParent)->getIndices().at(fIndexWithinParent + index)
+        int parentVectorIndex = dynamic_cast<IndexedVectorVG *> (fParent)->getIndices().at(fIndexWithinParent + index)
             * ModelConstants::ITEMS_IN_CNV;
 
         for (int cnvIndex = 0; cnvIndex < ModelConstants::ITEMS_IN_CNV; cnvIndex++)
