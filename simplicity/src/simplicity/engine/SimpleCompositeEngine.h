@@ -13,7 +13,8 @@
 #define SIMPLECOMPOSITEENGINE_H_
 
 #include <vector>
-using namespace std;
+
+#include <boost/smart_ptr.hpp>
 
 #include "CompositeEngine.h"
 #include "Engine.h"
@@ -48,16 +49,16 @@ namespace simplicity
       ~SimpleCompositeEngine();
 
       void
-      addEngine(Engine const * const engine);
+      addEngine(boost::shared_ptr<Engine> engine);
 
-      EngineInput *
-      advance(EngineInput const * const input);
+      EngineInput*
+      advance(const EngineInput* const input);
 
       void
       destroy();
 
       void
-      removeEngine(Engine const * const engine);
+      removeEngine(const boost::shared_ptr<Engine> engine);
 
       void
       reset();
@@ -74,7 +75,7 @@ namespace simplicity
        * @return The lowest common denominator of the two integer values given.
        */
       int
-      calculateLCD(int const a, int const b) const;
+      calculateLCD(const int a, const int b) const;
 
       /**
        * <p>
@@ -116,7 +117,7 @@ namespace simplicity
        * The sub-engines managed by this <code>SimpleCompositeEngine</code>.
        * </p>
        */
-      vector<Engine *> fEngines;
+      std::vector<boost::shared_ptr<Engine> > fEngines;
   };
 }
 

@@ -81,12 +81,12 @@ namespace simplicity_test
     memcpy(sendHeaderData + 2 * sizeof(unsigned int), &remoteSequenceNumber, sizeof(unsigned int));
     memcpy(sendHeaderData + 3 * sizeof(unsigned int), &ackBitfield, 4);
 
-    unsigned char sendData[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<unsigned char> sendData(10);
     array<mutable_buffer, 2> buffers;
     buffers.at(0) = buffer(sendHeaderData, 16);
     buffers.at(1) = buffer(sendData, 10);
 
-    unsigned char receiveData[10];
+    vector<unsigned char> receiveData(10);
 
     // Initialise test environment.
     fTestObject.getEndpointHostNames().push_back("localhost");
@@ -150,12 +150,12 @@ namespace simplicity_test
     memcpy(sendHeaderData + 2 * sizeof(unsigned int), &remoteSequenceNumber, sizeof(unsigned int));
     memcpy(sendHeaderData + 3 * sizeof(unsigned int), &ackBitfield, 4);
 
-    unsigned char sendData[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<unsigned char> sendData(10);
     array<mutable_buffer, 2> buffers;
     buffers.at(0) = buffer(sendHeaderData, 16);
     buffers.at(1) = buffer(sendData, 10);
 
-    unsigned char receiveData[10];
+    vector<unsigned char> receiveData(10);
 
     // Initialise test environment.
     fTestObject.getEndpointHostNames().push_back("localhost");
@@ -168,7 +168,7 @@ namespace simplicity_test
     // Perform test.
     socket.send_to(buffers, receivingEndpoint);
     fTestObject.receive(receiveData);
-    fTestObject.send(sendData, 10);
+    fTestObject.send(sendData);
     this_thread::sleep(milliseconds(10));
 
     sequenceNumber++;
@@ -177,7 +177,7 @@ namespace simplicity_test
     memcpy(sendHeaderData + 2 * sizeof(unsigned int), &remoteSequenceNumber, sizeof(unsigned int));
     socket.send_to(buffers, receivingEndpoint);
     fTestObject.receive(receiveData);
-    fTestObject.send(sendData, 10);
+    fTestObject.send(sendData);
     this_thread::sleep(milliseconds(10));
 
     sequenceNumber++;
@@ -219,12 +219,12 @@ namespace simplicity_test
     memcpy(sendHeaderData + 2 * sizeof(unsigned int), &remoteSequenceNumber, sizeof(unsigned int));
     memcpy(sendHeaderData + 3 * sizeof(unsigned int), &ackBitfield, 4);
 
-    unsigned char sendData[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<unsigned char> sendData(10);
     array<mutable_buffer, 2> buffers;
     buffers.at(0) = buffer(sendHeaderData, 16);
     buffers.at(1) = buffer(sendData, 10);
 
-    unsigned char receiveData[10];
+    vector<unsigned char> receiveData(10);
 
     // Initialise test environment.
     fTestObject.getEndpointHostNames().push_back("localhost");
@@ -236,7 +236,7 @@ namespace simplicity_test
     // Perform test.
     socket.send_to(buffers, receivingEndpoint);
     fTestObject.receive(receiveData);
-    fTestObject.send(sendData, 10);
+    fTestObject.send(sendData);
     this_thread::sleep(milliseconds(10));
 
     sequenceNumber++;
@@ -245,7 +245,7 @@ namespace simplicity_test
     memcpy(sendHeaderData + 2 * sizeof(unsigned int), &remoteSequenceNumber, sizeof(unsigned int));
     socket.send_to(buffers, receivingEndpoint);
     fTestObject.receive(receiveData);
-    fTestObject.send(sendData, 10);
+    fTestObject.send(sendData);
     this_thread::sleep(milliseconds(10));
 
     sequenceNumber++;
@@ -286,12 +286,22 @@ namespace simplicity_test
     memcpy(sendHeaderData + 2 * sizeof(unsigned int), &remoteSequenceNumber, sizeof(unsigned int));
     memcpy(sendHeaderData + 3 * sizeof(unsigned int), &ackBitfield, 4);
 
-    unsigned char sendData[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<unsigned char> sendData(10);
+    sendData.at(0) = 0;
+    sendData.at(1) = 1;
+    sendData.at(2) = 2;
+    sendData.at(3) = 3;
+    sendData.at(4) = 4;
+    sendData.at(5) = 5;
+    sendData.at(6) = 6;
+    sendData.at(7) = 7;
+    sendData.at(8) = 8;
+    sendData.at(9) = 9;
     array<mutable_buffer, 2> buffers;
     buffers.at(0) = buffer(sendHeaderData, 16);
     buffers.at(1) = buffer(sendData, 10);
 
-    unsigned char receiveData[10];
+    vector<unsigned char> receiveData(10);
 
     // Initialise test environment.
     fTestObject.getEndpointHostNames().push_back("localhost");
@@ -347,12 +357,12 @@ namespace simplicity_test
     memcpy(sendHeaderData + 2 * sizeof(unsigned int), &remoteSequenceNumber, sizeof(unsigned int));
     memcpy(sendHeaderData + 3 * sizeof(unsigned int), &ackBitfield, 4);
 
-    unsigned char sendData[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<unsigned char> sendData(10);
     array<mutable_buffer, 2> buffers;
     buffers.at(0) = buffer(sendHeaderData, 16);
     buffers.at(1) = buffer(sendData, 10);
 
-    unsigned char receiveData[10];
+    vector<unsigned char> receiveData(10);
 
     // Initialise test environment.
     fTestObject.getEndpointHostNames().push_back("localhost");
@@ -417,12 +427,12 @@ namespace simplicity_test
     memcpy(sendHeaderData + 2 * sizeof(unsigned int), &remoteSequenceNumber, sizeof(unsigned int));
     memcpy(sendHeaderData + 3 * sizeof(unsigned int), &ackBitfield, 4);
 
-    unsigned char sendData[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<unsigned char> sendData(10);
     array<mutable_buffer, 2> buffers;
     buffers.at(0) = buffer(sendHeaderData, 16);
     buffers.at(1) = buffer(sendData, 10);
 
-    unsigned char receiveData[10];
+    vector<unsigned char> receiveData(10);
 
     // Initialise test environment.
     fTestObject.getEndpointHostNames().push_back("10.0.0.1");
@@ -468,12 +478,12 @@ namespace simplicity_test
     memcpy(sendHeaderData + 2 * sizeof(unsigned int), &remoteSequenceNumber, sizeof(unsigned int));
     memcpy(sendHeaderData + 3 * sizeof(unsigned int), &ackBitfield, 4);
 
-    unsigned char sendData[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<unsigned char> sendData(10);
     array<mutable_buffer, 2> buffers;
     buffers.at(0) = buffer(sendHeaderData, 16);
     buffers.at(1) = buffer(sendData, 10);
 
-    unsigned char receiveData[10];
+    vector<unsigned char> receiveData(10);
 
     // Initialise test environment.
     fTestObject.getEndpointHostNames().push_back("localhost");
@@ -519,12 +529,22 @@ namespace simplicity_test
     memcpy(sendHeaderData + 2 * sizeof(unsigned int), &remoteSequenceNumber, sizeof(unsigned int));
     memcpy(sendHeaderData + 3 * sizeof(unsigned int), &ackBitfield, 4);
 
-    unsigned char sendData[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<unsigned char> sendData(10);
+    sendData.at(0) = 0;
+    sendData.at(1) = 1;
+    sendData.at(2) = 2;
+    sendData.at(3) = 3;
+    sendData.at(4) = 4;
+    sendData.at(5) = 5;
+    sendData.at(6) = 6;
+    sendData.at(7) = 7;
+    sendData.at(8) = 8;
+    sendData.at(9) = 9;
     array<mutable_buffer, 2> buffers;
     buffers.at(0) = buffer(sendHeaderData, 16);
     buffers.at(1) = buffer(sendData, 10);
 
-    unsigned char receiveData[10];
+    vector<unsigned char> receiveData(10);
 
     // Initialise test environment.
     fTestObject.getEndpointHostNames().push_back("localhost");
@@ -575,7 +595,7 @@ namespace simplicity_test
   TEST_F(SimpleEngineProtocolTest, receiveNoMessage)
   {
     // Create dependencies.
-    unsigned char receiveData[10];
+    vector<unsigned char> receiveData(10);
 
     // Initialise test environment.
     fTestObject.init();
@@ -612,12 +632,22 @@ namespace simplicity_test
     memcpy(sendHeaderData + 2 * sizeof(unsigned int), &remoteSequenceNumber, sizeof(unsigned int));
     memcpy(sendHeaderData + 3 * sizeof(unsigned int), &ackBitfield, 4);
 
-    unsigned char sendData[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<unsigned char> sendData(10);
+    sendData.at(0) = 0;
+    sendData.at(1) = 1;
+    sendData.at(2) = 2;
+    sendData.at(3) = 3;
+    sendData.at(4) = 4;
+    sendData.at(5) = 5;
+    sendData.at(6) = 6;
+    sendData.at(7) = 7;
+    sendData.at(8) = 8;
+    sendData.at(9) = 9;
     array<mutable_buffer, 2> buffers;
     buffers.at(0) = buffer(sendHeaderData, 16);
     buffers.at(1) = buffer(sendData, 10);
 
-    unsigned char receiveData[10];
+    vector<unsigned char> receiveData(10);
 
     // Initialise test environment.
     fTestObject.getEndpointHostNames().push_back("localhost");
@@ -673,11 +703,21 @@ namespace simplicity_test
     udp::endpoint sendingEndpoint;
     udp::endpoint receivingEndpoint = *resolver.resolve(udp::resolver::query(udp::v4(), "localhost", lexical_cast<string> (fTestObject.getRemotePort())));
 
-    unsigned char sendData[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<unsigned char> sendData(10);
+    sendData.at(0) = 0;
+    sendData.at(1) = 1;
+    sendData.at(2) = 2;
+    sendData.at(3) = 3;
+    sendData.at(4) = 4;
+    sendData.at(5) = 5;
+    sendData.at(6) = 6;
+    sendData.at(7) = 7;
+    sendData.at(8) = 8;
+    sendData.at(9) = 9;
 
     unsigned char receiveHeaderData[16];
 
-    unsigned char receiveData[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    vector<unsigned char> receiveData(10);
     array<mutable_buffer, 2> buffers;
     buffers.at(0) = buffer(receiveHeaderData, 16);
     buffers.at(1) = buffer(receiveData, 10);
@@ -690,7 +730,7 @@ namespace simplicity_test
     socket.bind(receivingEndpoint);
 
     // Perform test.
-    fTestObject.send(sendData, 10);
+    fTestObject.send(sendData);
 
     socket.receive_from(buffers, sendingEndpoint);
 

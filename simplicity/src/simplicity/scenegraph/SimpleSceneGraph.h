@@ -13,7 +13,6 @@
 #define SIMPLESCENEGRAPH_H_
 
 #include <map>
-using namespace std;
 
 #include "SceneGraph.h"
 
@@ -35,22 +34,22 @@ namespace simplicity
       ~SimpleSceneGraph();
 
       void
-      addSubgraph(Node * const subgraphRoot);
+      addSubgraph(boost::shared_ptr<Node> subgraphRoot);
 
       void
-      addSubgraph(Node * const subgraphRoot, Node * const parent);
+      addSubgraph(boost::shared_ptr<Node> subgraphRoot, Node& parent);
 
-      Node *
-      getNode(int const id) const;
+      boost::shared_ptr<Node>
+      getNode(const int id) const;
 
-      Node *
+      boost::shared_ptr<Node>
       getRoot() const;
 
-      vector<Node *>
+      std::vector<boost::shared_ptr<Node> >
       getSubgraphRoots() const;
 
       void
-      removeSubgraph(Node * const subgraphRoot);
+      removeSubgraph(Node& subgraphRoot);
 
       void
       resetIDs();
@@ -66,14 +65,14 @@ namespace simplicity
        * The {@link simplicity::Node Node}s within this <code>SimpleSceneGraph</code>.
        * </p>
        */
-      map<int, Node *> fNodes;
+      std::map<int, boost::shared_ptr<Node> > fNodes;
 
       /**
        * <p>
        * The root {@link simplicity::Node Node} of this <code>SimpleSceneGraph</code>.
        * </p>
        */
-      Node * fRoot;
+      boost::shared_ptr<Node> fRoot;
 
       /**
        * <p>

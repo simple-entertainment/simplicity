@@ -10,12 +10,13 @@
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <boost/math/constants/constants.hpp>
-using namespace boost::math::constants;
 
 #include <simplicity/vector/SimpleTranslationVector4.h>
-using namespace simplicity;
 
 #include "SimpleTransformationMatrix44Test.h"
+
+using namespace boost::math::constants;
+using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -23,11 +24,13 @@ namespace simplicity_test
    * <p>
    * Unit test the method {@link simplicity::SimpleTransformationMatrix44#rotate() rotate()}.
    * </p>
-   */TEST_F(SimpleTransformationMatrix44Test, rotate)
+   */
+  TEST_F(SimpleTransformationMatrix44Test, rotate)
   {
-    fTestObject.rotate(pi<float> () / 2.0f, new SimpleVector4<float> (0.0f, 1.0f, 0.0f, 1.0f));
 
-    array<float, 16> data = fTestObject.getData();
+    fTestObject.rotate(pi<float> () / 2.0f, SimpleVector4<float> (0.0f, 1.0f, 0.0f, 1.0f));
+
+    array<float, 16>& data = fTestObject.getData();
 
     ASSERT_NEAR(0.0f, data.at(0), 0.0000001f);
     ASSERT_NEAR(0.0f, data.at(1), 0.0000001f);
@@ -40,23 +43,23 @@ namespace simplicity_test
     ASSERT_NEAR(0.0f, data.at(10), 0.0000001f);
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleTransformationMatrix44#translate() translate()}.
- * </p>
- */
-TEST_F(SimpleTransformationMatrix44Test, translate)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleTransformationMatrix44#translate() translate()}.
+   * </p>
+   */
+  TEST_F(SimpleTransformationMatrix44Test, translate)
   {
-    array<float, 16> * data = &fTestObject.getData();
+    array<float, 16>& data = fTestObject.getData();
 
-    data->at(12) = 1.0f;
-    data->at(13) = 2.0f;
-    data->at(14) = 3.0f;
+    data.at(12) = 1.0f;
+    data.at(13) = 2.0f;
+    data.at(14) = 3.0f;
 
-    fTestObject.translate(new SimpleTranslationVector4<float>(1.0f, 2.0f, 3.0f, 1.0f));
+    fTestObject.translate(SimpleTranslationVector4<float>(1.0f, 2.0f, 3.0f, 1.0f));
 
-    ASSERT_EQ(2.0f, data->at(12));
-    ASSERT_EQ(4.0f, data->at(13));
-    ASSERT_EQ(6.0f, data->at(14));
+    ASSERT_EQ(2.0f, data.at(12));
+    ASSERT_EQ(4.0f, data.at(13));
+    ASSERT_EQ(6.0f, data.at(14));
   }
 }

@@ -51,7 +51,7 @@ namespace simplicity
        * @return True if the this <code>BoundingVolume</code> intersects with the given <code>BoundingVolume</code>, false otherwise.
        */
       virtual bool
-      intersectsWith(BoundingVolume const * const otherBoundingVolume) const = 0;
+      intersectsWith(const BoundingVolume& otherBoundingVolume) const = 0;
 
       /**
        * <p>

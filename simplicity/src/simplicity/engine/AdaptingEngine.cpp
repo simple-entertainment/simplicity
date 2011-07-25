@@ -11,20 +11,21 @@
  */
 #include "AdaptingEngine.h"
 
+using namespace std;
+
 namespace simplicity
 {
-  AdaptingEngine::AdaptingEngine(Engine * const engine) :
+  AdaptingEngine::AdaptingEngine(boost::shared_ptr<Engine> engine) :
     RunnableEngine(), fEngine(engine)
   {
   }
 
   AdaptingEngine::~AdaptingEngine()
   {
-    delete fEngine;
   }
 
-  EngineInput *
-  AdaptingEngine::advance(EngineInput const * const input)
+  EngineInput*
+  AdaptingEngine::advance(const EngineInput* const input)
   {
     return (fEngine->advance(input));
   }
@@ -33,5 +34,11 @@ namespace simplicity
   AdaptingEngine::destroy()
   {
     fEngine->destroy();
+  }
+
+  boost::shared_ptr<Engine>
+  AdaptingEngine::getEngine() const
+  {
+    return (fEngine);
   }
 }

@@ -56,8 +56,8 @@ namespace simplicity
        *
        * @return The <code>EngineInput</code> for the next {@link com.se.simplicity.engine.Engine Engine} in the chain.
        */
-      virtual EngineInput *
-      advance(EngineInput const * const input) = 0;
+      virtual EngineInput*
+      advance(const EngineInput* const input) = 0;
 
       /**
        * <p>
@@ -101,7 +101,7 @@ namespace simplicity
        * @param preferredFrequency The preferred frequency (advancements per second) of this <code>Engine</code>.
        */
       virtual void
-      setPreferredFrequency(int const preferredFrequency) = 0;
+      setPreferredFrequency(const int preferredFrequency) = 0;
   };
 }
 

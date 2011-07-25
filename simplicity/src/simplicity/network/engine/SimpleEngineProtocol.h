@@ -40,12 +40,12 @@ namespace simplicity
    * returns 0.</li>
    * <li>Protocol Filter - Only messages received that are identified as having been sent by the same version of the same protocol are accepted and
    * passed to the application. All other messages are ignored and their existence is not made visible to the application.</li>
-   * <li>Remote Endpoint Filter - Only messages received that are identified as having been sent from an endpoint known to this protocol are accepted
-   * and passed to the application. All other messages are ignored and their existence is not made visible to the application.</li>
+   * <li>Remote Endpoint Filter - Only messages received that are identified as having been sent from an endpoint known to this protocol are
+   * accepted and passed to the application. All other messages are ignored and their existence is not made visible to the application.</li>
    * <li>Disconnection Detection - A connection is assumed to be disconnected after no messages have been received on it for the disconnection
    * timeout period.</li>
-   * <li>Connection Flooding Detection - A connection is considered flooded when it exceeds a predetermined round trip time. The flooding is resolved
-   * after a period of time during which the connection's round trip time is lower than the predetermined round trip time.</li>
+   * <li>Connection Flooding Detection - A connection is considered flooded when it exceeds a predetermined round trip time. The flooding is
+   * resolved after a period of time during which the connection's round trip time is lower than the predetermined round trip time.</li>
    * <ul>
    */
   class SimpleEngineProtocol : public EngineProtocol
@@ -78,7 +78,7 @@ namespace simplicity
       boost::posix_time::time_duration
       getDisconnectionTimeout() const;
 
-      std::vector<std::string> &
+      std::vector<std::string>&
       getEndpointHostNames();
 
       /**
@@ -104,22 +104,22 @@ namespace simplicity
       init();
 
       bool
-      isConnectedTo(std::string const endpointHostName) const;
+      isConnectedTo(const std::string endpointHostName) const;
 
       bool
-      isConnectionFlooded(std::string const endpointHostName) const;
+      isConnectionFlooded(const std::string endpointHostName) const;
 
       unsigned int
-      receive(unsigned char * const data);
+      receive(std::vector<unsigned char>& data);
 
       bool
-      receivedMessage(std::string const endpointHostName, unsigned int const sequenceNumber) const;
+      receivedMessage(const std::string endpointHostName, const unsigned int sequenceNumber) const;
 
       void
-      send(unsigned char * const data, unsigned int const dataLength);
+      send(const std::vector<unsigned char>& data);
 
       void
-      setDisconnectionTimeout(boost::posix_time::time_duration const disconnectionTimeout);
+      setDisconnectionTimeout(const boost::posix_time::time_duration disconnectionTimeout);
 
       /**
        * <p>
@@ -129,19 +129,19 @@ namespace simplicity
        * @param floodModeRoundTripTime The round trip time that is so slow that the connection is considered flooded if it is reached.
        */
       void
-      setFloodModeRoundTripTime(boost::posix_time::time_duration const floodModeRoundTripTime);
+      setFloodModeRoundTripTime(const boost::posix_time::time_duration floodModeRoundTripTime);
 
       void
-      setLocalPort(unsigned int const port);
+      setLocalPort(const unsigned int port);
 
       void
-      setMaxDataLength(unsigned int const maxDataLength);
+      setMaxDataLength(const unsigned int maxDataLength);
 
       void
-      setRemotePort(unsigned int const port);
+      setRemotePort(const unsigned int port);
 
       void
-      setSupportsMultipleEndpoints(bool const supportMultipleEndpoints);
+      setSupportsMultipleEndpoints(const bool supportMultipleEndpoints);
 
       bool
       supportsMultipleEndpoints();
@@ -152,28 +152,28 @@ namespace simplicity
        * The number of previous messages to acknowledge in each message.
        * </p>
        */
-      static long const ACK_BACKLOG = 32;
+      static const long ACK_BACKLOG = 32;
 
       /**
        * <p>
        * The default time a connection can stay idle before it is considered disconnected.
        * </p>
        */
-      static boost::posix_time::time_duration const DEFAULT_DISCONNECTION_TIMEOUT;
+      static const boost::posix_time::time_duration DEFAULT_DISCONNECTION_TIMEOUT;
 
       /**
        * <p>
        * The default round trip time that is so slow that the connection is considered flooded if it is reached.
        * </p>
        */
-      static boost::posix_time::time_duration const FLOOD_MODE_DEFAULT_ROUND_TRIP_TIME;
+      static const boost::posix_time::time_duration FLOOD_MODE_DEFAULT_ROUND_TRIP_TIME;
 
       /**
        * <p>
        * The default period of time a connection must stay 'good' (not flooded) for before exiting flood mode.
        * </p>
        */
-      static boost::posix_time::time_duration const FLOOD_MODE_DEFAULT_TIME_PERIOD;
+      static const boost::posix_time::time_duration FLOOD_MODE_DEFAULT_TIME_PERIOD;
 
       /**
        * <p>
@@ -181,7 +181,7 @@ namespace simplicity
        * prolonged 'bad' communication to prevent a premature exit from flood mode.
        * </p>
        */
-      static boost::posix_time::time_duration const FLOOD_MODE_MAX_TIME_PERIOD;
+      static const boost::posix_time::time_duration FLOOD_MODE_MAX_TIME_PERIOD;
 
       /**
        * <p>
@@ -189,21 +189,28 @@ namespace simplicity
        * prolonged 'good' communication to prevent an unwarranted extended flood mode.
        * </p>
        */
-      static boost::posix_time::time_duration const FLOOD_MODE_MIN_TIME_PERIOD;
+      static const boost::posix_time::time_duration FLOOD_MODE_MIN_TIME_PERIOD;
 
       /**
        * <p>
        * The time period of 'good' communication after which the 'flood mode time period' is reduced if the minimum has not yet been reached.
        * </p>
        */
-      static boost::posix_time::time_duration const FLOOD_MODE_REVIEW_TIME_PERIOD;
+      static const boost::posix_time::time_duration FLOOD_MODE_REVIEW_TIME_PERIOD;
 
       /**
        * <p>
        * The length of the header (in bytes).
        * </p>
        */
-      static unsigned int const HEADER_LENGTH = 12 + ACK_BACKLOG / 8;
+      static const unsigned int HEADER_LENGTH = 12 + ACK_BACKLOG / 8;
+
+      /**
+       * <p>
+       * Logs messages associated with this class.
+       * </p>
+       */
+      static log4cpp::Category& fLogger;
 
       /**
        * <p>
@@ -291,13 +298,6 @@ namespace simplicity
 
       /**
        * <p>
-       * Logs messages associated with this class.
-       * </p>
-       */
-      static log4cpp::Category * fLogger;
-
-      /**
-       * <p>
        * The maximum amount of data that can be sent or received in a single message.
        * </p>
        */
@@ -374,7 +374,7 @@ namespace simplicity
        * @param endpointHostName The host name of the remote endpoint to establish a virtual connection with.
        */
       void
-      connectTo(std::string const & endpointHostName);
+      connectTo(const std::string& endpointHostName);
 
       /**
        * <p>
@@ -382,7 +382,7 @@ namespace simplicity
        * </p>
        */
       void
-      onReceiveComplete(boost::asio::ip::udp::endpoint const & endpoint);
+      onReceiveComplete(const boost::asio::ip::udp::endpoint& endpoint);
 
       /**
        * <p>
@@ -390,7 +390,7 @@ namespace simplicity
        * </p>
        */
       void
-      onSendComplete(boost::asio::ip::udp::endpoint const & endpoint);
+      onSendComplete(const boost::asio::ip::udp::endpoint& endpoint);
 
       /**
        * <p>
@@ -398,7 +398,7 @@ namespace simplicity
        * </p>
        */
       void
-      prepareHeader(boost::asio::ip::udp::endpoint const & endpoint);
+      prepareHeader(const boost::asio::ip::udp::endpoint& endpoint);
 
       /**
        * <p>
@@ -409,7 +409,7 @@ namespace simplicity
        * @param lastRoundTripTime The round trip time of the message just acknowledged.
        */
       void
-      updateRoundTripTime(boost::asio::ip::udp::endpoint const & endpoint, boost::posix_time::time_duration const & lastRoundTripTime);
+      updateRoundTripTime(const boost::asio::ip::udp::endpoint& endpoint, const boost::posix_time::time_duration& lastRoundTripTime);
 
       /**
        * <p>
@@ -417,7 +417,7 @@ namespace simplicity
        * </p>
        */
       bool
-      validateMessage(boost::asio::ip::udp::endpoint const & endpoint);
+      validateMessage(const boost::asio::ip::udp::endpoint& endpoint);
   };
 }
 

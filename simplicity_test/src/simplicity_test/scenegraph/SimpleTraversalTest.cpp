@@ -10,10 +10,12 @@
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <simplicity/scenegraph/SimpleNode.h>
-using namespace simplicity;
 
 #include "../mocks/NodeHierarchy.h"
 #include "SimpleTraversalTest.h"
+
+using namespace boost;
+using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -27,8 +29,8 @@ namespace simplicity_test
     NodeHierarchy nodes;
     nodes.setStandardNodeHierarchy();
 
-    SimpleTraversal fTestObject(nodes.node1);
-    Node * nextNode;
+    SimpleTraversal fTestObject(*nodes.node1);
+    shared_ptr<Node> nextNode;
 
     ASSERT_EQ(0, fTestObject.getBacktracksToNextNode());
     ASSERT_TRUE(fTestObject.hasMoreNodes());
@@ -88,8 +90,8 @@ namespace simplicity_test
       NodeHierarchy nodes;
       nodes.setBasicNodeHierarchy();
 
-      SimpleTraversal fTestObject(nodes.node1);
-      Node * nextNode;
+      SimpleTraversal fTestObject(*nodes.node1);
+      shared_ptr<Node> nextNode;
 
       ASSERT_EQ(0, fTestObject.getBacktracksToNextNode());
       ASSERT_TRUE(fTestObject.hasMoreNodes());
@@ -139,9 +141,9 @@ namespace simplicity_test
    */
   TEST_F(SimpleTraversalTest, traversalRootOnly)
     {
-      Node * node1 = new SimpleNode();
-      SimpleTraversal fTestObject(node1);
-      Node * nextNode;
+      shared_ptr<Node> node1(new SimpleNode);
+      SimpleTraversal fTestObject(*node1);
+      shared_ptr<Node> nextNode;
 
       ASSERT_EQ(0, fTestObject.getBacktracksToNextNode());
       ASSERT_TRUE(fTestObject.hasMoreNodes());

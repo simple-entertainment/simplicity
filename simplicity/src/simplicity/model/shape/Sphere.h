@@ -40,10 +40,10 @@ namespace simplicity
        */
       ~Sphere();
 
-      TranslationVector<float> *
+      const TranslationVector<float>&
       getCenter() const;
 
-      RGBColourVector<float> *
+      RGBColourVector<float>&
       getColour() const;
 
       /**
@@ -57,7 +57,7 @@ namespace simplicity
       getRadius() const;
 
       void
-      setColour(RGBColourVector<float> * const colour);
+      setColour(boost::shared_ptr<RGBColourVector<float> > colour);
 
       /**
        * <p>
@@ -67,15 +67,22 @@ namespace simplicity
        * @param radius The radius.
        */
       void
-      setRadius(float const radius);
+      setRadius(const float radius);
 
     private:
+      /**
+       * <p>
+       * The point at the center of this <code>Sphere</code>.
+       * </p>
+       */
+      boost::shared_ptr<TranslationVector<float> > fCenter;
+
       /**
        * <p>
        * The colour to render this <code>Sphere</code> as.
        * </p>
        */
-      RGBColourVector<float> * fColour;
+      boost::shared_ptr<RGBColourVector<float> > fColour;
 
       /**
        * <p>

@@ -23,18 +23,18 @@ namespace simplicity
     }
 
   template<class Data>
-    SimpleTransformationMatrix44<Data>::SimpleTransformationMatrix44(array<Data, 16> data) :
+    SimpleTransformationMatrix44<Data>::SimpleTransformationMatrix44(array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX> data) :
       SimpleMatrix44<Data> (data)
     {
     }
 
   template<class Data>
-    TranslationVector<Data> *
+    shared_ptr<TranslationVector<Data> >
     SimpleTransformationMatrix44<Data>::getTranslation() const
     {
-      array<Data, 16> data = SimpleMatrix44<Data>::getDataCopy();
+      array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX> data = SimpleMatrix44<Data>::getDataCopy();
 
-      return (new SimpleTranslationVector4<Data> (data.at(12), data.at(13), data.at(14), data.at(15)));
+      return (shared_ptr<TranslationVector<Data> > (new SimpleTranslationVector4<Data> (data.at(12), data.at(13), data.at(14), data.at(15))));
     }
 
   template<class Data>
@@ -60,10 +60,10 @@ namespace simplicity
 
   template<class Data>
     void
-    SimpleTransformationMatrix44<Data>::rotate(Data const angle, Vector<Data> const * const axis)
+    SimpleTransformationMatrix44<Data>::rotate(const Data angle, const Vector<Data>& axis)
     {
-      array<Data, 16> * data = &SimpleMatrix44<Data>::getData();
-      array<Data, 4> axisData = dynamic_cast<SimpleVector4<Data> const * const > (axis)->getDataCopy();
+      array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>& data = SimpleMatrix44<Data>::getData();
+      array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> axisData = dynamic_cast<const SimpleVector4<Data>& > (axis).getDataCopy();
 
       // Initialise trigonometric information.
       Data cosine = cos(angle);
@@ -94,39 +94,39 @@ namespace simplicity
       Data d21 = yz * oneMinusCosine - sineX;
       Data d22 = axisData.at(2) * axisData.at(2) * oneMinusCosine + cosine;
 
-      Data temp00 = data->at(0) * d00 + data->at(4) * d01 + data->at(8) * d02;
-      Data temp01 = data->at(1) * d00 + data->at(5) * d01 + data->at(9) * d02;
-      Data temp02 = data->at(2) * d00 + data->at(6) * d01 + data->at(10) * d02;
-      Data temp03 = data->at(3) * d00 + data->at(7) * d01 + data->at(11) * d02;
-      Data temp10 = data->at(0) * d10 + data->at(4) * d11 + data->at(8) * d12;
-      Data temp11 = data->at(1) * d10 + data->at(5) * d11 + data->at(9) * d12;
-      Data temp12 = data->at(2) * d10 + data->at(6) * d11 + data->at(10) * d12;
-      Data temp13 = data->at(3) * d10 + data->at(7) * d11 + data->at(11) * d12;
-      data->at(8) = data->at(0) * d20 + data->at(4) * d21 + data->at(8) * d22;
-      data->at(9) = data->at(1) * d20 + data->at(5) * d21 + data->at(9) * d22;
-      data->at(10) = data->at(2) * d20 + data->at(6) * d21 + data->at(10) * d22;
-      data->at(11) = data->at(3) * d20 + data->at(7) * d21 + data->at(11) * d22;
-      data->at(0) = temp00;
-      data->at(1) = temp01;
-      data->at(2) = temp02;
-      data->at(3) = temp03;
-      data->at(4) = temp10;
-      data->at(5) = temp11;
-      data->at(6) = temp12;
-      data->at(7) = temp13;
+      Data temp00 = data.at(0) * d00 + data.at(4) * d01 + data.at(8) * d02;
+      Data temp01 = data.at(1) * d00 + data.at(5) * d01 + data.at(9) * d02;
+      Data temp02 = data.at(2) * d00 + data.at(6) * d01 + data.at(10) * d02;
+      Data temp03 = data.at(3) * d00 + data.at(7) * d01 + data.at(11) * d02;
+      Data temp10 = data.at(0) * d10 + data.at(4) * d11 + data.at(8) * d12;
+      Data temp11 = data.at(1) * d10 + data.at(5) * d11 + data.at(9) * d12;
+      Data temp12 = data.at(2) * d10 + data.at(6) * d11 + data.at(10) * d12;
+      Data temp13 = data.at(3) * d10 + data.at(7) * d11 + data.at(11) * d12;
+      data.at(8) = data.at(0) * d20 + data.at(4) * d21 + data.at(8) * d22;
+      data.at(9) = data.at(1) * d20 + data.at(5) * d21 + data.at(9) * d22;
+      data.at(10) = data.at(2) * d20 + data.at(6) * d21 + data.at(10) * d22;
+      data.at(11) = data.at(3) * d20 + data.at(7) * d21 + data.at(11) * d22;
+      data.at(0) = temp00;
+      data.at(1) = temp01;
+      data.at(2) = temp02;
+      data.at(3) = temp03;
+      data.at(4) = temp10;
+      data.at(5) = temp11;
+      data.at(6) = temp12;
+      data.at(7) = temp13;
     }
 
   template<class Data>
     void
-    SimpleTransformationMatrix44<Data>::setTranslation(TranslationVector<Data> const * const translation)
+    SimpleTransformationMatrix44<Data>::setTranslation(shared_ptr<TranslationVector<Data> > translation)
     {
-      array<Data, 16> * data = &SimpleMatrix44<Data>::getData();
-      array<Data, 4> transData = dynamic_cast<SimpleVector4<Data> const * const > (translation)->getDataCopy();
+      array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>& data = SimpleMatrix44<Data>::getData();
+      array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> transData = dynamic_cast<const SimpleVector4<Data>& > (*translation).getDataCopy();
 
-      data->at(12) = transData.at(0);
-      data->at(13) = transData.at(1);
-      data->at(14) = transData.at(2);
-      data->at(15) = transData.at(3);
+      data.at(12) = transData.at(0);
+      data.at(13) = transData.at(1);
+      data.at(14) = transData.at(2);
+      data.at(15) = transData.at(3);
     }
 
   template<class Data>
@@ -152,14 +152,14 @@ namespace simplicity
 
   template<class Data>
     void
-    SimpleTransformationMatrix44<Data>::translate(TranslationVector<Data> const * const translation)
+    SimpleTransformationMatrix44<Data>::translate(const TranslationVector<Data>& translation)
     {
-      array<Data, 16> * data = &SimpleMatrix44<Data>::getData();
-      array<Data, 4> transData = dynamic_cast<SimpleVector4<Data> const * const > (translation)->getDataCopy();
+      array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>& data = SimpleMatrix44<Data>::getData();
+      array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> transData = dynamic_cast<const SimpleVector4<Data>& > (translation).getDataCopy();
 
-      data->at(12) += data->at(0) * transData.at(0) + data->at(4) * transData.at(1) + data->at(8) * transData.at(2);
-      data->at(13) += data->at(1) * transData.at(0) + data->at(5) * transData.at(1) + data->at(9) * transData.at(2);
-      data->at(14) += data->at(2) * transData.at(0) + data->at(6) * transData.at(1) + data->at(10) * transData.at(2);
-      data->at(15) += data->at(3) * transData.at(0) + data->at(7) * transData.at(1) + data->at(11) * transData.at(2);
+      data.at(12) += data.at(0) * transData.at(0) + data.at(4) * transData.at(1) + data.at(8) * transData.at(2);
+      data.at(13) += data.at(1) * transData.at(0) + data.at(5) * transData.at(1) + data.at(9) * transData.at(2);
+      data.at(14) += data.at(2) * transData.at(0) + data.at(6) * transData.at(1) + data.at(10) * transData.at(2);
+      data.at(15) += data.at(3) * transData.at(0) + data.at(7) * transData.at(1) + data.at(11) * transData.at(2);
     }
 }

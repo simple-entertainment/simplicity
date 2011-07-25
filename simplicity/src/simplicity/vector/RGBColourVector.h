@@ -65,7 +65,7 @@ namespace simplicity
          * @param blue The blue component of this <code>RGBColourVector</code>.
          */
         virtual void
-        setBlue(Data const blue) = 0;
+        setBlue(const Data blue) = 0;
 
         /**
          * <p>
@@ -75,7 +75,7 @@ namespace simplicity
          * @param green The green component of this <code>RGBColourVector</code>.
          */
         virtual void
-        setGreen(Data const green) = 0;
+        setGreen(const Data green) = 0;
 
         /**
          * <p>
@@ -85,7 +85,7 @@ namespace simplicity
          * @param red The red component of this <code>RGBColourVector</code>.
          */
         virtual void
-        setRed(Data const red) = 0;
+        setRed(const Data red) = 0;
     };
 
 }

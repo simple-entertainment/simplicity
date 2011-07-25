@@ -13,10 +13,8 @@
 #define PICKEVENT_H_
 
 #include <vector>
-using namespace std;
 
 #include <boost/optional.hpp>
-using namespace boost;
 
 #include "../Hit.h"
 
@@ -57,7 +55,7 @@ namespace simplicity
        * @param hit A hit made as a result of the pick.
        */
       void
-      addHit(Hit const hit);
+      addHit(const Hit hit);
 
       /**
        * <p>
@@ -66,7 +64,7 @@ namespace simplicity
        *
        * @return The closest hit made as a result of the pick.
        */
-      optional<Hit>
+      boost::optional<Hit>
       getCloseHit() const;
 
       /**
@@ -79,7 +77,7 @@ namespace simplicity
        * @return A hit made as a result of the pick.
        */
       Hit
-      getHit(int const index) const;
+      getHit(const int index) const;
 
       /**
        * <p>
@@ -97,7 +95,7 @@ namespace simplicity
        * The hits made as a result of the pick.
        * </p>
        */
-      vector<Hit> fHits;
+      std::vector<Hit> fHits;
   };
 }
 

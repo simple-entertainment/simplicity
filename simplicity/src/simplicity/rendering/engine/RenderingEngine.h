@@ -23,15 +23,15 @@ namespace simplicity
    * </p>
    *
    * <p>
-   * Any changes to settings made during the {@link simplicity::RenderingEngine#init() init()} method should be reverted during
-   * the {@link simplicity::RenderingEngine#destroy() destroy()} method. It is the responsibility of the
-   * <code>RenderingEngine</code> to leave the rendering environment as it was found (except for contents of buffers) so that multiple
-   * <code>RenderingEngine</code>s may be used together without effecting each other.
+   * Any changes to settings made during the {@link simplicity::RenderingEngine#init() init()} method should be reverted during the
+   * {@link simplicity::RenderingEngine#destroy() destroy()} method. It is the responsibility of the <code>RenderingEngine</code> to leave the
+   * rendering environment as it was found (except for contents of buffers) so that multiple <code>RenderingEngine</code>s may be used together
+   * without effecting each other.
    * </p>
    *
    * <p>
-   * When used within a <code>RenderingEngine</code>, the {@link simplicity::Renderer Renderer} acts as a rendering pass. Adding
-   * multiple <code>Renderer</code>s to a <code>RenderingEngine</code> effectively creates a multi pass rendering environment.
+   * When used within a <code>RenderingEngine</code>, the {@link simplicity::Renderer Renderer} acts as a rendering pass. Adding multiple
+   * <code>Renderer</code>s to a <code>RenderingEngine</code> effectively creates a multi pass rendering environment.
    * </p>
    *
    * @author Gary Buyn
@@ -51,29 +51,28 @@ namespace simplicity
 
       /**
        * <p>
-       * Adds a {@link simplicity::Renderer Renderer}. During the
-       * {@link simplicity::RenderingEngine#advance(EngineInput) advance(EngineInput)} method, the <code>Renderer</code>s are
-       * executed against the {@link simplicity::Scene Scene} in the order they were added.
+       * Adds a {@link simplicity::Renderer Renderer}. During the {@link simplicity::RenderingEngine#advance(EngineInput) advance(EngineInput)}
+       * method, the <code>Renderer</code>s are executed against the {@link simplicity::Scene Scene} in the order they were added.
        * </p>
        *
        * @param renderer The <code>Renderer</code> to be added.
        */
       void
-      addRenderer(Renderer * const renderer);
+      addRenderer(boost::shared_ptr<Renderer> renderer);
 
       /**
        * <p>
        * Adds a {@link simplicity::Renderer Renderer} at the given index. During the
-       * {@link simplicity::RenderingEngine#advance(EngineInput) advance(EngineInput)} method, the <code>Renderer</code>s are
-       * executed against the {@link simplicity::Scene Scene} in the order they were added. By adding a <code>Renderer</code> at a specific
-       * index, it can be executed before others that were added before it.
+       * {@link simplicity::RenderingEngine#advance(EngineInput) advance(EngineInput)} method, the <code>Renderer</code>s are executed against the
+       * {@link simplicity::Scene Scene} in the order they were added. By adding a <code>Renderer</code> at a specific index, it can be executed
+       * before others that were added before it.
        * </p>
        *
        * @param index The index to add the <code>Renderer</code> at.
        * @param renderer The <code>Renderer</code> to be added.
        */
       void
-      addRenderer(int const index, Renderer const * const renderer);
+      addRenderer(const int index, boost::shared_ptr<Renderer> renderer);
 
       /**
        * <p>
@@ -85,7 +84,7 @@ namespace simplicity
        * @return The <code>EngineInput</code> for the next {@link simplicity::Engine Engine} in the chain.
        */
       EngineInput *
-      advance(EngineInput const * const engineInput);
+      advance(const EngineInput* const engineInput);
 
       /**
        * <p>
@@ -94,7 +93,7 @@ namespace simplicity
        *
        * @return The <code>Camera</code> through which the <code>Scene</code> will be rendered.
        */
-      Camera *
+      boost::shared_ptr<Camera>
       getCamera() const;
 
       /**
@@ -104,7 +103,7 @@ namespace simplicity
        *
        * @return The colour to clear the screen buffer with before rendering.
        */
-      SimpleVectorf4 *
+      boost::shared_ptr<SimpleVectorf4>
       getClearingColour() const;
 
       /**
@@ -117,8 +116,8 @@ namespace simplicity
        *
        * @return The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
        */
-      Node *
-      getRendererRoot(Renderer const * const renderer);
+      boost::shared_ptr<Node>
+      getRendererRoot(const Renderer& renderer);
 
       /**
        * <p>
@@ -132,7 +131,7 @@ namespace simplicity
        *
        * @return The <code>Renderer</code>s that will be executed against the <code>Scene</code> during the <code>advance()</code> method.
        */
-      vector<Renderer *> *
+      std::vector<boost::shared_ptr<Renderer> >
       getRenderers() const;
 
       /**
@@ -142,7 +141,7 @@ namespace simplicity
        *
        * @return The {@link simplicity::Scene Scene} to be rendered.
        */
-      Scene *
+      boost::shared_ptr<Scene>
       getScene() const;
 
       /**
@@ -163,7 +162,7 @@ namespace simplicity
        * @param renderer The <code>Renderer</code> to be removed.
        */
       void
-      removeRenderer(Renderer * const renderer);
+      removeRenderer(const Renderer& renderer);
 
       /**
        * <p>
@@ -181,7 +180,7 @@ namespace simplicity
        * @param root The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
        */
       void
-      renderSceneGraph(Renderer * const renderer, Node * const root);
+      renderSceneGraph(const Renderer& renderer, const Node& root);
 
       /**
        * <p>
@@ -191,7 +190,7 @@ namespace simplicity
        * @param camera The <code>Camera</code> through which the <code>Scene</code> will be rendered.
        */
       void
-      setCamera(Camera * const camera);
+      setCamera(boost::shared_ptr<Camera> camera);
 
       /**
        * <p>
@@ -201,7 +200,7 @@ namespace simplicity
        * @param clearingColour The colour to clear the buffer with before rendering.
        */
       void
-      setClearingColour(SimpleVectorf4 * const clearingColour);
+      setClearingColour(boost::shared_ptr<SimpleVectorf4> clearingColour);
 
       /**
        * <p>
@@ -211,7 +210,7 @@ namespace simplicity
        * @param clearsBeforeRender Determines if the screen buffer is cleared before rendering.
        */
       void
-      setClearsBeforeRender(bool const clearsBeforeRender);
+      setClearsBeforeRender(const bool clearsBeforeRender);
 
       /**
        * <p>
@@ -224,7 +223,7 @@ namespace simplicity
        * @param root The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
        */
       void
-      setRendererRoot(Renderer const * const renderer, Node * const root);
+      setRendererRoot(const Renderer& renderer, boost::shared_ptr<Node> root);
 
       /**
        * <p>
@@ -234,7 +233,7 @@ namespace simplicity
        * @param scene The <code>Scene</code> to be rendered.
        */
       void
-      setScene(Scene * const scene);
+      setScene(boost::shared_ptr<Scene> scene);
 
       /**
        * <p>
@@ -244,7 +243,7 @@ namespace simplicity
        * @param viewportSize The size of the viewport.
        */
       void
-      setViewportSize(Dimension const viewportSize);
+      setViewportSize(const Dimension viewportSize);
   };
 }
 

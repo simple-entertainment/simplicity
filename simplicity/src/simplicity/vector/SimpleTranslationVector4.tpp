@@ -11,6 +11,8 @@
  */
 #include "SimpleTranslationVector4.h"
 
+using namespace boost;
+
 namespace simplicity
 {
   template<class Data>
@@ -20,13 +22,13 @@ namespace simplicity
     }
 
   template<class Data>
-    SimpleTranslationVector4<Data>::SimpleTranslationVector4(Data const x, Data const y, Data const z, Data const w) :
+    SimpleTranslationVector4<Data>::SimpleTranslationVector4(const Data x, const Data y, const Data z, const Data w) :
       SimpleVector4<Data> (x, y, z, w)
     {
     }
 
   template<class Data>
-    SimpleTranslationVector4<Data>::SimpleTranslationVector4(array<Data, 4> data) :
+    SimpleTranslationVector4<Data>::SimpleTranslationVector4(array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> data) :
       SimpleVector4<Data> (data)
     {
     }
@@ -61,42 +63,42 @@ namespace simplicity
 
   template<class Data>
     void
-    SimpleTranslationVector4<Data>::setX(Data const x)
+    SimpleTranslationVector4<Data>::setX(const Data x)
     {
       SimpleVector4<Data>::getData().at(0) = x;
     }
 
   template<class Data>
     void
-    SimpleTranslationVector4<Data>::setY(Data const y)
+    SimpleTranslationVector4<Data>::setY(const Data y)
     {
       SimpleVector4<Data>::getData().at(1) = y;
     }
 
   template<class Data>
     void
-    SimpleTranslationVector4<Data>::setZ(Data const z)
+    SimpleTranslationVector4<Data>::setZ(const Data z)
     {
       SimpleVector4<Data>::getData().at(2) = z;
     }
 
   template<class Data>
     void
-    SimpleTranslationVector4<Data>::translateX(Data const x)
+    SimpleTranslationVector4<Data>::translateX(const Data x)
     {
       SimpleVector4<Data>::getData().at(0) += x;
     }
 
   template<class Data>
     void
-    SimpleTranslationVector4<Data>::translateY(Data const y)
+    SimpleTranslationVector4<Data>::translateY(const Data y)
     {
       SimpleVector4<Data>::getData().at(1) += y;
     }
 
   template<class Data>
     void
-    SimpleTranslationVector4<Data>::translateZ(Data const z)
+    SimpleTranslationVector4<Data>::translateZ(const Data z)
     {
       SimpleVector4<Data>::getData().at(2) += z;
     }

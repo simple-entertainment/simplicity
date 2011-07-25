@@ -13,7 +13,6 @@
 #define MOCKENGINEINPUT_H_
 
 #include <simplicity/engine/EngineInput.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -24,7 +23,7 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class MockEngineInput : public EngineInput
+  class MockEngineInput : public simplicity::EngineInput
   {
   };
 }

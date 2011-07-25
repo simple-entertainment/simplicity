@@ -13,10 +13,8 @@
 #define PICKEVENTTEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include <simplicity/picking/event/PickEvent.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -27,10 +25,10 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class PickEventTest : public Test
+  class PickEventTest : public testing::Test
   {
     protected:
-      PickEvent fTestObject;
+      simplicity::PickEvent fTestObject;
   };
 }
 

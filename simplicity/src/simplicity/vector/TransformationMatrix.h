@@ -34,13 +34,9 @@ namespace simplicity
          * Retrieves the translation portion of this <code>TransformationMatrix</code>.
          * </p>
          *
-         * <p>
-         * The caller must assume ownership of the returned <code>TranslationVector</code>.
-         * </p>
-         *
          * @return The translation portion of this <code>TransformationMatrix</code>.
          */
-        virtual TranslationVector<Data> *
+        virtual boost::shared_ptr<TranslationVector<Data> >
         getTranslation() const = 0;
 
         /**
@@ -82,7 +78,7 @@ namespace simplicity
          * @param axis The axis to rotate this <code>TransformationMatrix</code> about.
          */
         virtual void
-        rotate(Data const angle, Vector<Data> const * const axis) = 0;
+        rotate(const Data angle, const Vector<Data>& axis) = 0;
 
         /**
          * <p>
@@ -92,7 +88,7 @@ namespace simplicity
          * @param translation The translation portion of this <code>TransformationMatrix</code>.
          */
         virtual void
-        setTranslation(TranslationVector<Data> const * const translation) = 0;
+        setTranslation(boost::shared_ptr<TranslationVector<Data> > translation) = 0;
 
         /**
          *<p>
@@ -102,7 +98,7 @@ namespace simplicity
          * @param distance The x axis translation of this <code>TransformationMatrix</code>.
          */
         virtual void
-        setXAxisTranslation(Data const distance) = 0;
+        setXAxisTranslation(const Data distance) = 0;
 
         /**
          *<p>
@@ -112,7 +108,7 @@ namespace simplicity
          * @param distance The y axis translation of this <code>TransformationMatrix</code>.
          */
         virtual void
-        setYAxisTranslation(Data const distance) = 0;
+        setYAxisTranslation(const Data distance) = 0;
 
         /**
          *<p>
@@ -122,7 +118,7 @@ namespace simplicity
          * @param distance The z axis translation of this <code>TransformationMatrix</code>.
          */
         virtual void
-        setZAxisTranslation(Data const distance) = 0;
+        setZAxisTranslation(const Data distance) = 0;
 
         /**
          * <p>
@@ -132,7 +128,7 @@ namespace simplicity
          * @param translation The translation to translate this <code>TransformationMatrix</code> by.
          */
         virtual void
-        translate(TranslationVector<Data> const * const translation) = 0;
+        translate(const TranslationVector<Data>& translation) = 0;
     };
 }
 

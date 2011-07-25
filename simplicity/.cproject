@@ -28,10 +28,11 @@
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.so.debug.1117900328" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.so.debug"/>
 							<builder buildPath="${workspace_loc:/simplicity/Debug}" enableAutoBuild="false" enabledIncrementalBuild="true" id="cdt.managedbuild.target.gnu.builder.so.debug.1676732484" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" stopOnErr="true" superClass="cdt.managedbuild.target.gnu.builder.so.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.610470263" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.985305385" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug">
+							<tool command="g++" id="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.985305385" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug">
 								<option id="gnu.cpp.compiler.so.debug.option.optimization.level.1710696302" name="Optimization Level" superClass="gnu.cpp.compiler.so.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.so.debug.option.debugging.level.128918240" name="Debug Level" superClass="gnu.cpp.compiler.so.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.other.other.1477314917" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -fPIC" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.include.paths.1626667772" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.49605084" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1822594472" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.so.debug">
@@ -42,7 +43,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.so.debug.1597672334" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.so.debug">
 								<option defaultValue="true" id="gnu.c.link.so.debug.option.shared.632212088" name="Shared (-shared)" superClass="gnu.c.link.so.debug.option.shared" valueType="boolean"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.so.debug.1191382176" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.so.debug">
+							<tool command="g++" id="cdt.managedbuild.tool.gnu.cpp.linker.so.debug.1191382176" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.so.debug">
 								<option defaultValue="true" id="gnu.cpp.link.so.debug.option.shared.1162136646" name="Shared (-shared)" superClass="gnu.cpp.link.so.debug.option.shared" valueType="boolean"/>
 								<option id="gnu.cpp.link.option.libs.752204727" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="log4cpp"/>
@@ -71,6 +72,10 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+			<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 			<storageModule moduleId="scannerConfiguration">
 				<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
 				<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
@@ -153,26 +158,6 @@
 						<parser enabled="true"/>
 					</scannerInfoProvider>
 				</profile>
-				<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-					<buildOutputProvider>
-						<openAction enabled="false" filePath=""/>
-						<parser enabled="false"/>
-					</buildOutputProvider>
-					<scannerInfoProvider id="specsFile">
-						<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-						<parser enabled="true"/>
-					</scannerInfoProvider>
-				</profile>
-				<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-					<buildOutputProvider>
-						<openAction enabled="false" filePath=""/>
-						<parser enabled="false"/>
-					</buildOutputProvider>
-					<scannerInfoProvider id="specsFile">
-						<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-						<parser enabled="true"/>
-					</scannerInfoProvider>
-				</profile>
 				<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.so.release.1449668993;cdt.managedbuild.config.gnu.so.release.1449668993.;cdt.managedbuild.tool.gnu.c.compiler.so.release.1753830858;cdt.managedbuild.tool.gnu.c.compiler.input.86469127">
 					<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 					<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
@@ -252,26 +237,6 @@
 						</buildOutputProvider>
 						<scannerInfoProvider id="specsFile">
 							<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;'" command="sh" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
@@ -358,26 +323,6 @@
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
 				</scannerConfigBuildInfo>
 				<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.so.debug.1344992256;cdt.managedbuild.config.gnu.so.debug.1344992256.;cdt.managedbuild.tool.gnu.c.compiler.so.debug.1095411982;cdt.managedbuild.tool.gnu.c.compiler.input.60919908">
 					<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
@@ -458,26 +403,6 @@
 						</buildOutputProvider>
 						<scannerInfoProvider id="specsFile">
 							<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;'" command="sh" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
@@ -564,26 +489,6 @@
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
 				</scannerConfigBuildInfo>
 				<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.so.release.1567670596;cdt.managedbuild.config.gnu.so.release.1567670596.;cdt.managedbuild.tool.gnu.cpp.compiler.so.release.351569234;cdt.managedbuild.tool.gnu.cpp.compiler.input.2037159733">
 					<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
@@ -664,26 +569,6 @@
 						</buildOutputProvider>
 						<scannerInfoProvider id="specsFile">
 							<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;'" command="sh" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
@@ -770,26 +655,6 @@
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
 				</scannerConfigBuildInfo>
 				<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.so.debug.586103328;cdt.managedbuild.config.gnu.so.debug.586103328.;cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.985305385;cdt.managedbuild.tool.gnu.cpp.compiler.input.49605084">
 					<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
@@ -870,26 +735,6 @@
 						</buildOutputProvider>
 						<scannerInfoProvider id="specsFile">
 							<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;'" command="sh" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
@@ -976,26 +821,6 @@
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
 				</scannerConfigBuildInfo>
 				<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.so.debug.1344992256;cdt.managedbuild.config.gnu.so.debug.1344992256.;cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.921461504;cdt.managedbuild.tool.gnu.cpp.compiler.input.1671821815">
 					<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
@@ -1076,26 +901,6 @@
 						</buildOutputProvider>
 						<scannerInfoProvider id="specsFile">
 							<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;'" command="sh" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
@@ -1182,32 +987,8 @@
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
 				</scannerConfigBuildInfo>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
-			<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
-			<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
-			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.so.release.1449668993">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.so.release.1449668993" moduleId="org.eclipse.cdt.core.settings" name="Release">
@@ -1260,6 +1041,10 @@
 					</folderInfo>
 				</configuration>
 			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 			<storageModule moduleId="scannerConfiguration">
 				<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
 				<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
@@ -1342,26 +1127,6 @@
 						<parser enabled="true"/>
 					</scannerInfoProvider>
 				</profile>
-				<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-					<buildOutputProvider>
-						<openAction enabled="false" filePath=""/>
-						<parser enabled="false"/>
-					</buildOutputProvider>
-					<scannerInfoProvider id="specsFile">
-						<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-						<parser enabled="true"/>
-					</scannerInfoProvider>
-				</profile>
-				<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-					<buildOutputProvider>
-						<openAction enabled="false" filePath=""/>
-						<parser enabled="false"/>
-					</buildOutputProvider>
-					<scannerInfoProvider id="specsFile">
-						<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-						<parser enabled="true"/>
-					</scannerInfoProvider>
-				</profile>
 				<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.so.release.1449668993;cdt.managedbuild.config.gnu.so.release.1449668993.;cdt.managedbuild.tool.gnu.c.compiler.so.release.1753830858;cdt.managedbuild.tool.gnu.c.compiler.input.86469127">
 					<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 					<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
@@ -1441,26 +1206,6 @@
 						</buildOutputProvider>
 						<scannerInfoProvider id="specsFile">
 							<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;'" command="sh" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
@@ -1547,26 +1292,6 @@
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
 				</scannerConfigBuildInfo>
 				<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.so.debug.1344992256;cdt.managedbuild.config.gnu.so.debug.1344992256.;cdt.managedbuild.tool.gnu.c.compiler.so.debug.1095411982;cdt.managedbuild.tool.gnu.c.compiler.input.60919908">
 					<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
@@ -1647,26 +1372,6 @@
 						</buildOutputProvider>
 						<scannerInfoProvider id="specsFile">
 							<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;'" command="sh" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
@@ -1753,26 +1458,6 @@
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
 				</scannerConfigBuildInfo>
 				<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.so.release.1567670596;cdt.managedbuild.config.gnu.so.release.1567670596.;cdt.managedbuild.tool.gnu.cpp.compiler.so.release.351569234;cdt.managedbuild.tool.gnu.cpp.compiler.input.2037159733">
 					<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
@@ -1853,26 +1538,6 @@
 						</buildOutputProvider>
 						<scannerInfoProvider id="specsFile">
 							<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;'" command="sh" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
@@ -1959,26 +1624,6 @@
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
 				</scannerConfigBuildInfo>
 				<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.so.debug.586103328;cdt.managedbuild.config.gnu.so.debug.586103328.;cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.985305385;cdt.managedbuild.tool.gnu.cpp.compiler.input.49605084">
 					<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
@@ -2059,26 +1704,6 @@
 						</buildOutputProvider>
 						<scannerInfoProvider id="specsFile">
 							<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;'" command="sh" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
@@ -2165,26 +1790,6 @@
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
 				</scannerConfigBuildInfo>
 				<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.so.debug.1344992256;cdt.managedbuild.config.gnu.so.debug.1344992256.;cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.921461504;cdt.managedbuild.tool.gnu.cpp.compiler.input.1671821815">
 					<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
@@ -2265,26 +1870,6 @@
 						</buildOutputProvider>
 						<scannerInfoProvider id="specsFile">
 							<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;'" command="sh" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
@@ -2371,32 +1956,8 @@
 							<parser enabled="true"/>
 						</scannerInfoProvider>
 					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfile">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlc" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
-					<profile id="org.eclipse.cdt.managedbuilder.xlc.core.XLCManagedMakePerProjectProfileCPP">
-						<buildOutputProvider>
-							<openAction enabled="false" filePath=""/>
-							<parser enabled="false"/>
-						</buildOutputProvider>
-						<scannerInfoProvider id="specsFile">
-							<runAction arguments="-E -v ${plugin_state_location}/${specs_file}" command="${XL_compilerRoot}/xlC" useDefault="true"/>
-							<parser enabled="true"/>
-						</scannerInfoProvider>
-					</profile>
 				</scannerConfigBuildInfo>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
-			<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
-			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">

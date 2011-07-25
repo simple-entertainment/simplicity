@@ -13,7 +13,6 @@
 #define RUNNABLEENGINE_H_
 
 #include <log4cpp/Category.hh>
-using namespace log4cpp;
 
 #include "Engine.h"
 
@@ -66,7 +65,7 @@ namespace simplicity
       run();
 
       void
-      setPreferredFrequency(int const preferredFrequency);
+      setPreferredFrequency(const int preferredFrequency);
 
     protected:
       /**
@@ -90,7 +89,7 @@ namespace simplicity
        * Logs messages associated with this class.
        * </p>
        */
-      static Category * fLogger;
+      static log4cpp::Category& fLogger;
 
       /**
        * <p>
@@ -124,7 +123,7 @@ namespace simplicity
        * @return The updated adjusted sleep time.
        */
       long
-      sleep(long const adjustedSleepTime);
+      sleep(const long adjustedSleepTime);
   };
 }
 

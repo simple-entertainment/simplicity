@@ -13,7 +13,6 @@
 #define INDEXEDVECTORVG_H_
 
 #include <vector>
-using namespace std;
 
 #include "../vector/TranslationVector.h"
 #include "VertexGroup.h"
@@ -72,19 +71,19 @@ namespace simplicity
       virtual
       ~IndexedVectorVG();
 
-      VertexGroup *
-      createEdgeSubsetVG(int const index);
+      boost::shared_ptr<VertexGroup>
+      createEdgeSubsetVG(const int index);
 
-      VertexGroup *
-      createFaceSubsetVG(int const index);
+      boost::shared_ptr<VertexGroup>
+      createFaceSubsetVG(const int index);
 
-      VertexGroup *
-      createSubsetVG(int const index, int const length);
+      boost::shared_ptr<VertexGroup>
+      createSubsetVG(const int index, const int length);
 
-      VertexGroup *
-      createVertexSubsetVG(int const index);
+      boost::shared_ptr<VertexGroup>
+      createVertexSubsetVG(const int index);
 
-      TranslationVector<float> *
+      const TranslationVector<float>&
       getCenter() const;
 
       /**
@@ -94,7 +93,7 @@ namespace simplicity
        *
        * @return The colours of all the vertices in this <code>IndexedVectorVG</code>.
        */
-      vector<float> &
+      std::vector<float>&
       getColours();
 
       /**
@@ -104,7 +103,7 @@ namespace simplicity
        *
        * @return The indices of all the vertices in this <code>IndexedVectorVG</code>.
        */
-      vector<int> &
+      std::vector<int>&
       getIndices();
 
       int
@@ -117,10 +116,10 @@ namespace simplicity
        *
        * @return The surface normals of all the vertices in this <code>IndexedVectorVG</code>.
        */
-      vector<float> &
+      std::vector<float>&
       getNormals();
 
-      VertexGroup *
+      VertexGroup*
       getParent() const;
 
       int
@@ -133,73 +132,57 @@ namespace simplicity
        *
        * @return The coordinates of all the vertices in this <code>IndexedVectorVG</code>.
        */
-      vector<float> &
+      std::vector<float>&
       getVertices();
 
       bool
       isSubset() const;
 
       void
-      mergeWithParent() const throw (SEInvalidOperationException);
+      mergeWithParent() const;
 
       /**
        * <p>
        * Sets the colours of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        *
-       * <p>
-       * This <code>IndexedVectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
-       * </p>
-       *
        * @param colours The colours of all the vertices in this <code>IndexedVectorVG</code>.
        */
       void
-      setColours(vector<float> colours);
+      setColours(boost::shared_ptr<std::vector<float> > colours);
 
       /**
        * <p>
        * Sets the indices of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        *
-       * <p>
-       * This <code>IndexedVectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
-       * </p>
-       *
        * @param indices The indices of all the vertices in this <code>IndexedVectorVG</code>.
        */
       void
-      setIndices(vector<int> indices);
+      setIndices(boost::shared_ptr<std::vector<int> > indices);
 
       void
-      setIndexWithinParent(int const indexWithinParent);
+      setIndexWithinParent(const int indexWithinParent);
 
       /**
        * <p>
        * Sets the surface normals of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        *
-       * <p>
-       * This <code>IndexedVectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
-       * </p>
-       *
        * @param normals The surface normals of all the vertices in this <code>IndexedVectorVG</code>.
        */
       void
-      setNormals(vector<float> normals);
+      setNormals(boost::shared_ptr<std::vector<float> > normals);
 
       /**
        * <p>
        * Sets the coordinates of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        *
-       * <p>
-       * This <code>IndexedVectorVG</code> will assume ownership of the given vector and the previously held vector will be deleted.
-       * </p>
-       *
        * @param vertices The coordinates of all the vertices in this <code>IndexedVectorVG</code>.
        */
       void
-      setVertices(vector<float> vertices);
+      setVertices(boost::shared_ptr<std::vector<float> > vertices);
 
     private:
       /**
@@ -209,14 +192,14 @@ namespace simplicity
        *
        * @param parent The parent of this <code>IndexedVectorVG</code>.
        */
-      IndexedVectorVG(IndexedVectorVG * const parent);
+      IndexedVectorVG(IndexedVectorVG& parent);
 
       /**
        * <p>
        * The colours of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        */
-      vector<float> fColours;
+      boost::shared_ptr<std::vector<float> > fColours;
 
       /**
        * <p>
@@ -230,7 +213,7 @@ namespace simplicity
        * The indices of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        */
-      vector<int> fIndices;
+      boost::shared_ptr<std::vector<int> > fIndices;
 
       /**
        * <p>
@@ -245,21 +228,21 @@ namespace simplicity
        * The surface normals of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        */
-      vector<float> fNormals;
+      boost::shared_ptr<std::vector<float> > fNormals;
 
       /**
        * <p>
        * The parent of this <code>IndexedVectorVG</code>. The parent should be set to <code>null</code> unless this <code>VectorVG</code> is a subset.
        * </p>
        */
-      IndexedVectorVG * const fParent;
+      IndexedVectorVG* const fParent;
 
       /**
        * <p>
        * The coordinates of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        */
-      vector<float> fVertices;
+      boost::shared_ptr<std::vector<float> > fVertices;
   };
 }
 

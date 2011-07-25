@@ -55,7 +55,7 @@ namespace simplicity
          * @param z The z element of this <code>SimpleTranslationVector4</code>.
          * @param w The w element of this <code>SimpleTranslationVector4</code>.
          */
-        SimpleTranslationVector4(Data const x, Data const y, Data const z, Data const w);
+        SimpleTranslationVector4(const Data x, const Data y, const Data z, const Data w);
 
         /**
          * <p>
@@ -64,7 +64,7 @@ namespace simplicity
          *
          * @param data An array containing the initial elements of this <code>SimpleTranslationVector4</code>.
          */
-        SimpleTranslationVector4(array<Data, 4> data);
+        SimpleTranslationVector4(boost::array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> data);
 
         Data
         getW() const;
@@ -79,22 +79,22 @@ namespace simplicity
         getZ() const;
 
         void
-        setX(Data const x);
+        setX(const Data x);
 
         void
-        setY(Data const y);
+        setY(const Data y);
 
         void
-        setZ(Data const z);
+        setZ(const Data z);
 
         void
-        translateX(Data const x);
+        translateX(const Data x);
 
         void
-        translateY(Data const y);
+        translateY(const Data y);
 
         void
-        translateZ(Data const z);
+        translateZ(const Data z);
     };
 }
 

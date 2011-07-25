@@ -12,6 +12,13 @@
 #ifndef PICKER_H_
 #define PICKER_H_
 
+#include "../picking/event/PickEvent.h"
+#include "../picking/Pick.h"
+#include "../scene/Scene.h"
+#include "../rendering/Camera.h"
+#include "../rendering/DrawingMode.h"
+#include "../scene/Scene.h"
+
 namespace simplicity
 {
   /**
@@ -45,8 +52,8 @@ namespace simplicity
 
       /**
        * <p>
-       * Retrieves the {@link simplicity::DrawingMode DrawingMode} used to create {@link simplicity::PickEvent
-       * PickEvent}s from the {@link simplicity::Scene Scene}.
+       * Retrieves the {@link simplicity::DrawingMode DrawingMode} used to create {@link simplicity::PickEvent PickEvent}s from the
+       * {@link simplicity::Scene Scene}.
        * </p>
        *
        * @return The <code>DrawingMode</code> used to create <code>PickEvent</code>s from the <code>Scene</code>.
@@ -64,8 +71,8 @@ namespace simplicity
 
       /**
        * <p>
-       * Picks a {@link simplicity::Scene Scene} using the given {@link simplicity::Pick Pick} and basing the
-       * <code>Pick</code> on the given {@link simplicity::Camera Camera}.
+       * Picks a {@link simplicity::Scene Scene} using the given {@link simplicity::Pick Pick} and basing the <code>Pick</code> on the given
+       * {@link simplicity::Camera Camera}.
        * </p>
        *
        * @param scene The <code>Scene</code> to pick.
@@ -75,7 +82,7 @@ namespace simplicity
        * @return An event containing any picked components of the <code>Scene</code>.
        */
       virtual PickEvent
-      pickScene(Scene const * const scene, Camera const * const camera, Pick const pick) = 0;
+      pickScene(const Scene& scene, const Camera& camera, const Pick pick) = 0;
 
       /**
        * <p>
@@ -85,7 +92,7 @@ namespace simplicity
        * @param mode The drawing mode used to pick the {@link simplicity::Scene Scene}.
        */
       virtual void
-      setDrawingMode(DrawingMode const mode) = 0;
+      setDrawingMode(const DrawingMode mode) = 0;
   };
 }
 

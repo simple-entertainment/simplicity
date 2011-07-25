@@ -17,7 +17,8 @@ namespace simplicity_test
    * <p>
    * Unit test the method {@link simplicity::SimpleTranslationVector4.translateX translateX()}.
    * </p>
-   */TEST_F(SimpleTranslationVector4Test, translateX)
+   */
+  TEST_F(SimpleTranslationVector4Test, translateX)
   {
     fTestObject.setX(1.0f);
     fTestObject.translateX(1.0f);
@@ -25,11 +26,11 @@ namespace simplicity_test
     ASSERT_EQ(2.0f, fTestObject.getX());
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleTranslationVector4.translateY translateY()}.
- * </p>
- */TEST_F(SimpleTranslationVector4Test, translateY)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleTranslationVector4.translateY translateY()}.
+   * </p>
+   */TEST_F(SimpleTranslationVector4Test, translateY)
   {
     fTestObject.setY(1.0f);
     fTestObject.translateY(1.0f);
@@ -37,11 +38,11 @@ namespace simplicity_test
     ASSERT_EQ(2.0f, fTestObject.getY());
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleTranslationVector4.translateZ translateZ()}.
- * </p>
- */TEST_F(SimpleTranslationVector4Test, translateZ)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleTranslationVector4.translateZ translateZ()}.
+   * </p>
+   */TEST_F(SimpleTranslationVector4Test, translateZ)
   {
     fTestObject.setZ(1.0f);
     fTestObject.translateZ(1.0f);

@@ -13,28 +13,30 @@
 #include "../../vector/SimpleTranslationVector4.h"
 #include "Capsule.h"
 
+using namespace boost;
+
 namespace simplicity
 {
   Capsule::Capsule() :
-    fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)), fLength(1.0f), fRadius(1.0f)
+    fCenter(new SimpleTranslationVector4<float> ), fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)),
+        fLength(1.0f), fRadius(1.0f)
   {
   }
 
   Capsule::~Capsule()
   {
-    delete fColour;
   }
 
-  TranslationVector<float> *
+  const TranslationVector<float>&
   Capsule::getCenter() const
   {
-    return (new SimpleTranslationVector4<float> ());
+    return (*fCenter);
   }
 
-  RGBColourVector<float> *
+  RGBColourVector<float>&
   Capsule::getColour() const
   {
-    return (fColour);
+    return (*fColour);
   }
 
   float
@@ -50,19 +52,19 @@ namespace simplicity
   }
 
   void
-  Capsule::setColour(RGBColourVector<float> * const colour)
+  Capsule::setColour(shared_ptr<RGBColourVector<float> > colour)
   {
     fColour = colour;
   }
 
   void
-  Capsule::setLength(float const length)
+  Capsule::setLength(const float length)
   {
     fLength = length;
   }
 
   void
-  Capsule::setRadius(float const radius)
+  Capsule::setRadius(const float radius)
   {
     fRadius = radius;
   }

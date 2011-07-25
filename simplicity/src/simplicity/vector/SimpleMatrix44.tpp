@@ -10,9 +10,11 @@
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <boost/lexical_cast.hpp>
-using namespace boost;
 
 #include "SimpleMatrix44.h"
+
+using namespace boost;
+using namespace std;
 
 namespace simplicity
 {
@@ -29,14 +31,14 @@ namespace simplicity
     }
 
   template<class Data>
-    array<Data, 16> &
+    array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX> &
     SimpleMatrix44<Data>::getData()
     {
       return (fData);
     }
 
   template<class Data>
-    array<Data, 16>
+    array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>
     SimpleMatrix44<Data>::getDataCopy() const
     {
       return (fData);
@@ -67,22 +69,22 @@ namespace simplicity
 
   template<class Data>
     Data
-    SimpleMatrix44<Data>::getDeterminant33(Data const d00, Data const d10, Data const d20, Data const d01, Data const d11,
-        Data const d21, Data const d02, Data const d12, Data const d22) const
+    SimpleMatrix44<Data>::getDeterminant33(const Data d00, const Data d10, const Data d20, const Data d01, const Data d11,
+        const Data d21, const Data d02, const Data d12, const Data d22) const
     {
       return (d00 * (d11 * d22 - d12 * d21) - d10 * (d01 * d22 - d02 * d21) + d20 * (d01 * d12 - d02 * d11));
     }
 
   template<class Data>
     void
-    SimpleMatrix44<Data>::invert() throw (SEInvalidOperationException)
+    SimpleMatrix44<Data>::invert()
     {
       Data determinant = getDeterminant();
 
       if (determinant == 0)
-        {
-          throw SEInvalidOperationException();
-        }
+      {
+        throw SEInvalidOperationException();
+      }
 
       Data invDeterminant = 1 / determinant;
 
@@ -143,8 +145,8 @@ namespace simplicity
     }
 
   template<class Data>
-    array<Data, 16>
-    SimpleMatrix44<Data>::multiply(SimpleMatrix44<Data> const & leftMatrix, SimpleMatrix44<Data> const & rightMatrix) const
+    array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>
+    SimpleMatrix44<Data>::multiply(const SimpleMatrix44<Data>& leftMatrix, const SimpleMatrix44<Data>& rightMatrix) const
     {
       array<Data, CELLS_IN_MATRIX> leftData = leftMatrix.getDataCopy();
       array<Data, CELLS_IN_MATRIX> rightData = rightMatrix.getDataCopy();
@@ -152,54 +154,56 @@ namespace simplicity
 
       // For every row in the left hand matrix.
       for (int row = 0; row < CELLS_IN_COLUMN; row++)
+      {
+        // For every column in the right hand matrix.
+        for (int column = 0; column < CELLS_IN_ROW; column++)
         {
-          // For every column in the right hand matrix.
-          for (int column = 0; column < CELLS_IN_ROW; column++)
-            {
-              Data sum = 0;
+          Data sum = 0;
 
-              // For every element in the current row of the left hand matrix and
-              // every element in the current column of the right hand matrix.
-              for (int element = 0; element < CELLS_IN_ROW; element++)
-                {
-                  // Add the product of the two to the value for the new
-                  // matrix.
-                  sum += leftData.at(row + (element * CELLS_IN_COLUMN)) * rightData.at((column * CELLS_IN_ROW) + element);
-                }
+          // For every element in the current row of the left hand matrix and
+          // every element in the current column of the right hand matrix.
+          for (int element = 0; element < CELLS_IN_ROW; element++)
+          {
+            // Add the product of the two to the value for the new
+            // matrix.
+            sum += leftData.at(row + (element * CELLS_IN_COLUMN)) * rightData.at((column * CELLS_IN_ROW) + element);
+          }
 
-              multData.at((column * CELLS_IN_ROW) + row) = sum;
-            }
+          multData.at((column * CELLS_IN_ROW) + row) = sum;
         }
+      }
 
       return (multData);
     }
 
   template<class Data>
     void
-    SimpleMatrix44<Data>::multiplyLeft(Matrix<Data> const * const leftMatrix)
+    SimpleMatrix44<Data>::multiplyLeft(const Matrix<Data>& leftMatrix)
     {
-      fData = multiply(*dynamic_cast<SimpleMatrix44<Data> const * const > (leftMatrix), *this);
+      fData = multiply(dynamic_cast<const SimpleMatrix44<Data>&> (leftMatrix), *this);
     }
 
   template<class Data>
-    Matrix<Data> *
-    SimpleMatrix44<Data>::multiplyLeftCopy(Matrix<Data> const * const leftMatrix) const
+    shared_ptr<Matrix<Data> >
+    SimpleMatrix44<Data>::multiplyLeftCopy(const Matrix<Data>& leftMatrix) const
     {
-      return (new SimpleMatrix44<Data> (multiply(*dynamic_cast<SimpleMatrix44<Data> const * const > (leftMatrix), *this)));
+      return (shared_ptr<Matrix<Data> > (
+          new SimpleMatrix44<Data> (multiply(dynamic_cast<const SimpleMatrix44<Data>&> (leftMatrix), *this))));
     }
 
   template<class Data>
     void
-    SimpleMatrix44<Data>::multiplyRight(Matrix<Data> const * const rightMatrix)
+    SimpleMatrix44<Data>::multiplyRight(const Matrix<Data>& rightMatrix)
     {
-      fData = multiply(*this, *dynamic_cast<SimpleMatrix44<Data> const * const > (rightMatrix));
+      fData = multiply(*this, dynamic_cast<const SimpleMatrix44<Data>&> (rightMatrix));
     }
 
   template<class Data>
-    Matrix<Data> *
-    SimpleMatrix44<Data>::multiplyRightCopy(Matrix<Data> const * const rightMatrix) const
+    shared_ptr<Matrix<Data> >
+    SimpleMatrix44<Data>::multiplyRightCopy(const Matrix<Data>& rightMatrix) const
     {
-      return (new SimpleMatrix44<Data> (multiply(*this, *dynamic_cast<SimpleMatrix44<Data> const * const > (rightMatrix))));
+      return (shared_ptr<Matrix<Data> > (
+          new SimpleMatrix44<Data> (multiply(*this, dynamic_cast<const SimpleMatrix44<Data>&> (rightMatrix)))));
     }
 
   template<class Data>

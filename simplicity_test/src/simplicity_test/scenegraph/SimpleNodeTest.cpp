@@ -10,14 +10,16 @@
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <boost/math/constants/constants.hpp>
-using namespace boost::math::constants;
 
 #include <simplicity/vector/SimpleTransformationMatrix44.h>
 #include <simplicity/vector/SimpleTranslationVector4.h>
-using namespace simplicity;
 
 #include "MockNode.h"
 #include "SimpleNodeTest.h"
+
+using namespace boost::math::constants;
+using namespace simplicity;
+using namespace testing;
 
 namespace simplicity_test
 {
@@ -29,17 +31,14 @@ namespace simplicity_test
   TEST_F(SimpleNodeTest, addChild)
   {
     // Create dependencies.
-    SimpleNode * child = new SimpleNode();
+    shared_ptr<SimpleNode> child(new SimpleNode);
 
     // Perform test.
-    fTestObject.addChild(child);
+    fTestObject->addChild(child);
 
     // Verify test results.
-    ASSERT_EQ(child, fTestObject.getChildren().at(0));
-    ASSERT_EQ(&fTestObject, child->getParent());
-
-    // Cleanup
-    delete child;
+    ASSERT_EQ(child, fTestObject->getChildren().at(0));
+    ASSERT_EQ(fTestObject, child->getParent());
   }
 
   /**
@@ -48,38 +47,41 @@ namespace simplicity_test
    * </p>
    */
   TEST_F(SimpleNodeTest, getAbsoluteTransformation)
+  {
+    // Create dependencies.
+    shared_ptr<MockNode> mockNode1(new MockNode);
+    shared_ptr<MockNode> mockNode2(new MockNode);
+
+    SimpleTransformationMatrix44<float> matrix1;
+    SimpleTranslationVector4<float> translation(0.0f, 10.0f, 0.0f, 1.0f);
+    matrix1.translate(translation);
+
+    SimpleTransformationMatrix44<float> matrix2;
+    SimpleTranslationVector4<float> rotateTranslation(1.0f, 0.0f, 0.0f, 1.0f);
+    matrix2.rotate(90.0f * pi<float>() / 180.0f, rotateTranslation);
+
+    SimpleTransformationMatrix44<float> matrix3;
+    matrix3.multiplyLeft(matrix1);
+    matrix3.multiplyLeft(matrix2);
+
+    // Dictate correct behaviour.
+    //EXPECT_CALL(*mockNode1, getTransformation()).WillRepeatedly(ReturnRef(matrix1));
+    //EXPECT_CALL(*mockNode1, getParent()).WillRepeatedly(Return(mockNode2));
+    //EXPECT_CALL(*mockNode2, getTransformation()).WillRepeatedly(ReturnRef(matrix2));
+    //EXPECT_CALL(*mockNode2, getParent()).WillRepeatedly(Return(shared_ptr<Node> ()));
+
+    // Initialise test environment.
+    //fTestObject->setParent(mockNode1);
+
+    // Perform test - Verify test results.
+    bool equal = false;
+    if (matrix3.getData() == dynamic_cast<const SimpleMatrix44<float>& > (fTestObject->getAbsoluteTransformation()).getDataCopy())
     {
-      // Create dependencies.
-      MockNode mockNode1;
-      MockNode mockNode2;
-      SimpleTransformationMatrix44<float> matrix1;
-      matrix1.translate(new SimpleTranslationVector4<float>(0.0f, 10.0f, 0.0f, 1.0f));
-      SimpleTransformationMatrix44<float> matrix2;
-      matrix2.rotate(90.0f * pi<float>() / 180.0f, new SimpleTranslationVector4<float>(1.0f, 0.0f, 0.0f, 1.0f));
-      SimpleTransformationMatrix44<float> matrix3;
-      matrix3.multiplyLeft(&matrix1);
-      matrix3.multiplyLeft(&matrix2);
-
-      // Dictate correct behaviour.
-      EXPECT_CALL(mockNode1, getTransformation()).WillRepeatedly(Return(&matrix1));
-      EXPECT_CALL(mockNode1, getParent()).WillRepeatedly(Return(&mockNode2));
-      EXPECT_CALL(mockNode2, getTransformation()).WillRepeatedly(Return(&matrix2));
-      EXPECT_CALL(mockNode2, getParent()).WillRepeatedly(Return((Node*) NULL));
-
-      // Initialise test environment.
-      fTestObject.setParent(&mockNode1);
-
-      dynamic_cast<SimpleMatrix44<float>*> (fTestObject.getAbsoluteTransformation())->getData();
-
-      // Perform test - Verify test results.
-      bool equal = false;
-      if (matrix3.getData() == dynamic_cast<SimpleMatrix44<float>*> (fTestObject.getAbsoluteTransformation())->getData())
-        {
-          equal = true;
-        }
-
-      ASSERT_TRUE(equal);
+      equal = true;
     }
+
+    ASSERT_TRUE(equal);
+  }
 
   /**
    * <p>
@@ -87,19 +89,19 @@ namespace simplicity_test
    * </p>
    */
   TEST_F(SimpleNodeTest, hasChildren)
-    {
-      // Create dependencies.
-      SimpleNode * child = new SimpleNode();
+  {
+    // Create dependencies.
+    shared_ptr<Node> child(new SimpleNode);
 
-      // Verify prerequisite state.
-      ASSERT_FALSE(fTestObject.hasChildren());
+    // Verify prerequisite state.
+    ASSERT_FALSE(fTestObject->hasChildren());
 
-      // Perform test.
-      fTestObject.addChild(child);
+    // Perform test.
+    fTestObject->addChild(child);
 
-      // Verify test results.
-      ASSERT_TRUE(fTestObject.hasChildren());
-    }
+    // Verify test results.
+    ASSERT_TRUE(fTestObject->hasChildren());
+  }
 
   /**
    * <p>
@@ -107,19 +109,19 @@ namespace simplicity_test
    * </p>
    */
   TEST_F(SimpleNodeTest, isAncestor)
-    {
-      SimpleNode * child = new SimpleNode();
-      fTestObject.addChild(child);
+  {
+    shared_ptr<Node> child(new SimpleNode);
+    fTestObject->addChild(child);
 
-      SimpleNode * grandChild = new SimpleNode();
-      child->addChild(grandChild);
+    shared_ptr<Node> grandChild(new SimpleNode);
+    child->addChild(grandChild);
 
-      ASSERT_TRUE(child->isAncestor(&fTestObject));
-      ASSERT_TRUE(grandChild->isAncestor(&fTestObject));
+    ASSERT_TRUE(child->isAncestor(*fTestObject));
+    ASSERT_TRUE(grandChild->isAncestor(*fTestObject));
 
-      ASSERT_FALSE(child->isAncestor(child));
-      ASSERT_FALSE(child->isAncestor(grandChild));
-    }
+    ASSERT_FALSE(child->isAncestor(*child));
+    ASSERT_FALSE(child->isAncestor(*grandChild));
+  }
 
   /**
    * <p>
@@ -127,19 +129,19 @@ namespace simplicity_test
    * </p>
    */
   TEST_F(SimpleNodeTest, isSuccessor)
-    {
-      SimpleNode * child = new SimpleNode();
-      fTestObject.addChild(child);
+  {
+    shared_ptr<Node> child(new SimpleNode);
+    fTestObject->addChild(child);
 
-      SimpleNode * grandChild = new SimpleNode();
-      child->addChild(grandChild);
+    shared_ptr<Node> grandChild(new SimpleNode);
+    child->addChild(grandChild);
 
-      ASSERT_TRUE(child->isSuccessor(grandChild));
-      ASSERT_TRUE(fTestObject.isSuccessor(grandChild));
+    ASSERT_TRUE(child->isSuccessor(*grandChild));
+    ASSERT_TRUE(fTestObject->isSuccessor(*grandChild));
 
-      ASSERT_FALSE(child->isSuccessor(child));
-      ASSERT_FALSE(child->isSuccessor(&fTestObject));
-    }
+    ASSERT_FALSE(child->isSuccessor(*child));
+    ASSERT_FALSE(child->isSuccessor(*fTestObject));
+  }
 
   /**
    * <p>
@@ -147,16 +149,16 @@ namespace simplicity_test
    * </p>
    */
   TEST_F(SimpleNodeTest, removeChild)
-    {
-      SimpleNode * child = new SimpleNode();
+  {
+    shared_ptr<Node> child(new SimpleNode);
 
-      fTestObject.addChild(child);
+    fTestObject->addChild(child);
 
-      fTestObject.removeChild(child);
+    fTestObject->removeChild(*child);
 
-      vector<Node *> children = fTestObject.getChildren();
-      vector<Node *>::iterator iterator = find(children.begin(), children.end(), child);
-      ASSERT_TRUE(iterator == children.end());
-      ASSERT_FALSE(child->getParent());
-    }
+    vector<shared_ptr<Node> > children = fTestObject->getChildren();
+    vector<shared_ptr<Node> >::iterator iterator = find(children.begin(), children.end(), child);
+    ASSERT_TRUE(iterator == children.end());
+    ASSERT_FALSE(child->getParent());
+  }
 }

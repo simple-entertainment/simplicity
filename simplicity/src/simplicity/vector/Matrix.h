@@ -12,6 +12,8 @@
 #ifndef MATRIX_H_
 #define MATRIX_H_
 
+#include <boost/smart_ptr.hpp>
+
 #include "../SEInvalidOperationException.h"
 
 namespace simplicity
@@ -55,7 +57,7 @@ namespace simplicity
          * @throw SEInvalidOperationException If this <code>SimpleMatrix44</code> has a determinant of 0.
          */
         virtual void
-        invert() throw (SEInvalidOperationException) = 0;
+        invert() = 0;
 
         /**
          * <p>
@@ -70,7 +72,7 @@ namespace simplicity
          * @param leftMatrix The <code>Matrix</code> to be placed on the left hand side of the multiplication with this <code>Matrix</code>.
          */
         virtual void
-        multiplyLeft(Matrix<Data> const * const leftMatrix) = 0;
+        multiplyLeft(const Matrix<Data>& leftMatrix) = 0;
 
         /**
          * <p>
@@ -82,16 +84,12 @@ namespace simplicity
          * A new <code>Matrix</code> is created as the result of the multiplication.
          * </p>
          *
-         * <p>
-         * The caller must assume ownership of the returned <code>Matrix</code>.
-         * </p>
-         *
          * @param leftMatrix The <code>Matrix</code> to be placed on the left hand side of the multiplication with this <code>Matrix</code>.
          *
          * @return The result of the multiplication.
          */
-        virtual Matrix<Data> *
-        multiplyLeftCopy(Matrix<Data> const * const leftMatrix) const = 0;
+        virtual boost::shared_ptr<Matrix<Data> >
+        multiplyLeftCopy(const Matrix<Data>& leftMatrix) const = 0;
 
         /**
          * <p>
@@ -106,7 +104,7 @@ namespace simplicity
          * @param rightMatrix The <code>Matrix</code> to be placed on the right hand side of the multiplication with this <code>Matrix</code>.
          */
         virtual void
-        multiplyRight(Matrix<Data> const * const rightMatrix) = 0;
+        multiplyRight(const Matrix<Data>& rightMatrix) = 0;
 
         /**
          * <p>
@@ -118,16 +116,12 @@ namespace simplicity
          * A new <code>Matrix</code> is created as the result of the multiplication.
          * </p>
          *
-         * <p>
-         * The caller must assume ownership of the returned <code>Matrix</code>.
-         * </p>
-         *
          * @param rightMatrix The <code>Matrix</code> to be placed on the right hand side of the multiplication with this <code>Matrix</code>.
          *
          * @return The result of the multiplication.
          */
-        virtual Matrix<Data> *
-        multiplyRightCopy(Matrix<Data> const * const rightMatrix) const = 0;
+        virtual boost::shared_ptr<Matrix<Data> >
+        multiplyRightCopy(const Matrix<Data>& rightMatrix) const = 0;
 
         /**
          * <p>
@@ -145,7 +139,6 @@ namespace simplicity
         virtual void
         transpose() = 0;
     };
-
 }
 
 #endif /* MATRIX_H_ */

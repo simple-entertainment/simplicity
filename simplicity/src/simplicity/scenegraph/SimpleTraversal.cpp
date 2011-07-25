@@ -13,10 +13,13 @@
 
 #include "SimpleTraversal.h"
 
+using namespace boost;
+using namespace std;
+
 namespace simplicity
 {
-  SimpleTraversal::SimpleTraversal(Node const * const root) :
-    fBacktracksToNextNode(0), fNextNode(0), fRoot(root)
+  SimpleTraversal::SimpleTraversal(const Node& root) :
+    fBacktracksToNextNode(0), fRoot(root)
   {
     reset();
   }
@@ -25,49 +28,46 @@ namespace simplicity
   {
   }
 
-  Node *
+  shared_ptr<Node>
   SimpleTraversal::findNextNode()
   {
     fBacktracksToNextNode = 0;
 
     // If the only node in the traversal is the root, end the traversal.
-    if (fNextNode == fRoot && !fNextNode->hasChildren())
-      {
-        fBacktracksToNextNode++;
+    if (fNextNode.get() == &fRoot && !fNextNode->hasChildren())
+    {
+      fBacktracksToNextNode++;
 
-        return (NULL);
-      }
+      return (shared_ptr<Node> ());
+    }
 
     // If the current node has children, move to it's first child.
     if (fNextNode->hasChildren())
-      {
-        return (fNextNode->getChildren().at(0));
-      }
+    {
+      return (fNextNode->getChildren().at(0));
+    }
 
     // If the current node has no children, backtrack to the next sibling.
-    vector<Node *> siblings = fNextNode->getParent()->getChildren();
+    vector<shared_ptr<Node> > siblings = fNextNode->getParent()->getChildren();
 
     // While the current node has no more siblings, move to it's parent.
-    while (fNextNode == siblings.back())
-      {
-        fBacktracksToNextNode++;
-
-        fNextNode = fNextNode->getParent();
-
-        // If the next node is the root, end the traversal.
-        if (fNextNode == fRoot)
-          {
-            fBacktracksToNextNode++;
-
-            return (NULL);
-          }
-
-        siblings = fNextNode->getParent()->getChildren();
-      }
     fBacktracksToNextNode++;
+    while (fNextNode == siblings.back())
+    {
+      fBacktracksToNextNode++;
+      fNextNode = fNextNode->getParent();
+
+      // If the next node is the root, end the traversal.
+      if (fNextNode.get() == &fRoot)
+      {
+        return (shared_ptr<Node> ());
+      }
+
+      siblings = fNextNode->getParent()->getChildren();
+    }
 
     // If the next node has more siblings, move to it's next sibling.
-    vector<Node *>::iterator iterator = find(siblings.begin(), siblings.end(), fNextNode);
+    vector<shared_ptr<Node> >::iterator iterator = find(siblings.begin(), siblings.end(), fNextNode);
     iterator++;
 
     return (*iterator);
@@ -79,16 +79,16 @@ namespace simplicity
     return (fBacktracksToNextNode);
   }
 
-  Node *
+  shared_ptr<Node>
   SimpleTraversal::getNextNode()
   {
     // If the traversal has ended.
-    if (!fNextNode)
-      {
-        return (NULL);
-      }
+    if (!fNextNode.get())
+    {
+      return (shared_ptr<Node> ());
+    }
 
-    Node * currentNode = fNextNode;
+    shared_ptr<Node> currentNode(fNextNode);
     fNextNode = findNextNode();
 
     return (currentNode);
@@ -104,6 +104,7 @@ namespace simplicity
   SimpleTraversal::reset()
   {
     fBacktracksToNextNode = 0;
-    fNextNode = (Node *) fRoot;
+    Node* rootNode = (Node*) &fRoot;
+    fNextNode = rootNode->getThisShared();
   }
 }

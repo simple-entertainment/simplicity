@@ -15,7 +15,6 @@
 #include <gmock/gmock.h>
 
 #include <simplicity/scenegraph/Node.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -26,30 +25,29 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class MockNode : public Node
+  class MockNode : public simplicity::Node
   {
     public:
-      MOCK_METHOD1(addChild, void(Node * const child));
-      MOCK_CONST_METHOD0(getAbsoluteTransformation, TransformationMatrix<float> *());
-      MOCK_CONST_METHOD0(getBounds, BoundingVolume *());
-      MOCK_CONST_METHOD0(getChildren, vector<Node *>());
+      MOCK_METHOD1(addChild, void(boost::shared_ptr<simplicity::Node> child));
+      MOCK_CONST_METHOD0(getAbsoluteTransformation, const simplicity::TransformationMatrix<float>&());
+      //MOCK_CONST_METHOD0(getBounds, boost::shared_ptr<simplicity::BoundingVolume>());
+      MOCK_CONST_METHOD0(getChildren, vector<boost::shared_ptr<simplicity::Node> >());
       MOCK_CONST_METHOD0(getID, int());
-      MOCK_CONST_METHOD0(getParent, Node *());
-      MOCK_CONST_METHOD0(getTransformation, TransformationMatrix<float> *());
+      MOCK_CONST_METHOD0(getParent, boost::shared_ptr<simplicity::Node>());
+      MOCK_CONST_METHOD0(getTransformation, simplicity::TransformationMatrix<float>&());
       MOCK_CONST_METHOD0(hasChildren, bool());
-      MOCK_CONST_METHOD1(isAncestor, bool(Node const * const ancestor));
+      MOCK_CONST_METHOD1(isAncestor, bool(const Node& ancestor));
       MOCK_CONST_METHOD0(isCollidable, bool());
       MOCK_CONST_METHOD0(isModifiable, bool());
-      MOCK_CONST_METHOD1(isSuccessor, bool(Node const * const successor));
+      MOCK_CONST_METHOD1(isSuccessor, bool(const Node& successor));
       MOCK_CONST_METHOD0(isVisible, bool());
-      MOCK_METHOD1(removeChild, void(Node * const child));
-      MOCK_METHOD1(setBounds, void(BoundingVolume * const bounds));
-      MOCK_METHOD1(setCollidable, void(bool const collidable));
-      MOCK_METHOD1(setID, void(int const id));
-      MOCK_METHOD1(setModifiable, void(bool const modifiable));
-      MOCK_METHOD1(setParent, void(Node * const parent));
-      MOCK_METHOD1(setTransformation, void(TransformationMatrix<float> * const transformation));
-      MOCK_METHOD1(setVisible, void(bool const visible));
+      MOCK_METHOD1(removeChild, void(Node& child));
+      MOCK_METHOD1(setCollidable, void(const bool collidable));
+      MOCK_METHOD1(setID, void(const int id));
+      MOCK_METHOD1(setModifiable, void(const bool modifiable));
+      MOCK_METHOD1(setParent, void(boost::shared_ptr<simplicity::Node> parent));
+      MOCK_METHOD1(setTransformation, void(boost::shared_ptr<simplicity::TransformationMatrix<float> > transformation));
+      MOCK_METHOD1(setVisible, void(const bool visible));
   };
 }
 

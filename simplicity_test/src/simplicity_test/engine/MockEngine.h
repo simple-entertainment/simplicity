@@ -15,7 +15,6 @@
 #include <gmock/gmock.h>
 
 #include <simplicity/engine/Engine.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -26,15 +25,15 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class MockEngine : public Engine
+  class MockEngine : public simplicity::Engine
   {
     public:
-      MOCK_METHOD1(advance, EngineInput *(EngineInput const * const input));
+      MOCK_METHOD1(advance, simplicity::EngineInput*(const simplicity::EngineInput* const input));
       MOCK_METHOD0(destroy, void());
       MOCK_CONST_METHOD0(getPreferredFrequency, int());
       MOCK_METHOD0(init, void());
       MOCK_METHOD0(reset, void());
-      MOCK_METHOD1(setPreferredFrequency, void(int const preferredFrequency));
+      MOCK_METHOD1(setPreferredFrequency, void(const int preferredFrequency));
   };
 }
 

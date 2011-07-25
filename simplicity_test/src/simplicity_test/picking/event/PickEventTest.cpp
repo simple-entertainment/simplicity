@@ -11,6 +11,9 @@
  */
 #include "PickEventTest.h"
 
+using namespace boost;
+using namespace simplicity;
+
 namespace simplicity_test
 {
   /**
@@ -26,8 +29,8 @@ namespace simplicity_test
     Hit hit1;
 
     // Dictate correct behaviour.
-    hit0.setMinimumDistance(20);
-    hit1.setMinimumDistance(10);
+    hit0.minimumDistance = 20;
+    hit1.minimumDistance = 10;
 
     // Initialise test environment.
     fTestObject.addHit(hit0);
@@ -37,6 +40,6 @@ namespace simplicity_test
     optional<Hit> hit = fTestObject.getCloseHit();
 
     // Verify test results.
-    ASSERT_EQ(10, hit->getMinimumDistance());
+    ASSERT_EQ(10, hit->minimumDistance);
   }
 }

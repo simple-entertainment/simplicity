@@ -13,10 +13,8 @@
 #define SIMPLESCENEGRAPHTEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include <simplicity/scenegraph/SimpleSceneGraph.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -27,10 +25,10 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class SimpleSceneGraphTest : public Test
+  class SimpleSceneGraphTest : public testing::Test
   {
     protected:
-      SimpleSceneGraph fTestObject;
+      simplicity::SimpleSceneGraph fTestObject;
   };
 }
 

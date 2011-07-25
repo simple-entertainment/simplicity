@@ -17,8 +17,8 @@ using namespace testing;
 int
 main(int argc, char** argv)
 {
-    PropertyConfigurator::configure("../simplicity/properties/log4cpp.properties");
+  PropertyConfigurator::configure("../simplicity/properties/log4cpp.properties");
 
-    InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+  InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }

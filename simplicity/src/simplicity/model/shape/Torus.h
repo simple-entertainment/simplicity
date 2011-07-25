@@ -41,10 +41,10 @@ namespace simplicity
       virtual
       ~Torus();
 
-      TranslationVector<float> *
+      const TranslationVector<float>&
       getCenter() const;
 
-      RGBColourVector<float> *
+      RGBColourVector<float>&
       getColour() const;
 
       /**
@@ -68,7 +68,7 @@ namespace simplicity
       getOuterRadius() const;
 
       void
-      setColour(RGBColourVector<float> * const colour);
+      setColour(boost::shared_ptr<RGBColourVector<float> > colour);
 
       /**
        * <p>
@@ -78,7 +78,7 @@ namespace simplicity
        * @param innerRadius The inner radius.
        */
       void
-      setInnerRadius(float const innerRadius);
+      setInnerRadius(const float innerRadius);
 
       /**
        * <p>
@@ -88,15 +88,22 @@ namespace simplicity
        * @param outerRadius The outer radius.
        */
       void
-      setOuterRadius(float const outerRadius);
+      setOuterRadius(const float outerRadius);
 
     private:
       /**
        * <p>
-       * The colour to render this <code>Sphere</code> as.
+       * The point at the center of this <code>Torus</code>.
        * </p>
        */
-      RGBColourVector<float> * fColour;
+      boost::shared_ptr<TranslationVector<float> > fCenter;
+
+      /**
+       * <p>
+       * The colour to render this <code>Torus</code> as.
+       * </p>
+       */
+      boost::shared_ptr<RGBColourVector<float> > fColour;
 
       /**
        * <p>

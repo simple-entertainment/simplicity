@@ -13,7 +13,8 @@
 #define NODE_H_
 
 #include <vector>
-using namespace std;
+
+#include <boost/enable_shared_from_this.hpp>
 
 #include "../model/BoundingVolume.h"
 #include "../vector/TransformationMatrix.h"
@@ -27,7 +28,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class Node
+  class Node : public boost::enable_shared_from_this<Node>
   {
     public:
       /**
@@ -48,20 +49,16 @@ namespace simplicity
        * @param child The <code>Node</code> to add to this <code>Node</code>'s children.
        */
       virtual void
-      addChild(Node * const child) = 0;
+      addChild(boost::shared_ptr<Node> child) = 0;
 
       /**
        * <p>
        * Retrieves this <code>Node</code>'s absolute position and orientation.
        * </p>
        *
-       * <p>
-       * The caller must assume ownership of the returned <code>TransformationMatrix</code>.
-       * </p>
-       *
        * @return This <code>Node</code>'s absolute position and orientation.
        */
-      virtual TransformationMatrix<float> *
+      virtual const TransformationMatrix<float>&
       getAbsoluteTransformation() const = 0;
 
       /**
@@ -73,8 +70,8 @@ namespace simplicity
        * @return A volume containing all the <code>Model</code>s within the subgraph of which this <code>Node</code> is the
        * root.
        */
-      virtual BoundingVolume *
-      getBounds() const = 0;
+//      virtual const BoundingVolume& TODO
+//      getBounds() const = 0;
 
       /**
        * <p>
@@ -83,7 +80,7 @@ namespace simplicity
        *
        * @return The <code>Node</code>s directly below this <code>Node</code> in a <code>SceneGraph</code>.
        */
-      virtual vector<Node *>
+      virtual std::vector<boost::shared_ptr<Node> >
       getChildren() const = 0;
 
       /**
@@ -103,8 +100,16 @@ namespace simplicity
        *
        * @return The <code>Node</code> directly above this <code>Node</code> in a <code>SceneGraph</code>.
        */
-      virtual Node *
+      virtual boost::shared_ptr<Node>
       getParent() const = 0;
+
+      /**
+       * <p>
+       * Obtain a shared pointer to this <code>SimpleNode</code>.
+       * </p>
+       */
+      boost::shared_ptr<Node> getThisShared() { return (shared_from_this()); }
+      boost::shared_ptr<const Node> getThisShared() const { return (shared_from_this()); }
 
       /**
        * <p>
@@ -113,7 +118,7 @@ namespace simplicity
        *
        * @return This <code>Node</code>'s relative position and orientation.
        */
-      virtual TransformationMatrix<float> *
+      virtual TransformationMatrix<float>&
       getTransformation() const = 0;
 
       /**
@@ -135,7 +140,7 @@ namespace simplicity
        * @return True if the given <code>Node</code> is an ancestor of this <code>Node</code>, false otherwise.
        */
       virtual bool
-      isAncestor(Node const * const ancestor) const = 0;
+      isAncestor(const Node& ancestor) const = 0;
 
       /**
        * <p>
@@ -167,7 +172,7 @@ namespace simplicity
        * @return True if the given <code>Node</code> is a successor of this <code>Node</code>, false otherwise.
        */
       virtual bool
-      isSuccessor(Node const * const successor) const = 0;
+      isSuccessor(const Node& successor) const = 0;
 
       /**
        * <p>
@@ -187,23 +192,7 @@ namespace simplicity
        * @param child The child to be removed.
        */
       virtual void
-      removeChild(Node * const child) = 0;
-
-      /**
-       * <p>
-       * Retrieves a volume containing all the {@link simplicity::Model Model}s within the subgraph of which this <code>Node</code> is the
-       * root.
-       * </p>
-       *
-       * <p>
-       * This <code>Node</code> will assume ownership of the given <code>BoundingVolume</code> and the previously held <code>BoundingVolume</code> will be deleted.
-       * </p>
-       *
-       * @param bounds A volume containing all the <code>Model</code>s within the subgraph of which this <code>Node</code> is
-       * the root.
-       */
-      virtual void
-      setBounds(BoundingVolume * const bounds) = 0;
+      removeChild(Node& child) = 0;
 
       /**
        * <p>
@@ -214,7 +203,7 @@ namespace simplicity
        * {@link simplicity.scenegraph.SceneGraph SceneGraph} (determines if it should be included in collision detection).
        */
       virtual void
-      setCollidable(bool const collidable) = 0;
+      setCollidable(const bool collidable) = 0;
 
       /**
        * <p>
@@ -225,7 +214,7 @@ namespace simplicity
        * @param id This <code>Node</code>'s unique identifier.
        */
       virtual void
-      setID(int const id) = 0;
+      setID(const int id) = 0;
 
       /**
        * <p>
@@ -235,7 +224,7 @@ namespace simplicity
        * @param modifiable Determines if this <code>Node</code> can be modified.
        */
       virtual void
-      setModifiable(bool const modifiable) = 0;
+      setModifiable(const bool modifiable) = 0;
 
       /**
        * <p>
@@ -245,21 +234,17 @@ namespace simplicity
        * @param parent The <code>Node</code> directly above this <code>Node</code> in a {@link simplicity.scenegraph.SceneGraph SceneGraph}.
        */
       virtual void
-      setParent(Node * const parent) = 0;
+      setParent(boost::shared_ptr<Node> parent) = 0;
 
       /**
        * <p>
        * Sets this <code>Node</code>'s relative position and orientation.
        * </p>
        *
-       * <p>
-       * This <code>Node</code> will assume ownership of the given <code>TransformationMatrix</code> and the previously held <code>TransformationMatrix</code> will be deleted.
-       * </p>
-       *
        * @param transformation This <code>Node</code>'s relative position and orientation.
        */
       virtual void
-      setTransformation(TransformationMatrix<float> * const transformation) = 0;
+      setTransformation(boost::shared_ptr<TransformationMatrix<float> > transformation) = 0;
 
       /**
        * <p>
@@ -269,7 +254,7 @@ namespace simplicity
        * @param visible Determines if this <code>Node</code> is visible (determines if it should be rendered).
        */
       virtual void
-      setVisible(bool const visible) = 0;
+      setVisible(const bool visible) = 0;
   };
 }
 

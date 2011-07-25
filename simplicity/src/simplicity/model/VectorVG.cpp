@@ -13,15 +13,19 @@
 #include "VectorVG.h"
 #include "ModelConstants.h"
 
+using namespace boost;
+using namespace simplicity::model_constants;
+using namespace std;
+
 namespace simplicity
 {
   VectorVG::VectorVG() :
-    fColours(0), fIndexWithinParent(-1), fIsSubset(false), fNormals(0), fParent(0), fVertices(0)
+    fIndexWithinParent(-1), fIsSubset(false), fParent(0)
   {
   }
 
-  VectorVG::VectorVG(VectorVG * const parent) :
-    fColours(0), fIndexWithinParent(-1), fIsSubset(true), fNormals(0), fParent(parent), fVertices(0)
+  VectorVG::VectorVG(VectorVG& parent) :
+    fIndexWithinParent(-1), fIsSubset(true), fParent(&parent)
   {
   }
 
@@ -29,29 +33,32 @@ namespace simplicity
   {
   }
 
-  VertexGroup *
-  VectorVG::createEdgeSubsetVG(int const index)
+  shared_ptr<VertexGroup>
+  VectorVG::createEdgeSubsetVG(const int index)
   {
     return (createSubsetVG(index, 2));
   }
 
-  VertexGroup *
-  VectorVG::createFaceSubsetVG(int const index)
+  shared_ptr<VertexGroup>
+  VectorVG::createFaceSubsetVG(const int index)
   {
-    return (createSubsetVG(index * ModelConstants::VERTICES_IN_A_FACE, ModelConstants::VERTICES_IN_A_FACE));
+    return (createSubsetVG(index * VERTICES_IN_A_FACE, VERTICES_IN_A_FACE));
   }
 
-  VertexGroup *
-  VectorVG::createSubsetVG(int const index, int const length)
+  shared_ptr<VertexGroup>
+  VectorVG::createSubsetVG(const int index, const int length)
   {
-    int subsetStart = index * ModelConstants::ITEMS_IN_CNV;
-    int subsetLength = length * ModelConstants::ITEMS_IN_CNV;
+    int subsetStart = index * ITEMS_IN_CNV;
+    int subsetLength = length * ITEMS_IN_CNV;
 
-    vector<float> subsetColours(fColours.begin() + subsetStart, fColours.begin() + subsetStart + subsetLength);
-    vector<float> subsetNormals(fNormals.begin() + subsetStart, fNormals.begin() + subsetStart + subsetLength);
-    vector<float> subsetVertices(fVertices.begin() + subsetStart, fVertices.begin() + subsetStart + subsetLength);
+    shared_ptr<vector<float> > subsetColours(
+        new vector<float> (fColours->begin() + subsetStart, fColours->begin() + subsetStart + subsetLength));
+    shared_ptr<vector<float> > subsetNormals(
+        new vector<float> (fNormals->begin() + subsetStart, fNormals->begin() + subsetStart + subsetLength));
+    shared_ptr<vector<float> > subsetVertices(
+        new vector<float> (fVertices->begin() + subsetStart, fVertices->begin() + subsetStart + subsetLength));
 
-    VectorVG * subsetVertexGroup = new VectorVG(this);
+    shared_ptr<VectorVG> subsetVertexGroup(new VectorVG(*this));
     subsetVertexGroup->setIndexWithinParent(index);
     subsetVertexGroup->setColours(subsetColours);
     subsetVertexGroup->setNormals(subsetNormals);
@@ -60,27 +67,27 @@ namespace simplicity
     return (subsetVertexGroup);
   }
 
-  VertexGroup *
-  VectorVG::createVertexSubsetVG(int const index)
+  shared_ptr<VertexGroup>
+  VectorVG::createVertexSubsetVG(const int index)
   {
     return (createSubsetVG(index, 1));
   }
 
-  TranslationVector<float> *
+  const TranslationVector<float>&
   VectorVG::getCenter() const
   {
-    SimpleTranslationVector4<float> * translation = new SimpleTranslationVector4<float> ();
+    SimpleTranslationVector4<float>* translation = new SimpleTranslationVector4<float> ();
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;
 
-    int vertexCount = fVertices.size() / ModelConstants::ITEMS_IN_CNV;
+    int vertexCount = fVertices->size() / ITEMS_IN_CNV;
     for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
-      {
-        x += fVertices.at(vertexIndex * ModelConstants::ITEMS_IN_CNV);
-        y += fVertices.at(vertexIndex * ModelConstants::ITEMS_IN_CNV + 1);
-        z += fVertices.at(vertexIndex * ModelConstants::ITEMS_IN_CNV + 2);
-      }
+    {
+      x += fVertices->at(vertexIndex * ITEMS_IN_CNV);
+      y += fVertices->at(vertexIndex * ITEMS_IN_CNV + 1);
+      z += fVertices->at(vertexIndex * ITEMS_IN_CNV + 2);
+    }
 
     x /= vertexCount;
     y /= vertexCount;
@@ -90,13 +97,13 @@ namespace simplicity
     translation->setY(y);
     translation->setZ(z);
 
-    return (translation);
+    return (*translation);
   }
 
-  vector<float> &
+  vector<float>&
   VectorVG::getColours()
   {
-    return (fColours);
+    return (*fColours);
   }
 
   int
@@ -105,13 +112,13 @@ namespace simplicity
     return (fIndexWithinParent);
   }
 
-  vector<float> &
+  vector<float>&
   VectorVG::getNormals()
   {
-    return (fNormals);
+    return (*fNormals);
   }
 
-  VertexGroup *
+  VertexGroup*
   VectorVG::getParent() const
   {
     return (fParent);
@@ -120,13 +127,13 @@ namespace simplicity
   int
   VectorVG::getVertexCount() const
   {
-    return (fVertices.size() / ModelConstants::ITEMS_IN_CNV);
+    return (fVertices->size() / ITEMS_IN_CNV);
   }
 
-  vector<float> &
+  vector<float>&
   VectorVG::getVertices()
   {
-    return (fVertices);
+    return (*fVertices);
   }
 
   bool
@@ -136,41 +143,41 @@ namespace simplicity
   }
 
   void
-  VectorVG::mergeWithParent() const throw (SEInvalidOperationException)
+  VectorVG::mergeWithParent() const
   {
     if (!fIsSubset)
-      {
-        throw SEInvalidOperationException();
-      }
+    {
+      throw SEInvalidOperationException();
+    }
 
-    for (unsigned int index = 0; index < fColours.size(); index++)
-      {
-        fParent->getColours().at(index) = fColours.at(index);
-        fParent->getNormals().at(index) = fNormals.at(index);
-        fParent->getVertices().at(index) = fVertices.at(index);
-      }
+    for (unsigned int index = 0; index < fColours->size(); index++)
+    {
+      fParent->getColours().at(index) = fColours->at(index);
+      fParent->getNormals().at(index) = fNormals->at(index);
+      fParent->getVertices().at(index) = fVertices->at(index);
+    }
   }
 
   void
-  VectorVG::setColours(vector<float> colours)
+  VectorVG::setColours(shared_ptr<vector<float> > colours)
   {
     fColours = colours;
   }
 
   void
-  VectorVG::setIndexWithinParent(int const indexWithinParent)
+  VectorVG::setIndexWithinParent(const int indexWithinParent)
   {
     fIndexWithinParent = indexWithinParent;
   }
 
   void
-  VectorVG::setNormals(vector<float> normals)
+  VectorVG::setNormals(shared_ptr<vector<float> > normals)
   {
     fNormals = normals;
   }
 
   void
-  VectorVG::setVertices(vector<float> vertices)
+  VectorVG::setVertices(shared_ptr<vector<float> > vertices)
   {
     fVertices = vertices;
   }

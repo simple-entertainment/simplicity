@@ -11,9 +11,10 @@
  */
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
-using namespace boost;
 
 #include "RunnableEngineTest.h"
+
+using namespace boost;
 
 namespace simplicity_test
 {
@@ -21,7 +22,8 @@ namespace simplicity_test
    * <p>
    * Unit test the method {@link simplicity::RunnableEngine#run() run()}.
    * </p>
-   */TEST_F(RunnableEngineTest, run)
+   */
+  TEST_F(RunnableEngineTest, run)
   {
     // Initialise test environment.
     fTestObject.setPreferredFrequency(5);
@@ -40,13 +42,13 @@ namespace simplicity_test
     ASSERT_EQ(1, fTestObject.getMethodCallCountIgnoreParams("destroy"));
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::RunnableEngine#run() run()} with the special condition that it runs longer than is allowed
- * by its preferred frequency.
- * </p>
- */
-TEST_F(RunnableEngineTest, runOverrunFrequency)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::RunnableEngine#run() run()} with the special condition that it runs longer than is allowed
+   * by its preferred frequency.
+   * </p>
+   */
+  TEST_F(RunnableEngineTest, runOverrunFrequency)
   {
     // Initialise test environment.
     fTestObject.setPreferredFrequency(5);

@@ -42,31 +42,31 @@ namespace simplicity
       ~SimpleNode();
 
       void
-      addChild(Node * const child);
+      addChild(boost::shared_ptr<Node> child);
 
-      TransformationMatrix<float> *
-      getAbsoluteTransformation()const;
+      const TransformationMatrix<float>&
+      getAbsoluteTransformation() const;
 
-      BoundingVolume *
-      getBounds() const;
+//      const BoundingVolume& TODO
+//      getBounds() const;
 
-      vector<Node *>
+      std::vector<boost::shared_ptr<Node> >
       getChildren() const;
 
       int
       getID() const;
 
-      Node *
+      boost::shared_ptr<Node>
       getParent() const;
 
-      TransformationMatrix<float> *
+      TransformationMatrix<float>&
       getTransformation() const;
 
       bool
       hasChildren() const;
 
       bool
-      isAncestor(Node const * const ancestor) const;
+      isAncestor(const Node& ancestor) const;
 
       bool
       isCollidable() const;
@@ -75,50 +75,54 @@ namespace simplicity
       isModifiable() const;
 
       bool
-      isSuccessor(Node const * const successor) const;
+      isSuccessor(const Node& successor) const;
 
       bool
       isVisible() const;
 
       void
-      removeChild(Node * const child);
+      removeChild(Node& child);
 
       void
-      setBounds(BoundingVolume * const bounds);
+      setCollidable(const bool collidable);
 
       void
-      setCollidable(bool const collidable);
+      setID(const int id);
 
       void
-      setID(int const id);
+      setModifiable(const bool modifiable);
 
       void
-      setModifiable(bool const modifiable);
+      setParent(boost::shared_ptr<Node> parent);
 
       void
-      setParent(Node * const parent);
+      setTransformation(boost::shared_ptr<TransformationMatrix<float> > transformation);
 
       void
-      setTransformation(TransformationMatrix<float> * const transformation);
-
-      void
-      setVisible(bool const visible);
+      setVisible(const bool visible);
 
     private:
+      /**
+       * <p>
+       * This <code>SimpleNode</code>'s absolute position and orientation.
+       * </p>
+       */
+      mutable boost::scoped_ptr<TransformationMatrix<float> > fAbsoluteTransformation;
+
       /**
        * <p>
        * A volume containing all the {@link com.se.simplicity.model.Model Model}s within the subgraph of which this <code>SimpleNode</code>
        * is the root.
        * </p>
        */
-      BoundingVolume * fBounds;
+      //BoundingVolume& fBounds; TODO
 
       /**
        * <p>
        * The <code>SimpleNode</code>s directly below this <code>SimpleNode</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph}.
        * </p>
        */
-      vector<Node *> fChildren;
+      std::vector<boost::shared_ptr<Node> > fChildren;
 
       /**
        * <p>
@@ -148,14 +152,14 @@ namespace simplicity
        * The <code>SimpleNode</code> directly above this <code>SimpleNode</code> in a {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} .
        * </p>
        */
-      Node * fParent;
+      boost::shared_ptr<Node> fParent;
 
       /**
        * <p>
        * This <code>SimpleNode</code>'s relative position and orientation.
        * </p>
        */
-      TransformationMatrix<float> * fTransformation;
+      boost::shared_ptr<TransformationMatrix<float> > fTransformation;
 
       /**
        * <p>

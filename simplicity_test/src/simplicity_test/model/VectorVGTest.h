@@ -13,10 +13,8 @@
 #define VECTORVGTEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include <simplicity/model/VectorVG.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -27,13 +25,13 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class VectorVGTest : public Test
+  class VectorVGTest : public testing::Test
   {
     protected:
       /**
        * An instance of the class being unit tested.
        */
-      VectorVG fTestObject;
+      simplicity::VectorVG fTestObject;
 
       /**
        * <p>
@@ -43,17 +41,14 @@ namespace simplicity_test
       void
       SetUp()
       {
-        float colours[12] =
-          { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f };
-        vector<float> coloursVector(colours, colours + 12);
+        float colours[12] = { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+        boost::shared_ptr<std::vector<float> > coloursVector(new std::vector<float>(colours, colours + 12));
         fTestObject.setColours(coloursVector);
-        float normals[12] =
-          { -0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f };
-        vector<float> normalsVector(normals, normals + 12);
+        float normals[12] = { -0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f };
+        boost::shared_ptr<std::vector<float> > normalsVector(new std::vector<float>(normals, normals + 12));
         fTestObject.setNormals(normalsVector);
-        float vertices[12] =
-          { -1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f };
-        vector<float> verticesVector(vertices, vertices + 12);
+        float vertices[12] = { -1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f };
+        boost::shared_ptr<std::vector<float> > verticesVector(new std::vector<float>(vertices, vertices + 12));
         fTestObject.setVertices(verticesVector);
       }
   };

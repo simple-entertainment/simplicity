@@ -13,10 +13,8 @@
 #define SIMPLEVECTOR4TEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include <simplicity/vector/SimpleVector4.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -27,13 +25,13 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class SimpleVector4Test : public Test
+  class SimpleVector4Test : public testing::Test
   {
     protected:
       /**
        * An instance of the class being unit tested.
        */
-      SimpleVector4<float> fTestObject;
+      simplicity::SimpleVector4<float> fTestObject;
 
       /**
        * <p>
@@ -43,12 +41,12 @@ namespace simplicity_test
       void
       SetUp()
       {
-        array<float, 4> * data = &fTestObject.getData();
+        array<float, 4>& data = fTestObject.getData();
 
-        data->at(0) = 1.0f;
-        data->at(1) = 2.0f;
-        data->at(2) = 3.0f;
-        data->at(3) = 1.0f;
+        data.at(0) = 1.0f;
+        data.at(1) = 2.0f;
+        data.at(2) = 3.0f;
+        data.at(3) = 1.0f;
       }
   };
 }

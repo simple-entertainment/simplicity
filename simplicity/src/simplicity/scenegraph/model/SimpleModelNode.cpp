@@ -11,29 +11,27 @@
  */
 #include "SimpleModelNode.h"
 
+using namespace boost;
+
 namespace simplicity
 {
-  SimpleModelNode::SimpleModelNode() :
-    fModel(0)
+  SimpleModelNode::SimpleModelNode()
   {
   }
 
   SimpleModelNode::~SimpleModelNode()
   {
-    delete fModel;
   }
 
-  Model *
+  shared_ptr<Model>
   SimpleModelNode::getModel() const
   {
     return (fModel);
   }
 
   void
-  SimpleModelNode::setModel(Model * const model)
+  SimpleModelNode::setModel(shared_ptr<Model> model)
   {
-    delete fModel;
-
     fModel = model;
   }
 }

@@ -11,6 +11,8 @@
  */
 #include "SimpleVector4Test.h"
 
+using namespace simplicity;
+
 namespace simplicity_test
 {
   /**
@@ -19,9 +21,9 @@ namespace simplicity_test
    * </p>
    */TEST_F(SimpleVector4Test, add)
   {
-    fTestObject.add(new SimpleVector4<float> (4.0f, 2.0f, 7.5f, 3.9f));
+    fTestObject.add(SimpleVector4<float> (4.0f, 2.0f, 7.5f, 3.9f));
 
-    array<float, 4> data = fTestObject.getData();
+    array<float, 4>& data = fTestObject.getData();
 
     ASSERT_EQ(5.0f, data.at(0));
     ASSERT_EQ(4.0f, data.at(1));
@@ -29,16 +31,16 @@ namespace simplicity_test
     ASSERT_EQ(1.0f, data.at(3));
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleVectorf4.crossProduct crossProduct()}.
- * </p>
- */
-TEST_F(SimpleVector4Test, crossProduct)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleVectorf4.crossProduct crossProduct()}.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, crossProduct)
   {
-    fTestObject.crossProductRight(new SimpleVector4<float>(3.0f, 2.0f, 1.0f, 0.0f));
+    fTestObject.crossProductRight(SimpleVector4<float>(3.0f, 2.0f, 1.0f, 0.0f));
 
-    array<float, 4> data = fTestObject.getData();
+    array<float, 4>& data = fTestObject.getData();
 
     ASSERT_EQ(-4.0f, data.at(0));
     ASSERT_EQ(8.0f, data.at(1));
@@ -46,65 +48,65 @@ TEST_F(SimpleVector4Test, crossProduct)
     ASSERT_EQ(1.0f, data.at(3));
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::.SimpleVectorf4.dotProduct dotProduct()}.
- * </p>
- */
-TEST_F(SimpleVector4Test, dotProduct)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::.SimpleVectorf4.dotProduct dotProduct()}.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, dotProduct)
   {
-    ASSERT_EQ(30.5f, fTestObject.dotProduct(new SimpleVector4<float>(4.0f, 2.0f, 7.5f, 3.9f)));
+    ASSERT_EQ(30.5f, fTestObject.dotProduct(SimpleVector4<float>(4.0f, 2.0f, 7.5f, 3.9f)));
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleVectorf4.getLength getLength()}.
- * </p>
- */
-TEST_F(SimpleVector4Test, getLength)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleVectorf4.getLength getLength()}.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, getLength)
   {
     ASSERT_EQ(3.741657387f, fTestObject.getLength());
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleVectorf4.getLengthSquared getLengthSquared()}.
- * </p>
- */
-TEST_F(SimpleVector4Test, getLengthSquared)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleVectorf4.getLengthSquared getLengthSquared()}.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, getLengthSquared)
   {
     ASSERT_EQ(14.0f, fTestObject.getLengthSquared());
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleVectorf4.homogenize homogenize()}.
- * </p>
- */
-TEST_F(SimpleVector4Test, homogenize)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleVectorf4.homogenize homogenize()}.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, homogenize)
   {
-    array<float, 4> * data = &fTestObject.getData();
+    array<float, 4>& data = fTestObject.getData();
 
-    data->at(0) = 2.0f;
-    data->at(1) = 4.0f;
-    data->at(2) = 6.0f;
-    data->at(3) = 2.0f;
+    data.at(0) = 2.0f;
+    data.at(1) = 4.0f;
+    data.at(2) = 6.0f;
+    data.at(3) = 2.0f;
 
     fTestObject.homogenize();
 
-    ASSERT_EQ(1.0f, data->at(0));
-    ASSERT_EQ(2.0f, data->at(1));
-    ASSERT_EQ(3.0f, data->at(2));
-    ASSERT_EQ(1.0f, data->at(3));
+    ASSERT_EQ(1.0f, data.at(0));
+    ASSERT_EQ(2.0f, data.at(1));
+    ASSERT_EQ(3.0f, data.at(2));
+    ASSERT_EQ(1.0f, data.at(3));
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleVectorf4.homogenize homogenize()} for the special condition where this
- * {@link simplicity::SimpleVectorf4 SimpleVectorf4} is already homogenized.
- * </p>
- */
-TEST_F(SimpleVector4Test, homogenizeNotRequired)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleVectorf4.homogenize homogenize()} for the special condition where this
+   * {@link simplicity::SimpleVectorf4 SimpleVectorf4} is already homogenized.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, homogenizeNotRequired)
   {
     fTestObject.homogenize();
 
@@ -116,37 +118,36 @@ TEST_F(SimpleVector4Test, homogenizeNotRequired)
     ASSERT_EQ(1.0f, data.at(3));
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleVectorf4.multiplyMatrixLeft multiplyMatrixLeft()}.
- * </p>
- */
-TEST_F(SimpleVector4Test, multiplyMatrixLeft)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleVectorf4.multiplyMatrixLeft multiplyMatrixLeft()}.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, multiplyMatrixLeft)
   {
     SimpleMatrix44<float> matrix;
-    array<float, 16> * matrixData = &matrix.getData();
+    array<float, 16>& matrixData = matrix.getData();
 
-    matrixData->at(0) = 1.0f;
-    matrixData->at(4) = 2.0f;
-    matrixData->at(8) = 3.0f;
-    matrixData->at(12) = 4.0f;
-    matrixData->at(1) = 2.0f;
-    matrixData->at(5) = 1.0f;
-    matrixData->at(9) = 4.0f;
-    matrixData->at(13) = 3.0f;
-    matrixData->at(2) = 3.0f;
-    matrixData->at(6) = 4.0f;
-    matrixData->at(10) = 1.0f;
-    matrixData->at(14) = 2.0f;
-    matrixData->at(3) = 0.0f;
-    matrixData->at(7) = 0.0f;
-    matrixData->at(11) = 0.0f;
-    matrixData->at(15) = 1.0f;
+    matrixData.at(0) = 1.0f;
+    matrixData.at(4) = 2.0f;
+    matrixData.at(8) = 3.0f;
+    matrixData.at(12) = 4.0f;
+    matrixData.at(1) = 2.0f;
+    matrixData.at(5) = 1.0f;
+    matrixData.at(9) = 4.0f;
+    matrixData.at(13) = 3.0f;
+    matrixData.at(2) = 3.0f;
+    matrixData.at(6) = 4.0f;
+    matrixData.at(10) = 1.0f;
+    matrixData.at(14) = 2.0f;
+    matrixData.at(3) = 0.0f;
+    matrixData.at(7) = 0.0f;
+    matrixData.at(11) = 0.0f;
+    matrixData.at(15) = 1.0f;
 
-    // TODO Find out why this cast is required!
-    fTestObject.multiplyLeft((Matrix<float>*) &matrix);
+    fTestObject.multiplyLeft(matrix);
 
-    array<float, 4> data = fTestObject.getData();
+    array<float, 4>& data = fTestObject.getData();
 
     ASSERT_EQ(18.0f, data.at(0));
     ASSERT_EQ(19.0f, data.at(1));
@@ -154,37 +155,36 @@ TEST_F(SimpleVector4Test, multiplyMatrixLeft)
     ASSERT_EQ(1.0f, data.at(3));
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleVectorf4.multiplyMatrixRight multiplyMatrixRight()}.
- * </p>
- */
-TEST_F(SimpleVector4Test, multiplyMatrixRight)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleVectorf4.multiplyMatrixRight multiplyMatrixRight()}.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, multiplyMatrixRight)
   {
     SimpleMatrix44<float> matrix;
-    array<float, 16> * matrixData = &matrix.getData();
+    array<float, 16>& matrixData = matrix.getData();
 
-    matrixData->at(0) = 1.0f;
-    matrixData->at(4) = 2.0f;
-    matrixData->at(8) = 3.0f;
-    matrixData->at(12) = 4.0f;
-    matrixData->at(1) = 2.0f;
-    matrixData->at(5) = 1.0f;
-    matrixData->at(9) = 4.0f;
-    matrixData->at(13) = 3.0f;
-    matrixData->at(2) = 3.0f;
-    matrixData->at(6) = 4.0f;
-    matrixData->at(10) = 1.0f;
-    matrixData->at(14) = 2.0f;
-    matrixData->at(3) = 0.0f;
-    matrixData->at(7) = 0.0f;
-    matrixData->at(11) = 0.0f;
-    matrixData->at(15) = 1.0f;
+    matrixData.at(0) = 1.0f;
+    matrixData.at(4) = 2.0f;
+    matrixData.at(8) = 3.0f;
+    matrixData.at(12) = 4.0f;
+    matrixData.at(1) = 2.0f;
+    matrixData.at(5) = 1.0f;
+    matrixData.at(9) = 4.0f;
+    matrixData.at(13) = 3.0f;
+    matrixData.at(2) = 3.0f;
+    matrixData.at(6) = 4.0f;
+    matrixData.at(10) = 1.0f;
+    matrixData.at(14) = 2.0f;
+    matrixData.at(3) = 0.0f;
+    matrixData.at(7) = 0.0f;
+    matrixData.at(11) = 0.0f;
+    matrixData.at(15) = 1.0f;
 
-    // TODO Find out why this cast is required!
-    fTestObject.multiplyRight((Matrix<float>*) &matrix);
+    fTestObject.multiplyRight(matrix);
 
-    array<float, 4> data = fTestObject.getData();
+    array<float, 4>& data = fTestObject.getData();
 
     ASSERT_EQ(14.0f, data.at(0));
     ASSERT_EQ(16.0f, data.at(1));
@@ -192,22 +192,22 @@ TEST_F(SimpleVector4Test, multiplyMatrixRight)
     ASSERT_EQ(17.0f, data.at(3));
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleVectorf4.multiplyVectorRight multiplyVectorRight()}.
- * </p>
- */
-TEST_F(SimpleVector4Test, multiplyVectorRight)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleVectorf4.multiplyVectorRight multiplyVectorRight()}.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, multiplyVectorRight)
   {
     SimpleVector4<float> otherVector;
-    array<float, 4> * otherData = &otherVector.getData();
+    array<float, 4>& otherData = otherVector.getData();
 
-    otherData->at(0) = 4.0f;
-    otherData->at(1) = 5.0f;
-    otherData->at(2) = 6.0f;
-    otherData->at(3) = 1.0f;
+    otherData.at(0) = 4.0f;
+    otherData.at(1) = 5.0f;
+    otherData.at(2) = 6.0f;
+    otherData.at(3) = 1.0f;
 
-    fTestObject.multiplyRight(&otherVector);
+    fTestObject.multiplyRight(otherVector);
 
     array<float, 4> data = fTestObject.getData();
 
@@ -217,16 +217,16 @@ TEST_F(SimpleVector4Test, multiplyVectorRight)
     ASSERT_EQ(1.0f, data.at(3));
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleVectorf4.negate negate()}.
- * </p>
- */
-TEST_F(SimpleVector4Test, negate)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleVectorf4.negate negate()}.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, negate)
   {
     fTestObject.negate();
 
-    array<float, 4> data = fTestObject.getData();
+    array<float, 4>& data = fTestObject.getData();
 
     ASSERT_EQ(-1.0f, data.at(0));
     ASSERT_EQ(-2.0f, data.at(1));
@@ -234,38 +234,38 @@ TEST_F(SimpleVector4Test, negate)
     ASSERT_EQ(1.0f, data.at(3));
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleVectorf4.normalize normalize()}.
- * </p>
- */
-TEST_F(SimpleVector4Test, normalize)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleVectorf4.normalize normalize()}.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, normalize)
   {
-    array<float, 4> * data = &fTestObject.getData();
+    array<float, 4>& data = fTestObject.getData();
 
-    data->at(0) = 0.0f;
-    data->at(1) = 0.0f;
-    data->at(2) = 3.0f;
-    data->at(3) = 1.0f;
+    data.at(0) = 0.0f;
+    data.at(1) = 0.0f;
+    data.at(2) = 3.0f;
+    data.at(3) = 1.0f;
 
     fTestObject.normalize();
 
-    ASSERT_EQ(0.0f, data->at(0));
-    ASSERT_EQ(0.0f, data->at(1));
-    ASSERT_EQ(1.0f, data->at(2));
-    ASSERT_EQ(1.0f, data->at(3));
+    ASSERT_EQ(0.0f, data.at(0));
+    ASSERT_EQ(0.0f, data.at(1));
+    ASSERT_EQ(1.0f, data.at(2));
+    ASSERT_EQ(1.0f, data.at(3));
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleVectorf4.subtract subtract()}.
- * </p>
- */
-TEST_F(SimpleVector4Test, subtract)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleVectorf4.subtract subtract()}.
+   * </p>
+   */
+  TEST_F(SimpleVector4Test, subtract)
   {
-    fTestObject.subtractRight(new SimpleVector4<float>(4.0f, 2.0f, 7.5f, 3.9f));
+    fTestObject.subtractRight(SimpleVector4<float>(4.0f, 2.0f, 7.5f, 3.9f));
 
-    array<float, 4> data = fTestObject.getData();
+    array<float, 4>& data = fTestObject.getData();
 
     ASSERT_EQ(-3.0f, data.at(0));
     ASSERT_EQ(0.0f, data.at(1));

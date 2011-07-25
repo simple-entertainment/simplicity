@@ -13,10 +13,8 @@
 #define SIMPLEMATRIX44_H_
 
 #include <string>
-using namespace std;
 
 #include <boost/array.hpp>
-using namespace boost;
 
 #include "Matrix.h"
 
@@ -33,6 +31,27 @@ namespace simplicity
     class SimpleMatrix44 : public virtual Matrix<Data>
     {
       public:
+        /**
+         * <p>
+         * The number of cells in a column of this 4x4 matrix.
+         * </p>
+         */
+        static const int CELLS_IN_COLUMN = 4;
+
+        /**
+         * <p>
+         * The number of cells in this 4x4 matrix.
+         * </p>
+         */
+        static const int CELLS_IN_MATRIX = 16;
+
+        /**
+         * <p>
+         * The number of cells in a row of this 4x4 matrix.
+         * </p>
+         */
+        static const int CELLS_IN_ROW = 4;
+
         /**
          * <p>
          * Creates an instance of <code>SimpleMatrix44</code>.
@@ -55,7 +74,7 @@ namespace simplicity
          *
          * @param data An array containing the initial elements for this <code>SimpleMatrix44</code>.
          */
-        SimpleMatrix44(array<Data, 16> data);
+        SimpleMatrix44(boost::array<Data, 16> data);
 
         /**
          * <p>
@@ -64,7 +83,7 @@ namespace simplicity
          *
          * @return The array that contains the data for this <code>SimpleMatrix44</code>.
          */
-        array<Data, 16> &
+        boost::array<Data, CELLS_IN_MATRIX> &
         getData();
 
         /**
@@ -74,7 +93,7 @@ namespace simplicity
          *
          * @return A copy of the array that contains the data for this <code>SimpleMatrix44</code>.
          */
-        array<Data, 16>
+        boost::array<Data, CELLS_IN_MATRIX>
         getDataCopy() const;
 
         Data
@@ -89,19 +108,19 @@ namespace simplicity
          * @throws SEInvalidOperationException Thrown if this <code>SimpleMatrix44</code> has a determinant of 0.
          */
         void
-        invert() throw (SEInvalidOperationException);
+        invert();
 
         void
-        multiplyLeft(Matrix<Data> const * const leftMatrix);
+        multiplyLeft(const Matrix<Data>& leftMatrix);
 
-        Matrix<Data> *
-        multiplyLeftCopy(Matrix<Data> const * const leftMatrix) const;
+        boost::shared_ptr<Matrix<Data> >
+        multiplyLeftCopy(const Matrix<Data>& leftMatrix) const;
 
         void
-        multiplyRight(Matrix<Data> const * const rightMatrix);
+        multiplyRight(const Matrix<Data>& rightMatrix);
 
-        Matrix<Data> *
-        multiplyRightCopy(Matrix<Data> const * const rightMatrix) const;
+        boost::shared_ptr<Matrix<Data> >
+        multiplyRightCopy(const Matrix<Data>& rightMatrix) const;
 
         void
         setIdentity();
@@ -125,33 +144,11 @@ namespace simplicity
          *
          * @return A textual representation of this <code>SimpleMatrix44</code>.
          */
-        string
+        std::string
         toString() const;
 
         void
         transpose();
-
-      protected:
-        /**
-         * <p>
-         * The number of cells in a column of this 4x4 matrix.
-         * </p>
-         */
-        static int const CELLS_IN_COLUMN = 4;
-
-        /**
-         * <p>
-         * The number of cells in this 4x4 matrix.
-         * </p>
-         */
-        static int const CELLS_IN_MATRIX = 16;
-
-        /**
-         * <p>
-         * The number of cells in a row of this 4x4 matrix.
-         * </p>
-         */
-        static int const CELLS_IN_ROW = 4;
 
       private:
         /**
@@ -159,7 +156,7 @@ namespace simplicity
          * The array that contains the data for this <code>SimpleMatrix44</code>.
          * </p>
          */
-        array<Data, 16> fData;
+        boost::array<Data, CELLS_IN_MATRIX> fData;
 
         /**
          * <p>
@@ -189,8 +186,8 @@ namespace simplicity
          * @return The determinant of a 3x3 column-major matrix.
          */
         Data
-        getDeterminant33(Data const d00, Data const d10, Data const d20, Data const d01, Data const d11, Data const d21,
-            Data const d02, Data const d12, Data const d22) const;
+        getDeterminant33(const Data d00, const Data d10, const Data d20, const Data d01, const Data d11, const Data d21,
+            const Data d02, const Data d12, const Data d22) const;
 
         /**
          * <p>
@@ -202,8 +199,8 @@ namespace simplicity
          *
          * @return An array that contains the result of the multiplication.
          */
-        array<Data, 16>
-        multiply(SimpleMatrix44<Data> const & leftMatrix, SimpleMatrix44<Data> const & rightMatrix) const;
+        boost::array<Data, CELLS_IN_MATRIX>
+        multiply(const SimpleMatrix44<Data>& leftMatrix, const SimpleMatrix44<Data>& rightMatrix) const;
     };
 }
 

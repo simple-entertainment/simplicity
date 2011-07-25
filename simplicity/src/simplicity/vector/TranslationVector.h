@@ -75,7 +75,7 @@ namespace simplicity
          * @param x The x axis component of this <code>TranslationVector</code>.
          */
         virtual void
-        setX(Data const x) = 0;
+        setX(const Data x) = 0;
 
         /**
          * <p>
@@ -85,7 +85,7 @@ namespace simplicity
          * @param y The y axis component of this <code>TranslationVector</code>.
          */
         virtual void
-        setY(Data const y) = 0;
+        setY(const Data y) = 0;
 
         /**
          * <p>
@@ -95,7 +95,7 @@ namespace simplicity
          * @param z The z axis component of this <code>TranslationVector</code>.
          */
         virtual void
-        setZ(Data const z) = 0;
+        setZ(const Data z) = 0;
 
         /**
          * <p>
@@ -105,7 +105,7 @@ namespace simplicity
          * @param x The distance to translate this <code>TranslationVector</code> on the x axis.
          */
         virtual void
-        translateX(Data const x) = 0;
+        translateX(const Data x) = 0;
 
         /**
          * <p>
@@ -115,7 +115,7 @@ namespace simplicity
          * @param y The distance to translate this <code>TranslationVector</code> on the y axis.
          */
         virtual void
-        translateY(Data const y) = 0;
+        translateY(const Data y) = 0;
 
         /**
          * <p>
@@ -125,7 +125,7 @@ namespace simplicity
          * @param z The distance to translate this <code>TranslationVector</code> on the z axis.
          */
         virtual void
-        translateZ(Data const z) = 0;
+        translateZ(const Data z) = 0;
     };
 }
 

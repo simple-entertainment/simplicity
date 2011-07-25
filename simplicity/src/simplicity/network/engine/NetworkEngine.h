@@ -34,9 +34,10 @@ namespace simplicity
        * {@link simplicity::EngineInput EngineInput} input to this <code>ClientEngine</code>.
        * </p>
        *
-       * @return The <code>EngineInputCodec</code> used to compress and decompress the <code>EngineInput</code> input to this <code>ClientEngine</code>.
+       * @return The <code>EngineInputCodec</code> used to compress and decompress the <code>EngineInput</code> input to this
+       * <code>ClientEngine</code>.
        */
-      EngineInputCodec *
+      boost::shared_ptr<EngineInputCodec>
       getInputCodec();
 
       /**
@@ -51,8 +52,8 @@ namespace simplicity
 
       /**
        * <p>
-       * Retrieves the maximum number of bytes that the {@link simplicity::EngineInput EngineInput} can be compressed to to create the
-       * message to be sent to the {@link simplicity::ServerEngine ServerEngine}.
+       * Retrieves the maximum number of bytes that the {@link simplicity::EngineInput EngineInput} can be compressed to to create the message to be
+       * sent to the {@link simplicity::ServerEngine ServerEngine}.
        * </p>
        *
        * @return The maximum number of bytes that the <code>EngineInput</code> can be compressed to to create the message to be sent to the
@@ -70,7 +71,7 @@ namespace simplicity
        * @return The <code>EngineInputCodec</code> used to compress and decompress the <code>EngineInput</code> output from this
        * <code>ClientEngine</code>.
        */
-      EngineInputCodec *
+      boost::shared_ptr<EngineInputCodec>
       getOutputCodec() const;
 
       /**
@@ -80,7 +81,7 @@ namespace simplicity
        *
        * @return The protocol used to communicate between this <code>ClientEngine</code> and the <code>ServerEngine</code>.
        */
-      EngineProtocol *
+      boost::shared_ptr<EngineProtocol>
       getProtocol() const;
 
       /**
@@ -93,7 +94,7 @@ namespace simplicity
        * <code>ClientEngine</code>.
        */
       void
-      setInputCodec(EngineInputCodec * const codec);
+      setInputCodec(boost::shared_ptr<EngineInputCodec> codec);
 
       /**
        * <p>
@@ -103,19 +104,19 @@ namespace simplicity
        * @param maxReceivable The maximum number of bytes that can be received and decompressed to create an <code>EngineInput</code>.
        */
       void
-      setMaxReceivable(int const maxReceivable);
+      setMaxReceivable(const int maxReceivable);
 
       /**
        * <p>
-       * Sets the maximum number of bytes that the {@link simplicity::EngineInput EngineInput} can be compressed to to create the message
-       * to be sent to the {@link simplicity::ServerEngine ServerEngine}.
+       * Sets the maximum number of bytes that the {@link simplicity::EngineInput EngineInput} can be compressed to to create the message to be sent
+       * to the {@link simplicity::ServerEngine ServerEngine}.
        * </p>
        *
-       * @param maxSendable The maximum number of bytes that the <code>EngineInput</code> can be compressed to to create the message to be sent to the
-       * <code>ServerEngine</code>.
+       * @param maxSendable The maximum number of bytes that the <code>EngineInput</code> can be compressed to to create the message to be sent to
+       * the <code>ServerEngine</code>.
        */
       void
-      setMaxSendable(int const maxSendable);
+      setMaxSendable(const int maxSendable);
 
       /**
        * <p>
@@ -127,7 +128,7 @@ namespace simplicity
        * <code>ClientEngine</code>.
        */
       void
-      setOutputCodec(EngineInputCodec * const codec);
+      setOutputCodec(boost::shared_ptr<EngineInputCodec> codec);
 
       /**
        * <p>
@@ -137,7 +138,7 @@ namespace simplicity
        * @param protocol The protocol used to communicate between this <code>ClientEngine</code> and the <code>ServerEngine</code>.
        */
       void
-      setProtocol(EngineProtocol * const protocol);
+      setProtocol(boost::shared_ptr<EngineProtocol> protocol);
   };
 }
 

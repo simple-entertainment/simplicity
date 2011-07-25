@@ -11,22 +11,22 @@
  */
 #include <exception>
 #include <string>
-using namespace std;
 
 #include <boost/date_time.hpp>
 #include <boost/thread.hpp>
 #include <log4cpp/Category.hh>
-using namespace boost;
-using namespace boost::posix_time;
-using namespace boost::this_thread;
-using namespace log4cpp;
 
 #include "../SENotSupportedException.h"
 #include "RunnableEngine.h"
 
+using namespace boost;
+using namespace boost::posix_time;
+using namespace boost::this_thread;
+using namespace std;
+
 namespace simplicity
 {
-  Category * RunnableEngine::fLogger = &Category::getInstance("simplicity::RunnableEngine");
+  log4cpp::Category& RunnableEngine::fLogger = log4cpp::Category::getInstance("simplicity::RunnableEngine");
 
   RunnableEngine::RunnableEngine() :
     fPreferredFrequency(1), fSleepTime(0L)
@@ -67,65 +67,65 @@ namespace simplicity
 
     // While the engine has not been interrupted.
     while (!fInterrupted)
+    {
+      // Interrupt the engine if the thread has been interrupted.
+      interruption_point();
+
+      beforeAdvanceTime = microsec_clock::local_time();
+
+      try
       {
-        // Interrupt the engine if the thread has been interrupted.
-        interruption_point();
-
-        beforeAdvanceTime = microsec_clock::local_time();
-
-        try
-          {
-            advance(NULL);
-          }
-        catch (std::exception& e)
-          {
-            // Interrupt the engine.
-            fInterrupted = true;
-            fLogger->error("Failed to advance the engine.");
-          }
-
-        // Subtract the time taken to advance the engine from the time it needs to sleep for.
-        adjustedSleepTime -= time_period(beforeAdvanceTime, microsec_clock::local_time()).length().total_milliseconds();
-
-        // Sleep until the next advancement is due.
-        adjustedSleepTime = sleep(adjustedSleepTime);
+        advance(NULL);
       }
+      catch (std::exception& e)
+      {
+        // Interrupt the engine.
+        fInterrupted = true;
+        fLogger.error("Failed to advance the engine.");
+      }
+
+      // Subtract the time taken to advance the engine from the time it needs to sleep for.
+      adjustedSleepTime -= time_period(beforeAdvanceTime, microsec_clock::local_time()).length().total_milliseconds();
+
+      // Sleep until the next advancement is due.
+      adjustedSleepTime = sleep(adjustedSleepTime);
+    }
 
     destroy();
   }
 
   void
-  RunnableEngine::setPreferredFrequency(int const preferredFrequency)
+  RunnableEngine::setPreferredFrequency(const int preferredFrequency)
   {
     fPreferredFrequency = preferredFrequency;
   }
 
   long
-  RunnableEngine::sleep(long const adjustedSleepTime)
+  RunnableEngine::sleep(const long adjustedSleepTime)
   {
     // If the engine needs to sleep.
     if (adjustedSleepTime > 0)
+    {
+      try
       {
-        try
-          {
-            this_thread::sleep(milliseconds(adjustedSleepTime));
-          }
-        catch (thread_interrupted& e)
-          {
-            // Interrupt the engine.
-            fInterrupted = true;
-            fLogger->debug("The engine was interrupted while sleeping.");
-          }
-
-        // Return the standard sleep duration.
-        return (fSleepTime);
+        this_thread::sleep(milliseconds(adjustedSleepTime));
       }
+      catch (thread_interrupted& e)
+      {
+        // Interrupt the engine.
+        fInterrupted = true;
+        fLogger.debug("The engine was interrupted while sleeping.");
+      }
+
+      // Return the standard sleep duration.
+      return (fSleepTime);
+    }
     else
-      {
-        fLogger->warn("The engine ran over time.");
+    {
+      fLogger.warn("The engine ran over time.");
 
-        // The engine has not slept as a result it has 'caught up' by the standard sleep duration.
-        return (adjustedSleepTime + fSleepTime);
-      }
+      // The engine has not slept as a result it has 'caught up' by the standard sleep duration.
+      return (adjustedSleepTime + fSleepTime);
+    }
   }
 }

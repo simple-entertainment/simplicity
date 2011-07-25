@@ -42,7 +42,7 @@ namespace simplicity
       ~PickAdapter();
 
       void
-      scenePicked(PickEvent const event);
+      scenePicked(const PickEvent& event);
   };
 }
 

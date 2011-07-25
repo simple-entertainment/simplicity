@@ -13,7 +13,6 @@
 #define VECTORVG_H_
 
 #include <vector>
-using namespace std;
 
 #include "../vector/TranslationVector.h"
 #include "VertexGroup.h"
@@ -66,19 +65,19 @@ namespace simplicity
       virtual
       ~VectorVG();
 
-      VertexGroup *
-      createEdgeSubsetVG(int const index);
+      boost::shared_ptr<VertexGroup>
+      createEdgeSubsetVG(const int index);
 
-      VertexGroup *
-      createFaceSubsetVG(int const index);
+      boost::shared_ptr<VertexGroup>
+      createFaceSubsetVG(const int index);
 
-      VertexGroup *
-      createSubsetVG(int const index, int const length);
+      boost::shared_ptr<VertexGroup>
+      createSubsetVG(const int index, const int length);
 
-      VertexGroup *
-      createVertexSubsetVG(int const index);
+      boost::shared_ptr<VertexGroup>
+      createVertexSubsetVG(const int index);
 
-      TranslationVector<float> *
+      const TranslationVector<float>&
       getCenter() const;
 
       /**
@@ -88,7 +87,7 @@ namespace simplicity
        *
        * @return The colours of all the vertices in this <code>VectorVG</code>.
        */
-      vector<float> &
+      std::vector<float>&
       getColours();
 
       int
@@ -101,10 +100,10 @@ namespace simplicity
        *
        * @return The surface normals of all the vertices in this <code>VectorVG</code>.
        */
-      vector<float> &
+      std::vector<float>&
       getNormals();
 
-      VertexGroup *
+      VertexGroup*
       getParent() const;
 
       int
@@ -117,14 +116,14 @@ namespace simplicity
        *
        * @return The coordinates of all the vertices in this <code>VectorVG</code>.
        */
-      vector<float> &
+      std::vector<float>&
       getVertices();
 
       bool
       isSubset() const;
 
       void
-      mergeWithParent() const throw (SEInvalidOperationException);
+      mergeWithParent() const;
 
       /**
        * <p>
@@ -138,10 +137,10 @@ namespace simplicity
        * @param colours The colours of all the vertices in this <code>VectorVG</code>.
        */
       void
-      setColours(vector<float> colours);
+      setColours(boost::shared_ptr<std::vector<float> > colours);
 
       void
-      setIndexWithinParent(int const indexWithinParent);
+      setIndexWithinParent(const int indexWithinParent);
 
       /**
        * <p>
@@ -155,7 +154,7 @@ namespace simplicity
        * @param normals The surface normals of all the vertices in this <code>VectorVG</code>.
        */
       void
-      setNormals(vector<float> normals);
+      setNormals(boost::shared_ptr<std::vector<float> > normals);
 
       /**
        * <p>
@@ -169,7 +168,7 @@ namespace simplicity
        * @param vertices The coordinates of all the vertices in this <code>VectorVG</code>.
        */
       void
-      setVertices(vector<float> vertices);
+      setVertices(boost::shared_ptr<std::vector<float> > vertices);
 
     private:
       /**
@@ -179,14 +178,14 @@ namespace simplicity
        *
        * @param parent The parent of this <code>VectorVG</code>.
        */
-      VectorVG(VectorVG * const parent);
+      VectorVG(VectorVG& parent);
 
       /**
        * <p>
        * The colours of all the vertices in this <code>VectorVG</code>.
        * </p>
        */
-      vector<float> fColours;
+      boost::shared_ptr<std::vector<float> > fColours;
 
       /**
        * <p>
@@ -208,21 +207,21 @@ namespace simplicity
        * The surface normals of all the vertices in this <code>VectorVG</code>.
        * </p>
        */
-      vector<float> fNormals;
+      boost::shared_ptr<std::vector<float> > fNormals;
 
       /**
        * <p>
        * The parent of this <code>VectorVG</code>. The parent should be set to <code>null</code> unless this <code>VectorVG</code> is a subset.
        * </p>
        */
-      VectorVG * fParent;
+      VectorVG* const fParent;
 
       /**
        * <p>
        * The coordinates of all the vertices in this <code>VectorVG</code>.
        * </p>
        */
-      vector<float> fVertices;
+      boost::shared_ptr<std::vector<float> > fVertices;
   };
 }
 

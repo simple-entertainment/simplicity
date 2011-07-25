@@ -44,7 +44,7 @@ namespace simplicity
        *
        * @return The next <code>Node</code> in this traversal or <code>null</code> if there are no more <code>Node</code>s to be returned.
        */
-      virtual Node *
+      virtual boost::shared_ptr<Node>
       getNextNode() = 0;
 
       /**

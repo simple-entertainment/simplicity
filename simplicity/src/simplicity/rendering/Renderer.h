@@ -24,9 +24,9 @@ namespace simplicity
    * <p>
    * Any changes to settings made during the {@link simplicity::Renderer#init() init()} or
    * {@link simplicity::Renderer#renderModel(Model) renderModel(Model)} methods should be reverted during the
-   * {@link simplicity::Renderer#dispose() dispose()} method. It is the responsibility of the <code>Renderer</code> to leave the
-   * rendering environment as it was found (except for contents of buffers) so that multiple <code>Renderer</code>s may be used together without
-   * effecting each other.
+   * {@link simplicity::Renderer#dispose() dispose()} method. It is the responsibility of the <code>Renderer</code> to leave the rendering
+   * environment as it was found (except for contents of buffers) so that multiple <code>Renderer</code>s may be used together without effecting
+   * each other.
    * </p>
    *
    * <p>
@@ -84,7 +84,7 @@ namespace simplicity
        * @param model The <code>Model</code> to render.
        */
       virtual void
-      renderModel(Model * const model) = 0;
+      renderModel(const Model& model) = 0;
 
       /**
        * <p>
@@ -94,7 +94,7 @@ namespace simplicity
        * @param mode The <code>DrawingMode</code> used to render the <code>Model</code>s.
        */
       virtual void
-      setDrawingMode(DrawingMode const mode) = 0;
+      setDrawingMode(const DrawingMode mode) = 0;
   };
 }
 

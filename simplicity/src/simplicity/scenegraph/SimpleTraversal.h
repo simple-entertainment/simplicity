@@ -33,7 +33,7 @@ namespace simplicity
        *
        * @param root The root {@link simplicity::Node Node} of the graph to traverse.
        */
-      SimpleTraversal(Node const * const root);
+      SimpleTraversal(const Node& root);
 
       /**
        * <p>
@@ -59,7 +59,7 @@ namespace simplicity
       int
       getBacktracksToNextNode() const;
 
-      Node *
+      boost::shared_ptr<Node>
       getNextNode();
 
       bool
@@ -81,14 +81,14 @@ namespace simplicity
        * The next {@link simplicity::Node Node} to retrieve from this traversal.
        * </p>
        */
-      Node * fNextNode;
+      boost::shared_ptr<Node> fNextNode;
 
       /**
        * <p>
        * The root {@link simplicity::Node Node} of the graph to traverse.
        * </p>
        */
-      Node const * const fRoot;
+      const Node& fRoot;
 
       /**
        * <p>
@@ -97,7 +97,7 @@ namespace simplicity
        *
        * @return The next <code>Node</code> in this traversal,
        */
-      Node *
+      boost::shared_ptr<Node>
       findNextNode();
   };
 }

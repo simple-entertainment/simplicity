@@ -10,11 +10,14 @@
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <simplicity/engine/EngineInput.h>
-using namespace simplicity;
 
 #include "MockEngine.h"
 #include "MockEngineInput.h"
 #include "SimpleCompositeEngineTest.h"
+
+using namespace boost;
+using namespace simplicity;
+using namespace testing;
 
 namespace simplicity_test
 {
@@ -22,12 +25,13 @@ namespace simplicity_test
    * <p>
    * Unit test the method {@link simplicity::SimpleCompositeEngine#advance() advance()}.
    * </p>
-   */TEST_F(SimpleCompositeEngineTest, advance)
+   */
+  TEST_F(SimpleCompositeEngineTest, advance)
   {
     // Create dependencies.
-    MockEngine * mockEngine1 = new MockEngine;
-    MockEngine * mockEngine2 = new MockEngine;
-    MockEngine * mockEngine3 = new MockEngine;
+    shared_ptr<MockEngine> mockEngine1(new MockEngine);
+    shared_ptr<MockEngine> mockEngine2(new MockEngine);
+    shared_ptr<MockEngine> mockEngine3(new MockEngine);
 
     // Initialise test environment.
     fTestObject.addEngine(mockEngine1);
@@ -129,14 +133,9 @@ namespace simplicity_test
     fTestObject.init();
 
     for (int index = 0; index < 24; index++)
-      {
-        fTestObject.advance(NULL);
-      }
-
-    // Cleanup.
-    delete mockEngine1;
-    delete mockEngine2;
-    delete mockEngine3;
+    {
+      fTestObject.advance(NULL);
+    }
   }
 
   /**
@@ -145,16 +144,17 @@ namespace simplicity_test
    * functionality that passes the {@link simplicity::EngineInput EngineInput} from one {@link simplicity::Engine Engine}
    * to the next.
    * </p>
-   */TEST_F(SimpleCompositeEngineTest, advancePassEngineInput)
+   */
+  TEST_F(SimpleCompositeEngineTest, advancePassEngineInput)
   {
     // Create dependencies.
-    MockEngine * mockEngine1 = new MockEngine;
-    MockEngine * mockEngine2 = new MockEngine;
-    MockEngine * mockEngine3 = new MockEngine;
-    MockEngineInput * mockInput0 = new MockEngineInput;
-    MockEngineInput * mockInput1 = new MockEngineInput;
-    MockEngineInput * mockInput2 = new MockEngineInput;
-    MockEngineInput * mockInput3 = new MockEngineInput;
+    shared_ptr<MockEngine> mockEngine1(new MockEngine);
+    shared_ptr<MockEngine> mockEngine2(new MockEngine);
+    shared_ptr<MockEngine> mockEngine3(new MockEngine);
+    shared_ptr<MockEngineInput> mockInput0(new MockEngineInput);
+    shared_ptr<MockEngineInput> mockInput1(new MockEngineInput);
+    shared_ptr<MockEngineInput> mockInput2(new MockEngineInput);
+    shared_ptr<MockEngineInput> mockInput3(new MockEngineInput);
 
     // Dictate correct behaviour.
     EXPECT_CALL(*mockEngine1, getPreferredFrequency()).WillRepeatedly(Return(1));
@@ -171,33 +171,25 @@ namespace simplicity_test
     fTestObject.init();
 
     // Dictate expected results.
-    EXPECT_CALL(*mockEngine1, advance(mockInput0)).WillOnce(Return(mockInput1));
-    EXPECT_CALL(*mockEngine2, advance(mockInput1)).WillOnce(Return(mockInput2));
-    EXPECT_CALL(*mockEngine3, advance(mockInput2)).WillOnce(Return(mockInput3));
+    EXPECT_CALL(*mockEngine1, advance(mockInput0.get())).WillOnce(Return(mockInput1.get()));
+    EXPECT_CALL(*mockEngine2, advance(mockInput1.get())).WillOnce(Return(mockInput2.get()));
+    EXPECT_CALL(*mockEngine3, advance(mockInput2.get())).WillOnce(Return(mockInput3.get()));
 
     // Perform test.
-    fTestObject.advance(mockInput0);
-
-    // Cleanup.
-    delete mockEngine1;
-    delete mockEngine2;
-    delete mockEngine3;
-    delete mockInput0;
-    delete mockInput1;
-    delete mockInput2;
-    delete mockInput3;
+    fTestObject.advance(mockInput0.get());
   }
 
   /**
    * <p>
    * Unit test the method {@link simplicity::SimpleCompositeEngine#getCompositeFrequency() getCompositeFrequency()}.
    * </p>
-   */TEST_F(SimpleCompositeEngineTest, getCompositeFrequency)
+   */
+  TEST_F(SimpleCompositeEngineTest, getCompositeFrequency)
   {
     // Create dependencies.
-    MockEngine * mockEngine1 = new MockEngine;
-    MockEngine * mockEngine2 = new MockEngine;
-    MockEngine * mockEngine3 = new MockEngine;
+    shared_ptr<MockEngine> mockEngine1(new MockEngine);
+    shared_ptr<MockEngine> mockEngine2(new MockEngine);
+    shared_ptr<MockEngine> mockEngine3(new MockEngine);
 
     // Dictate correct behaviour.
     EXPECT_CALL(*mockEngine1, getPreferredFrequency()).WillRepeatedly(Return(3));
@@ -215,36 +207,31 @@ namespace simplicity_test
 
     // Perform test - Verify test results.
     ASSERT_EQ(12, fTestObject.getPreferredFrequency());
-
-    // Cleanup.
-    delete mockEngine1;
-    delete mockEngine2;
-    delete mockEngine3;
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleCompositeEngine#getCompositeFrequency() getCompositeFrequency()} with the special
- * condition that the {@link simplicity::SimpleCompositeEngine SimpleCompositeEngine} being tested does not have any sub-engines.
- * </p>
- */
-TEST_F(SimpleCompositeEngineTest, getCompositeFrequencyNoEngines)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleCompositeEngine#getCompositeFrequency() getCompositeFrequency()} with the special
+   * condition that the {@link simplicity::SimpleCompositeEngine SimpleCompositeEngine} being tested does not have any sub-engines.
+   * </p>
+   */
+  TEST_F(SimpleCompositeEngineTest, getCompositeFrequencyNoEngines)
   {
     // Perform test - Verify test results.
     ASSERT_EQ(1, fTestObject.getPreferredFrequency());
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::SimpleCompositeEngine#reset() reset()}.
- * </p>
- */
-TEST_F(SimpleCompositeEngineTest, reset)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::SimpleCompositeEngine#reset() reset()}.
+   * </p>
+   */
+  TEST_F(SimpleCompositeEngineTest, reset)
   {
     // Create dependencies.
-    MockEngine * mockEngine1 = new MockEngine;
-    MockEngine * mockEngine2 = new MockEngine;
-    MockEngine * mockEngine3 = new MockEngine;
+    shared_ptr<MockEngine> mockEngine1(new MockEngine);
+    shared_ptr<MockEngine> mockEngine2(new MockEngine);
+    shared_ptr<MockEngine> mockEngine3(new MockEngine);
 
     // Initialise test environment.
     fTestObject.addEngine(mockEngine1);
@@ -326,20 +313,15 @@ TEST_F(SimpleCompositeEngineTest, reset)
     fTestObject.init();
 
     for (int index = 0; index < 5; index++)
-      {
-        fTestObject.advance(NULL);
-      }
+    {
+      fTestObject.advance(NULL);
+    }
 
     fTestObject.reset();
 
     for (int index = 0; index < 12; index++)
-      {
-        fTestObject.advance(NULL);
-      }
-
-    // Cleanup.
-    delete mockEngine1;
-    delete mockEngine2;
-    delete mockEngine3;
+    {
+      fTestObject.advance(NULL);
+    }
   }
 }

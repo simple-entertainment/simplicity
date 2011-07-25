@@ -44,7 +44,7 @@ namespace simplicity
        * @param event The <code>PickEvent</code> to process.
        */
       virtual void
-      scenePicked(PickEvent const event) = 0;
+      scenePicked(const PickEvent& event) = 0;
   };
 }
 

@@ -12,6 +12,8 @@
 #ifndef COMPOSITEENGINE_H_
 #define COMPOSITEENGINE_H_
 
+#include <boost/smart_ptr.hpp>
+
 #include "Engine.h"
 
 namespace simplicity
@@ -35,18 +37,17 @@ namespace simplicity
        * @param engine The <code>Engine</code> to add to the set of engines managed by this <code>CompositeEngine</code>.
        */
       virtual void
-      addEngine(Engine const * const engine) = 0;
+      addEngine(boost::shared_ptr<Engine> engine) = 0;
 
       /**
        * <p>
        * Removes an {@link simplicity::Engine Engine} from the set of engines managed by this <code>CompositeEngine</code>.
        * </p>
        *
-       * @param engine The <code>Engine<code> to remove from the set of engines managed by this <code>CompositeEngine</code>
-       * .
+       * @param engine The <code>Engine<code> to remove from the set of engines managed by this <code>CompositeEngine</code>.
        */
       virtual void
-      removeEngine(Engine const * const engine) = 0;
+      removeEngine(const boost::shared_ptr<Engine> engine) = 0;
   };
 }
 

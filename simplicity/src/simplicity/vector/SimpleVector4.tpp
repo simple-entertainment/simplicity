@@ -12,9 +12,11 @@
 #include <math.h>
 
 #include <boost/lexical_cast.hpp>
-using namespace boost;
 
 #include "SimpleVector4.h"
+
+using namespace boost;
+using namespace std;
 
 namespace simplicity
 {
@@ -28,7 +30,7 @@ namespace simplicity
     }
 
   template<class Data>
-    SimpleVector4<Data>::SimpleVector4(Data const d0, Data const d1, Data const d2, Data const d3)
+    SimpleVector4<Data>::SimpleVector4(const Data d0, const Data d1, const Data d2, const Data d3)
     {
       fData.at(0) = d0;
       fData.at(1) = d1;
@@ -37,18 +39,18 @@ namespace simplicity
     }
 
   template<class Data>
-    SimpleVector4<Data>::SimpleVector4(array<Data, 4> data)
+    SimpleVector4<Data>::SimpleVector4(array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> data)
     {
       fData = data;
     }
 
   template<class Data>
-    array<Data, 4>
-    SimpleVector4<Data>::add(SimpleVector4<Data> const & leftVector, SimpleVector4<Data> const & rightVector) const
+    array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
+    SimpleVector4<Data>::add(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const
     {
-      array<Data, CELLS_IN_VECTOR> leftData = leftVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> rightData = rightVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> addData;
+      array < Data, CELLS_IN_VECTOR > leftData = leftVector.getDataCopy();
+      array < Data, CELLS_IN_VECTOR > rightData = rightVector.getDataCopy();
+      array < Data, CELLS_IN_VECTOR > addData;
 
       addData.at(0) = leftData.at(0) + rightData.at(0);
       addData.at(1) = leftData.at(1) + rightData.at(1);
@@ -60,25 +62,26 @@ namespace simplicity
 
   template<class Data>
     void
-    SimpleVector4<Data>::add(Vector<Data> const * const otherVector)
+    SimpleVector4<Data>::add(const Vector<Data>& otherVector)
     {
-      fData = add(*this, *dynamic_cast<SimpleVector4<Data> const * const > (otherVector));
+      fData = add(*this, dynamic_cast<const SimpleVector4<Data>&> (otherVector));
     }
 
   template<class Data>
-    Vector<Data> *
-    SimpleVector4<Data>::addCopy(Vector<Data> const * const otherVector) const
+    shared_ptr<Vector<Data> >
+    SimpleVector4<Data>::addCopy(const Vector<Data>& otherVector) const
     {
-      return (new SimpleVector4<Data> (add(*this, *dynamic_cast<SimpleVector4<Data> const * const > (otherVector))));
+      return (shared_ptr<Vector<Data> > (
+          new SimpleVector4<Data> (add(*this, dynamic_cast<const SimpleVector4<Data>&> (otherVector)))));
     }
 
   template<class Data>
-    array<Data, 4>
-    SimpleVector4<Data>::crossProduct(SimpleVector4<Data> const & leftVector, SimpleVector4<Data> const & rightVector) const
+    array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
+    SimpleVector4<Data>::crossProduct(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const
     {
-      array<Data, CELLS_IN_VECTOR> leftData = leftVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> rightData = rightVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> crossData;
+      array < Data, CELLS_IN_VECTOR > leftData = leftVector.getDataCopy();
+      array < Data, CELLS_IN_VECTOR > rightData = rightVector.getDataCopy();
+      array < Data, CELLS_IN_VECTOR > crossData;
 
       crossData.at(0) = leftData.at(1) * rightData.at(2) - leftData.at(2) * rightData.at(1);
       crossData.at(1) = leftData.at(2) * rightData.at(0) - leftData.at(0) * rightData.at(2);
@@ -90,42 +93,43 @@ namespace simplicity
 
   template<class Data>
     void
-    SimpleVector4<Data>::crossProductRight(Vector<Data> const * const otherVector)
+    SimpleVector4<Data>::crossProductRight(const Vector<Data>& otherVector)
     {
-      fData = crossProduct(*this, *dynamic_cast<SimpleVector4<Data> const * const > (otherVector));
+      fData = crossProduct(*this, dynamic_cast<const SimpleVector4<Data>&> (otherVector));
     }
 
   template<class Data>
-    Vector<Data> *
-    SimpleVector4<Data>::crossProductRightCopy(Vector<Data> const * const otherVector) const
+    shared_ptr<Vector<Data> >
+    SimpleVector4<Data>::crossProductRightCopy(const Vector<Data>& otherVector) const
     {
-      return (new SimpleVector4<Data> (crossProduct(*this, *dynamic_cast<SimpleVector4<Data> const * const > (otherVector))));
+      return (shared_ptr<Vector<Data> > (
+          new SimpleVector4<Data> (crossProduct(*this, dynamic_cast<const SimpleVector4<Data>&> (otherVector)))));
     }
 
   template<class Data>
     Data
-    SimpleVector4<Data>::dotProduct(Vector<Data> const * const otherVector)
+    SimpleVector4<Data>::dotProduct(const Vector<Data>& otherVector)
     {
-      array<Data, CELLS_IN_VECTOR> otherData = (dynamic_cast<SimpleVector4<Data> const * const > (otherVector))->getDataCopy();
+      array < Data, CELLS_IN_VECTOR > otherData = (dynamic_cast<const SimpleVector4<Data>&> (otherVector)).getDataCopy();
       Data dot = 0;
 
       for (int index = 0; index < 3; index++)
-        {
-          dot += fData.at(index) * otherData.at(index);
-        }
+      {
+        dot += fData.at(index) * otherData.at(index);
+      }
 
       return (dot);
     }
 
   template<class Data>
-    array<Data, 4> &
+    array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>&
     SimpleVector4<Data>::getData()
     {
       return (fData);
     }
 
   template<class Data>
-    array<Data, 4>
+    array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
     SimpleVector4<Data>::getDataCopy() const
     {
       return (fData);
@@ -150,9 +154,9 @@ namespace simplicity
     SimpleVector4<Data>::homogenize()
     {
       if (fData.at(3) == 1)
-        {
-          return;
-        }
+      {
+        return;
+      }
 
       fData.at(0) = fData.at(0) / fData.at(3);
       fData.at(1) = fData.at(1) / fData.at(3);
@@ -161,12 +165,12 @@ namespace simplicity
     }
 
   template<class Data>
-    array<Data, 4>
-    SimpleVector4<Data>::multiply(SimpleVector4<Data> const & leftVector, SimpleVector4<Data> const & rightVector) const
+    array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
+    SimpleVector4<Data>::multiply(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const
     {
-      array<Data, CELLS_IN_VECTOR> leftData = leftVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> rightData = rightVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> multData;
+      array < Data, CELLS_IN_VECTOR > leftData = leftVector.getDataCopy();
+      array < Data, CELLS_IN_VECTOR > rightData = rightVector.getDataCopy();
+      array < Data, CELLS_IN_VECTOR > multData;
 
       multData.at(0) = leftData.at(0) * rightData.at(0);
       multData.at(1) = leftData.at(1) * rightData.at(1);
@@ -178,98 +182,101 @@ namespace simplicity
 
   template<class Data>
     void
-    SimpleVector4<Data>::multiplyLeft(Matrix<Data> const * const otherMatrix)
+    SimpleVector4<Data>::multiplyLeft(const Matrix<Data>& otherMatrix)
     {
-      fData = multiplyLeft(*dynamic_cast<SimpleMatrix44<Data> const * const > (otherMatrix));
+      fData = multiplyLeftInternal(dynamic_cast<const SimpleMatrix44<Data>&> (otherMatrix));
     }
 
   template<class Data>
-    array<Data, 4>
-    SimpleVector4<Data>::multiplyLeft(SimpleMatrix44<Data> const & otherMatrix) const
+    array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
+    SimpleVector4<Data>::multiplyLeftInternal(const SimpleMatrix44<Data>& otherMatrix) const
     {
-      array<Data, 16> mData = otherMatrix.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> vData = fData;
-      array<Data, CELLS_IN_VECTOR> multData;
+      array < Data, 16 > mData = otherMatrix.getDataCopy();
+      array < Data, CELLS_IN_VECTOR > vData = fData;
+      array < Data, CELLS_IN_VECTOR > multData;
 
       // For every row in the matrix.
       for (int row = 0; row < CELLS_IN_VECTOR; row++)
+      {
+        Data sum = 0;
+
+        // For every element in the vector and every element in the current
+        // row of the matrix.
+        for (int element = 0; element < CELLS_IN_VECTOR; element++)
         {
-          Data sum = 0;
-
-          // For every element in the vector and every element in the current
-          // row of the matrix.
-          for (int element = 0; element < CELLS_IN_VECTOR; element++)
-            {
-              // Add the product of the two to the value for the new vector.
-              sum += mData.at(row + (element * CELLS_IN_VECTOR)) * vData.at(element);
-            }
-
-          multData.at(row) = sum;
+          // Add the product of the two to the value for the new vector.
+          sum += mData.at(row + (element * CELLS_IN_VECTOR)) * vData.at(element);
         }
+
+        multData.at(row) = sum;
+      }
 
       return (multData);
     }
 
   template<class Data>
-    Vector<Data> *
-    SimpleVector4<Data>::multiplyLeftCopy(Matrix<Data> const * const otherMatrix) const
+    shared_ptr<Vector<Data> >
+    SimpleVector4<Data>::multiplyLeftCopy(const Matrix<Data>& otherMatrix) const
     {
-      return (new SimpleVector4<Data> (multiplyLeft(*dynamic_cast<SimpleMatrix44<Data> const * const > (otherMatrix))));
+      return (shared_ptr<Vector<Data> > (
+          new SimpleVector4<Data> (multiplyLeftInternal(dynamic_cast<const SimpleMatrix44<Data>&> (otherMatrix)))));
     }
 
   template<class Data>
     void
-    SimpleVector4<Data>::multiplyRight(Matrix<Data> const * const otherMatrix)
+    SimpleVector4<Data>::multiplyRight(const Matrix<Data>& otherMatrix)
     {
-      fData = multiplyRight(*dynamic_cast<SimpleMatrix44<Data> const * const > (otherMatrix));
+      fData = multiplyRightInternal(dynamic_cast<const SimpleMatrix44<Data>&> (otherMatrix));
     }
 
   template<class Data>
-    array<Data, 4>
-    SimpleVector4<Data>::multiplyRight(SimpleMatrix44<Data> const & otherMatrix) const
+    array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
+    SimpleVector4<Data>::multiplyRightInternal(const SimpleMatrix44<Data>& otherMatrix) const
     {
-      array<Data, CELLS_IN_VECTOR> vData = fData;
-      array<Data, 16> mData = otherMatrix.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> multData;
+      array < Data, CELLS_IN_VECTOR > vData = fData;
+      array < Data, 16 > mData = otherMatrix.getDataCopy();
+      array < Data, CELLS_IN_VECTOR > multData;
 
       // For every column in the matrix.
       for (int column = 0; column < CELLS_IN_VECTOR; column++)
+      {
+        Data sum = 0;
+
+        // For every element in the vector and every element in the current
+        // column of the matrix.
+        for (int element = 0; element < CELLS_IN_VECTOR; element++)
         {
-          Data sum = 0;
-
-          // For every element in the vector and every element in the current
-          // column of the matrix.
-          for (int element = 0; element < CELLS_IN_VECTOR; element++)
-            {
-              // Add the product of the two to the value for the new vector.
-              sum += vData.at(element) * mData.at((column * CELLS_IN_VECTOR) + element);
-            }
-
-          multData.at(column) = sum;
+          // Add the product of the two to the value for the new vector.
+          sum += vData.at(element) * mData.at((column * CELLS_IN_VECTOR) + element);
         }
+
+        multData.at(column) = sum;
+      }
 
       return (multData);
     }
 
   template<class Data>
     void
-    SimpleVector4<Data>::multiplyRight(Vector<Data> const * const otherVector)
+    SimpleVector4<Data>::multiplyRight(const Vector<Data>& otherVector)
     {
-      fData = multiply(*this, *dynamic_cast<SimpleVector4<Data> const * const > (otherVector));
+      fData = multiply(*this, dynamic_cast<const SimpleVector4<Data>&> (otherVector));
     }
 
   template<class Data>
-    Vector<Data> *
-    SimpleVector4<Data>::multiplyRightCopy(Matrix<Data> const * const otherMatrix) const
+    shared_ptr<Vector<Data> >
+    SimpleVector4<Data>::multiplyRightCopy(const Matrix<Data>& otherMatrix) const
     {
-      return (new SimpleVector4<Data> (multiplyRight(*dynamic_cast<SimpleMatrix44<Data> const * const > (otherMatrix))));
+      return (shared_ptr<Vector<Data> > (
+          new SimpleVector4<Data> (multiplyRightInternal(dynamic_cast<const SimpleMatrix44<Data>&> (otherMatrix)))));
     }
 
   template<class Data>
-    Vector<Data> *
-    SimpleVector4<Data>::multiplyRightCopy(Vector<Data> const * const otherVector) const
+    shared_ptr<Vector<Data> >
+    SimpleVector4<Data>::multiplyRightCopy(const Vector<Data>& otherVector) const
     {
-      return (new SimpleVector4<Data> (multiply(*this, *dynamic_cast<SimpleVector4<Data> const * const > (otherVector))));
+      return (shared_ptr<Vector<Data> > (
+          new SimpleVector4<Data> (multiply(*this, dynamic_cast<const SimpleVector4<Data>&> (otherVector)))));
     }
 
   template<class Data>
@@ -290,7 +297,7 @@ namespace simplicity
 
   template<class Data>
     void
-    SimpleVector4<Data>::scale(Data const scalar)
+    SimpleVector4<Data>::scale(const Data scalar)
     {
       fData.at(0) = fData.at(0) * scalar;
       fData.at(1) = fData.at(1) * scalar;
@@ -298,12 +305,12 @@ namespace simplicity
     }
 
   template<class Data>
-    array<Data, 4>
-    SimpleVector4<Data>::subtract(SimpleVector4<Data> const & leftVector, SimpleVector4<Data> const & rightVector) const
+    array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
+    SimpleVector4<Data>::subtract(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const
     {
-      array<Data, CELLS_IN_VECTOR> leftData = leftVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> rightData = rightVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> subData;
+      array < Data, CELLS_IN_VECTOR > leftData = leftVector.getDataCopy();
+      array < Data, CELLS_IN_VECTOR > rightData = rightVector.getDataCopy();
+      array < Data, CELLS_IN_VECTOR > subData;
 
       subData.at(0) = leftData.at(0) - rightData.at(0);
       subData.at(1) = leftData.at(1) - rightData.at(1);
@@ -315,16 +322,17 @@ namespace simplicity
 
   template<class Data>
     void
-    SimpleVector4<Data>::subtractRight(Vector<Data> const * const otherVector)
+    SimpleVector4<Data>::subtractRight(const Vector<Data>& otherVector)
     {
-      fData = subtract(*this, *dynamic_cast<SimpleVector4<Data> const * const > (otherVector));
+      fData = subtract(*this, dynamic_cast<const SimpleVector4<Data>&> (otherVector));
     }
 
   template<class Data>
-    Vector<Data> *
-    SimpleVector4<Data>::subtractRightCopy(Vector<Data> const * const otherVector) const
+    shared_ptr<Vector<Data> >
+    SimpleVector4<Data>::subtractRightCopy(const Vector<Data>& otherVector) const
     {
-      return (new SimpleVector4(subtract(*this, *dynamic_cast<SimpleVector4<Data> const * const > (otherVector))));
+      return (shared_ptr<Vector<Data> > (
+          new SimpleVector4(subtract(*this, dynamic_cast<const SimpleVector4<Data>&> (otherVector)))));
     }
 
   template<class Data>

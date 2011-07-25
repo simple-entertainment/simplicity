@@ -13,10 +13,8 @@
 #define SIMPLEVECTOR4_H_
 
 #include <string>
-using namespace std;
 
 #include <boost/array.hpp>
-using namespace boost;
 
 #include "SimpleMatrix44.h"
 #include "Vector.h"
@@ -34,6 +32,13 @@ namespace simplicity
     class SimpleVector4 : public virtual Vector<Data>
     {
       public:
+        /**
+         * <p>
+         * The number of cells in this vector.
+         * </p>
+         */
+        static int const CELLS_IN_VECTOR = 4;
+
         /**
          * <p>
          * Creates an instance of <code>SimpleVector4</code>.
@@ -59,7 +64,7 @@ namespace simplicity
          * @param d2 The third element of data in this <code>SimpleVector4</code>.
          * @param d3 The fourth element of data in this <code>SimpleVector4</code>.
          */
-        SimpleVector4(Data const d0, Data const d1, Data const d2, Data const d3);
+        SimpleVector4(const Data d0, const Data d1, const Data d2, const Data d3);
 
         /**
          * <p>
@@ -70,41 +75,33 @@ namespace simplicity
          * The <code>SimpleVector4</code> is initialised to the contents of the vector given.
          * </p>
          *
-         * <p>
-         * This <code>SimpleVector4</code> will assume ownership of the given array.
-         * </p>
-         *
          * @param data An array containing the initial elements of this <code>SimpleVector4</code>.
          */
-        SimpleVector4(array<Data, 4> data);
+        SimpleVector4(boost::array<Data, CELLS_IN_VECTOR> data);
 
         void
-        add(Vector<Data> const * const otherVector);
+        add(const Vector<Data>& otherVector);
 
-        Vector<Data> *
-        addCopy(Vector<Data> const * const otherVector) const ;
+        boost::shared_ptr<Vector<Data> >
+        addCopy(const Vector<Data>& otherVector) const;
 
         void
-        crossProductRight(Vector<Data> const * const otherVector);
+        crossProductRight(const Vector<Data>& otherVector);
 
-        Vector<Data> *
-        crossProductRightCopy(Vector<Data> const * const otherVector) const ;
+        boost::shared_ptr<Vector<Data> >
+        crossProductRightCopy(const Vector<Data>& otherVector) const;
 
         Data
-        dotProduct(Vector<Data> const * const otherVector);
+        dotProduct(const Vector<Data>& otherVector);
 
         /**
          * <p>
          * Retrieves the array that contains the data for this <code>SimpleVector4</code>.
          * </p>
          *
-         * <p>
-         * This <code>SimpleVector4</code> will retain ownership of the returned array.
-         * </p>
-         *
          * @return The array that contains the data for this <code>SimpleVector4</code>.
          */
-        array<Data, 4> &
+        boost::array<Data, CELLS_IN_VECTOR>&
         getData();
 
         /**
@@ -112,13 +109,9 @@ namespace simplicity
          * Retrieves a copy of the array that contains the data for this <code>SimpleVector4</code>.
          * </p>
          *
-         * <p>
-         * This <code>SimpleVector4</code> will retain ownership of the returned array.
-         * </p>
-         *
          * @return A copy of the array that contains the data for this <code>SimpleVector4</code>.
          */
-        array<Data, 4>
+        boost::array<Data, CELLS_IN_VECTOR>
         getDataCopy() const;
 
         Data
@@ -131,22 +124,22 @@ namespace simplicity
         homogenize();
 
         void
-        multiplyLeft(Matrix<Data> const * const otherMatrix);
+        multiplyLeft(const Matrix<Data>& otherMatrix);
 
-        Vector<Data> *
-        multiplyLeftCopy(Matrix<Data> const * const otherMatrix) const;
-
-        void
-        multiplyRight(Matrix<Data> const * const otherMatrix);
+        boost::shared_ptr<Vector<Data> >
+        multiplyLeftCopy(const Matrix<Data>& otherMatrix) const;
 
         void
-        multiplyRight(Vector<Data> const * const otherVector);
+        multiplyRight(const Matrix<Data>& otherMatrix);
 
-        Vector<Data> *
-        multiplyRightCopy(Matrix<Data> const * const otherMatrix) const;
+        void
+        multiplyRight(const Vector<Data>& otherVector);
 
-        Vector<Data> *
-        multiplyRightCopy(Vector<Data> const * const otherVector) const;
+        boost::shared_ptr<Vector<Data> >
+        multiplyRightCopy(const Matrix<Data>& otherMatrix) const;
+
+        boost::shared_ptr<Vector<Data> >
+        multiplyRightCopy(const Vector<Data>& otherVector) const;
 
         void
         negate();
@@ -158,10 +151,10 @@ namespace simplicity
         scale(const Data scalar);
 
         void
-        subtractRight(Vector<Data> const * const otherVector);
+        subtractRight(const Vector<Data>& otherVector);
 
-        Vector<Data>*
-        subtractRightCopy(Vector<Data> const * const otherVector) const;
+        boost::shared_ptr<Vector<Data> >
+        subtractRightCopy(const Vector<Data>& otherVector) const;
 
         /**
          * <p>
@@ -182,18 +175,10 @@ namespace simplicity
       private:
         /**
          * <p>
-         * The number of cells in this vector.
-         * </p>
-         */
-        static int const CELLS_IN_VECTOR = 4;
-
-      private:
-        /**
-         * <p>
          * The array that contains the data for this <code>SimpleVector4</code>.
          * </p>
          */
-        array<Data, CELLS_IN_VECTOR> fData;
+        boost::array<Data, CELLS_IN_VECTOR> fData;
 
         /**
          * <p>
@@ -209,8 +194,8 @@ namespace simplicity
          *
          * @return A array that contains the result of the addition.
          */
-        array<Data, 4>
-        add(SimpleVector4<Data> const & leftVector, SimpleVector4<Data> const & rightVector) const;
+        boost::array<Data, CELLS_IN_VECTOR>
+        add(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const;
 
         /**
          * <p>
@@ -226,8 +211,8 @@ namespace simplicity
          *
          * @return A array that contains the result of the cross product.
          */
-        array<Data, 4>
-        crossProduct(SimpleVector4<Data> const & leftVector, SimpleVector4<Data> const & rightVector) const;
+        boost::array<Data, CELLS_IN_VECTOR>
+        crossProduct(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const;
 
         /**
          * <p>
@@ -243,8 +228,8 @@ namespace simplicity
          *
          * @return A array that contains the result of the multiplication.
          */
-        array<Data, 4>
-        multiply(SimpleVector4<Data> const & leftVector, SimpleVector4<Data> const & rightVector) const;
+        boost::array<Data, CELLS_IN_VECTOR>
+        multiply(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const;
 
         /**
          * <p>
@@ -268,8 +253,8 @@ namespace simplicity
          *
          * @return An array that contains the result of the multiplication.
          */
-        array<Data, 4>
-        multiplyLeft(SimpleMatrix44<Data> const & otherMatrix) const;
+        boost::array<Data, CELLS_IN_VECTOR>
+        multiplyLeftInternal(const SimpleMatrix44<Data>& otherMatrix) const;
 
         /**
          * <p>
@@ -293,8 +278,8 @@ namespace simplicity
          *
          * @return An array that contains the result of the multiplication.
          */
-        array<Data, 4>
-        multiplyRight(SimpleMatrix44<Data> const & otherMatrix) const;
+        boost::array<Data, CELLS_IN_VECTOR>
+        multiplyRightInternal(const SimpleMatrix44<Data>& otherMatrix) const;
 
         /**
          * <p>
@@ -306,8 +291,8 @@ namespace simplicity
          *
          * @return An array that contains the result of the subtraction.
          */
-        array<Data, 4>
-        subtract(SimpleVector4<Data> const & leftVector, SimpleVector4<Data> const & rightVector) const;
+        boost::array<Data, CELLS_IN_VECTOR>
+        subtract(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const;
     };
 }
 

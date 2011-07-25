@@ -36,7 +36,7 @@ namespace simplicity
        * @param name The name to assign to the <code>Model</code> being rendered.
        */
       void
-      renderModel(Model * const model, int const name);
+      renderModel(const Model& model, const int name);
   };
 }
 

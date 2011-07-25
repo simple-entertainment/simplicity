@@ -11,6 +11,9 @@
  */
 #include "PickEvent.h"
 
+using namespace boost;
+using namespace std;
+
 namespace simplicity
 {
   PickEvent::PickEvent() :
@@ -23,7 +26,7 @@ namespace simplicity
   }
 
   void
-  PickEvent::addHit(Hit const hit)
+  PickEvent::addHit(const Hit hit)
   {
     fHits.push_back(hit);
   }
@@ -33,18 +36,18 @@ namespace simplicity
   {
     optional<Hit> closeHit;
     for (unsigned int index = 0; index < fHits.size(); index++)
+    {
+      if (!closeHit || fHits.at(index).minimumDistance < closeHit->minimumDistance)
       {
-        if (!closeHit || fHits.at(index).getMinimumDistance() < closeHit->getMinimumDistance())
-          {
-            closeHit = optional<Hit> (fHits.at(index));
-          }
+        closeHit = optional<Hit> (fHits.at(index));
       }
+    }
 
     return (closeHit);
   }
 
   Hit
-  PickEvent::getHit(int const index) const
+  PickEvent::getHit(const int index) const
   {
     return (fHits.at(index));
   }

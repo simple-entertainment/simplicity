@@ -20,13 +20,13 @@ namespace simplicity
     }
 
   template<class Data>
-    SimpleRGBColourVector4<Data>::SimpleRGBColourVector4(Data const r, Data const g, Data const b, Data const a) :
+    SimpleRGBColourVector4<Data>::SimpleRGBColourVector4(const Data r, const Data g, const Data b, const Data a) :
       SimpleVector4<Data> (r, g, b, a)
     {
     }
 
   template<class Data>
-    SimpleRGBColourVector4<Data>::SimpleRGBColourVector4(array<Data, 4> data) :
+    SimpleRGBColourVector4<Data>::SimpleRGBColourVector4(array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> data) :
       SimpleVector4<Data> (data)
     {
     }
@@ -54,21 +54,21 @@ namespace simplicity
 
   template<class Data>
     void
-    SimpleRGBColourVector4<Data>::setBlue(Data const blue)
+    SimpleRGBColourVector4<Data>::setBlue(const Data blue)
     {
       SimpleVector4<Data>::getData().at(2) = blue;
     }
 
   template<class Data>
     void
-    SimpleRGBColourVector4<Data>::setGreen(Data const green)
+    SimpleRGBColourVector4<Data>::setGreen(const Data green)
     {
       SimpleVector4<Data>::getData().at(1) = green;
     }
 
   template<class Data>
     void
-    SimpleRGBColourVector4<Data>::setRed(Data const red)
+    SimpleRGBColourVector4<Data>::setRed(const Data red)
     {
       SimpleVector4<Data>::getData().at(0) = red;
     }

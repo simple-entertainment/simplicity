@@ -53,7 +53,7 @@ namespace simplicity
          * @param otherVector The <code>Vector</code> to add this <code>Vector</code> to.
          */
         virtual void
-        add(Vector<Data> const * const otherVector) = 0;
+        add(const Vector<Data>& otherVector) = 0;
 
         /**
          * <p>
@@ -68,16 +68,12 @@ namespace simplicity
          * This method assumes both <code>Vector</code>s to be homogenised.
          * </p>
          *
-         * <p>
-         * The caller must assume ownership of the returned <code>Vector</code>.
-         * </p>
-         *
          * @param otherVector The <code>Vector</code> to add this <code>Vector</code> to.
          *
          * @return A new <code>Vector</code> that is the result of sum of this <code>Vector</code> and the <code>Vector</code> given.
          */
-        virtual Vector<Data> *
-        addCopy(Vector<Data> const * const otherVector) const = 0;
+        virtual boost::shared_ptr<Vector<Data> >
+        addCopy(const Vector<Data>& otherVector) const = 0;
 
         /**
          * <p>
@@ -96,7 +92,7 @@ namespace simplicity
          * @param otherVector The <code>Vector</code> to be placed on the right hand side of the equation.
          */
         virtual void
-        crossProductRight(Vector<Data> const * const otherVector) = 0;
+        crossProductRight(const Vector<Data>& otherVector) = 0;
 
         /**
          * <p>
@@ -112,16 +108,12 @@ namespace simplicity
          * This method assumes both <code>Vector</code>s to be homogenised.
          * </p>
          *
-         * <p>
-         * The caller must assume ownership of the returned <code>Vector</code>.
-         * </p>
-         *
          * @param otherVector The <code>Vector</code> to be placed on the right hand side of the equation.
          *
          * @return A new <code>Vector</code> that is the result of the cross product of this <code>Vector</code> and the <code>Vector</code> given.
          */
-        virtual Vector<Data> *
-        crossProductRightCopy(Vector<Data> const * const otherVector) const = 0;
+        virtual boost::shared_ptr<Vector<Data> >
+        crossProductRightCopy(const Vector<Data>& otherVector) const = 0;
 
         /**
          * <p>
@@ -137,7 +129,7 @@ namespace simplicity
          * @return The dot product of this <code>Vector</code> and the <code>Vector</code> given.
          */
         virtual float
-        dotProduct(Vector<Data> const * const otherVector) = 0;
+        dotProduct(const Vector<Data>& otherVector) = 0;
 
         /**
          * <p>
@@ -196,7 +188,7 @@ namespace simplicity
          * @param matrix The {@link com.se.simplicity.vector.Matrix Matrix} to be placed on the left hand side of the equation.
          */
         virtual void
-        multiplyLeft(Matrix<Data> const * const matrix) = 0;
+        multiplyLeft(const Matrix<Data>& matrix) = 0;
 
         /**
          * <p>
@@ -220,17 +212,13 @@ namespace simplicity
          * A new <code>Vector</code> is created as the result of the multiplication.
          * </p>
          *
-         * <p>
-         * The caller must assume ownership of the returned <code>Vector</code>.
-         * </p>
-         *
          * @param matrix The {@link com.se.simplicity.vector.Matrix Matrix} to be placed on the left hand side of the equation.
          *
          * @return A new <code>Vector</code> that is the result of the multiplication of this <code>Vector</code> and the
          * {@link com.se.simplicity.vector.Matrix Matrix} given.
          */
-        virtual Vector<Data> *
-        multiplyLeftCopy(Matrix<Data> const * const matrix) const = 0;
+        virtual boost::shared_ptr<Vector<Data> >
+        multiplyLeftCopy(const Matrix<Data>& matrix) const = 0;
 
         /**
          * <p>
@@ -257,7 +245,7 @@ namespace simplicity
          * @param matrix The {@link com.se.simplicity.vector.Matrix Matrix} to be placed on the right hand side of the equation.
          */
         virtual void
-        multiplyRight(Matrix<Data> const * const matrix) = 0;
+        multiplyRight(const Matrix<Data>& matrix) = 0;
 
         /**
          * <p>
@@ -272,7 +260,7 @@ namespace simplicity
          * @param otherVector The <code>Vector</code> to be placed on the right hand side of the equation.
          */
         virtual void
-        multiplyRight(Vector<Data> const * const otherVector) = 0;
+        multiplyRight(const Vector<Data>& otherVector) = 0;
 
         /**
          * <p>
@@ -296,17 +284,13 @@ namespace simplicity
          * A new <code>Vector</code> is created as the result of the multiplication.
          * </p>
          *
-         * <p>
-         * The caller must assume ownership of the returned <code>Vector</code>.
-         * </p>
-         *
          * @param matrix The {@link com.se.simplicity.vector.Matrix Matrix} to be placed on the right hand side of the equation.
          *
          * @return A new <code>Vector</code> that is the result of the multiplication of this <code>Vector</code> and the
          * {@link com.se.simplicity.vector.Matrix Matrix} given.
          */
-        virtual Vector<Data> *
-        multiplyRightCopy(Matrix<Data> const * const matrix) const = 0;
+        virtual boost::shared_ptr<Vector<Data> >
+        multiplyRightCopy(const Matrix<Data>& matrix) const = 0;
 
         /**
          * <p>
@@ -316,18 +300,14 @@ namespace simplicity
          *
          * <p>
          * A new <code>Vector</code> is created as the result of the multiplication.
-         * </p>
-         *
-         * <p>
-         * The caller must assume ownership of the returned <code>Vector</code>.
          * </p>
          *
          * @param otherVector The <code>Vector</code> to be placed on the right hand side of the equation.
          *
          * @return A new <code>Vector</code> that is the result of the multiplication of this <code>Vector</code> and the <code>Vector</code> given.
          */
-        virtual Vector<Data> *
-        multiplyRightCopy(Vector<Data> const * const otherVector) const = 0;
+        virtual boost::shared_ptr<Vector<Data> >
+        multiplyRightCopy(const Vector<Data>& otherVector) const = 0;
 
         /**
          * <p>
@@ -353,7 +333,7 @@ namespace simplicity
          * @param scalar The factor to scale this <code>Vector</code> by.
          */
         virtual void
-        scale(Data const scalar) = 0;
+        scale(const Data scalar) = 0;
 
         /**
          * <p>
@@ -368,7 +348,7 @@ namespace simplicity
          * @param otherVector The <code>Vector</code> to be placed on the right hand side of the equation.
          */
         virtual void
-        subtractRight(Vector const * const otherVector) = 0;
+        subtractRight(const Vector<Data>& otherVector) = 0;
 
         /**
          * <p>
@@ -380,16 +360,12 @@ namespace simplicity
          * A new <code>Vector</code> is created as the result of the subtraction.
          * </p>
          *
-         * <p>
-         * The caller must assume ownership of the returned <code>Vector</code>.
-         * </p>
-         *
          * @param otherVector The <code>Vector</code> to be placed on the right hand side of the equation.
          *
          * @return A new <code>Vector</code> that is the result of the subtraction of the <code>Vector</code> given from this <code>Vector</code>.
          */
-        virtual Vector *
-        subtractRightCopy(Vector const * const otherVector) const = 0;
+        virtual boost::shared_ptr<Vector<Data> >
+        subtractRightCopy(const Vector<Data>& otherVector) const = 0;
     };
 }
 

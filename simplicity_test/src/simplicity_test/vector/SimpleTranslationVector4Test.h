@@ -13,10 +13,8 @@
 #define SIMPLEVECTOR4TEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include <simplicity/vector/SimpleTranslationVector4.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -27,13 +25,13 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class SimpleTranslationVector4Test : public Test
+  class SimpleTranslationVector4Test : public testing::Test
   {
     protected:
       /**
        * An instance of the class being unit tested.
        */
-      SimpleTranslationVector4<float> fTestObject;
+      simplicity::SimpleTranslationVector4<float> fTestObject;
   };
 }
 

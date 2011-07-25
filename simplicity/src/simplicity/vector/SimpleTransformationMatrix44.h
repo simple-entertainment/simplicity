@@ -69,9 +69,9 @@ namespace simplicity
          *
          * @param data A array containing the initial elements for this <code>SimpleMatrix44</code>.
          */
-        SimpleTransformationMatrix44(array<Data, 16> data);
+        SimpleTransformationMatrix44(array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX> data);
 
-        TranslationVector<Data> *
+        boost::shared_ptr<TranslationVector<Data> >
         getTranslation() const;
 
         Data
@@ -84,22 +84,22 @@ namespace simplicity
         getZAxisTranslation() const;
 
         void
-        rotate(Data const angle, Vector<Data> const * const axis);
+        rotate(const Data angle, const Vector<Data>& axis);
 
         void
-        setTranslation(TranslationVector<Data> const * const translation);
+        setTranslation(boost::shared_ptr<TranslationVector<Data> > translation);
 
         void
-        setXAxisTranslation(Data const distance);
+        setXAxisTranslation(const Data distance);
 
         void
-        setYAxisTranslation(Data const distance);
+        setYAxisTranslation(const Data distance);
 
         void
-        setZAxisTranslation(Data const distance);
+        setZAxisTranslation(const Data distance);
 
         void
-        translate(TranslationVector<Data> const * const translation);
+        translate(const TranslationVector<Data>& translation);
     };
 }
 

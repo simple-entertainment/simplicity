@@ -26,19 +26,19 @@ using namespace std;
 
 namespace simplicity
 {
-  time_duration const SimpleEngineProtocol::DEFAULT_DISCONNECTION_TIMEOUT = milliseconds(10000);
+  const time_duration SimpleEngineProtocol::DEFAULT_DISCONNECTION_TIMEOUT = milliseconds(10000);
 
-  time_duration const SimpleEngineProtocol::FLOOD_MODE_DEFAULT_ROUND_TRIP_TIME = milliseconds(250);
+  const time_duration SimpleEngineProtocol::FLOOD_MODE_DEFAULT_ROUND_TRIP_TIME = milliseconds(250);
 
-  time_duration const SimpleEngineProtocol::FLOOD_MODE_DEFAULT_TIME_PERIOD = milliseconds(10000);
+  const time_duration SimpleEngineProtocol::FLOOD_MODE_DEFAULT_TIME_PERIOD = milliseconds(10000);
 
-  time_duration const SimpleEngineProtocol::FLOOD_MODE_MAX_TIME_PERIOD = milliseconds(60000);
+  const time_duration SimpleEngineProtocol::FLOOD_MODE_MAX_TIME_PERIOD = milliseconds(60000);
 
-  time_duration const SimpleEngineProtocol::FLOOD_MODE_MIN_TIME_PERIOD = milliseconds(1000);
+  const time_duration SimpleEngineProtocol::FLOOD_MODE_MIN_TIME_PERIOD = milliseconds(1000);
 
-  time_duration const SimpleEngineProtocol::FLOOD_MODE_REVIEW_TIME_PERIOD = milliseconds(10000);
+  const time_duration SimpleEngineProtocol::FLOOD_MODE_REVIEW_TIME_PERIOD = milliseconds(10000);
 
-  log4cpp::Category * SimpleEngineProtocol::fLogger = &log4cpp::Category::getInstance("simplicity::SimpleEngineProtocol");
+  log4cpp::Category& SimpleEngineProtocol::fLogger = log4cpp::Category::getInstance("simplicity::SimpleEngineProtocol");
 
   SimpleEngineProtocol::SimpleEngineProtocol() :
     fDisconnectionTimeout(DEFAULT_DISCONNECTION_TIMEOUT), fFloodModeRoundTripTime(FLOOD_MODE_DEFAULT_ROUND_TRIP_TIME),
@@ -53,7 +53,7 @@ namespace simplicity
   }
 
   void
-  SimpleEngineProtocol::connectTo(string const & endpointHostName)
+  SimpleEngineProtocol::connectTo(const string& endpointHostName)
   {
     fEndpoints.push_back(
         *fResolver->resolve(udp::resolver::query(udp::v4(), endpointHostName, lexical_cast<string> (fRemotePort))));
@@ -76,7 +76,7 @@ namespace simplicity
     return (fDisconnectionTimeout);
   }
 
-  vector<string> &
+  vector<string>&
   SimpleEngineProtocol::getEndpointHostNames()
   {
     return (fEndpointHostNames);
@@ -133,7 +133,7 @@ namespace simplicity
   }
 
   bool
-  SimpleEngineProtocol::isConnectedTo(string const endpointHostName) const
+  SimpleEngineProtocol::isConnectedTo(const string endpointHostName) const
   {
     bool connected = true;
     udp::endpoint endpoint = *fResolver->resolve(
@@ -149,7 +149,7 @@ namespace simplicity
   }
 
   bool
-  SimpleEngineProtocol::isConnectionFlooded(string const endpointHostName) const
+  SimpleEngineProtocol::isConnectionFlooded(const string endpointHostName) const
   {
     udp::endpoint endpoint = *fResolver->resolve(
         udp::resolver::query(udp::v4(), endpointHostName, lexical_cast<string> (fRemotePort)));
@@ -158,7 +158,7 @@ namespace simplicity
   }
 
   void
-  SimpleEngineProtocol::onReceiveComplete(udp::endpoint const & endpoint)
+  SimpleEngineProtocol::onReceiveComplete(const udp::endpoint& endpoint)
   {
     // Record the time the message was received.
     fLastReceiptTimes.at(endpoint) = ptime(microsec_clock::universal_time());
@@ -188,7 +188,7 @@ namespace simplicity
   }
 
   void
-  SimpleEngineProtocol::onSendComplete(udp::endpoint const & endpoint)
+  SimpleEngineProtocol::onSendComplete(const udp::endpoint& endpoint)
   {
     // Record the time the message was sent.
     fSendTimes.at(endpoint).insert(
@@ -196,7 +196,7 @@ namespace simplicity
   }
 
   void
-  SimpleEngineProtocol::prepareHeader(udp::endpoint const & endpoint)
+  SimpleEngineProtocol::prepareHeader(const udp::endpoint& endpoint)
   {
     // The protocol ID has already been added.
 
@@ -212,12 +212,12 @@ namespace simplicity
   }
 
   unsigned int
-  SimpleEngineProtocol::receive(unsigned char * const data)
+  SimpleEngineProtocol::receive(vector<unsigned char>& data)
   {
     unsigned int dataLength = 0;
     array<mutable_buffer, 2> buffers;
-    buffers.at(0) = buffer(fHeaderData, HEADER_LENGTH);
-    buffers.at(1) = buffer(data, fMaxDataLength);
+    buffers.at(0) = buffer(fHeaderData);
+    buffers.at(1) = buffer(data);
     udp::endpoint endpoint;
 
     while (fSocket->available() > 0)
@@ -237,7 +237,7 @@ namespace simplicity
   }
 
   bool
-  SimpleEngineProtocol::receivedMessage(string const endpointHostName, unsigned int const sequenceNumber) const
+  SimpleEngineProtocol::receivedMessage(const string endpointHostName, const unsigned int sequenceNumber) const
   {
     bool received = false;
     udp::endpoint endpoint = *fResolver->resolve(
@@ -256,11 +256,11 @@ namespace simplicity
   }
 
   void
-  SimpleEngineProtocol::send(unsigned char * const data, unsigned int const dataLength)
+  SimpleEngineProtocol::send(const vector<unsigned char>& data)
   {
     array<const_buffer, 2> buffers;
-    buffers.at(0) = buffer(fHeaderData, HEADER_LENGTH);
-    buffers.at(1) = buffer(data, dataLength);
+    buffers.at(0) = buffer(fHeaderData);
+    buffers.at(1) = buffer(data);
 
     for (unsigned int index = 0; index < fEndpoints.size(); index++)
     {
@@ -271,37 +271,37 @@ namespace simplicity
   }
 
   void
-  SimpleEngineProtocol::setDisconnectionTimeout(time_duration const disconnectionTimeout)
+  SimpleEngineProtocol::setDisconnectionTimeout(const time_duration disconnectionTimeout)
   {
     fDisconnectionTimeout = disconnectionTimeout;
   }
 
   void
-  SimpleEngineProtocol::setFloodModeRoundTripTime(time_duration const floodModeRoundTripTime)
+  SimpleEngineProtocol::setFloodModeRoundTripTime(const time_duration floodModeRoundTripTime)
   {
     fFloodModeRoundTripTime = floodModeRoundTripTime;
   }
 
   void
-  SimpleEngineProtocol::setLocalPort(unsigned int const port)
+  SimpleEngineProtocol::setLocalPort(const unsigned int port)
   {
     fLocalPort = port;
   }
 
   void
-  SimpleEngineProtocol::setMaxDataLength(unsigned int const maxDataLength)
+  SimpleEngineProtocol::setMaxDataLength(const unsigned int maxDataLength)
   {
     fMaxDataLength = maxDataLength;
   }
 
   void
-  SimpleEngineProtocol::setRemotePort(unsigned int const port)
+  SimpleEngineProtocol::setRemotePort(const unsigned int port)
   {
     fRemotePort = port;
   }
 
   void
-  SimpleEngineProtocol::setSupportsMultipleEndpoints(bool const supportMultipleEndpoints)
+  SimpleEngineProtocol::setSupportsMultipleEndpoints(const bool supportMultipleEndpoints)
   {
     if (supportMultipleEndpoints)
     {
@@ -316,7 +316,7 @@ namespace simplicity
   }
 
   void
-  SimpleEngineProtocol::updateRoundTripTime(udp::endpoint const & endpoint, time_duration const & lastRoundTripTime)
+  SimpleEngineProtocol::updateRoundTripTime(const udp::endpoint& endpoint, const time_duration& lastRoundTripTime)
   {
     time_duration timeSinceExitingFloodMode = ptime(microsec_clock::universal_time()) - fFloodModeExitTimes.at(endpoint);
     time_duration oldRoundTripTime = fRoundTripTimes.at(endpoint);
@@ -332,34 +332,34 @@ namespace simplicity
     // The round trip time has raised above the threshold.
     if (oldRoundTripTime < fFloodModeRoundTripTime && newRoundTripTime > fFloodModeRoundTripTime)
     {
-      fLogger->warn("Connection flooded!");
+      fLogger.warn("Connection flooded!");
       fFloodModes.at(endpoint) = true;
 
       // If it has not been very long since the last time we were in flood mode, stay in flood mode longer this time.
       if (timeSinceExitingFloodMode < fFloodModeTimePeriods.at(endpoint))
       {
-        fLogger->debug("Extending flood mode duration.");
+        fLogger.debug("Extending flood mode duration.");
         fFloodModeTimePeriods.at(endpoint) = min(fFloodModeTimePeriods.at(endpoint) * 2, FLOOD_MODE_MAX_TIME_PERIOD);
       }
     }
     // The round trip time has returned under the threshold.
     else if (oldRoundTripTime > fFloodModeRoundTripTime && newRoundTripTime < fFloodModeRoundTripTime)
     {
-      fLogger->debug("The round trip time has returned to 'normal'.");
+      fLogger.debug("The round trip time has returned to 'normal'.");
       fFloodModeExitTimes.at(endpoint) = ptime(microsec_clock::universal_time());
       fFloodModeReviewTimes.at(endpoint) = ptime(microsec_clock::universal_time());
     }
     // The round trip time has been under the threshold for a while.
     else if (newRoundTripTime < fFloodModeRoundTripTime && timeSinceExitingFloodMode > fFloodModeTimePeriods.at(endpoint))
     {
-      fLogger->debug("Connection cleared!");
+      fLogger.debug("Connection cleared!");
       fFloodModes.at(endpoint) = false;
       time_duration timeSinceReviewingFloodMode = ptime(microsec_clock::universal_time()) - fFloodModeReviewTimes.at(endpoint);
 
       // If it has been very long since the last time we were in flood mode, make flood mode shorter next time.
       if (timeSinceReviewingFloodMode > FLOOD_MODE_REVIEW_TIME_PERIOD)
       {
-        fLogger->debug("Shortening flood mode duration.");
+        fLogger.debug("Shortening flood mode duration.");
         fFloodModeReviewTimes.at(endpoint) = ptime(microsec_clock::universal_time());
         fFloodModeTimePeriods.at(endpoint) = max(fFloodModeTimePeriods.at(endpoint) / 2, FLOOD_MODE_MIN_TIME_PERIOD);
       }
@@ -367,7 +367,7 @@ namespace simplicity
   }
 
   bool
-  SimpleEngineProtocol::validateMessage(udp::endpoint const & endpoint)
+  SimpleEngineProtocol::validateMessage(const udp::endpoint& endpoint)
   {
     bool valid = true;
 

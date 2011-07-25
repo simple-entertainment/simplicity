@@ -13,7 +13,6 @@
 #define RUNNABLEENGINETEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include "../mocks/OverrunningMockRunnableEngine.h"
 
@@ -26,7 +25,7 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class RunnableEngineTest : public Test
+  class RunnableEngineTest : public testing::Test
   {
     protected:
       /**

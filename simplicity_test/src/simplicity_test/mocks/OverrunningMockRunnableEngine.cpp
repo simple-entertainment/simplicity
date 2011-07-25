@@ -10,13 +10,17 @@
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <boost/thread.hpp>
-using namespace boost;
 
 #include "OverrunningMockRunnableEngine.h"
 
+using namespace boost;
+using namespace devenvy;
+using namespace simplicity;
+using namespace std;
+
 namespace simplicity_test
 {
-  Category * OverrunningMockRunnableEngine::fLogger = &Category::getInstance("simplicity::RunnableEngine");
+  log4cpp::Category& OverrunningMockRunnableEngine::fLogger = log4cpp::Category::getInstance("simplicity::RunnableEngine");
 
   OverrunningMockRunnableEngine::OverrunningMockRunnableEngine() :
     fAdvanceIndex(0), fMockObject(), fOverrunIndex(-1)
@@ -27,23 +31,23 @@ namespace simplicity_test
   {
   }
 
-  EngineInput *
-  OverrunningMockRunnableEngine::advance(EngineInput const * const input)
+  EngineInput*
+  OverrunningMockRunnableEngine::advance(const EngineInput* const input)
   {
     fMockObject.addMethodCall("advance", vector<any> ());
 
     if (++fAdvanceIndex == fOverrunIndex)
+    {
+      try
       {
-        try
-          {
-            this_thread::sleep(
-                posix_time::milliseconds(MILLISECONDS_IN_A_SECOND / getPreferredFrequency() * FRACTION_OF_FREQUENCY_TO_WAIT));
-          }
-        catch (thread_interrupted& e)
-          {
-            fLogger->error("The engine was interrupted while advancing.");
-          }
+        this_thread::sleep(
+            posix_time::milliseconds(MILLISECONDS_IN_A_SECOND / getPreferredFrequency() * FRACTION_OF_FREQUENCY_TO_WAIT));
       }
+      catch (thread_interrupted& e)
+      {
+        fLogger.error("The engine was interrupted while advancing.");
+      }
+    }
 
     return (NULL);
   }
@@ -55,41 +59,41 @@ namespace simplicity_test
   }
 
   optional<MethodCall>
-  OverrunningMockRunnableEngine::getMethodCall(int const callIndex, string const & name, vector<any> const & parameters) const
+  OverrunningMockRunnableEngine::getMethodCall(const int callIndex, const string& name, const vector<any>& parameters) const
   {
     return (fMockObject.getMethodCall(callIndex, name, parameters));
   }
 
   int
-  OverrunningMockRunnableEngine::getMethodCallCount(string const & name, vector<any> const & parameters) const
+  OverrunningMockRunnableEngine::getMethodCallCount(const string& name, const vector<any>& parameters) const
   {
     return (fMockObject.getMethodCallCount(name, parameters));
   }
 
   int
-  OverrunningMockRunnableEngine::getMethodCallCountIgnoreParams(string const & name) const
+  OverrunningMockRunnableEngine::getMethodCallCountIgnoreParams(const string& name) const
   {
     return (fMockObject.getMethodCallCountIgnoreParams(name));
   }
 
   optional<MethodCall>
-  OverrunningMockRunnableEngine::getMethodCallIgnoreParams(int const callIndex, string const & name) const
+  OverrunningMockRunnableEngine::getMethodCallIgnoreParams(const int callIndex, const string& name) const
   {
     return (fMockObject.getMethodCallIgnoreParams(callIndex, name));
   }
 
   bool
-  OverrunningMockRunnableEngine::methodCallOrderCheck(int const beforeCallIndex, string const & beforeMethodName,
-      vector<any> const & beforeMethodParameters, int const afterCallIndex, string const & afterMethodName,
-      vector<any> const & afterMethodParameters) const
+  OverrunningMockRunnableEngine::methodCallOrderCheck(const int beforeCallIndex, const string& beforeMethodName,
+      const vector<any>& beforeMethodParameters, const int afterCallIndex, const string& afterMethodName,
+      const vector<any>& afterMethodParameters) const
   {
     return (fMockObject.methodCallOrderCheck(beforeCallIndex, beforeMethodName, beforeMethodParameters, afterCallIndex,
         afterMethodName, afterMethodParameters));
   }
 
   bool
-  OverrunningMockRunnableEngine::methodCallOrderCheckIgnoreParams(int const beforeCallIndex, string const & beforeMethodName,
-      int const afterCallIndex, string const & afterMethodName) const
+  OverrunningMockRunnableEngine::methodCallOrderCheckIgnoreParams(const int beforeCallIndex, const string& beforeMethodName,
+      const int afterCallIndex, const string& afterMethodName) const
   {
     return (fMockObject.methodCallOrderCheckIgnoreParams(beforeCallIndex, beforeMethodName, afterCallIndex, afterMethodName));
   }
@@ -117,7 +121,7 @@ namespace simplicity_test
   }
 
   void
-  OverrunningMockRunnableEngine::setOverrunIndex(int const overrunIndex)
+  OverrunningMockRunnableEngine::setOverrunIndex(const int overrunIndex)
   {
     fOverrunIndex = overrunIndex;
   }

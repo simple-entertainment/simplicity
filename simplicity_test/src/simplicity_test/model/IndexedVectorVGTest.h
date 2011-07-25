@@ -13,21 +13,19 @@
 #define INDEXEDVECTORVGTEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include <simplicity/model/IndexedVectorVG.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
 
-  class IndexedVectorVGTest : public Test
+  class IndexedVectorVGTest : public testing::Test
   {
     protected:
       /**
        * An instance of the class being unit tested.
        */
-      IndexedVectorVG fTestObject;
+      simplicity::IndexedVectorVG fTestObject;
 
       /**
        * <p>
@@ -37,21 +35,17 @@ namespace simplicity_test
       void
       SetUp()
       {
-        float colours[12] =
-          { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f };
-        vector<float> coloursVector(colours, colours + 12);
+        float colours[12] = { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+        boost::shared_ptr<std::vector<float> > coloursVector(new std::vector<float>(colours, colours + 12));
         fTestObject.setColours(coloursVector);
-        float normals[12] =
-          { -0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f };
-        vector<float> normalsVector(normals, normals + 12);
+        float normals[12] = { -0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f };
+        boost::shared_ptr<std::vector<float> > normalsVector(new std::vector<float>(normals, normals + 12));
         fTestObject.setNormals(normalsVector);
-        float vertices[12] =
-          { -1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f };
-        vector<float> verticesVector(vertices, vertices + 12);
+        float vertices[12] = { -1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f };
+        boost::shared_ptr<std::vector<float> > verticesVector(new std::vector<float>(vertices, vertices + 12));
         fTestObject.setVertices(verticesVector);
-        int indices[4] =
-          { 0, 1, 2, 3 };
-        vector<int> indicesVector(indices, indices + 4);
+        int indices[4] = { 0, 1, 2, 3 };
+        boost::shared_ptr<std::vector<int> > indicesVector(new std::vector<int>(indices, indices + 4));
         fTestObject.setIndices(indicesVector);
       }
   };

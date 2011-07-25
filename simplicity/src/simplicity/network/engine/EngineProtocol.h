@@ -54,7 +54,7 @@ namespace simplicity
        *
        * @return The host names of all the remote endpoints this protocol communicates with.
        */
-      std::vector<std::string> &
+      std::vector<std::string>&
       getEndpointHostNames();
 
       /**
@@ -105,10 +105,10 @@ namespace simplicity
        * @return True if this protocol is currently connected to a remote endpoint with the given host name, false otherwise.
        */
       bool
-      isConnectedTo(std::string const endpointHostName) const;
+      isConnectedTo(const std::string endpointHostName) const;
 
       bool
-      isConnectionFlooded(std::string const endpointHostName) const;
+      isConnectionFlooded(const std::string endpointHostName) const;
 
       /**
        * <p>
@@ -120,21 +120,20 @@ namespace simplicity
        * @return The length of the message received.
        */
       unsigned int
-      receive(unsigned char * const data);
+      receive(std::vector<unsigned char>& data);
 
       bool
-      receivedMessage(std::string const endpointHostName, unsigned int const sequenceNumber) const;
+      receivedMessage(const std::string endpointHostName, const unsigned int sequenceNumber) const;
 
       /**
        * <p>
        * Sends a message.
        * </p>
        *
-       * @param data The address of the data to be sent.
-       * @param dataLength The length of the data to be sent (in bytes).
+       * @param data The data to be sent.
        */
       void
-      send(unsigned char * const data, unsigned int const dataLength);
+      send(const std::vector<unsigned char>& data);
 
       /**
        * <p>
@@ -144,7 +143,7 @@ namespace simplicity
        * @param disconnectionTimeout The time a connection can stay idle before it is considered disconnected.
        */
       boost::posix_time::time_duration
-      setDisconnectionTimeout(long const disconnectionTimeout);
+      setDisconnectionTimeout(const long disconnectionTimeout);
 
       /**
        * <p>
@@ -154,7 +153,7 @@ namespace simplicity
        * @param port The port this protocol is bound to locally.
        */
       void
-      setLocalPort(unsigned int const port);
+      setLocalPort(const unsigned int port);
 
       /**
        * <p>
@@ -164,7 +163,7 @@ namespace simplicity
        * @param maxDataLength The maximum amount of data that can be sent or received in a single message.
        */
       void
-      setMaxDataLength(unsigned int const maxDataLength);
+      setMaxDataLength(const unsigned int maxDataLength);
 
       /**
        * <p>
@@ -174,7 +173,7 @@ namespace simplicity
        * @param port The port this protocol sends messages to.
        */
       void
-      setRemotePort(unsigned int const port);
+      setRemotePort(const unsigned int port);
 
       /**
        * <p>
@@ -184,7 +183,7 @@ namespace simplicity
        * @param supportMultipleEndpoints Determines if this protocol supports communication to and from multiple remote endpoints.
        */
       void
-      setSupportsMultipleEndpoints(bool const supportMultipleEndpoints);
+      setSupportsMultipleEndpoints(const bool supportMultipleEndpoints);
 
       /**
        * <p>

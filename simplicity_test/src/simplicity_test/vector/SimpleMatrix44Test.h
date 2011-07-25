@@ -13,10 +13,8 @@
 #define SIMPLEMATRIX44TEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include <simplicity/vector/SimpleMatrix44.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -27,13 +25,13 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class SimpleMatrix44Test : public Test
+  class SimpleMatrix44Test : public testing::Test
   {
     protected:
       /**
        * An instance of the class being unit tested.
        */
-      SimpleMatrix44<float> fTestObject;
+      simplicity::SimpleMatrix44<float> fTestObject;
 
       /**
        * <p>
@@ -43,7 +41,7 @@ namespace simplicity_test
       void
       SetUp()
       {
-        array<float, 16> * data = &fTestObject.getData();
+        boost::array<float, 16> * data = &fTestObject.getData();
 
         data->at(0) = 1.0f;
         data->at(4) = 2.0f;

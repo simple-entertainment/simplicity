@@ -11,25 +11,30 @@
  */
 #include "IndexedVectorVGTest.h"
 
+using namespace boost;
+using namespace simplicity;
+using namespace std;
+
 namespace simplicity_test
 {
   /**
    * <p>
    * Unit test the method {@link simplicity::IndexedVectorVG#createEdgeSubsetVG(const int) createEdgeSubsetVG(const int)}.
    * </p>
-   */TEST_F(IndexedVectorVGTest, createEdgeSubsetVG)
+   */
+  TEST_F(IndexedVectorVGTest, createEdgeSubsetVG)
   {
     // Perform test.
-    IndexedVectorVG * subsetVG = (IndexedVectorVG *) fTestObject.createEdgeSubsetVG(0);
+    shared_ptr<IndexedVectorVG> subsetVG(dynamic_pointer_cast<IndexedVectorVG> (fTestObject.createEdgeSubsetVG(0)));
 
     // Verify test results.
-    vector<int> subsetIndices = subsetVG->getIndices();
+    vector<int>& subsetIndices = subsetVG->getIndices();
 
     ASSERT_EQ(2, subsetIndices.size());
     ASSERT_EQ(0, subsetIndices.at(0));
     ASSERT_EQ(1, subsetIndices.at(1));
 
-    vector<float> subsetColours = subsetVG->getColours();
+    vector<float>& subsetColours = subsetVG->getColours();
 
     ASSERT_EQ(6, subsetColours.size());
     ASSERT_EQ(1.0f, subsetColours.at(0));
@@ -39,7 +44,7 @@ namespace simplicity_test
     ASSERT_EQ(1.0f, subsetColours.at(4));
     ASSERT_EQ(0.0f, subsetColours.at(5));
 
-    vector<float> subsetNormals = subsetVG->getNormals();
+    vector<float>& subsetNormals = subsetVG->getNormals();
 
     ASSERT_EQ(6, subsetNormals.size());
     ASSERT_EQ(-0.5f, subsetNormals.at(0));
@@ -49,7 +54,7 @@ namespace simplicity_test
     ASSERT_EQ(0.5f, subsetNormals.at(4));
     ASSERT_EQ(0.0f, subsetNormals.at(5));
 
-    vector<float> subsetVertices = subsetVG->getVertices();
+    vector<float>& subsetVertices = subsetVG->getVertices();
 
     ASSERT_EQ(6, subsetVertices.size());
     ASSERT_EQ(-1.0f, subsetVertices.at(0));
@@ -58,30 +63,27 @@ namespace simplicity_test
     ASSERT_EQ(-1.0f, subsetVertices.at(3));
     ASSERT_EQ(1.0f, subsetVertices.at(4));
     ASSERT_EQ(0.0f, subsetVertices.at(5));
-
-    // Cleanup.
-    delete subsetVG;
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::IndexedVectorVG#createFaceSubsetVG(const int) createFaceSubsetVG(const int)}.
- * </p>
- */
-TEST_F(IndexedVectorVGTest, createFaceSubsetVG)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::IndexedVectorVG#createFaceSubsetVG(const int) createFaceSubsetVG(const int)}.
+   * </p>
+   */
+  TEST_F(IndexedVectorVGTest, createFaceSubsetVG)
   {
     // Perform test.
-    IndexedVectorVG * subsetVG = (IndexedVectorVG *) fTestObject.createFaceSubsetVG(0);
+    shared_ptr<IndexedVectorVG> subsetVG(dynamic_pointer_cast<IndexedVectorVG> (fTestObject.createFaceSubsetVG(0)));
 
     // Verify test results.
-    vector<int> subsetIndices = subsetVG->getIndices();
+    vector<int>& subsetIndices = subsetVG->getIndices();
 
     ASSERT_EQ(3, subsetIndices.size());
     ASSERT_EQ(0, subsetIndices.at(0));
     ASSERT_EQ(1, subsetIndices.at(1));
     ASSERT_EQ(2, subsetIndices.at(2));
 
-    vector<float> subsetColours = subsetVG->getColours();
+    vector<float>& subsetColours = subsetVG->getColours();
 
     ASSERT_EQ(9, subsetColours.size());
     ASSERT_EQ(1.0f, subsetColours.at(0));
@@ -94,7 +96,7 @@ TEST_F(IndexedVectorVGTest, createFaceSubsetVG)
     ASSERT_EQ(0.0f, subsetColours.at(7));
     ASSERT_EQ(1.0f, subsetColours.at(8));
 
-    vector<float> subsetNormals = subsetVG->getNormals();
+    vector<float>& subsetNormals = subsetVG->getNormals();
 
     ASSERT_EQ(9, subsetNormals.size());
     ASSERT_EQ(-0.5f, subsetNormals.at(0));
@@ -107,7 +109,7 @@ TEST_F(IndexedVectorVGTest, createFaceSubsetVG)
     ASSERT_EQ(0.5f, subsetNormals.at(7));
     ASSERT_EQ(0.0f, subsetNormals.at(8));
 
-    vector<float> subsetVertices = subsetVG->getVertices();
+    vector<float>& subsetVertices = subsetVG->getVertices();
 
     ASSERT_EQ(9, subsetVertices.size());
     ASSERT_EQ(-1.0f, subsetVertices.at(0));
@@ -119,108 +121,99 @@ TEST_F(IndexedVectorVGTest, createFaceSubsetVG)
     ASSERT_EQ(1.0f, subsetVertices.at(6));
     ASSERT_EQ(1.0f, subsetVertices.at(7));
     ASSERT_EQ(0.0f, subsetVertices.at(8));
-
-    // Cleanup.
-    delete subsetVG;
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::IndexedVectorVG#createVertexSubsetVG(const int) createVertexSubsetVG(const int)}.
- * </p>
- */
-TEST_F(IndexedVectorVGTest, createVertexSubsetVG)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::IndexedVectorVG#createVertexSubsetVG(const int) createVertexSubsetVG(const int)}.
+   * </p>
+   */
+  TEST_F(IndexedVectorVGTest, createVertexSubsetVG)
   {
     // Perform test.
-    IndexedVectorVG * subsetVG = (IndexedVectorVG *) fTestObject.createVertexSubsetVG(0);
+    shared_ptr<IndexedVectorVG> subsetVG(dynamic_pointer_cast<IndexedVectorVG> (fTestObject.createVertexSubsetVG(0)));
 
     // Verify test results.
-    vector<int> subsetIndices = subsetVG->getIndices();
+    vector<int>& subsetIndices = subsetVG->getIndices();
 
     ASSERT_EQ(1, subsetIndices.size());
     ASSERT_EQ(0, subsetIndices.at(0));
 
-    vector<float> subsetColours = subsetVG->getColours();
+    vector<float>& subsetColours = subsetVG->getColours();
 
     ASSERT_EQ(3, subsetColours.size());
     ASSERT_EQ(1.0f, subsetColours.at(0));
     ASSERT_EQ(0.0f, subsetColours.at(1));
     ASSERT_EQ(0.0f, subsetColours.at(2));
 
-    vector<float> subsetNormals = subsetVG->getNormals();
+    vector<float>& subsetNormals = subsetVG->getNormals();
 
     ASSERT_EQ(3, subsetNormals.size());
     ASSERT_EQ(-0.5f, subsetNormals.at(0));
     ASSERT_EQ(-0.5f, subsetNormals.at(1));
     ASSERT_EQ(0.0f, subsetNormals.at(2));
 
-    vector<float> subsetVertices = subsetVG->getVertices();
+    vector<float>& subsetVertices = subsetVG->getVertices();
 
     ASSERT_EQ(3, subsetVertices.size());
     ASSERT_EQ(-1.0f, subsetVertices.at(0));
     ASSERT_EQ(-1.0f, subsetVertices.at(1));
     ASSERT_EQ(0.0f, subsetVertices.at(2));
-
-    // Cleanup.
-    delete subsetVG;
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::IndexedVectorVG#getCenter() getCenter()}.
- * </p>
- */
-TEST_F(IndexedVectorVGTest, getCenter)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::IndexedVectorVG#getCenter() getCenter()}.
+   * </p>
+   */
+  TEST_F(IndexedVectorVGTest, getCenter)
   {
     // Perform test.
-    TranslationVector<float> * center = fTestObject.getCenter();
+    const TranslationVector<float>& center(fTestObject.getCenter());
 
     // Verify test results.
-    ASSERT_EQ(0.0f, center->getX());
-    ASSERT_EQ(0.0f, center->getY());
-    ASSERT_EQ(0.0f, center->getZ());
-    ASSERT_EQ(1.0f, center->getW());
+    ASSERT_EQ(0.0f, center.getX());
+    ASSERT_EQ(0.0f, center.getY());
+    ASSERT_EQ(0.0f, center.getZ());
+    ASSERT_EQ(1.0f, center.getW());
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::IndexedVectorVG#getVertexCount() getVertexCount()}.
- * </p>
- */
-TEST_F(IndexedVectorVGTest, getVertexCount)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::IndexedVectorVG#getVertexCount() getVertexCount()}.
+   * </p>
+   */
+  TEST_F(IndexedVectorVGTest, getVertexCount)
   {
     // Perform test / Verify test results.
     ASSERT_EQ(4, fTestObject.getVertexCount());
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::IndexedVectorVG#mergeWithParent() mergeWithParent()}.
- * </p>
- */
-TEST_F(IndexedVectorVGTest, mergeWithParent)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::IndexedVectorVG#mergeWithParent() mergeWithParent()}.
+   * </p>
+   */
+  TEST_F(IndexedVectorVGTest, mergeWithParent)
   {
     // Initialise test environment
-    IndexedVectorVG * subsetVG = (IndexedVectorVG *) fTestObject.createFaceSubsetVG(0);
+    shared_ptr<IndexedVectorVG> subsetVG(dynamic_pointer_cast<IndexedVectorVG> (fTestObject.createFaceSubsetVG(0)));
 
-    float newColours[9] =
-      { 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f};
-    vector<float> coloursVector(newColours, newColours + 9);
+    float newColours[9] = { 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f};
+    shared_ptr<vector<float> > coloursVector(new vector<float>(newColours, newColours + 9));
     subsetVG->setColours(coloursVector);
-    float newNormals[9] =
-      { 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, -0.5f, 0.0f};
-    vector<float> normalsVector(newNormals, newNormals + 9);
+    float newNormals[9] = { 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, -0.5f, 0.0f};
+    shared_ptr<vector<float> > normalsVector(new vector<float>(newNormals, newNormals + 9));
     subsetVG->setNormals(normalsVector);
-    float newVertices[9] =
-      { -2.0f, -2.0f, 0.0f, -2.0f, 2.0f, 0.0f, 2.0f, 2.0f, 0.0f};
-    vector<float> verticesVector(newVertices, newVertices + 9);
+    float newVertices[9] = { -2.0f, -2.0f, 0.0f, -2.0f, 2.0f, 0.0f, 2.0f, 2.0f, 0.0f};
+    shared_ptr<vector<float> > verticesVector(new vector<float>(newVertices, newVertices + 9));
     subsetVG->setVertices(verticesVector);
 
     // Perform test.
     subsetVG->mergeWithParent();
 
     // Verify test results.
-    vector<int> indices = fTestObject.getIndices();
+    vector<int>& indices = fTestObject.getIndices();
 
     ASSERT_EQ(4, indices.size());
     ASSERT_EQ(0, indices.at(0));
@@ -228,7 +221,7 @@ TEST_F(IndexedVectorVGTest, mergeWithParent)
     ASSERT_EQ(2, indices.at(2));
     ASSERT_EQ(3, indices.at(3));
 
-    vector<float> colours = fTestObject.getColours();
+    vector<float>& colours = fTestObject.getColours();
 
     ASSERT_EQ(12, colours.size());
     ASSERT_EQ(0.0f, colours.at(0));
@@ -244,7 +237,7 @@ TEST_F(IndexedVectorVGTest, mergeWithParent)
     ASSERT_EQ(1.0f, colours.at(10));
     ASSERT_EQ(1.0f, colours.at(11));
 
-    vector<float> normals = fTestObject.getNormals();
+    vector<float>& normals = fTestObject.getNormals();
 
     ASSERT_EQ(12, normals.size());
     ASSERT_EQ(0.5f, normals.at(0));
@@ -260,7 +253,7 @@ TEST_F(IndexedVectorVGTest, mergeWithParent)
     ASSERT_EQ(-0.5f, normals.at(10));
     ASSERT_EQ(0.0f, normals.at(11));
 
-    vector<float> vertices = fTestObject.getVertices();
+    vector<float>& vertices = fTestObject.getVertices();
 
     ASSERT_EQ(12, vertices.size());
     ASSERT_EQ(-2.0f, vertices.at(0));
@@ -275,18 +268,15 @@ TEST_F(IndexedVectorVGTest, mergeWithParent)
     ASSERT_EQ(1.0f, vertices.at(9));
     ASSERT_EQ(-1.0f, vertices.at(10));
     ASSERT_EQ(0.0f, vertices.at(11));
-
-    // Cleanup.
-    delete subsetVG;
   }
 
-/**
- * <p>
- * Unit test the method {@link simplicity::IndexedVectorVG.mergeWithParent mergeWithParent()} for the special condition where the
- * {@link simplicity::IndexedVectorVG IndexedVectorVG} being tested is not a subset.
- * </p>
- */
-TEST_F(IndexedVectorVGTest, mergeWithParentNotSubset)
+  /**
+   * <p>
+   * Unit test the method {@link simplicity::IndexedVectorVG.mergeWithParent mergeWithParent()} for the special condition where the
+   * {@link simplicity::IndexedVectorVG IndexedVectorVG} being tested is not a subset.
+   * </p>
+   */
+  TEST_F(IndexedVectorVGTest, mergeWithParentNotSubset)
   {
     ASSERT_THROW(fTestObject.mergeWithParent(), SEInvalidOperationException);
   }

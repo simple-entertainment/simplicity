@@ -32,41 +32,29 @@ namespace simplicity
        * Creates a subset <code>VertexGroup</code> that contains only the edge at the given index within this <code>VertexGroup</code>.
        * </p>
        *
-       * <p>
-       * The caller must assume ownership of the returned <code>VertexGroup</code>.
-       * </p>
-       *
        * @param index The index of the edge to create a subset <code>VertexGroup</code> for.
        *
        * @return A subset <code>VertexGroup</code> that contains only the edge at the given index within this <code>VertexGroup</code>.
        */
-      virtual VertexGroup *
-      createEdgeSubsetVG(int const index) = 0;
+      virtual boost::shared_ptr<VertexGroup>
+      createEdgeSubsetVG(const int index) = 0;
 
       /**
        * <p>
        * Creates a subset <code>VertexGroup</code> that contains only the face at the given index within this <code>VertexGroup</code>.
        * </p>
        *
-       * <p>
-       * The caller must assume ownership of the returned <code>VertexGroup</code>.
-       * </p>
-       *
        * @param index The index of the face to create a subset <code>VertexGroup</code> for.
        *
        * @return A subset <code>VertexGroup</code> that contains only the face at the given index within this <code>VertexGroup</code>.
        */
-      virtual VertexGroup *
-      createFaceSubsetVG(int const index) = 0;
+      virtual boost::shared_ptr<VertexGroup>
+      createFaceSubsetVG(const int index) = 0;
 
       /**
        * <p>
        * Creates a subset <code>VertexGroup</code> that contains the given length of consecutive vertices starting at the given index within this
        * <code>VertexGroup</code>.
-       * </p>
-       *
-       * <p>
-       * The caller must assume ownership of the returned <code>VertexGroup</code>.
        * </p>
        *
        * @param index The index of the first vertex to include in the subset <code>VertexGroup</code>.
@@ -75,24 +63,20 @@ namespace simplicity
        * @return A subset <code>VertexGroup</code> that contains the given length of consecutive vertices starting at the given index within this
        * <code>VertexGroup</code>.
        */
-      virtual VertexGroup *
-      createSubsetVG(int const index, int const length) = 0;
+      virtual boost::shared_ptr<VertexGroup>
+      createSubsetVG(const int index, const int length) = 0;
 
       /**
        * <p>
        * Creates a subset <code>VertexGroup</code> that contains only the vertex at the given index within this <code>VertexGroup</code>.
        * </p>
        *
-       * <p>
-       * The caller must assume ownership of the returned <code>VertexGroup</code>.
-       * </p>
-       *
        * @param index The index of the vertex to create a subset <code>VertexGroup</code> for.
        *
        * @return A subset <code>VertexGroup</code> that contains only the vertex at the given index within this <code>VertexGroup</code>.
        */
-      virtual VertexGroup *
-      createVertexSubsetVG(int const index) = 0;
+      virtual boost::shared_ptr<VertexGroup>
+      createVertexSubsetVG(const int index) = 0;
 
       /**
        * <p>
@@ -112,7 +96,7 @@ namespace simplicity
        *
        * @return The parent of this <code>VertexGroup</code>.
        */
-      virtual VertexGroup *
+      virtual VertexGroup*
       getParent() const = 0;
 
       /**
@@ -143,7 +127,7 @@ namespace simplicity
        * @throws SEInvalidOperationException If this Vertex Group is not a subset.
        */
       virtual void
-      mergeWithParent() const throw (SEInvalidOperationException) = 0;
+      mergeWithParent() const = 0;
 
       /**
        * <p>
@@ -154,7 +138,7 @@ namespace simplicity
        * was copied.
        */
       virtual void
-      setIndexWithinParent(int const indexWithinParent) = 0;
+      setIndexWithinParent(const int indexWithinParent) = 0;
   };
 }
 

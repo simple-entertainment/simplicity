@@ -11,65 +11,64 @@
  */
 #include "SimpleScene.h"
 
+using namespace boost;
+using namespace std;
+
 namespace simplicity
 {
-  SimpleScene::SimpleScene() :
-    fCameras(vector<Camera *> ()), fLights(vector<Light *> ()), fSceneGraph(0)
+  SimpleScene::SimpleScene()
   {
   }
 
   SimpleScene::~SimpleScene()
   {
-    delete fSceneGraph;
   }
 
   void
-  SimpleScene::addCamera(Camera * const camera)
+  SimpleScene::addCamera(shared_ptr<Camera> camera)
   {
     fCameras.push_back(camera);
   }
 
   void
-  SimpleScene::addLight(Light * const light)
+  SimpleScene::addLight(shared_ptr<Light> light)
   {
     fLights.push_back(light);
   }
 
-  vector<Camera *>
+  vector<shared_ptr<Camera> >
   SimpleScene::getCameras() const
   {
     return (fCameras);
   }
 
-  vector<Light *>
+  vector<shared_ptr<Light> >
   SimpleScene::getLights() const
   {
     return (fLights);
   }
 
-  SceneGraph *
+  shared_ptr<SceneGraph>
   SimpleScene::getSceneGraph() const
   {
     return (fSceneGraph);
   }
 
   void
-  SimpleScene::setCameras(vector<Camera *> const cameras)
+  SimpleScene::setCameras(vector<shared_ptr<Camera> > cameras)
   {
     fCameras = cameras;
   }
 
   void
-  SimpleScene::setLights(vector<Light *> const lights)
+  SimpleScene::setLights(vector<shared_ptr<Light> > lights)
   {
     fLights = lights;
   }
 
   void
-  SimpleScene::setSceneGraph(SceneGraph * const sceneGraph)
+  SimpleScene::setSceneGraph(shared_ptr<SceneGraph> sceneGraph)
   {
-    delete fSceneGraph;
-
     fSceneGraph = sceneGraph;
   }
 }

@@ -49,7 +49,7 @@ namespace simplicity
          * @param b The blue element of this <code>SimpleRGBColourVector4</code>.
          * @param a The alpha element of this <code>SimpleRGBColourVector4</code>.
          */
-        SimpleRGBColourVector4(Data const r, Data const g, Data const b, Data const a);
+        SimpleRGBColourVector4(const Data r, const Data g, const Data b, const Data a);
 
         /**
          * <p>
@@ -58,7 +58,7 @@ namespace simplicity
          *
          * @param data An array containing the initial elements of this <code>SimpleRGBColourVector4</code>.
          */
-        SimpleRGBColourVector4(array<Data, 4> data);
+        SimpleRGBColourVector4(boost::array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> data);
 
         Data
         getBlue() const;
@@ -70,13 +70,13 @@ namespace simplicity
         getRed() const;
 
         void
-        setBlue(Data const blue);
+        setBlue(const Data blue);
 
         void
-        setGreen(Data const green);
+        setGreen(const Data green);
 
         void
-        setRed(Data const red);
+        setRed(const Data red);
     };
 }
 

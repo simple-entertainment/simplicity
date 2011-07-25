@@ -13,7 +13,6 @@
 #define NODEHIERARCHY_H_
 
 #include <simplicity/scenegraph/Node.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -24,62 +23,56 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class NodeHierarchy
+  struct NodeHierarchy
   {
-    public:
-      NodeHierarchy();
-
-      virtual
-      ~NodeHierarchy();
-
       /**
        * <p>
        * The first node of the hierarchy.
        * </p>
        */
-      Node * node1;
+      boost::shared_ptr<simplicity::Node> node1;
 
       /**
        * <p>
        * The second node of the hierarchy.
        * </p>
        */
-      Node * node2;
+      boost::shared_ptr<simplicity::Node> node2;
 
       /**
        * <p>
        * The third node of the hierarchy.
        * </p>
        */
-      Node * node3;
+      boost::shared_ptr<simplicity::Node> node3;
 
       /**
        * <p>
        * The fourth node of the hierarchy.
        * </p>
        */
-      Node * node4;
+      boost::shared_ptr<simplicity::Node> node4;
 
       /**
        * <p>
        * The fifth node of the hierarchy.
        * </p>
        */
-      Node * node5;
+      boost::shared_ptr<simplicity::Node> node5;
 
       /**
        * <p>
        * The sixth node of the hierarchy.
        * </p>
        */
-      Node * node6;
+      boost::shared_ptr<simplicity::Node> node6;
 
       /**
        * <p>
        * The seventh node of the hierarchy.
        * </p>
        */
-      Node * node7;
+      boost::shared_ptr<simplicity::Node> node7;
 
       /**
        * <p>

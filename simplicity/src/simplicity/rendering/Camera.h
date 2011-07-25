@@ -49,8 +49,7 @@ namespace simplicity
 
       /**
        * <p>
-       * Retrieves the distance from the eye past which components of the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} will be clipped
-       * (not drawn).
+       * Retrieves the distance from the eye past which components of the {@link simplicity::SceneGraph SceneGraph} will be clipped (not drawn).
        * </p>
        *
        * @return The distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
@@ -110,8 +109,7 @@ namespace simplicity
 
       /**
        * <p>
-       * Retrieves the distance from the eye before which components of the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} will be clipped
-       * (not drawn).
+       * Retrieves the distance from the eye before which components of the {@link simplicity::SceneGraph SceneGraph} will be clipped (not drawn).
        * </p>
        *
        * @return The distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
@@ -121,12 +119,12 @@ namespace simplicity
 
       /**
        * <p>
-       * Retrieves the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Camera</code>'s location and orientation.
+       * Retrieves the {@link simplicity::Node Node} that represents this <code>Camera</code>'s location and orientation.
        * </p>
        *
        * @return The <code>Node</code> that represents this <code>Camera</code>'s location and orientation.
        */
-      virtual Node *
+      virtual boost::shared_ptr<Node>
       getNode() const = 0;
 
       /**
@@ -138,12 +136,12 @@ namespace simplicity
        *
        * @return The picking viewpoint.
        */
-      virtual Camera *
-      getPickCamera(Pick const pick) const = 0;
+      virtual boost::shared_ptr<Camera>
+      getPickCamera(const Pick pick) const = 0;
 
       /**
        * <p>
-       * Retrieves the projection mode used to render a {@link com.se.simplicity.scene.Scene Scene}.
+       * Retrieves the projection mode used to render a {@link simplicity::Scene Scene}.
        * </p>
        *
        * @return The projection mode used to render a <code>Scene</code>.
@@ -153,13 +151,13 @@ namespace simplicity
 
       /**
        * <p>
-       * Retrieves the inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Camera</code>.
+       * Retrieves the inverted absolute transformation for the {@link simplicity::Node Node} of this <code>Camera</code>.
        * </p>
        *
-       * @return The inverted absolute transformation for the <code>Node</code> of this <code>Camera</code>, or null if the <code>Node</code> does not
-       * exist.
+       * @return The inverted absolute transformation for the <code>Node</code> of this <code>Camera</code>, or null if the <code>Node</code> does
+       * not exist.
        */
-      virtual TransformationMatrix<float> *
+      virtual const TransformationMatrix<float>&
       getTransformation() const = 0;
 
       /**
@@ -182,14 +180,13 @@ namespace simplicity
 
       /**
        * <p>
-       * Sets the distance from the eye past which components of the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} will be clipped (not
-       * drawn).
+       * Sets the distance from the eye past which components of the {@link simplicity::SceneGraph SceneGraph} will be clipped (not drawn).
        * </p>
        *
        * @param farClippingDistance The distance from the eye past which components of the <code>SceneGraph</code> will be clipped (not drawn).
        */
       virtual void
-      setFarClippingDistance(float const farClippingDistance) = 0;
+      setFarClippingDistance(const float farClippingDistance) = 0;
 
       /**
        * <p>
@@ -199,7 +196,7 @@ namespace simplicity
        * @param frameAspectRatio The aspect ratio of the frame.
        */
       virtual void
-      setFrameAspectRatio(float const frameAspectRatio) = 0;
+      setFrameAspectRatio(const float frameAspectRatio) = 0;
 
       /**
        * <p>
@@ -209,7 +206,7 @@ namespace simplicity
        * @param frameHeight The height of the frame.
        */
       virtual void
-      setFrameHeight(float const frameHeight) = 0;
+      setFrameHeight(const float frameHeight) = 0;
 
       /**
        * <p>
@@ -219,7 +216,7 @@ namespace simplicity
        * @param frameWidth The width of the frame.
        */
       virtual void
-      setFrameWidth(float const frameWidth) = 0;
+      setFrameWidth(const float frameWidth) = 0;
 
       /**
        * <p>
@@ -229,7 +226,7 @@ namespace simplicity
        * @param frameX The location of the frame on the <code>x</code> axis relative to the location and orientation of this <code>Camera</code>.
        */
       virtual void
-      setFrameX(float const frameX) = 0;
+      setFrameX(const float frameX) = 0;
 
       /**
        * <p>
@@ -239,7 +236,7 @@ namespace simplicity
        * @param frameY The location of the frame on the <code>y</code> axis relative to the location and orientation of this <code>Camera</code>.
        */
       virtual void
-      setFrameY(float const frameY) = 0;
+      setFrameY(const float frameY) = 0;
 
       /**
        * <p>
@@ -249,38 +246,37 @@ namespace simplicity
        * @param isInitialised Determines if this <code>Camera</code> is initialised.
        */
       virtual void
-      setInitialised(bool const isInitialised) = 0;
+      setInitialised(const bool isInitialised) = 0;
 
       /**
        * <p>
-       * Sets the distance from the eye before which components of the {@link com.se.simplicity.scenegraph.SceneGraph SceneGraph} will be clipped (not
-       * drawn).
+       * Sets the distance from the eye before which components of the {@link simplicity::SceneGraph SceneGraph} will be clipped (not drawn).
        * </p>
        *
        * @param nearClippingDistance The distance from the eye before which components of the <code>SceneGraph</code> will be clipped (not drawn).
        */
       virtual void
-      setNearClippingDistance(float const nearClippingDistance) = 0;
+      setNearClippingDistance(const float nearClippingDistance) = 0;
 
       /**
        * <p>
-       * Sets the {@link com.se.simplicity.scenegraph.Node Node} that represents this <code>Camera</code>'s location and orientation.
+       * Sets the {@link simplicity::Node Node} that represents this <code>Camera</code>'s location and orientation.
        * </p>
        *
        * @param node The <code>Node</code> that represents this <code>Camera</code>'s location and orientation.
        */
       virtual void
-      setNode(Node * const node) = 0;
+      setNode(boost::shared_ptr<Node> node) = 0;
 
       /**
        * <p>
-       * Sets the projection mode used to render a {@link com.se.simplicity.scene.Scene Scene}.
+       * Sets the projection mode used to render a {@link simplicity::Scene Scene}.
        * </p>
        *
        * @param projectionMode The projection mode used to render a <code>Scene</code>.
        */
       virtual void
-      setProjectionMode(ProjectionMode const projectionMode) = 0;
+      setProjectionMode(const ProjectionMode projectionMode) = 0;
   };
 }
 

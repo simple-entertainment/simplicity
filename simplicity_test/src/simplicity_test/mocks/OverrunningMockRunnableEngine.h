@@ -13,13 +13,10 @@
 #define OVERRUNNINGMOCKENGINE_H_
 
 #include <log4cpp/Category.hh>
-using namespace log4cpp;
 
 #include <devenvy/mocks/SimpleMockObject.h>
 #include <simplicity/engine/Engine.h>
 #include <simplicity/engine/RunnableEngine.h>
-using namespace devenvy;
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -31,7 +28,7 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class OverrunningMockRunnableEngine : public RunnableEngine, public MockObject
+  class OverrunningMockRunnableEngine : public simplicity::RunnableEngine, public devenvy::MockObject
   {
     public:
       /**
@@ -49,31 +46,31 @@ namespace simplicity_test
       virtual
       ~OverrunningMockRunnableEngine();
 
-      EngineInput *
-      advance(EngineInput const * const input);
+      simplicity::EngineInput*
+      advance(const simplicity::EngineInput* const input);
 
       void
       destroy();
 
-      optional<MethodCall>
-      getMethodCall(int const callIndex, string const & name, vector<any> const & parameters) const;
+      boost::optional<devenvy::MethodCall>
+      getMethodCall(const int callIndex, const std::string& name, const std::vector<boost::any>& parameters) const;
 
       int
-      getMethodCallCount(string const & name, vector<any> const & parameters) const;
+      getMethodCallCount(const std::string& name, const std::vector<boost::any>& parameters) const;
 
       int
-      getMethodCallCountIgnoreParams(string const & name) const;
+      getMethodCallCountIgnoreParams(const std::string& name) const;
 
-      optional<MethodCall>
-      getMethodCallIgnoreParams(int const callIndex, string const & name) const;
-
-      bool
-      methodCallOrderCheck(int const beforeCallIndex, string const & beforeMethodName, vector<any> const & beforeMethodParameters,
-          int const afterCallIndex, string const & afterMethodName, vector<any> const & afterMethodParameters) const;
+      boost::optional<devenvy::MethodCall>
+      getMethodCallIgnoreParams(const int callIndex, const std::string& name) const;
 
       bool
-      methodCallOrderCheckIgnoreParams(int const beforeCallIndex, string const & beforeMethodName, int const afterCallIndex,
-          string const & afterMethodName) const;
+      methodCallOrderCheck(const int beforeCallIndex, const std::string& beforeMethodName, const std::vector<boost::any>& beforeMethodParameters,
+          const int afterCallIndex, const std::string& afterMethodName, const std::vector<boost::any>& afterMethodParameters) const;
+
+      bool
+      methodCallOrderCheckIgnoreParams(const int beforeCallIndex, const std::string& beforeMethodName, const int afterCallIndex,
+          const std::string& afterMethodName) const;
 
       /**
        * <p>
@@ -96,7 +93,7 @@ namespace simplicity_test
        * @param overrunIndex The index of the advancement in which this engine will overrun.
        */
       void
-      setOverrunIndex(int const overrunIndex);
+      setOverrunIndex(const int overrunIndex);
 
     private:
       /**
@@ -104,21 +101,21 @@ namespace simplicity_test
        * The fraction of the preferred frequency this <code>MockEngine</code> should wait. This should be above 1 to test over-running the frequency.
        * </p>
        */
-      static double const FRACTION_OF_FREQUENCY_TO_WAIT = 1.5;
+      static const double FRACTION_OF_FREQUENCY_TO_WAIT = 1.5;
 
       /**
        * <p>
        * Logs messages associated with this class.
        * </p>
        */
-      static Category * fLogger;
+      static log4cpp::Category& fLogger;
 
       /**
        * <p>
        * The number of milliseconds in a second.
        * </p>
        */
-      static double const MILLISECONDS_IN_A_SECOND = 1000.0;
+      static const double MILLISECONDS_IN_A_SECOND = 1000.0;
 
       void
       initInternal();
@@ -135,7 +132,7 @@ namespace simplicity_test
        * Performs actual mocking.
        * </p>
        */
-      SimpleMockObject fMockObject;
+      devenvy::SimpleMockObject fMockObject;
 
       /**
        * <p>

@@ -34,7 +34,7 @@ namespace simplicity
        *
        * @return The <code>Model</code> at this <code>ModelNode</code>'s position and orientation.
        */
-      virtual Model *
+      virtual boost::shared_ptr<Model>
       getModel() const = 0;
 
       /**
@@ -49,7 +49,7 @@ namespace simplicity
        * @param model The <code>Model</code> at this <code>ModelNode</code>'s position and orientation.
        */
       virtual void
-      setModel(Model * const model) = 0;
+      setModel(boost::shared_ptr<Model> model) = 0;
   };
 }
 

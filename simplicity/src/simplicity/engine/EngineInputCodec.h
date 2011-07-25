@@ -35,7 +35,7 @@ namespace simplicity
        * @return The length of the information saved to the sequence of bytes.
        */
       int
-      compressEngineInput(EngineInput const * const input, char * const compressedInput);
+      compressEngineInput(const EngineInput& input, const std::vector<char> compressedInput);
 
       /**
        * <p>
@@ -47,8 +47,8 @@ namespace simplicity
        *
        * @return The decompressed <code>EngineInput</code>.
        */
-      EngineInput *
-      decompressEngineInput(char * const compressedInput, int const compressedInputLength);
+      EngineInput&
+      decompressEngineInput(const std::vector<char> compressedInput, const int compressedInputLength);
   };
 }
 

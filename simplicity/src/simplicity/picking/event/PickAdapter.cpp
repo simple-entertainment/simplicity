@@ -22,7 +22,7 @@ namespace simplicity
   }
 
   void
-  PickAdapter::scenePicked(PickEvent const event)
+  PickAdapter::scenePicked(const PickEvent& event)
   {
   }
 }

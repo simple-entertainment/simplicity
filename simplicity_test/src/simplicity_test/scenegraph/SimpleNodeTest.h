@@ -13,10 +13,8 @@
 #define SIMPLENODETEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include <simplicity/scenegraph/SimpleNode.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -27,10 +25,21 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class SimpleNodeTest : public Test
+  class SimpleNodeTest : public testing::Test
   {
     protected:
-      SimpleNode fTestObject;
+      boost::shared_ptr<simplicity::SimpleNode> fTestObject;
+
+      /**
+       * <p>
+       * Setup to perform before each unit test.
+       * </p>
+       */
+      void
+      SetUp()
+      {
+        fTestObject = boost::shared_ptr<simplicity::SimpleNode> (new simplicity::SimpleNode);
+      }
   };
 }
 

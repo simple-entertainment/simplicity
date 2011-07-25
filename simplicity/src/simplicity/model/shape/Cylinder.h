@@ -40,10 +40,10 @@ namespace simplicity
        */
       ~Cylinder();
 
-      TranslationVector<float> *
+      const TranslationVector<float>&
       getCenter() const;
 
-      RGBColourVector<float> *
+      RGBColourVector<float>&
       getColour() const;
 
       /**
@@ -67,7 +67,7 @@ namespace simplicity
       getRadius() const;
 
       void
-      setColour(RGBColourVector<float> * const colour);
+      setColour(boost::shared_ptr<RGBColourVector<float> > colour);
 
       /**
        * <p>
@@ -77,7 +77,7 @@ namespace simplicity
        * @param length The length.
        */
       void
-      setLength(float const length);
+      setLength(const float length);
 
       /**
        * <p>
@@ -87,15 +87,22 @@ namespace simplicity
        * @param radius The radius.
        */
       void
-      setRadius(float const radius);
+      setRadius(const float radius);
 
     private:
+      /**
+       * <p>
+       * The point at the center of this <code>Cylinder</code>.
+       * </p>
+       */
+      boost::shared_ptr<TranslationVector<float> > fCenter;
+
       /**
        * <p>
        * The colour to render this <code>Cylinder</code> as.
        * </p>
        */
-      RGBColourVector<float> * fColour;
+      boost::shared_ptr<RGBColourVector<float> > fColour;
 
       /**
        * <p>

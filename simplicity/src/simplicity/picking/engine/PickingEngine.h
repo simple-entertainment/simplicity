@@ -16,9 +16,8 @@ namespace simplicity
 {
   /**
    * <p>
-   * Manages the picking of a {@link simplicity::SceneGraph SceneGraph}. Each advance processes the outstanding
-   * {@link simplicity::Pick Pick}s, the results are fired to any {@link simplicity::PickListener PickListener}s in
-   * the form of a {@link simplicity::PickEvent PickEvent}.
+   * Manages the picking of a {@link simplicity::SceneGraph SceneGraph}. Each advance processes the outstanding {@link simplicity::Pick Pick}s, the
+   * results are fired to any {@link simplicity::PickListener PickListener}s in the form of a {@link simplicity::PickEvent PickEvent}.
    * </p>
    *
    * @author Gary Buyn
@@ -28,14 +27,13 @@ namespace simplicity
     public:
       /**
        * <p>
-       * Adds a {@link simplicity::PickListener PickListener} to be invoked when a {@link simplicity::SceneGraph
-       * SceneGraph} is picked.
+       * Adds a {@link simplicity::PickListener PickListener} to be invoked when a {@link simplicity::SceneGraph SceneGraph} is picked.
        * </p>
        *
        * @param listener A <code>PickListener</code> to be invoked when a <code>SceneGraph</code> is picked.
        */
       virtual void
-      addPickListener(PickListener const * const listener) = 0;
+      addPickListener(boost::shared_ptr<PickListener> listener) = 0;
 
       /**
        * <p>
@@ -54,7 +52,7 @@ namespace simplicity
        * @param event The <code>PickEvent</code> to be fired to all <code>PickListener</code>s.
        */
       virtual void
-      firePickEvent(PickEvent const event) const = 0;
+      firePickEvent(const PickEvent& event) const = 0;
 
       /**
        * <p>
@@ -63,7 +61,7 @@ namespace simplicity
        *
        * @return The viewpoint that will be adapted to create the picking viewpoint.
        */
-      virtual Camera *
+      virtual boost::shared_ptr<Camera>
       getCamera() const = 0;
 
       /**
@@ -74,7 +72,7 @@ namespace simplicity
        *
        * @return The <code>Picker</code> that picks the <code>SceneGraph</code> for this <code>PickingEngine</code>.
        */
-      virtual Picker *
+      virtual boost::shared_ptr<Picker>
       getPicker() const = 0;
 
       /**
@@ -85,7 +83,7 @@ namespace simplicity
        *
        * @return The outstanding picks to be performed against this <code>PickingEngine</code>'s <code>SceneGraph</code>.
        */
-      virtual vector<Pick>
+      virtual std::vector<Pick>
       getPicks() const = 0;
 
       /**
@@ -95,7 +93,7 @@ namespace simplicity
        *
        * @return The <code>Scene</code> to be picked.
        */
-      virtual Scene *
+      virtual boost::shared_ptr<Scene>
       getScene() const = 0;
 
       /**
@@ -110,7 +108,7 @@ namespace simplicity
        * @param height The height of the area to pick.
        */
       virtual void
-      pick(float const x, float const y, float const width, float const height) = 0;
+      pick(const float x, const float y, const float width, const float height) = 0;
 
       /**
        * <p>
@@ -121,7 +119,7 @@ namespace simplicity
        * @param pick The position and area to pick.
        */
       virtual void
-      pick(Pick const pick) = 0;
+      pick(const Pick pick) = 0;
 
       /**
        * <p>
@@ -135,7 +133,7 @@ namespace simplicity
        * @param height The height of the area on the viewport to pick.
        */
       virtual void
-      pickViewport(Dimension viewportSize, const int x, const int y, const int width, const int height) = 0;
+      pickViewport(const Dimension viewportSize, const int x, const int y, const int width, const int height) = 0;
 
       /**
        * <p>
@@ -146,7 +144,7 @@ namespace simplicity
        * @param pick The position and area of the viewport to pick.
        */
       virtual void
-      pickViewport(Dimension viewportSize, const Pick pick) = 0;
+      pickViewport(const Dimension viewportSize, const Pick pick) = 0;
 
       /**
        * <p>
@@ -157,7 +155,7 @@ namespace simplicity
        * @param listener A <code>PickListener</code> that was to be invoked when a <code>SceneGraph</code> is picked.
        */
       virtual void
-      removePickListener(PickListener const * const listener) = 0;
+      removePickListener(const PickListener& listener) = 0;
 
       /**
        * <p>
@@ -168,7 +166,7 @@ namespace simplicity
        * given will not be modified when creating the picking viewpoint.
        */
       virtual void
-      setCamera(Camera * const camera) = 0;
+      setCamera(boost::shared_ptr<Camera> camera) = 0;
 
       /**
        * <p>
@@ -180,7 +178,7 @@ namespace simplicity
        * for this <code>PickingEngine</code>.
        */
       virtual void
-      setPicker(Picker * const picker) = 0;
+      setPicker(boost::shared_ptr<Picker> picker) = 0;
 
       /**
        * <p>
@@ -190,7 +188,7 @@ namespace simplicity
        * @param scene The <code>Scene</code> to be picked.
        */
       virtual void
-      setScene(Scene * const scene) = 0;
+      setScene(boost::shared_ptr<Scene> scene) = 0;
   };
 }
 

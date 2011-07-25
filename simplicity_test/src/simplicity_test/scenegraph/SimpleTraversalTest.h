@@ -13,10 +13,8 @@
 #define SIMPLETRAVERSALTEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include <simplicity/scenegraph/SimpleTraversal.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -27,7 +25,7 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class SimpleTraversalTest : public Test
+  class SimpleTraversalTest : public testing::Test
   {
   };
 }

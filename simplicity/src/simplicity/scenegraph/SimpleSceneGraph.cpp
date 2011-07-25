@@ -13,13 +13,16 @@
 #include "SimpleSceneGraph.h"
 #include "SimpleTraversal.h"
 
+using namespace boost;
+using namespace std;
+
 namespace simplicity
 {
   SimpleSceneGraph::SimpleSceneGraph() :
-    fLastNodeID(0), fNodes(map<int, Node *> ()), fRoot(new SimpleNode())
+    fLastNodeID(0), fNodes(map<int, shared_ptr<Node> > ()), fRoot(new SimpleNode)
   {
     fRoot->setID(getNextNodeID());
-    fNodes.insert(pair<int, Node *> (fRoot->getID(), fRoot));
+    fNodes.insert(pair<int, shared_ptr<Node> > (fRoot->getID(), fRoot));
   }
 
   SimpleSceneGraph::~SimpleSceneGraph()
@@ -27,25 +30,25 @@ namespace simplicity
   }
 
   void
-  SimpleSceneGraph::addSubgraph(Node * const subgraphRoot)
+  SimpleSceneGraph::addSubgraph(shared_ptr<Node> subgraphRoot)
   {
-    addSubgraph(subgraphRoot, fRoot);
+    addSubgraph(subgraphRoot, *fRoot);
   }
 
   void
-  SimpleSceneGraph::addSubgraph(Node * const subgraphRoot, Node * const parent)
+  SimpleSceneGraph::addSubgraph(shared_ptr<Node> subgraphRoot, Node& parent)
   {
-    SimpleTraversal traversal(subgraphRoot);
+    SimpleTraversal traversal(*subgraphRoot);
 
     while (traversal.hasMoreNodes())
-      {
-        Node * node = traversal.getNextNode();
+    {
+      shared_ptr<Node> node(traversal.getNextNode());
 
-        node->setID(getNextNodeID());
-        fNodes.insert(pair<int, Node *> (node->getID(), node));
-      }
+      node->setID(getNextNodeID());
+      fNodes.insert(pair<int, shared_ptr<Node> > (node->getID(), node));
+    }
 
-    parent->addChild(subgraphRoot);
+    parent.addChild(subgraphRoot);
   }
 
   int
@@ -54,35 +57,35 @@ namespace simplicity
     return (fLastNodeID++);
   }
 
-  Node *
-  SimpleSceneGraph::getNode(int const id) const
+  shared_ptr<Node>
+  SimpleSceneGraph::getNode(const int id) const
   {
     return (fNodes.find(id)->second);
   }
 
-  Node *
+  shared_ptr<Node>
   SimpleSceneGraph::getRoot() const
   {
     return (fRoot);
   }
 
-  vector<Node *>
+  vector<shared_ptr<Node> >
   SimpleSceneGraph::getSubgraphRoots() const
   {
     return fRoot->getChildren();
   }
 
   void
-  SimpleSceneGraph::removeSubgraph(Node * const subgraphRoot)
+  SimpleSceneGraph::removeSubgraph(Node& subgraphRoot)
   {
     SimpleTraversal traversal(subgraphRoot);
 
     while (traversal.hasMoreNodes())
-      {
-        fNodes.erase(traversal.getNextNode()->getID());
-      }
+    {
+      fNodes.erase(traversal.getNextNode()->getID());
+    }
 
-    subgraphRoot->getParent()->removeChild(subgraphRoot);
+    subgraphRoot.getParent()->removeChild(subgraphRoot);
   }
 
   void
@@ -91,14 +94,14 @@ namespace simplicity
     fLastNodeID = 0;
     fNodes.clear();
 
-    SimpleTraversal traversal(fRoot);
+    SimpleTraversal traversal(*fRoot);
 
     while (traversal.hasMoreNodes())
-      {
-        Node * node = traversal.getNextNode();
+    {
+      shared_ptr<Node> node(traversal.getNextNode());
 
-        node->setID(getNextNodeID());
-        fNodes.insert(pair<int, Node *> (node->getID(), node));
-      }
+      node->setID(getNextNodeID());
+      fNodes.insert(pair<int, shared_ptr<Node> > (node->getID(), node));
+    }
   }
 }

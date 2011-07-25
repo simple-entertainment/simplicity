@@ -13,7 +13,6 @@
 #define SCENEGRAPH_H_
 
 #include <vector>
-using namespace std;
 
 #include "Node.h"
 
@@ -55,7 +54,7 @@ namespace simplicity
        * @param subgraphRoot The root <code>Node</code> of the subgraph to add.
        */
       virtual void
-      addSubgraph(Node * const subgraphRoot) = 0;
+      addSubgraph(boost::shared_ptr<Node> subgraphRoot) = 0;
 
       /**
        * <p>
@@ -71,7 +70,7 @@ namespace simplicity
        * @param parent The <code>Node</code> within the <code>SceneGraph</code> to add the subgraph under.
        */
       virtual void
-      addSubgraph(Node * const subgraphRoot, Node * const parent) = 0;
+      addSubgraph(boost::shared_ptr<Node> subgraphRoot, Node& parent) = 0;
 
       /**
        * <p>
@@ -82,15 +81,15 @@ namespace simplicity
        *
        * @return The <code>Node</code> with the given ID.
        */
-      virtual Node *
-      getNode(int const id) const = 0;
+      virtual boost::shared_ptr<Node>
+      getNode(const int id) const = 0;
 
       /**
        * Retrieves the root {@link simplicity::Node Node} of this <code>SceneGraph</code>.
        *
        * @return The root <code>Node</code> of this <code>SceneGraph</code>.
        */
-      virtual Node *
+      virtual boost::shared_ptr<Node>
       getRoot() const = 0;
 
       /**
@@ -100,7 +99,7 @@ namespace simplicity
        *
        * @return The root <code>Node</code>s off all the subgraphs in this <code>SceneGraph</code>.
        */
-      virtual vector<Node *>
+      virtual std::vector<boost::shared_ptr<Node> >
       getSubgraphRoots() const = 0;
 
       /**
@@ -116,7 +115,7 @@ namespace simplicity
        * @param subgraphRoot The root <code>Node</code> of the subgraph to remove.
        */
       virtual void
-      removeSubgraph(Node * const subgraphRoot) = 0;
+      removeSubgraph(Node& subgraphRoot) = 0;
 
       /**
        * <p>

@@ -13,10 +13,8 @@
 #define SIMPLETRANSFORMATIONMATRIX44TEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include <simplicity/vector/SimpleTransformationMatrix44.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -27,13 +25,13 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class SimpleTransformationMatrix44Test : public Test
+  class SimpleTransformationMatrix44Test : public testing::Test
   {
     protected:
       /**
        * An instance of the class being unit tested.
        */
-      SimpleTransformationMatrix44<float> fTestObject;
+      simplicity::SimpleTransformationMatrix44<float> fTestObject;
   };
 }
 

@@ -16,25 +16,25 @@
 namespace simplicity
 {
   Torus::Torus() :
-    fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)), fInnerRadius(1.0f), fOuterRadius(2.0f)
+    fCenter(new SimpleTranslationVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)),
+        fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)), fInnerRadius(1.0f), fOuterRadius(2.0f)
   {
   }
 
   Torus::~Torus()
   {
-    delete fColour;
   }
 
-  TranslationVector<float> *
+  const TranslationVector<float>&
   Torus::getCenter() const
   {
-    return (new SimpleTranslationVector4<float> ());
+    return (*fCenter);
   }
 
-  RGBColourVector<float> *
+  RGBColourVector<float>&
   Torus::getColour() const
   {
-    return (fColour);
+    return (*fColour);
   }
 
   float
@@ -50,19 +50,19 @@ namespace simplicity
   }
 
   void
-  Torus::setColour(RGBColourVector<float> * const colour)
+  Torus::setColour(shared_ptr<RGBColourVector<float> > colour)
   {
     fColour = colour;
   }
 
   void
-  Torus::setInnerRadius(float const innerRadius)
+  Torus::setInnerRadius(const float innerRadius)
   {
     fInnerRadius = innerRadius;
   }
 
   void
-  Torus::setOuterRadius(float const outerRadius)
+  Torus::setOuterRadius(const float outerRadius)
   {
     fOuterRadius = outerRadius;
   }

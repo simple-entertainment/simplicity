@@ -9,8 +9,13 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
+#include <algorithm>
+
 #include "../SENotSupportedException.h"
 #include "SimpleCompositeEngine.h"
+
+using namespace boost;
+using namespace std;
 
 namespace simplicity
 {
@@ -24,44 +29,44 @@ namespace simplicity
   }
 
   void
-  SimpleCompositeEngine::addEngine(Engine const * const engine)
+  SimpleCompositeEngine::addEngine(shared_ptr<Engine> engine)
   {
-    fEngines.push_back((Engine *) engine);
+    fEngines.push_back(engine);
   }
 
   EngineInput*
-  SimpleCompositeEngine::advance(EngineInput const * const input)
+  SimpleCompositeEngine::advance(const EngineInput* const input)
   {
     fAdvanceIndex++;
-    EngineInput * currentInput = (EngineInput *) input;
+    EngineInput* currentInput = (EngineInput*) input;
 
     // For every sub-engine.
     for (unsigned int index = 0; index < fEngines.size(); index++)
+    {
+      // If the sub-engine should be advanced at this time (if it's preferred frequency is a multiple of the composite frequency).
+      if (fAdvanceIndex % (fCompositeFrequency / fEngines.at(index)->getPreferredFrequency()) == 0)
       {
-        // If the sub-engine should be advanced at this time (if it's preferred frequency is a multiple of the composite frequency).
-        if (fAdvanceIndex % (fCompositeFrequency / fEngines.at(index)->getPreferredFrequency()) == 0)
-          {
-            currentInput = fEngines.at(index)->advance(currentInput);
-          }
+        currentInput = fEngines.at(index)->advance(currentInput);
       }
+    }
 
     return (currentInput);
   }
 
   int
-  SimpleCompositeEngine::calculateLCD(int const big, int const small) const
+  SimpleCompositeEngine::calculateLCD(const int big, const int small) const
   {
     int gcd = big;
 
     if (small != 0)
-      {
-        gcd = big % small;
-      }
+    {
+      gcd = big % small;
+    }
 
     if (gcd == 0)
-      {
-        return (big);
-      }
+    {
+      return (big);
+    }
 
     return (big * small / gcd);
   }
@@ -70,9 +75,9 @@ namespace simplicity
   SimpleCompositeEngine::destroy()
   {
     for (unsigned int index = 0; index < fEngines.size(); index++)
-      {
-        fEngines.at(index)->destroy();
-      }
+    {
+      fEngines.at(index)->destroy();
+    }
   }
 
   int
@@ -81,25 +86,25 @@ namespace simplicity
     int newCompositeFrequency = 1;
 
     if (!fEngines.empty())
+    {
+      newCompositeFrequency = fEngines.at(0)->getPreferredFrequency();
+
+      // For every sub-engine (except for the first one).
+      for (unsigned int index = 0; index < fEngines.size(); index++)
       {
-        newCompositeFrequency = fEngines.at(0)->getPreferredFrequency();
+        int preferredFrequency = fEngines.at(index)->getPreferredFrequency();
 
-        // For every sub-engine (except for the first one).
-        for (unsigned int index = 0; index < fEngines.size(); index++)
-          {
-            int preferredFrequency = fEngines.at(index)->getPreferredFrequency();
+        // Ensure that preferreFrequency contains the smaller of the two frequencies (required for the calculateLCD method).
+        if (newCompositeFrequency < preferredFrequency)
+        {
+          int temp = newCompositeFrequency;
+          newCompositeFrequency = preferredFrequency;
+          preferredFrequency = temp;
+        }
 
-            // Ensure that preferreFrequency contains the smaller of the two frequencies (required for the calculateLCD method).
-            if (newCompositeFrequency < preferredFrequency)
-              {
-                int temp = newCompositeFrequency;
-                newCompositeFrequency = preferredFrequency;
-                preferredFrequency = temp;
-              }
-
-            newCompositeFrequency = calculateLCD(newCompositeFrequency, preferredFrequency);
-          }
+        newCompositeFrequency = calculateLCD(newCompositeFrequency, preferredFrequency);
       }
+    }
 
     return (newCompositeFrequency);
   }
@@ -114,25 +119,25 @@ namespace simplicity
     RunnableEngine::initInternal();
 
     for (unsigned int index = 0; index < fEngines.size(); index++)
-      {
-        fEngines.at(index)->init();
-      }
+    {
+      fEngines.at(index)->init();
+    }
   }
 
   void
-  SimpleCompositeEngine::removeEngine(Engine const * const engine)
+  SimpleCompositeEngine::removeEngine(const shared_ptr<Engine> engine)
   {
-    vector<Engine*>::iterator iterator = fEngines.begin();
+    vector<shared_ptr<Engine> >::iterator iterator = fEngines.begin();
     for (unsigned int index = 0; index < fEngines.size(); index++)
+    {
+      if (fEngines.at(index) == engine)
       {
-        if (fEngines.at(index) == engine)
-          {
-            fEngines.erase(iterator);
-            break;
-          }
-
-        iterator++;
+        fEngines.erase(iterator);
+        break;
       }
+
+      iterator++;
+    }
   }
 
   void
@@ -141,8 +146,8 @@ namespace simplicity
     initInternal();
 
     for (unsigned int index = 0; index < fEngines.size(); index++)
-      {
-        fEngines.at(index)->reset();
-      }
+    {
+      fEngines.at(index)->reset();
+    }
   }
 }

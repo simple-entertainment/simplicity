@@ -13,7 +13,6 @@
 #define LIGHT_H_
 
 #include <vector>
-using namespace std;
 
 #include "../scenegraph/Node.h"
 #include "../vector/TransformationMatrix.h"
@@ -56,7 +55,7 @@ namespace simplicity
        *
        * @return The ambient component of this <code>Light</code>.
        */
-      virtual vector<float>
+      virtual std::vector<float>
       getAmbientLight() const = 0;
 
       /**
@@ -66,7 +65,7 @@ namespace simplicity
        *
        * @return The diffuse component of this <code>Light</code>.
        */
-      virtual vector<float>
+      virtual std::vector<float>
       getDiffuseLight() const = 0;
 
       /**
@@ -86,7 +85,7 @@ namespace simplicity
        *
        * @return The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
        */
-      virtual Node *
+      virtual boost::shared_ptr<Node>
       getNode() const = 0;
 
       /**
@@ -96,7 +95,7 @@ namespace simplicity
        *
        * @return The specular component of this <code>Light</code>.
        */
-      virtual vector<float>
+      virtual std::vector<float>
       getSpecularLight() const = 0;
 
       /**
@@ -107,7 +106,7 @@ namespace simplicity
        * @return The inverted absolute transformation for the <code>Node</code> of this <code>Light</code>, or null if the <code>Node</code> does not
        * exist.
        */
-      virtual TransformationMatrix<float> *
+      virtual const TransformationMatrix<float>&
       getTransformation() const = 0;
 
       /**
@@ -136,7 +135,7 @@ namespace simplicity
        * @param ambientLight The ambient component of this <code>Light</code>.
        */
       virtual void
-      setAmbientLight(vector<float> const ambientLight) = 0;
+      setAmbientLight(const std::vector<float> ambientLight) = 0;
 
       /**
        * <p>
@@ -146,7 +145,7 @@ namespace simplicity
        * @param diffuseLight The diffuse component of this <code>Light</code>.
        */
       virtual void
-      setDiffuseLight(vector<float> const diffuseLight) = 0;
+      setDiffuseLight(const std::vector<float> diffuseLight) = 0;
 
       /**
        * <p>
@@ -156,7 +155,7 @@ namespace simplicity
        * @param isInitialised The initialisation status of this <code>Light</code>.
        */
       virtual void
-      setInitialised(bool const isInitialised) = 0;
+      setInitialised(const bool isInitialised) = 0;
 
       /**
        * <p>
@@ -166,7 +165,7 @@ namespace simplicity
        * @param lightingMode The lighting mode used to render a <code>Scene</code>.
        */
       virtual void
-      setLightingMode(LightingMode const lightingMode) = 0;
+      setLightingMode(const LightingMode lightingMode) = 0;
 
       /**
        * <p>
@@ -176,7 +175,7 @@ namespace simplicity
        * @param node The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
        */
       virtual void
-      setNode(Node * const node) = 0;
+      setNode(boost::shared_ptr<Node> node) = 0;
 
       /**
        * <p>
@@ -186,7 +185,7 @@ namespace simplicity
        * @param specularLight The specular component of this <code>Light</code>.
        */
       virtual void
-      setSpecularLight(vector<float> const specularLight) = 0;
+      setSpecularLight(const std::vector<float> specularLight) = 0;
   };
 }
 

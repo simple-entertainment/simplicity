@@ -14,6 +14,10 @@
 #include "../mocks/NodeHierarchy.h"
 #include "SimpleSceneGraphTest.h"
 
+using namespace boost;
+using namespace simplicity;
+using namespace std;
+
 namespace simplicity_test
 {
   /**
@@ -28,8 +32,8 @@ namespace simplicity_test
 
     fTestObject.addSubgraph(nodes.node1);
 
-    vector<Node *> children = fTestObject.getRoot()->getChildren();
-    vector<Node *>::iterator iterator = find(children.begin(), children.end(), nodes.node1);
+    vector<shared_ptr<Node> > children(fTestObject.getRoot()->getChildren());
+    vector<shared_ptr<Node> >::iterator iterator = find(children.begin(), children.end(), nodes.node1);
     ASSERT_TRUE(*iterator == nodes.node1);
     ASSERT_EQ(fTestObject.getRoot(), nodes.node1->getParent());
 
@@ -60,10 +64,10 @@ namespace simplicity_test
       nodes.setStandardNodeHierarchy();
 
       fTestObject.addSubgraph(nodes.node1);
-      fTestObject.removeSubgraph(nodes.node4);
+      fTestObject.removeSubgraph(*nodes.node4);
 
-      vector<Node *> children = fTestObject.getRoot()->getChildren();
-      vector<Node *>::iterator iterator = find(children.begin(), children.end(), nodes.node1);
+      vector<shared_ptr<Node> > children = fTestObject.getRoot()->getChildren();
+      vector<shared_ptr<Node> >::iterator iterator = find(children.begin(), children.end(), nodes.node1);
       ASSERT_TRUE(*iterator == nodes.node1);
       ASSERT_EQ(fTestObject.getRoot(), nodes.node1->getParent());
 
@@ -94,7 +98,7 @@ namespace simplicity_test
       nodes.setStandardNodeHierarchy();
 
       fTestObject.addSubgraph(nodes.node1);
-      fTestObject.removeSubgraph(nodes.node4);
+      fTestObject.removeSubgraph(*nodes.node4);
 
       fTestObject.resetIDs();
 

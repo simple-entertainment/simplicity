@@ -13,50 +13,52 @@
 #include "SimpleTraversal.h"
 #include "../vector/SimpleTransformationMatrix44.h"
 
+using namespace boost;
+using namespace std;
+
 namespace simplicity
 {
   SimpleNode::SimpleNode() :
-    fBounds(0), fChildren(vector<Node *> ()), fCollidable(true), fId(0), fModifiable(true), fParent(0),
-        fTransformation(new SimpleTransformationMatrix44<float> ()), fVisible(true)
+    fChildren(vector<shared_ptr<Node> > ()), fCollidable(true), fId(0), fModifiable(true),
+        fTransformation(new SimpleTransformationMatrix44<float> ), fVisible(true)
   {
   }
 
   SimpleNode::~SimpleNode()
   {
-    delete fBounds;
-    delete fTransformation;
   }
 
   void
-  SimpleNode::addChild(Node * const child)
+  SimpleNode::addChild(shared_ptr<Node> child)
   {
     fChildren.push_back(child);
-    child->setParent(this);
+    child->setParent(getThisShared());
   }
 
-  TransformationMatrix<float> *
+  const TransformationMatrix<float>&
   SimpleNode::getAbsoluteTransformation() const
   {
-    TransformationMatrix<float> * transformation = new SimpleTransformationMatrix44<float> ();
-    Node * currentNode = (Node *) this;
+    fAbsoluteTransformation.reset(new SimpleTransformationMatrix44<float> );
+    Node* thisNode = (Node*) this;
+    shared_ptr<Node> currentNode(thisNode->getThisShared());
 
-    while (currentNode)
-      {
-        transformation->multiplyLeft(currentNode->getTransformation());
+    while (currentNode.get())
+    {
+      fAbsoluteTransformation->multiplyLeft(currentNode->getTransformation());
 
-        currentNode = currentNode->getParent();
-      }
+      currentNode = currentNode->getParent();
+    }
 
-    return (transformation);
+    return (*fAbsoluteTransformation);
   }
 
-  BoundingVolume *
-  SimpleNode::getBounds() const
-  {
-    return (fBounds);
-  }
+  //  const BoundingVolume& TODO
+  //  SimpleNode::getBounds() const
+  //  {
+  //    return (fBounds);
+  //  }
 
-  vector<Node *>
+  vector<shared_ptr<Node> >
   SimpleNode::getChildren() const
   {
     return (fChildren);
@@ -68,16 +70,16 @@ namespace simplicity
     return (fId);
   }
 
-  Node *
+  shared_ptr<Node>
   SimpleNode::getParent() const
   {
     return (fParent);
   }
 
-  TransformationMatrix<float> *
+  TransformationMatrix<float>&
   SimpleNode::getTransformation() const
   {
-    return (fTransformation);
+    return (*fTransformation);
   }
 
   bool
@@ -86,27 +88,27 @@ namespace simplicity
     bool children = false;
 
     if (!fChildren.empty())
-      {
-        children = true;
-      }
+    {
+      children = true;
+    }
 
     return (children);
   }
 
   bool
-  SimpleNode::isAncestor(Node const * const ancestor) const
+  SimpleNode::isAncestor(const Node& ancestor) const
   {
-    Node * currentParent = fParent;
+    shared_ptr<Node> currentParent(fParent);
 
     while (currentParent)
+    {
+      if (currentParent.get() == &ancestor)
       {
-        if (currentParent == ancestor)
-          {
-            return (true);
-          }
-
-        currentParent = currentParent->getParent();
+        return (true);
       }
+
+      currentParent = currentParent->getParent();
+    }
 
     return (false);
   }
@@ -124,17 +126,17 @@ namespace simplicity
   }
 
   bool
-  SimpleNode::isSuccessor(Node const * const successor) const
+  SimpleNode::isSuccessor(const Node& successor) const
   {
-    SimpleTraversal traversal(this);
+    SimpleTraversal traversal(*this);
 
     while (traversal.hasMoreNodes())
+    {
+      if (traversal.getNextNode().get() == &successor && &successor != this)
       {
-        if (traversal.getNextNode() == successor && successor != this)
-          {
-            return (true);
-          }
+        return (true);
       }
+    }
 
     return (false);
   }
@@ -146,64 +148,54 @@ namespace simplicity
   }
 
   void
-  SimpleNode::removeChild(Node * const child)
+  SimpleNode::removeChild(Node& child)
   {
-    vector<Node *>::iterator iterator = fChildren.begin();
+    vector<shared_ptr<Node> >::iterator iterator = fChildren.begin();
     for (unsigned int index = 0; index < fChildren.size(); index++)
+    {
+      if (fChildren.at(index).get() == &child)
       {
-        if (fChildren.at(index) == child)
-          {
-            fChildren.erase(iterator);
-            child->setParent(NULL);
-            break;
-          }
-
-        iterator++;
+        fChildren.erase(iterator);
+        child.setParent(shared_ptr<Node> ());
+        break;
       }
+
+      iterator++;
+    }
   }
 
   void
-  SimpleNode::setBounds(BoundingVolume * const bounds)
-  {
-    delete fBounds;
-
-    fBounds = bounds;
-  }
-
-  void
-  SimpleNode::setCollidable(bool const collidable)
+  SimpleNode::setCollidable(const bool collidable)
   {
     fCollidable = collidable;
   }
 
   void
-  SimpleNode::setID(int const id)
+  SimpleNode::setID(const int id)
   {
     fId = id;
   }
 
   void
-  SimpleNode::setModifiable(bool const modifiable)
+  SimpleNode::setModifiable(const bool modifiable)
   {
     fModifiable = modifiable;
   }
 
   void
-  SimpleNode::setParent(Node * const parent)
+  SimpleNode::setParent(shared_ptr<Node> parent)
   {
     fParent = parent;
   }
 
   void
-  SimpleNode::setTransformation(TransformationMatrix<float> * const transformation)
+  SimpleNode::setTransformation(shared_ptr<TransformationMatrix<float> > transformation)
   {
-    delete fTransformation;
-
     fTransformation = transformation;
   }
 
   void
-  SimpleNode::setVisible(bool const visible)
+  SimpleNode::setVisible(const bool visible)
   {
     fVisible = visible;
   }

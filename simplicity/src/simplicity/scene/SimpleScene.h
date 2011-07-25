@@ -38,28 +38,28 @@ namespace simplicity
       ~SimpleScene();
 
       void
-      addCamera(Camera * const camera);
+      addCamera(boost::shared_ptr<Camera> camera);
 
       void
-      addLight(Light * const light);
+      addLight(boost::shared_ptr<Light> light);
 
-      vector<Camera *>
+      std::vector<boost::shared_ptr<Camera> >
       getCameras() const;
 
-      vector<Light *>
+      std::vector<boost::shared_ptr<Light> >
       getLights() const;
 
-      SceneGraph *
+      boost::shared_ptr<SceneGraph>
       getSceneGraph() const;
 
       void
-      setCameras(vector<Camera *> const cameras);
+      setCameras(std::vector<boost::shared_ptr<Camera> > cameras);
 
       void
-      setLights(vector<Light *> const lights);
+      setLights(std::vector<boost::shared_ptr<Light> > lights);
 
       void
-      setSceneGraph(SceneGraph * const sceneGraph);
+      setSceneGraph(boost::shared_ptr<SceneGraph> sceneGraph);
 
     private:
       /**
@@ -67,21 +67,21 @@ namespace simplicity
        * The {@link simplicity::Camera Camera}s that can be used to view this <code>Scene</code> from specific angles.
        * </p>
        */
-      vector<Camera *> fCameras;
+      std::vector<boost::shared_ptr<Camera> > fCameras;
 
       /**
        * <p>
        * The {@link simplicity::Light Light}s that can be used to illuminate this <code>Scene</code>.
        * </p>
        */
-      vector<Light *> fLights;
+      std::vector<boost::shared_ptr<Light> > fLights;
 
       /**
        * <p>
        * The {@link simplicity::SceneGraph SceneGraph} that describes the relative locations of this <code>Scene</code>'s content.
        * </p>
        */
-      SceneGraph * fSceneGraph;
+      boost::shared_ptr<SceneGraph> fSceneGraph;
   };
 }
 

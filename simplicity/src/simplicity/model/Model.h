@@ -12,6 +12,8 @@
 #ifndef MODEL_H_
 #define MODEL_H_
 
+#include <boost/smart_ptr.hpp>
+
 #include "../vector/TranslationVector.h"
 
 namespace simplicity
@@ -41,13 +43,9 @@ namespace simplicity
        * Retrieves the point at the center of this <code>Model</code>.
        * </p>
        *
-       * <p>
-       * The caller must assume ownership of the returned <code>TranslationVector</code>.
-       * </p>
-       *
        * @return The point at the center of this <code>Model</code>.
        */
-      virtual TranslationVector<float> *
+      virtual const TranslationVector<float>&
       getCenter() const = 0;
   };
 }

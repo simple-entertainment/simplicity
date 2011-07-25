@@ -13,28 +13,30 @@
 #include "../../vector/SimpleTranslationVector4.h"
 #include "Cylinder.h"
 
+using namespace boost;
+
 namespace simplicity
 {
   Cylinder::Cylinder() :
-    fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)), fLength(1.0f), fRadius(1.0f)
+    fCenter(new SimpleTranslationVector4<float> ), fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)),
+        fLength(1.0f), fRadius(1.0f)
   {
   }
 
   Cylinder::~Cylinder()
   {
-    delete fColour;
   }
 
-  TranslationVector<float> *
+  const TranslationVector<float>&
   Cylinder::getCenter() const
   {
-    return (new SimpleTranslationVector4<float> ());
+    return (*fCenter);
   }
 
-  RGBColourVector<float> *
+  RGBColourVector<float>&
   Cylinder::getColour() const
   {
-    return (fColour);
+    return (*fColour);
   }
 
   float
@@ -50,19 +52,19 @@ namespace simplicity
   }
 
   void
-  Cylinder::setColour(RGBColourVector<float> * const colour)
+  Cylinder::setColour(shared_ptr<RGBColourVector<float> > colour)
   {
     fColour = colour;
   }
 
   void
-  Cylinder::setLength(float const length)
+  Cylinder::setLength(const float length)
   {
     fLength = length;
   }
 
   void
-  Cylinder::setRadius(float const radius)
+  Cylinder::setRadius(const float radius)
   {
     fRadius = radius;
   }

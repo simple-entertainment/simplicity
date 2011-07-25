@@ -13,10 +13,8 @@
 #define SIMPLECOMPOSITEENGINETEST_H_
 
 #include <gtest/gtest.h>
-using namespace testing;
 
 #include <simplicity/engine/SimpleCompositeEngine.h>
-using namespace simplicity;
 
 namespace simplicity_test
 {
@@ -27,13 +25,13 @@ namespace simplicity_test
    *
    * @author Gary Buyn
    */
-  class SimpleCompositeEngineTest : public Test
+  class SimpleCompositeEngineTest : public testing::Test
   {
     protected:
       /**
        * An instance of the class being unit tested.
        */
-      SimpleCompositeEngine fTestObject;
+    simplicity::SimpleCompositeEngine fTestObject;
   };
 }
 

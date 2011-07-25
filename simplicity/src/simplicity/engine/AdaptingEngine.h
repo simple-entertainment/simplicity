@@ -12,6 +12,8 @@
 #ifndef ADAPTINGENGINE_H_
 #define ADAPTINGENGINE_H_
 
+#include <boost/smart_ptr.hpp>
+
 #include "RunnableEngine.h"
 
 namespace simplicity
@@ -37,7 +39,7 @@ namespace simplicity
        *
        * @param engine The wrapped <code>Engine</code>.
        */
-      AdaptingEngine(Engine * const engine);
+      AdaptingEngine(boost::shared_ptr<Engine> engine);
 
       /**
        * <p>
@@ -47,8 +49,8 @@ namespace simplicity
       virtual
       ~AdaptingEngine();
 
-      EngineInput *
-      advance(EngineInput const * const input);
+      EngineInput*
+      advance(const EngineInput* const input);
 
       void
       destroy();
@@ -60,7 +62,7 @@ namespace simplicity
        *
        * @return The wrapped <code>Engine</code>.
        */
-      Engine *
+      boost::shared_ptr<Engine>
       getEngine() const;
 
     private:
@@ -69,7 +71,7 @@ namespace simplicity
        * The wrapped {@link simplicity::Engine Engine}.
        * </p>
        */
-      Engine * const fEngine;
+      boost::shared_ptr<Engine> fEngine;
   };
 }
 
