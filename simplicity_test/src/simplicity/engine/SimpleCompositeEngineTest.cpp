@@ -16,7 +16,6 @@
 #include "SimpleCompositeEngineTest.h"
 
 using namespace boost;
-using namespace simplicity;
 using namespace testing;
 
 namespace simplicity

@@ -15,7 +15,6 @@
 #include "SimpleTraversalTest.h"
 
 using namespace boost;
-using namespace simplicity;
 
 namespace simplicity
 {

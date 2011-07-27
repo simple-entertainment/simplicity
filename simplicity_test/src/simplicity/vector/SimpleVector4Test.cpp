@@ -11,7 +11,6 @@
  */
 #include "SimpleVector4Test.h"
 
-using namespace simplicity;
 
 namespace simplicity
 {

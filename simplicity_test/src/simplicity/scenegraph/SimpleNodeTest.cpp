@@ -18,7 +18,6 @@
 #include "SimpleNodeTest.h"
 
 using namespace boost::math::constants;
-using namespace simplicity;
 using namespace testing;
 
 namespace simplicity

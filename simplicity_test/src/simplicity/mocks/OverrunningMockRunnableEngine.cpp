@@ -15,7 +15,6 @@
 
 using namespace boost;
 using namespace devenvy;
-using namespace simplicity;
 using namespace std;
 
 namespace simplicity

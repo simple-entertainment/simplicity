@@ -12,7 +12,6 @@
 #include "PickEventTest.h"
 
 using namespace boost;
-using namespace simplicity;
 
 namespace simplicity
 {

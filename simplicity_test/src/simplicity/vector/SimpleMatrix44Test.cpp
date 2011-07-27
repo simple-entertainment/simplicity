@@ -11,7 +11,6 @@
  */
 #include "SimpleMatrix44Test.h"
 
-using namespace simplicity;
 
 namespace simplicity
 {

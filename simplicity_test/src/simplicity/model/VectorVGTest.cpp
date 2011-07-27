@@ -14,7 +14,6 @@
 #include "VectorVGTest.h"
 
 using namespace boost;
-using namespace simplicity;
 using namespace std;
 
 namespace simplicity

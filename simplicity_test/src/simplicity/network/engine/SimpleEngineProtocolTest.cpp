@@ -20,7 +20,6 @@ using namespace boost;
 using namespace boost::asio;
 using namespace boost::asio::ip;
 using namespace boost::posix_time;
-using namespace simplicity;
 using namespace std;
 
 namespace simplicity

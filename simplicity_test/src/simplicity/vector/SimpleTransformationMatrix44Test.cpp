@@ -16,7 +16,6 @@
 #include "SimpleTransformationMatrix44Test.h"
 
 using namespace boost::math::constants;
-using namespace simplicity;
 
 namespace simplicity
 {
