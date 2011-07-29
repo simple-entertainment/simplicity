@@ -42,6 +42,37 @@ namespace simplicity
     public:
       /**
        * <p>
+       * The drawing mode used to render a {@link simplicity::SceneGraph SceneGraph}. The modes are as follows:
+       * </p>
+       *
+       * @author Gary Buyn
+       */
+      enum DrawingMode
+      {
+        /**
+         * <p>
+         * Renders only the edges of the models.
+         * </p>
+         */
+        EDGES,
+
+        /**
+         * <p>
+         * Renders only the faces of the models.
+         * </p>
+         */
+        FACES,
+
+        /**
+         * <p>
+         * Renders only the vertices of the models.
+         * </p>
+         */
+        VERTICES
+      };
+
+      /**
+       * <p>
        * Disposes of an instance of <code>Renderer</code> (included to allow polymorphic deletion).
        * </p>
        */
