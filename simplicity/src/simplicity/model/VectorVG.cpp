@@ -106,6 +106,12 @@ namespace simplicity
     return (*fColours);
   }
 
+  const vector<float>&
+  VectorVG::getColours() const
+  {
+    return (*fColours);
+  }
+
   int
   VectorVG::getIndexWithinParent() const
   {
@@ -114,6 +120,12 @@ namespace simplicity
 
   vector<float>&
   VectorVG::getNormals()
+  {
+    return (*fNormals);
+  }
+
+  const vector<float>&
+  VectorVG::getNormals() const
   {
     return (*fNormals);
   }
@@ -132,6 +144,12 @@ namespace simplicity
 
   vector<float>&
   VectorVG::getVertices()
+  {
+    return (*fVertices);
+  }
+
+  const vector<float>&
+  VectorVG::getVertices() const
   {
     return (*fVertices);
   }

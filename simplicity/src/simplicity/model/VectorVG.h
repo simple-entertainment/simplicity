@@ -90,6 +90,16 @@ namespace simplicity
       std::vector<float>&
       getColours();
 
+      /**
+       * <p>
+       * Retrieves the colours of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       *
+       * @return The colours of all the vertices in this <code>VectorVG</code>.
+       */
+      const std::vector<float>&
+      getColours() const;
+
       int
       getIndexWithinParent() const;
 
@@ -102,6 +112,16 @@ namespace simplicity
        */
       std::vector<float>&
       getNormals();
+
+      /**
+       * <p>
+       * Retrieves the surface normals of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       *
+       * @return The surface normals of all the vertices in this <code>VectorVG</code>.
+       */
+      const std::vector<float>&
+      getNormals() const;
 
       VertexGroup*
       getParent() const;
@@ -118,6 +138,16 @@ namespace simplicity
        */
       std::vector<float>&
       getVertices();
+
+      /**
+       * <p>
+       * Retrieves the coordinates of all the vertices in this <code>VectorVG</code>.
+       * </p>
+       *
+       * @return The coordinates of all the vertices in this <code>VectorVG</code>.
+       */
+      const std::vector<float>&
+      getVertices() const;
 
       bool
       isSubset() const;

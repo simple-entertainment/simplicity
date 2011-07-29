@@ -108,6 +108,12 @@ namespace simplicity
     return (*fColours);
   }
 
+  const vector<float>&
+  IndexedVectorVG::getColours() const
+  {
+    return (*fColours);
+  }
+
   int
   IndexedVectorVG::getIndexWithinParent() const
   {
@@ -120,8 +126,20 @@ namespace simplicity
     return (*fIndices);
   }
 
+  const vector<int>&
+  IndexedVectorVG::getIndices() const
+  {
+    return (*fIndices);
+  }
+
   vector<float>&
   IndexedVectorVG::getNormals()
+  {
+    return (*fNormals);
+  }
+
+  const vector<float>&
+  IndexedVectorVG::getNormals() const
   {
     return (*fNormals);
   }
@@ -140,6 +158,12 @@ namespace simplicity
 
   vector<float>&
   IndexedVectorVG::getVertices()
+  {
+    return (*fVertices);
+  }
+
+  const vector<float>&
+  IndexedVectorVG::getVertices() const
   {
     return (*fVertices);
   }
