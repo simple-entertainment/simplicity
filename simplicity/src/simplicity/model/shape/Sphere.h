@@ -23,7 +23,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class Sphere : public Shape
+  class Sphere : public virtual Shape
   {
     public:
       /**
@@ -43,7 +43,7 @@ namespace simplicity
       const TranslationVector<float>&
       getCenter() const;
 
-      RGBColourVector<float>&
+      RGBAColourVector<float>&
       getColour() const;
 
       /**
@@ -57,7 +57,7 @@ namespace simplicity
       getRadius() const;
 
       void
-      setColour(boost::shared_ptr<RGBColourVector<float> > colour);
+      setColour(boost::shared_ptr<RGBAColourVector<float> > colour);
 
       /**
        * <p>
@@ -82,7 +82,7 @@ namespace simplicity
        * The colour to render this <code>Sphere</code> as.
        * </p>
        */
-      boost::shared_ptr<RGBColourVector<float> > fColour;
+      boost::shared_ptr<RGBAColourVector<float> > fColour;
 
       /**
        * <p>

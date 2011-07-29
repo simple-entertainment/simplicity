@@ -13,7 +13,7 @@
 #define SHAPE_H_
 
 #include "../Model.h"
-#include "../../vector/RGBColourVector.h"
+#include "../../vector/RGBAColourVector.h"
 
 namespace simplicity
 {
@@ -34,7 +34,7 @@ namespace simplicity
        *
        * @return The colour to render this <code>Shape</code> as.
        */
-      virtual RGBColourVector<float>&
+      virtual RGBAColourVector<float>&
       getColour() const = 0;
 
       /**
@@ -45,7 +45,7 @@ namespace simplicity
        * @param colour The colour to render this <code>Shape</code> as.
        */
       virtual void
-      setColour(boost::shared_ptr<RGBColourVector<float> > colour) = 0;
+      setColour(boost::shared_ptr<RGBAColourVector<float> > colour) = 0;
   };
 }
 

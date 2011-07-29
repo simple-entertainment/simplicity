@@ -15,7 +15,7 @@
 #include <vector>
 
 #include "../scenegraph/Node.h"
-#include "../vector/RGBColourVector.h"
+#include "../vector/RGBAColourVector.h"
 #include "../vector/TransformationMatrix.h"
 
 namespace simplicity
@@ -86,7 +86,7 @@ namespace simplicity
        *
        * @return The ambient component of this <code>Light</code>.
        */
-      virtual RGBColourVector<float>&
+      virtual RGBAColourVector<float>&
       getAmbientLight() const = 0;
 
       /**
@@ -96,7 +96,7 @@ namespace simplicity
        *
        * @return The diffuse component of this <code>Light</code>.
        */
-      virtual RGBColourVector<float>&
+      virtual RGBAColourVector<float>&
       getDiffuseLight() const = 0;
 
       /**
@@ -126,7 +126,7 @@ namespace simplicity
        *
        * @return The specular component of this <code>Light</code>.
        */
-      virtual RGBColourVector<float>&
+      virtual RGBAColourVector<float>&
       getSpecularLight() const = 0;
 
       /**
@@ -166,7 +166,7 @@ namespace simplicity
        * @param ambientLight The ambient component of this <code>Light</code>.
        */
       virtual void
-      setAmbientLight(boost::shared_ptr<RGBColourVector<float> > ambientLight) = 0;
+      setAmbientLight(boost::shared_ptr<RGBAColourVector<float> > ambientLight) = 0;
 
       /**
        * <p>
@@ -176,7 +176,7 @@ namespace simplicity
        * @param diffuseLight The diffuse component of this <code>Light</code>.
        */
       virtual void
-      setDiffuseLight(boost::shared_ptr<RGBColourVector<float> > diffuseLight) = 0;
+      setDiffuseLight(boost::shared_ptr<RGBAColourVector<float> > diffuseLight) = 0;
 
       /**
        * <p>
@@ -216,7 +216,7 @@ namespace simplicity
        * @param specularLight The specular component of this <code>Light</code>.
        */
       virtual void
-      setSpecularLight(boost::shared_ptr<RGBColourVector<float> > specularLight) = 0;
+      setSpecularLight(boost::shared_ptr<RGBAColourVector<float> > specularLight) = 0;
   };
 }
 

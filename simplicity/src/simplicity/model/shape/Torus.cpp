@@ -9,7 +9,7 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../../vector/SimpleRGBColourVector4.h"
+#include "../../vector/SimpleRGBAColourVector4.h"
 #include "../../vector/SimpleTranslationVector4.h"
 #include "Torus.h"
 
@@ -17,7 +17,7 @@ namespace simplicity
 {
   Torus::Torus() :
     fCenter(new SimpleTranslationVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)),
-        fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)), fInnerRadius(1.0f), fOuterRadius(2.0f)
+        fColour(new SimpleRGBAColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)), fInnerRadius(1.0f), fOuterRadius(2.0f)
   {
   }
 
@@ -31,7 +31,7 @@ namespace simplicity
     return (*fCenter);
   }
 
-  RGBColourVector<float>&
+  RGBAColourVector<float>&
   Torus::getColour() const
   {
     return (*fColour);
@@ -50,7 +50,7 @@ namespace simplicity
   }
 
   void
-  Torus::setColour(shared_ptr<RGBColourVector<float> > colour)
+  Torus::setColour(shared_ptr<RGBAColourVector<float> > colour)
   {
     fColour = colour;
   }

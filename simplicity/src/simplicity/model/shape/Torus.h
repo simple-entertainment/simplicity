@@ -23,7 +23,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class Torus : public Shape
+  class Torus : public virtual Shape
   {
     public:
       /**
@@ -44,7 +44,7 @@ namespace simplicity
       const TranslationVector<float>&
       getCenter() const;
 
-      RGBColourVector<float>&
+      RGBAColourVector<float>&
       getColour() const;
 
       /**
@@ -68,7 +68,7 @@ namespace simplicity
       getOuterRadius() const;
 
       void
-      setColour(boost::shared_ptr<RGBColourVector<float> > colour);
+      setColour(boost::shared_ptr<RGBAColourVector<float> > colour);
 
       /**
        * <p>
@@ -103,7 +103,7 @@ namespace simplicity
        * The colour to render this <code>Torus</code> as.
        * </p>
        */
-      boost::shared_ptr<RGBColourVector<float> > fColour;
+      boost::shared_ptr<RGBAColourVector<float> > fColour;
 
       /**
        * <p>

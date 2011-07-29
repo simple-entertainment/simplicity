@@ -9,14 +9,14 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../../vector/SimpleRGBColourVector4.h"
+#include "../../vector/SimpleRGBAColourVector4.h"
 #include "../../vector/SimpleTranslationVector4.h"
 #include "Sphere.h"
 
 namespace simplicity
 {
   Sphere::Sphere() :
-    fCenter(new SimpleTranslationVector4<float> ), fColour(new SimpleRGBColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)),
+    fCenter(new SimpleTranslationVector4<float> ), fColour(new SimpleRGBAColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)),
         fRadius(1.0f)
   {
   }
@@ -31,7 +31,7 @@ namespace simplicity
     return (*fCenter);
   }
 
-  RGBColourVector<float>&
+  RGBAColourVector<float>&
   Sphere::getColour() const
   {
     return (*fColour);
@@ -44,7 +44,7 @@ namespace simplicity
   }
 
   void
-  Sphere::setColour(shared_ptr<RGBColourVector<float> > colour)
+  Sphere::setColour(shared_ptr<RGBAColourVector<float> > colour)
   {
     fColour = colour;
   }

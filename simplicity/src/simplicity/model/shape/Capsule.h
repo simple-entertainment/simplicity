@@ -23,7 +23,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class Capsule : public Shape
+  class Capsule : public virtual Shape
   {
     public:
       /**
@@ -43,7 +43,7 @@ namespace simplicity
       const TranslationVector<float>&
       getCenter() const;
 
-      RGBColourVector<float>&
+      RGBAColourVector<float>&
       getColour() const;
 
       /**
@@ -67,7 +67,7 @@ namespace simplicity
       getRadius() const;
 
       void
-      setColour(boost::shared_ptr<RGBColourVector<float> > colour);
+      setColour(boost::shared_ptr<RGBAColourVector<float> > colour);
 
       /**
        * <p>
@@ -102,7 +102,7 @@ namespace simplicity
        * The colour to render this <code>Capsule</code> as.
        * </p>
        */
-      boost::shared_ptr<RGBColourVector<float> > fColour;
+      boost::shared_ptr<RGBAColourVector<float> > fColour;
 
       /**
        * <p>

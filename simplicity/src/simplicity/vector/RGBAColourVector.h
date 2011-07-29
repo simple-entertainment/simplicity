@@ -9,8 +9,8 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef RGBCOLOURVECTOR_H_
-#define RGBCOLOURVECTOR_H_
+#ifndef RGBACOLOURVECTOR_H_
+#define RGBACOLOURVECTOR_H_
 
 #include "Vector.h"
 
@@ -18,76 +18,95 @@ namespace simplicity
 {
   /**
    * <p>
-   * An RGB colour vector.
+   * An RGBA colour vector.
    * </p>
    *
    * @author Gary Buyn
    */
   template<class Data>
-    class RGBColourVector : public virtual Vector<Data>
+    class RGBAColourVector : public virtual Vector<Data>
     {
       public:
         /**
          * <p>
-         * Retrieves the blue component of this <code>RGBColourVector</code>.
+         * Retrieves the alpha component.
          * </p>
          *
-         * @return The blue component of this <code>RGBColourVector</code>.
+         * @return The alpha component.
+         */
+        virtual Data
+        getAlpha() const = 0;
+
+        /**
+         * <p>
+         * Retrieves the blue component.
+         * </p>
+         *
+         * @return The blue component.
          */
         virtual Data
         getBlue() const = 0;
 
         /**
          * <p>
-         * Retrieves the green component of this <code>RGBColourVector</code>.
+         * Retrieves the green component.
          * </p>
          *
-         * @return The green component of this <code>RGBColourVector</code>.
+         * @return The green component.
          */
         virtual Data
         getGreen() const = 0;
 
         /**
          * <p>
-         * Retrieves the red component of this <code>RGBColourVector</code>.
+         * Retrieves the red component.
          * </p>
          *
-         * @return The red component of this <code>RGBColourVector</code>.
+         * @return The red component.
          */
         virtual Data
         getRed() const = 0;
 
         /**
          * <p>
-         * Sets the blue component of this <code>RGBColourVector</code>.
+         * Sets the alpha component.
          * </p>
          *
-         * @param blue The blue component of this <code>RGBColourVector</code>.
+         * @param alpha The alpha component.
+         */
+        virtual void
+        setAlpha(const Data alpha) = 0;
+
+        /**
+         * <p>
+         * Sets the blue component.
+         * </p>
+         *
+         * @param blue The blue component.
          */
         virtual void
         setBlue(const Data blue) = 0;
 
         /**
          * <p>
-         * Sets the green component of this <code>RGBColourVector</code>.
+         * Sets the green component.
          * </p>
          *
-         * @param green The green component of this <code>RGBColourVector</code>.
+         * @param green The green component.
          */
         virtual void
         setGreen(const Data green) = 0;
 
         /**
          * <p>
-         * Sets the red component of this <code>RGBColourVector</code>.
+         * Sets the red component.
          * </p>
          *
-         * @param red The red component of this <code>RGBColourVector</code>.
+         * @param red The red component.
          */
         virtual void
         setRed(const Data red) = 0;
     };
-
 }
 
-#endif /* RGBCOLOURVECTOR_H_ */
+#endif /* RGBACOLOURVECTOR_H_ */
