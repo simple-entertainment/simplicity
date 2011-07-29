@@ -88,10 +88,10 @@ namespace simplicity
 
         /**
          * <p>
-         * Retrieves a copy of the array that contains the data for this <code>SimpleMatrix44</code>.
+         * Retrieves the array that contains the data for this <code>SimpleMatrix44</code>.
          * </p>
          *
-         * @return A copy of the array that contains the data for this <code>SimpleMatrix44</code>.
+         * @return The array that contains the data for this <code>SimpleMatrix44</code>.
          */
         const boost::array<Data, CELLS_IN_MATRIX>&
         getData() const;
