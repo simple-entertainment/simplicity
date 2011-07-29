@@ -37,6 +37,20 @@ namespace simplicity
         {
         }
 
+        friend bool
+        operator==(const Vector<Data>& lhs, const Vector<Data>& rhs)
+        {
+          // Allows polymorphic equality checking.
+          return (lhs.equals(rhs));
+        }
+
+        friend bool
+        operator!=(const Vector<Data>& lhs, const Vector<Data>& rhs)
+        {
+          // Allows polymorphic equality checking.
+          return (!lhs.equals(rhs));
+        }
+
         /**
          * <p>
          * Adds the <code>Vector</code> given to this <code>Vector</code>.
@@ -150,6 +164,16 @@ namespace simplicity
          */
         virtual Data
         getLengthSquared() const = 0;
+
+        /**
+         * <p>
+         * Retrieves a raw pointer to the data for this <code>Vector</code>.
+         * </p>
+         *
+         * @return A raw pointer to the data for this <code>Vector</code>.
+         */
+        virtual const Data* const
+        getRawData() const = 0;
 
         /**
          * <p>
@@ -366,6 +390,16 @@ namespace simplicity
          */
         virtual boost::shared_ptr<Vector<Data> >
         subtractRightCopy(const Vector<Data>& otherVector) const = 0;
+
+      private:
+        /**
+         * <p>
+         * Called by the == operator to allow polymorphic equality checking.
+         * </p>
+         *
+         * @param otherVector The <code>Vector</code> to compare with this <code>Vector</code>.
+         */
+        virtual bool equals(const Vector<Data>& otherVector) const = 0;
     };
 }
 

@@ -120,6 +120,9 @@ namespace simplicity
         Data
         getLengthSquared() const;
 
+        const Data* const
+        getRawData() const;
+
         void
         homogenize();
 
@@ -213,6 +216,9 @@ namespace simplicity
          */
         boost::array<Data, CELLS_IN_VECTOR>
         crossProduct(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const;
+
+        bool
+        equals(const Vector<Data>& otherVector) const;
 
         /**
          * <p>

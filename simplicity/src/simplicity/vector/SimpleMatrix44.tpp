@@ -11,6 +11,7 @@
  */
 #include <boost/lexical_cast.hpp>
 
+#include "../SEInvalidOperationException.h"
 #include "SimpleMatrix44.h"
 
 using namespace boost;
@@ -31,7 +32,16 @@ namespace simplicity
     }
 
   template<class Data>
-    array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX> &
+    bool
+    SimpleMatrix44<Data>::equals(const Matrix<Data>& otherMatrix) const
+    {
+      const SimpleMatrix44<Data>& matrix = dynamic_cast<const SimpleMatrix44<Data>&> (otherMatrix);
+
+      return (fData == dynamic_cast<const SimpleMatrix44<Data>&> (otherMatrix).getDataCopy());
+    }
+
+  template<class Data>
+    array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>&
     SimpleMatrix44<Data>::getData()
     {
       return (fData);
@@ -73,6 +83,13 @@ namespace simplicity
         const Data d21, const Data d02, const Data d12, const Data d22) const
     {
       return (d00 * (d11 * d22 - d12 * d21) - d10 * (d01 * d22 - d02 * d21) + d20 * (d01 * d12 - d02 * d11));
+    }
+
+  template<class Data>
+    const Data* const
+    SimpleMatrix44<Data>::getRawData() const
+    {
+      return (fData.data());
     }
 
   template<class Data>

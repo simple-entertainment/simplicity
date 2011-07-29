@@ -14,8 +14,6 @@
 
 #include <boost/smart_ptr.hpp>
 
-#include "../SEInvalidOperationException.h"
-
 namespace simplicity
 {
   /**
@@ -39,6 +37,20 @@ namespace simplicity
         {
         }
 
+        friend bool
+        operator==(const Matrix<Data>& lhs, const Matrix<Data>& rhs)
+        {
+          // Allows polymorphic equality checking.
+          return (lhs.equals(rhs));
+        }
+
+        friend bool
+        operator!=(const Matrix<Data>& lhs, const Matrix<Data>& rhs)
+        {
+          // Allows polymorphic equality checking.
+          return (!lhs.equals(rhs));
+        }
+
         /**
          * <p>
          * Retrieves the determinant of this <code>Matrix</code>.
@@ -48,6 +60,16 @@ namespace simplicity
          */
         virtual Data
         getDeterminant() const = 0;
+
+        /**
+         * <p>
+         * Retrieves a raw pointer to the data for this <code>Matrix</code>.
+         * </p>
+         *
+         * @return A raw pointer to the data for this <code>Matrix</code>.
+         */
+        virtual const Data* const
+        getRawData() const = 0;
 
         /**
          * <p>
@@ -138,6 +160,17 @@ namespace simplicity
          */
         virtual void
         transpose() = 0;
+
+      private:
+        /**
+         * <p>
+         * Called by the == operator to allow polymorphic equality checking.
+         * </p>
+         *
+         * @param otherMatrix The <code>Matrix</code> to compare with this <code>Matrix</code>.
+         */
+        virtual bool
+        equals(const Matrix<Data>& otherMatrix) const = 0;
     };
 }
 

@@ -99,6 +99,9 @@ namespace simplicity
         Data
         getDeterminant() const;
 
+        const Data* const
+        getRawData() const;
+
         /**
          * <p>
          * NOTE: This method uses Cramer's Rule to compute the inverse (computes many determinants). Gaussian Elimination could be a more efficient means
@@ -157,6 +160,9 @@ namespace simplicity
          * </p>
          */
         boost::array<Data, CELLS_IN_MATRIX> fData;
+
+        bool
+        equals(const Matrix<Data>& otherMatrix) const;
 
         /**
          * <p>
