@@ -15,8 +15,8 @@
 #include <vector>
 
 #include "../scenegraph/Node.h"
+#include "../vector/RGBColourVector.h"
 #include "../vector/TransformationMatrix.h"
-#include "LightingMode.h"
 
 namespace simplicity
 {
@@ -30,6 +30,37 @@ namespace simplicity
   class Light
   {
     public:
+      /**
+       * <p>
+       * The lighting mode used to render a {@link simplicity::SceneGraph SceneGraph}. The modes are as follows:
+       * </p>
+       *
+       * @author Gary Buyn
+       */
+      enum LightingMode
+      {
+        /**
+         * <p>
+         * Renders the models with shading determined by the Lights within the SceneGraph.
+         * </p>
+         */
+        SCENE,
+
+        /**
+         * <p>
+         * Renders the models with simple shading. Lights to create the shading effects are added by the SceneGraph and are implementation specific.
+         * </p>
+         */
+        SHADED,
+
+        /**
+         * <p>
+         * Renders the models with solid shading. Lights to create the shading effects are added by the SceneGraph and are implementation specific.
+         * </p>
+         */
+        SOLID
+      };
+
       /**
        * <p>
        * Disposes of an instance of <code>Light</code> (included to allow polymorphic deletion).
@@ -55,7 +86,7 @@ namespace simplicity
        *
        * @return The ambient component of this <code>Light</code>.
        */
-      virtual std::vector<float>
+      virtual RGBColourVector<float>&
       getAmbientLight() const = 0;
 
       /**
@@ -65,7 +96,7 @@ namespace simplicity
        *
        * @return The diffuse component of this <code>Light</code>.
        */
-      virtual std::vector<float>
+      virtual RGBColourVector<float>&
       getDiffuseLight() const = 0;
 
       /**
@@ -95,7 +126,7 @@ namespace simplicity
        *
        * @return The specular component of this <code>Light</code>.
        */
-      virtual std::vector<float>
+      virtual RGBColourVector<float>&
       getSpecularLight() const = 0;
 
       /**
@@ -103,8 +134,8 @@ namespace simplicity
        * Retrieves the inverted absolute transformation for the {@link com.se.simplicity.scenegraph.Node Node} of this <code>Light</code>.
        * </p>
        *
-       * @return The inverted absolute transformation for the <code>Node</code> of this <code>Light</code>, or null if the <code>Node</code> does not
-       * exist.
+       * @return The inverted absolute transformation for the <code>Node</code> of this <code>Light</code>, or a zero vector if the
+       * <code>Node</code> does not exist.
        */
       virtual const TransformationMatrix<float>&
       getTransformation() const = 0;
@@ -135,7 +166,7 @@ namespace simplicity
        * @param ambientLight The ambient component of this <code>Light</code>.
        */
       virtual void
-      setAmbientLight(const std::vector<float> ambientLight) = 0;
+      setAmbientLight(boost::shared_ptr<RGBColourVector<float> > ambientLight) = 0;
 
       /**
        * <p>
@@ -145,7 +176,7 @@ namespace simplicity
        * @param diffuseLight The diffuse component of this <code>Light</code>.
        */
       virtual void
-      setDiffuseLight(const std::vector<float> diffuseLight) = 0;
+      setDiffuseLight(boost::shared_ptr<RGBColourVector<float> > diffuseLight) = 0;
 
       /**
        * <p>
@@ -185,7 +216,7 @@ namespace simplicity
        * @param specularLight The specular component of this <code>Light</code>.
        */
       virtual void
-      setSpecularLight(const std::vector<float> specularLight) = 0;
+      setSpecularLight(boost::shared_ptr<RGBColourVector<float> > specularLight) = 0;
   };
 }
 

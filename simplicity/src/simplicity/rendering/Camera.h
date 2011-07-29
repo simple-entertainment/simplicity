@@ -15,7 +15,6 @@
 #include "../picking/Pick.h"
 #include "../scenegraph/Node.h"
 #include "../vector/TransformationMatrix.h"
-#include "ProjectionMode.h"
 
 namespace simplicity
 {
@@ -29,6 +28,30 @@ namespace simplicity
   class Camera
   {
     public:
+      /**
+       * <p>
+       * The projection mode used to render a {@link simplicity::SceneGraph SceneGraph}. The modes are as follows:
+       * </p>
+       *
+       * @author Gary Buyn
+       */
+      enum ProjectionMode
+      {
+        /**
+         * <p>
+         * An orthogonal projection (does not employ foreshortening).
+         * </p>
+         */
+        ORTHOGONAL,
+
+        /**
+         * <p>
+         * A perspective projection (employs foreshortening, this means objects further away appear smaller).
+         * </p>
+         */
+        PERSPECTIVE
+      };
+
       /**
        * <p>
        * Disposes of an instance of <code>Camera</code> (included to allow polymorphic deletion).
@@ -154,8 +177,8 @@ namespace simplicity
        * Retrieves the inverted absolute transformation for the {@link simplicity::Node Node} of this <code>Camera</code>.
        * </p>
        *
-       * @return The inverted absolute transformation for the <code>Node</code> of this <code>Camera</code>, or null if the <code>Node</code> does
-       * not exist.
+       * @return The inverted absolute transformation for the <code>Node</code> of this <code>Camera</code>, or a zero vector if the
+       * <code>Node</code> does not exist.
        */
       virtual const TransformationMatrix<float>&
       getTransformation() const = 0;

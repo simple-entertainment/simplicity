@@ -16,7 +16,6 @@
 #include <boost/thread.hpp>
 #include <log4cpp/Category.hh>
 
-#include "../SENotSupportedException.h"
 #include "RunnableEngine.h"
 
 using namespace boost;
