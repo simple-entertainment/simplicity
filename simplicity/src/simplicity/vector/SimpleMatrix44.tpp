@@ -35,8 +35,6 @@ namespace simplicity
     bool
     SimpleMatrix44<Data>::equals(const Matrix<Data>& otherMatrix) const
     {
-      const SimpleMatrix44<Data>& matrix = dynamic_cast<const SimpleMatrix44<Data>&> (otherMatrix);
-
       return (fData == dynamic_cast<const SimpleMatrix44<Data>&> (otherMatrix).getDataCopy());
     }
 
