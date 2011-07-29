@@ -48,8 +48,8 @@ namespace simplicity
     array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
     SimpleVector4<Data>::add(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const
     {
-      array<Data, CELLS_IN_VECTOR> leftData = leftVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> rightData = rightVector.getDataCopy();
+      const array<Data, CELLS_IN_VECTOR> leftData = leftVector.getData();
+      const array<Data, CELLS_IN_VECTOR> rightData = rightVector.getData();
       array<Data, CELLS_IN_VECTOR> addData;
 
       addData.at(0) = leftData.at(0) + rightData.at(0);
@@ -79,8 +79,8 @@ namespace simplicity
     array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
     SimpleVector4<Data>::crossProduct(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const
     {
-      array<Data, CELLS_IN_VECTOR> leftData = leftVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> rightData = rightVector.getDataCopy();
+      const array<Data, CELLS_IN_VECTOR> leftData = leftVector.getData();
+      const array<Data, CELLS_IN_VECTOR> rightData = rightVector.getData();
       array<Data, CELLS_IN_VECTOR> crossData;
 
       crossData.at(0) = leftData.at(1) * rightData.at(2) - leftData.at(2) * rightData.at(1);
@@ -110,7 +110,7 @@ namespace simplicity
     Data
     SimpleVector4<Data>::dotProduct(const Vector<Data>& otherVector)
     {
-      array<Data, CELLS_IN_VECTOR> otherData = (dynamic_cast<const SimpleVector4<Data>&> (otherVector)).getDataCopy();
+      const array<Data, CELLS_IN_VECTOR> otherData = (dynamic_cast<const SimpleVector4<Data>&> (otherVector)).getData();
       Data dot = 0;
 
       for (int index = 0; index < 3; index++)
@@ -125,7 +125,7 @@ namespace simplicity
     bool
     SimpleVector4<Data>::equals(const Vector<Data>& otherVector) const
     {
-      return (fData == dynamic_cast<const SimpleVector4<Data>&> (otherVector).getDataCopy());
+      return (fData == dynamic_cast<const SimpleVector4<Data>&> (otherVector).getData());
     }
 
   template<class Data>
@@ -136,8 +136,8 @@ namespace simplicity
     }
 
   template<class Data>
-    array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
-    SimpleVector4<Data>::getDataCopy() const
+    const array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>&
+    SimpleVector4<Data>::getData() const
     {
       return (fData);
     }
@@ -182,8 +182,8 @@ namespace simplicity
     array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
     SimpleVector4<Data>::multiply(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const
     {
-      array<Data, CELLS_IN_VECTOR> leftData = leftVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> rightData = rightVector.getDataCopy();
+      const array<Data, CELLS_IN_VECTOR> leftData = leftVector.getData();
+      const array<Data, CELLS_IN_VECTOR> rightData = rightVector.getData();
       array<Data, CELLS_IN_VECTOR> multData;
 
       multData.at(0) = leftData.at(0) * rightData.at(0);
@@ -205,7 +205,7 @@ namespace simplicity
     array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
     SimpleVector4<Data>::multiplyLeftInternal(const SimpleMatrix44<Data>& otherMatrix) const
     {
-      array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX> mData = otherMatrix.getDataCopy();
+      const array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX> mData = otherMatrix.getData();
       array<Data, CELLS_IN_VECTOR> vData = fData;
       array<Data, CELLS_IN_VECTOR> multData;
 
@@ -248,7 +248,7 @@ namespace simplicity
     SimpleVector4<Data>::multiplyRightInternal(const SimpleMatrix44<Data>& otherMatrix) const
     {
       array<Data, CELLS_IN_VECTOR> vData = fData;
-      array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX> mData = otherMatrix.getDataCopy();
+      const array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX> mData = otherMatrix.getData();
       array<Data, CELLS_IN_VECTOR> multData;
 
       // For every column in the matrix.
@@ -322,8 +322,8 @@ namespace simplicity
     array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR>
     SimpleVector4<Data>::subtract(const SimpleVector4<Data>& leftVector, const SimpleVector4<Data>& rightVector) const
     {
-      array<Data, CELLS_IN_VECTOR> leftData = leftVector.getDataCopy();
-      array<Data, CELLS_IN_VECTOR> rightData = rightVector.getDataCopy();
+      const array<Data, CELLS_IN_VECTOR> leftData = leftVector.getData();
+      const array<Data, CELLS_IN_VECTOR> rightData = rightVector.getData();
       array<Data, CELLS_IN_VECTOR> subData;
 
       subData.at(0) = leftData.at(0) - rightData.at(0);

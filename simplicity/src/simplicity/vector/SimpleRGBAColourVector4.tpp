@@ -35,28 +35,28 @@ namespace simplicity
     Data
     SimpleRGBAColourVector4<Data>::getAlpha() const
     {
-      return (SimpleVector4<Data>::getDataCopy().at(3));
+      return (SimpleVector4<Data>::getData().at(3));
     }
 
   template<class Data>
     Data
     SimpleRGBAColourVector4<Data>::getBlue() const
     {
-      return (SimpleVector4<Data>::getDataCopy().at(2));
+      return (SimpleVector4<Data>::getData().at(2));
     }
 
   template<class Data>
     Data
     SimpleRGBAColourVector4<Data>::getGreen() const
     {
-      return (SimpleVector4<Data>::getDataCopy().at(1));
+      return (SimpleVector4<Data>::getData().at(1));
     }
 
   template<class Data>
     Data
     SimpleRGBAColourVector4<Data>::getRed() const
     {
-      return (SimpleVector4<Data>::getDataCopy().at(0));
+      return (SimpleVector4<Data>::getData().at(0));
     }
 
   template<class Data>

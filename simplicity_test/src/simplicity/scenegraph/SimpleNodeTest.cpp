@@ -74,7 +74,7 @@ namespace simplicity
 
     // Perform test - Verify test results.
     bool equal = false;
-    if (matrix3.getData() == dynamic_cast<const SimpleMatrix44<float>& > (fTestObject->getAbsoluteTransformation()).getDataCopy())
+    if (matrix3.getData() == dynamic_cast<const SimpleMatrix44<float>& > (fTestObject->getAbsoluteTransformation()).getData())
     {
       equal = true;
     }

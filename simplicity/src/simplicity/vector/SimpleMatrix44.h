@@ -83,7 +83,7 @@ namespace simplicity
          *
          * @return The array that contains the data for this <code>SimpleMatrix44</code>.
          */
-        boost::array<Data, CELLS_IN_MATRIX> &
+        boost::array<Data, CELLS_IN_MATRIX>&
         getData();
 
         /**
@@ -93,8 +93,8 @@ namespace simplicity
          *
          * @return A copy of the array that contains the data for this <code>SimpleMatrix44</code>.
          */
-        boost::array<Data, CELLS_IN_MATRIX>
-        getDataCopy() const;
+        const boost::array<Data, CELLS_IN_MATRIX>&
+        getData() const;
 
         Data
         getDeterminant() const;

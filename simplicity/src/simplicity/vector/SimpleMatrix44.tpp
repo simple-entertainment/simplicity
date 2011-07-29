@@ -35,7 +35,7 @@ namespace simplicity
     bool
     SimpleMatrix44<Data>::equals(const Matrix<Data>& otherMatrix) const
     {
-      return (fData == dynamic_cast<const SimpleMatrix44<Data>&> (otherMatrix).getDataCopy());
+      return (fData == dynamic_cast<const SimpleMatrix44<Data>&> (otherMatrix).getData());
     }
 
   template<class Data>
@@ -46,8 +46,8 @@ namespace simplicity
     }
 
   template<class Data>
-    array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>
-    SimpleMatrix44<Data>::getDataCopy() const
+    const array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>&
+    SimpleMatrix44<Data>::getData() const
     {
       return (fData);
     }
@@ -163,8 +163,8 @@ namespace simplicity
     array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>
     SimpleMatrix44<Data>::multiply(const SimpleMatrix44<Data>& leftMatrix, const SimpleMatrix44<Data>& rightMatrix) const
     {
-      array<Data, CELLS_IN_MATRIX> leftData = leftMatrix.getDataCopy();
-      array<Data, CELLS_IN_MATRIX> rightData = rightMatrix.getDataCopy();
+      const array<Data, CELLS_IN_MATRIX> leftData = leftMatrix.getData();
+      const array<Data, CELLS_IN_MATRIX> rightData = rightMatrix.getData();
       array<Data, CELLS_IN_MATRIX> multData;
 
       // For every row in the left hand matrix.

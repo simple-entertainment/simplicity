@@ -126,7 +126,7 @@ namespace simplicity
 
       fTransformation.reset(
           new SimpleTransformationMatrix44<float> (
-              dynamic_cast<const SimpleMatrix44<float>&> (fNode->getAbsoluteTransformation()).getDataCopy()));
+              dynamic_cast<const SimpleMatrix44<float>&> (fNode->getAbsoluteTransformation()).getData()));
 
       try
       {

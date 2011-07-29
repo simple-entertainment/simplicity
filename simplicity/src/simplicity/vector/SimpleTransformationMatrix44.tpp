@@ -32,7 +32,7 @@ namespace simplicity
     shared_ptr<TranslationVector<Data> >
     SimpleTransformationMatrix44<Data>::getTranslation() const
     {
-      array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX> data = SimpleMatrix44<Data>::getDataCopy();
+      const array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX> data(SimpleMatrix44<Data>::getData());
 
       return (shared_ptr<TranslationVector<Data> > (new SimpleTranslationVector4<Data> (data.at(12), data.at(13), data.at(14), data.at(15))));
     }
@@ -41,21 +41,21 @@ namespace simplicity
     Data
     SimpleTransformationMatrix44<Data>::getXAxisTranslation() const
     {
-      return (SimpleMatrix44<Data>::getDataCopy().at(12));
+      return (SimpleMatrix44<Data>::getData().at(12));
     }
 
   template<class Data>
     Data
     SimpleTransformationMatrix44<Data>::getYAxisTranslation() const
     {
-      return (SimpleMatrix44<Data>::getDataCopy().at(13));
+      return (SimpleMatrix44<Data>::getData().at(13));
     }
 
   template<class Data>
     Data
     SimpleTransformationMatrix44<Data>::getZAxisTranslation() const
     {
-      return (SimpleMatrix44<Data>::getDataCopy().at(14));
+      return (SimpleMatrix44<Data>::getData().at(14));
     }
 
   template<class Data>
@@ -63,7 +63,7 @@ namespace simplicity
     SimpleTransformationMatrix44<Data>::rotate(const Data angle, const Vector<Data>& axis)
     {
       array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>& data = SimpleMatrix44<Data>::getData();
-      array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> axisData = dynamic_cast<const SimpleVector4<Data>& > (axis).getDataCopy();
+      const array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> axisData = dynamic_cast<const SimpleVector4<Data>& > (axis).getData();
 
       // Initialise trigonometric information.
       Data cosine = cos(angle);
@@ -121,7 +121,7 @@ namespace simplicity
     SimpleTransformationMatrix44<Data>::setTranslation(shared_ptr<TranslationVector<Data> > translation)
     {
       array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>& data = SimpleMatrix44<Data>::getData();
-      array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> transData = dynamic_cast<const SimpleVector4<Data>& > (*translation).getDataCopy();
+      const array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> transData = dynamic_cast<const SimpleVector4<Data>& > (*translation).getData();
 
       data.at(12) = transData.at(0);
       data.at(13) = transData.at(1);
@@ -155,7 +155,7 @@ namespace simplicity
     SimpleTransformationMatrix44<Data>::translate(const TranslationVector<Data>& translation)
     {
       array<Data, SimpleMatrix44<Data>::CELLS_IN_MATRIX>& data = SimpleMatrix44<Data>::getData();
-      array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> transData = dynamic_cast<const SimpleVector4<Data>& > (translation).getDataCopy();
+      const array<Data, SimpleVector4<Data>::CELLS_IN_VECTOR> transData = dynamic_cast<const SimpleVector4<Data>& > (translation).getData();
 
       data.at(12) += data.at(0) * transData.at(0) + data.at(4) * transData.at(1) + data.at(8) * transData.at(2);
       data.at(13) += data.at(1) * transData.at(0) + data.at(5) * transData.at(1) + data.at(9) * transData.at(2);

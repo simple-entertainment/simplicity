@@ -13,7 +13,7 @@
 
 #include <GL/glew.h>
 
-#include <simplicity/vector/SimpleRGBColourVector4.h>
+#include <simplicity/vector/SimpleRGBAColourVector4.h>
 #include <simplicity/vector/SimpleTransformationMatrix44.h>
 #include <simplicity/vector/SimpleTranslationVector4.h>
 
@@ -58,13 +58,13 @@ namespace simplicity
       }
     }
 
-    RGBColourVector<float>&
+    RGBAColourVector<float>&
     SimpleOpenGLLight::getAmbientLight() const
     {
       return (*fAmbientLight);
     }
 
-    RGBColourVector<float>&
+    RGBAColourVector<float>&
     SimpleOpenGLLight::getDiffuseLight() const
     {
       return (*fDiffuseLight);
@@ -82,7 +82,7 @@ namespace simplicity
       return (fNode);
     }
 
-    RGBColourVector<float>&
+    RGBAColourVector<float>&
     SimpleOpenGLLight::getSpecularLight() const
     {
       return (*fSpecularLight);
@@ -99,7 +99,7 @@ namespace simplicity
 
       fTransformation.reset(
                 new SimpleTransformationMatrix44<float> (
-                    dynamic_cast<const SimpleMatrix44<float>&> (fNode->getAbsoluteTransformation()).getDataCopy()));
+                    dynamic_cast<const SimpleMatrix44<float>&> (fNode->getAbsoluteTransformation()).getData()));
 
       try
       {
@@ -128,7 +128,7 @@ namespace simplicity
         glEnable(GL_COLOR_MATERIAL);
         glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
-        SimpleRGBColourVector4<float> colour;
+        SimpleRGBAColourVector4<float> colour;
         colour.setRed(0.5f);
         colour.setGreen(0.5f);
         colour.setBlue(0.5f);
@@ -156,13 +156,13 @@ namespace simplicity
     }
 
     void
-    SimpleOpenGLLight::setAmbientLight(shared_ptr<RGBColourVector<float> > ambientLight)
+    SimpleOpenGLLight::setAmbientLight(shared_ptr<RGBAColourVector<float> > ambientLight)
     {
       fAmbientLight = ambientLight;
     }
 
     void
-    SimpleOpenGLLight::setDiffuseLight(shared_ptr<RGBColourVector<float> > diffuseLight)
+    SimpleOpenGLLight::setDiffuseLight(shared_ptr<RGBAColourVector<float> > diffuseLight)
     {
       fDiffuseLight = diffuseLight;
     }
@@ -188,7 +188,7 @@ namespace simplicity
     }
 
     void
-    SimpleOpenGLLight::setSpecularLight(shared_ptr<RGBColourVector<float> > specularLight)
+    SimpleOpenGLLight::setSpecularLight(shared_ptr<RGBAColourVector<float> > specularLight)
     {
       fSpecularLight = specularLight;
     }

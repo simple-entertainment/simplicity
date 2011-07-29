@@ -111,8 +111,8 @@ namespace simplicity
          *
          * @return A copy of the array that contains the data for this <code>SimpleVector4</code>.
          */
-        boost::array<Data, CELLS_IN_VECTOR>
-        getDataCopy() const;
+        const boost::array<Data, CELLS_IN_VECTOR>&
+        getData() const;
 
         Data
         getLength() const;
