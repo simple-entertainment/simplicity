@@ -14,6 +14,8 @@
 
 #include "../Renderer.h"
 #include "../../engine/Engine.h"
+#include "../../scene/Scene.h"
+#include "../../vector/RGBAColourVector.h"
 
 namespace simplicity
 {
@@ -36,7 +38,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class RenderingEngine : public Engine
+  class RenderingEngine : public virtual Engine
   {
     public:
       /**
@@ -46,8 +48,8 @@ namespace simplicity
        *
        * @return True if the screen buffer is cleared before rendering.
        */
-      bool
-      clearsBeforeRender() const;
+      virtual bool
+      clearsBeforeRender() const = 0;
 
       /**
        * <p>
@@ -57,8 +59,8 @@ namespace simplicity
        *
        * @param renderer The <code>Renderer</code> to be added.
        */
-      void
-      addRenderer(boost::shared_ptr<Renderer> renderer);
+      virtual void
+      addRenderer(boost::shared_ptr<Renderer> renderer) = 0;
 
       /**
        * <p>
@@ -71,8 +73,8 @@ namespace simplicity
        * @param index The index to add the <code>Renderer</code> at.
        * @param renderer The <code>Renderer</code> to be added.
        */
-      void
-      addRenderer(const int index, boost::shared_ptr<Renderer> renderer);
+      virtual void
+      addRenderer(const int index, boost::shared_ptr<Renderer> renderer) = 0;
 
       /**
        * <p>
@@ -83,8 +85,8 @@ namespace simplicity
        *
        * @return The <code>EngineInput</code> for the next {@link simplicity::Engine Engine} in the chain.
        */
-      EngineInput *
-      advance(const EngineInput* const engineInput);
+      virtual EngineInput *
+      advance(const EngineInput* const engineInput) = 0;
 
       /**
        * <p>
@@ -93,8 +95,8 @@ namespace simplicity
        *
        * @return The <code>Camera</code> through which the <code>Scene</code> will be rendered.
        */
-      boost::shared_ptr<Camera>
-      getCamera() const;
+      virtual boost::shared_ptr<Camera>
+      getCamera() const = 0;
 
       /**
        * <p>
@@ -103,8 +105,8 @@ namespace simplicity
        *
        * @return The colour to clear the screen buffer with before rendering.
        */
-      boost::shared_ptr<SimpleVectorf4>
-      getClearingColour() const;
+      virtual boost::shared_ptr<RGBAColourVector<float> >
+      getClearingColour() const = 0;
 
       /**
        * <p>
@@ -116,8 +118,8 @@ namespace simplicity
        *
        * @return The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
        */
-      boost::shared_ptr<Node>
-      getRendererRoot(const Renderer& renderer);
+      virtual boost::shared_ptr<Node>
+      getRendererRoot(const Renderer& renderer) const = 0;
 
       /**
        * <p>
@@ -131,8 +133,8 @@ namespace simplicity
        *
        * @return The <code>Renderer</code>s that will be executed against the <code>Scene</code> during the <code>advance()</code> method.
        */
-      std::vector<boost::shared_ptr<Renderer> >
-      getRenderers() const;
+      virtual std::vector<boost::shared_ptr<Renderer> >
+      getRenderers() const = 0;
 
       /**
        * <p>
@@ -141,18 +143,28 @@ namespace simplicity
        *
        * @return The {@link simplicity::Scene Scene} to be rendered.
        */
-      boost::shared_ptr<Scene>
-      getScene() const;
+      virtual boost::shared_ptr<Scene>
+      getScene() const = 0;
 
       /**
        * <p>
-       * Retrieves the size of the viewport (the area on which the {@link simplicity::Scene Scene} will be rendered).
+       * Retrieves the height of the viewport (the area on which the {@link simplicity::Scene Scene} will be rendered).
        * </p>
        *
-       * @return The size of the viewport.
+       * @return The height of the viewport.
        */
-      Dimension
-      getViewportSize() const;
+      virtual int
+      getViewportHeight() const = 0;
+
+      /**
+       * <p>
+       * Retrieves the width of the viewport (the area on which the {@link simplicity::Scene Scene} will be rendered).
+       * </p>
+       *
+       * @return The width of the viewport.
+       */
+      virtual int
+      getViewportWidth() const = 0;
 
       /**
        * <p>
@@ -161,8 +173,8 @@ namespace simplicity
        *
        * @param renderer The <code>Renderer</code> to be removed.
        */
-      void
-      removeRenderer(const Renderer& renderer);
+      virtual void
+      removeRenderer(const Renderer& renderer) = 0;
 
       /**
        * <p>
@@ -179,8 +191,8 @@ namespace simplicity
        * @param renderer The <code>Renderer</code> that will render the portion of the <code>Scene</code>.
        * @param root The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
        */
-      void
-      renderSceneGraph(const Renderer& renderer, const Node& root);
+      virtual void
+      renderSceneGraph(Renderer& renderer, const Node& root) = 0;
 
       /**
        * <p>
@@ -189,8 +201,8 @@ namespace simplicity
        *
        * @param camera The <code>Camera</code> through which the <code>Scene</code> will be rendered.
        */
-      void
-      setCamera(boost::shared_ptr<Camera> camera);
+      virtual void
+      setCamera(boost::shared_ptr<Camera> camera) = 0;
 
       /**
        * <p>
@@ -199,8 +211,8 @@ namespace simplicity
        *
        * @param clearingColour The colour to clear the buffer with before rendering.
        */
-      void
-      setClearingColour(boost::shared_ptr<SimpleVectorf4> clearingColour);
+      virtual void
+      setClearingColour(boost::shared_ptr<RGBAColourVector<float> > clearingColour) = 0;
 
       /**
        * <p>
@@ -209,8 +221,8 @@ namespace simplicity
        *
        * @param clearsBeforeRender Determines if the screen buffer is cleared before rendering.
        */
-      void
-      setClearsBeforeRender(const bool clearsBeforeRender);
+      virtual void
+      setClearsBeforeRender(const bool clearsBeforeRender) = 0;
 
       /**
        * <p>
@@ -222,8 +234,8 @@ namespace simplicity
        * @param renderer The <code>Renderer</code> to set the root <code>Node</code> for.
        * @param root The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
        */
-      void
-      setRendererRoot(const Renderer& renderer, boost::shared_ptr<Node> root);
+      virtual void
+      setRendererRoot(const Renderer& renderer, boost::shared_ptr<Node> root) = 0;
 
       /**
        * <p>
@@ -232,18 +244,28 @@ namespace simplicity
        *
        * @param scene The <code>Scene</code> to be rendered.
        */
-      void
-      setScene(boost::shared_ptr<Scene> scene);
+      virtual void
+      setScene(boost::shared_ptr<Scene> scene) = 0;
 
       /**
        * <p>
-       * Sets the size of the viewport (the area on which the {@link simplicity::Scene Scene} will be rendered).
+       * Sets the height of the viewport (the area on which the {@link simplicity::Scene Scene} will be rendered).
        * </p>
        *
-       * @param viewportSize The size of the viewport.
+       * @param viewportHeight The height of the viewport.
        */
-      void
-      setViewportSize(const Dimension viewportSize);
+      virtual void
+      setViewportHeight(const int viewportHeight) = 0;
+
+      /**
+       * <p>
+       * Sets the width of the viewport (the area on which the {@link simplicity::Scene Scene} will be rendered).
+       * </p>
+       *
+       * @param viewportWidth The width of the viewport.
+       */
+      virtual void
+      setViewportWidth(const int viewportWidth) = 0;
   };
 }
 

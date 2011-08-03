@@ -34,6 +34,7 @@ namespace simplicity
      */
     class SimpleOpenGLRenderer : public Renderer
     {
+      public:
         /**
          * <p>
          * Creates an instance of <code>SimpleOpenGLRenderer</code>.
@@ -52,7 +53,7 @@ namespace simplicity
         dispose();
 
         DrawingMode
-        getDrawingMode();
+        getDrawingMode() const;
 
         void
         init();

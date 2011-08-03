@@ -28,7 +28,8 @@ namespace simplicity
     log4cpp::Category& SimpleOpenGLLight::fLogger = log4cpp::Category::getInstance("simplicity_opengl::SimpleOpenGLLight");
 
     SimpleOpenGLLight::SimpleOpenGLLight() :
-      fInitialised(false), fLightingMode(Light::SCENE)
+      fAmbientLight(new SimpleRGBAColourVector4<float> ), fDiffuseLight(new SimpleRGBAColourVector4<float> ),
+          fInitialised(false), fLightingMode(Light::SCENE), fSpecularLight(new SimpleRGBAColourVector4<float> )
     {
     }
 
@@ -98,8 +99,8 @@ namespace simplicity
       }
 
       fTransformation.reset(
-                new SimpleTransformationMatrix44<float> (
-                    dynamic_cast<const SimpleMatrix44<float>&> (fNode->getAbsoluteTransformation()).getData()));
+          new SimpleTransformationMatrix44<float> (
+              dynamic_cast<const SimpleMatrix44<float>&> (fNode->getAbsoluteTransformation()).getData()));
 
       try
       {

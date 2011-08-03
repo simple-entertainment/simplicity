@@ -35,8 +35,8 @@ namespace simplicity
        * @param model The <code>Model</code> to render.
        * @param name The name to assign to the <code>Model</code> being rendered.
        */
-      void
-      renderModel(const Model& model, const int name);
+      virtual void
+      renderModel(const Model& model, const int name) = 0;
   };
 }
 

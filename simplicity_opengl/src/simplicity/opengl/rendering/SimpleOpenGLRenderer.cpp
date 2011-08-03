@@ -24,7 +24,6 @@
 using namespace boost;
 using namespace boost::math::constants;
 using namespace simplicity::model_constants;
-using namespace std;
 
 namespace simplicity
 {
@@ -46,7 +45,7 @@ namespace simplicity
     }
 
     Renderer::DrawingMode
-    SimpleOpenGLRenderer::getDrawingMode()
+    SimpleOpenGLRenderer::getDrawingMode() const
     {
       return (fDrawingMode);
     }
@@ -176,7 +175,34 @@ namespace simplicity
     void
     SimpleOpenGLRenderer::renderModel(const Model& model)
     {
-      throw new SENotSupportedException;
+      if (dynamic_cast<const GLUCapsule*> (&model))
+      {
+        renderModel(dynamic_cast<const GLUCapsule&> (model));
+      }
+      else if (dynamic_cast<const GLUCylinder*> (&model))
+      {
+        renderModel(dynamic_cast<const GLUCylinder&> (model));
+      }
+      else if (dynamic_cast<const GLUSphere*> (&model))
+      {
+        renderModel(dynamic_cast<const GLUSphere&> (model));
+      }
+      else if (dynamic_cast<const GLUTorus*> (&model))
+      {
+        renderModel(dynamic_cast<const GLUTorus&> (model));
+      }
+      else if (dynamic_cast<const IndexedVectorVG*> (&model))
+      {
+        renderModel(dynamic_cast<const IndexedVectorVG&> (model));
+      }
+      else if (dynamic_cast<const VectorVG*> (&model))
+      {
+        renderModel(dynamic_cast<const VectorVG&> (model));
+      }
+      else
+      {
+        throw new SENotSupportedException;
+      }
     }
 
     void
