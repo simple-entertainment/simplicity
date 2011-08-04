@@ -208,16 +208,6 @@ namespace simplicity
         void
         backtrack(const int backtracks);
 
-        // TODO
-        void
-        renderNode(NamedRenderer& renderer, const ModelNode& node);
-
-        void
-        renderNode(Renderer& renderer, const ModelNode& node);
-
-        void
-        renderNode(Renderer& renderer, const Node& node);
-
         /**
          * <p>
          * Renders the {@link simplicity::Scene Scene} with the given Renderer.

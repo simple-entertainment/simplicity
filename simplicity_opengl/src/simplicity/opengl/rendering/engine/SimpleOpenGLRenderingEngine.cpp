@@ -230,23 +230,6 @@ namespace simplicity
     }
 
     void
-    SimpleOpenGLRenderingEngine::renderNode(NamedRenderer& renderer, const ModelNode& node)
-    {
-      //renderer.renderModel(*node.getModel(), node.getID()); TODO
-    }
-
-    void
-    SimpleOpenGLRenderingEngine::renderNode(Renderer& renderer, const ModelNode& node)
-    {
-      renderer.renderModel(*node.getModel());
-    }
-
-    void
-    SimpleOpenGLRenderingEngine::renderNode(Renderer& renderer, const Node& node)
-    {
-    }
-
-    void
     SimpleOpenGLRenderingEngine::renderScene(Renderer& renderer)
     {
       glPushMatrix();
