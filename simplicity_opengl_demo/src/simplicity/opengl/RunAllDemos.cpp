@@ -24,6 +24,7 @@
 #include <simplicity/opengl/rendering/SimpleOpenGLCamera.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLLight.h>
 
+#include "rendering/CullFaceOpenGLRendererDemo.h"
 #include "rendering/MonoColourOpenGLRendererDemo.h"
 #include "rendering/SimpleOpenGLRendererDemo.h"
 
@@ -74,6 +75,7 @@ initDemos()
 {
   demos.push_back(shared_ptr<SimpleOpenGLRendererDemo> (new SimpleOpenGLRendererDemo));
   demos.push_back(shared_ptr<MonoColourOpenGLRendererDemo> (new MonoColourOpenGLRendererDemo));
+  demos.push_back(shared_ptr<CullFaceOpenGLRendererDemo> (new CullFaceOpenGLRendererDemo));
 }
 
 /**
