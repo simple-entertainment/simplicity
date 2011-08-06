@@ -20,46 +20,49 @@
 #include <simplicity/opengl/model/shape/GLUCylinder.h>
 #include <simplicity/opengl/model/shape/GLUSphere.h>
 #include <simplicity/opengl/model/shape/GLUTorus.h>
-#include <simplicity/opengl/rendering/MonoColourOpenGLRenderer.h>
+#include <simplicity/opengl/rendering/AlwaysStencilOpenGLRenderer.h>
+#include <simplicity/opengl/rendering/NotEqualStencilOpenGLRenderer.h>
+#include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
 
-#include "MonoColourOpenGLRendererDemo.h"
-
-using namespace boost;
-using namespace std;
+#include "AlwaysAndNotEqualStencilOpenGLRenderersDemo.h"
 
 namespace simplicity
 {
   namespace opengl
   {
-    MonoColourOpenGLRendererDemo::MonoColourOpenGLRendererDemo() : fRoot(shared_ptr<Node> (new SimpleNode))
+    AlwaysAndNotEqualStencilOpenGLRenderersDemo::AlwaysAndNotEqualStencilOpenGLRenderersDemo() :
+      fFirstRoot(shared_ptr<Node> (new SimpleNode)), fSecondRoot(shared_ptr<Node> (new SimpleNode))
     {
     }
 
-    MonoColourOpenGLRendererDemo::~MonoColourOpenGLRendererDemo()
+    AlwaysAndNotEqualStencilOpenGLRenderersDemo::~AlwaysAndNotEqualStencilOpenGLRenderersDemo()
     {
     }
 
     void
-    MonoColourOpenGLRendererDemo::dispose(RenderingEngine& renderingEngine)
+    AlwaysAndNotEqualStencilOpenGLRenderersDemo::dispose(RenderingEngine& renderingEngine)
     {
-      renderingEngine.getScene()->getSceneGraph()->removeSubgraph(*fRoot);
+      renderingEngine.getScene()->getSceneGraph()->removeSubgraph(*fFirstRoot);
+      renderingEngine.removeRenderer(*renderingEngine.getRenderers().at(0));
+
+      renderingEngine.getScene()->getSceneGraph()->removeSubgraph(*fSecondRoot);
       renderingEngine.removeRenderer(*renderingEngine.getRenderers().at(0));
     }
 
     string
-    MonoColourOpenGLRendererDemo::getDescription()
+    AlwaysAndNotEqualStencilOpenGLRenderersDemo::getDescription()
     {
-      return ("You'll just have to trust me on this one (unless you check the code). All the shapes are different colours but the renderer overrides that.");
+      return ("Pass #1 Renders the sphere, cylinder and capsule and assigns a value to the stencil buffer.\nPass #2 Renders the torus only where the stencil buffer has not been assigned a value.\nThe result of this is that the torus will never be rendered over the other shapes.");
     }
 
     string
-    MonoColourOpenGLRendererDemo::getTitle()
+    AlwaysAndNotEqualStencilOpenGLRenderersDemo::getTitle()
     {
-      return ("MonoColourOpenGLRenderer");
+      return ("AlwaysStencilOpenGLRenderer and NotEqualStencilOpenGLRenderer");
     }
 
     void
-    MonoColourOpenGLRendererDemo::init(RenderingEngine& renderingEngine)
+    AlwaysAndNotEqualStencilOpenGLRenderersDemo::init(RenderingEngine& renderingEngine)
     {
       shared_ptr<SimpleModelNode> capsuleNode(new SimpleModelNode);
       capsuleNode->getTransformation().translate(SimpleTranslationVector4<float> (-3.0f, 3.0f, 0.0f, 1.0f));
@@ -67,32 +70,42 @@ namespace simplicity
       capsule->setColour(
           shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.75f, 0.0f, 0.0f, 1.0f)));
       capsuleNode->setModel(capsule);
-      fRoot->addChild(capsuleNode);
+      fFirstRoot->addChild(capsuleNode);
+
       shared_ptr<SimpleModelNode> cylinderNode(new SimpleModelNode);
       cylinderNode->getTransformation().translate(SimpleTranslationVector4<float> (0.0f, 3.0f, 0.0f, 1.0f));
       shared_ptr<GLUCylinder> cylinder(new GLUCylinder);
       cylinder->setColour(
           shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.0f, 0.75f, 0.0f, 1.0f)));
       cylinderNode->setModel(cylinder);
-      fRoot->addChild(cylinderNode);
+      fFirstRoot->addChild(cylinderNode);
+
       shared_ptr<SimpleModelNode> sphereNode(new SimpleModelNode);
       sphereNode->getTransformation().translate(SimpleTranslationVector4<float> (3.0f, 3.0f, 0.0f, 1.0f));
       shared_ptr<GLUSphere> sphere(new GLUSphere);
       sphere->setColour(
           shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.0f, 0.0f, 0.75f, 1.0f)));
       sphereNode->setModel(sphere);
-      fRoot->addChild(sphereNode);
+      fFirstRoot->addChild(sphereNode);
+
       shared_ptr<SimpleModelNode> torusNode(new SimpleModelNode);
       torusNode->getTransformation().translate(SimpleTranslationVector4<float> (0.0f, -2.0f, 0.0f, 1.0f));
-      torusNode->setModel(shared_ptr<GLUTorus> (new GLUTorus));
-      fRoot->addChild(torusNode);
+      shared_ptr<GLUTorus> torus(new GLUTorus);
+      torusNode->setModel(torus);
+      fSecondRoot->addChild(torusNode);
 
-      renderingEngine.getScene()->getSceneGraph()->addSubgraph(fRoot);
+      renderingEngine.getScene()->getSceneGraph()->addSubgraph(fFirstRoot);
+      renderingEngine.getScene()->getSceneGraph()->addSubgraph(fSecondRoot);
 
-      shared_ptr<MonoColourOpenGLRenderer> renderer(new MonoColourOpenGLRenderer);
-      renderer->setColour(
-          shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.0f, 0.5f, 0.5f, 1.0f)));
-      renderingEngine.addRenderer(renderer);
+      shared_ptr<SimpleOpenGLRenderer> wrappedRenderer(new SimpleOpenGLRenderer);
+
+      shared_ptr<AlwaysStencilOpenGLRenderer> firstRenderer(new AlwaysStencilOpenGLRenderer(wrappedRenderer));
+      renderingEngine.addRenderer(firstRenderer);
+      renderingEngine.setRendererRoot(*firstRenderer, fFirstRoot);
+
+      shared_ptr<NotEqualStencilOpenGLRenderer> secondRenderer(new NotEqualStencilOpenGLRenderer(wrappedRenderer));
+      renderingEngine.addRenderer(secondRenderer);
+      renderingEngine.setRendererRoot(*secondRenderer, fSecondRoot);
     }
   }
 }

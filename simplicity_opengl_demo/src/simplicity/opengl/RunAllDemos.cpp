@@ -24,6 +24,7 @@
 #include <simplicity/opengl/rendering/SimpleOpenGLCamera.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLLight.h>
 
+#include "rendering/AlwaysAndNotEqualStencilOpenGLRenderersDemo.h"
 #include "rendering/BlendingOpenGLRendererDemo.h"
 #include "rendering/CullFaceOpenGLRendererDemo.h"
 #include "rendering/MonoColourOpenGLRendererDemo.h"
@@ -51,14 +52,17 @@ float textZ;
 void
 text(void* font, const string text, const float x, const float y)
 {
+  float currentY = y;
+
   glDisable(GL_LIGHTING);
   glColor3f(0.05f, 0.05f, 0.05f);
-  glRasterPos3f(x, y, -1.0f);
+  glRasterPos3f(x, currentY, -1.0f);
   for (unsigned int index = 0; index < text.length(); index++)
   {
     if (text.at(index) == '\n')
     {
-      glRasterPos3f(x, y - 0.025f, -1.0f);
+      currentY -= 0.025f;
+      glRasterPos3f(x, currentY, -1.0f);
     }
     else
     {
@@ -78,6 +82,7 @@ initDemos()
   demos.push_back(shared_ptr<MonoColourOpenGLRendererDemo> (new MonoColourOpenGLRendererDemo));
   demos.push_back(shared_ptr<CullFaceOpenGLRendererDemo> (new CullFaceOpenGLRendererDemo));
   demos.push_back(shared_ptr<BlendingOpenGLRendererDemo> (new BlendingOpenGLRendererDemo));
+  demos.push_back(shared_ptr<AlwaysAndNotEqualStencilOpenGLRenderersDemo> (new AlwaysAndNotEqualStencilOpenGLRenderersDemo));
 }
 
 /**
@@ -162,7 +167,7 @@ keyboard(const unsigned char key, const int x, const int y)
   {
     nextDemo();
   }
-  else if ('b')
+  else if (key == 8) // backspace
   {
     previousDemo();
   }
@@ -206,7 +211,9 @@ render()
   renderingEngine.advance(NULL);
 
   text(GLUT_BITMAP_HELVETICA_18, demos.at(demoIndex - 1)->getTitle(), -0.5f, 0.35f);
-  text(GLUT_BITMAP_HELVETICA_18, demos.at(demoIndex - 1)->getDescription(), -0.5f, 0.325f);
+  text(GLUT_BITMAP_HELVETICA_12, demos.at(demoIndex - 1)->getDescription(), -0.5f, 0.325f);
+  text(GLUT_BITMAP_HELVETICA_18, "<< Previous [backspace]", -0.5f, -0.36f);
+  text(GLUT_BITMAP_HELVETICA_18, "[space] Next >>", 0.34f, -0.36f);
 
   glutSwapBuffers();
 }
