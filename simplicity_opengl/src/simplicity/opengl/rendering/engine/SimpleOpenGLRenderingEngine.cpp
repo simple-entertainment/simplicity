@@ -10,6 +10,7 @@
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <algorithm>
+#include <stdio.h>
 
 #include <simplicity/scenegraph/SimpleTraversal.h>
 #include <simplicity/vector/SimpleRGBAColourVector4.h>
@@ -33,7 +34,7 @@ namespace simplicity
         }
 
         bool
-        operator()(shared_ptr<Renderer> shared) const
+        operator()(const shared_ptr<Renderer> shared) const
         {
           return (shared.get() == raw);
         }
@@ -59,7 +60,7 @@ namespace simplicity
 
       if (fScene.get())
       {
-        fRendererRoots.insert(pair<shared_ptr<Renderer> , shared_ptr<Node> > (renderer, fScene->getSceneGraph()->getRoot()));
+        setRendererRoot(*renderer, fScene->getSceneGraph()->getRoot());
       }
     }
 
@@ -222,11 +223,10 @@ namespace simplicity
     SimpleOpenGLRenderingEngine::removeRenderer(const Renderer& renderer)
     {
       shared_equals_raw sharedEqualsRaw(&renderer);
-      shared_ptr<Renderer> sharedRenderer(*find_if(fRenderers.begin(), fRenderers.end(), sharedEqualsRaw));
+      vector<shared_ptr<Renderer> >::iterator sharedRenderer(find_if(fRenderers.begin(), fRenderers.end(), sharedEqualsRaw));
 
-      fRenderers.erase(find(fRenderers.begin(), fRenderers.end(), sharedRenderer));
-
-      fRendererRoots.erase(sharedRenderer);
+      fRenderers.erase(sharedRenderer);
+      fRendererRoots.erase(*sharedRenderer);
     }
 
     void
@@ -317,6 +317,7 @@ namespace simplicity
     {
       shared_equals_raw sharedEqualsRaw(&renderer);
       shared_ptr<Renderer> sharedRenderer(*find_if(fRenderers.begin(), fRenderers.end(), sharedEqualsRaw));
+      fRendererRoots.erase(sharedRenderer);
       fRendererRoots.insert(pair<shared_ptr<Renderer> , shared_ptr<Node> > (sharedRenderer, root));
     }
 
