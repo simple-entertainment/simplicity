@@ -62,7 +62,7 @@ namespace simplicity
          * @return The colour to render the {@link simplicity::Model Model} in.
          */
         boost::shared_ptr<RGBAColourVector<float> >
-        getColour();
+        getColour() const;
 
         DrawingMode
         getDrawingMode() const;

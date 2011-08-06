@@ -45,7 +45,7 @@ namespace simplicity
     }
 
     shared_ptr<RGBAColourVector<float> >
-    MonoColourOpenGLRenderer::getColour()
+    MonoColourOpenGLRenderer::getColour() const
     {
       return (fColour);
     }

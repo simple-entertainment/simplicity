@@ -29,6 +29,7 @@
 #include "rendering/CullFaceOpenGLRendererDemo.h"
 #include "rendering/DepthClearingOpenGLRendererDemo.h"
 #include "rendering/MonoColourOpenGLRendererDemo.h"
+#include "rendering/OutlineOpenGLRendererDemo.h"
 #include "rendering/SimpleOpenGLRendererDemo.h"
 #include "rendering/StencilClearingOpenGLRendererDemo.h"
 
@@ -87,6 +88,7 @@ initDemos()
   demos.push_back(shared_ptr<AlwaysAndNotEqualStencilOpenGLRenderersDemo> (new AlwaysAndNotEqualStencilOpenGLRenderersDemo));
   demos.push_back(shared_ptr<StencilClearingOpenGLRendererDemo> (new StencilClearingOpenGLRendererDemo));
   demos.push_back(shared_ptr<DepthClearingOpenGLRendererDemo> (new DepthClearingOpenGLRendererDemo));
+  demos.push_back(shared_ptr<OutlineOpenGLRendererDemo> (new OutlineOpenGLRendererDemo));
 }
 
 /**
