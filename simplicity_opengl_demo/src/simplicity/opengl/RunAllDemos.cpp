@@ -29,6 +29,7 @@
 #include "rendering/CullFaceOpenGLRendererDemo.h"
 #include "rendering/MonoColourOpenGLRendererDemo.h"
 #include "rendering/SimpleOpenGLRendererDemo.h"
+#include "rendering/StencilClearingOpenGLRendererDemo.h"
 
 using namespace boost;
 using namespace boost::math::constants;
@@ -83,6 +84,7 @@ initDemos()
   demos.push_back(shared_ptr<CullFaceOpenGLRendererDemo> (new CullFaceOpenGLRendererDemo));
   demos.push_back(shared_ptr<BlendingOpenGLRendererDemo> (new BlendingOpenGLRendererDemo));
   demos.push_back(shared_ptr<AlwaysAndNotEqualStencilOpenGLRenderersDemo> (new AlwaysAndNotEqualStencilOpenGLRenderersDemo));
+  demos.push_back(shared_ptr<StencilClearingOpenGLRendererDemo> (new StencilClearingOpenGLRendererDemo));
 }
 
 /**
