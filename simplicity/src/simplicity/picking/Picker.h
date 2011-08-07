@@ -16,7 +16,7 @@
 #include "../picking/Pick.h"
 #include "../scene/Scene.h"
 #include "../rendering/Camera.h"
-#include "../rendering/DrawingMode.h"
+#include "../rendering/Renderer.h"
 #include "../scene/Scene.h"
 
 namespace simplicity
@@ -58,7 +58,7 @@ namespace simplicity
        *
        * @return The <code>DrawingMode</code> used to create <code>PickEvent</code>s from the <code>Scene</code>.
        */
-      virtual DrawingMode
+      virtual Renderer::DrawingMode
       getDrawingMode() const = 0;
 
       /**
@@ -92,7 +92,7 @@ namespace simplicity
        * @param mode The drawing mode used to pick the {@link simplicity::Scene Scene}.
        */
       virtual void
-      setDrawingMode(const DrawingMode mode) = 0;
+      setDrawingMode(const Renderer::DrawingMode mode) = 0;
   };
 }
 
