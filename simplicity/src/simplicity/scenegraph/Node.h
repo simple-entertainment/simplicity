@@ -105,7 +105,7 @@ namespace simplicity
 
       /**
        * <p>
-       * Obtain a shared pointer to this <code>SimpleNode</code>.
+       * Obtain a shared pointer to this <code>Node</code>.
        * </p>
        */
       boost::shared_ptr<Node> getThisShared() { return (shared_from_this()); }
