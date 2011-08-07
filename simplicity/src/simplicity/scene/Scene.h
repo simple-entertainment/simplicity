@@ -14,6 +14,8 @@
 
 #include <vector>
 
+#include <boost/enable_shared_from_this.hpp>
+
 #include "../rendering/Camera.h"
 #include "../rendering/Light.h"
 #include "../scenegraph/SceneGraph.h"
@@ -27,7 +29,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class Scene
+  class Scene : public boost::enable_shared_from_this<Scene>
   {
     public:
       /**
@@ -90,6 +92,14 @@ namespace simplicity
        */
       virtual boost::shared_ptr<SceneGraph>
       getSceneGraph() const = 0;
+
+      /**
+       * <p>
+       * Obtain a shared pointer to this <code>Scene</code>.
+       * </p>
+       */
+      boost::shared_ptr<Scene> getThisShared() { return (shared_from_this()); }
+      boost::shared_ptr<const Scene> getThisShared() const { return (shared_from_this()); }
 
       /**
        * <p>
