@@ -58,6 +58,32 @@ namespace simplicity
         void
         init();
 
+        void
+        renderModel(const Model& model);
+
+        void
+        setDrawingMode(const DrawingMode mode);
+
+      private:
+        /**
+         * <p>
+         * The drawing mode used to render the {@link com.se.simplicity.model.Model Model}s.
+         * </p>
+         */
+        DrawingMode fDrawingMode;
+
+        /**
+         * <p>
+         * Retrieves the OpenGL drawing mode used to render the {@link simplicity::Model Model}.
+         * </p>
+         *
+         * @param drawingMode The <code>DrawingMode</code> to retrieve the OpenGL drawing mode for.
+         *
+         * @return The OpenGL drawing mode used to render the <code>Model</code>.
+         */
+        int
+        getOpenGlDrawingMode(const DrawingMode drawingMode);
+
         /**
          * <p>
          * Renders a <code>GLUCapsule</code>.
@@ -108,9 +134,6 @@ namespace simplicity
         void
         renderModel(const IndexedVectorVG& vertexGroup);
 
-        void
-        renderModel(const Model& model);
-
         /**
          * <p>
          * Renders an <code>ArrayVG</code>.
@@ -120,29 +143,6 @@ namespace simplicity
          */
         void
         renderModel(const VectorVG& vertexGroup);
-
-        void
-        setDrawingMode(const DrawingMode mode);
-
-      private:
-        /**
-         * <p>
-         * The drawing mode used to render the {@link com.se.simplicity.model.Model Model}s.
-         * </p>
-         */
-        DrawingMode fDrawingMode;
-
-        /**
-         * <p>
-         * Retrieves the OpenGL drawing mode used to render the {@link simplicity::Model Model}.
-         * </p>
-         *
-         * @param drawingMode The <code>DrawingMode</code> to retrieve the OpenGL drawing mode for.
-         *
-         * @return The OpenGL drawing mode used to render the <code>Model</code>.
-         */
-        int
-        getOpenGlDrawingMode(const DrawingMode drawingMode);
     };
   }
 }

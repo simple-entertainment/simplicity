@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <stdio.h>
 
+#include <simplicity/common/shared_equals_raw.h>
 #include <simplicity/scenegraph/SimpleTraversal.h>
 #include <simplicity/vector/SimpleRGBAColourVector4.h>
 
@@ -24,22 +25,6 @@ namespace simplicity
 {
   namespace opengl
   {
-    struct shared_equals_raw
-    {
-        const Renderer* raw;
-
-        shared_equals_raw(const Renderer* raw) :
-          raw(raw)
-        {
-        }
-
-        bool
-        operator()(const shared_ptr<Renderer> shared) const
-        {
-          return (shared.get() == raw);
-        }
-    };
-
     log4cpp::Category& SimpleOpenGLRenderingEngine::fLogger = log4cpp::Category::getInstance(
         "simplicity::opengl::SimpleOpenGLRenderingEngine");
 
@@ -76,7 +61,7 @@ namespace simplicity
       if (!fCamera.get())
       {
         fLogger.fatal("Just how do you expect me to render without a camera then?");
-        throw new SEInvalidOperationException();
+        throw SEInvalidOperationException();
       }
 
       fCamera->init();
@@ -84,7 +69,7 @@ namespace simplicity
       if (!fScene.get())
       {
         fLogger.fatal("Just what do you expect me to render then? I don't have a scene to play with.");
-        throw new SEInvalidOperationException();
+        throw SEInvalidOperationException();
       }
 
       if (!fInitialised)
@@ -160,10 +145,10 @@ namespace simplicity
     {
       shared_ptr<Node> rendererRoot;
 
-      shared_equals_raw sharedEqualsRaw(&renderer);
+      shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
       shared_ptr<Renderer> sharedRenderer(*find_if(fRenderers.begin(), fRenderers.end(), sharedEqualsRaw));
 
-      if (sharedRenderer.get())
+      if (sharedRenderer != *fRenderers.end())
       {
         rendererRoot = fRendererRoots.find(sharedRenderer)->second;
       }
@@ -222,7 +207,7 @@ namespace simplicity
     void
     SimpleOpenGLRenderingEngine::removeRenderer(const Renderer& renderer)
     {
-      shared_equals_raw sharedEqualsRaw(&renderer);
+      shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
       vector<shared_ptr<Renderer> >::iterator sharedRenderer(find_if(fRenderers.begin(), fRenderers.end(), sharedEqualsRaw));
 
       fRenderers.erase(sharedRenderer);
@@ -241,7 +226,7 @@ namespace simplicity
           fScene->getLights().at(index)->apply();
         }
 
-        shared_equals_raw sharedEqualsRaw(&renderer);
+        shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
         shared_ptr<Renderer> sharedRenderer(*find_if(fRenderers.begin(), fRenderers.end(), sharedEqualsRaw));
         renderSceneGraph(renderer, *fRendererRoots.find(sharedRenderer)->second);
       }
@@ -315,7 +300,7 @@ namespace simplicity
     void
     SimpleOpenGLRenderingEngine::setRendererRoot(const Renderer& renderer, shared_ptr<Node> root)
     {
-      shared_equals_raw sharedEqualsRaw(&renderer);
+      shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
       shared_ptr<Renderer> sharedRenderer(*find_if(fRenderers.begin(), fRenderers.end(), sharedEqualsRaw));
       fRendererRoots.erase(sharedRenderer);
       fRendererRoots.insert(pair<shared_ptr<Renderer> , shared_ptr<Node> > (sharedRenderer, root));
@@ -332,15 +317,12 @@ namespace simplicity
 
       fScene = scene;
 
-      if (fScene.get())
+      for (unsigned int index = 0; index < fRenderers.size(); index++)
       {
-        for (unsigned int index = 0; index < fRenderers.size(); index++)
+        if (fRendererRoots.find(fRenderers.at(index)) == fRendererRoots.end())
         {
-          if (!fRendererRoots.find(fRenderers.at(index))->second.get())
-          {
-            fRendererRoots.insert(
-                pair<shared_ptr<Renderer> , shared_ptr<Node> > (fRenderers.at(index), fScene->getSceneGraph()->getRoot()));
-          }
+          fRendererRoots.insert(
+              pair<shared_ptr<Renderer> , shared_ptr<Node> > (fRenderers.at(index), fScene->getSceneGraph()->getRoot()));
         }
       }
     }

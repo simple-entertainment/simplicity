@@ -85,7 +85,7 @@ namespace simplicity
        *
        * @return The <code>EngineInput</code> for the next {@link simplicity::Engine Engine} in the chain.
        */
-      virtual EngineInput *
+      virtual EngineInput*
       advance(const EngineInput* const engineInput) = 0;
 
       /**

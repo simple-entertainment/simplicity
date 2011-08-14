@@ -47,7 +47,7 @@ namespace simplicity
     string
     OutlineOpenGLRendererDemo::getDescription()
     {
-      return ("Renders only an outline of the shapes. Performs multiple rendering passes using internally stencilling renderers to achieve this.");
+      return ("Renders only an outline of the shapes. Performs multiple rendering passes internally using stencilling renderers to achieve this.");
     }
 
     string
