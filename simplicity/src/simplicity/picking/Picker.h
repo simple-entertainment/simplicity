@@ -82,7 +82,7 @@ namespace simplicity
        * @return An event containing any picked components of the <code>Scene</code>.
        */
       virtual PickEvent
-      pickScene(const Scene& scene, const Camera& camera, const Pick pick) = 0;
+      pickScene(Scene& scene, const Camera& camera, const Pick pick) = 0;
 
       /**
        * <p>
