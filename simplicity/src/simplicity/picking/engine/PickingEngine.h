@@ -12,6 +12,12 @@
 #ifndef PICKINGENGINE_H_
 #define PICKINGENGINE_H_
 
+#include <simplicity/engine/Engine.h>
+#include <simplicity/picking/event/PickEvent.h>
+#include <simplicity/picking/event/PickListener.h>
+#include <simplicity/picking/Picker.h>
+#include <simplicity/rendering/Camera.h>
+
 namespace simplicity
 {
   /**
@@ -22,7 +28,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class PickingEngine : public Engine
+  class PickingEngine : public virtual Engine
   {
     public:
       /**
@@ -40,8 +46,8 @@ namespace simplicity
        * Performs the outstanding picks against a {@link simplicity::SceneGraph SceneGraph}.
        * </p>
        */
-      virtual void
-      advance() = 0;
+      virtual EngineInput*
+      advance(const EngineInput* const input) = 0;
 
       /**
        * <p>
@@ -52,7 +58,7 @@ namespace simplicity
        * @param event The <code>PickEvent</code> to be fired to all <code>PickListener</code>s.
        */
       virtual void
-      firePickEvent(const PickEvent& event) const = 0;
+      firePickEvent(PickEvent event) const = 0;
 
       /**
        * <p>
@@ -126,25 +132,27 @@ namespace simplicity
        * Registers a pick at the given location of a viewport with the given dimensions.
        * </p>
        *
-       * @param viewportSize The size of the viewport.
+       * @param viewportWidth The width of the viewport.
+       * @param viewportHeight The height of the viewport.
        * @param x The position on the <code>x</code> axis of the viewport to pick.
        * @param y The position on the <code>y</code> axis of the viewport to pick.
        * @param width The width of the area on the viewport to pick.
        * @param height The height of the area on the viewport to pick.
        */
       virtual void
-      pickViewport(const Dimension viewportSize, const int x, const int y, const int width, const int height) = 0;
+      pickViewport(const int viewportWidth, const int viewportHeight, const int x, const int y, const int width, const int height) = 0;
 
       /**
        * <p>
        * Registers a pick at the given location and area of a viewport.
        * </p>
        *
-       * @param viewportSize The size of the viewport.
+       * @param viewportWidth The width of the viewport.
+       * @param viewportHeight The height of the viewport.
        * @param pick The position and area of the viewport to pick.
        */
       virtual void
-      pickViewport(const Dimension viewportSize, const Pick pick) = 0;
+      pickViewport(const int viewportWidth, const int viewportHeight, const Pick pick) = 0;
 
       /**
        * <p>
