@@ -12,7 +12,7 @@
 #ifndef DEPTHCLEARINGOPENGLRENDERERDEMO_H_
 #define DEPTHCLEARINGOPENGLRENDERERDEMO_H_
 
-#include <simplicity/scenegraph/Node.h>
+#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 
 #include "../Demo.h"
 
@@ -44,7 +44,13 @@ namespace simplicity
         ~DepthClearingOpenGLRendererDemo();
 
         void
-        dispose(RenderingEngine& renderingEngine);
+        advance();
+
+        void
+        dispose();
+
+        boost::shared_ptr<Node>
+        getCameraRootNode();
 
         std::string
         getDescription();
@@ -53,22 +59,15 @@ namespace simplicity
         getTitle();
 
         void
-        init(RenderingEngine& renderingEngine);
+        init();
 
       private:
         /**
          * <p>
-         * The root node of the scene displayed by the first rendering pass.
+         * The rendering engine for the demo.
          * </p>
          */
-        boost::shared_ptr<Node> fFirstRoot;
-
-        /**
-         * <p>
-         * The root node of the scene displayed by the second rendering pass.
-         * </p>
-         */
-        boost::shared_ptr<Node> fSecondRoot;
+        SimpleOpenGLRenderingEngine fRenderingEngine;
     };
   }
 }

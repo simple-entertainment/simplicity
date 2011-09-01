@@ -12,7 +12,9 @@
 #ifndef DEMO_H_
 #define DEMO_H_
 
-#include <simplicity/rendering/engine/RenderingEngine.h>
+#include <simplicity/rendering/Camera.h>
+#include <simplicity/rendering/Light.h>
+#include <simplicity/scenegraph/SceneGraph.h>
 
 namespace simplicity
 {
@@ -28,13 +30,19 @@ namespace simplicity
       public:
         /**
          * <p>
-         * Reverts the state of the demo environment.
+         * Advances the demo by one frame.
          * </p>
-         *
-         * @param renderingEngine The rendering engine that rendered the demo.
          */
         virtual void
-        dispose(RenderingEngine& renderingEngine) = 0;
+        advance() = 0;
+
+        /**
+         * <p>
+         * Reverts the state of the demo environment.
+         * </p>
+         */
+        virtual void
+        dispose() = 0;
 
         /**
          * <p>
@@ -45,6 +53,16 @@ namespace simplicity
          */
         virtual std::string
         getDescription() = 0;
+
+        /**
+         * <p>
+         * Retrieves the root node of the camera's subgraph.
+         * </p>
+         *
+         * @return The root node of the camera's subgraph.
+         */
+        virtual boost::shared_ptr<Node>
+        getCameraRootNode() = 0;
 
         /**
          * <p>
@@ -60,11 +78,85 @@ namespace simplicity
          * <p>
          * Initialises the state of the demo environment for this demo.
          * </p>
-         *
-         * @param renderingEngine The rendering engine that will be rendering the demo.
          */
         virtual void
-        init(RenderingEngine& renderingEngine) = 0;
+        init() = 0;
+
+        /**
+         * <p>
+         * Callback used to respond to mouse click events.
+         * </p>
+         *
+         * @param x The x axis of the location in the demo window that was clicked.
+         * @param y The y axis of the location in the demo window that was clicked.
+         */
+        virtual void
+        mouseClick(const int x, const int y);
+
+      protected:
+        /**
+         * <p>
+         * Creates a standard OpenGL camera in the standard location for use with demos.
+         * </p>
+         *
+         * @param parentNode The node under which the camera should be added.
+         *
+         * @return The standard camera.
+         */
+        boost::shared_ptr<Camera>
+        addStandardCamera(boost::shared_ptr<Node> parentNode);
+
+        /**
+         * <p>
+         * Creates a standard OpenGL capsule in the standard location for use with demos.
+         * </p>
+         *
+         * @param parentNode The node under which the capsule should be added.
+         */
+        void
+        addStandardCapsule(boost::shared_ptr<Node> parentNode);
+
+        /**
+         * <p>
+         * Creates a standard OpenGL cylinder in the standard location for use with demos.
+         * </p>
+         *
+         * @param parentNode The node under which the cylinder should be added.
+         */
+        void
+        addStandardCylinder(boost::shared_ptr<Node> parentNode);
+
+        /**
+         * <p>
+         * Creates a standard OpenGL light in the standard location for use with demos.
+         * </p>
+         *
+         * @param parentNode The node under which the light should be added.
+         *
+         * @return The standard light.
+         */
+        boost::shared_ptr<Light>
+        addStandardLight(boost::shared_ptr<Node> parentNode);
+
+        /**
+         * <p>
+         * Creates a standard OpenGL sphere in the standard location for use with demos.
+         * </p>
+         *
+         * @param parentNode The node under which the sphere should be added.
+         */
+        void
+        addStandardSphere(boost::shared_ptr<Node> parentNode);
+
+        /**
+         * <p>
+         * Creates a standard OpenGL torus in the standard location for use with demos.
+         * </p>
+         *
+         * @param parentNode The node under which the torus should be added.
+         */
+        void
+        addStandardTorus(boost::shared_ptr<Node> parentNode);
     };
   }
 }

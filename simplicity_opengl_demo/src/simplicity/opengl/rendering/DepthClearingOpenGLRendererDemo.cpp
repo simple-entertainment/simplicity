@@ -11,15 +11,11 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/scenegraph/model/SimpleModelNode.h>
+#include <simplicity/scene/SimpleScene.h>
 #include <simplicity/scenegraph/SimpleNode.h>
+#include <simplicity/scenegraph/SimpleSceneGraph.h>
 #include <simplicity/vector/SimpleRGBAColourVector4.h>
-#include <simplicity/vector/SimpleTranslationVector4.h>
 
-#include <simplicity/opengl/model/shape/GLUCapsule.h>
-#include <simplicity/opengl/model/shape/GLUCylinder.h>
-#include <simplicity/opengl/model/shape/GLUSphere.h>
-#include <simplicity/opengl/model/shape/GLUTorus.h>
 #include <simplicity/opengl/rendering/DepthClearingOpenGLRenderer.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
 
@@ -29,8 +25,7 @@ namespace simplicity
 {
   namespace opengl
   {
-    DepthClearingOpenGLRendererDemo::DepthClearingOpenGLRendererDemo() :
-      fFirstRoot(shared_ptr<Node> (new SimpleNode)), fSecondRoot(shared_ptr<Node> (new SimpleNode))
+    DepthClearingOpenGLRendererDemo::DepthClearingOpenGLRendererDemo()
     {
     }
 
@@ -39,19 +34,27 @@ namespace simplicity
     }
 
     void
-    DepthClearingOpenGLRendererDemo::dispose(RenderingEngine& renderingEngine)
+    DepthClearingOpenGLRendererDemo::advance()
     {
-      renderingEngine.getScene()->getSceneGraph()->removeSubgraph(*fFirstRoot);
-      renderingEngine.removeRenderer(*renderingEngine.getRenderers().at(0));
+      fRenderingEngine.advance(NULL);
+    }
 
-      renderingEngine.getScene()->getSceneGraph()->removeSubgraph(*fSecondRoot);
-      renderingEngine.removeRenderer(*renderingEngine.getRenderers().at(0));
+    void
+    DepthClearingOpenGLRendererDemo::dispose()
+    {
+      fRenderingEngine.destroy();
     }
 
     string
     DepthClearingOpenGLRendererDemo::getDescription()
     {
       return ("Pass #1 Renders the sphere, cylinder and capsule normally.\nBefore Pass #2 Clears the depth buffer.\nPass #2 Renders the torus normally.\nThe result of this is that the torus will always be rendered over the other shapes.");
+    }
+
+    shared_ptr<Node>
+    DepthClearingOpenGLRendererDemo::getCameraRootNode()
+    {
+      return (fRenderingEngine.getCamera()->getNode()->getParent());
     }
 
     string
@@ -61,48 +64,44 @@ namespace simplicity
     }
 
     void
-    DepthClearingOpenGLRendererDemo::init(RenderingEngine& renderingEngine)
+    DepthClearingOpenGLRendererDemo::init()
     {
-      shared_ptr<SimpleModelNode> capsuleNode(new SimpleModelNode);
-      capsuleNode->getTransformation().translate(SimpleTranslationVector4<float> (-3.0f, 3.0f, 0.0f, 1.0f));
-      shared_ptr<GLUCapsule> capsule(new GLUCapsule);
-      capsule->setColour(
-          shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.75f, 0.0f, 0.0f, 1.0f)));
-      capsuleNode->setModel(capsule);
-      fFirstRoot->addChild(capsuleNode);
+      fRenderingEngine.setClearingColour(
+          shared_ptr < SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float>(0.95f, 0.95f, 0.95f, 1.0f)));
 
-      shared_ptr<SimpleModelNode> cylinderNode(new SimpleModelNode);
-      cylinderNode->getTransformation().translate(SimpleTranslationVector4<float> (0.0f, 3.0f, 0.0f, 1.0f));
-      shared_ptr<GLUCylinder> cylinder(new GLUCylinder);
-      cylinder->setColour(
-          shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.0f, 0.75f, 0.0f, 1.0f)));
-      cylinderNode->setModel(cylinder);
-      fFirstRoot->addChild(cylinderNode);
+      shared_ptr<SimpleScene> scene(new SimpleScene);
+      shared_ptr<SimpleSceneGraph> sceneGraph(new SimpleSceneGraph);
+      shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
+      scene->setSceneGraph(sceneGraph);
+      fRenderingEngine.setScene(scene);
 
-      shared_ptr<SimpleModelNode> sphereNode(new SimpleModelNode);
-      sphereNode->getTransformation().translate(SimpleTranslationVector4<float> (3.0f, 3.0f, 0.0f, 1.0f));
-      shared_ptr<GLUSphere> sphere(new GLUSphere);
-      sphere->setColour(
-          shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.0f, 0.0f, 0.75f, 1.0f)));
-      sphereNode->setModel(sphere);
-      fFirstRoot->addChild(sphereNode);
+      shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
+      scene->addCamera(camera);
+      fRenderingEngine.setCamera(camera);
 
-      shared_ptr<SimpleModelNode> torusNode(new SimpleModelNode);
-      torusNode->getTransformation().translate(SimpleTranslationVector4<float> (0.0f, -2.0f, 0.0f, 1.0f));
-      shared_ptr<GLUTorus> torus(new GLUTorus);
-      torusNode->setModel(torus);
-      fSecondRoot->addChild(torusNode);
+      shared_ptr<Light> light = addStandardLight(sceneRoot);
+      scene->addLight(light);
+      sceneGraph->addSubgraph(sceneRoot);
 
-      renderingEngine.getScene()->getSceneGraph()->addSubgraph(fFirstRoot);
-      renderingEngine.getScene()->getSceneGraph()->addSubgraph(fSecondRoot);
+      shared_ptr<SimpleNode> renderingPass1Root(new SimpleNode);
+      addStandardCapsule(renderingPass1Root);
+      addStandardCylinder(renderingPass1Root);
+      addStandardSphere(renderingPass1Root);
+      sceneGraph->addSubgraph(renderingPass1Root);
+
+      shared_ptr<SimpleNode> renderingPass2Root(new SimpleNode);
+      addStandardTorus(renderingPass2Root);
+      sceneGraph->addSubgraph(renderingPass2Root);
 
       shared_ptr<SimpleOpenGLRenderer> firstRenderer(new SimpleOpenGLRenderer);
-      renderingEngine.addRenderer(firstRenderer);
-      renderingEngine.setRendererRoot(*firstRenderer, fFirstRoot);
+      fRenderingEngine.addRenderer(firstRenderer);
+      fRenderingEngine.setRendererRoot(*firstRenderer, renderingPass1Root);
 
       shared_ptr<DepthClearingOpenGLRenderer> secondRenderer(new DepthClearingOpenGLRenderer(firstRenderer));
-      renderingEngine.addRenderer(secondRenderer);
-      renderingEngine.setRendererRoot(*secondRenderer, fSecondRoot);
+      fRenderingEngine.addRenderer(secondRenderer);
+      fRenderingEngine.setRendererRoot(*secondRenderer, renderingPass2Root);
+
+      fRenderingEngine.init();
     }
   }
 }

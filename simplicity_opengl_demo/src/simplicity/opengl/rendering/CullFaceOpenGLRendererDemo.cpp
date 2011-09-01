@@ -11,15 +11,11 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/scenegraph/model/SimpleModelNode.h>
+#include <simplicity/scene/SimpleScene.h>
 #include <simplicity/scenegraph/SimpleNode.h>
+#include <simplicity/scenegraph/SimpleSceneGraph.h>
 #include <simplicity/vector/SimpleRGBAColourVector4.h>
-#include <simplicity/vector/SimpleTranslationVector4.h>
 
-#include <simplicity/opengl/model/shape/GLUCapsule.h>
-#include <simplicity/opengl/model/shape/GLUCylinder.h>
-#include <simplicity/opengl/model/shape/GLUSphere.h>
-#include <simplicity/opengl/model/shape/GLUTorus.h>
 #include <simplicity/opengl/rendering/CullFaceOpenGLRenderer.h>
 
 #include "CullFaceOpenGLRendererDemo.h"
@@ -28,8 +24,7 @@ namespace simplicity
 {
   namespace opengl
   {
-    CullFaceOpenGLRendererDemo::CullFaceOpenGLRendererDemo() :
-      fRoot(shared_ptr<Node> (new SimpleNode))
+    CullFaceOpenGLRendererDemo::CullFaceOpenGLRendererDemo()
     {
     }
 
@@ -38,16 +33,27 @@ namespace simplicity
     }
 
     void
-    CullFaceOpenGLRendererDemo::dispose(RenderingEngine& renderingEngine)
+    CullFaceOpenGLRendererDemo::advance()
     {
-      renderingEngine.getScene()->getSceneGraph()->removeSubgraph(*fRoot);
-      renderingEngine.removeRenderer(*renderingEngine.getRenderers().at(0));
+      fRenderingEngine.advance(NULL);
+    }
+
+    void
+    CullFaceOpenGLRendererDemo::dispose()
+    {
+      fRenderingEngine.destroy();
     }
 
     string
     CullFaceOpenGLRendererDemo::getDescription()
     {
       return ("Renders the front side of each face green and the back side of each face red.");
+    }
+
+    shared_ptr<Node>
+    CullFaceOpenGLRendererDemo::getCameraRootNode()
+    {
+      return (fRenderingEngine.getCamera()->getNode()->getParent());
     }
 
     string
@@ -57,38 +63,34 @@ namespace simplicity
     }
 
     void
-    CullFaceOpenGLRendererDemo::init(RenderingEngine& renderingEngine)
+    CullFaceOpenGLRendererDemo::init()
     {
-      shared_ptr<SimpleModelNode> capsuleNode(new SimpleModelNode);
-      capsuleNode->getTransformation().translate(SimpleTranslationVector4<float> (-3.0f, 3.0f, 0.0f, 1.0f));
-      shared_ptr<GLUCapsule> capsule(new GLUCapsule);
-      capsule->setColour(
-          shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.75f, 0.0f, 0.0f, 1.0f)));
-      capsuleNode->setModel(capsule);
-      fRoot->addChild(capsuleNode);
-      shared_ptr<SimpleModelNode> cylinderNode(new SimpleModelNode);
-      cylinderNode->getTransformation().translate(SimpleTranslationVector4<float> (0.0f, 3.0f, 0.0f, 1.0f));
-      shared_ptr<GLUCylinder> cylinder(new GLUCylinder);
-      cylinder->setColour(
-          shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.0f, 0.75f, 0.0f, 1.0f)));
-      cylinderNode->setModel(cylinder);
-      fRoot->addChild(cylinderNode);
-      shared_ptr<SimpleModelNode> sphereNode(new SimpleModelNode);
-      sphereNode->getTransformation().translate(SimpleTranslationVector4<float> (3.0f, 3.0f, 0.0f, 1.0f));
-      shared_ptr<GLUSphere> sphere(new GLUSphere);
-      sphere->setColour(
-          shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.0f, 0.0f, 0.75f, 1.0f)));
-      sphereNode->setModel(sphere);
-      fRoot->addChild(sphereNode);
-      shared_ptr<SimpleModelNode> torusNode(new SimpleModelNode);
-      torusNode->getTransformation().translate(SimpleTranslationVector4<float> (0.0f, -2.0f, 0.0f, 1.0f));
-      torusNode->setModel(shared_ptr<GLUTorus> (new GLUTorus));
-      fRoot->addChild(torusNode);
+      fRenderingEngine.setClearingColour(
+          shared_ptr < SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float>(0.95f, 0.95f, 0.95f, 1.0f)));
 
-      renderingEngine.getScene()->getSceneGraph()->addSubgraph(fRoot);
+      shared_ptr<SimpleScene> scene(new SimpleScene);
+      shared_ptr<SimpleSceneGraph> sceneGraph(new SimpleSceneGraph);
+      shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
+      scene->setSceneGraph(sceneGraph);
+      fRenderingEngine.setScene(scene);
+
+      shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
+      scene->addCamera(camera);
+      fRenderingEngine.setCamera(camera);
+
+      shared_ptr<Light> light = addStandardLight(sceneRoot);
+      scene->addLight(light);
+
+      addStandardCapsule(sceneRoot);
+      addStandardCylinder(sceneRoot);
+      addStandardSphere(sceneRoot);
+      addStandardTorus(sceneRoot);
+      sceneGraph->addSubgraph(sceneRoot);
 
       shared_ptr<CullFaceOpenGLRenderer> renderer(new CullFaceOpenGLRenderer);
-      renderingEngine.addRenderer(renderer);
+      fRenderingEngine.addRenderer(renderer);
+
+      fRenderingEngine.init();
     }
   }
 }

@@ -12,7 +12,7 @@
 #ifndef MONOCOLOUROPENGLRENDERERDEMO_H_
 #define MONOCOLOUROPENGLRENDERERDEMO_H_
 
-#include <simplicity/scenegraph/Node.h>
+#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 
 #include "../Demo.h"
 
@@ -44,7 +44,13 @@ namespace simplicity
         ~MonoColourOpenGLRendererDemo();
 
         void
-        dispose(RenderingEngine& renderingEngine);
+        advance();
+
+        void
+        dispose();
+
+        boost::shared_ptr<Node>
+        getCameraRootNode();
 
         std::string
         getDescription();
@@ -53,15 +59,15 @@ namespace simplicity
         getTitle();
 
         void
-        init(RenderingEngine& renderingEngine);
+        init();
 
       private:
         /**
          * <p>
-         * The root node of the scene used to demonstrate the {@link simplicity::opengl::MonoColourOpenGLRenderer MonoColourOpenGLRenderer}.
+         * The rendering engine for the demo.
          * </p>
          */
-        boost::shared_ptr<Node> fRoot;
+        SimpleOpenGLRenderingEngine fRenderingEngine;
     };
   }
 }

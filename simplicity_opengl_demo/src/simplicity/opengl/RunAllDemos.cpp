@@ -14,16 +14,9 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 
-#include <simplicity/scene/SimpleScene.h>
-#include <simplicity/scenegraph/SimpleNode.h>
-#include <simplicity/scenegraph/SimpleSceneGraph.h>
-#include <simplicity/vector/SimpleRGBAColourVector4.h>
 #include <simplicity/vector/SimpleTranslationVector4.h>
 
-#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
-#include <simplicity/opengl/rendering/SimpleOpenGLCamera.h>
-#include <simplicity/opengl/rendering/SimpleOpenGLLight.h>
-
+#include "picking/SimpleOpenGLPickerDemo.h"
 #include "rendering/AlwaysAndNotEqualStencilOpenGLRenderersDemo.h"
 #include "rendering/BlendingOpenGLRendererDemo.h"
 #include "rendering/CullFaceOpenGLRendererDemo.h"
@@ -41,9 +34,6 @@ using namespace std;
 
 vector<shared_ptr<Demo> > demos;
 unsigned int demoIndex = 0;
-
-SimpleOpenGLRenderingEngine renderingEngine;
-shared_ptr<SimpleNode> cameraRootNode(new SimpleNode);
 
 bool cameraEnabled = false;
 int mouseX, mouseY = 0;
@@ -81,14 +71,15 @@ text(void* font, const string text, const float x, const float y)
 void
 initDemos()
 {
-  demos.push_back(shared_ptr<SimpleOpenGLRendererDemo> (new SimpleOpenGLRendererDemo));
-  demos.push_back(shared_ptr<MonoColourOpenGLRendererDemo> (new MonoColourOpenGLRendererDemo));
-  demos.push_back(shared_ptr<CullFaceOpenGLRendererDemo> (new CullFaceOpenGLRendererDemo));
-  demos.push_back(shared_ptr<BlendingOpenGLRendererDemo> (new BlendingOpenGLRendererDemo));
-  demos.push_back(shared_ptr<AlwaysAndNotEqualStencilOpenGLRenderersDemo> (new AlwaysAndNotEqualStencilOpenGLRenderersDemo));
-  demos.push_back(shared_ptr<StencilClearingOpenGLRendererDemo> (new StencilClearingOpenGLRendererDemo));
-  demos.push_back(shared_ptr<DepthClearingOpenGLRendererDemo> (new DepthClearingOpenGLRendererDemo));
-  demos.push_back(shared_ptr<OutlineOpenGLRendererDemo> (new OutlineOpenGLRendererDemo));
+  demos.push_back(shared_ptr < SimpleOpenGLRendererDemo > (new SimpleOpenGLRendererDemo));
+  demos.push_back(shared_ptr < MonoColourOpenGLRendererDemo > (new MonoColourOpenGLRendererDemo));
+  demos.push_back(shared_ptr < CullFaceOpenGLRendererDemo > (new CullFaceOpenGLRendererDemo));
+  demos.push_back(shared_ptr < BlendingOpenGLRendererDemo > (new BlendingOpenGLRendererDemo));
+  demos.push_back(shared_ptr < AlwaysAndNotEqualStencilOpenGLRenderersDemo > (new AlwaysAndNotEqualStencilOpenGLRenderersDemo));
+  demos.push_back(shared_ptr < StencilClearingOpenGLRendererDemo > (new StencilClearingOpenGLRendererDemo));
+  demos.push_back(shared_ptr < DepthClearingOpenGLRendererDemo > (new DepthClearingOpenGLRendererDemo));
+  demos.push_back(shared_ptr < OutlineOpenGLRendererDemo > (new OutlineOpenGLRendererDemo));
+  demos.push_back(shared_ptr < SimpleOpenGLPickerDemo > (new SimpleOpenGLPickerDemo));
 }
 
 /**
@@ -101,10 +92,10 @@ nextDemo()
   {
     if (demoIndex > 0)
     {
-      demos.at(demoIndex - 1)->dispose(renderingEngine);
+      demos.at(demoIndex - 1)->dispose();
     }
 
-    demos.at(demoIndex)->init(renderingEngine);
+    demos.at(demoIndex)->init();
 
     demoIndex++;
   }
@@ -118,49 +109,10 @@ previousDemo()
 {
   if (demoIndex > 1)
   {
-    demos.at(demoIndex - 1)->dispose(renderingEngine);
+    demos.at(demoIndex - 1)->dispose();
     demoIndex--;
-    demos.at(demoIndex - 1)->init(renderingEngine);
+    demos.at(demoIndex - 1)->init();
   }
-}
-
-/**
- * Creates the demo scene.
- */
-void
-initScene()
-{
-  renderingEngine.setClearingColour(
-      shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.95f, 0.95f, 0.95f, 1.0f)));
-
-  shared_ptr<SimpleSceneGraph> sceneGraph(new SimpleSceneGraph);
-  shared_ptr<SimpleScene> scene(new SimpleScene);
-  scene->setSceneGraph(sceneGraph);
-  renderingEngine.setScene(scene);
-
-  shared_ptr<SimpleOpenGLCamera> camera(new SimpleOpenGLCamera);
-  shared_ptr<SimpleNode> cameraNode(new SimpleNode);
-  cameraNode->getTransformation().translate(SimpleTranslationVector4<float> (0.0f, 0.0f, -20.0f, 1.0f));
-  cameraNode->getTransformation().rotate(pi<float> (), SimpleTranslationVector4<float> (0.0f, 1.0f, 0.0f, 1.0f));
-  camera->setNode(cameraNode);
-  cameraRootNode->getTransformation().rotate(pi<float> () / 8.0f, SimpleTranslationVector4<float> (-0.5f, -0.5f, 0.0f, 1.0f));
-  cameraRootNode->addChild(cameraNode);
-  sceneGraph->addSubgraph(cameraRootNode);
-  scene->addCamera(camera);
-  renderingEngine.setCamera(camera);
-
-  shared_ptr<SimpleOpenGLLight> light(new SimpleOpenGLLight);
-  light->setAmbientLight(
-      shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.25f, 0.25f, 0.25f, 1.0f)));
-  light->setDiffuseLight(
-      shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.25f, 0.25f, 0.25f, 1.0f)));
-  light->setSpecularLight(
-      shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> (0.1f, 0.1f, 0.1f, 1.0f)));
-  shared_ptr<SimpleNode> lightNode(new SimpleNode);
-  lightNode->getTransformation().translate(SimpleTranslationVector4<float> (0.0f, 0.0f, 20.0f, 1.0f));
-  light->setNode(lightNode);
-  sceneGraph->addSubgraph(lightNode);
-  scene->addLight(light);
 }
 
 /**
@@ -190,8 +142,10 @@ motion(const int x, const int y)
   mouseX = x;
   mouseY = y;
 
-  cameraRootNode->getTransformation().rotate(angleX / pi<float> (), SimpleTranslationVector4<float> (0.0f, 1.0f, 0.0f, 1.0f));
-  cameraRootNode->getTransformation().rotate(angleY / pi<float> (), SimpleTranslationVector4<float> (1.0f, 0.0f, 0.0f, 1.0f));
+  demos.at(demoIndex - 1)->getCameraRootNode()->getTransformation().rotate(angleX / pi<float>(),
+      SimpleTranslationVector4<float>(0.0f, 1.0f, 0.0f, 1.0f));
+  demos.at(demoIndex - 1)->getCameraRootNode()->getTransformation().rotate(angleY / pi<float>(),
+      SimpleTranslationVector4<float>(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
 /**
@@ -206,6 +160,10 @@ mouse(const int button, const int state, const int x, const int y)
     mouseX = x;
     mouseY = y;
   }
+  else if (button == GLUT_RIGHT_BUTTON && state == GLUT_UP)
+  {
+    demos.at(demoIndex - 1)->mouseClick(x, y);
+  }
 }
 
 /**
@@ -214,7 +172,7 @@ mouse(const int button, const int state, const int x, const int y)
 void
 render()
 {
-  renderingEngine.advance(NULL);
+  demos.at(demoIndex - 1)->advance();
 
   text(GLUT_BITMAP_HELVETICA_18, demos.at(demoIndex - 1)->getTitle(), -0.5f, 0.35f);
   text(GLUT_BITMAP_HELVETICA_12, demos.at(demoIndex - 1)->getDescription(), -0.5f, 0.325f);
@@ -238,12 +196,9 @@ main(int argc, char** argv)
   glutMouseFunc(mouse);
   glutMotionFunc(motion);
 
-  initScene();
   initDemos();
   nextDemo();
-  renderingEngine.init();
   glutMainLoop();
-  renderingEngine.destroy();
 
   return (0);
 }
