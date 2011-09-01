@@ -64,13 +64,13 @@ namespace simplicity
     matrix3.multiplyLeft(matrix2);
 
     // Dictate correct behaviour.
-    //EXPECT_CALL(*mockNode1, getTransformation()).WillRepeatedly(ReturnRef(matrix1));
-    //EXPECT_CALL(*mockNode1, getParent()).WillRepeatedly(Return(mockNode2));
-    //EXPECT_CALL(*mockNode2, getTransformation()).WillRepeatedly(ReturnRef(matrix2));
-    //EXPECT_CALL(*mockNode2, getParent()).WillRepeatedly(Return(shared_ptr<Node> ()));
+    ON_CALL(*mockNode1, getTransformation()).WillByDefault(ReturnRef(matrix1));
+    ON_CALL(*mockNode1, getParent()).WillByDefault(Return(mockNode2));
+    ON_CALL(*mockNode2, getTransformation()).WillByDefault(ReturnRef(matrix2));
+    ON_CALL(*mockNode2, getParent()).WillByDefault(Return(shared_ptr<Node> ()));
 
     // Initialise test environment.
-    //fTestObject->setParent(mockNode1);
+    fTestObject->setParent(mockNode1);
 
     // Perform test - Verify test results.
     bool equal = false;
