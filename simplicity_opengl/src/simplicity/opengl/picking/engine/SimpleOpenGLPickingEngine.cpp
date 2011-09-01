@@ -95,7 +95,8 @@ namespace simplicity
     {
       for (unsigned int index = 0; index < fListeners.size(); index++)
       {
-        fListeners.at(index)->scenePicked(event);
+        PickListener& listener = *fListeners.at(index);
+        listener(event);
       }
     }
 
