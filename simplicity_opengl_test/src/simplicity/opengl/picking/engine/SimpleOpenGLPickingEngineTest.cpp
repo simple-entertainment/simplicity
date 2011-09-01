@@ -118,32 +118,6 @@ namespace simplicity
     }
 
     /**
-     * Unit test the method {@link simplicity::opengl::SimpleOpenGLPickingEngine#firePickEvent(PickEvent) firePickEvent(PickEvent)}.
-     */
-    TEST_F(SimpleOpenGLPickingEngineTest, firePickEvent)
-    {
-      // Create dependencies.
-      // //////////////////////////////////////////////////
-      PickEvent pickEvent;
-      shared_ptr<MockPickListener> mockPickListener0(new NiceMock<MockPickListener>);
-      shared_ptr<MockPickListener> mockPickListener1(new NiceMock<MockPickListener>);
-
-      // Initialise the test environment.
-      // //////////////////////////////////////////////////
-      fTestObject.addPickListener(mockPickListener0);
-      fTestObject.addPickListener(mockPickListener1);
-
-      // Dictate expected results.
-      // //////////////////////////////////////////////////
-      EXPECT_CALL(*mockPickListener0, scenePicked(_));
-      EXPECT_CALL(*mockPickListener1, scenePicked(_));
-
-      // Perform test.
-      // //////////////////////////////////////////////////
-      fTestObject.firePickEvent(pickEvent);
-    }
-
-    /**
      * Unit test the method {@link simplicity::opengl::SimpleOpenGLPickingEngine#pick(const Pick) pick(const Pick)}.
      */
     TEST_F(SimpleOpenGLPickingEngineTest, pick)
