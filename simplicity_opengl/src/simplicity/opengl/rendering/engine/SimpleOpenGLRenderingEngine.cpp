@@ -30,7 +30,7 @@ namespace simplicity
 
     SimpleOpenGLRenderingEngine::SimpleOpenGLRenderingEngine() :
       fClearingColour(new SimpleRGBAColourVector4<float> (0.0f, 0.0f, 0.0f, 1.0f)), fClearsBeforeRender(true),
-          fInitialised(false)
+          fInitialised(false), fViewportHeight(600), fViewportWidth(800)
     {
     }
 
@@ -183,6 +183,8 @@ namespace simplicity
     void
     SimpleOpenGLRenderingEngine::init()
     {
+      RunnableEngine::init();
+
       // Ensure objects further from the viewpoint are not drawn over the top of closer objects. To assist multi pass rendering, objects at the
       // exact same distance can be rendered over (i.e. the object will be rendered using the result of the last Renderer executed).
       glDepthFunc(GL_LEQUAL);
