@@ -23,7 +23,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class AdaptingRenderer : public Renderer
+  class AdaptingRenderer : public virtual Renderer
   {
     public:
       /**

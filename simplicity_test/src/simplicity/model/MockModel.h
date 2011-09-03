@@ -9,35 +9,27 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef NAMEDRENDERER_H_
-#define NAMEDRENDERER_H_
+#ifndef MOCKMODEL_H_
+#define MOCKMODEL_H_
 
-#include "Renderer.h"
+#include <gmock/gmock.h>
+
+#include <simplicity/model/Model.h>
 
 namespace simplicity
 {
   /**
    * <p>
-   * Renders {@link simplicity::Model Model}s and names them at the same time so that they may be picked.
+   * A mock implementation of {@link simplicity::Model Model}.
    * </p>
    *
    * @author Gary Buyn
    */
-  class NamedRenderer : public virtual Renderer
+  class MockModel : public Model
   {
     public:
-      /**
-       * <p>
-       * Renders the given {@link simplicity::Model Model} with the given {@link simplicity::DrawingMode
-       * DrawingMode} and names it with the given name.
-       * </p>
-       *
-       * @param model The <code>Model</code> to render.
-       * @param name The name to assign to the <code>Model</code> being rendered.
-       */
-      virtual void
-      renderModel(const Model& model, const int name) = 0;
+      MOCK_CONST_METHOD0(getCenter, const TranslationVector<float>&());
   };
 }
 
-#endif /* NAMEDRENDERER_H_ */
+#endif /* MOCKMODEL_H_ */
