@@ -143,11 +143,6 @@ namespace simplicity
     void
     SimpleOpenGLCamera::init()
     {
-      if (!fProjectionMode)
-      {
-        throw new SEInvalidOperationException();
-      }
-
       glMatrixMode(GL_PROJECTION);
 
       glLoadIdentity();
