@@ -54,7 +54,7 @@ namespace simplicity
 
       // Perform test.
       // //////////////////////////////////////////////////
-      fTestObject.advance(NULL);
+      fTestObject.advance(shared_ptr<EngineInput>());
     }
 
     /**
@@ -76,7 +76,7 @@ namespace simplicity
 
       // Perform test.
       // //////////////////////////////////////////////////
-      fTestObject.advance(NULL);
+      fTestObject.advance(shared_ptr<EngineInput>());
     }
 
     /**
@@ -114,7 +114,7 @@ namespace simplicity
 
       // Perform test.
       // //////////////////////////////////////////////////
-      fTestObject.advance(NULL);
+      fTestObject.advance(shared_ptr<EngineInput>());
     }
 
     /**

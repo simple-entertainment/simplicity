@@ -74,7 +74,7 @@ namespace simplicity
 
       try
       {
-        advance(NULL);
+        advance(shared_ptr<EngineInput>());
       }
       catch (std::exception& e)
       {

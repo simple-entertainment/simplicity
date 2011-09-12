@@ -47,10 +47,16 @@ namespace simplicity
         ~SimpleOpenGLPickingEngine();
 
         void
+        addEntities(std::vector<boost::shared_ptr<Entity> > entities);
+
+        void
+        addEntity(boost::shared_ptr<Entity> entity);
+
+        void
         addPickListener(boost::shared_ptr<PickListener> listener);
 
-        EngineInput*
-        advance(const EngineInput* const input);
+        boost::shared_ptr<EngineInput>
+        advance(const boost::shared_ptr<EngineInput> input);
 
         void
         destroy();

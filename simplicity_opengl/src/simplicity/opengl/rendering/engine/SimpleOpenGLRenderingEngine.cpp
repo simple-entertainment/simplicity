@@ -39,6 +39,29 @@ namespace simplicity
     }
 
     void
+    SimpleOpenGLRenderingEngine::addEntities(std::vector<boost::shared_ptr<Entity> > entities)
+    {
+      for (unsigned int index = 0; index < entities.size(); index++)
+      {
+        addEntity(entities.at(index));
+      }
+    }
+
+    void
+    SimpleOpenGLRenderingEngine::addEntity(boost::shared_ptr<Entity> entity)
+    {
+      for (unsigned int index = 0; index < entity->getComponents().size(); index++)
+      {
+        shared_ptr<Node> node(dynamic_pointer_cast<Node> (entity->getComponents().at(index)));
+
+        if (node.get())
+        {
+          fScene->getSceneGraph()->addSubgraph(node);
+        }
+      }
+    }
+
+    void
     SimpleOpenGLRenderingEngine::addRenderer(const int index, shared_ptr<Renderer> renderer)
     {
       fRenderers.insert(fRenderers.begin() + index, renderer);
@@ -55,8 +78,8 @@ namespace simplicity
       addRenderer(fRenderers.size(), renderer);
     }
 
-    EngineInput*
-    SimpleOpenGLRenderingEngine::advance(const EngineInput* const input)
+    shared_ptr<EngineInput>
+    SimpleOpenGLRenderingEngine::advance(const shared_ptr<EngineInput> input)
     {
       if (!fCamera.get())
       {
@@ -93,7 +116,7 @@ namespace simplicity
         }
       }
 
-      return (NULL);
+      return (shared_ptr<EngineInput> ());
     }
 
     void

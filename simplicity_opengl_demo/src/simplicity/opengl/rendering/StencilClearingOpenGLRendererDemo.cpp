@@ -38,7 +38,7 @@ namespace simplicity
     void
     StencilClearingOpenGLRendererDemo::advance()
     {
-      fRenderingEngine.advance(NULL);
+      fRenderingEngine.advance(shared_ptr<EngineInput>());
     }
 
     void

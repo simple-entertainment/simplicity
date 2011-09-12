@@ -16,6 +16,7 @@
 
 #include <boost/enable_shared_from_this.hpp>
 
+#include "../Component.h"
 #include "../model/BoundingVolume.h"
 #include "../vector/TransformationMatrix.h"
 
@@ -28,19 +29,9 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class Node : public boost::enable_shared_from_this<Node>
+  class Node : public Component, public boost::enable_shared_from_this<Node>
   {
     public:
-      /**
-       * <p>
-       * Disposes of an instance of <code>Node</code> (included to allow polymorphic deletion).
-       * </p>
-       */
-      virtual
-      ~Node()
-      {
-      }
-
       /**
        * <p>
        * Adds a child to this <code>Node</code>.

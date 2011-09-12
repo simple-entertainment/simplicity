@@ -85,8 +85,8 @@ namespace simplicity
        *
        * @return The <code>EngineInput</code> for the next {@link simplicity::Engine Engine} in the chain.
        */
-      virtual EngineInput*
-      advance(const EngineInput* const engineInput) = 0;
+      virtual boost::shared_ptr<EngineInput>
+      advance(const boost::shared_ptr<EngineInput> engineInput) = 0;
 
       /**
        * <p>

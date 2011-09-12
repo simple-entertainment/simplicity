@@ -48,7 +48,7 @@ namespace simplicity
     void
     SimpleOpenGLPickerDemo::advance()
     {
-      fEngine.advance(NULL);
+      fEngine.advance(shared_ptr<EngineInput>());
     }
 
     void

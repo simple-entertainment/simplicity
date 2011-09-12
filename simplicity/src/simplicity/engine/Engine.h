@@ -12,6 +12,9 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
+#include <boost/smart_ptr.hpp>
+
+#include "../Entity.h"
 #include "EngineInput.h"
 
 namespace simplicity
@@ -40,10 +43,23 @@ namespace simplicity
 
       /**
        * <p>
-       * The number of milliseconds in a second.
+       * Adds the given <code>Entity</code>s to the <code>Entity</code>s whose components are to be processed by this <code>Engine</code>.
        * </p>
+       *
+       * @param entities The <code>Entity</code>s whose components are to be processed by this <code>Engine</code>.
        */
-      static double const MILLISECONDS_IN_A_SECOND = 1000.0;
+      virtual void
+      addEntities(std::vector<boost::shared_ptr<Entity> > entities) = 0;
+
+      /**
+       * <p>
+       * Adds the given <code>Entity</code> to the <code>Entity</code>s whose components are to be processed by this <code>Engine</code>.
+       * </p>
+       *
+       * @param entity The <code>Entity</code> whose components are to be processed by this <code>Engine</code>.
+       */
+      virtual void
+      addEntity(boost::shared_ptr<Entity> entity) = 0;
 
       /**
        * <p>
@@ -56,8 +72,8 @@ namespace simplicity
        *
        * @return The <code>EngineInput</code> for the next {@link com.se.simplicity.engine.Engine Engine} in the chain.
        */
-      virtual EngineInput*
-      advance(const EngineInput* const input) = 0;
+      virtual boost::shared_ptr<EngineInput>
+      advance(const boost::shared_ptr<EngineInput> input) = 0;
 
       /**
        * <p>

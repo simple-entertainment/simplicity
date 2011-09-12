@@ -36,7 +36,7 @@ namespace simplicity
     void
     DepthClearingOpenGLRendererDemo::advance()
     {
-      fRenderingEngine.advance(NULL);
+      fRenderingEngine.advance(shared_ptr<EngineInput>());
     }
 
     void

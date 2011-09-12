@@ -12,8 +12,6 @@
 #ifndef COMPOSITEENGINE_H_
 #define COMPOSITEENGINE_H_
 
-#include <boost/smart_ptr.hpp>
-
 #include "Engine.h"
 
 namespace simplicity

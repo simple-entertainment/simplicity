@@ -32,17 +32,27 @@ namespace simplicity
     }
 
     void
+    SimpleOpenGLPickingEngine::addEntities(std::vector<boost::shared_ptr<Entity> > entities)
+    {
+    }
+
+    void
+    SimpleOpenGLPickingEngine::addEntity(boost::shared_ptr<Entity> entity)
+    {
+    }
+
+    void
     SimpleOpenGLPickingEngine::addPickListener(shared_ptr<PickListener> listener)
     {
       fListeners.push_back(listener);
     }
 
-    EngineInput*
-    SimpleOpenGLPickingEngine::advance(const EngineInput* const input)
+    shared_ptr<EngineInput>
+    SimpleOpenGLPickingEngine::advance(const shared_ptr<EngineInput> input)
     {
       if (fPicks.empty())
       {
-        return (NULL);
+        return (shared_ptr<EngineInput> ());
       }
 
       if (fRenderingEngine.get())
@@ -70,7 +80,7 @@ namespace simplicity
 
       fPicks.clear();
 
-      return (NULL);
+      return (shared_ptr<EngineInput> ());
     }
 
     Pick

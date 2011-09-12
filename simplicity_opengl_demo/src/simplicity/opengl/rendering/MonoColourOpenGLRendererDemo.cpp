@@ -38,7 +38,7 @@ namespace simplicity
     void
     MonoColourOpenGLRendererDemo::advance()
     {
-      fRenderingEngine.advance(NULL);
+      fRenderingEngine.advance(shared_ptr<EngineInput>());
     }
 
     void

@@ -9,68 +9,80 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ADAPTINGENGINE_H_
-#define ADAPTINGENGINE_H_
+#ifndef ENTITY_H_
+#define ENTITY_H_
 
-#include "RunnableEngine.h"
+#include <vector>
+
+#include <boost/smart_ptr.hpp>
+
+#include "Component.h"
 
 namespace simplicity
 {
   /**
    * <p>
-   * TODO
+   * An entity.
    * </p>
    *
    * @author Gary Buyn
    */
-  class AdaptingEngine : public RunnableEngine
+  class Entity
   {
     public:
       /**
        * <p>
-       * Creates an instance of <code>AdaptingEngine</code>.
+       * Creates an instance of <code>Entity</code>.
        * </p>
-       *
-       * <p>
-       * This <code>AdaptingEngine</code> will assume ownership of the given {@link simplicity::Engine Engine}.
-       * </p>
-       *
-       * @param engine The wrapped <code>Engine</code>.
        */
-      AdaptingEngine(boost::shared_ptr<Engine> engine);
+      Entity();
 
       /**
        * <p>
-       * Disposes of an instance of <code>AdaptingEngine</code>.
+       * Disposes of an instance of <code>Entity</code>.
        * </p>
        */
       virtual
-      ~AdaptingEngine();
-
-      boost::shared_ptr<EngineInput>
-      advance(const boost::shared_ptr<EngineInput> input);
-
-      void
-      destroy();
+      ~Entity();
 
       /**
        * <p>
-       * Retrieves the wrapped {@link simplicity::Engine Engine}.
+       * Adds a component.
        * </p>
        *
-       * @return The wrapped <code>Engine</code>.
+       * @param component The component to add.
        */
-      boost::shared_ptr<Engine>
-      getEngine() const;
+      void
+      addComponent(boost::shared_ptr<Component> component);
+
+      /**
+       * <p>
+       * Retrieves the components.
+       * </p>
+       *
+       * @return components The components.
+       */
+      std::vector<boost::shared_ptr<Component> >
+      getComponents();
+
+      /**
+       * <p>
+       * Removes a component.
+       * </p>
+       *
+       * @param component The component to remove.
+       */
+      void
+      removeComponent(const Component& component);
 
     private:
       /**
        * <p>
-       * The wrapped {@link simplicity::Engine Engine}.
+       * The components.
        * </p>
        */
-      boost::shared_ptr<Engine> fEngine;
+      std::vector<boost::shared_ptr<Component> > components;
   };
 }
 
-#endif /* ADAPTINGENGINE_H_ */
+#endif /* ENTITY_H_ */

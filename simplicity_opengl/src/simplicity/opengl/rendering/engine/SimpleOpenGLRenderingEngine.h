@@ -51,13 +51,19 @@ namespace simplicity
         ~SimpleOpenGLRenderingEngine();
 
         void
+        addEntities(std::vector<boost::shared_ptr<Entity> > entities);
+
+        void
+        addEntity(boost::shared_ptr<Entity> entity);
+
+        void
         addRenderer(const int index, boost::shared_ptr<Renderer> renderer);
 
         void
         addRenderer(boost::shared_ptr<Renderer> renderer);
 
-        EngineInput*
-        advance(const EngineInput* const input);
+        boost::shared_ptr<EngineInput>
+        advance(const boost::shared_ptr<EngineInput> input);
 
         bool
         clearsBeforeRender() const;

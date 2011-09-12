@@ -28,7 +28,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class OverrunningMockRunnableEngine : public simplicity::RunnableEngine, public devenvy::MockObject
+  class OverrunningMockRunnableEngine : public RunnableEngine, public devenvy::MockObject
   {
     public:
       /**
@@ -46,8 +46,14 @@ namespace simplicity
       virtual
       ~OverrunningMockRunnableEngine();
 
-      simplicity::EngineInput*
-      advance(const simplicity::EngineInput* const input);
+      void
+      addEntities(std::vector<boost::shared_ptr<Entity> > entities);
+
+      void
+      addEntity(boost::shared_ptr<Entity> entity);
+
+      boost::shared_ptr<EngineInput>
+      advance(const boost::shared_ptr<EngineInput> input);
 
       void
       destroy();

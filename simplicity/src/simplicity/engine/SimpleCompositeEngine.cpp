@@ -34,11 +34,29 @@ namespace simplicity
     fEngines.push_back(engine);
   }
 
-  EngineInput*
-  SimpleCompositeEngine::advance(const EngineInput* const input)
+  void
+  SimpleCompositeEngine::addEntities(std::vector<boost::shared_ptr<Entity> > entities)
+  {
+    for (unsigned int index = 0; index < fEngines.size(); index++)
+    {
+      fEngines.at(index)->addEntities(entities);
+    }
+  }
+
+  void
+  SimpleCompositeEngine::addEntity(boost::shared_ptr<Entity> entity)
+  {
+    for (unsigned int index = 0; index < fEngines.size(); index++)
+    {
+      fEngines.at(index)->addEntity(entity);
+    }
+  }
+
+  shared_ptr<EngineInput>
+  SimpleCompositeEngine::advance(const shared_ptr<EngineInput> input)
   {
     fAdvanceIndex++;
-    EngineInput* currentInput = (EngineInput*) input;
+    shared_ptr<EngineInput> currentInput = input;
 
     // For every sub-engine.
     for (unsigned int index = 0; index < fEngines.size(); index++)

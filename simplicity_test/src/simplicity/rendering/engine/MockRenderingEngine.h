@@ -28,10 +28,12 @@ namespace simplicity
   class MockRenderingEngine : public RenderingEngine
   {
     public:
-      MOCK_CONST_METHOD0(clearsBeforeRender, bool());
+      MOCK_METHOD1(addEntities, void(std::vector<boost::shared_ptr<Entity> > entities));
+      MOCK_METHOD1(addEntity, void(boost::shared_ptr<Entity> entity));
       MOCK_METHOD1(addRenderer, void(boost::shared_ptr<Renderer> renderer));
       MOCK_METHOD2(addRenderer, void(const int index, boost::shared_ptr<Renderer> renderer));
-      MOCK_METHOD1(advance, simplicity::EngineInput*(const simplicity::EngineInput* const input));
+      MOCK_METHOD1(advance, boost::shared_ptr<EngineInput>(const boost::shared_ptr<EngineInput> input));
+      MOCK_CONST_METHOD0(clearsBeforeRender, bool());
       MOCK_METHOD0(destroy, void());
       MOCK_CONST_METHOD0(getCamera, boost::shared_ptr<Camera>());
       MOCK_CONST_METHOD0(getClearingColour, boost::shared_ptr<RGBAColourVector<float> >());

@@ -9,37 +9,41 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "AdaptingEngine.h"
+#include "common/shared_equals_raw.h"
+
+#include "Entity.h"
 
 using namespace boost;
 using namespace std;
 
 namespace simplicity
 {
-  AdaptingEngine::AdaptingEngine(boost::shared_ptr<Engine> engine) :
-    RunnableEngine(), fEngine(engine)
+  Entity::Entity()
   {
   }
 
-  AdaptingEngine::~AdaptingEngine()
+  Entity::~Entity()
   {
-  }
-
-  shared_ptr<EngineInput>
-  AdaptingEngine::advance(const shared_ptr<EngineInput> input)
-  {
-    return (fEngine->advance(input));
   }
 
   void
-  AdaptingEngine::destroy()
+  Entity::addComponent(shared_ptr<Component> component)
   {
-    fEngine->destroy();
+    components.push_back(component);
   }
 
-  boost::shared_ptr<Engine>
-  AdaptingEngine::getEngine() const
+  vector<boost::shared_ptr<Component> >
+  Entity::getComponents()
   {
-    return (fEngine);
+    return (components);
+  }
+
+  void
+  Entity::removeComponent(const Component& component)
+  {
+    shared_equals_raw<Component> sharedEqualsRaw(&component);
+    vector<shared_ptr<Component> >::iterator sharedComponent(find_if(components.begin(), components.end(), sharedEqualsRaw));
+
+    components.erase(sharedComponent);
   }
 }

@@ -50,90 +50,90 @@ namespace simplicity
     // No engines advance.
 
     // Second advance.
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Third advance.
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Fourth advance.
-    EXPECT_CALL(*mockEngine1, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine1, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Fifth advance.
     // No engines advance.
 
     // Sixth advance.
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Seventh advance.
     // No engines advance.
 
     // Eighth advance.
-    EXPECT_CALL(*mockEngine1, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine1, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Ninth advance.
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Tenth advance.
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Eleventh advance.
     // No engines advance.
 
     // Twelfth advance.
-    EXPECT_CALL(*mockEngine1, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine1, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Thirteenth advance.
     // No engines advance.
 
     // Fourteenth advance.
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Fifteenth advance.
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Sixteenth advance.
-    EXPECT_CALL(*mockEngine1, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine1, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Seventeenth advance.
     // No engines advance.);
 
     // Eighteenth advance.
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Nineteenth advance.
     // No engines advance.
 
     // Twentieth advance.
-    EXPECT_CALL(*mockEngine1, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine1, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Twenty First advance.
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Twenty Second advance.
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Twenty Third advance.
     // No engines advance.
 
     // Twenty Fourth advance.
-    EXPECT_CALL(*mockEngine1, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine1, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Perform test.
     fTestObject.init();
 
     for (int index = 0; index < 24; index++)
     {
-      fTestObject.advance(NULL);
+      fTestObject.advance(shared_ptr<EngineInput>());
     }
   }
 
@@ -150,10 +150,10 @@ namespace simplicity
     shared_ptr<MockEngine> mockEngine1(new MockEngine);
     shared_ptr<MockEngine> mockEngine2(new MockEngine);
     shared_ptr<MockEngine> mockEngine3(new MockEngine);
-    shared_ptr<MockEngineInput> mockInput0(new MockEngineInput);
-    shared_ptr<MockEngineInput> mockInput1(new MockEngineInput);
-    shared_ptr<MockEngineInput> mockInput2(new MockEngineInput);
-    shared_ptr<MockEngineInput> mockInput3(new MockEngineInput);
+    shared_ptr<EngineInput> mockInput0(new MockEngineInput);
+    shared_ptr<EngineInput> mockInput1(new MockEngineInput);
+    shared_ptr<EngineInput> mockInput2(new MockEngineInput);
+    shared_ptr<EngineInput> mockInput3(new MockEngineInput);
 
     // Dictate correct behaviour.
     EXPECT_CALL(*mockEngine1, getPreferredFrequency()).WillRepeatedly(Return(1));
@@ -170,12 +170,12 @@ namespace simplicity
     fTestObject.init();
 
     // Dictate expected results.
-    EXPECT_CALL(*mockEngine1, advance(mockInput0.get())).WillOnce(Return(mockInput1.get()));
-    EXPECT_CALL(*mockEngine2, advance(mockInput1.get())).WillOnce(Return(mockInput2.get()));
-    EXPECT_CALL(*mockEngine3, advance(mockInput2.get())).WillOnce(Return(mockInput3.get()));
+    EXPECT_CALL(*mockEngine1, advance(mockInput0)).WillOnce(Return(mockInput1));
+    EXPECT_CALL(*mockEngine2, advance(mockInput1)).WillOnce(Return(mockInput2));
+    EXPECT_CALL(*mockEngine3, advance(mockInput2)).WillOnce(Return(mockInput3));
 
     // Perform test.
-    fTestObject.advance(mockInput0.get());
+    fTestObject.advance(mockInput0);
   }
 
   /**
@@ -250,14 +250,14 @@ namespace simplicity
     // No engines advance.
 
     // Second advance.
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Third advance.
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Fourth advance.
-    EXPECT_CALL(*mockEngine1, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine1, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Fifth advance.
     // No engines advance.
@@ -271,56 +271,56 @@ namespace simplicity
     // No engines advance.
 
     // Second advance.
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Third advance.
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Fourth advance.
-    EXPECT_CALL(*mockEngine1, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine1, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Fifth advance.
     // No engines advance.
 
     // Sixth advance.
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Seventh advance.
     // No engines advance.
 
     // Eighth advance.
-    EXPECT_CALL(*mockEngine1, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine1, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Ninth advance.
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Tenth advance.
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Eleventh advance.
     // No engines advance.
 
     // Twelfth advance.
-    EXPECT_CALL(*mockEngine1, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine2, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
-    EXPECT_CALL(*mockEngine3, advance(NULL)).WillOnce(Return((EngineInput*) NULL)).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine1, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine2, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
+    EXPECT_CALL(*mockEngine3, advance(shared_ptr<EngineInput>())).WillOnce(Return(shared_ptr<EngineInput>())).RetiresOnSaturation();
 
     // Perform test.
     fTestObject.init();
 
     for (int index = 0; index < 5; index++)
     {
-      fTestObject.advance(NULL);
+      fTestObject.advance(shared_ptr<EngineInput>());
     }
 
     fTestObject.reset();
 
     for (int index = 0; index < 12; index++)
     {
-      fTestObject.advance(NULL);
+      fTestObject.advance(shared_ptr<EngineInput>());
     }
   }
 }

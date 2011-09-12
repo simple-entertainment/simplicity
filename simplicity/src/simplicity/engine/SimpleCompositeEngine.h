@@ -51,8 +51,14 @@ namespace simplicity
       void
       addEngine(boost::shared_ptr<Engine> engine);
 
-      EngineInput*
-      advance(const EngineInput* const input);
+      void
+      addEntities(std::vector<boost::shared_ptr<Entity> > entities);
+
+      void
+      addEntity(boost::shared_ptr<Entity> entity);
+
+      boost::shared_ptr<EngineInput>
+      advance(const boost::shared_ptr<EngineInput> input);
 
       void
       destroy();

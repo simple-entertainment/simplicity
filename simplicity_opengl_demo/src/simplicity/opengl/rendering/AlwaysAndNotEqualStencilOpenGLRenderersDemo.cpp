@@ -37,7 +37,7 @@ namespace simplicity
     void
     AlwaysAndNotEqualStencilOpenGLRenderersDemo::advance()
     {
-      fRenderingEngine.advance(NULL);
+      fRenderingEngine.advance(shared_ptr<EngineInput>());
     }
 
     void

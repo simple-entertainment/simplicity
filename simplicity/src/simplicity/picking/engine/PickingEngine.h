@@ -46,8 +46,8 @@ namespace simplicity
        * Performs the outstanding picks against a {@link simplicity::SceneGraph SceneGraph}.
        * </p>
        */
-      virtual EngineInput*
-      advance(const EngineInput* const input) = 0;
+      virtual boost::shared_ptr<EngineInput>
+      advance(const boost::shared_ptr<EngineInput> input) = 0;
 
       /**
        * <p>

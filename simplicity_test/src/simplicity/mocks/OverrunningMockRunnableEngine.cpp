@@ -30,8 +30,20 @@ namespace simplicity
   {
   }
 
-  EngineInput*
-  OverrunningMockRunnableEngine::advance(const EngineInput* const input)
+  void
+  OverrunningMockRunnableEngine::addEntities(std::vector<boost::shared_ptr<Entity> > entities)
+  {
+    fMockObject.addMethodCall("addEntities", vector<any> ());
+  }
+
+  void
+  OverrunningMockRunnableEngine::addEntity(boost::shared_ptr<Entity> entity)
+  {
+    fMockObject.addMethodCall("addEntity", vector<any> ());
+  }
+
+  shared_ptr<EngineInput>
+  OverrunningMockRunnableEngine::advance(const shared_ptr<EngineInput> input)
   {
     fMockObject.addMethodCall("advance", vector<any> ());
 
@@ -48,7 +60,7 @@ namespace simplicity
       }
     }
 
-    return (NULL);
+    return (shared_ptr<EngineInput>());
   }
 
   void

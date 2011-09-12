@@ -9,24 +9,74 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <simplicity/SEInvalidOperationException.h>
+#include <simplicity/MockComponent.h>
 #include <simplicity/mocks/NodeHierarchy.h>
 #include <simplicity/rendering/MockCamera.h>
 #include <simplicity/rendering/MockLight.h>
 #include <simplicity/rendering/MockNamedRenderer.h>
 #include <simplicity/rendering/MockRenderer.h>
 #include <simplicity/scene/MockScene.h>
+#include <simplicity/scenegraph/MockNode.h>
 #include <simplicity/scenegraph/MockSceneGraph.h>
+#include <simplicity/SEInvalidOperationException.h>
 
 #include "SimpleOpenGLRenderingEngineTest.h"
 
 using namespace boost;
+using namespace std;
 using namespace testing;
 
 namespace simplicity
 {
   namespace opengl
   {
+    /**
+     * <p>
+     * Unit test the method
+     * {@link simplicity::opengl::SimpleOpenGLRenderingEngine#addEntities(std::vector<boost::shared_ptr<Entity> >) addEntities(std::vector<boost::shared_ptr<Entity> >)}.
+     * </p>
+     */
+    TEST_F(SimpleOpenGLRenderingEngineTest, addEntities)
+    {
+      // Create dependencies.
+      // //////////////////////////////////////////////////
+      shared_ptr<MockScene> mockScene(new NiceMock<MockScene>);
+      shared_ptr<MockSceneGraph> mockSceneGraph(new NiceMock<MockSceneGraph>);
+      vector<shared_ptr<Entity> > entities;
+      shared_ptr<Entity> entity0(new Entity);
+      shared_ptr<Entity> entity1(new Entity);
+      shared_ptr<Entity> entity2(new Entity);
+      shared_ptr<Node> mockComponent0(new NiceMock<MockNode>);
+      shared_ptr<Node> mockComponent1(new NiceMock<MockNode>);
+      shared_ptr<Node> mockComponent2(new NiceMock<MockNode>);
+      shared_ptr<Component> mockComponent3(new NiceMock<MockComponent>);
+
+      // Dictate correct behaviour.
+      // //////////////////////////////////////////////////
+      ON_CALL(*mockScene, getSceneGraph()).WillByDefault(Return(mockSceneGraph));
+
+      // Dictate expected results.
+      // //////////////////////////////////////////////////
+//      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent0));
+//      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent1));
+//      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent2));
+
+      // Initialise the test environment.
+      // //////////////////////////////////////////////////
+      fTestObject.setScene(mockScene);
+      entities.push_back(entity0);
+      entities.push_back(entity1);
+      entities.push_back(entity2);
+      entity1->addComponent(mockComponent0);
+      entity2->addComponent(mockComponent1);
+      entity2->addComponent(mockComponent2);
+      entity2->addComponent(mockComponent3);
+
+      // Perform test.
+      // //////////////////////////////////////////////////
+      fTestObject.addEntities(entities);
+    }
+
     /**
      * <p>
      * Unit test the methods
@@ -125,7 +175,7 @@ namespace simplicity
     {
       // Perform test - Verify test results.
       // //////////////////////////////////////////////////
-      ASSERT_THROW(fTestObject.advance(NULL), SEInvalidOperationException);
+      ASSERT_THROW(fTestObject.advance(shared_ptr<EngineInput>()), SEInvalidOperationException);
     }
 
     /**
@@ -148,7 +198,7 @@ namespace simplicity
 
       // Perform test - Verify test results.
       // //////////////////////////////////////////////////
-      ASSERT_THROW(fTestObject.advance(NULL), SEInvalidOperationException);
+      ASSERT_THROW(fTestObject.advance(shared_ptr<EngineInput>()), SEInvalidOperationException);
     }
 
     /**
@@ -195,7 +245,7 @@ namespace simplicity
 
       // Perform test.
       // //////////////////////////////////////////////////
-      fTestObject.advance(NULL);
+      fTestObject.advance(shared_ptr<EngineInput>());
     }
 
     /**

@@ -37,6 +37,13 @@ namespace simplicity
     public:
       /**
        * <p>
+       * The number of milliseconds in a second.
+       * </p>
+       */
+      static double const MILLISECONDS_IN_A_SECOND = 1000.0;
+
+      /**
+       * <p>
        * Creates an instance of <code>RunnableEngine</code>.
        * </p>
        */
