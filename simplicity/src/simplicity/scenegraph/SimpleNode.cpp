@@ -58,7 +58,7 @@ namespace simplicity
   //    return (fBounds);
   //  }
 
-  vector<shared_ptr<Node> >
+  const vector<shared_ptr<Node> >&
   SimpleNode::getChildren() const
   {
     return (fChildren);

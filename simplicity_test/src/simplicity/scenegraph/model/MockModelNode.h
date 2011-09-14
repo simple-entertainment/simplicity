@@ -24,7 +24,7 @@ namespace simplicity
       MOCK_METHOD1(addChild, void(boost::shared_ptr<Node> child));
       MOCK_CONST_METHOD0(getAbsoluteTransformation, const TransformationMatrix<float>&());
       //MOCK_CONST_METHOD0(getBounds, boost::shared_ptr<simplicity::BoundingVolume>());
-      MOCK_CONST_METHOD0(getChildren, std::vector<boost::shared_ptr<Node> >());
+      MOCK_CONST_METHOD0(getChildren, const std::vector<boost::shared_ptr<Node> >&());
       MOCK_CONST_METHOD0(getID, int());
       MOCK_CONST_METHOD0(getModel, boost::shared_ptr<Model>());
       MOCK_CONST_METHOD0(getParent, boost::shared_ptr<Node>());

@@ -50,7 +50,7 @@ namespace simplicity
 //      const BoundingVolume& TODO
 //      getBounds() const;
 
-      std::vector<boost::shared_ptr<Node> >
+      const std::vector<boost::shared_ptr<Node> >&
       getChildren() const;
 
       int

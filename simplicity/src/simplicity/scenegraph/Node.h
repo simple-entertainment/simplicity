@@ -71,7 +71,7 @@ namespace simplicity
        *
        * @return The <code>Node</code>s directly below this <code>Node</code> in a <code>SceneGraph</code>.
        */
-      virtual std::vector<boost::shared_ptr<Node> >
+      virtual const std::vector<boost::shared_ptr<Node> >&
       getChildren() const = 0;
 
       /**
