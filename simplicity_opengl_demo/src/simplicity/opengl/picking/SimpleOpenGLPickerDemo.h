@@ -16,7 +16,7 @@
 #include <simplicity/picking/engine/PickingEngine.h>
 #include <simplicity/rendering/engine/RenderingEngine.h>
 
-#include "../Demo.h"
+#include "../OpenGLDemo.h"
 
 namespace simplicity
 {
@@ -27,7 +27,7 @@ namespace simplicity
      * A small demonstration of the {@link simplicity::opengl::SimpleOpenGLPicker SimpleOpenGLPicker}.
      * </p>
      */
-    class SimpleOpenGLPickerDemo : public Demo, public PickListener
+    class SimpleOpenGLPickerDemo : public OpenGLDemo, public PickListener
     {
       public:
         /**

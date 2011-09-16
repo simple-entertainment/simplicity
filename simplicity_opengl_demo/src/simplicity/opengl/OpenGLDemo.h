@@ -9,12 +9,14 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef DEMO_H_
-#define DEMO_H_
+#ifndef OPENGLDEMO_H_
+#define OPENGLDEMO_H_
 
 #include <simplicity/rendering/Camera.h>
 #include <simplicity/rendering/Light.h>
 #include <simplicity/scenegraph/SceneGraph.h>
+
+#include <simplicity/Demo.h>
 
 namespace simplicity
 {
@@ -22,74 +24,12 @@ namespace simplicity
   {
     /**
      * <p>
-     * A small demonstration that can be applied to a scene.
+     * Provides common elements required by OpenGL demos.
      * </p>
      */
-    class Demo
+    class OpenGLDemo : public Demo
     {
       public:
-        /**
-         * <p>
-         * Advances the demo by one frame.
-         * </p>
-         */
-        virtual void
-        advance() = 0;
-
-        /**
-         * <p>
-         * Reverts the state of the demo environment.
-         * </p>
-         */
-        virtual void
-        dispose() = 0;
-
-        /**
-         * <p>
-         * Retrieves a description of the demo.
-         * </p>
-         *
-         * @return A description of the demo.
-         */
-        virtual std::string
-        getDescription() = 0;
-
-        /**
-         * <p>
-         * Retrieves the root node of the camera's subgraph.
-         * </p>
-         *
-         * @return The root node of the camera's subgraph.
-         */
-        virtual boost::shared_ptr<Node>
-        getCameraRootNode() = 0;
-
-        /**
-         * <p>
-         * Retrieves the title of the demo.
-         * </p>
-         *
-         * @return The title of the demo.
-         */
-        virtual std::string
-        getTitle() = 0;
-
-        /**
-         * <p>
-         * Initialises the state of the demo environment for this demo.
-         * </p>
-         */
-        virtual void
-        init() = 0;
-
-        /**
-         * <p>
-         * Callback used to respond to mouse click events.
-         * </p>
-         *
-         * @param x The x axis of the location in the demo window that was clicked.
-         * @param y The y axis of the location in the demo window that was clicked.
-         */
         virtual void
         mouseClick(const int x, const int y);
 
@@ -161,4 +101,4 @@ namespace simplicity
   }
 }
 
-#endif /* DEMO_H_ */
+#endif /* OPENGLDEMO_H_ */

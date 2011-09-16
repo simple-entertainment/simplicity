@@ -23,7 +23,7 @@
 #include <simplicity/opengl/rendering/SimpleOpenGLCamera.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLLight.h>
 
-#include "Demo.h"
+#include "OpenGLDemo.h"
 
 using namespace boost::math::constants;
 
@@ -32,7 +32,7 @@ namespace simplicity
   namespace opengl
   {
     shared_ptr<Camera>
-    Demo::addStandardCamera(shared_ptr<Node> parentNode)
+    OpenGLDemo::addStandardCamera(shared_ptr<Node> parentNode)
     {
       shared_ptr<SimpleOpenGLCamera> camera(new SimpleOpenGLCamera);
       shared_ptr<SimpleNode> cameraNode(new SimpleNode);
@@ -48,7 +48,7 @@ namespace simplicity
     }
 
     void
-    Demo::addStandardCapsule(shared_ptr<Node> parentNode)
+    OpenGLDemo::addStandardCapsule(shared_ptr<Node> parentNode)
     {
       shared_ptr<SimpleModelNode> capsuleNode(new SimpleModelNode);
       capsuleNode->getTransformation().translate(SimpleTranslationVector4<float>(-3.0f, 3.0f, 0.0f, 1.0f));
@@ -60,7 +60,7 @@ namespace simplicity
     }
 
     void
-    Demo::addStandardCylinder(shared_ptr<Node> parentNode)
+    OpenGLDemo::addStandardCylinder(shared_ptr<Node> parentNode)
     {
       shared_ptr<SimpleModelNode> cylinderNode(new SimpleModelNode);
       cylinderNode->getTransformation().translate(SimpleTranslationVector4<float>(0.0f, 3.0f, 0.0f, 1.0f));
@@ -72,7 +72,7 @@ namespace simplicity
     }
 
     shared_ptr<Light>
-    Demo::addStandardLight(shared_ptr<Node> parentNode)
+    OpenGLDemo::addStandardLight(shared_ptr<Node> parentNode)
     {
       shared_ptr<SimpleOpenGLLight> light(new SimpleOpenGLLight);
       light->setAmbientLight(
@@ -90,7 +90,7 @@ namespace simplicity
     }
 
     void
-    Demo::addStandardSphere(shared_ptr<Node> parentNode)
+    OpenGLDemo::addStandardSphere(shared_ptr<Node> parentNode)
     {
       shared_ptr<SimpleModelNode> sphereNode(new SimpleModelNode);
       sphereNode->getTransformation().translate(SimpleTranslationVector4<float>(3.0f, 3.0f, 0.0f, 1.0f));
@@ -102,7 +102,7 @@ namespace simplicity
     }
 
     void
-    Demo::addStandardTorus(shared_ptr<Node> parentNode)
+    OpenGLDemo::addStandardTorus(shared_ptr<Node> parentNode)
     {
       shared_ptr<SimpleModelNode> torusNode(new SimpleModelNode);
       torusNode->getTransformation().translate(SimpleTranslationVector4<float>(0.0f, -2.0f, 0.0f, 1.0f));
@@ -112,7 +112,7 @@ namespace simplicity
     }
 
     void
-    Demo::mouseClick(const int x, const int y)
+    OpenGLDemo::mouseClick(const int x, const int y)
     {
     }
   }

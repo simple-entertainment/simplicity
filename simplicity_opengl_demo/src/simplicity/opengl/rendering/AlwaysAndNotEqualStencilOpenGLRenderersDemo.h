@@ -14,7 +14,7 @@
 
 #include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 
-#include "../Demo.h"
+#include "../OpenGLDemo.h"
 
 namespace simplicity
 {
@@ -26,7 +26,7 @@ namespace simplicity
      * {@link simplicity::opengl::NotEqualStencilOpenGLRenderer NotEqualStencilOpenGLRenderer}.
      * </p>
      */
-    class AlwaysAndNotEqualStencilOpenGLRenderersDemo : public Demo
+    class AlwaysAndNotEqualStencilOpenGLRenderersDemo : public OpenGLDemo
     {
       public:
         /**

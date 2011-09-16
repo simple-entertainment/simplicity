@@ -5,6 +5,8 @@
 	<projects>
 		<project>simplicity</project>
 		<project>simplicity_opengl</project>
+		<project>simplicity-demo-opengl</project>
+		<project>simplicity-demo-core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -14,7 +14,7 @@
 
 #include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 
-#include "../Demo.h"
+#include "../OpenGLDemo.h"
 
 namespace simplicity
 {
@@ -25,7 +25,7 @@ namespace simplicity
      * A small demonstration of the {@link simplicity::opengl::SimpleOpenGLRenderer SimpleOpenGLRenderer}.
      * </p>
      */
-    class SimpleOpenGLRendererDemo : public Demo
+    class SimpleOpenGLRendererDemo : public OpenGLDemo
     {
       public:
         /**
