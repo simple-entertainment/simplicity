@@ -19,11 +19,26 @@
 
 namespace simplicity
 {
+  /**
+   * <p>
+   * Provides an OpenGL environment in which {@link simplicity::Demo Demo}s can be run.
+   * </p>
+   */
   class OpenGLDemoRunner
   {
     public:
+      /**
+       * <p>
+       * Creates an instance of <code>OpenGLDemoRunner</code>.
+       * </p>
+       */
       OpenGLDemoRunner(std::string title);
 
+      /**
+       * <p>
+       * Disposes of an instance of <code>OpenGLDemoRunner</code>.
+       * </p>
+       */
       virtual
       ~OpenGLDemoRunner();
 
@@ -36,15 +51,47 @@ namespace simplicity
       void
       init(int argc, char** argv);
 
+      /**
+       * <p>
+       * Processes keyboard events.
+       * </p>
+       *
+       * @param key The key that was pressed.
+       * @param x ?
+       * @param y ?
+       */
       void
       keyboard(const unsigned char key, const int x, const int y);
 
+      /**
+       * <p>
+       * Processes mouse motion events.
+       * </p>
+       *
+       * @param x The distance the mouse was moved on the x axis.
+       * @param y The distance the mouse was moved on the y axis.
+       */
       void
       motion(const int x, const int y);
 
+      /**
+       * <p>
+       * Processes mouse button events.
+       * </p>
+       *
+       * @param button The GLUT mouse button that was used.
+       * @param state The new state of the mouse button.
+       * @param x The position on the x axis where the mouse was used.
+       * @param y The position on the y axis where the mouse was used.
+       */
       void
       mouse(const int button, const int state, const int x, const int y);
 
+      /**
+       * <p>
+       * The render method called during each iteration of the main loop.
+       * </p>
+       */
       void
       render();
 
@@ -52,26 +99,81 @@ namespace simplicity
       run();
 
     private:
+      /**
+       * <p>
+       * TODO What is this for???
+       * </p>
+       */
       bool cameraEnabled;
 
+      /**
+       * <p>
+       * The index of the currently running {@link simplicity::Demo Demo}.
+       * </p>
+       */
       unsigned int demoIndex;
 
+      /**
+       * <p>
+       * The list of {@link simplicity::Demo Demo}s to be run.
+       * </p>
+       */
       std::vector<boost::shared_ptr<Demo> > demos;
 
+      /**
+       * <p>
+       * The current position of the mouse on the x axis.
+       * </p>
+       */
       int mouseX;
 
+      /**
+       * <p>
+       * The current position of the mouse on the y axis.
+       * </p>
+       */
       int mouseY;
 
+      /**
+       * <p>
+       * The title to display on the program window.
+       * </p>
+       */
       std::string title;
 
+      /**
+       * <p>
+       * The position on the z axis at which text is rendered.
+       * </p>
+       */
       float textZ;
 
+      /**
+       * <p>
+       * Moves to the next {@link simplicity::Demo Demo}.
+       * </p>
+       */
       void
       nextDemo();
 
+      /**
+       * <p>
+       * Moves to the previous {@link simplicity::Demo Demo}.
+       * </p>
+       */
       void
       previousDemo();
 
+      /**
+       * <p>
+       * Renders text.
+       * </p>
+       *
+       * @param font The GLUT font to render the text in.
+       * @param text The test to render.
+       * @param x The position on the x axis to render the text (relative to the center of the camera frame).
+       * @param y The position on the y axis to render the text (relative to the center of the camera frame).
+       */
       void
       text(void* font, const std::string text, const float x, const float y);
   };

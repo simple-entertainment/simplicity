@@ -18,7 +18,7 @@ namespace simplicity
 {
   /**
    * <p>
-   * Provides an environment in which demos can be run.
+   * Provides an environment in which {@link simplicity::Demo Demo}s can be run.
    * </p>
    */
   class DemoRunner
@@ -34,15 +34,40 @@ namespace simplicity
       {
       }
 
+      /**
+       * <p>
+       * Adds a {@link simplicity::Demo Demo} to the list of <code>Demo</code>s to be run.
+       * </p>
+       *
+       * @param demo The <code>Demo</code> to be added to the list of <code>Demo</code>s to be run.
+       */
       virtual void
       addDemo(boost::shared_ptr<Demo> demo) = 0;
 
+      /**
+       * <p>
+       * Disposes of this <code>DemoRunner</code>.
+       * </p>
+       */
       virtual void
       dispose() = 0;
 
+      /**
+       * <p>
+       * Initialises this <code>DemoRunner</code>.
+       * </p>
+       *
+       * @param argc Program arguments.
+       * @param argv Program arguments.
+       */
       virtual void
       init(int argc, char** argv) = 0;
 
+      /**
+       * <p>
+       * Runs the {@link simplicity::Demo Demo}s.
+       * </p>
+       */
       virtual void
       run() = 0;
   };

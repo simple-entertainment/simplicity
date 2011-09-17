@@ -24,32 +24,76 @@ using namespace boost::math::constants;
 
 namespace simplicity
 {
+  /**
+   * <p>
+   * The {@link simplicity::OpenGLDemoRunner OpenGLDemoRunner} that will respond to the GLUT events.
+   * </p>
+   */
   OpenGLDemoRunner* runner;
 
+  /**
+   * <p>
+   * A proxy for keyboard events that can be used as a GLUT callback.
+   * </p>
+   *
+   * @param key The key that was pressed.
+   * @param x ?
+   * @param y ?
+   */
   void
   keyboard(const unsigned char key, const int x, const int y)
   {
     runner->keyboard(key, x, y);
   }
 
+  /**
+   * <p>
+   * A proxy for motion events that can be used as a GLUT callback.
+   * </p>
+   *
+   * @param x The distance the mouse was moved on the x axis.
+   * @param y The distance the mouse was moved on the y axis.
+   */
   void
   motion(const int x, const int y)
   {
     runner->motion(x, y);
   }
 
+  /**
+   * <p>
+   * A proxy for mouse events that can be used as a GLUT callback.
+   * </p>
+   *
+   * @param button The GLUT mouse button that was used.
+   * @param state The new state of the mouse button.
+   * @param x The position on the x axis where the mouse was used.
+   * @param y The position on the y axis where the mouse was used.
+   */
   void
   mouse(const int button, const int state, const int x, const int y)
   {
     runner->mouse(button, state, x, y);
   }
 
+  /**
+   * <p>
+   * A proxy for render events that can be used as a GLUT callback.
+   * </p>
+   */
   void
   render()
   {
     runner->render();
   }
 
+  /**
+   * <p>
+   * Initialises the standalone proxy methods for use with GLUT.
+   * </p>
+   *
+   * @param runner The {@link simplicity::OpenGLDemoRunner OpenGLDemoRunner} that will respond to the GLUT events.
+   */
   void
   initStandalone(OpenGLDemoRunner* runner)
   {
@@ -96,9 +140,6 @@ namespace simplicity
     nextDemo();
   }
 
-  /**
-   * Processes keyboard events.
-   */
   void
   OpenGLDemoRunner::keyboard(const unsigned char key, const int x, const int y)
   {
@@ -112,9 +153,6 @@ namespace simplicity
     }
   }
 
-  /**
-   * Processes mouse motion events.
-   */
   void
   OpenGLDemoRunner::motion(const int x, const int y)
   {
@@ -129,9 +167,6 @@ namespace simplicity
         SimpleTranslationVector4<float>(1.0f, 0.0f, 0.0f, 1.0f));
   }
 
-  /**
-   * Processes mouse button events.
-   */
   void
   OpenGLDemoRunner::mouse(const int button, const int state, const int x, const int y)
   {
@@ -147,9 +182,6 @@ namespace simplicity
     }
   }
 
-  /**
-   * Moves forward to the next scene.
-   */
   void
   OpenGLDemoRunner::nextDemo()
   {
@@ -166,9 +198,6 @@ namespace simplicity
     }
   }
 
-  /**
-   * Moves back to the previous scene.
-   */
   void
   OpenGLDemoRunner::previousDemo()
   {
@@ -180,9 +209,6 @@ namespace simplicity
     }
   }
 
-  /**
-   * The render method called during each iteration of the main loop.
-   */
   void
   OpenGLDemoRunner::render()
   {
@@ -202,9 +228,6 @@ namespace simplicity
     glutMainLoop();
   }
 
-  /**
-   * Renders text.
-   */
   void
   OpenGLDemoRunner::text(void* font, const string text, const float x, const float y)
   {
