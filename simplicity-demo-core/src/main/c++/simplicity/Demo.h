@@ -12,6 +12,8 @@
 #ifndef DEMO_H_
 #define DEMO_H_
 
+#include <string>
+
 #include <simplicity/scenegraph/Node.h>
 
 namespace simplicity
