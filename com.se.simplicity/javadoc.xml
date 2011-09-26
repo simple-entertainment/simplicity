@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="javadoc">
-    <target name="javadoc">
-        <javadoc access="public" author="true" classpath="C:\Users\simple\Software\Java\Libraries\eclipse SWT\swt-debug.jar;C:\Users\simple\Software\Java\Libraries\eclipse SWT\swt.jar" destdir="docs" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.se.simplicity.vector,com.se.simplicity.model,com.se.simplicity.rendering,com.se.simplicity.scenegraph" source="1.6" sourcepath="src" splitindex="true" use="true" version="true"/>
-    </target>
-</project>

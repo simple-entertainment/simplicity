@@ -3,7 +3,6 @@
 	<name>simplicity_test</name>
 	<comment></comment>
 	<projects>
-		<project>devenvy</project>
 		<project>simplicity</project>
 	</projects>
 	<buildSpec>

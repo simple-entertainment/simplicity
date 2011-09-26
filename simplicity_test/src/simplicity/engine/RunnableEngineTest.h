@@ -14,7 +14,7 @@
 
 #include <gtest/gtest.h>
 
-#include "../mocks/OverrunningMockRunnableEngine.h"
+#include "../testdoubles/OverrunningFakeRunnableEngine.h"
 
 namespace simplicity
 {
@@ -31,7 +31,7 @@ namespace simplicity
       /**
        * An instance of the class being unit tested.
        */
-      OverrunningMockRunnableEngine fTestObject;
+	  OverrunningFakeRunnableEngine fTestObject;
   };
 }
 

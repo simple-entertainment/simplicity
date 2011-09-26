@@ -11,7 +11,7 @@
  */
 #include <simplicity/scenegraph/SimpleNode.h>
 
-#include "../mocks/NodeHierarchy.h"
+#include "../testdoubles/NodeHierarchy.h"
 #include "SimpleTraversalTest.h"
 
 using namespace boost;

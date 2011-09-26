@@ -11,7 +11,7 @@
  */
 #include <algorithm>
 
-#include "../mocks/NodeHierarchy.h"
+#include "../testdoubles/NodeHierarchy.h"
 #include "SimpleSceneGraphTest.h"
 
 using namespace boost;
