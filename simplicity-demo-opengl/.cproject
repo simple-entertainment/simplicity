@@ -32,8 +32,8 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1657641261" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1554660896" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.862814480" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo-core/src/main/c++}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity/src/main/c++}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.pic.2142555094" name="Position Independent Code (-fPIC)" superClass="gnu.cpp.compiler.option.other.pic" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1495693048" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -42,7 +42,7 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.893327879" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.1153683931" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.1652186443" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo-core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1681558293" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
@@ -66,13 +66,16 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.1783128994" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.1948944618" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo-core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1544996697" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/main/c++"/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
@@ -86,8 +89,11 @@
 				<externalSettings containerId="simplicity-demo-core;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/simplicity-demo"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/simplicity-demo-core"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/simplicity-demo/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/simplicity-demo-core/Debug"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="simplicity-demo"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="simplicity-demo-core"/>
 					</externalSetting>
 				</externalSettings>
 			</storageModule>

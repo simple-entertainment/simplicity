@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>simplicity_opengl</name>
+	<name>simplicity-opengl-demo</name>
 	<comment></comment>
 	<projects>
 		<project>simplicity</project>
+		<project>simplicity-demo-opengl</project>
+		<project>simplicity-demo-core</project>
+		<project>simplicity-opengl</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -32,7 +35,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildLocation</key>
-					<value>${workspace_loc:/simplicity_opengl/Debug}</value>
+					<value>${workspace_loc:/simplicity_opengl_demo/Debug}</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.cleanBuildTarget</key>

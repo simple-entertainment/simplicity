@@ -8,8 +8,11 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/simplicity-demo"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/simplicity-demo-core"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/simplicity-demo/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/simplicity-demo-core/Debug"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="simplicity-demo"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="simplicity-demo-core"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -30,7 +33,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.470154394" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.715888732" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option id="gnu.cpp.compiler.option.include.paths.1705155199" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity/src/main/c++}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.313429755" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.167970419" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
@@ -66,6 +69,9 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/main/c++"/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
@@ -122,22 +128,28 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="simplicity-demo.cdt.managedbuild.target.gnu.cross.exe.1803572362" name="Executable" projectType="cdt.managedbuild.target.gnu.cross.exe"/>
 	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="1">
+		<resource resourceType="PROJECT" workspacePath="/simplicity-demo"/>
+	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.776964442;cdt.managedbuild.config.gnu.cross.exe.debug.776964442.;cdt.managedbuild.tool.gnu.cross.c.compiler.1717125208;cdt.managedbuild.tool.gnu.c.compiler.input.749841854">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.release.1613943015;cdt.managedbuild.config.gnu.cross.exe.release.1613943015.;cdt.managedbuild.tool.gnu.cross.cpp.compiler.273340221;cdt.managedbuild.tool.gnu.cpp.compiler.input.1379775602">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.release.1613943015;cdt.managedbuild.config.gnu.cross.exe.release.1613943015.;cdt.managedbuild.tool.gnu.cross.c.compiler.1182860930;cdt.managedbuild.tool.gnu.c.compiler.input.632880717">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.776964442;cdt.managedbuild.config.gnu.cross.exe.debug.776964442.;cdt.managedbuild.tool.gnu.cross.c.compiler.1717125208;cdt.managedbuild.tool.gnu.c.compiler.input.749841854">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.776964442;cdt.managedbuild.config.gnu.cross.exe.debug.776964442.;cdt.managedbuild.tool.gnu.c.compiler.base.1171746562;cdt.managedbuild.tool.gnu.c.compiler.input.819850512">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.776964442;cdt.managedbuild.config.gnu.cross.exe.debug.776964442.;cdt.managedbuild.tool.gnu.cpp.compiler.base.715888732;cdt.managedbuild.tool.gnu.cpp.compiler.input.947186122">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
+		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.776964442;cdt.managedbuild.config.gnu.cross.exe.debug.776964442.;cdt.managedbuild.tool.gnu.cross.cpp.compiler.1194110395;cdt.managedbuild.tool.gnu.cpp.compiler.input.1933548722">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
-	</storageModule>
-	<storageModule moduleId="refreshScope" versionNumber="1">
-		<resource resourceType="PROJECT" workspacePath="/simplicity-demo"/>
 	</storageModule>
 </cproject>

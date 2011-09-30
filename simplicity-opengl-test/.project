@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>simplicity_opengl_test</name>
+	<name>simplicity-opengl-test</name>
 	<comment></comment>
 	<projects>
 		<project>simplicity</project>
 		<project>simplicity_opengl</project>
 		<project>simplicity_test</project>
+		<project>simplicity-opengl</project>
+		<project>simplicity-test</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
