@@ -149,6 +149,10 @@ namespace simplicity
 			 */
 			boost::shared_ptr<Node> createSquareOnXZPlane(const RGBAColourVector<float>& colour);
 
+			void displayBoundaryNodes();
+
+			void displayPath();
+
 			/**
 			 * <p>
 			 * Populates the full path.

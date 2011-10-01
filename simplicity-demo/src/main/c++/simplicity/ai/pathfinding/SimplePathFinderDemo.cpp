@@ -128,7 +128,7 @@ namespace simplicity
 
 	vector<shared_ptr<Entity> > SimplePathFinderDemo::createObstacles()
 	{
-		vector<shared_ptr<Entity> > obstacles;
+		vector < shared_ptr<Entity> > obstacles;
 		srand((unsigned) time(0));
 
 		for (unsigned int column = 0; column < 10; column++)
@@ -173,19 +173,68 @@ namespace simplicity
 		shared_ptr < vector<float> > coloursVector(new vector<float>(colours, colours + 18));
 		squareModel->setColours(coloursVector);
 
-		float normals[18] = { 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 1.0f, 0.0f };
+		float normals[18] = {0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 1.0f, 0.0f};
 		shared_ptr < vector<float> > normalsVector(new vector<float>(normals, normals + 18));
 		squareModel->setNormals(normalsVector);
 
-		float vertices[18] = { 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 1.0f };
+		float vertices[18] = {0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+			1.0f, 0.0f, 1.0f};
 		shared_ptr < vector<float> > verticesVector(new vector<float>(vertices, vertices + 18));
 		squareModel->setVertices(verticesVector);
 
 		squareNode->setModel(squareModel);
 
 		return (squareNode);
+	}
+
+	void SimplePathFinderDemo::displayBoundaryNodes()
+	{
+		vector < shared_ptr<const Node> > boundaryNodes(pathFinder->getBoundaryNodes());
+
+		for (unsigned int index = 0; index < boundaryNodes.size(); index++)
+		{
+			shared_ptr<Entity> possiblePathEntity(new Entity);
+
+			shared_ptr<Node> possiblePathNode = createSquareOnXZPlane(
+				SimpleRGBAColourVector4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+
+			shared_ptr<SimpleTransformationMatrix44<float> > transformation(
+				new SimpleTransformationMatrix44<float>(
+					static_cast<SimpleTransformationMatrix44<float>&>(boundaryNodes.at(index)->getTransformation())));
+			possiblePathNode->setTransformation(transformation);
+
+			possiblePathEntity->addComponent(possiblePathNode);
+			renderingEngine.addEntity(possiblePathEntity);
+		}
+	}
+
+	void SimplePathFinderDemo::displayPath()
+	{
+		vector < shared_ptr<const Node> > path(pathFinder->findShortestPath());
+		shared_ptr<Entity> pathEntity(new Entity);
+		shared_ptr<Node> pathRootNode(new SimpleNode);
+
+		for (unsigned int index = 0; index < path.size(); index++)
+		{
+			shared_ptr<ModelNode> waypointNode(new SimpleModelNode);
+			pathRootNode->addChild(waypointNode);
+
+			shared_ptr<Sphere> waypointModel(new GLUSphere);
+			waypointModel->setColour(
+				shared_ptr < RGBAColourVector<float> > (new SimpleRGBAColourVector4<float>(0.0f, 1.0f, 0.0f, 1.0f)));
+			waypointModel->setRadius(0.1f);
+			waypointNode->setModel(waypointModel);
+
+			shared_ptr<SimpleTransformationMatrix44<float> > transformation(
+				new SimpleTransformationMatrix44<float>(
+					static_cast<SimpleTransformationMatrix44<float>&>(path.at(index)->getTransformation())));
+			waypointNode->setTransformation(transformation);
+			waypointNode->getTransformation().translate(SimpleTranslationVector4<float>(0.5f, 0.0f, 0.5f, 1.0f));
+		}
+
+		pathEntity->addComponent(pathRootNode);
+		renderingEngine.addEntity(pathEntity);
 	}
 
 	void SimplePathFinderDemo::dispose()
@@ -242,44 +291,18 @@ namespace simplicity
 
 	void SimplePathFinderDemo::onMouseButton(const int button, const int state, const int x, const int y)
 	{
-		if (button != GLUT_LEFT_BUTTON || state != GLUT_UP) {
+		if (button != GLUT_LEFT_BUTTON || state != GLUT_UP)
+		{
 			return;
 		}
 
 		bool pathFound = pathFinder->stepForward();
-		vector < shared_ptr<const Node> > boundaryNodes(pathFinder->getBoundaryNodes());
 
-		for (unsigned int index = 0; index < boundaryNodes.size(); index++)
-		{
-			shared_ptr<Entity> possiblePathEntity(new Entity);
-			shared_ptr<Node> possiblePathNode = createSquareOnXZPlane(
-				SimpleRGBAColourVector4<float>(0.0f, 0.0f, 1.0f, 1.0f));
-			SimpleTransformationMatrix44<float>& pathTransformation =
-				static_cast<SimpleTransformationMatrix44<float>&>(boundaryNodes.at(index)->getTransformation());shared_ptr
-			<SimpleTransformationMatrix44<float> > transformation(
-				new SimpleTransformationMatrix44<float>(pathTransformation));
-			possiblePathNode->setTransformation(transformation);
-			possiblePathEntity->addComponent(possiblePathNode);
-			renderingEngine.addEntity(possiblePathEntity);
-		}
+		displayBoundaryNodes();
 
 		if (pathFound)
 		{
-			vector < shared_ptr<const Node> > path(pathFinder->findShortestPath());
-
-			for (unsigned int index = 0; index < path.size(); index++)
-			{
-				shared_ptr<Entity> pathEntity(new Entity);
-				shared_ptr<Node> pathNode = createSquareOnXZPlane(
-					SimpleRGBAColourVector4<float>(0.0f, 1.0f, 0.0f, 1.0f));
-				SimpleTransformationMatrix44<float>& pathTransformation =
-					static_cast<SimpleTransformationMatrix44<float>&>(path.at(index)->getTransformation());shared_ptr
-				<SimpleTransformationMatrix44<float> > transformation(
-					new SimpleTransformationMatrix44<float>(pathTransformation));
-				pathNode->setTransformation(transformation);
-				pathEntity->addComponent(pathNode);
-				renderingEngine.addEntity(pathEntity);
-			}
+			displayPath();
 		}
 	}
 
