@@ -97,17 +97,10 @@ namespace simplicity
 		private:
 			/**
 			 * <p>
-			 * TODO What is this for???
-			 * </p>
-			 */
-			bool cameraEnabled;
-
-			/**
-			 * <p>
 			 * The index of the currently running {@link simplicity::Demo Demo}.
 			 * </p>
 			 */
-			unsigned int demoIndex;
+			int demoIndex;
 
 			/**
 			 * <p>

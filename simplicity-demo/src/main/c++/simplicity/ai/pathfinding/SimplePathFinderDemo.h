@@ -53,9 +53,9 @@ namespace simplicity
 
 			void dispose();
 
-			std::string getDescription();
+			boost::shared_ptr<Camera> getCamera();
 
-			boost::shared_ptr<Node> getCameraRootNode();
+			std::string getDescription();
 
 			std::string getTitle();
 
@@ -71,7 +71,7 @@ namespace simplicity
 			 * The full path from which the shortest path is to be found.
 			 * </p>
 			 */
-			vector<shared_ptr<Node> > fullPath;
+			std::vector<boost::shared_ptr<Node> > fullPath;
 
 			/**
 			 * <p>
@@ -94,7 +94,7 @@ namespace simplicity
 			 *
 			 * @parentNode The node under which the background scene is to be added.
 			 */
-			void addBackground(shared_ptr<Node> parentNode);
+			void addBackground(boost::shared_ptr<Node> parentNode);
 
 			/**
 			 * <p>
@@ -105,7 +105,7 @@ namespace simplicity
 			 *
 			 * @return The camera that has been added.
 			 */
-			shared_ptr<Camera> addCamera(shared_ptr<Node> parentNode);
+			boost::shared_ptr<Camera> addCamera(boost::shared_ptr<Node> parentNode);
 
 			/**
 			 * <p>
@@ -116,7 +116,7 @@ namespace simplicity
 			 *
 			 * @return The light that has been added.
 			 */
-			shared_ptr<Light> addLight(shared_ptr<Node> parentNode);
+			boost::shared_ptr<Light> addLight(boost::shared_ptr<Node> parentNode);
 
 			/**
 			 * <p>

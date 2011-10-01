@@ -75,11 +75,9 @@ namespace simplicity
 		camera->setProjectionMode(Camera::ORTHOGONAL);
 		camera->setFrameWidth(10.0f);
 		camera->setFrameAspectRatio(1.0f);
-		camera->setFrameX(-0.5f);
-		camera->setFrameY(-0.5f);
 
 		shared_ptr<SimpleNode> cameraNode(new SimpleNode);
-		cameraNode->getTransformation().translate(SimpleTranslationVector4<float>(0.0f, 10.0f, 0.0f, 1.0f));
+		cameraNode->getTransformation().translate(SimpleTranslationVector4<float>(0.0f, 10.0f, 1.0f, 1.0f));
 		cameraNode->getTransformation().rotate(pi<float>() * 1.5f,
 			SimpleTranslationVector4<float>(1.0f, 0.0f, 0.0f, 1.0f));
 		camera->setNode(cameraNode);
@@ -112,7 +110,7 @@ namespace simplicity
 		renderingEngine.advance(shared_ptr<EngineInput>());
 	}
 
-	boost::shared_ptr<Node> SimplePathFinderDemo::createGreySquareOnXZPlane(const bool dark)
+	shared_ptr<Node> SimplePathFinderDemo::createGreySquareOnXZPlane(const bool dark)
 	{
 		shared_ptr<Node> squareNode;
 
@@ -128,9 +126,9 @@ namespace simplicity
 		return (squareNode);
 	}
 
-	std::vector<boost::shared_ptr<Entity> > SimplePathFinderDemo::createObstacles()
+	vector<shared_ptr<Entity> > SimplePathFinderDemo::createObstacles()
 	{
-		std::vector < boost::shared_ptr<Entity> > obstacles;
+		vector<shared_ptr<Entity> > obstacles;
 		srand((unsigned) time(0));
 
 		for (unsigned int column = 0; column < 10; column++)
@@ -160,7 +158,7 @@ namespace simplicity
 		return (obstacles);
 	}
 
-	boost::shared_ptr<Node> SimplePathFinderDemo::createSquareOnXZPlane(const RGBAColourVector<float>& colour)
+	shared_ptr<Node> SimplePathFinderDemo::createSquareOnXZPlane(const RGBAColourVector<float>& colour)
 	{
 		shared_ptr<ModelNode> squareNode(new SimpleModelNode);
 		shared_ptr<VectorVG> squareModel(new VectorVG);
@@ -180,8 +178,8 @@ namespace simplicity
 		shared_ptr < vector<float> > normalsVector(new vector<float>(normals, normals + 18));
 		squareModel->setNormals(normalsVector);
 
-		float vertices[18] = { -0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, -0.5f, -0.5f, 0.0f,
-			-0.5f, 0.5f, 0.0f, 0.5f };
+		float vertices[18] = { 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 1.0f };
 		shared_ptr < vector<float> > verticesVector(new vector<float>(vertices, vertices + 18));
 		squareModel->setVertices(verticesVector);
 
@@ -195,14 +193,14 @@ namespace simplicity
 		renderingEngine.destroy();
 	}
 
+	shared_ptr<Camera> SimplePathFinderDemo::getCamera()
+	{
+		return (renderingEngine.getCamera());
+	}
+
 	string SimplePathFinderDemo::getDescription()
 	{
 		return ("");
-	}
-
-	shared_ptr<Node> SimplePathFinderDemo::getCameraRootNode()
-	{
-		return (renderingEngine.getCamera()->getNode()->getParent());
 	}
 
 	string SimplePathFinderDemo::getTitle()

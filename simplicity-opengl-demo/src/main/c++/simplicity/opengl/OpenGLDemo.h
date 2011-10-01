@@ -17,7 +17,6 @@
 #ifndef OPENGLDEMO_H_
 #define OPENGLDEMO_H_
 
-#include <simplicity/rendering/Camera.h>
 #include <simplicity/rendering/Light.h>
 #include <simplicity/scenegraph/SceneGraph.h>
 

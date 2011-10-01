@@ -19,6 +19,7 @@
 
 #include <string>
 
+#include <simplicity/rendering/Camera.h>
 #include <simplicity/scenegraph/Node.h>
 
 namespace simplicity
@@ -65,12 +66,12 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Retrieves the root node of the camera's subgraph.
+			 * Retrieves the camera.
 			 * </p>
 			 *
-			 * @return The root node of the camera's subgraph.
+			 * @return The camera.
 			 */
-			virtual boost::shared_ptr<Node> getCameraRootNode() = 0;
+			virtual boost::shared_ptr<Camera> getCamera() = 0;
 
 			/**
 			 * <p>

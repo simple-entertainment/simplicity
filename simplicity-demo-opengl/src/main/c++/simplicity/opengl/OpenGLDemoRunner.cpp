@@ -107,7 +107,7 @@ namespace simplicity
 	}
 
 	OpenGLDemoRunner::OpenGLDemoRunner(string title) :
-		cameraEnabled(false), demoIndex(0), title(title)
+		demoIndex(-1), title(title)
 	{
 	}
 
@@ -122,7 +122,7 @@ namespace simplicity
 
 	void OpenGLDemoRunner::dispose()
 	{
-		demos.at(demoIndex - 1)->dispose();
+		demos.at(demoIndex)->dispose();
 	}
 
 	void OpenGLDemoRunner::init(int argc, char **argv)
@@ -151,47 +151,58 @@ namespace simplicity
 
 	void OpenGLDemoRunner::onMouseButton(const int button, const int state, const int x, const int y)
 	{
-		demos.at(demoIndex - 1)->onMouseButton(button, state, x, y);
+		demos.at(demoIndex)->onMouseButton(button, state, x, y);
 	}
 
 	void OpenGLDemoRunner::onMouseMotion(const int x, const int y)
 	{
-		demos.at(demoIndex - 1)->onMouseMotion(x, y);
+		demos.at(demoIndex)->onMouseMotion(x, y);
 	}
 
 	void OpenGLDemoRunner::nextDemo()
 	{
-		if (demoIndex < demos.size())
+		int signedDemoCount = demos.size();
+		if (demoIndex < signedDemoCount - 1)
 		{
-			if (demoIndex > 0)
+			if (demoIndex >= 0)
 			{
-				demos.at(demoIndex - 1)->dispose();
+				demos.at(demoIndex)->dispose();
 			}
 
-			demos.at(demoIndex)->init();
-
 			demoIndex++;
+			demos.at(demoIndex)->init();
 		}
 	}
 
 	void OpenGLDemoRunner::previousDemo()
 	{
-		if (demoIndex > 1)
+		if (demoIndex > 0)
 		{
-			demos.at(demoIndex - 1)->dispose();
+			demos.at(demoIndex)->dispose();
+
 			demoIndex--;
-			demos.at(demoIndex - 1)->init();
+			demos.at(demoIndex)->init();
 		}
 	}
 
 	void OpenGLDemoRunner::render()
 	{
-		demos.at(demoIndex - 1)->advance();
+		demos.at(demoIndex)->advance();
 
-		text(GLUT_BITMAP_HELVETICA_18, demos.at(demoIndex - 1)->getTitle(), -0.5f, 0.35f);
-		text(GLUT_BITMAP_HELVETICA_12, demos.at(demoIndex - 1)->getDescription(), -0.5f, 0.325f);
-		text(GLUT_BITMAP_HELVETICA_18, "<< Previous [backspace]", -0.5f, -0.36f);
-		text(GLUT_BITMAP_HELVETICA_18, "[space] Next >>", 0.34f, -0.36f);
+		shared_ptr<Camera> camera = demos.at(demoIndex)->getCamera();
+		float frameWidth = camera->getFrameWidth();
+		float frameHeight = camera->getFrameHeight();
+
+		if (camera->getProjectionMode() == Camera::PERSPECTIVE)
+		{
+			frameWidth *= 10.0f;
+			frameHeight *= 10.0f;
+		}
+
+		text(GLUT_BITMAP_HELVETICA_18, demos.at(demoIndex)->getTitle(), frameWidth * -0.49f, frameHeight * 0.45f);
+		text(GLUT_BITMAP_HELVETICA_12, demos.at(demoIndex)->getDescription(), frameWidth * -0.49f, frameHeight * 0.4f);
+		text(GLUT_BITMAP_HELVETICA_18, "<< Previous [backspace]", frameWidth * -0.49f, frameHeight * -0.45f);
+		text(GLUT_BITMAP_HELVETICA_18, "[space] Next >>", frameWidth * 0.33f, frameHeight * -0.45f);
 
 		glutSwapBuffers();
 	}
