@@ -136,7 +136,7 @@ namespace simplicity
 
       // Verify test results.
       // //////////////////////////////////////////////////
-      ASSERT_EQ(1, fTestObject.getPicks().size());
+      ASSERT_EQ(1u, fTestObject.getPicks().size());
       pick = fTestObject.getPicks().at(0);
       ASSERT_EQ(pick.x, fTestObject.getPicks().at(0).x);
       ASSERT_EQ(pick.y, fTestObject.getPicks().at(0).y);
@@ -174,7 +174,7 @@ namespace simplicity
 
       // Verify test results.
       // //////////////////////////////////////////////////
-      ASSERT_EQ(1, fTestObject.getPicks().size());
+      ASSERT_EQ(1u, fTestObject.getPicks().size());
       pick = fTestObject.getPicks().at(0);
       ASSERT_EQ(0.05f, pick.x);
       ASSERT_EQ(0.05f * 0.75f, pick.y);

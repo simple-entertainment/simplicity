@@ -57,9 +57,9 @@ namespace simplicity
 
       // Dictate expected results.
       // //////////////////////////////////////////////////
-//      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent0));
-//      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent1));
-//      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent2));
+      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent0));
+      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent1));
+      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent2));
 
       // Initialise the test environment.
       // //////////////////////////////////////////////////
@@ -109,7 +109,7 @@ namespace simplicity
 
       // Verify test 1 results.
       // //////////////////////////////////////////////////
-      ASSERT_EQ(1, fTestObject.getRenderers().size());
+      ASSERT_EQ(1u, fTestObject.getRenderers().size());
       ASSERT_FALSE(fTestObject.getRenderers().end() == find(fTestObject.getRenderers().begin(), fTestObject.getRenderers().end(), mockRenderer));
       ASSERT_EQ(nodes.node1, fTestObject.getRendererRoot(*mockRenderer));
 
@@ -119,7 +119,7 @@ namespace simplicity
 
       // Verify test 2 results.
       // //////////////////////////////////////////////////
-      ASSERT_EQ(0, fTestObject.getRenderers().size());
+      ASSERT_EQ(0u, fTestObject.getRenderers().size());
       ASSERT_FALSE(fTestObject.getRendererRoot(*mockRenderer).get());
     }
 
