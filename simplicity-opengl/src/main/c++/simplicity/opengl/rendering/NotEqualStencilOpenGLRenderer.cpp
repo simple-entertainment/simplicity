@@ -18,7 +18,7 @@ namespace simplicity
   namespace opengl
   {
     NotEqualStencilOpenGLRenderer::NotEqualStencilOpenGLRenderer(boost::shared_ptr<Renderer> renderer) :
-      AdaptingRenderer(renderer), fStencilValue(1)
+	  RendererDecorator(renderer), fStencilValue(1)
     {
     }
 

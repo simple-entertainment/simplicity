@@ -12,7 +12,7 @@
 #ifndef NAMEPASSINGOPENGLRENDERER_H_
 #define NAMEPASSINGOPENGLRENDERER_H_
 
-#include <simplicity/rendering/AdaptingRenderer.h>
+#include <simplicity/rendering/RendererDecorator.h>
 #include <simplicity/rendering/NamedRenderer.h>
 
 namespace simplicity
@@ -21,12 +21,13 @@ namespace simplicity
   {
     /**
      * <p>
-     * Passes the name down the chain or adapting renderers to the first {@link simplicity::NamedRenderer NamedRenderer}.
+     * Passes the name down the chain or renderer decorators to the first
+     * {@link simplicity::NamedRenderer NamedRenderer}.
      * </p>
      *
      * @author Gary Buyn
      */
-    class NamePassingOpenGLRenderer : public AdaptingRenderer, public NamedRenderer
+    class NamePassingOpenGLRenderer : public RendererDecorator, public NamedRenderer
     {
       public:
         /**

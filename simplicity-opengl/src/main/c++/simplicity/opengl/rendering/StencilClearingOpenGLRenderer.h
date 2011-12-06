@@ -12,7 +12,7 @@
 #ifndef STENCILCLEARINGOPENGLRENDERER_H_
 #define STENCILCLEARINGOPENGLRENDERER_H_
 
-#include <simplicity/rendering/AdaptingRenderer.h>
+#include <simplicity/rendering/RendererDecorator.h>
 
 namespace simplicity
 {
@@ -20,12 +20,12 @@ namespace simplicity
   {
     /**
      * <p>
-     * Clears the stencil buffer before executing the wrapped {@link rendering::Renderer Renderer}.
+     * Clears the stencil buffer before executing the decorated {@link rendering::Renderer Renderer}.
      * </p>
      *
      * @author Gary Buyn
      */
-    class StencilClearingOpenGLRenderer : public AdaptingRenderer
+    class StencilClearingOpenGLRenderer : public RendererDecorator
     {
       public:
         /**

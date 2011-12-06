@@ -12,7 +12,7 @@
 #ifndef BLENDINGOPENGLRENDERER_H_
 #define BLENDINGOPENGLRENDERER_H_
 
-#include <simplicity/rendering/AdaptingRenderer.h>
+#include <simplicity/rendering/RendererDecorator.h>
 
 namespace simplicity
 {
@@ -20,12 +20,12 @@ namespace simplicity
   {
     /**
      * <p>
-     * Provides blending capabilities to the wrapped {@link simplicity::Renderer Renderer}.
+     * Provides blending capabilities to the decorated {@link simplicity::Renderer Renderer}.
      * </p>
      *
      * @author Gary Buyn
      */
-    class BlendingOpenGLRenderer : public AdaptingRenderer
+    class BlendingOpenGLRenderer : public RendererDecorator
     {
       public:
         /**

@@ -12,7 +12,7 @@
 #ifndef DEPTHCLEARINGOPENGLRENDERER_H_
 #define DEPTHCLEARINGOPENGLRENDERER_H_
 
-#include <simplicity/rendering/AdaptingRenderer.h>
+#include <simplicity/rendering/RendererDecorator.h>
 
 namespace simplicity
 {
@@ -20,12 +20,12 @@ namespace simplicity
   {
     /**
      * <p>
-     * Clears the depth buffer before executing the wrapped {@link rendering::Renderer Renderer}.
+     * Clears the depth buffer before executing the decorated {@link rendering::Renderer Renderer}.
      * </p>
      *
      * @author Gary Buyn
      */
-    class DepthClearingOpenGLRenderer : public AdaptingRenderer
+    class DepthClearingOpenGLRenderer : public RendererDecorator
     {
       public:
         /**

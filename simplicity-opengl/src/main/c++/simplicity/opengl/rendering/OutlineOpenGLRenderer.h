@@ -25,8 +25,8 @@ namespace simplicity
   {
     /**
      * <p>
-     * Renders the {@link simplicity::Model Model} in a JOGL environment using a wrapped {@link simplicity::Renderer Renderer} and adds an outline.
-     * Achieves this using the stencil buffer technique.
+     * Renders the {@link simplicity::Model Model} in a JOGL environment and adds an outline. Achieves this using the
+     * stencil buffer technique.
      * </p>
      *
      * @author Gary Buyn

@@ -21,10 +21,10 @@ namespace simplicity
   {
     /**
      * <p>
-     * Holds a name that it passes to the named renderer it adapts.
+     * Holds a name that it passes to the named renderer it decorates.
      * </p>
      */
-    class MiddleManRenderer : public AdaptingRenderer
+    class MiddleManRenderer : public RendererDecorator
     {
       public:
         /**
@@ -33,7 +33,7 @@ namespace simplicity
          * </p>
          */
         MiddleManRenderer(shared_ptr<Renderer> renderer) :
-            AdaptingRenderer(renderer)
+        	RendererDecorator(renderer)
         {
           fName = -1;
         }
@@ -91,24 +91,24 @@ namespace simplicity
     };
 
     NamePassingOpenGLRenderer::NamePassingOpenGLRenderer(shared_ptr<Renderer> renderer) :
-        AdaptingRenderer(renderer)
+		RendererDecorator(renderer)
     {
-      if (!dynamic_pointer_cast<AdaptingRenderer>(renderer))
+      if (!dynamic_pointer_cast<RendererDecorator>(renderer))
       {
         throw SEInvalidOperationException();
       }
 
-      // Retrieve the AdaptingRenderer that is wrapping the NamedRenderer the name is to be passed to.
-      shared_ptr<AdaptingRenderer> wrappedRenderer(dynamic_pointer_cast<AdaptingRenderer>(renderer));
-      while (!dynamic_pointer_cast<NamedRenderer>(wrappedRenderer->getRenderer()))
+      // Retrieve the RendererDecorator that is directly decorating the NamedRenderer the name is to be passed to.
+      shared_ptr<RendererDecorator> decoratedRenderer(dynamic_pointer_cast<RendererDecorator>(renderer));
+      while (!dynamic_pointer_cast<NamedRenderer>(decoratedRenderer->getRenderer()))
       {
-        wrappedRenderer = dynamic_pointer_cast<AdaptingRenderer>(wrappedRenderer->getRenderer());
+        decoratedRenderer = dynamic_pointer_cast<RendererDecorator>(decoratedRenderer->getRenderer());
       }
 
-      // Put the middle man between the AdaptingRenderer and the NamedRenderer.
-      shared_ptr<Renderer> namedRenderer(wrappedRenderer->getRenderer());
+      // Put the middle man between the RendererDecorator and the NamedRenderer.
+      shared_ptr<Renderer> namedRenderer(decoratedRenderer->getRenderer());
       fMiddleMan = shared_ptr<Renderer>(new MiddleManRenderer(namedRenderer));
-      wrappedRenderer->setRenderer(fMiddleMan);
+      decoratedRenderer->setRenderer(fMiddleMan);
     }
 
     NamePassingOpenGLRenderer::~NamePassingOpenGLRenderer()
@@ -130,7 +130,7 @@ namespace simplicity
     {
       dynamic_pointer_cast<MiddleManRenderer>(fMiddleMan)->setName(name);
 
-      AdaptingRenderer::renderModel(model);
+      RendererDecorator::renderModel(model);
     }
   }
 }

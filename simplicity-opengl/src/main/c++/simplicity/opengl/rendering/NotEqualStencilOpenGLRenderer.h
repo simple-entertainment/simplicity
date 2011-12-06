@@ -12,7 +12,7 @@
 #ifndef NOTEQUALSTENCILOPENGLRENDERER_H_
 #define NOTEQUALSTENCILOPENGLRENDERER_H_
 
-#include <simplicity/rendering/AdaptingRenderer.h>
+#include <simplicity/rendering/RendererDecorator.h>
 
 namespace simplicity
 {
@@ -20,13 +20,14 @@ namespace simplicity
   {
     /**
      * <p>
-     * Renders a {@link simplicity::Model Model} in a JOGL environment using a wrapped {@link simplicity::Renderer Renderer} but only renders on
-     * pixels where the stencil buffer does not contain a certain value (1 by default).
+     * Renders a {@link simplicity::Model Model} in a JOGL environment using the decorated
+     * {@link simplicity::Renderer Renderer} but only renders on pixels where the stencil buffer does not contain a
+     * certain value (1 by default).
      * </p>
      *
      * @author Gary Buyn
      */
-    class NotEqualStencilOpenGLRenderer : public AdaptingRenderer
+    class NotEqualStencilOpenGLRenderer : public RendererDecorator
     {
       public:
         /**

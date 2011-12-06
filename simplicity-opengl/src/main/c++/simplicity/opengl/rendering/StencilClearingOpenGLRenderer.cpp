@@ -20,7 +20,7 @@ namespace simplicity
   namespace opengl
   {
     StencilClearingOpenGLRenderer::StencilClearingOpenGLRenderer(shared_ptr<Renderer> renderer) :
-      AdaptingRenderer(renderer)
+	  RendererDecorator(renderer)
     {
     }
 

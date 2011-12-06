@@ -20,7 +20,7 @@ namespace simplicity
   namespace opengl
   {
     DepthClearingOpenGLRenderer::DepthClearingOpenGLRenderer(shared_ptr<Renderer> renderer) :
-      AdaptingRenderer(renderer)
+	  RendererDecorator(renderer)
     {
     }
 

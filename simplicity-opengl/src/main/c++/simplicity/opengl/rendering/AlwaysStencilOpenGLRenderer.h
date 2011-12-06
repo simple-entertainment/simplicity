@@ -12,7 +12,7 @@
 #ifndef ALWAYSSTENCILOPENGLRENDERER_H_
 #define ALWAYSSTENCILOPENGLRENDERER_H_
 
-#include <simplicity/rendering/AdaptingRenderer.h>
+#include <simplicity/rendering/RendererDecorator.h>
 
 namespace simplicity
 {
@@ -20,13 +20,14 @@ namespace simplicity
   {
     /**
      * <p>
-     * Renders a {@link simplicity::Model Model} in a OpenGL environment using a wrapped {@link simplicity::Renderer Renderer} and sets a value in
-     * the stencil buffer for every pixel drawn (1 by default).
+     * Renders a {@link simplicity::Model Model} in a OpenGL environment using the decorated
+     * {@link simplicity::Renderer Renderer} and sets a value in the stencil buffer for every pixel drawn (1 by
+     * default).
      * </p>
      *
      * @author Gary Buyn
      */
-    class AlwaysStencilOpenGLRenderer : public AdaptingRenderer
+    class AlwaysStencilOpenGLRenderer : public RendererDecorator
     {
       public:
         /**
