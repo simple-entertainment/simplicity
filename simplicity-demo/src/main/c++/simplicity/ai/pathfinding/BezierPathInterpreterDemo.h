@@ -14,10 +14,8 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLEPATHFINDERDEMO_H_
-#define SIMPLEPATHFINDERDEMO_H_
-
-#include <simplicity/ai/pathfinding/SimplePathFinder.h>
+#ifndef BEZIERPATHINTERPRETERDEMO_H_
+#define BEZIERPATHINTERPRETERDEMO_H_
 
 #include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 
@@ -27,27 +25,27 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * A small demonstration of the {@link simplicity::SimplePathFinder SimplePathFinder}.
+	 * A small demonstration of the {@link simplicity::BezierPathInterpreter BezierPathInterpreter}.
 	 * </p>
 	 *
 	 * @author Gary Buyn
 	 */
-	class SimplePathFinderDemo : public PathFindingDemo
+	class BezierPathInterpreterDemo : public PathFindingDemo
 	{
 		public:
 			/**
 			 * <p>
-			 * Creates an instance of <code>SimplePathFinderDemo</code>.
+			 * Creates an instance of <code>BezierPathInterpreterDemo</code>.
 			 * </p>
 			 */
-			SimplePathFinderDemo();
+			BezierPathInterpreterDemo();
 
 			/**
 			 * <p>
-			 * Disposes of an instance of <code>SimplePathFinderDemo</code>.
+			 * Disposes of an instance of <code>BezierPathInterpreterDemo</code>.
 			 * </p>
 			 */
-			virtual ~SimplePathFinderDemo();
+			virtual ~BezierPathInterpreterDemo();
 
 			void advance();
 
@@ -68,18 +66,25 @@ namespace simplicity
 		private:
 			/**
 			 * <p>
-			 * The path finder for the demo.
-			 * </p>
-			 */
-			boost::shared_ptr<PathFinder> pathFinder;
-
-			/**
-			 * <p>
 			 * The rendering engine for the demo.
 			 * </p>
 			 */
 			simplicity::opengl::SimpleOpenGLRenderingEngine renderingEngine;
+
+			/**
+			 * <p>
+			 * The shortest path for the demo.
+			 * </p>
+			 */
+			std::vector<boost::shared_ptr<const Node> > shortestPath;
+
+			/**
+			 * <p>
+			 * The number of interpolations to display.
+			 * </p>
+			 */
+			float interpolationCount;
 	};
 }
 
-#endif /* SIMPLEPATHFINDERDEMO_H_ */
+#endif /* BEZIERPATHINTERPRETERDEMO_H_ */

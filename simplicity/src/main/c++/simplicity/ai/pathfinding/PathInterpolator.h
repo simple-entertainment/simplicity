@@ -14,12 +14,43 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "NoPathException.h"
+#ifndef PATHINTERPOLATOR_H_
+#define PATHINTERPOLATOR_H_
+
+#include "../../vector/TranslationVector.h"
 
 namespace simplicity
 {
-	const char* NoPathException::what() const throw ()
+	/**
+	 * <p>
+	 * Interpolates a point on a given path.
+	 * </p>
+	 *
+	 * @author Gary Buyn
+	 */
+	class PathInterpolator
 	{
-		return ("No path exists.");
-	}
+		public:
+			/**
+			 * <p>
+			 * Disposes of an instance of <code>PathInterpolator</code> (included to allow polymorphic deletion).
+			 * </p>
+			 */
+			virtual ~PathInterpolator()
+			{
+			}
+
+			/**
+			 * <p>
+			 * Interpolates the point on the path at the given time.
+			 * </p>
+			 *
+			 * @param time The time at which to interpolate the point. Time is in the range [0, 1].
+			 *
+			 * @return The interpolated point.
+			 */
+			virtual boost::shared_ptr<TranslationVector<float> > interpolate(const float time) = 0;
+	};
 }
+
+#endif /* PATHINTERPOLATOR_H_ */

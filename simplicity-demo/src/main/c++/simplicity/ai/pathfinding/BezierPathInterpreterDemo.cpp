@@ -17,13 +17,16 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 
+#include <simplicity/ai/pathfinding/BezierPathInterpolator.h>
+#include <simplicity/ai/pathfinding/NoPathException.h>
+#include <simplicity/ai/pathfinding/SimplePathFinder.h>
 #include <simplicity/scene/SimpleScene.h>
 #include <simplicity/scenegraph/SimpleNode.h>
 #include <simplicity/scenegraph/SimpleSceneGraph.h>
 
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
 
-#include "SimplePathFinderDemo.h"
+#include "BezierPathInterpreterDemo.h"
 
 using namespace boost;
 using namespace simplicity::opengl;
@@ -31,40 +34,41 @@ using namespace std;
 
 namespace simplicity
 {
-	SimplePathFinderDemo::SimplePathFinderDemo()
+	BezierPathInterpreterDemo::BezierPathInterpreterDemo() :
+		interpolationCount(2)
 	{
 	}
 
-	SimplePathFinderDemo::~SimplePathFinderDemo()
+	BezierPathInterpreterDemo::~BezierPathInterpreterDemo()
 	{
 	}
 
-	void SimplePathFinderDemo::advance()
+	void BezierPathInterpreterDemo::advance()
 	{
 		renderingEngine.advance(shared_ptr<EngineInput>());
 	}
 
-	void SimplePathFinderDemo::dispose()
+	void BezierPathInterpreterDemo::dispose()
 	{
 		renderingEngine.destroy();
 	}
 
-	shared_ptr<Camera> SimplePathFinderDemo::getCamera()
+	shared_ptr<Camera> BezierPathInterpreterDemo::getCamera()
 	{
 		return (renderingEngine.getCamera());
 	}
 
-	string SimplePathFinderDemo::getDescription()
+	string BezierPathInterpreterDemo::getDescription()
 	{
 		return ("");
 	}
 
-	string SimplePathFinderDemo::getTitle()
+	string BezierPathInterpreterDemo::getTitle()
 	{
-		return ("SimplePathFinderDemo");
+		return ("BezierPathInterpreterDemo");
 	}
 
-	void SimplePathFinderDemo::init()
+	void BezierPathInterpreterDemo::init()
 	{
 		renderingEngine.setViewportWidth(800);
 		renderingEngine.setViewportHeight(800);
@@ -86,35 +90,50 @@ namespace simplicity
 		addBackground(sceneRoot);
 		sceneGraph->addSubgraph(sceneRoot);
 
-		populateNavigationMesh();
-
 		renderingEngine.addRenderer(shared_ptr<Renderer> (new SimpleOpenGLRenderer));
-		renderingEngine.addEntities(createObstacles());
-
-		pathFinder = shared_ptr<SimplePathFinder> (new SimplePathFinder(*getNavigationMesh().at(4),
-			*getNavigationMesh().at(95)));
-
 		renderingEngine.init();
+
+		do
+		{
+			populateNavigationMesh();
+			vector<shared_ptr<Entity> > obstacles = createObstacles();
+
+			try
+			{
+				SimplePathFinder pathFinder = SimplePathFinder(*getNavigationMesh().at(4), *getNavigationMesh().at(95));
+				shortestPath = pathFinder.findShortestPath();
+
+				renderingEngine.addEntities(obstacles);
+			}
+			catch (NoPathException& e)
+			{
+			}
+		}
+		while (shortestPath.empty());
 	}
 
-	void SimplePathFinderDemo::onMouseButton(const int button, const int state, const int x, const int y)
+	void BezierPathInterpreterDemo::onMouseButton(const int button, const int state, const int x, const int y)
 	{
-		if (button != GLUT_LEFT_BUTTON || state != GLUT_UP)
+		if (button == GLUT_LEFT_BUTTON || state == GLUT_UP)
 		{
-			return;
-		}
+			BezierPathInterpolator pathInterpolator(shortestPath);
+			vector<shared_ptr<const Node> > path;
 
-		bool pathFound = pathFinder->stepForward();
+			for (unsigned int index = 0; index <= interpolationCount; index++)
+			{
+				shared_ptr<Node> pathNode(new SimpleNode);
+				pathNode->getTransformation().setTranslation(pathInterpolator.interpolate(index / interpolationCount));
 
-		displayOpenNodes(renderingEngine, pathFinder->getOpenNodes());
+				path.push_back(pathNode);
+			}
 
-		if (pathFound)
-		{
-			displayPath(renderingEngine, pathFinder->findShortestPath());
+			displayPath(renderingEngine, path);
+
+			interpolationCount *= 2;
 		}
 	}
 
-	void SimplePathFinderDemo::onMouseMotion(const int x, const int y)
+	void BezierPathInterpreterDemo::onMouseMotion(const int x, const int y)
 	{
 	}
 }

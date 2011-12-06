@@ -14,12 +14,23 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "NoPathException.h"
+#ifndef BEZIERPATHINTERPOLATORTEST_H_
+#define BEZIERPATHINTERPOLATORTEST_H_
+
+#include <gtest/gtest.h>
 
 namespace simplicity
 {
-	const char* NoPathException::what() const throw ()
+	/**
+	 * <p>
+	 * Unit tests for the class {@link simplicity::BezierPathInterpolator BezierPathInterpolator}.
+	 * </p>
+	 *
+	 * @author Gary Buyn
+	 */
+	class BezierPathInterpolatorTest : public testing::Test
 	{
-		return ("No path exists.");
-	}
+	};
 }
+
+#endif /* BEZIERPATHINTERPOLATORTEST_H_ */
