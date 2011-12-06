@@ -37,7 +37,7 @@ namespace simplicity
 
     // Verify test 1 results.
     // //////////////////////////////////////////////////
-    ASSERT_EQ(1, fTestObject.getComponents().size());
+    ASSERT_EQ(1u, fTestObject.getComponents().size());
     ASSERT_FALSE(fTestObject.getComponents().end() == find(fTestObject.getComponents().begin(), fTestObject.getComponents().end(), mockComponent));
 
     // Perform test 2.
@@ -46,6 +46,6 @@ namespace simplicity
 
     // Verify test 2 results.
     // //////////////////////////////////////////////////
-    ASSERT_EQ(0, fTestObject.getComponents().size());
+    ASSERT_EQ(0u, fTestObject.getComponents().size());
   }
 }

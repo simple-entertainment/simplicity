@@ -315,7 +315,7 @@ namespace simplicity
     unsigned int dataLength = fTestObject.receive(receiveData);
 
     // Verify test results.
-    ASSERT_EQ(10, dataLength);
+    ASSERT_EQ(10u, dataLength);
     ASSERT_EQ(0, receiveData[0]);
     ASSERT_EQ(1, receiveData[1]);
     ASSERT_EQ(2, receiveData[2]);
@@ -446,7 +446,7 @@ namespace simplicity
     unsigned int dataLength = fTestObject.receive(receiveData);
 
     // Verify test results.
-    ASSERT_EQ(0, dataLength);
+    ASSERT_EQ(0u, dataLength);
 
     // Cleanup.
     socket.close();
@@ -497,7 +497,7 @@ namespace simplicity
     unsigned int dataLength = fTestObject.receive(receiveData);
 
     // Verify test results.
-    ASSERT_EQ(0, dataLength);
+    ASSERT_EQ(0u, dataLength);
 
     // Cleanup.
     socket.close();
@@ -563,7 +563,7 @@ namespace simplicity
     unsigned int dataLength = fTestObject.receive(receiveData);
 
     // Verify test 1 results.
-    ASSERT_EQ(10, dataLength);
+    ASSERT_EQ(10u, dataLength);
     ASSERT_EQ(0, receiveData[0]);
     ASSERT_EQ(1, receiveData[1]);
     ASSERT_EQ(2, receiveData[2]);
@@ -579,7 +579,7 @@ namespace simplicity
     dataLength = fTestObject.receive(receiveData);
 
     // Verify test 2 results.
-    ASSERT_EQ(0, dataLength);
+    ASSERT_EQ(0u, dataLength);
 
     // Cleanup.
     socket.close();
@@ -603,7 +603,7 @@ namespace simplicity
     unsigned int dataLength = fTestObject.receive(receiveData);
 
     // Verify test results.
-    ASSERT_EQ(0, dataLength);
+    ASSERT_EQ(0u, dataLength);
   }
 
   /**
@@ -666,7 +666,7 @@ namespace simplicity
     unsigned int dataLength = fTestObject.receive(receiveData);
 
     // Verify test 1 results.
-    ASSERT_EQ(10, dataLength);
+    ASSERT_EQ(10u, dataLength);
     ASSERT_EQ(0, receiveData[0]);
     ASSERT_EQ(1, receiveData[1]);
     ASSERT_EQ(2, receiveData[2]);
@@ -682,7 +682,7 @@ namespace simplicity
     dataLength = fTestObject.receive(receiveData);
 
     // Verify test 2 results.
-    ASSERT_EQ(0, dataLength);
+    ASSERT_EQ(0u, dataLength);
 
     // Cleanup.
     socket.close();

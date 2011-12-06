@@ -29,13 +29,13 @@ namespace simplicity
     // Verify test results.
     vector<int>& subsetIndices = subsetVG->getIndices();
 
-    ASSERT_EQ(2, subsetIndices.size());
+    ASSERT_EQ(2u, subsetIndices.size());
     ASSERT_EQ(0, subsetIndices.at(0));
     ASSERT_EQ(1, subsetIndices.at(1));
 
     vector<float>& subsetColours = subsetVG->getColours();
 
-    ASSERT_EQ(6, subsetColours.size());
+    ASSERT_EQ(6u, subsetColours.size());
     ASSERT_EQ(1.0f, subsetColours.at(0));
     ASSERT_EQ(0.0f, subsetColours.at(1));
     ASSERT_EQ(0.0f, subsetColours.at(2));
@@ -45,7 +45,7 @@ namespace simplicity
 
     vector<float>& subsetNormals = subsetVG->getNormals();
 
-    ASSERT_EQ(6, subsetNormals.size());
+    ASSERT_EQ(6u, subsetNormals.size());
     ASSERT_EQ(-0.5f, subsetNormals.at(0));
     ASSERT_EQ(-0.5f, subsetNormals.at(1));
     ASSERT_EQ(0.0f, subsetNormals.at(2));
@@ -55,7 +55,7 @@ namespace simplicity
 
     vector<float>& subsetVertices = subsetVG->getVertices();
 
-    ASSERT_EQ(6, subsetVertices.size());
+    ASSERT_EQ(6u, subsetVertices.size());
     ASSERT_EQ(-1.0f, subsetVertices.at(0));
     ASSERT_EQ(-1.0f, subsetVertices.at(1));
     ASSERT_EQ(0.0f, subsetVertices.at(2));
@@ -77,14 +77,14 @@ namespace simplicity
     // Verify test results.
     vector<int>& subsetIndices = subsetVG->getIndices();
 
-    ASSERT_EQ(3, subsetIndices.size());
+    ASSERT_EQ(3u, subsetIndices.size());
     ASSERT_EQ(0, subsetIndices.at(0));
     ASSERT_EQ(1, subsetIndices.at(1));
     ASSERT_EQ(2, subsetIndices.at(2));
 
     vector<float>& subsetColours = subsetVG->getColours();
 
-    ASSERT_EQ(9, subsetColours.size());
+    ASSERT_EQ(9u, subsetColours.size());
     ASSERT_EQ(1.0f, subsetColours.at(0));
     ASSERT_EQ(0.0f, subsetColours.at(1));
     ASSERT_EQ(0.0f, subsetColours.at(2));
@@ -97,7 +97,7 @@ namespace simplicity
 
     vector<float>& subsetNormals = subsetVG->getNormals();
 
-    ASSERT_EQ(9, subsetNormals.size());
+    ASSERT_EQ(9u, subsetNormals.size());
     ASSERT_EQ(-0.5f, subsetNormals.at(0));
     ASSERT_EQ(-0.5f, subsetNormals.at(1));
     ASSERT_EQ(0.0f, subsetNormals.at(2));
@@ -110,7 +110,7 @@ namespace simplicity
 
     vector<float>& subsetVertices = subsetVG->getVertices();
 
-    ASSERT_EQ(9, subsetVertices.size());
+    ASSERT_EQ(9u, subsetVertices.size());
     ASSERT_EQ(-1.0f, subsetVertices.at(0));
     ASSERT_EQ(-1.0f, subsetVertices.at(1));
     ASSERT_EQ(0.0f, subsetVertices.at(2));
@@ -135,26 +135,26 @@ namespace simplicity
     // Verify test results.
     vector<int>& subsetIndices = subsetVG->getIndices();
 
-    ASSERT_EQ(1, subsetIndices.size());
+    ASSERT_EQ(1u, subsetIndices.size());
     ASSERT_EQ(0, subsetIndices.at(0));
 
     vector<float>& subsetColours = subsetVG->getColours();
 
-    ASSERT_EQ(3, subsetColours.size());
+    ASSERT_EQ(3u, subsetColours.size());
     ASSERT_EQ(1.0f, subsetColours.at(0));
     ASSERT_EQ(0.0f, subsetColours.at(1));
     ASSERT_EQ(0.0f, subsetColours.at(2));
 
     vector<float>& subsetNormals = subsetVG->getNormals();
 
-    ASSERT_EQ(3, subsetNormals.size());
+    ASSERT_EQ(3u, subsetNormals.size());
     ASSERT_EQ(-0.5f, subsetNormals.at(0));
     ASSERT_EQ(-0.5f, subsetNormals.at(1));
     ASSERT_EQ(0.0f, subsetNormals.at(2));
 
     vector<float>& subsetVertices = subsetVG->getVertices();
 
-    ASSERT_EQ(3, subsetVertices.size());
+    ASSERT_EQ(3u, subsetVertices.size());
     ASSERT_EQ(-1.0f, subsetVertices.at(0));
     ASSERT_EQ(-1.0f, subsetVertices.at(1));
     ASSERT_EQ(0.0f, subsetVertices.at(2));
@@ -214,7 +214,7 @@ namespace simplicity
     // Verify test results.
     vector<int>& indices = fTestObject.getIndices();
 
-    ASSERT_EQ(4, indices.size());
+    ASSERT_EQ(4u, indices.size());
     ASSERT_EQ(0, indices.at(0));
     ASSERT_EQ(1, indices.at(1));
     ASSERT_EQ(2, indices.at(2));
@@ -222,7 +222,7 @@ namespace simplicity
 
     vector<float>& colours = fTestObject.getColours();
 
-    ASSERT_EQ(12, colours.size());
+    ASSERT_EQ(12u, colours.size());
     ASSERT_EQ(0.0f, colours.at(0));
     ASSERT_EQ(0.0f, colours.at(1));
     ASSERT_EQ(1.0f, colours.at(2));
@@ -238,7 +238,7 @@ namespace simplicity
 
     vector<float>& normals = fTestObject.getNormals();
 
-    ASSERT_EQ(12, normals.size());
+    ASSERT_EQ(12u, normals.size());
     ASSERT_EQ(0.5f, normals.at(0));
     ASSERT_EQ(0.5f, normals.at(1));
     ASSERT_EQ(0.0f, normals.at(2));
@@ -254,7 +254,7 @@ namespace simplicity
 
     vector<float>& vertices = fTestObject.getVertices();
 
-    ASSERT_EQ(12, vertices.size());
+    ASSERT_EQ(12u, vertices.size());
     ASSERT_EQ(-2.0f, vertices.at(0));
     ASSERT_EQ(-2.0f, vertices.at(1));
     ASSERT_EQ(0.0f, vertices.at(2));
