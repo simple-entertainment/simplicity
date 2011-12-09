@@ -20,7 +20,7 @@
 #include <boost/function.hpp>
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/vector/SimpleTranslationVector4.h>
+#include <simplicity/math/SimpleTranslationVector4.h>
 
 #include "OpenGLDemoRunner.h"
 

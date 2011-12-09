@@ -11,7 +11,7 @@
  */
 #include <GL/glew.h>
 
-#include <simplicity/vector/SimpleRGBAColourVector4.h>
+#include <simplicity/math/SimpleRGBAColourVector4.h>
 
 #include "CullFaceOpenGLRenderer.h"
 

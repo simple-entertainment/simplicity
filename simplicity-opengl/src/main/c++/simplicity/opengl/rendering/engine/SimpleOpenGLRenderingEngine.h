@@ -15,10 +15,10 @@
 #include <GL/glew.h>
 
 #include <simplicity/engine/RunnableEngine.h>
+#include <simplicity/math/SimpleVector4.h>
 #include <simplicity/rendering/engine/RenderingEngine.h>
 #include <simplicity/rendering/NamedRenderer.h>
 #include <simplicity/scenegraph/model/ModelNode.h>
-#include <simplicity/vector/SimpleVector4.h>
 
 namespace simplicity
 {

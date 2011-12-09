@@ -12,8 +12,8 @@
 #ifndef OUTLINEOPENGLRENDERER_H_
 #define OUTLINEOPENGLRENDERER_H_
 
+#include <simplicity/math/RGBAColourVector.h>
 #include <simplicity/rendering/Renderer.h>
-#include <simplicity/vector/RGBAColourVector.h>
 
 #include "AlwaysStencilOpenGLRenderer.h"
 #include "MonoColourOpenGLRenderer.h"

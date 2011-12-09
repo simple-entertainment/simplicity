@@ -13,9 +13,9 @@
 
 #include <GL/glew.h>
 
-#include <simplicity/vector/SimpleRGBAColourVector4.h>
-#include <simplicity/vector/SimpleTransformationMatrix44.h>
-#include <simplicity/vector/SimpleTranslationVector4.h>
+#include <simplicity/math/SimpleRGBAColourVector4.h>
+#include <simplicity/math/SimpleTransformationMatrix44.h>
+#include <simplicity/math/SimpleTranslationVector4.h>
 
 #include "SimpleOpenGLLight.h"
 

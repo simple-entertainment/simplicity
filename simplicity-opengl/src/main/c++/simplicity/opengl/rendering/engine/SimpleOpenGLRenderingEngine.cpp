@@ -13,8 +13,8 @@
 #include <stdio.h>
 
 #include <simplicity/common/shared_equals_raw.h>
+#include <simplicity/math/SimpleRGBAColourVector4.h>
 #include <simplicity/scenegraph/SimpleTraversal.h>
-#include <simplicity/vector/SimpleRGBAColourVector4.h>
 
 #include "SimpleOpenGLRenderingEngine.h"
 

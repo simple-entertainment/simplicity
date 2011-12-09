@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../../vector/SimpleTranslationVector4.h"
+#include "../../math/SimpleTranslationVector4.h"
 #include "BezierPathInterpolator.h"
 
 using namespace boost;

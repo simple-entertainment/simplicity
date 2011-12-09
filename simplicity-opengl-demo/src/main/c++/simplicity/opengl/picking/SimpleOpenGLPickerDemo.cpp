@@ -18,10 +18,10 @@
 
 #include <boost/math/constants/constants.hpp>
 
+#include <simplicity/math/SimpleRGBAColourVector4.h>
 #include <simplicity/scene/SimpleScene.h>
 #include <simplicity/scenegraph/SimpleNode.h>
 #include <simplicity/scenegraph/SimpleSceneGraph.h>
-#include <simplicity/vector/SimpleRGBAColourVector4.h>
 
 #include <simplicity/opengl/picking/engine/SimpleOpenGLPickingEngine.h>
 #include <simplicity/opengl/picking/SimpleOpenGLPicker.h>

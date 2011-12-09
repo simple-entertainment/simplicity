@@ -16,12 +16,12 @@
  */
 #include <boost/math/constants/constants.hpp>
 
+#include <simplicity/math/SimpleRGBAColourVector4.h>
+#include <simplicity/math/SimpleTranslationVector4.h>
 #include <simplicity/scene/SimpleScene.h>
 #include <simplicity/scenegraph/model/SimpleModelNode.h>
 #include <simplicity/scenegraph/SimpleNode.h>
 #include <simplicity/scenegraph/SimpleSceneGraph.h>
-#include <simplicity/vector/SimpleRGBAColourVector4.h>
-#include <simplicity/vector/SimpleTranslationVector4.h>
 
 #include <simplicity/opengl/rendering/BlendingOpenGLRenderer.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>

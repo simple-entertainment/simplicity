@@ -17,7 +17,7 @@
 #ifndef PATHINTERPOLATOR_H_
 #define PATHINTERPOLATOR_H_
 
-#include "../../vector/TranslationVector.h"
+#include "../../math/TranslationVector.h"
 
 namespace simplicity
 {

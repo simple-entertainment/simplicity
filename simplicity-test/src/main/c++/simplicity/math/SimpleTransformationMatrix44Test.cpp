@@ -11,7 +11,7 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/vector/SimpleTranslationVector4.h>
+#include <simplicity/math/SimpleTranslationVector4.h>
 
 #include "SimpleTransformationMatrix44Test.h"
 

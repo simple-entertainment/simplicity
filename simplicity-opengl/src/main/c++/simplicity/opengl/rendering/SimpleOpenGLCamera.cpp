@@ -11,7 +11,7 @@
  */
 #include <GL/glew.h>
 
-#include <simplicity/vector/SimpleTransformationMatrix44.h>
+#include <simplicity/math/SimpleTransformationMatrix44.h>
 
 #include "SimpleOpenGLCamera.h"
 

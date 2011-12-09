@@ -14,9 +14,9 @@
 
 #include <vector>
 
+#include "../math/RGBAColourVector.h"
+#include "../math/TransformationMatrix.h"
 #include "../scenegraph/Node.h"
-#include "../vector/RGBAColourVector.h"
-#include "../vector/TransformationMatrix.h"
 
 namespace simplicity
 {

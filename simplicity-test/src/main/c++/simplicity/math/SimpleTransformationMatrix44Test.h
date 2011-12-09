@@ -9,46 +9,30 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLEVECTOR4TEST_H_
-#define SIMPLEVECTOR4TEST_H_
+#ifndef SIMPLETRANSFORMATIONMATRIX44TEST_H_
+#define SIMPLETRANSFORMATIONMATRIX44TEST_H_
 
 #include <gtest/gtest.h>
 
-#include <simplicity/vector/SimpleVector4.h>
+#include <simplicity/math/SimpleTransformationMatrix44.h>
 
 namespace simplicity
 {
   /**
    * <p>
-   * Unit tests for the class {@link simplicity::SimpleVector4 SimpleVector4}.
+   * Unit tests for the class {@link simplicity::SimpleTransformationMatrix44 SimpleTransformationMatrix44}.
    * </p>
    *
    * @author Gary Buyn
    */
-  class SimpleVector4Test : public testing::Test
+  class SimpleTransformationMatrix44Test : public testing::Test
   {
     protected:
       /**
        * An instance of the class being unit tested.
        */
-      simplicity::SimpleVector4<float> fTestObject;
-
-      /**
-       * <p>
-       * Setup to perform before each unit test.
-       * </p>
-       */
-      void
-      SetUp()
-      {
-        array<float, 4>& data = fTestObject.getData();
-
-        data.at(0) = 1.0f;
-        data.at(1) = 2.0f;
-        data.at(2) = 3.0f;
-        data.at(3) = 1.0f;
-      }
+      simplicity::SimpleTransformationMatrix44<float> fTestObject;
   };
 }
 
-#endif /* SIMPLEVECTOR4TEST_H_ */
+#endif /* SIMPLETRANSFORMATIONMATRIX44TEST_H_ */

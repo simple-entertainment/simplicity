@@ -11,9 +11,9 @@
  */
 #include <boost/math/constants/constants.hpp>
 
+#include <simplicity/math/SimpleTransformationMatrix44.h>
+#include <simplicity/math/SimpleTranslationVector4.h>
 #include <simplicity/scenegraph/MockNode.h>
-#include <simplicity/vector/SimpleTransformationMatrix44.h>
-#include <simplicity/vector/SimpleTranslationVector4.h>
 
 #include "SimpleOpenGLLightTest.h"
 

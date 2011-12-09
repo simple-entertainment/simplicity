@@ -14,7 +14,7 @@
 
 #include <gtest/gtest.h>
 
-#include <simplicity/vector/SimpleTranslationVector4.h>
+#include <simplicity/math/SimpleTranslationVector4.h>
 
 namespace simplicity
 {

@@ -14,10 +14,10 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 
+#include <simplicity/math/RGBAColourVector.h>
+#include <simplicity/math/SimpleTransformationMatrix44.h>
 #include <simplicity/model/ModelConstants.h>
 #include <simplicity/SENotSupportedException.h>
-#include <simplicity/vector/RGBAColourVector.h>
-#include <simplicity/vector/SimpleTransformationMatrix44.h>
 
 #include "SimpleOpenGLRenderer.h"
 

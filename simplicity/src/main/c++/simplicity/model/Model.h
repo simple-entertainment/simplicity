@@ -14,7 +14,7 @@
 
 #include <boost/smart_ptr.hpp>
 
-#include "../vector/TranslationVector.h"
+#include "../math/TranslationVector.h"
 
 namespace simplicity
 {

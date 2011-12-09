@@ -17,8 +17,8 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "../Component.h"
+#include "../math/TransformationMatrix.h"
 #include "../model/BoundingVolume.h"
-#include "../vector/TransformationMatrix.h"
 
 namespace simplicity
 {

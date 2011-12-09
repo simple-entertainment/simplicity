@@ -19,10 +19,10 @@
 
 #include <boost/math/constants/constants.hpp>
 
+#include <simplicity/math/SimpleRGBAColourVector4.h>
+#include <simplicity/math/SimpleTranslationVector4.h>
 #include <simplicity/scenegraph/model/SimpleModelNode.h>
 #include <simplicity/scenegraph/SimpleNode.h>
-#include <simplicity/vector/SimpleRGBAColourVector4.h>
-#include <simplicity/vector/SimpleTranslationVector4.h>
 
 #include <simplicity/opengl/model/shape/GLUCapsule.h>
 #include <simplicity/opengl/model/shape/GLUCylinder.h>

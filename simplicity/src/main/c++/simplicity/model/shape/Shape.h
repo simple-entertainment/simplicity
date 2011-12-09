@@ -12,8 +12,8 @@
 #ifndef SHAPE_H_
 #define SHAPE_H_
 
+#include "../../math/RGBAColourVector.h"
 #include "../Model.h"
-#include "../../vector/RGBAColourVector.h"
 
 namespace simplicity
 {

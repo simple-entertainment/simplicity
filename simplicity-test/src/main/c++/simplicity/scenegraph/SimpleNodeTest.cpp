@@ -16,8 +16,8 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/vector/SimpleTransformationMatrix44.h>
-#include <simplicity/vector/SimpleTranslationVector4.h>
+#include <simplicity/math/SimpleTransformationMatrix44.h>
+#include <simplicity/math/SimpleTranslationVector4.h>
 
 #include "MockNode.h"
 #include "SimpleNodeTest.h"

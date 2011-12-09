@@ -14,7 +14,7 @@
 
 #include <vector>
 
-#include "../vector/TranslationVector.h"
+#include "../math/TranslationVector.h"
 #include "VertexGroup.h"
 
 namespace simplicity

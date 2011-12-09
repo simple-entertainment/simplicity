@@ -14,8 +14,8 @@
 
 #include "../Renderer.h"
 #include "../../engine/Engine.h"
+#include "../../math/RGBAColourVector.h"
 #include "../../scene/Scene.h"
-#include "../../vector/RGBAColourVector.h"
 
 namespace simplicity
 {

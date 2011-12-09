@@ -10,7 +10,6 @@
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <simplicity/MockComponent.h>
-#include <simplicity/testdoubles/NodeHierarchy.h>
 #include <simplicity/rendering/MockCamera.h>
 #include <simplicity/rendering/MockLight.h>
 #include <simplicity/rendering/MockNamedRenderer.h>
@@ -19,6 +18,7 @@
 #include <simplicity/scenegraph/MockNode.h>
 #include <simplicity/scenegraph/MockSceneGraph.h>
 #include <simplicity/SEInvalidOperationException.h>
+#include <simplicity/testdoubles/NodeHierarchy.h>
 
 #include "SimpleOpenGLRenderingEngineTest.h"
 

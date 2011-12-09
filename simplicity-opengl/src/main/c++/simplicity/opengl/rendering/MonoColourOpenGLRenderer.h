@@ -12,10 +12,10 @@
 #ifndef MONOCOLOUROPENGLRENDERER_H_
 #define MONOCOLOUROPENGLRENDERER_H_
 
+#include <simplicity/math/RGBAColourVector.h>
 #include <simplicity/model/IndexedVectorVG.h>
 #include <simplicity/model/VectorVG.h>
 #include <simplicity/rendering/Renderer.h>
-#include <simplicity/vector/RGBAColourVector.h>
 
 #include "../model/shape/GLUCapsule.h"
 #include "../model/shape/GLUCylinder.h"

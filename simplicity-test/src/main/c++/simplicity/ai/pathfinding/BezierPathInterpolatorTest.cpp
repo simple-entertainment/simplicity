@@ -15,8 +15,8 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include <simplicity/ai/pathfinding/BezierPathInterpolator.h>
-#include <simplicity/vector/SimpleTransformationMatrix44.h>
-#include <simplicity/vector/SimpleTranslationVector4.h>
+#include <simplicity/math/SimpleTransformationMatrix44.h>
+#include <simplicity/math/SimpleTranslationVector4.h>
 
 #include "../../scenegraph/MockNode.h"
 #include "BezierPathInterpolatorTest.h"

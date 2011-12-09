@@ -9,9 +9,9 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../math/SimpleTransformationMatrix44.h"
 #include "SimpleNode.h"
 #include "SimpleTraversal.h"
-#include "../vector/SimpleTransformationMatrix44.h"
 
 using namespace boost;
 using namespace std;
