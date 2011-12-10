@@ -13,7 +13,7 @@
 
 #include <simplicity/model/ModelConstants.h>
 #include <simplicity/model/shape/Shape.h>
-#include <simplicity/scenegraph/model/ModelNode.h>
+#include <simplicity/scene/model/ModelNode.h>
 
 #include "SimpleOpenGLPicker.h"
 
@@ -46,7 +46,7 @@ namespace simplicity
         hit.minimumDistance = fSelectBuffer[bufferIndex++];
         hit.maximumDistance = fSelectBuffer[bufferIndex++];
 
-        hit.node = scene.getSceneGraph()->getNode(fSelectBuffer[bufferIndex]);
+        hit.node = scene.getNode(fSelectBuffer[bufferIndex]);
 
         shared_ptr<Model> model(dynamic_pointer_cast<ModelNode> (hit.node)->getModel());
         if (dynamic_cast<VertexGroup*> (model.get()))

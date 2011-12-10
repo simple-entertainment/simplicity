@@ -18,7 +18,6 @@
 #define OPENGLDEMO_H_
 
 #include <simplicity/rendering/Light.h>
-#include <simplicity/scenegraph/SceneGraph.h>
 
 #include <simplicity/Demo.h>
 

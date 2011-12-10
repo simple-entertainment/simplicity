@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2011 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -17,9 +17,8 @@
 #include <boost/math/constants/constants.hpp>
 
 #include <simplicity/math/SimpleRGBAColourVector4.h>
+#include <simplicity/scene/SimpleNode.h>
 #include <simplicity/scene/SimpleScene.h>
-#include <simplicity/scenegraph/SimpleNode.h>
-#include <simplicity/scenegraph/SimpleSceneGraph.h>
 
 #include <simplicity/opengl/rendering/OutlineOpenGLRenderer.h>
 
@@ -54,7 +53,7 @@ namespace simplicity
 
 		string OutlineOpenGLRendererDemo::getDescription()
 		{
-			return ("Renders only an outline of the shapes. Performs multiple rendering passes internally using"
+			return ("Renders only an outline of the shapes. Performs multiple rendering passes internally using "
 				"stencilling renderers to achieve this.");
 		}
 
@@ -70,9 +69,7 @@ namespace simplicity
 					> (new SimpleRGBAColourVector4<float>(0.95f, 0.95f, 0.95f, 1.0f)));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
-			shared_ptr<SimpleSceneGraph> sceneGraph(new SimpleSceneGraph);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
-			scene->setSceneGraph(sceneGraph);
 			fRenderingEngine.setScene(scene);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
@@ -86,7 +83,7 @@ namespace simplicity
 			addStandardCylinder(sceneRoot);
 			addStandardSphere(sceneRoot);
 			addStandardTorus(sceneRoot);
-			sceneGraph->addSubgraph(sceneRoot);
+			scene->addNode(sceneRoot);
 
 			shared_ptr<OutlineOpenGLRenderer> renderer(new OutlineOpenGLRenderer);
 			fRenderingEngine.addRenderer(renderer);

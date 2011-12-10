@@ -13,7 +13,7 @@
 
 #include <simplicity/math/SimpleTransformationMatrix44.h>
 #include <simplicity/math/SimpleTranslationVector4.h>
-#include <simplicity/scenegraph/MockNode.h>
+#include <simplicity/scene/MockNode.h>
 
 #include "SimpleOpenGLLightTest.h"
 

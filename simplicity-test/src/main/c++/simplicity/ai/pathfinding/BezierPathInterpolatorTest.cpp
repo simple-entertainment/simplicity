@@ -18,7 +18,7 @@
 #include <simplicity/math/SimpleTransformationMatrix44.h>
 #include <simplicity/math/SimpleTranslationVector4.h>
 
-#include "../../scenegraph/MockNode.h"
+#include "../../scene/MockNode.h"
 #include "BezierPathInterpolatorTest.h"
 
 using namespace boost;

@@ -16,7 +16,7 @@
 
 #include "../math/RGBAColourVector.h"
 #include "../math/TransformationMatrix.h"
-#include "../scenegraph/Node.h"
+#include "../scene/Node.h"
 
 namespace simplicity
 {

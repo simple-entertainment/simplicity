@@ -18,7 +18,7 @@
 #include <simplicity/math/SimpleVector4.h>
 #include <simplicity/rendering/engine/RenderingEngine.h>
 #include <simplicity/rendering/NamedRenderer.h>
-#include <simplicity/scenegraph/model/ModelNode.h>
+#include <simplicity/scene/model/ModelNode.h>
 
 namespace simplicity
 {

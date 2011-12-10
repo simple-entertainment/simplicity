@@ -13,7 +13,7 @@
 #define HIT_H_
 
 #include "../model/Model.h"
-#include "../scenegraph/Node.h"
+#include "../scene/Node.h"
 
 namespace simplicity
 {

@@ -12,7 +12,7 @@
 #ifndef NODEHIERARCHY_H_
 #define NODEHIERARCHY_H_
 
-#include <simplicity/scenegraph/Node.h>
+#include <simplicity/scene/Node.h>
 
 namespace simplicity
 {

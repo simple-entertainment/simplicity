@@ -14,9 +14,8 @@
 #include <simplicity/rendering/MockLight.h>
 #include <simplicity/rendering/MockNamedRenderer.h>
 #include <simplicity/rendering/MockRenderer.h>
+#include <simplicity/scene/MockNode.h>
 #include <simplicity/scene/MockScene.h>
-#include <simplicity/scenegraph/MockNode.h>
-#include <simplicity/scenegraph/MockSceneGraph.h>
 #include <simplicity/SEInvalidOperationException.h>
 #include <simplicity/testdoubles/NodeHierarchy.h>
 
@@ -41,7 +40,6 @@ namespace simplicity
       // Create dependencies.
       // //////////////////////////////////////////////////
       shared_ptr<MockScene> mockScene(new NiceMock<MockScene>);
-      shared_ptr<MockSceneGraph> mockSceneGraph(new NiceMock<MockSceneGraph>);
       vector<shared_ptr<Entity> > entities;
       shared_ptr<Entity> entity0(new Entity);
       shared_ptr<Entity> entity1(new Entity);
@@ -51,15 +49,11 @@ namespace simplicity
       shared_ptr<Node> mockComponent2(new NiceMock<MockNode>);
       shared_ptr<Component> mockComponent3(new NiceMock<MockComponent>);
 
-      // Dictate correct behaviour.
-      // //////////////////////////////////////////////////
-      ON_CALL(*mockScene, getSceneGraph()).WillByDefault(Return(mockSceneGraph));
-
       // Dictate expected results.
       // //////////////////////////////////////////////////
-      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent0));
-      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent1));
-      EXPECT_CALL(*mockSceneGraph, addSubgraph(mockComponent2));
+      EXPECT_CALL(*mockScene, addNode(mockComponent0));
+      EXPECT_CALL(*mockScene, addNode(mockComponent1));
+      EXPECT_CALL(*mockScene, addNode(mockComponent2));
 
       // Initialise the test environment.
       // //////////////////////////////////////////////////
@@ -90,14 +84,12 @@ namespace simplicity
       // //////////////////////////////////////////////////
       shared_ptr<MockRenderer> mockRenderer(new NiceMock<MockRenderer>);
       shared_ptr<MockScene> mockScene(new NiceMock<MockScene>);
-      shared_ptr<MockSceneGraph> mockSceneGraph(new NiceMock<MockSceneGraph>);
       NodeHierarchy nodes;
       nodes.setBasicNodeHierarchy();
 
       // Dictate correct behaviour.
       // //////////////////////////////////////////////////
-      ON_CALL(*mockScene, getSceneGraph()).WillByDefault(Return(mockSceneGraph));
-      ON_CALL(*mockSceneGraph, getRoot()).WillByDefault(Return(nodes.node1));
+      ON_CALL(*mockScene, getRoot()).WillByDefault(Return(nodes.node1));
 
       // Initialise the test environment.
       // //////////////////////////////////////////////////
@@ -137,14 +129,12 @@ namespace simplicity
       shared_ptr<MockRenderer> mockRenderer2(new NiceMock<MockRenderer>);
       shared_ptr<MockRenderer> mockRenderer3(new NiceMock<MockRenderer>);
       shared_ptr<MockScene> mockScene(new NiceMock<MockScene>);
-      shared_ptr<MockSceneGraph> mockSceneGraph(new NiceMock<MockSceneGraph>);
       NodeHierarchy nodes;
       nodes.setBasicNodeHierarchy();
 
       // Dictate correct behaviour.
       // //////////////////////////////////////////////////
-      ON_CALL(*mockScene, getSceneGraph()).WillByDefault(Return(mockSceneGraph));
-      ON_CALL(*mockSceneGraph, getRoot()).WillByDefault(Return(nodes.node1));
+      ON_CALL(*mockScene, getRoot()).WillByDefault(Return(nodes.node1));
 
       // Initialise the test environment.
       // //////////////////////////////////////////////////
@@ -213,7 +203,6 @@ namespace simplicity
       // Create dependencies.
       // //////////////////////////////////////////////////
       shared_ptr<MockScene> mockScene(new NiceMock<MockScene>);
-      shared_ptr<MockSceneGraph> mockSceneGraph(new NiceMock<MockSceneGraph>);
       NodeHierarchy nodes;
       nodes.setBasicNodeHierarchy();
 
@@ -226,8 +215,7 @@ namespace simplicity
       // Dictate correct behaviour.
       // //////////////////////////////////////////////////
       ON_CALL(*mockScene, getLights()).WillByDefault(Return(lights));
-      ON_CALL(*mockScene, getSceneGraph()).WillByDefault(Return(mockSceneGraph));
-      ON_CALL(*mockSceneGraph, getRoot()).WillByDefault(Return(nodes.node1));
+      ON_CALL(*mockScene, getRoot()).WillByDefault(Return(nodes.node1));
 
       // Dictate expected results.
       // //////////////////////////////////////////////////
@@ -307,14 +295,12 @@ namespace simplicity
       shared_ptr<MockRenderer> mockRenderer1(new NiceMock<MockRenderer>);
       shared_ptr<MockRenderer> mockRenderer2(new NiceMock<MockRenderer>);
       shared_ptr<MockScene> mockScene(new NiceMock<MockScene>);
-      shared_ptr<MockSceneGraph> mockSceneGraph(new NiceMock<MockSceneGraph>);
       NodeHierarchy nodes;
       nodes.setBasicNodeHierarchy();
 
       // Dictate correct behaviour.
       // //////////////////////////////////////////////////
-      ON_CALL(*mockScene, getSceneGraph()).WillByDefault(Return(mockSceneGraph));
-      ON_CALL(*mockSceneGraph, getRoot()).WillByDefault(Return(nodes.node1));
+      ON_CALL(*mockScene, getRoot()).WillByDefault(Return(nodes.node1));
 
       // Initialise the test environment.
       // //////////////////////////////////////////////////

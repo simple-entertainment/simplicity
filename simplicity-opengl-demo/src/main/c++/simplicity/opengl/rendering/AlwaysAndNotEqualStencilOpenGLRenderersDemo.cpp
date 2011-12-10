@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2011 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -17,9 +17,8 @@
 #include <boost/math/constants/constants.hpp>
 
 #include <simplicity/math/SimpleRGBAColourVector4.h>
+#include <simplicity/scene/SimpleNode.h>
 #include <simplicity/scene/SimpleScene.h>
-#include <simplicity/scenegraph/SimpleNode.h>
-#include <simplicity/scenegraph/SimpleSceneGraph.h>
 
 #include <simplicity/opengl/rendering/AlwaysStencilOpenGLRenderer.h>
 #include <simplicity/opengl/rendering/NotEqualStencilOpenGLRenderer.h>
@@ -43,17 +42,17 @@ namespace simplicity
 
 		void AlwaysAndNotEqualStencilOpenGLRenderersDemo::advance()
 		{
-			fRenderingEngine.advance(shared_ptr<EngineInput>());
+			renderingEngine.advance(shared_ptr<EngineInput>());
 		}
 
 		void AlwaysAndNotEqualStencilOpenGLRenderersDemo::dispose()
 		{
-			fRenderingEngine.destroy();
+			renderingEngine.destroy();
 		}
 
 		shared_ptr<Camera> AlwaysAndNotEqualStencilOpenGLRenderersDemo::getCamera()
 		{
-			return (fRenderingEngine.getCamera());
+			return (renderingEngine.getCamera());
 		}
 
 		string AlwaysAndNotEqualStencilOpenGLRenderersDemo::getDescription()
@@ -70,46 +69,44 @@ namespace simplicity
 
 		void AlwaysAndNotEqualStencilOpenGLRenderersDemo::init()
 		{
-			fRenderingEngine.setClearingColour(
+			renderingEngine.setClearingColour(
 				shared_ptr < SimpleRGBAColourVector4<float>
 					> (new SimpleRGBAColourVector4<float>(0.95f, 0.95f, 0.95f, 1.0f)));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
-			shared_ptr<SimpleSceneGraph> sceneGraph(new SimpleSceneGraph);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
-			scene->setSceneGraph(sceneGraph);
-			fRenderingEngine.setScene(scene);
+			renderingEngine.setScene(scene);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
 			scene->addCamera(camera);
-			fRenderingEngine.setCamera(camera);
+			renderingEngine.setCamera(camera);
 
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
-			sceneGraph->addSubgraph(sceneRoot);
+			scene->addNode(sceneRoot);
 
 			shared_ptr<SimpleNode> renderingPass1Root(new SimpleNode);
 			addStandardCapsule(renderingPass1Root);
 			addStandardCylinder(renderingPass1Root);
 			addStandardSphere(renderingPass1Root);
-			sceneGraph->addSubgraph(renderingPass1Root);
+			scene->addNode(renderingPass1Root);
 
 			shared_ptr<SimpleNode> renderingPass2Root(new SimpleNode);
 			addStandardTorus(renderingPass2Root);
-			sceneGraph->addSubgraph(renderingPass2Root);
+			scene->addNode(renderingPass2Root);
 
-			shared_ptr<SimpleOpenGLRenderer> wrappedRenderer(new SimpleOpenGLRenderer);
+			shared_ptr<SimpleOpenGLRenderer> renderer(new SimpleOpenGLRenderer);
 
-			shared_ptr<AlwaysStencilOpenGLRenderer> firstRenderer(new AlwaysStencilOpenGLRenderer(wrappedRenderer));
-			fRenderingEngine.addRenderer(firstRenderer);
-			fRenderingEngine.setRendererRoot(*firstRenderer, renderingPass1Root);
+			shared_ptr<AlwaysStencilOpenGLRenderer> firstRenderer(new AlwaysStencilOpenGLRenderer(renderer));
+			renderingEngine.addRenderer(firstRenderer);
+			renderingEngine.setRendererRoot(*firstRenderer, renderingPass1Root);
 
 			shared_ptr<NotEqualStencilOpenGLRenderer> secondRenderer(
-				new NotEqualStencilOpenGLRenderer(wrappedRenderer));
-			fRenderingEngine.addRenderer(secondRenderer);
-			fRenderingEngine.setRendererRoot(*secondRenderer, renderingPass2Root);
+				new NotEqualStencilOpenGLRenderer(renderer));
+			renderingEngine.addRenderer(secondRenderer);
+			renderingEngine.setRendererRoot(*secondRenderer, renderingPass2Root);
 
-			fRenderingEngine.init();
+			renderingEngine.init();
 		}
 	}
 }

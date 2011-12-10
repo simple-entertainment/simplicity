@@ -20,9 +20,8 @@
 #include <simplicity/ai/pathfinding/BezierPathInterpolator.h>
 #include <simplicity/ai/pathfinding/NoPathException.h>
 #include <simplicity/ai/pathfinding/SimplePathFinder.h>
+#include <simplicity/scene/SimpleNode.h>
 #include <simplicity/scene/SimpleScene.h>
-#include <simplicity/scenegraph/SimpleNode.h>
-#include <simplicity/scenegraph/SimpleSceneGraph.h>
 
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
 
@@ -74,8 +73,6 @@ namespace simplicity
 		renderingEngine.setViewportHeight(800);
 
 		shared_ptr<Scene> scene(new SimpleScene);
-		shared_ptr<SceneGraph> sceneGraph(new SimpleSceneGraph);
-		scene->setSceneGraph(sceneGraph);
 		renderingEngine.setScene(scene);
 
 		shared_ptr<Node> sceneRoot(new SimpleNode);
@@ -88,7 +85,7 @@ namespace simplicity
 		scene->addLight(light);
 
 		addBackground(sceneRoot);
-		sceneGraph->addSubgraph(sceneRoot);
+		scene->addNode(sceneRoot);
 
 		renderingEngine.addRenderer(shared_ptr<Renderer> (new SimpleOpenGLRenderer));
 		renderingEngine.init();

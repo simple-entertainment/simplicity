@@ -14,8 +14,7 @@
 #include <simplicity/rendering/MockCamera.h>
 #include <simplicity/rendering/MockRenderer.h>
 #include <simplicity/scene/MockScene.h>
-#include <simplicity/scenegraph/MockSceneGraph.h>
-#include <simplicity/scenegraph/model/MockModelNode.h>
+#include <simplicity/scene/model/MockModelNode.h>
 
 #include "SimpleOpenGLPickerTest.h"
 
@@ -38,7 +37,6 @@ namespace simplicity
       // Create dependencies.
       // //////////////////////////////////////////////////
       shared_ptr<MockScene> mockScene(new NiceMock<MockScene>);
-      shared_ptr<MockSceneGraph> mockSceneGraph(new NiceMock<MockSceneGraph>);
       shared_ptr<MockModelNode> mockNode0(new NiceMock<MockModelNode>);
       shared_ptr<MockShape> mockShape0(new NiceMock<MockShape>);
       shared_ptr<MockModelNode> mockNode1(new NiceMock<MockModelNode>);
@@ -47,10 +45,9 @@ namespace simplicity
       // Dictate correct behaviour.
       // //////////////////////////////////////////////////
       // Mock a scene graph that will be used to populate the pick event.
-      ON_CALL(*mockScene, getSceneGraph()).WillByDefault(Return(mockSceneGraph));
-      ON_CALL(*mockSceneGraph, getNode(0)).WillByDefault(Return(mockNode0));
+      ON_CALL(*mockScene, getNode(0)).WillByDefault(Return(mockNode0));
       ON_CALL(*mockNode0, getModel()).WillByDefault(Return(mockShape0));
-      ON_CALL(*mockSceneGraph, getNode(1)).WillByDefault(Return(mockNode1));
+      ON_CALL(*mockScene, getNode(1)).WillByDefault(Return(mockNode1));
       ON_CALL(*mockNode1, getModel()).WillByDefault(Return(mockShape1));
 
       // Initialise the test environment.
@@ -90,7 +87,6 @@ namespace simplicity
       // Create dependencies.
       // //////////////////////////////////////////////////
       shared_ptr<MockScene> mockScene(new NiceMock<MockScene>);
-      shared_ptr<MockSceneGraph> mockSceneGraph(new NiceMock<MockSceneGraph>);
       shared_ptr<MockModelNode> mockNode0(new NiceMock<MockModelNode>);
       shared_ptr<MockVertexGroup> mockParentVertexGroup0(new NiceMock<MockVertexGroup>);
       shared_ptr<MockVertexGroup> mockChildVertexGroup0(new NiceMock<MockVertexGroup>);
@@ -101,11 +97,10 @@ namespace simplicity
       // Dictate correct behaviour.
       // //////////////////////////////////////////////////
       // Mock a scene graph that will be used to populate the pick event.
-      ON_CALL(*mockScene, getSceneGraph()).WillByDefault(Return(mockSceneGraph));
-      ON_CALL(*mockSceneGraph, getNode(0)).WillByDefault(Return(mockNode0));
+      ON_CALL(*mockScene, getNode(0)).WillByDefault(Return(mockNode0));
       ON_CALL(*mockNode0, getModel()).WillByDefault(Return(mockParentVertexGroup0));
       ON_CALL(*mockParentVertexGroup0, createFaceSubsetVG(20)).WillByDefault(Return(mockChildVertexGroup0));
-      ON_CALL(*mockSceneGraph, getNode(1)).WillByDefault(Return(mockNode1));
+      ON_CALL(*mockScene, getNode(1)).WillByDefault(Return(mockNode1));
       ON_CALL(*mockNode1, getModel()).WillByDefault(Return(mockParentVertexGroup1));
       ON_CALL(*mockParentVertexGroup1, createFaceSubsetVG(40)).WillByDefault(Return(mockChildVertexGroup1));
 
@@ -148,7 +143,6 @@ namespace simplicity
       // Create dependencies.
       // //////////////////////////////////////////////////
       shared_ptr<MockScene> mockScene(new NiceMock<MockScene>);
-      shared_ptr<MockSceneGraph> mockSceneGraph(new NiceMock<MockSceneGraph>);
       shared_ptr<MockModelNode> mockNode0(new NiceMock<MockModelNode>);
       shared_ptr<MockVertexGroup> mockParentVertexGroup0(new NiceMock<MockVertexGroup>);
       shared_ptr<MockVertexGroup> mockChildVertexGroup0(new NiceMock<MockVertexGroup>);
@@ -159,11 +153,10 @@ namespace simplicity
       // Dictate correct behaviour.
       // //////////////////////////////////////////////////
       // Mock a scene graph that will be used to populate the pick event.
-      ON_CALL(*mockScene, getSceneGraph()).WillByDefault(Return(mockSceneGraph));
-      ON_CALL(*mockSceneGraph, getNode(0)).WillByDefault(Return(mockNode0));
+      ON_CALL(*mockScene, getNode(0)).WillByDefault(Return(mockNode0));
       ON_CALL(*mockNode0, getModel()).WillByDefault(Return(mockParentVertexGroup0));
       ON_CALL(*mockParentVertexGroup0, createFaceSubsetVG(20)).WillByDefault(Return(mockChildVertexGroup0));
-      ON_CALL(*mockSceneGraph, getNode(1)).WillByDefault(Return(mockNode1));
+      ON_CALL(*mockScene, getNode(1)).WillByDefault(Return(mockNode1));
       ON_CALL(*mockNode1, getModel()).WillByDefault(Return(mockParentVertexGroup1));
       ON_CALL(*mockParentVertexGroup1, createFaceSubsetVG(40)).WillByDefault(Return(mockChildVertexGroup1));
 

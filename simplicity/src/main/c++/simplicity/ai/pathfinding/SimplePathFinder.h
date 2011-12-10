@@ -19,7 +19,7 @@
 
 #include <map>
 
-#include "../../scenegraph/Node.h"
+#include "../../scene/Node.h"
 #include "PathFinder.h"
 
 namespace simplicity

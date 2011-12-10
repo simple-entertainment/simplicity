@@ -21,8 +21,8 @@
 
 #include <simplicity/math/SimpleRGBAColourVector4.h>
 #include <simplicity/math/SimpleTranslationVector4.h>
-#include <simplicity/scenegraph/model/SimpleModelNode.h>
-#include <simplicity/scenegraph/SimpleNode.h>
+#include <simplicity/scene/model/SimpleModelNode.h>
+#include <simplicity/scene/SimpleNode.h>
 
 #include <simplicity/opengl/model/shape/GLUCapsule.h>
 #include <simplicity/opengl/model/shape/GLUCylinder.h>

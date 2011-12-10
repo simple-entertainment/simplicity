@@ -10,7 +10,7 @@
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <simplicity/model/VectorVG.h>
-#include <simplicity/scenegraph/model/SimpleModelNode.h>
+#include <simplicity/scene/model/SimpleModelNode.h>
 
 #include "NodeHierarchy.h"
 
@@ -26,12 +26,12 @@ namespace simplicity
     node2.reset(new SimpleNode);
     node3.reset(new SimpleModelNode);
 
-    node1->setID(0);
+    node1->setId(0);
     node1->addChild(node2);
     {
-      node2->setID(1);
+      node2->setId(1);
       node2->addChild(node3);
-      node3->setID(2);
+      node3->setId(2);
     }
 
     // A white triangle.
@@ -60,25 +60,25 @@ namespace simplicity
     node6.reset(new SimpleNode);
     node7.reset(new SimpleNode);
 
-    node1->setID(0);
+    node1->setId(0);
     node1->addChild(node2);
     {
-      node2->setID(1);
+      node2->setId(1);
       node2->addChild(node3);
-      node3->setID(2);
+      node3->setId(2);
     }
 
     node1->addChild(node4);
     {
-      node4->setID(3);
+      node4->setId(3);
       node4->addChild(node5);
-      node5->setID(4);
+      node5->setId(4);
       node4->addChild(node6);
-      node6->setID(5);
+      node6->setId(5);
     }
 
     node1->addChild(node7);
-    node7->setID(6);
+    node7->setId(6);
 
     // A white triangle.
     shared_ptr<VectorVG> vertexGroup(new VectorVG);

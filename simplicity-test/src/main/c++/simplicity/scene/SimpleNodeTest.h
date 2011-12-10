@@ -19,7 +19,7 @@
 
 #include <gtest/gtest.h>
 
-#include <simplicity/scenegraph/SimpleNode.h>
+#include <simplicity/scene/SimpleNode.h>
 
 namespace simplicity
 {

@@ -14,7 +14,7 @@
 
 #include "../math/TransformationMatrix.h"
 #include "../picking/Pick.h"
-#include "../scenegraph/Node.h"
+#include "../scene/Node.h"
 
 namespace simplicity
 {

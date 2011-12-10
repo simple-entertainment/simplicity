@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2011 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -18,10 +18,9 @@
 
 #include <simplicity/math/SimpleRGBAColourVector4.h>
 #include <simplicity/math/SimpleTranslationVector4.h>
+#include <simplicity/scene/model/SimpleModelNode.h>
+#include <simplicity/scene/SimpleNode.h>
 #include <simplicity/scene/SimpleScene.h>
-#include <simplicity/scenegraph/model/SimpleModelNode.h>
-#include <simplicity/scenegraph/SimpleNode.h>
-#include <simplicity/scenegraph/SimpleSceneGraph.h>
 
 #include <simplicity/opengl/rendering/BlendingOpenGLRenderer.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
@@ -73,9 +72,7 @@ namespace simplicity
 					> (new SimpleRGBAColourVector4<float>(0.95f, 0.95f, 0.95f, 1.0f)));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
-			shared_ptr<SimpleSceneGraph> sceneGraph(new SimpleSceneGraph);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
-			scene->setSceneGraph(sceneGraph);
 			fRenderingEngine.setScene(scene);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
@@ -84,13 +81,13 @@ namespace simplicity
 
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
-			sceneGraph->addSubgraph(sceneRoot);
+			scene->addNode(sceneRoot);
 
 			shared_ptr<SimpleNode> renderingPass1Root(new SimpleNode);
 			addStandardCapsule(renderingPass1Root);
 			addStandardCylinder(renderingPass1Root);
 			addStandardSphere(renderingPass1Root);
-			sceneGraph->addSubgraph(renderingPass1Root);
+			scene->addNode(renderingPass1Root);
 
 			shared_ptr<SimpleNode> renderingPass2Root(new SimpleNode);
 			shared_ptr<SimpleModelNode> torusNode(new SimpleModelNode);
@@ -101,7 +98,7 @@ namespace simplicity
 					> (new SimpleRGBAColourVector4<float>(1.0f, 1.0f, 1.0f, 0.5f)));
 			torusNode->setModel(torus);
 			renderingPass2Root->addChild(torusNode);
-			sceneGraph->addSubgraph(renderingPass2Root);
+			scene->addNode(renderingPass2Root);
 
 			shared_ptr<SimpleOpenGLRenderer> firstRenderer(new SimpleOpenGLRenderer);
 			fRenderingEngine.addRenderer(firstRenderer);

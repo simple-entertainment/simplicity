@@ -14,7 +14,7 @@
 
 #include <simplicity/common/shared_equals_raw.h>
 #include <simplicity/math/SimpleRGBAColourVector4.h>
-#include <simplicity/scenegraph/SimpleTraversal.h>
+#include <simplicity/scene/PreorderNodeIterator.h>
 
 #include "SimpleOpenGLRenderingEngine.h"
 
@@ -56,7 +56,7 @@ namespace simplicity
 
         if (node.get())
         {
-          fScene->getSceneGraph()->addSubgraph(node);
+          fScene->addNode(node);
         }
       }
     }
@@ -68,7 +68,7 @@ namespace simplicity
 
       if (fScene.get())
       {
-        setRendererRoot(*renderer, fScene->getSceneGraph()->getRoot());
+        setRendererRoot(*renderer, fScene->getRoot());
       }
     }
 
@@ -262,16 +262,16 @@ namespace simplicity
     SimpleOpenGLRenderingEngine::renderSceneGraph(Renderer& renderer, const Node& root)
     {
       // For every node in the traversal of the scene.
-      SimpleTraversal traversal(root);
+      PreorderNodeIterator iterator(root);
       shared_ptr<Node> currentNode;
 
-      while (traversal.hasMoreNodes())
+      while (iterator.hasMoreNodes())
       {
         // Remove transformations from the stack that do not apply to the next node.
-        backtrack(traversal.getBacktracksToNextNode());
+        backtrack(iterator.getBacktracksToNextNode());
 
         // Apply the transformation of the current node.
-        currentNode = traversal.getNextNode();
+        currentNode = iterator.getNextNode();
 
         glPushMatrix();
         glMultMatrixf(currentNode->getTransformation().getRawData());
@@ -283,7 +283,7 @@ namespace simplicity
           NamedRenderer* namedRenderer = dynamic_cast<NamedRenderer*> (&renderer);
           if (namedRenderer)
           {
-            namedRenderer->renderModel(*modelNode->getModel(), modelNode->getID());
+            namedRenderer->renderModel(*modelNode->getModel(), modelNode->getId());
           }
           else
           {
@@ -293,7 +293,7 @@ namespace simplicity
       }
 
       // Remove all remaining transformations from the stack.
-      backtrack(traversal.getBacktracksToNextNode());
+      backtrack(iterator.getBacktracksToNextNode());
     }
 
     void
@@ -334,12 +334,6 @@ namespace simplicity
     void
     SimpleOpenGLRenderingEngine::setScene(shared_ptr<Scene> scene)
     {
-      if (!scene->getSceneGraph().get())
-      {
-        fLogger.fatal("I'm going to have to insist that you attach a scene graph to that scene first.");
-        throw new SEInvalidOperationException();
-      }
-
       fScene = scene;
 
       for (unsigned int index = 0; index < fRenderers.size(); index++)
@@ -347,7 +341,7 @@ namespace simplicity
         if (fRendererRoots.find(fRenderers.at(index)) == fRendererRoots.end())
         {
           fRendererRoots.insert(
-              pair<shared_ptr<Renderer> , shared_ptr<Node> > (fRenderers.at(index), fScene->getSceneGraph()->getRoot()));
+              pair<shared_ptr<Renderer> , shared_ptr<Node> > (fRenderers.at(index), fScene->getRoot()));
         }
       }
     }

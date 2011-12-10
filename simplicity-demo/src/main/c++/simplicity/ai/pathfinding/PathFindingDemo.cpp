@@ -20,8 +20,8 @@
 #include <simplicity/math/SimpleTransformationMatrix44.h>
 #include <simplicity/math/SimpleTranslationVector4.h>
 #include <simplicity/model/VectorVG.h>
-#include <simplicity/scenegraph/model/SimpleModelNode.h>
-#include <simplicity/scenegraph/SimpleNode.h>
+#include <simplicity/scene/model/SimpleModelNode.h>
+#include <simplicity/scene/SimpleNode.h>
 
 #include <simplicity/opengl/model/shape/GLUSphere.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLCamera.h>

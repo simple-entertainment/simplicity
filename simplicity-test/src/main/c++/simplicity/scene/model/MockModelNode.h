@@ -9,30 +9,24 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef MOCKNODE_H_
-#define MOCKNODE_H_
+#ifndef MOCKMODELNODE_H_
+#define MOCKMODELNODE_H_
 
 #include <gmock/gmock.h>
 
-#include <simplicity/scenegraph/Node.h>
+#include <simplicity/scene/model/ModelNode.h>
 
 namespace simplicity
 {
-  /**
-   * <p>
-   * A mock implementation of {@link simplicity::MockNode MockNode}.
-   * </p>
-   *
-   * @author Gary Buyn
-   */
-  class MockNode : public simplicity::Node
+  class MockModelNode : public ModelNode
   {
     public:
       MOCK_METHOD1(addChild, void(boost::shared_ptr<Node> child));
       MOCK_CONST_METHOD0(getAbsoluteTransformation, const TransformationMatrix<float>&());
       //MOCK_CONST_METHOD0(getBounds, boost::shared_ptr<simplicity::BoundingVolume>());
       MOCK_CONST_METHOD0(getChildren, const std::vector<boost::shared_ptr<Node> >&());
-      MOCK_CONST_METHOD0(getID, int());
+      MOCK_CONST_METHOD0(getId, int());
+      MOCK_CONST_METHOD0(getModel, boost::shared_ptr<Model>());
       MOCK_CONST_METHOD0(getParent, boost::shared_ptr<Node>());
       MOCK_CONST_METHOD0(getTransformation, TransformationMatrix<float>&());
       MOCK_CONST_METHOD0(hasChildren, bool());
@@ -43,7 +37,8 @@ namespace simplicity
       MOCK_CONST_METHOD0(isVisible, bool());
       MOCK_METHOD1(removeChild, void(Node& child));
       MOCK_METHOD1(setCollidable, void(const bool collidable));
-      MOCK_METHOD1(setID, void(const int id));
+      MOCK_METHOD1(setId, void(const int id));
+      MOCK_METHOD1(setModel, void(boost::shared_ptr<Model> model));
       MOCK_METHOD1(setModifiable, void(const bool modifiable));
       MOCK_METHOD1(setParent, void(boost::shared_ptr<Node> parent));
       MOCK_METHOD1(setTransformation, void(boost::shared_ptr<TransformationMatrix<float> > transformation));
@@ -51,4 +46,4 @@ namespace simplicity
   };
 }
 
-#endif /* MOCKNODE_H_ */
+#endif /* MOCKMODELNODE_H_ */

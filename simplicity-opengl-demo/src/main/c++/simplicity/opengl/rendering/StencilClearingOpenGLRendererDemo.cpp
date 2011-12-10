@@ -17,9 +17,8 @@
 #include <boost/math/constants/constants.hpp>
 
 #include <simplicity/math/SimpleRGBAColourVector4.h>
+#include <simplicity/scene/SimpleNode.h>
 #include <simplicity/scene/SimpleScene.h>
-#include <simplicity/scenegraph/SimpleNode.h>
-#include <simplicity/scenegraph/SimpleSceneGraph.h>
 
 #include <simplicity/opengl/rendering/AlwaysStencilOpenGLRenderer.h>
 #include <simplicity/opengl/rendering/NotEqualStencilOpenGLRenderer.h>
@@ -75,9 +74,7 @@ namespace simplicity
 					> (new SimpleRGBAColourVector4<float>(0.95f, 0.95f, 0.95f, 1.0f)));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
-			shared_ptr<SimpleSceneGraph> sceneGraph(new SimpleSceneGraph);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
-			scene->setSceneGraph(sceneGraph);
 			fRenderingEngine.setScene(scene);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
@@ -86,17 +83,17 @@ namespace simplicity
 
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
-			sceneGraph->addSubgraph(sceneRoot);
+			scene->addNode(sceneRoot);
 
 			shared_ptr<SimpleNode> renderingPass1Root(new SimpleNode);
 			addStandardCapsule(renderingPass1Root);
 			addStandardCylinder(renderingPass1Root);
 			addStandardSphere(renderingPass1Root);
-			sceneGraph->addSubgraph(renderingPass1Root);
+			scene->addNode(renderingPass1Root);
 
 			shared_ptr<SimpleNode> renderingPass2Root(new SimpleNode);
 			addStandardTorus(renderingPass2Root);
-			sceneGraph->addSubgraph(renderingPass2Root);
+			scene->addNode(renderingPass2Root);
 
 			shared_ptr<SimpleOpenGLRenderer> wrappedRenderer(new SimpleOpenGLRenderer);
 

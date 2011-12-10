@@ -20,7 +20,7 @@
 #include <string>
 
 #include <simplicity/rendering/Camera.h>
-#include <simplicity/scenegraph/Node.h>
+#include <simplicity/scene/Node.h>
 
 namespace simplicity
 {
