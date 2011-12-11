@@ -1,13 +1,18 @@
 /*
- This file is part of The Simplicity Engine.
-
- The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
- by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
- The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright © 2011 Simple Entertainment Limited
+ *
+ * This file is part of The Simplicity Engine.
+ *
+ * The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
+ * <http://www.gnu.org/licenses/>.
  */
 #include <exception>
 #include <string>
@@ -25,106 +30,106 @@ using namespace std;
 
 namespace simplicity
 {
-  log4cpp::Category& RunnableEngine::fLogger = log4cpp::Category::getInstance("simplicity::RunnableEngine");
+	log4cpp::Category& RunnableEngine::logger = log4cpp::Category::getInstance("simplicity::RunnableEngine");
 
-  RunnableEngine::RunnableEngine() :
-    fPreferredFrequency(1), fSleepTime(0L)
-  {
-  }
+	RunnableEngine::RunnableEngine() :
+		preferredFrequency(1), sleepTime(0L)
+	{
+	}
 
-  RunnableEngine::~RunnableEngine()
-  {
-  }
+	RunnableEngine::~RunnableEngine()
+	{
+	}
 
-  int
-  RunnableEngine::getPreferredFrequency() const
-  {
-    return (fPreferredFrequency);
-  }
+	int RunnableEngine::getPreferredFrequency() const
+	{
+		return (preferredFrequency);
+	}
 
-  void
-  RunnableEngine::init()
-  {
-    initInternal();
-  }
+	void RunnableEngine::init()
+	{
+		onInit();
 
-  void
-  RunnableEngine::initInternal()
-  {
-    fInterrupted = false;
-    fSleepTime = (long) (MILLISECONDS_IN_A_SECOND / fPreferredFrequency);
-  }
+		interrupted = false;
+		sleepTime = (long) (MILLISECONDS_IN_A_SECOND / preferredFrequency);
+	}
 
-  void
-  RunnableEngine::run()
-  {
-    init();
+	void RunnableEngine::reset()
+	{
+		onReset();
 
-    // Start by sleeping.
-    ptime beforeAdvanceTime;
-    long adjustedSleepTime = sleep(fSleepTime);
+		interrupted = false;
+		sleepTime = (long) (MILLISECONDS_IN_A_SECOND / preferredFrequency);
+	}
 
-    // While the engine has not been interrupted.
-    while (!fInterrupted)
-    {
-      // Interrupt the engine if the thread has been interrupted.
-      interruption_point();
+	void RunnableEngine::run()
+	{
+		init();
 
-      beforeAdvanceTime = microsec_clock::local_time();
+		// Start by sleeping.
+		ptime beforeAdvanceTime;
+		long adjustedSleepTime = sleep(sleepTime);
 
-      try
-      {
-        advance(shared_ptr<EngineInput>());
-      }
-      catch (std::exception& e)
-      {
-        // Interrupt the engine.
-        fInterrupted = true;
-        fLogger.error("Failed to advance the engine.");
-      }
+		// While the engine has not been interrupted.
+		while (!interrupted)
+		{
+			// Interrupt the engine if the thread has been interrupted.
+			interruption_point();
 
-      // Subtract the time taken to advance the engine from the time it needs to sleep for.
-      adjustedSleepTime -= time_period(beforeAdvanceTime, microsec_clock::local_time()).length().total_milliseconds();
+			beforeAdvanceTime = microsec_clock::local_time();
 
-      // Sleep until the next advancement is due.
-      adjustedSleepTime = sleep(adjustedSleepTime);
-    }
+			try
+			{
+				advance(shared_ptr<EngineInput>());
+			}
+			catch (std::exception& e)
+			{
+				// Interrupt the engine.
+				interrupted = true;
+				logger.error("Failed to advance the engine.");
+			}
 
-    destroy();
-  }
+			// Subtract the time taken to advance the engine from the time it needs to sleep for.
+			adjustedSleepTime -=
+				time_period(beforeAdvanceTime, microsec_clock::local_time()).length().total_milliseconds();
 
-  void
-  RunnableEngine::setPreferredFrequency(const int preferredFrequency)
-  {
-    fPreferredFrequency = preferredFrequency;
-  }
+			// Sleep until the next advancement is due.
+			adjustedSleepTime = sleep(adjustedSleepTime);
+		}
 
-  long
-  RunnableEngine::sleep(const long adjustedSleepTime)
-  {
-    // If the engine needs to sleep.
-    if (adjustedSleepTime > 0)
-    {
-      try
-      {
-        this_thread::sleep(milliseconds(adjustedSleepTime));
-      }
-      catch (thread_interrupted& e)
-      {
-        // Interrupt the engine.
-        fInterrupted = true;
-        fLogger.debug("The engine was interrupted while sleeping.");
-      }
+		destroy();
+	}
 
-      // Return the standard sleep duration.
-      return (fSleepTime);
-    }
-    else
-    {
-      fLogger.warn("The engine ran over time.");
+	void RunnableEngine::setPreferredFrequency(const int preferredFrequency)
+	{
+		this->preferredFrequency = preferredFrequency;
+	}
 
-      // The engine has not slept as a result it has 'caught up' by the standard sleep duration.
-      return (adjustedSleepTime + fSleepTime);
-    }
-  }
+	long RunnableEngine::sleep(const long adjustedSleepTime)
+	{
+		// If the engine needs to sleep.
+		if (adjustedSleepTime > 0)
+		{
+			try
+			{
+				this_thread::sleep(milliseconds(adjustedSleepTime));
+			}
+			catch (thread_interrupted& e)
+			{
+				// Interrupt the engine.
+				interrupted = true;
+				logger.debug("The engine was interrupted while sleeping.");
+			}
+
+			// Return the standard sleep duration.
+			return (sleepTime);
+		}
+		else
+		{
+			logger.warn("The engine ran over time.");
+
+			// The engine has not slept as a result it has 'caught up' by the standard sleep duration.
+			return (adjustedSleepTime + sleepTime);
+		}
+	}
 }

@@ -1,13 +1,18 @@
 /*
- This file is part of The Simplicity Engine.
-
- The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
- by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
- The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright © 2011 Simple Entertainment Limited
+ *
+ * This file is part of The Simplicity Engine.
+ *
+ * The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
+ * <http://www.gnu.org/licenses/>.
  */
 #include <algorithm>
 #include <stdio.h>
@@ -23,343 +28,316 @@ using namespace std;
 
 namespace simplicity
 {
-  namespace opengl
-  {
-    log4cpp::Category& SimpleOpenGLRenderingEngine::fLogger = log4cpp::Category::getInstance(
-        "simplicity::opengl::SimpleOpenGLRenderingEngine");
+	namespace opengl
+	{
+		log4cpp::Category& SimpleOpenGLRenderingEngine::logger = log4cpp::Category::getInstance(
+			"simplicity::opengl::SimpleOpenGLRenderingEngine");
 
-    SimpleOpenGLRenderingEngine::SimpleOpenGLRenderingEngine() :
-      fClearingColour(new SimpleRGBAColourVector4<float> (0.0f, 0.0f, 0.0f, 1.0f)), fClearsBeforeRender(true),
-          fInitialised(false), fViewportHeight(600), fViewportWidth(800)
-    {
-    }
+		SimpleOpenGLRenderingEngine::SimpleOpenGLRenderingEngine() :
+			clearingColour(new SimpleRGBAColourVector4<float>(0.0f, 0.0f, 0.0f, 1.0f)), clearsBuffers(true), initialised(
+				false), viewportHeight(600), viewportWidth(800)
+		{
+		}
 
-    SimpleOpenGLRenderingEngine::~SimpleOpenGLRenderingEngine()
-    {
-    }
+		SimpleOpenGLRenderingEngine::~SimpleOpenGLRenderingEngine()
+		{
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::addEntities(std::vector<boost::shared_ptr<Entity> > entities)
-    {
-      for (unsigned int index = 0; index < entities.size(); index++)
-      {
-        addEntity(entities.at(index));
-      }
-    }
+		void SimpleOpenGLRenderingEngine::addEntities(std::vector<boost::shared_ptr<Entity> > entities)
+		{
+			for (unsigned int index = 0; index < entities.size(); index++)
+			{
+				addEntity(entities.at(index));
+			}
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::addEntity(boost::shared_ptr<Entity> entity)
-    {
-      for (unsigned int index = 0; index < entity->getComponents().size(); index++)
-      {
-        shared_ptr<Node> node(dynamic_pointer_cast<Node> (entity->getComponents().at(index)));
+		void SimpleOpenGLRenderingEngine::addEntity(boost::shared_ptr<Entity> entity)
+		{
+			for (unsigned int index = 0; index < entity->getComponents().size(); index++)
+			{
+				shared_ptr<Node> node(dynamic_pointer_cast<Node>(entity->getComponents().at(index)));
 
-        if (node.get())
-        {
-          fScene->addNode(node);
-        }
-      }
-    }
+				if (node.get())
+				{
+					scene->addNode(node);
+				}
+			}
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::addRenderer(const int index, shared_ptr<Renderer> renderer)
-    {
-      fRenderers.insert(fRenderers.begin() + index, renderer);
+		void SimpleOpenGLRenderingEngine::addRenderer(const int index, shared_ptr<Renderer> renderer)
+		{
+			renderers.insert(renderers.begin() + index, renderer);
 
-      if (fScene.get())
-      {
-        setRendererRoot(*renderer, fScene->getRoot());
-      }
-    }
+			if (scene.get())
+			{
+				setRendererRoot(*renderer, scene->getRoot());
+			}
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::addRenderer(shared_ptr<Renderer> renderer)
-    {
-      addRenderer(fRenderers.size(), renderer);
-    }
+		void SimpleOpenGLRenderingEngine::addRenderer(shared_ptr<Renderer> renderer)
+		{
+			addRenderer(renderers.size(), renderer);
+		}
 
-    shared_ptr<EngineInput>
-    SimpleOpenGLRenderingEngine::advance(const shared_ptr<EngineInput> input)
-    {
-      if (!fCamera.get())
-      {
-        fLogger.fatal("Just how do you expect me to render without a camera then?");
-        throw SEInvalidOperationException();
-      }
+		shared_ptr<EngineInput> SimpleOpenGLRenderingEngine::advance(const shared_ptr<EngineInput> input)
+		{
+			if (!camera.get())
+			{
+				logger.fatal("Just how do you expect me to render without a camera then?");
+				throw SEInvalidOperationException();
+			}
 
-      fCamera->init();
+			camera->init();
 
-      if (!fScene.get())
-      {
-        fLogger.fatal("Just what do you expect me to render then? I don't have a scene to play with.");
-        throw SEInvalidOperationException();
-      }
+			if (!scene.get())
+			{
+				logger.fatal("Just what do you expect me to render then? I don't have a scene to play with.");
+				throw SEInvalidOperationException();
+			}
 
-      if (!fInitialised)
-      {
-        init();
-      }
+			if (!initialised)
+			{
+				init();
+			}
 
-      // Clear the buffers.
-      if (fClearsBeforeRender)
-      {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-      }
+			// Clear the buffers.
+			if (clearsBuffers)
+			{
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+			}
 
-      for (unsigned int index = 0; index < fRenderers.size(); index++)
-      {
-        if (fRendererRoots.find(fRenderers.at(index))->second.get())
-        {
-          fRenderers.at(index)->init();
-          renderScene(*fRenderers.at(index));
-          fRenderers.at(index)->dispose();
-        }
-      }
+			for (unsigned int index = 0; index < renderers.size(); index++)
+			{
+				if (rendererRoots.find(renderers.at(index))->second.get())
+				{
+					renderers.at(index)->init();
+					renderScene(*renderers.at(index));
+					renderers.at(index)->dispose();
+				}
+			}
 
-      return (shared_ptr<EngineInput> ());
-    }
+			return shared_ptr<EngineInput>();
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::backtrack(const int backtracks)
-    {
-      for (int index = 0; index < backtracks; index++)
-      {
-        glPopMatrix();
-      }
-    }
+		void SimpleOpenGLRenderingEngine::backtrack(const int backtracks)
+		{
+			for (int index = 0; index < backtracks; index++)
+			{
+				glPopMatrix();
+			}
+		}
 
-    bool
-    SimpleOpenGLRenderingEngine::clearsBeforeRender() const
-    {
-      return (fClearsBeforeRender);
-    }
+		bool SimpleOpenGLRenderingEngine::clearsBeforeRender() const
+		{
+			return clearsBuffers;
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::destroy()
-    {
-      // Revert depth test settings.
-      glDepthFunc(GL_LESS);
-      glDisable(GL_DEPTH_TEST);
+		void SimpleOpenGLRenderingEngine::destroy()
+		{
+			// Revert depth test settings.
+			glDepthFunc(GL_LESS);
+			glDisable(GL_DEPTH_TEST);
 
-      // Revert face culling settings.
-      glDisable(GL_CULL_FACE);
+			// Revert face culling settings.
+			glDisable(GL_CULL_FACE);
 
-      // Revert client state settings.
-      glDisableClientState(GL_VERTEX_ARRAY);
+			// Revert client state settings.
+			glDisableClientState(GL_VERTEX_ARRAY);
 
-      // Revert clearing settings.
-      glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    }
+			// Revert clearing settings.
+			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		}
 
-    shared_ptr<Camera>
-    SimpleOpenGLRenderingEngine::getCamera() const
-    {
-      return (fCamera);
-    }
+		shared_ptr<Camera> SimpleOpenGLRenderingEngine::getCamera() const
+		{
+			return camera;
+		}
 
-    shared_ptr<RGBAColourVector<float> >
-    SimpleOpenGLRenderingEngine::getClearingColour() const
-    {
-      return (fClearingColour);
-    }
+		shared_ptr<RGBAColourVector<float> > SimpleOpenGLRenderingEngine::getClearingColour() const
+		{
+			return clearingColour;
+		}
 
-    shared_ptr<Node>
-    SimpleOpenGLRenderingEngine::getRendererRoot(const Renderer& renderer) const
-    {
-      shared_ptr<Node> rendererRoot;
+		shared_ptr<Node> SimpleOpenGLRenderingEngine::getRendererRoot(const Renderer& renderer) const
+		{
+			shared_ptr<Node> rendererRoot;
 
-      shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
-      shared_ptr<Renderer> sharedRenderer(*find_if(fRenderers.begin(), fRenderers.end(), sharedEqualsRaw));
+			shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
+			shared_ptr<Renderer> sharedRenderer(*find_if(renderers.begin(), renderers.end(), sharedEqualsRaw));
 
-      if (sharedRenderer != *fRenderers.end())
-      {
-        rendererRoot = fRendererRoots.find(sharedRenderer)->second;
-      }
+			if (sharedRenderer != *renderers.end())
+			{
+				rendererRoot = rendererRoots.find(sharedRenderer)->second;
+			}
 
-      return (rendererRoot);
-    }
+			return rendererRoot;
+		}
 
-    vector<shared_ptr<Renderer> >
-    SimpleOpenGLRenderingEngine::getRenderers() const
-    {
-      return (fRenderers);
-    }
+		vector<shared_ptr<Renderer> > SimpleOpenGLRenderingEngine::getRenderers() const
+		{
+			return renderers;
+		}
 
-    shared_ptr<Scene>
-    SimpleOpenGLRenderingEngine::getScene() const
-    {
-      return (fScene);
-    }
+		shared_ptr<Scene> SimpleOpenGLRenderingEngine::getScene() const
+		{
+			return scene;
+		}
 
-    int
-    SimpleOpenGLRenderingEngine::getViewportHeight() const
-    {
-      return (fViewportHeight);
-    }
+		int SimpleOpenGLRenderingEngine::getViewportHeight() const
+		{
+			return viewportHeight;
+		}
 
-    int
-    SimpleOpenGLRenderingEngine::getViewportWidth() const
-    {
-      return (fViewportWidth);
-    }
+		int SimpleOpenGLRenderingEngine::getViewportWidth() const
+		{
+			return viewportWidth;
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::init()
-    {
-      RunnableEngine::init();
+		void SimpleOpenGLRenderingEngine::onInit()
+		{
+			// Ensure objects further from the viewpoint are not drawn over the top of closer objects. To assist multi
+			// pass rendering, objects at the exact same distance can be rendered over (i.e. the object will be rendered
+			// using the result of the last Renderer executed).
+			glDepthFunc(GL_LEQUAL);
+			glEnable(GL_DEPTH_TEST);
 
-      // Ensure objects further from the viewpoint are not drawn over the top of closer objects. To assist multi pass rendering, objects at the
-      // exact same distance can be rendered over (i.e. the object will be rendered using the result of the last Renderer executed).
-      glDepthFunc(GL_LEQUAL);
-      glEnable(GL_DEPTH_TEST);
+			// Only render the front (counter-clockwise) side of a polygon.
+			glEnable(GL_CULL_FACE);
 
-      // Only render the front (counter-clockwise) side of a polygon.
-      glEnable(GL_CULL_FACE);
+			// Enable model data arrays.
+			glEnableClientState(GL_VERTEX_ARRAY);
 
-      // Enable model data arrays.
-      glEnableClientState(GL_VERTEX_ARRAY);
+			// Set the colour buffer clearing colour.
+			glClearColor(clearingColour->getRed(), clearingColour->getGreen(), clearingColour->getBlue(),
+				clearingColour->getAlpha());
 
-      // Set the colour buffer clearing colour.
-      glClearColor(fClearingColour->getRed(), fClearingColour->getGreen(), fClearingColour->getBlue(),
-          fClearingColour->getAlpha());
+			// Initialise the viewport size.
+			glViewport(0, 0, viewportWidth, viewportHeight);
 
-      // Initialise the viewport size.
-      glViewport(0, 0, fViewportWidth, fViewportHeight);
+			initialised = true;
+		}
 
-      fInitialised = true;
-    }
+		void SimpleOpenGLRenderingEngine::onReset()
+		{
+			init();
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::removeRenderer(const Renderer& renderer)
-    {
-      shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
-      vector<shared_ptr<Renderer> >::iterator sharedRenderer(find_if(fRenderers.begin(), fRenderers.end(), sharedEqualsRaw));
+		void SimpleOpenGLRenderingEngine::removeRenderer(const Renderer& renderer)
+		{
+			shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
+			vector<shared_ptr<Renderer> >::iterator sharedRenderer(
+				find_if(renderers.begin(), renderers.end(), sharedEqualsRaw));
 
-      fRenderers.erase(sharedRenderer);
-      fRendererRoots.erase(*sharedRenderer);
-    }
+			renderers.erase(sharedRenderer);
+			rendererRoots.erase(*sharedRenderer);
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::renderScene(Renderer& renderer)
-    {
-      glPushMatrix();
-      {
-        fCamera->apply();
+		void SimpleOpenGLRenderingEngine::renderScene(Renderer& renderer)
+		{
+			glPushMatrix();
+			{
+				camera->apply();
 
-        for (unsigned int index = 0; index < fScene->getLights().size(); index++)
-        {
-          fScene->getLights().at(index)->apply();
-        }
+				for (unsigned int index = 0; index < scene->getLights().size(); index++)
+				{
+					scene->getLights().at(index)->apply();
+				}
 
-        shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
-        shared_ptr<Renderer> sharedRenderer(*find_if(fRenderers.begin(), fRenderers.end(), sharedEqualsRaw));
-        renderSceneGraph(renderer, *fRendererRoots.find(sharedRenderer)->second);
-      }
-      glPopMatrix();
-    }
+				shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
+				shared_ptr<Renderer> sharedRenderer(*find_if(renderers.begin(), renderers.end(), sharedEqualsRaw));
+				renderSceneGraph(renderer, *rendererRoots.find(sharedRenderer)->second);
+			}
+			glPopMatrix();
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::renderSceneGraph(Renderer& renderer, const Node& root)
-    {
-      // For every node in the traversal of the scene.
-      PreorderNodeIterator iterator(root);
-      shared_ptr<Node> currentNode;
+		void SimpleOpenGLRenderingEngine::renderSceneGraph(Renderer& renderer, const Node& root)
+		{
+			// For every node in the traversal of the scene.
+			PreorderNodeIterator iterator(root);
+			shared_ptr<Node> currentNode;
 
-      while (iterator.hasMoreNodes())
-      {
-        // Remove transformations from the stack that do not apply to the next node.
-        backtrack(iterator.getBacktracksToNextNode());
+			while (iterator.hasMoreNodes())
+			{
+				// Remove transformations from the stack that do not apply to the next node.
+				backtrack(iterator.getBacktracksToNextNode());
 
-        // Apply the transformation of the current node.
-        currentNode = iterator.getNextNode();
+				// Apply the transformation of the current node.
+				currentNode = iterator.getNextNode();
 
-        glPushMatrix();
-        glMultMatrixf(currentNode->getTransformation().getRawData());
+				glPushMatrix();
+				glMultMatrixf(currentNode->getTransformation().getRawData());
 
-        // Render the current node.
-        ModelNode* modelNode = dynamic_cast<ModelNode*> (currentNode.get());
-        if (modelNode)
-        {
-          NamedRenderer* namedRenderer = dynamic_cast<NamedRenderer*> (&renderer);
-          if (namedRenderer)
-          {
-            namedRenderer->renderModel(*modelNode->getModel(), modelNode->getId());
-          }
-          else
-          {
-            renderer.renderModel(*modelNode->getModel());
-          }
-        }
-      }
+				// Render the current node.
+				ModelNode* modelNode = dynamic_cast<ModelNode*>(currentNode.get());
+				if (modelNode)
+				{
+					NamedRenderer* namedRenderer = dynamic_cast<NamedRenderer*> (&renderer);
+					if (namedRenderer)
+					{
+						namedRenderer->renderModel(*modelNode->getModel(), modelNode->getId());
+					}
+					else
+					{
+						renderer.renderModel(*modelNode->getModel());
+					}
+				}
+			}
 
-      // Remove all remaining transformations from the stack.
-      backtrack(iterator.getBacktracksToNextNode());
-    }
+			// Remove all remaining transformations from the stack.
+			backtrack(iterator.getBacktracksToNextNode());
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::reset()
-    {
-      init();
-    }
+		void SimpleOpenGLRenderingEngine::setCamera(shared_ptr<Camera> camera)
+		{
+			this->camera = camera;
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::setCamera(shared_ptr<Camera> camera)
-    {
-      fCamera = camera;
-    }
+		void SimpleOpenGLRenderingEngine::setClearingColour(shared_ptr<RGBAColourVector<float> > clearingColour)
+		{
+			this->clearingColour = clearingColour;
 
-    void
-    SimpleOpenGLRenderingEngine::setClearingColour(shared_ptr<RGBAColourVector<float> > clearingColour)
-    {
-      fClearingColour = clearingColour;
+			initialised = false;
+		}
 
-      fInitialised = false;
-    }
+		void SimpleOpenGLRenderingEngine::setClearsBeforeRender(const bool clearsBeforeRender)
+		{
+			clearsBuffers = clearsBeforeRender;
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::setClearsBeforeRender(const bool clearsBeforeRender)
-    {
-      fClearsBeforeRender = clearsBeforeRender;
-    }
+		void SimpleOpenGLRenderingEngine::setRendererRoot(const Renderer& renderer, shared_ptr<Node> root)
+		{
+			shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
+			shared_ptr<Renderer> sharedRenderer(*find_if(renderers.begin(), renderers.end(), sharedEqualsRaw));
+			rendererRoots.erase(sharedRenderer);
+			rendererRoots.insert(pair<shared_ptr<Renderer>, shared_ptr<Node> >(sharedRenderer, root));
+		}
 
-    void
-    SimpleOpenGLRenderingEngine::setRendererRoot(const Renderer& renderer, shared_ptr<Node> root)
-    {
-      shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
-      shared_ptr<Renderer> sharedRenderer(*find_if(fRenderers.begin(), fRenderers.end(), sharedEqualsRaw));
-      fRendererRoots.erase(sharedRenderer);
-      fRendererRoots.insert(pair<shared_ptr<Renderer> , shared_ptr<Node> > (sharedRenderer, root));
-    }
+		void SimpleOpenGLRenderingEngine::setScene(shared_ptr<Scene> scene)
+		{
+			this->scene = scene;
 
-    void
-    SimpleOpenGLRenderingEngine::setScene(shared_ptr<Scene> scene)
-    {
-      fScene = scene;
+			for (unsigned int index = 0; index < renderers.size(); index++)
+			{
+				if (rendererRoots.find(renderers.at(index)) == rendererRoots.end())
+				{
+					rendererRoots.insert(
+						pair<shared_ptr<Renderer>, shared_ptr<Node> >(renderers.at(index), scene->getRoot()));
+				}
+			}
+		}
 
-      for (unsigned int index = 0; index < fRenderers.size(); index++)
-      {
-        if (fRendererRoots.find(fRenderers.at(index)) == fRendererRoots.end())
-        {
-          fRendererRoots.insert(
-              pair<shared_ptr<Renderer> , shared_ptr<Node> > (fRenderers.at(index), fScene->getRoot()));
-        }
-      }
-    }
+		void SimpleOpenGLRenderingEngine::setViewportHeight(const int viewportHeight)
+		{
+			this->viewportHeight = viewportHeight;
 
-    void
-    SimpleOpenGLRenderingEngine::setViewportHeight(const int viewportHeight)
-    {
-      fViewportHeight = viewportHeight;
+			initialised = false;
+		}
 
-      fInitialised = false;
-    }
+		void SimpleOpenGLRenderingEngine::setViewportWidth(const int viewportWidth)
+		{
+			this->viewportWidth = viewportWidth;
 
-    void
-    SimpleOpenGLRenderingEngine::setViewportWidth(const int viewportWidth)
-    {
-      fViewportWidth = viewportWidth;
-
-      fInitialised = false;
-    }
-  }
+			initialised = false;
+		}
+	}
 }

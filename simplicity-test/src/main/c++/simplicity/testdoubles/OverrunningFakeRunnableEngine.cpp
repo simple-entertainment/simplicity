@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2011 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -89,19 +89,12 @@ namespace simplicity
 		return overrunIndex;
 	}
 
-	void OverrunningFakeRunnableEngine::init()
+	void OverrunningFakeRunnableEngine::onInit()
 	{
 		initCount++;
-
-		RunnableEngine::init();
 	}
 
-	void OverrunningFakeRunnableEngine::initInternal()
-	{
-		RunnableEngine::initInternal();
-	}
-
-	void OverrunningFakeRunnableEngine::reset()
+	void OverrunningFakeRunnableEngine::onReset()
 	{
 	}
 

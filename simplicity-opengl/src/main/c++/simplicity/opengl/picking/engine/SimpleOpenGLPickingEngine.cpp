@@ -1,13 +1,18 @@
 /*
- This file is part of The Simplicity Engine.
-
- The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
- by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
- The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright © 2011 Simple Entertainment Limited
+ *
+ * This file is part of The Simplicity Engine.
+ *
+ * The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
+ * <http://www.gnu.org/licenses/>.
  */
 #include <log4cpp/Category.hh>
 
@@ -21,228 +26,188 @@ using namespace std;
 
 namespace simplicity
 {
-  namespace opengl
-  {
-    SimpleOpenGLPickingEngine::SimpleOpenGLPickingEngine()
-    {
-    }
+	namespace opengl
+	{
+		SimpleOpenGLPickingEngine::SimpleOpenGLPickingEngine()
+		{
+		}
 
-    SimpleOpenGLPickingEngine::~SimpleOpenGLPickingEngine()
-    {
-    }
+		SimpleOpenGLPickingEngine::~SimpleOpenGLPickingEngine()
+		{
+		}
 
-    void
-    SimpleOpenGLPickingEngine::addEntities(std::vector<boost::shared_ptr<Entity> > entities)
-    {
-    }
+		void SimpleOpenGLPickingEngine::addEntities(std::vector<boost::shared_ptr<Entity> > entities)
+		{
+		}
 
-    void
-    SimpleOpenGLPickingEngine::addEntity(boost::shared_ptr<Entity> entity)
-    {
-    }
+		void SimpleOpenGLPickingEngine::addEntity(boost::shared_ptr<Entity> entity)
+		{
+		}
 
-    void
-    SimpleOpenGLPickingEngine::addPickListener(shared_ptr<PickListener> listener)
-    {
-      fListeners.push_back(listener);
-    }
+		void SimpleOpenGLPickingEngine::addPickListener(shared_ptr<PickListener> listener)
+		{
+			listeners.push_back(listener);
+		}
 
-    shared_ptr<EngineInput>
-    SimpleOpenGLPickingEngine::advance(const shared_ptr<EngineInput> input)
-    {
-      if (fPicks.empty())
-      {
-        return (shared_ptr<EngineInput> ());
-      }
+		shared_ptr<EngineInput> SimpleOpenGLPickingEngine::advance(const shared_ptr<EngineInput> input)
+		{
+			if (picks.empty())
+			{
+				return (shared_ptr<EngineInput>());
+			}
 
-      if (fRenderingEngine.get())
-      {
-        if (fRenderingEngine->getScene().get())
-        {
-          fScene = fRenderingEngine->getScene();
-        }
+			if (renderingEngine.get())
+			{
+				if (renderingEngine->getScene().get())
+				{
+					scene = renderingEngine->getScene();
+				}
 
-        if (fRenderingEngine->getCamera().get())
-        {
-          fCamera = fRenderingEngine->getCamera();
-        }
-      }
+				if (renderingEngine->getCamera().get())
+				{
+					camera = renderingEngine->getCamera();
+				}
+			}
 
-      fPicker->init();
+			picker->init();
 
-      // For every pick.
-      for (unsigned int index = 0; index < fPicks.size(); index++)
-      {
-        firePickEvent(fPicker->pickScene(*fScene, *fCamera, fPicks.at(index)));
-      }
+			// For every pick.
+			for (unsigned int index = 0; index < picks.size(); index++)
+			{
+				firePickEvent(picker->pickScene(*scene, *camera, picks.at(index)));
+			}
 
-      fPicker->dispose();
+			picker->dispose();
 
-      fPicks.clear();
+			picks.clear();
 
-      return (shared_ptr<EngineInput> ());
-    }
+			return shared_ptr<EngineInput>();
+		}
 
-    Pick
-    SimpleOpenGLPickingEngine::convertPickCoordinatesFromViewportToSceneGraph(const float viewportWidth,
-        const float viewportHeight, Pick pick) const
-    {
-      pick.height = pick.height / viewportHeight * (fCamera->getFrameWidth() * fCamera->getFrameAspectRatio());
-      pick.width = pick.width / viewportWidth * fCamera->getFrameWidth();
-      pick.x = pick.x / viewportWidth * fCamera->getFrameWidth();
-      pick.y = pick.y / viewportHeight * (fCamera->getFrameWidth() * fCamera->getFrameAspectRatio());
+		Pick SimpleOpenGLPickingEngine::convertPickCoordinatesFromViewportToSceneGraph(const float viewportWidth,
+			const float viewportHeight, Pick pick) const
+		{
+			pick.height = pick.height / viewportHeight * (camera->getFrameWidth() * camera->getFrameAspectRatio());
+			pick.width = pick.width / viewportWidth * camera->getFrameWidth();
+			pick.x = pick.x / viewportWidth * camera->getFrameWidth();
+			pick.y = pick.y / viewportHeight * (camera->getFrameWidth() * camera->getFrameAspectRatio());
 
-      return (pick);
-    }
+			return pick;
+		}
 
-    void
-    SimpleOpenGLPickingEngine::destroy()
-    {
-    }
+		void SimpleOpenGLPickingEngine::destroy()
+		{
+		}
 
-    void
-    SimpleOpenGLPickingEngine::firePickEvent(PickEvent event) const
-    {
-      for (unsigned int index = 0; index < fListeners.size(); index++)
-      {
-        PickListener& listener = *fListeners.at(index);
-        listener(event);
-      }
-    }
+		void SimpleOpenGLPickingEngine::firePickEvent(PickEvent event) const
+		{
+			for (unsigned int index = 0; index < listeners.size(); index++)
+			{
+				PickListener& listener = *listeners.at(index);
+				listener(event);
+			}
+		}
 
-    shared_ptr<Camera>
-    SimpleOpenGLPickingEngine::getCamera() const
-    {
-      return (fCamera);
-    }
+		shared_ptr<Camera> SimpleOpenGLPickingEngine::getCamera() const
+		{
+			return camera;
+		}
 
-    shared_ptr<Picker>
-    SimpleOpenGLPickingEngine::getPicker() const
-    {
-      return (fPicker);
-    }
+		shared_ptr<Picker> SimpleOpenGLPickingEngine::getPicker() const
+		{
+			return picker;
+		}
 
-    vector<Pick>
-    SimpleOpenGLPickingEngine::getPicks() const
-    {
-      return (fPicks);
-    }
+		vector<Pick> SimpleOpenGLPickingEngine::getPicks() const
+		{
+			return picks;
+		}
 
-    /**
-     * <p>
-     * Retrieves the <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking.
-     * </p>
-     *
-     * @return The <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking.
-     */
-    shared_ptr<RenderingEngine>
-    SimpleOpenGLPickingEngine::getRenderingEngine() const
-    {
-      return (fRenderingEngine);
-    }
+		shared_ptr<RenderingEngine> SimpleOpenGLPickingEngine::getRenderingEngine() const
+		{
+			return renderingEngine;
+		}
 
-    shared_ptr<Scene>
-    SimpleOpenGLPickingEngine::getScene() const
-    {
-      return (fScene);
-    }
+		shared_ptr<Scene> SimpleOpenGLPickingEngine::getScene() const
+		{
+			return scene;
+		}
 
-    void
-    SimpleOpenGLPickingEngine::init()
-    {
-    }
+		void SimpleOpenGLPickingEngine::onInit()
+		{
+		}
 
-    void
-    SimpleOpenGLPickingEngine::pick(const float x, const float y, const float width, const float height)
-    {
-      Pick pick;
-      pick.x = x;
-      pick.y = y;
-      pick.width = width;
-      pick.height = height;
+		void SimpleOpenGLPickingEngine::onReset()
+		{
+		}
 
-      SimpleOpenGLPickingEngine::pick(pick);
-    }
+		void SimpleOpenGLPickingEngine::pick(const float x, const float y, const float width, const float height)
+		{
+			Pick pick;
+			pick.x = x;
+			pick.y = y;
+			pick.width = width;
+			pick.height = height;
 
-    void
-    SimpleOpenGLPickingEngine::pick(const Pick pick)
-    {
-      fPicks.push_back(pick);
-    }
+			SimpleOpenGLPickingEngine::pick(pick);
+		}
 
-    void
-    SimpleOpenGLPickingEngine::pickViewport(const int viewportWidth, const int viewportHeight, const int x, const int y,
-        const int width, const int height)
-    {
-      Pick pick;
-      pick.x = x;
-      pick.y = y;
-      pick.width = width;
-      pick.height = height;
+		void SimpleOpenGLPickingEngine::pick(const Pick pick)
+		{
+			picks.push_back(pick);
+		}
 
-      pickViewport(viewportWidth, viewportHeight, pick);
-    }
+		void SimpleOpenGLPickingEngine::pickViewport(const int viewportWidth, const int viewportHeight, const int x,
+			const int y, const int width, const int height)
+		{
+			Pick pick;
+			pick.x = x;
+			pick.y = y;
+			pick.width = width;
+			pick.height = height;
 
-    void
-    SimpleOpenGLPickingEngine::pickViewport(const int viewportWidth, const int viewportHeight, const Pick pick)
-    {
-      fPicks.push_back(convertPickCoordinatesFromViewportToSceneGraph(viewportWidth, viewportHeight, pick));
-    }
+			pickViewport(viewportWidth, viewportHeight, pick);
+		}
 
-    void
-    SimpleOpenGLPickingEngine::removePickListener(const PickListener& listener)
-    {
-      shared_equals_raw<PickListener> sharedEqualsRaw(&listener);
-      fListeners.erase(find_if(fListeners.begin(), fListeners.end(), sharedEqualsRaw));
-    }
+		void SimpleOpenGLPickingEngine::pickViewport(const int viewportWidth, const int viewportHeight, const Pick pick)
+		{
+			picks.push_back(convertPickCoordinatesFromViewportToSceneGraph(viewportWidth, viewportHeight, pick));
+		}
 
-    void
-    SimpleOpenGLPickingEngine::reset()
-    {
-    }
+		void SimpleOpenGLPickingEngine::removePickListener(const PickListener& listener)
+		{
+			shared_equals_raw<PickListener> sharedEqualsRaw(&listener);
+			listeners.erase(find_if(listeners.begin(), listeners.end(), sharedEqualsRaw));
+		}
 
-    void
-    SimpleOpenGLPickingEngine::setCamera(shared_ptr<Camera> camera)
-    {
-      fCamera = camera;
-    }
+		void SimpleOpenGLPickingEngine::setCamera(shared_ptr<Camera> camera)
+		{
+			this->camera = camera;
+		}
 
-    void
-    SimpleOpenGLPickingEngine::setPicker(shared_ptr<Picker> picker)
-    {
-      fPicker = picker;
-    }
+		void SimpleOpenGLPickingEngine::setPicker(shared_ptr<Picker> picker)
+		{
+			this->picker = picker;
+		}
 
-    /**
-     * <p>
-     * Sets the <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking. The ability to set a
-     * <code>RenderingEngine</code> is a convenience as in most cases picking will be associated with a particular rendered image. This
-     * <code>SimpleJOGLPickingEngine</code> synchronises the <code>Scene</code> and <code>Camera</code> from the <code>RenderingEngine</code> every
-     * time it advances if one is provided.
-     * </p>
-     *
-     * @param renderingEngine The <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used when picking.
-     */
-    void
-    SimpleOpenGLPickingEngine::setRenderingEngine(shared_ptr<RenderingEngine> renderingEngine)
-    {
-      fRenderingEngine = renderingEngine;
+		void SimpleOpenGLPickingEngine::setRenderingEngine(shared_ptr<RenderingEngine> renderingEngine)
+		{
+			this->renderingEngine = renderingEngine;
 
-      if (fRenderingEngine->getScene().get())
-      {
-        fScene = fRenderingEngine->getScene();
-      }
+			if (renderingEngine->getScene().get())
+			{
+				scene = renderingEngine->getScene();
+			}
 
-      if (fRenderingEngine->getCamera().get())
-      {
-        fCamera = fRenderingEngine->getCamera();
-      }
-    }
+			if (renderingEngine->getCamera().get())
+			{
+				camera = renderingEngine->getCamera();
+			}
+		}
 
-    void
-    SimpleOpenGLPickingEngine::setScene(shared_ptr<Scene> scene)
-    {
-      fScene = scene;
-    }
-  }
+		void SimpleOpenGLPickingEngine::setScene(shared_ptr<Scene> scene)
+		{
+			this->scene = scene;
+		}
+	}
 }

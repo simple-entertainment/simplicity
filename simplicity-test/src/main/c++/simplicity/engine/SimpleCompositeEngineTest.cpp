@@ -228,22 +228,19 @@ namespace simplicity
   TEST_F(SimpleCompositeEngineTest, reset)
   {
     // Create dependencies.
-    shared_ptr<MockEngine> mockEngine1(new MockEngine);
-    shared_ptr<MockEngine> mockEngine2(new MockEngine);
-    shared_ptr<MockEngine> mockEngine3(new MockEngine);
+    shared_ptr<MockEngine> mockEngine1(new NiceMock<MockEngine>);
+    shared_ptr<MockEngine> mockEngine2(new NiceMock<MockEngine>);
+    shared_ptr<MockEngine> mockEngine3(new NiceMock<MockEngine>);
 
     // Initialise test environment.
     fTestObject.addEngine(mockEngine1);
     fTestObject.addEngine(mockEngine2);
     fTestObject.addEngine(mockEngine3);
 
-    // Dictate correct behaviour.
-    EXPECT_CALL(*mockEngine1, getPreferredFrequency()).WillRepeatedly(Return(3));
-    EXPECT_CALL(*mockEngine2, getPreferredFrequency()).WillRepeatedly(Return(4));
-    EXPECT_CALL(*mockEngine3, getPreferredFrequency()).WillRepeatedly(Return(6));
-    EXPECT_CALL(*mockEngine1, init()).Times(2);
-    EXPECT_CALL(*mockEngine2, init()).Times(2);
-    EXPECT_CALL(*mockEngine3, init()).Times(2);
+    // Provide stub behaviour.
+    ON_CALL(*mockEngine1, getPreferredFrequency()).WillByDefault(Return(3));
+    ON_CALL(*mockEngine2, getPreferredFrequency()).WillByDefault(Return(4));
+    ON_CALL(*mockEngine3, getPreferredFrequency()).WillByDefault(Return(6));
 
     // Dictate expected results.
     // First advance.

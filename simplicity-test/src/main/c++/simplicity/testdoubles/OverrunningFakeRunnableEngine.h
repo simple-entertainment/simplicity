@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2011 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -94,10 +94,6 @@ namespace simplicity
 			 */
 			int getOverrunIndex() const;
 
-			void init();
-
-			void reset();
-
 			/**
 			 * <p>
 			 * Sets the index of the advancement in which this engine will overrun.
@@ -129,8 +125,6 @@ namespace simplicity
 			 * </p>
 			 */
 			static const double MILLISECONDS_IN_A_SECOND = 1000.0;
-
-			void initInternal();
 
 			/**
 			 * <p>
@@ -166,6 +160,10 @@ namespace simplicity
 			 * </p>
 			 */
 			int overrunIndex;
+
+			void onInit();
+
+			void onReset();
 	};
 }
 
