@@ -69,7 +69,8 @@ namespace simplicity
 			 * @return The interpolated point.
 			 */
 			boost::shared_ptr<Vector<float> > interpolate(const float time,
-				std::vector<boost::shared_ptr<const Node> > path);
+				const std::vector<boost::shared_ptr<const simplicity::Node> >::iterator& begin,
+				const std::vector<boost::shared_ptr<const simplicity::Node> >::iterator& end);
 	};
 }
 

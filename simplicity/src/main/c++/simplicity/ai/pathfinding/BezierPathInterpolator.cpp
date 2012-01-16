@@ -33,7 +33,7 @@ namespace simplicity
 
 	shared_ptr<TranslationVector<float> > BezierPathInterpolator::interpolate(const float time)
 	{
-		shared_ptr<Vector<float> > b = interpolate(time, path);
+		shared_ptr<Vector<float> > b = interpolate(time, path.begin(), path.end());
 
 		// TODO Remove the dependency on concrete class SimpleTranslationVector4.
 		shared_ptr<TranslationVector<float> > bTranslation(new SimpleTranslationVector4<float>);
@@ -45,24 +45,21 @@ namespace simplicity
 	}
 
 	shared_ptr<Vector<float> > BezierPathInterpolator::interpolate(const float time,
-		vector<shared_ptr<const Node> > path)
+		const vector<shared_ptr<const Node> >::iterator& begin, const vector<shared_ptr<const Node> >::iterator& end)
 	{
-		if (path.size() == 1)
+		if (begin + 1 == end)
 		{
-			return path.at(0)->getTransformation().getTranslation();
+			return (*begin)->getTransformation().getTranslation();
 		}
 
-		vector<shared_ptr<const Node> > path0(path.begin(), path.end() - 1);
-		vector<shared_ptr<const Node> > path1(path.begin() + 1, path.end());
-
-		shared_ptr<Vector<float> > p0 = interpolate(time, path0);
+		shared_ptr<Vector<float> > p0 = interpolate(time, begin, end - 1);
 		p0->scale(1 - time);
 
-		shared_ptr<Vector<float> > p1 = interpolate(time, path1);
+		shared_ptr<Vector<float> > p1 = interpolate(time, begin + 1, end);
 		p1->scale(time);
 
-		shared_ptr<Vector<float> > b = p0->addCopy(*p1);
+		p0->add(*p1);
 
-		return b;
+		return p0;
 	}
 }
