@@ -46,9 +46,9 @@ namespace simplicity
 			 */
 			virtual ~SimpleModelNode();
 
-			boost::shared_ptr<Model> getModel() const;
+			std::shared_ptr<Model> getModel() const;
 
-			void setModel(boost::shared_ptr<Model> model);
+			void setModel(std::shared_ptr<Model> model);
 
 		private:
 			/**
@@ -56,7 +56,7 @@ namespace simplicity
 			 * The {@link simplicity::Model Model} at this <code>SimpleModelNode</code>'s position and orientation.
 			 * </p>
 			 */
-			boost::shared_ptr<Model> model;
+			std::shared_ptr<Model> model;
 	};
 }
 

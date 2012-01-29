@@ -42,13 +42,13 @@ namespace simplicity
       SetUp()
       {
         float colours[12] = { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f };
-        boost::shared_ptr<std::vector<float> > coloursVector(new std::vector<float>(colours, colours + 12));
+        std::shared_ptr<std::vector<float> > coloursVector(new std::vector<float>(colours, colours + 12));
         fTestObject.setColours(coloursVector);
         float normals[12] = { -0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f };
-        boost::shared_ptr<std::vector<float> > normalsVector(new std::vector<float>(normals, normals + 12));
+        std::shared_ptr<std::vector<float> > normalsVector(new std::vector<float>(normals, normals + 12));
         fTestObject.setNormals(normalsVector);
         float vertices[12] = { -1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f };
-        boost::shared_ptr<std::vector<float> > verticesVector(new std::vector<float>(vertices, vertices + 12));
+        std::shared_ptr<std::vector<float> > verticesVector(new std::vector<float>(vertices, vertices + 12));
         fTestObject.setVertices(verticesVector);
       }
   };

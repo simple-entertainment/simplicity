@@ -18,7 +18,6 @@
 #include "SimpleNode.h"
 #include "SimpleScene.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity

@@ -60,7 +60,7 @@ namespace simplicity
        * @param renderer The <code>Renderer</code> to be added.
        */
       virtual void
-      addRenderer(boost::shared_ptr<Renderer> renderer) = 0;
+      addRenderer(std::shared_ptr<Renderer> renderer) = 0;
 
       /**
        * <p>
@@ -74,7 +74,7 @@ namespace simplicity
        * @param renderer The <code>Renderer</code> to be added.
        */
       virtual void
-      addRenderer(const int index, boost::shared_ptr<Renderer> renderer) = 0;
+      addRenderer(const int index, std::shared_ptr<Renderer> renderer) = 0;
 
       /**
        * <p>
@@ -85,8 +85,8 @@ namespace simplicity
        *
        * @return The <code>EngineInput</code> for the next {@link simplicity::Engine Engine} in the chain.
        */
-      virtual boost::shared_ptr<EngineInput>
-      advance(const boost::shared_ptr<EngineInput> engineInput) = 0;
+      virtual std::shared_ptr<EngineInput>
+      advance(const std::shared_ptr<EngineInput> engineInput) = 0;
 
       /**
        * <p>
@@ -95,7 +95,7 @@ namespace simplicity
        *
        * @return The <code>Camera</code> through which the <code>Scene</code> will be rendered.
        */
-      virtual boost::shared_ptr<Camera>
+      virtual std::shared_ptr<Camera>
       getCamera() const = 0;
 
       /**
@@ -105,7 +105,7 @@ namespace simplicity
        *
        * @return The colour to clear the screen buffer with before rendering.
        */
-      virtual boost::shared_ptr<RGBAColourVector<float> >
+      virtual std::shared_ptr<RGBAColourVector<> >
       getClearingColour() const = 0;
 
       /**
@@ -118,7 +118,7 @@ namespace simplicity
        *
        * @return The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
        */
-      virtual boost::shared_ptr<Node>
+      virtual std::shared_ptr<Node>
       getRendererRoot(const Renderer& renderer) const = 0;
 
       /**
@@ -133,7 +133,7 @@ namespace simplicity
        *
        * @return The <code>Renderer</code>s that will be executed against the <code>Scene</code> during the <code>advance()</code> method.
        */
-      virtual std::vector<boost::shared_ptr<Renderer> >
+      virtual std::vector<std::shared_ptr<Renderer> >
       getRenderers() const = 0;
 
       /**
@@ -143,7 +143,7 @@ namespace simplicity
        *
        * @return The {@link simplicity::Scene Scene} to be rendered.
        */
-      virtual boost::shared_ptr<Scene>
+      virtual std::shared_ptr<Scene>
       getScene() const = 0;
 
       /**
@@ -202,7 +202,7 @@ namespace simplicity
        * @param camera The <code>Camera</code> through which the <code>Scene</code> will be rendered.
        */
       virtual void
-      setCamera(boost::shared_ptr<Camera> camera) = 0;
+      setCamera(std::shared_ptr<Camera> camera) = 0;
 
       /**
        * <p>
@@ -212,7 +212,7 @@ namespace simplicity
        * @param clearingColour The colour to clear the buffer with before rendering.
        */
       virtual void
-      setClearingColour(boost::shared_ptr<RGBAColourVector<float> > clearingColour) = 0;
+      setClearingColour(std::shared_ptr<RGBAColourVector<> > clearingColour) = 0;
 
       /**
        * <p>
@@ -235,7 +235,7 @@ namespace simplicity
        * @param root The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
        */
       virtual void
-      setRendererRoot(const Renderer& renderer, boost::shared_ptr<Node> root) = 0;
+      setRendererRoot(const Renderer& renderer, std::shared_ptr<Node> root) = 0;
 
       /**
        * <p>
@@ -245,7 +245,7 @@ namespace simplicity
        * @param scene The <code>Scene</code> to be rendered.
        */
       virtual void
-      setScene(boost::shared_ptr<Scene> scene) = 0;
+      setScene(std::shared_ptr<Scene> scene) = 0;
 
       /**
        * <p>

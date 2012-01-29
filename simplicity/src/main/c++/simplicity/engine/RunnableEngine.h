@@ -46,7 +46,7 @@ namespace simplicity
 			 * The number of milliseconds in a second.
 			 * </p>
 			 */
-			static double const MILLISECONDS_IN_A_SECOND = 1000.0;
+			static const double MILLISECONDS_IN_A_SECOND;
 
 			/**
 			 * <p>

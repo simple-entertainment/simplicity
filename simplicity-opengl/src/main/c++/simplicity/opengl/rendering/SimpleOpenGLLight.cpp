@@ -9,8 +9,6 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <boost/smart_ptr.hpp>
-
 #include <GL/glew.h>
 
 #include <simplicity/math/SimpleRGBAColourVector4.h>
@@ -19,7 +17,7 @@
 
 #include "SimpleOpenGLLight.h"
 
-using namespace boost;
+using namespace std;
 
 namespace simplicity
 {
@@ -28,8 +26,8 @@ namespace simplicity
     log4cpp::Category& SimpleOpenGLLight::fLogger = log4cpp::Category::getInstance("simplicity_opengl::SimpleOpenGLLight");
 
     SimpleOpenGLLight::SimpleOpenGLLight() :
-      fAmbientLight(new SimpleRGBAColourVector4<float> ), fDiffuseLight(new SimpleRGBAColourVector4<float> ),
-          fInitialised(false), fLightingMode(Light::SCENE), fSpecularLight(new SimpleRGBAColourVector4<float> )
+      fAmbientLight(new SimpleRGBAColourVector4<> ), fDiffuseLight(new SimpleRGBAColourVector4<> ),
+          fInitialised(false), fLightingMode(Light::SCENE), fSpecularLight(new SimpleRGBAColourVector4<> )
     {
     }
 
@@ -47,7 +45,7 @@ namespace simplicity
 
       if (fLightingMode == Light::SHADED)
       {
-        SimpleTranslationVector4<float> origin;
+        SimpleTranslationVector4<> origin;
         glLightfv(GL_LIGHT0, GL_POSITION, origin.getRawData());
       }
       else if (fLightingMode == Light::SCENE)
@@ -59,13 +57,13 @@ namespace simplicity
       }
     }
 
-    RGBAColourVector<float>&
+    RGBAColourVector<>&
     SimpleOpenGLLight::getAmbientLight() const
     {
       return (*fAmbientLight);
     }
 
-    RGBAColourVector<float>&
+    RGBAColourVector<>&
     SimpleOpenGLLight::getDiffuseLight() const
     {
       return (*fDiffuseLight);
@@ -77,30 +75,28 @@ namespace simplicity
       return (fLightingMode);
     }
 
-    shared_ptr<Node>
+    std::shared_ptr<Node>
     SimpleOpenGLLight::getNode() const
     {
       return (fNode);
     }
 
-    RGBAColourVector<float>&
+    RGBAColourVector<>&
     SimpleOpenGLLight::getSpecularLight() const
     {
       return (*fSpecularLight);
     }
 
-    const TransformationMatrix<float>&
+    const TransformationMatrix<>&
     SimpleOpenGLLight::getTransformation() const
     {
       if (!fNode)
       {
-        fTransformation.reset(new SimpleTransformationMatrix44<float> );
+        fTransformation.reset(new SimpleTransformationMatrix44<> );
         return (*fTransformation);
       }
 
-      fTransformation.reset(
-          new SimpleTransformationMatrix44<float> (
-              dynamic_cast<const SimpleMatrix44<float>&> (fNode->getAbsoluteTransformation()).getData()));
+      fTransformation.reset(new SimpleTransformationMatrix44<> (fNode->getAbsoluteTransformation()->getData()));
 
       try
       {
@@ -129,7 +125,7 @@ namespace simplicity
         glEnable(GL_COLOR_MATERIAL);
         glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
-        SimpleRGBAColourVector4<float> colour;
+        SimpleRGBAColourVector4<> colour;
         colour.setRed(0.5f);
         colour.setGreen(0.5f);
         colour.setBlue(0.5f);
@@ -157,15 +153,15 @@ namespace simplicity
     }
 
     void
-    SimpleOpenGLLight::setAmbientLight(shared_ptr<RGBAColourVector<float> > ambientLight)
+    SimpleOpenGLLight::setAmbientLight(std::unique_ptr<RGBAColourVector<> > ambientLight)
     {
-      fAmbientLight = ambientLight;
+      fAmbientLight = move(ambientLight);
     }
 
     void
-    SimpleOpenGLLight::setDiffuseLight(shared_ptr<RGBAColourVector<float> > diffuseLight)
+    SimpleOpenGLLight::setDiffuseLight(std::unique_ptr<RGBAColourVector<> > diffuseLight)
     {
-      fDiffuseLight = diffuseLight;
+      fDiffuseLight = move(diffuseLight);
     }
 
     void
@@ -183,15 +179,15 @@ namespace simplicity
     }
 
     void
-    SimpleOpenGLLight::setNode(shared_ptr<Node> newNode)
+    SimpleOpenGLLight::setNode(std::shared_ptr<Node> newNode)
     {
       fNode = newNode;
     }
 
     void
-    SimpleOpenGLLight::setSpecularLight(shared_ptr<RGBAColourVector<float> > specularLight)
+    SimpleOpenGLLight::setSpecularLight(std::unique_ptr<RGBAColourVector<> > specularLight)
     {
-      fSpecularLight = specularLight;
+      fSpecularLight = move(specularLight);
     }
   }
 }

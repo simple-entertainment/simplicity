@@ -51,7 +51,7 @@ namespace simplicity
 
 				void dispose();
 
-				boost::shared_ptr<Camera> getCamera();
+				std::shared_ptr<Camera> getCamera();
 
 				std::string getDescription();
 

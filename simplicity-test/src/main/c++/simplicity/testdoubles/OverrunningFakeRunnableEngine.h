@@ -50,11 +50,11 @@ namespace simplicity
 			 */
 			virtual ~OverrunningFakeRunnableEngine();
 
-			void addEntities(std::vector<boost::shared_ptr<Entity> > entities);
+			void addEntities(std::vector<std::shared_ptr<Entity> > entities);
 
-			void addEntity(boost::shared_ptr<Entity> entity);
+			void addEntity(std::shared_ptr<Entity> entity);
 
-			boost::shared_ptr<EngineInput> advance(const boost::shared_ptr<EngineInput> input);
+			std::shared_ptr<EngineInput> advance(const std::shared_ptr<EngineInput> input);
 
 			void destroy();
 
@@ -110,7 +110,7 @@ namespace simplicity
 			 * to test over-running the frequency.
 			 * </p>
 			 */
-			static const double FRACTION_OF_FREQUENCY_TO_WAIT = 1.5;
+			static const double FRACTION_OF_FREQUENCY_TO_WAIT;
 
 			/**
 			 * <p>
@@ -124,7 +124,7 @@ namespace simplicity
 			 * The number of milliseconds in a second.
 			 * </p>
 			 */
-			static const double MILLISECONDS_IN_A_SECOND = 1000.0;
+			static const double MILLISECONDS_IN_A_SECOND;
 
 			/**
 			 * <p>

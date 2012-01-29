@@ -21,7 +21,6 @@
 
 #include "SimpleOpenGLRenderer.h"
 
-using namespace boost;
 using namespace boost::math::constants;
 using namespace simplicity::model_constants;
 
@@ -80,7 +79,7 @@ namespace simplicity
     void
     SimpleOpenGLRenderer::renderModel(const GLUCapsule& capsule)
     {
-      RGBAColourVector<float>& color(capsule.getColour());
+      RGBAColourVector<>& color(capsule.getColour());
       glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
       gluCylinder(gluNewQuadric(), capsule.getRadius(), capsule.getRadius(), capsule.getLength(), capsule.getSlices(),
@@ -90,7 +89,7 @@ namespace simplicity
       {
         gluSphere(gluNewQuadric(), capsule.getRadius(), capsule.getSlices(), capsule.getSlices());
 
-        SimpleTransformationMatrix44<float> transformation;
+        SimpleTransformationMatrix44<> transformation;
         transformation.getTranslation()->translateZ(capsule.getLength());
 
         glMultMatrixf(transformation.getRawData());
@@ -103,7 +102,7 @@ namespace simplicity
     void
     SimpleOpenGLRenderer::renderModel(const GLUCylinder& cylinder)
     {
-      RGBAColourVector<float>& color(cylinder.getColour());
+      RGBAColourVector<>& color(cylinder.getColour());
       glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
       gluCylinder(gluNewQuadric(), cylinder.getRadius(), cylinder.getRadius(), cylinder.getLength(), cylinder.getSlices(),
@@ -111,8 +110,8 @@ namespace simplicity
 
       glPushMatrix();
       {
-        SimpleTransformationMatrix44<float> transformation;
-        transformation.rotate(pi<float> (), SimpleTranslationVector4<float> (0.0f, 1.0f, 0.0f, 1.0f));
+        SimpleTransformationMatrix44<> transformation;
+        transformation.rotate(pi<float> (), SimpleTranslationVector4<> (0.0f, 1.0f, 0.0f, 1.0f));
 
         glMultMatrixf(transformation.getRawData());
 
@@ -122,7 +121,7 @@ namespace simplicity
 
       glPushMatrix();
       {
-        SimpleTransformationMatrix44<float> transformation;
+        SimpleTransformationMatrix44<> transformation;
         transformation.getTranslation()->translateZ(cylinder.getLength());
 
         glMultMatrixf(transformation.getRawData());
@@ -135,7 +134,7 @@ namespace simplicity
     void
     SimpleOpenGLRenderer::renderModel(const GLUSphere& sphere)
     {
-      RGBAColourVector<float>& color(sphere.getColour());
+      RGBAColourVector<>& color(sphere.getColour());
       glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
       gluSphere(gluNewQuadric(), sphere.getRadius(), sphere.getSlices(), sphere.getStacks());
@@ -144,7 +143,7 @@ namespace simplicity
     void
     SimpleOpenGLRenderer::renderModel(const GLUTorus& torus)
     {
-      RGBAColourVector<float>& color(torus.getColour());
+      RGBAColourVector<>& color(torus.getColour());
       glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
       glutSolidTorus(torus.getInnerRadius(), torus.getOuterRadius(), torus.getSlices(), torus.getStacks());

@@ -68,8 +68,8 @@ namespace simplicity
 		void BlendingOpenGLRendererDemo::init()
 		{
 			fRenderingEngine.setClearingColour(
-				shared_ptr < SimpleRGBAColourVector4<float>
-					> (new SimpleRGBAColourVector4<float>(0.95f, 0.95f, 0.95f, 1.0f)));
+				shared_ptr < SimpleRGBAColourVector4<>
+					> (new SimpleRGBAColourVector4<>(0.95f, 0.95f, 0.95f, 1.0f)));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
@@ -91,11 +91,11 @@ namespace simplicity
 
 			shared_ptr<SimpleNode> renderingPass2Root(new SimpleNode);
 			shared_ptr<SimpleModelNode> torusNode(new SimpleModelNode);
-			torusNode->getTransformation().translate(SimpleTranslationVector4<float>(0.0f, -2.0f, 0.0f, 1.0f));
+			torusNode->getTransformation().translate(SimpleTranslationVector4<>(0.0f, -2.0f, 0.0f, 1.0f));
 			shared_ptr<GLUTorus> torus(new GLUTorus);
 			torus->setColour(
-				shared_ptr < SimpleRGBAColourVector4<float>
-					> (new SimpleRGBAColourVector4<float>(1.0f, 1.0f, 1.0f, 0.5f)));
+				shared_ptr < SimpleRGBAColourVector4<>
+					> (new SimpleRGBAColourVector4<>(1.0f, 1.0f, 1.0f, 0.5f)));
 			torusNode->setModel(torus);
 			renderingPass2Root->addChild(torusNode);
 			scene->addNode(renderingPass2Root);

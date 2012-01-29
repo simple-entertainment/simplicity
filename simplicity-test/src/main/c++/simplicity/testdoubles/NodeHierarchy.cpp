@@ -14,7 +14,6 @@
 
 #include "NodeHierarchy.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity

@@ -35,7 +35,7 @@ namespace simplicity
          *
          * @param renderer The wrapped {@link simplicity::Renderer Renderer} that will execute with blending capabilities enabled.
          */
-        BlendingOpenGLRenderer(boost::shared_ptr<Renderer> renderer);
+        BlendingOpenGLRenderer(std::shared_ptr<Renderer> renderer);
 
         /**
          * <p>

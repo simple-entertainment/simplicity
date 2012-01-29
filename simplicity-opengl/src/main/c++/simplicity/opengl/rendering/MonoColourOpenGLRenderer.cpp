@@ -21,7 +21,6 @@
 
 #include "MonoColourOpenGLRenderer.h"
 
-using namespace boost;
 using namespace boost::math::constants;
 using namespace simplicity::model_constants;
 
@@ -30,7 +29,7 @@ namespace simplicity
   namespace opengl
   {
     MonoColourOpenGLRenderer::MonoColourOpenGLRenderer() :
-      fColour(shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float> )), fDrawingMode(FACES)
+      fColour(std::shared_ptr<SimpleRGBAColourVector4<> > (new SimpleRGBAColourVector4<> )), fDrawingMode(FACES)
     {
     }
 
@@ -44,7 +43,7 @@ namespace simplicity
       glPointSize(1.0f);
     }
 
-    shared_ptr<RGBAColourVector<float> >
+    std::shared_ptr<RGBAColourVector<> >
     MonoColourOpenGLRenderer::getColour() const
     {
       return (fColour);
@@ -95,7 +94,7 @@ namespace simplicity
       {
         gluSphere(gluNewQuadric(), capsule.getRadius(), capsule.getSlices(), capsule.getSlices());
 
-        SimpleTransformationMatrix44<float> transformation;
+        SimpleTransformationMatrix44<> transformation;
         transformation.getTranslation()->translateZ(capsule.getLength());
 
         glMultMatrixf(transformation.getRawData());
@@ -115,8 +114,8 @@ namespace simplicity
 
       glPushMatrix();
       {
-        SimpleTransformationMatrix44<float> transformation;
-        transformation.rotate(pi<float> (), SimpleTranslationVector4<float> (0.0f, 1.0f, 0.0f, 1.0f));
+        SimpleTransformationMatrix44<> transformation;
+        transformation.rotate(pi<float> (), SimpleTranslationVector4<> (0.0f, 1.0f, 0.0f, 1.0f));
 
         glMultMatrixf(transformation.getRawData());
 
@@ -126,7 +125,7 @@ namespace simplicity
 
       glPushMatrix();
       {
-        SimpleTransformationMatrix44<float> transformation;
+        SimpleTransformationMatrix44<> transformation;
         transformation.getTranslation()->translateZ(cylinder.getLength());
 
         glMultMatrixf(transformation.getRawData());
@@ -225,7 +224,7 @@ namespace simplicity
     }
 
     void
-    MonoColourOpenGLRenderer::setColour(shared_ptr<RGBAColourVector<float> > colour)
+    MonoColourOpenGLRenderer::setColour(std::shared_ptr<RGBAColourVector<> > colour)
     {
       fColour = colour;
     }

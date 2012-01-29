@@ -30,49 +30,49 @@ namespace simplicity
        * The first node of the hierarchy.
        * </p>
        */
-      boost::shared_ptr<simplicity::Node> node1;
+      std::shared_ptr<simplicity::Node> node1;
 
       /**
        * <p>
        * The second node of the hierarchy.
        * </p>
        */
-      boost::shared_ptr<simplicity::Node> node2;
+      std::shared_ptr<simplicity::Node> node2;
 
       /**
        * <p>
        * The third node of the hierarchy.
        * </p>
        */
-      boost::shared_ptr<simplicity::Node> node3;
+      std::shared_ptr<simplicity::Node> node3;
 
       /**
        * <p>
        * The fourth node of the hierarchy.
        * </p>
        */
-      boost::shared_ptr<simplicity::Node> node4;
+      std::shared_ptr<simplicity::Node> node4;
 
       /**
        * <p>
        * The fifth node of the hierarchy.
        * </p>
        */
-      boost::shared_ptr<simplicity::Node> node5;
+      std::shared_ptr<simplicity::Node> node5;
 
       /**
        * <p>
        * The sixth node of the hierarchy.
        * </p>
        */
-      boost::shared_ptr<simplicity::Node> node6;
+      std::shared_ptr<simplicity::Node> node6;
 
       /**
        * <p>
        * The seventh node of the hierarchy.
        * </p>
        */
-      boost::shared_ptr<simplicity::Node> node7;
+      std::shared_ptr<simplicity::Node> node7;
 
       /**
        * <p>

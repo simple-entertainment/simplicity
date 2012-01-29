@@ -13,12 +13,10 @@
 #include "../../math/SimpleTranslationVector4.h"
 #include "Capsule.h"
 
-using namespace boost;
-
 namespace simplicity
 {
   Capsule::Capsule() :
-    fCenter(new SimpleTranslationVector4<float> ), fColour(new SimpleRGBAColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)),
+    fCenter(new SimpleTranslationVector4<> ), fColour(new SimpleRGBAColourVector4<> (1.0f, 1.0f, 1.0f, 1.0f)),
         fLength(1.0f), fRadius(1.0f)
   {
   }
@@ -27,13 +25,13 @@ namespace simplicity
   {
   }
 
-  const TranslationVector<float>&
+  const TranslationVector<>&
   Capsule::getCenter() const
   {
     return (*fCenter);
   }
 
-  RGBAColourVector<float>&
+  RGBAColourVector<>&
   Capsule::getColour() const
   {
     return (*fColour);
@@ -52,7 +50,7 @@ namespace simplicity
   }
 
   void
-  Capsule::setColour(shared_ptr<RGBAColourVector<float> > colour)
+  Capsule::setColour(std::shared_ptr<RGBAColourVector<> > colour)
   {
     fColour = colour;
   }

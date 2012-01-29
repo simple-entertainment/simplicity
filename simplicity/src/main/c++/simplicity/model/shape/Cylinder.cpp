@@ -13,12 +13,10 @@
 #include "../../math/SimpleTranslationVector4.h"
 #include "Cylinder.h"
 
-using namespace boost;
-
 namespace simplicity
 {
   Cylinder::Cylinder() :
-    fCenter(new SimpleTranslationVector4<float> ), fColour(new SimpleRGBAColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)),
+    fCenter(new SimpleTranslationVector4<> ), fColour(new SimpleRGBAColourVector4<> (1.0f, 1.0f, 1.0f, 1.0f)),
         fLength(1.0f), fRadius(1.0f)
   {
   }
@@ -27,13 +25,13 @@ namespace simplicity
   {
   }
 
-  const TranslationVector<float>&
+  const TranslationVector<>&
   Cylinder::getCenter() const
   {
     return (*fCenter);
   }
 
-  RGBAColourVector<float>&
+  RGBAColourVector<>&
   Cylinder::getColour() const
   {
     return (*fColour);
@@ -52,7 +50,7 @@ namespace simplicity
   }
 
   void
-  Cylinder::setColour(shared_ptr<RGBAColourVector<float> > colour)
+  Cylinder::setColour(std::shared_ptr<RGBAColourVector<> > colour)
   {
     fColour = colour;
   }

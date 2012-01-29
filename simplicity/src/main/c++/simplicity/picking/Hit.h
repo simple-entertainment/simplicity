@@ -45,7 +45,7 @@ namespace simplicity
        * The {@link simplicity::Node Node} that most directly contains the primitive(s) that intersected the pick.
        * </p>
        */
-      boost::shared_ptr<Node> node;
+      std::shared_ptr<Node> node;
 
       /**
        * <p>
@@ -53,7 +53,7 @@ namespace simplicity
        * value is undefined.
        * </p>
        */
-      boost::shared_ptr<Model> primitive;
+      std::shared_ptr<Model> primitive;
   };
 }
 

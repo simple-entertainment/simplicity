@@ -18,7 +18,6 @@
 #include "../MockAgent.h"
 #include "SimpleAIEngineTest.h"
 
-using namespace boost;
 using namespace std;
 using namespace testing;
 
@@ -27,7 +26,7 @@ namespace simplicity
 	/**
 	 * <p>
 	 * Unit test the method
-	 * {@link simplicity::SimpleAIEngine#addEntities(std::vector<boost::shared_ptr<Entity> >) addEntities(std::vector<boost::shared_ptr<Entity> >)}.
+	 * {@link simplicity::SimpleAIEngine#addEntities(std::vector<std::shared_ptr<Entity> >) addEntities(std::vector<std::shared_ptr<Entity> >)}.
 	 * </p>
 	 */
 	TEST_F(SimpleAIEngineTest, addEntities)

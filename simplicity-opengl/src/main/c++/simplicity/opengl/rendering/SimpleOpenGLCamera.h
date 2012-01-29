@@ -128,16 +128,16 @@ namespace simplicity
         float
         getNearClippingDistance() const;
 
-        boost::shared_ptr<simplicity::Node>
+        std::shared_ptr<simplicity::Node>
         getNode() const;
 
-        boost::shared_ptr<simplicity::Camera>
+        std::shared_ptr<simplicity::Camera>
         getPickCamera(const simplicity::Pick pick) const;
 
         simplicity::Camera::ProjectionMode
         getProjectionMode() const;
 
-        const simplicity::TransformationMatrix<float>&
+        const simplicity::TransformationMatrix<>&
         getTransformation() const;
 
         void
@@ -171,7 +171,7 @@ namespace simplicity
         setNearClippingDistance(const float nearClippingDistance);
 
         void
-        setNode(boost::shared_ptr<simplicity::Node> node);
+        setNode(std::shared_ptr<simplicity::Node> node);
 
         void
         setProjectionMode(const simplicity::Camera::ProjectionMode projectionMode);
@@ -189,28 +189,28 @@ namespace simplicity
          * The default far clipping plane.
          * </p>
          */
-        static const float DEFAULT_FAR_CLIPPING_PLANE = 1000.0f;
+        static const float DEFAULT_FAR_CLIPPING_PLANE;
 
         /**
          * <p>
          * The default frame aspect ratio.
          * </p>
          */
-        static const float DEFAULT_FRAME_ASPECT_RATIO = 0.75f; // 3:4
+        static const float DEFAULT_FRAME_ASPECT_RATIO;
 
         /**
          * <p>
          * The default frame width.
          * </p>
          */
-        static const float DEFAULT_FRAME_WIDTH = 0.1f;
+        static const float DEFAULT_FRAME_WIDTH;
 
         /**
          * <p>
          * The default near clipping plane.
          * </p>
          */
-        static const float DEFAULT_NEAR_CLIPPING_PLANE = 0.1f;
+        static const float DEFAULT_NEAR_CLIPPING_PLANE;
 
         /**
          * <p>
@@ -264,7 +264,7 @@ namespace simplicity
          * The <code>Node</code> that represents this <code>SimpleJOGLCamera</code>'s location and orientation.
          * </p>
          */
-        boost::shared_ptr<simplicity::Node> fNode;
+        std::shared_ptr<simplicity::Node> fNode;
 
         /**
          * <p>
@@ -279,7 +279,7 @@ namespace simplicity
          * does not exist.
          * </p>
          */
-        mutable boost::scoped_ptr<simplicity::TransformationMatrix<float> > fTransformation;
+        mutable std::unique_ptr<simplicity::TransformationMatrix<> > fTransformation;
     };
   }
 }

@@ -13,7 +13,6 @@
 #include "IndexedVectorVG.h"
 #include "ModelConstants.h"
 
-using namespace boost;
 using namespace simplicity::model_constants;
 using namespace std;
 
@@ -33,33 +32,33 @@ namespace simplicity
   {
   }
 
-  shared_ptr<VertexGroup>
+  std::shared_ptr<VertexGroup>
   IndexedVectorVG::createEdgeSubsetVG(const int index)
   {
     return (createSubsetVG(index, 2));
   }
 
-  shared_ptr<VertexGroup>
+  std::shared_ptr<VertexGroup>
   IndexedVectorVG::createFaceSubsetVG(const int index)
   {
     return (createSubsetVG(index * VERTICES_IN_A_FACE, VERTICES_IN_A_FACE));
   }
 
-  shared_ptr<VertexGroup>
+  std::shared_ptr<VertexGroup>
   IndexedVectorVG::createSubsetVG(const int index, const int length)
   {
     int subsetStart = index * ITEMS_IN_CNV;
     int subsetLength = length * ITEMS_IN_CNV;
 
-    shared_ptr<vector<int> > subsetIndices(new vector<int> (fIndices->begin() + index, fIndices->begin() + index + length));
-    shared_ptr<vector<float> > subsetColours(
+    std::shared_ptr<vector<int> > subsetIndices(new vector<int> (fIndices->begin() + index, fIndices->begin() + index + length));
+    std::shared_ptr<vector<float> > subsetColours(
         new vector<float> (fColours->begin() + subsetStart, fColours->begin() + subsetStart + subsetLength));
-    shared_ptr<vector<float> > subsetNormals(
+    std::shared_ptr<vector<float> > subsetNormals(
         new vector<float> (fNormals->begin() + subsetStart, fNormals->begin() + subsetStart + subsetLength));
-    shared_ptr<vector<float> > subsetVertices(
+    std::shared_ptr<vector<float> > subsetVertices(
         new vector<float> (fVertices->begin() + subsetStart, fVertices->begin() + subsetStart + subsetLength));
 
-    shared_ptr<IndexedVectorVG> subsetVertexGroup(new IndexedVectorVG(*this));
+    std::shared_ptr<IndexedVectorVG> subsetVertexGroup(new IndexedVectorVG(*this));
     subsetVertexGroup->setIndexWithinParent(index);
     subsetVertexGroup->setIndices(subsetIndices);
     subsetVertexGroup->setColours(subsetColours);
@@ -69,17 +68,17 @@ namespace simplicity
     return (subsetVertexGroup);
   }
 
-  shared_ptr<VertexGroup>
+  std::shared_ptr<VertexGroup>
   IndexedVectorVG::createVertexSubsetVG(const int index)
   {
     return (createSubsetVG(index, 1));
   }
 
-  const TranslationVector<float>&
+  const TranslationVector<>&
   IndexedVectorVG::getCenter() const
   {
     // FIXME Memory leak!
-    SimpleTranslationVector4<float>* translation(new SimpleTranslationVector4<float> );
+    SimpleTranslationVector4<>* translation(new SimpleTranslationVector4<> );
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;
@@ -197,7 +196,7 @@ namespace simplicity
   }
 
   void
-  IndexedVectorVG::setColours(shared_ptr<vector<float> > colours)
+  IndexedVectorVG::setColours(std::shared_ptr<vector<float> > colours)
   {
     fColours = colours;
   }
@@ -209,19 +208,19 @@ namespace simplicity
   }
 
   void
-  IndexedVectorVG::setIndices(shared_ptr<vector<int> > indices)
+  IndexedVectorVG::setIndices(std::shared_ptr<vector<int> > indices)
   {
     fIndices = indices;
   }
 
   void
-  IndexedVectorVG::setNormals(shared_ptr<vector<float> > normals)
+  IndexedVectorVG::setNormals(std::shared_ptr<vector<float> > normals)
   {
     fNormals = normals;
   }
 
   void
-  IndexedVectorVG::setVertices(shared_ptr<vector<float> > vertices)
+  IndexedVectorVG::setVertices(std::shared_ptr<vector<float> > vertices)
   {
     fVertices = vertices;
   }

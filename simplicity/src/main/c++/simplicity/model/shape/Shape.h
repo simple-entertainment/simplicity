@@ -34,7 +34,7 @@ namespace simplicity
        *
        * @return The colour to render this <code>Shape</code> as.
        */
-      virtual RGBAColourVector<float>&
+      virtual RGBAColourVector<>&
       getColour() const = 0;
 
       /**
@@ -45,7 +45,7 @@ namespace simplicity
        * @param colour The colour to render this <code>Shape</code> as.
        */
       virtual void
-      setColour(boost::shared_ptr<RGBAColourVector<float> > colour) = 0;
+      setColour(std::shared_ptr<RGBAColourVector<> > colour) = 0;
   };
 }
 

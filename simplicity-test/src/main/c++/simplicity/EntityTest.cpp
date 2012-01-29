@@ -9,19 +9,17 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <boost/smart_ptr.hpp>
-
 #include "EntityTest.h"
 #include "MockComponent.h"
 
-using namespace boost;
+using namespace std;
 
 namespace simplicity
 {
   /**
    * <p>
    * Unit test the methods
-   * {@link simplicity::Entity#addComponent(boost::shared_ptr<Component>) addComponent(boost::shared_ptr<Component>)} and
+   * {@link simplicity::Entity#addComponent(std::shared_ptr<Component>) addComponent(std::shared_ptr<Component>)} and
    * {@link simplicity::Entity#removeComponent(const Component&) removeComponent(const Component&)}.
    * </p>
    */

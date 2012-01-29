@@ -35,7 +35,7 @@ namespace simplicity
          *
          * @param renderer The wrapped {@link simplicity::Renderer Renderer} that will actually render the {@link simplicity::Model Model}.
          */
-        StencilClearingOpenGLRenderer(boost::shared_ptr<Renderer> renderer);
+        StencilClearingOpenGLRenderer(std::shared_ptr<Renderer> renderer);
 
         /**
          * <p>

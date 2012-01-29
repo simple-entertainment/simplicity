@@ -20,8 +20,8 @@ namespace simplicity
   namespace opengl
   {
     CullFaceOpenGLRenderer::CullFaceOpenGLRenderer() :
-      fBackFaceColour(new SimpleRGBAColourVector4<float> (1.0f, 0.0f, 0.0f, 1.0f)),
-          fFrontFaceColour(new SimpleRGBAColourVector4<float> (0.0f, 1.0f, 0.0f, 1.0f))
+      fBackFaceColour(new SimpleRGBAColourVector4<> (1.0f, 0.0f, 0.0f, 1.0f)),
+          fFrontFaceColour(new SimpleRGBAColourVector4<> (0.0f, 1.0f, 0.0f, 1.0f))
     {
     }
 
@@ -47,7 +47,7 @@ namespace simplicity
       }
     }
 
-    shared_ptr<RGBAColourVector<float> >
+    std::shared_ptr<RGBAColourVector<> >
     CullFaceOpenGLRenderer::getBackFaceColour()
     {
       return (fBackFaceColour);
@@ -59,7 +59,7 @@ namespace simplicity
       return (fDrawingMode);
     }
 
-    shared_ptr<RGBAColourVector<float> >
+    std::shared_ptr<RGBAColourVector<> >
     CullFaceOpenGLRenderer::getFrontFaceColour()
     {
       return (fFrontFaceColour);
@@ -107,7 +107,7 @@ namespace simplicity
     }
 
     void
-    CullFaceOpenGLRenderer::setBackFaceColour(shared_ptr<RGBAColourVector<float> > backFaceColour)
+    CullFaceOpenGLRenderer::setBackFaceColour(std::shared_ptr<RGBAColourVector<> > backFaceColour)
     {
       fBackFaceColour = backFaceColour;
     }
@@ -119,7 +119,7 @@ namespace simplicity
     }
 
     void
-    CullFaceOpenGLRenderer::setFrontFaceColour(shared_ptr<RGBAColourVector<float> > frontFaceColour)
+    CullFaceOpenGLRenderer::setFrontFaceColour(std::shared_ptr<RGBAColourVector<> > frontFaceColour)
     {
       fFrontFaceColour = frontFaceColour;
     }

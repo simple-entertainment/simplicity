@@ -13,7 +13,6 @@
 
 #include "VectorVGTest.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity
@@ -158,7 +157,7 @@ namespace simplicity
   TEST_F(VectorVGTest, getCenter)
   {
     // Perform test.
-    const TranslationVector<float>& center(fTestObject.getCenter());
+    const TranslationVector<>& center(fTestObject.getCenter());
 
     // Verify test results.
     ASSERT_EQ(0.0f, center.getX());

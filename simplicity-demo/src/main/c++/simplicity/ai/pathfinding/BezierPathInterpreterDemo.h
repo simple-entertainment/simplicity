@@ -51,7 +51,7 @@ namespace simplicity
 
 			void dispose();
 
-			boost::shared_ptr<Camera> getCamera();
+			std::shared_ptr<Camera> getCamera();
 
 			std::string getDescription();
 
@@ -76,7 +76,7 @@ namespace simplicity
 			 * The shortest path for the demo.
 			 * </p>
 			 */
-			std::vector<boost::shared_ptr<const Node> > shortestPath;
+			std::vector<std::shared_ptr<const Node> > shortestPath;
 
 			/**
 			 * <p>

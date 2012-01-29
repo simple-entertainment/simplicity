@@ -17,12 +17,11 @@
 #include "../../math/SimpleTranslationVector4.h"
 #include "BezierPathInterpolator.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity
 {
-	BezierPathInterpolator::BezierPathInterpolator(vector<shared_ptr<const Node> > path) :
+	BezierPathInterpolator::BezierPathInterpolator(vector<std::shared_ptr<const Node> > path) :
 		path(path)
 	{
 	}
@@ -31,35 +30,28 @@ namespace simplicity
 	{
 	}
 
-	shared_ptr<TranslationVector<float> > BezierPathInterpolator::interpolate(const float time)
+	unique_ptr<TranslationVector<> > BezierPathInterpolator::interpolate(const float time)
 	{
-		shared_ptr<Vector<float> > b = interpolate(time, path.begin(), path.end());
-
-		// TODO Remove the dependency on concrete class SimpleTranslationVector4.
-		shared_ptr<TranslationVector<float> > bTranslation(new SimpleTranslationVector4<float>);
-		bTranslation->setX(b->getRawData()[0]);
-		bTranslation->setY(b->getRawData()[1]);
-		bTranslation->setZ(b->getRawData()[2]);
-
-		return bTranslation;
+		return interpolate(time, path.begin(), path.end());
 	}
 
-	shared_ptr<Vector<float> > BezierPathInterpolator::interpolate(const float time,
-		const vector<shared_ptr<const Node> >::iterator& begin, const vector<shared_ptr<const Node> >::iterator& end)
+	unique_ptr<TranslationVector<> > BezierPathInterpolator::interpolate(const float time,
+		const vector<std::shared_ptr<const Node> >::iterator& begin,
+		const vector<std::shared_ptr<const Node> >::iterator& end)
 	{
 		if (begin + 1 == end)
 		{
 			return (*begin)->getTransformation().getTranslation();
 		}
 
-		shared_ptr<Vector<float> > p0 = interpolate(time, begin, end - 1);
-		p0->scale(1 - time);
+		unique_ptr<TranslationVector<> > p0 = interpolate(time, begin, end - 1);
+		*p0 *= (1 - time);
 
-		shared_ptr<Vector<float> > p1 = interpolate(time, begin + 1, end);
-		p1->scale(time);
+		unique_ptr<TranslationVector<> > p1 = interpolate(time, begin + 1, end);
+		*p1 *= time;
 
-		p0->add(*p1);
+		*p0 += *p1;
 
-		return p0;
+		return move(p0);
 	}
 }

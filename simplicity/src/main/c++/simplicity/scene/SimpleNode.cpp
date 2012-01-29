@@ -14,18 +14,19 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include <stack>
+
 #include "../math/SimpleTransformationMatrix44.h"
 #include "SimpleNode.h"
 #include "PreorderNodeIterator.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity
 {
 	SimpleNode::SimpleNode() :
-		children(vector<shared_ptr<Node> >()), collidable(true), id(0), modifiable(true), transformation(
-			new SimpleTransformationMatrix44<float>), visible(true)
+		children(), collidable(true), id(0), modifiable(true), parent(), transformation(
+			new SimpleTransformationMatrix44<>()), visible(true)
 	{
 	}
 
@@ -33,26 +34,31 @@ namespace simplicity
 	{
 	}
 
-	void SimpleNode::addChild(shared_ptr<Node> child)
+	void SimpleNode::addChild(std::shared_ptr<Node> child)
 	{
 		children.push_back(child);
 		child->setParent(getThisShared());
 	}
 
-	const TransformationMatrix<float>& SimpleNode::getAbsoluteTransformation() const
+	unique_ptr<TransformationMatrix<> > SimpleNode::getAbsoluteTransformation() const
 	{
-		absoluteTransformation.reset(new SimpleTransformationMatrix44<float>);
-		Node* thisNode = (Node*) this;
-		shared_ptr<Node> currentNode(thisNode->getThisShared());
+		unique_ptr<SimpleTransformationMatrix44<> > absoluteTransformation(new SimpleTransformationMatrix44<>());
+		stack<std::shared_ptr<Node> > ancestors;
+		std::shared_ptr<Node> currentNode(((Node*) this)->getThisShared());
 
-		while (currentNode.get())
+		while (currentNode.get() != NULL)
 		{
-			absoluteTransformation->multiplyLeft(currentNode->getTransformation());
-
+			ancestors.push(currentNode);
 			currentNode = currentNode->getParent();
 		}
 
-		return (*absoluteTransformation);
+		while (!ancestors.empty())
+		{
+			*absoluteTransformation *= ancestors.top()->getTransformation();
+			ancestors.pop();
+		}
+
+		return move(absoluteTransformation);
 	}
 
 	// const BoundingVolume& SimpleNode::getBounds() const TODO
@@ -60,61 +66,61 @@ namespace simplicity
 	// 	return (bounds);
 	// }
 
-	const vector<shared_ptr<Node> >& SimpleNode::getChildren() const
+	const vector<std::shared_ptr<Node> >& SimpleNode::getChildren() const
 	{
-		return (children);
+		return children;
 	}
 
 	int SimpleNode::getId() const
 	{
-		return (id);
+		return id;
 	}
 
-	shared_ptr<Node> SimpleNode::getParent() const
+	std::shared_ptr<Node> SimpleNode::getParent() const
 	{
-		return (parent);
+		return parent;
 	}
 
-	TransformationMatrix<float>& SimpleNode::getTransformation() const
+	TransformationMatrix<>& SimpleNode::getTransformation() const
 	{
-		return (*transformation);
+		return *transformation;
 	}
 
 	bool SimpleNode::hasChildren() const
 	{
 		if (!children.empty())
 		{
-			return (true);
+			return true;
 		}
 
-		return (false);
+		return false;
 	}
 
 	bool SimpleNode::isAncestor(const Node& ancestor) const
 	{
-		shared_ptr<Node> currentParent(parent);
+		std::shared_ptr<Node> currentParent(parent);
 
-		while (currentParent)
+		while (currentParent.get())
 		{
 			if (currentParent.get() == &ancestor)
 			{
-				return (true);
+				return true;
 			}
 
 			currentParent = currentParent->getParent();
 		}
 
-		return (false);
+		return false;
 	}
 
 	bool SimpleNode::isCollidable() const
 	{
-		return (collidable);
+		return collidable;
 	}
 
 	bool SimpleNode::isModifiable() const
 	{
-		return (modifiable);
+		return modifiable;
 	}
 
 	bool SimpleNode::isSuccessor(const Node& successor) const
@@ -125,31 +131,29 @@ namespace simplicity
 		{
 			if (iterator.getNextNode().get() == &successor && &successor != this)
 			{
-				return (true);
+				return true;
 			}
 		}
 
-		return (false);
+		return false;
 	}
 
 	bool SimpleNode::isVisible() const
 	{
-		return (visible);
+		return visible;
 	}
 
 	void SimpleNode::removeChild(Node& child)
 	{
-		vector<shared_ptr<Node> >::iterator iterator = children.begin();
-		for (unsigned int index = 0; index < children.size(); index++)
-		{
-			if (children.at(index).get() == &child)
+		for (vector<std::shared_ptr<Node> >::iterator iterator = children.begin(); iterator != children.end();
+			iterator++)
+			{
+			if ((*iterator).get() == &child)
 			{
 				children.erase(iterator);
-				child.setParent(shared_ptr<Node>());
+				child.setParent(std::shared_ptr<Node>());
 				break;
 			}
-
-			iterator++;
 		}
 	}
 
@@ -168,14 +172,14 @@ namespace simplicity
 		this->modifiable = modifiable;
 	}
 
-	void SimpleNode::setParent(shared_ptr<Node> parent)
+	void SimpleNode::setParent(std::shared_ptr<Node> parent)
 	{
 		this->parent = parent;
 	}
 
-	void SimpleNode::setTransformation(shared_ptr<TransformationMatrix<float> > transformation)
+	void SimpleNode::setTransformation(unique_ptr<TransformationMatrix<> > transformation)
 	{
-		this->transformation = transformation;
+		this->transformation = move(transformation);
 	}
 
 	void SimpleNode::setVisible(const bool visible)

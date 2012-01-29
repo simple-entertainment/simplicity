@@ -20,7 +20,6 @@
 #include "NoPathException.h"
 #include "SimplePathFinder.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity

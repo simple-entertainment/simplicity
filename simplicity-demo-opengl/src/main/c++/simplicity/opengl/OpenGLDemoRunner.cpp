@@ -115,7 +115,7 @@ namespace simplicity
 	{
 	}
 
-	void OpenGLDemoRunner::addDemo(boost::shared_ptr<Demo> demo)
+	void OpenGLDemoRunner::addDemo(std::shared_ptr<Demo> demo)
 	{
 		demos.push_back(demo);
 	}

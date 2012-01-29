@@ -86,7 +86,7 @@ namespace simplicity
        *
        * @return The ambient component of this <code>Light</code>.
        */
-      virtual RGBAColourVector<float>&
+      virtual RGBAColourVector<>&
       getAmbientLight() const = 0;
 
       /**
@@ -96,7 +96,7 @@ namespace simplicity
        *
        * @return The diffuse component of this <code>Light</code>.
        */
-      virtual RGBAColourVector<float>&
+      virtual RGBAColourVector<>&
       getDiffuseLight() const = 0;
 
       /**
@@ -116,7 +116,7 @@ namespace simplicity
        *
        * @return The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
        */
-      virtual boost::shared_ptr<Node>
+      virtual std::shared_ptr<Node>
       getNode() const = 0;
 
       /**
@@ -126,7 +126,7 @@ namespace simplicity
        *
        * @return The specular component of this <code>Light</code>.
        */
-      virtual RGBAColourVector<float>&
+      virtual RGBAColourVector<>&
       getSpecularLight() const = 0;
 
       /**
@@ -137,7 +137,7 @@ namespace simplicity
        * @return The inverted absolute transformation for the <code>Node</code> of this <code>Light</code>, or a zero vector if the
        * <code>Node</code> does not exist.
        */
-      virtual const TransformationMatrix<float>&
+      virtual const TransformationMatrix<>&
       getTransformation() const = 0;
 
       /**
@@ -166,7 +166,7 @@ namespace simplicity
        * @param ambientLight The ambient component of this <code>Light</code>.
        */
       virtual void
-      setAmbientLight(boost::shared_ptr<RGBAColourVector<float> > ambientLight) = 0;
+      setAmbientLight(std::unique_ptr<RGBAColourVector<> > ambientLight) = 0;
 
       /**
        * <p>
@@ -176,7 +176,7 @@ namespace simplicity
        * @param diffuseLight The diffuse component of this <code>Light</code>.
        */
       virtual void
-      setDiffuseLight(boost::shared_ptr<RGBAColourVector<float> > diffuseLight) = 0;
+      setDiffuseLight(std::unique_ptr<RGBAColourVector<> > diffuseLight) = 0;
 
       /**
        * <p>
@@ -206,7 +206,7 @@ namespace simplicity
        * @param node The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
        */
       virtual void
-      setNode(boost::shared_ptr<Node> node) = 0;
+      setNode(std::shared_ptr<Node> node) = 0;
 
       /**
        * <p>
@@ -216,7 +216,7 @@ namespace simplicity
        * @param specularLight The specular component of this <code>Light</code>.
        */
       virtual void
-      setSpecularLight(boost::shared_ptr<RGBAColourVector<float> > specularLight) = 0;
+      setSpecularLight(std::unique_ptr<RGBAColourVector<> > specularLight) = 0;
   };
 }
 

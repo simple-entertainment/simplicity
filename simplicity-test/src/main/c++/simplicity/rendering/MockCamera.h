@@ -36,10 +36,10 @@ namespace simplicity
       MOCK_CONST_METHOD0(getFrameX, float());
       MOCK_CONST_METHOD0(getFrameY, float());
       MOCK_CONST_METHOD0(getNearClippingDistance, float());
-      MOCK_CONST_METHOD0(getNode, boost::shared_ptr<Node>());
-      MOCK_CONST_METHOD1(getPickCamera, boost::shared_ptr<Camera>(const Pick pick));
+      MOCK_CONST_METHOD0(getNode, std::shared_ptr<Node>());
+      MOCK_CONST_METHOD1(getPickCamera, std::shared_ptr<Camera>(const Pick pick));
       MOCK_CONST_METHOD0(getProjectionMode, ProjectionMode());
-      MOCK_CONST_METHOD0(getTransformation, const TransformationMatrix<float>&());
+      MOCK_CONST_METHOD0(getTransformation, const TransformationMatrix<>&());
       MOCK_METHOD0(init, void());
       MOCK_CONST_METHOD0(isInitialised, bool());
       MOCK_METHOD1(setFarClippingDistance, void(const float farClippingDistance));
@@ -50,7 +50,7 @@ namespace simplicity
       MOCK_METHOD1(setFrameY, void(const float frameY));
       MOCK_METHOD1(setInitialised, void(const bool isInitialised));
       MOCK_METHOD1(setNearClippingDistance, void(const float nearClippingDistance));
-      MOCK_METHOD1(setNode, void(boost::shared_ptr<Node> node));
+      MOCK_METHOD1(setNode, void(std::shared_ptr<Node> node));
       MOCK_METHOD1(setProjectionMode, void(const ProjectionMode projectionMode));
   };
 }

@@ -61,7 +61,7 @@ namespace simplicity
          *
          * @return The colour to render the {@link simplicity::Model Model} in.
          */
-        boost::shared_ptr<RGBAColourVector<float> >
+        std::shared_ptr<RGBAColourVector<> >
         getColour() const;
 
         DrawingMode
@@ -141,7 +141,7 @@ namespace simplicity
          * @param renderColour The colour to render the {@link com.se.simplicity.model.Model Model} in.
          */
         void
-        setColour(boost::shared_ptr<RGBAColourVector<float> > colour);
+        setColour(std::shared_ptr<RGBAColourVector<> > colour);
 
         void
         setDrawingMode(const DrawingMode mode);
@@ -152,7 +152,7 @@ namespace simplicity
          * The colour to render the {@link com.se.simplicity.model.Model Model} in.
          * </p>
          */
-        boost::shared_ptr<RGBAColourVector<float> > fColour;
+        std::shared_ptr<RGBAColourVector<> > fColour;
 
         /**
          * <p>

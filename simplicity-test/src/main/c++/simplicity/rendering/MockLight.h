@@ -29,20 +29,35 @@ namespace simplicity
   {
     public:
       MOCK_METHOD0(apply, void());
-      MOCK_CONST_METHOD0(getAmbientLight, RGBAColourVector<float>&());
-      MOCK_CONST_METHOD0(getDiffuseLight, RGBAColourVector<float>&());
+      MOCK_CONST_METHOD0(getAmbientLight, RGBAColourVector<>&());
+      MOCK_CONST_METHOD0(getDiffuseLight, RGBAColourVector<>&());
       MOCK_CONST_METHOD0(getLightingMode, LightingMode());
-      MOCK_CONST_METHOD0(getNode, boost::shared_ptr<Node>());
-      MOCK_CONST_METHOD0(getSpecularLight, RGBAColourVector<float>&());
-      MOCK_CONST_METHOD0(getTransformation, const TransformationMatrix<float>&());
+      MOCK_CONST_METHOD0(getNode, std::shared_ptr<Node>());
+      MOCK_CONST_METHOD0(getSpecularLight, RGBAColourVector<>&());
+      MOCK_CONST_METHOD0(getTransformation, const TransformationMatrix<>&());
       MOCK_METHOD0(init, void());
       MOCK_CONST_METHOD0(isInitialised, bool());
-      MOCK_METHOD1(setAmbientLight, void(boost::shared_ptr<RGBAColourVector<float> > ambientLight));
-      MOCK_METHOD1(setDiffuseLight, void(boost::shared_ptr<RGBAColourVector<float> > ambientLight));
+      //MOCK_METHOD1(setAmbientLight, void(std::unique_ptr<RGBAColourVector<> > ambientLight));
+      //MOCK_METHOD1(setDiffuseLight, void(std::unique_ptr<RGBAColourVector<> > ambientLight));
       MOCK_METHOD1(setLightingMode, void(const LightingMode lightingMode));
       MOCK_METHOD1(setInitialised, void(const bool isInitialised));
-      MOCK_METHOD1(setNode, void(boost::shared_ptr<Node> node));
-      MOCK_METHOD1(setSpecularLight, void(boost::shared_ptr<RGBAColourVector<float> > ambientLight));
+      MOCK_METHOD1(setNode, void(std::shared_ptr<Node> node));
+      //MOCK_METHOD1(setSpecularLight, void(std::unique_ptr<RGBAColourVector<> > ambientLight));
+
+	  // TODO Mock this properly when it is supported!
+      void setAmbientLight(std::unique_ptr<RGBAColourVector<> > ambientLight)
+      {
+      }
+
+	  // TODO Mock this properly when it is supported!
+      void setDiffuseLight(std::unique_ptr<RGBAColourVector<> > ambientLight)
+      {
+      }
+
+      // TODO Mock this properly when it is supported!
+      void setSpecularLight(std::unique_ptr<RGBAColourVector<> > ambientLight)
+      {
+      }
   };
 }
 

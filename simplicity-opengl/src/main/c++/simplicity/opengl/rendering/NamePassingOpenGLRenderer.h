@@ -35,7 +35,7 @@ namespace simplicity
          * Creates an instance of <code>NamePassingOpenGLRenderer</code>.
          * </p>
          */
-        NamePassingOpenGLRenderer(boost::shared_ptr<Renderer> renderer);
+        NamePassingOpenGLRenderer(std::shared_ptr<Renderer> renderer);
 
         /**
          * <p>
@@ -60,7 +60,7 @@ namespace simplicity
          * The middle-man used to pass the name from this renderer to the first {@link simplicity::NamedRenderer NamedRenderer} down the chain.
          * </p>
          */
-        boost::shared_ptr<Renderer> fMiddleMan;
+        std::shared_ptr<Renderer> fMiddleMan;
     };
   }
 }

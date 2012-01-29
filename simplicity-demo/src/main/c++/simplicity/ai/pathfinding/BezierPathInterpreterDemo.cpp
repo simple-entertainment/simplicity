@@ -27,7 +27,6 @@
 
 #include "BezierPathInterpreterDemo.h"
 
-using namespace boost;
 using namespace simplicity::opengl;
 using namespace std;
 
@@ -119,7 +118,7 @@ namespace simplicity
 			for (unsigned int index = 0; index <= interpolationCount; index++)
 			{
 				shared_ptr<Node> pathNode(new SimpleNode);
-				pathNode->getTransformation().setTranslation(pathInterpolator.interpolate(index / interpolationCount));
+				pathNode->getTransformation().setTranslation(*pathInterpolator.interpolate(index / interpolationCount));
 
 				path.push_back(pathNode);
 			}

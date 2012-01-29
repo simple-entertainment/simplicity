@@ -49,7 +49,7 @@ namespace simplicity
 			 * @return The shortest path between two {@link simplicity::Node Node}s connected via a network of
 			 * {@link simplicity::Node Node}s.
 			 */
-			virtual std::vector<boost::shared_ptr<const Node> > findShortestPath() = 0;
+			virtual std::vector<std::shared_ptr<const Node> > findShortestPath() = 0;
 
 			/**
 			 * <p>
@@ -58,7 +58,7 @@ namespace simplicity
 			 *
 			 * @return The {@link simplicity::Node Node}s that are 'open' after the last step that was performed.
 			 */
-			virtual std::vector<boost::shared_ptr<const Node> > getOpenNodes() = 0;
+			virtual std::vector<std::shared_ptr<const Node> > getOpenNodes() = 0;
 
 			/**
 			 * <p>

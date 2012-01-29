@@ -49,22 +49,22 @@ namespace simplicity
         void
         apply();
 
-        simplicity::RGBAColourVector<float>&
+        simplicity::RGBAColourVector<>&
         getAmbientLight() const;
 
-        simplicity::RGBAColourVector<float>&
+        simplicity::RGBAColourVector<>&
         getDiffuseLight() const;
 
         simplicity::Light::LightingMode
         getLightingMode() const;
 
-        boost::shared_ptr<simplicity::Node>
+        std::shared_ptr<simplicity::Node>
         getNode() const;
 
-        simplicity::RGBAColourVector<float>&
+        simplicity::RGBAColourVector<>&
         getSpecularLight() const;
 
-        const simplicity::TransformationMatrix<float>&
+        const simplicity::TransformationMatrix<>&
         getTransformation() const;
 
         void
@@ -74,10 +74,10 @@ namespace simplicity
         isInitialised() const;
 
         void
-        setAmbientLight(boost::shared_ptr<simplicity::RGBAColourVector<float> > ambientLight);
+        setAmbientLight(std::unique_ptr<simplicity::RGBAColourVector<> > ambientLight);
 
         void
-        setDiffuseLight(boost::shared_ptr<simplicity::RGBAColourVector<float> > diffuseLight);
+        setDiffuseLight(std::unique_ptr<simplicity::RGBAColourVector<> > diffuseLight);
 
         void
         setInitialised(const bool isInitialised);
@@ -86,10 +86,10 @@ namespace simplicity
         setLightingMode(const simplicity::Light::LightingMode lightingMode);
 
         void
-        setNode(boost::shared_ptr<simplicity::Node> node);
+        setNode(std::shared_ptr<simplicity::Node> node);
 
         void
-        setSpecularLight(boost::shared_ptr<simplicity::RGBAColourVector<float> > specularLight);
+        setSpecularLight(std::unique_ptr<simplicity::RGBAColourVector<> > specularLight);
 
       private:
         /**
@@ -104,14 +104,14 @@ namespace simplicity
          * The ambient component.
          * </p>
          */
-        boost::shared_ptr<simplicity::RGBAColourVector<float> > fAmbientLight;
+        std::shared_ptr<simplicity::RGBAColourVector<> > fAmbientLight;
 
         /**
          * <p>
          * The diffuse component.
          * </p>
          */
-        boost::shared_ptr<simplicity::RGBAColourVector<float> > fDiffuseLight;
+        std::shared_ptr<simplicity::RGBAColourVector<> > fDiffuseLight;
 
         /**
          * <p>
@@ -132,14 +132,14 @@ namespace simplicity
          * The node that represents this <code>SimpleOpenGLLight</code>'s location and orientation of this light.
          * </p>
          */
-        boost::shared_ptr<simplicity::Node> fNode;
+        std::shared_ptr<simplicity::Node> fNode;
 
         /**
          * <p>
          * The specular component.
          * </p>
          */
-        boost::shared_ptr<simplicity::RGBAColourVector<float> > fSpecularLight;
+        std::shared_ptr<simplicity::RGBAColourVector<> > fSpecularLight;
 
         /**
          * <p>
@@ -147,7 +147,7 @@ namespace simplicity
          * not exist.
          * </p>
          */
-        mutable boost::scoped_ptr<simplicity::TransformationMatrix<float> > fTransformation;
+        mutable std::unique_ptr<simplicity::TransformationMatrix<> > fTransformation;
     };
   }
 }

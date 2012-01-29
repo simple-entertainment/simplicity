@@ -33,7 +33,7 @@ namespace simplicity
 	class SimpleNodeTest : public testing::Test
 	{
 		protected:
-			boost::shared_ptr<SimpleNode> fTestObject;
+			std::shared_ptr<SimpleNode> fTestObject;
 
 			/**
 			 * <p>

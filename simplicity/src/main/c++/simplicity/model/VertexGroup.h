@@ -36,7 +36,7 @@ namespace simplicity
        *
        * @return A subset <code>VertexGroup</code> that contains only the edge at the given index within this <code>VertexGroup</code>.
        */
-      virtual boost::shared_ptr<VertexGroup>
+      virtual std::shared_ptr<VertexGroup>
       createEdgeSubsetVG(const int index) = 0;
 
       /**
@@ -48,7 +48,7 @@ namespace simplicity
        *
        * @return A subset <code>VertexGroup</code> that contains only the face at the given index within this <code>VertexGroup</code>.
        */
-      virtual boost::shared_ptr<VertexGroup>
+      virtual std::shared_ptr<VertexGroup>
       createFaceSubsetVG(const int index) = 0;
 
       /**
@@ -63,7 +63,7 @@ namespace simplicity
        * @return A subset <code>VertexGroup</code> that contains the given length of consecutive vertices starting at the given index within this
        * <code>VertexGroup</code>.
        */
-      virtual boost::shared_ptr<VertexGroup>
+      virtual std::shared_ptr<VertexGroup>
       createSubsetVG(const int index, const int length) = 0;
 
       /**
@@ -75,7 +75,7 @@ namespace simplicity
        *
        * @return A subset <code>VertexGroup</code> that contains only the vertex at the given index within this <code>VertexGroup</code>.
        */
-      virtual boost::shared_ptr<VertexGroup>
+      virtual std::shared_ptr<VertexGroup>
       createVertexSubsetVG(const int index) = 0;
 
       /**

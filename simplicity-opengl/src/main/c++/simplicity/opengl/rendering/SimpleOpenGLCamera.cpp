@@ -15,12 +15,21 @@
 
 #include "SimpleOpenGLCamera.h"
 
-using namespace boost;
+using namespace std;
 
 namespace simplicity
 {
+
   namespace opengl
   {
+	const float SimpleOpenGLCamera::DEFAULT_FAR_CLIPPING_PLANE = 1000.0f;
+
+	const float SimpleOpenGLCamera::DEFAULT_FRAME_ASPECT_RATIO = 0.75f; // 3:4
+
+	const float SimpleOpenGLCamera::DEFAULT_FRAME_WIDTH = 0.1f;
+
+	const float SimpleOpenGLCamera::DEFAULT_NEAR_CLIPPING_PLANE = 0.1f;
+
     log4cpp::Category& SimpleOpenGLCamera::fLogger = log4cpp::Category::getInstance("simplicity_opengl::SimpleOpenGLCamera");
 
     SimpleOpenGLCamera::SimpleOpenGLCamera() :
@@ -87,17 +96,17 @@ namespace simplicity
       return (fNearClippingDistance);
     }
 
-    shared_ptr<Node>
+    std::shared_ptr<Node>
     SimpleOpenGLCamera::getNode() const
     {
       return (fNode);
     }
 
-    shared_ptr<Camera>
+    std::shared_ptr<Camera>
     SimpleOpenGLCamera::getPickCamera(const Pick pick) const
     {
       // Create the Camera to pick with.
-      shared_ptr<Camera> pickCamera(new SimpleOpenGLCamera);
+    	std::shared_ptr<Camera> pickCamera(new SimpleOpenGLCamera);
       pickCamera->setFarClippingDistance(getFarClippingDistance());
       pickCamera->setFrameAspectRatio(getFrameAspectRatio());
       pickCamera->setFrameWidth(pick.width);
@@ -115,18 +124,16 @@ namespace simplicity
       return (fProjectionMode);
     }
 
-    const TransformationMatrix<float>&
+    const TransformationMatrix<>&
     SimpleOpenGLCamera::getTransformation() const
     {
       if (!fNode)
       {
-        fTransformation.reset(new SimpleTransformationMatrix44<float> );
+        fTransformation.reset(new SimpleTransformationMatrix44<> );
         return (*fTransformation);
       }
 
-      fTransformation.reset(
-          new SimpleTransformationMatrix44<float> (
-              dynamic_cast<const SimpleMatrix44<float>&> (fNode->getAbsoluteTransformation()).getData()));
+      fTransformation.reset(new SimpleTransformationMatrix44<> (fNode->getAbsoluteTransformation()->getData()));
 
       try
       {
@@ -238,7 +245,7 @@ namespace simplicity
     }
 
     void
-    SimpleOpenGLCamera::setNode(shared_ptr<Node> node)
+    SimpleOpenGLCamera::setNode(std::shared_ptr<Node> node)
     {
       fNode = node;
     }

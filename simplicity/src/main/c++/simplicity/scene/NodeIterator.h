@@ -48,8 +48,7 @@ namespace simplicity
 			 * @return The next <code>Node</code> in the iteration or <code>null</code> if there are no more
 			 * <code>Node</code>s to be retrieved by the iteration.
 			 */
-			virtual boost::shared_ptr<Node>
-			getNextNode() = 0;
+			virtual std::shared_ptr<Node> getNextNode() = 0;
 
 			/**
 			 * <p>
@@ -59,8 +58,7 @@ namespace simplicity
 			 * @return True if a <code>Node</code> will be retrieved by the next call to {@link #getNextNode()}, false
 			 * otherwise.
 			 */
-			virtual bool
-			hasMoreNodes() const = 0;
+			virtual bool hasMoreNodes() const = 0;
 
 			/**
 			 * <p>
@@ -68,8 +66,7 @@ namespace simplicity
 			 * root <code>Node</code> of the graph.
 			 * </p>
 			 */
-			virtual void
-			reset() = 0;
+			virtual void reset() = 0;
 	};
 }
 

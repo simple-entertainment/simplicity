@@ -16,7 +16,7 @@
 namespace simplicity
 {
   Sphere::Sphere() :
-    fCenter(new SimpleTranslationVector4<float> ), fColour(new SimpleRGBAColourVector4<float> (1.0f, 1.0f, 1.0f, 1.0f)),
+    fCenter(new SimpleTranslationVector4<> ), fColour(new SimpleRGBAColourVector4<> (1.0f, 1.0f, 1.0f, 1.0f)),
         fRadius(1.0f)
   {
   }
@@ -25,13 +25,13 @@ namespace simplicity
   {
   }
 
-  const TranslationVector<float>&
+  const TranslationVector<>&
   Sphere::getCenter() const
   {
     return (*fCenter);
   }
 
-  RGBAColourVector<float>&
+  RGBAColourVector<>&
   Sphere::getColour() const
   {
     return (*fColour);
@@ -44,7 +44,7 @@ namespace simplicity
   }
 
   void
-  Sphere::setColour(shared_ptr<RGBAColourVector<float> > colour)
+  Sphere::setColour(std::shared_ptr<RGBAColourVector<> > colour)
   {
     fColour = colour;
   }

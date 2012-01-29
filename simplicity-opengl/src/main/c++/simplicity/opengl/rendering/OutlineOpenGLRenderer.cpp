@@ -13,12 +13,12 @@
 
 #include "OutlineOpenGLRenderer.h"
 
-using namespace boost;
-
 namespace simplicity
 {
   namespace opengl
   {
+	  const float OutlineOpenGLRenderer::DEFAULT_OUTLINE_WIDTH = 3.0f;
+
     OutlineOpenGLRenderer::OutlineOpenGLRenderer() :
       fMonoColour(new MonoColourOpenGLRenderer), fOutlineWidth(DEFAULT_OUTLINE_WIDTH)
     {
@@ -41,7 +41,7 @@ namespace simplicity
       return (fMonoColour->getDrawingMode());
     }
 
-    boost::shared_ptr<RGBAColourVector<float> >
+    std::shared_ptr<RGBAColourVector<> >
     OutlineOpenGLRenderer::getOutlineColour() const
     {
       return (fMonoColour->getColour());
@@ -129,7 +129,7 @@ namespace simplicity
     }
 
     void
-    OutlineOpenGLRenderer::setOutlineColour(boost::shared_ptr<RGBAColourVector<float> > outlineColour)
+    OutlineOpenGLRenderer::setOutlineColour(std::shared_ptr<RGBAColourVector<> > outlineColour)
     {
       fMonoColour->setColour(outlineColour);
     }

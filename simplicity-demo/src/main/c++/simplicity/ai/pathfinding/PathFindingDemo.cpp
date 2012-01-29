@@ -29,7 +29,6 @@
 
 #include "PathFindingDemo.h"
 
-using namespace boost;
 using namespace boost::math::constants;
 using namespace simplicity::opengl;
 using namespace std;
@@ -48,7 +47,7 @@ namespace simplicity
 			{
 				shared_ptr<Node> tileNode = createGreySquareOnXZPlane(darkTile);
 				tileNode->getTransformation().translate(
-					SimpleTranslationVector4<float>(-5.0f + column, 0.0f, 5.0f - row, 1.0f));
+					SimpleTranslationVector4<>(-5.0f + column, 0.0f, 5.0f - row, 1.0f));
 				parentNode->addChild(tileNode);
 
 				darkTile = !darkTile;
@@ -64,9 +63,9 @@ namespace simplicity
 		camera->setFrameAspectRatio(1.0f);
 
 		shared_ptr<SimpleNode> cameraNode(new SimpleNode);
-		cameraNode->getTransformation().translate(SimpleTranslationVector4<float>(0.0f, 10.0f, 1.0f, 1.0f));
+		cameraNode->getTransformation().translate(SimpleTranslationVector4<>(0.0f, 10.0f, 1.0f, 1.0f));
 		cameraNode->getTransformation().rotate(pi<float>() * 1.5f,
-			SimpleTranslationVector4<float>(1.0f, 0.0f, 0.0f, 1.0f));
+			SimpleTranslationVector4<>(1.0f, 0.0f, 0.0f, 1.0f));
 		camera->setNode(cameraNode);
 		parentNode->addChild(cameraNode);
 
@@ -77,15 +76,15 @@ namespace simplicity
 	{
 		shared_ptr<SimpleOpenGLLight> light(new SimpleOpenGLLight);
 		light->setAmbientLight(
-			shared_ptr<SimpleRGBAColourVector4<float>
-				> (new SimpleRGBAColourVector4<float>(0.25f, 0.25f, 0.25f, 1.0f)));
+			unique_ptr<SimpleRGBAColourVector4<>
+				> (new SimpleRGBAColourVector4<>(0.25f, 0.25f, 0.25f, 1.0f)));
 		light->setDiffuseLight(
-			shared_ptr<SimpleRGBAColourVector4<float>
-				> (new SimpleRGBAColourVector4<float>(0.25f, 0.25f, 0.25f, 1.0f)));
+			unique_ptr<SimpleRGBAColourVector4<>
+				> (new SimpleRGBAColourVector4<>(0.25f, 0.25f, 0.25f, 1.0f)));
 		light->setSpecularLight(
-			shared_ptr<SimpleRGBAColourVector4<float> > (new SimpleRGBAColourVector4<float>(0.1f, 0.1f, 0.1f, 1.0f)));
+			unique_ptr<SimpleRGBAColourVector4<> > (new SimpleRGBAColourVector4<>(0.1f, 0.1f, 0.1f, 1.0f)));
 		shared_ptr<SimpleNode> lightNode(new SimpleNode);
-		lightNode->getTransformation().translate(SimpleTranslationVector4<float>(0.0f, 10.0f, 0.0f, 1.0f));
+		lightNode->getTransformation().translate(SimpleTranslationVector4<>(0.0f, 10.0f, 0.0f, 1.0f));
 		light->setNode(lightNode);
 		parentNode->addChild(lightNode);
 
@@ -98,11 +97,11 @@ namespace simplicity
 
 		if (dark)
 		{
-			squareNode = createSquareOnXZPlane(SimpleRGBAColourVector4<float>(0.75f, 0.75f, 0.75f, 1.0f));
+			squareNode = createSquareOnXZPlane(SimpleRGBAColourVector4<>(0.75f, 0.75f, 0.75f, 1.0f));
 		}
 		else
 		{
-			squareNode = createSquareOnXZPlane(SimpleRGBAColourVector4<float>(0.25f, 0.25f, 0.25f, 1.0f));
+			squareNode = createSquareOnXZPlane(SimpleRGBAColourVector4<>(0.25f, 0.25f, 0.25f, 1.0f));
 		}
 
 		return (squareNode);
@@ -122,9 +121,9 @@ namespace simplicity
 				{
 					shared_ptr<Entity> obstacle(new Entity);
 					shared_ptr<Node> obstacleNode(
-						createSquareOnXZPlane(SimpleRGBAColourVector4<float>(1.0f, 0.0f, 0.0f, 1.0f)));
+						createSquareOnXZPlane(SimpleRGBAColourVector4<>(1.0f, 0.0f, 0.0f, 1.0f)));
 					obstacleNode->getTransformation().translate(
-						SimpleTranslationVector4<float>(-5.0f + column, 1.0f, 5.0f - row, 1.0f));
+						SimpleTranslationVector4<>(-5.0f + column, 1.0f, 5.0f - row, 1.0f));
 					obstacle->addComponent(obstacleNode);
 					obstacles.push_back(obstacle);
 
@@ -140,7 +139,7 @@ namespace simplicity
 		return (obstacles);
 	}
 
-	shared_ptr<Node> PathFindingDemo::createSquareOnXZPlane(const RGBAColourVector<float>& colour)
+	shared_ptr<Node> PathFindingDemo::createSquareOnXZPlane(const RGBAColourVector<>& colour)
 	{
 		shared_ptr<ModelNode> squareNode(new SimpleModelNode);
 		shared_ptr<VectorVG> squareModel(new VectorVG);
@@ -178,12 +177,12 @@ namespace simplicity
 			shared_ptr<Entity> possiblePathEntity(new Entity);
 
 			shared_ptr<Node> possiblePathNode = createSquareOnXZPlane(
-				SimpleRGBAColourVector4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+				SimpleRGBAColourVector4<>(0.0f, 0.0f, 1.0f, 1.0f));
 
-			shared_ptr<SimpleTransformationMatrix44<float> > transformation(
-				new SimpleTransformationMatrix44<float>(
-					static_cast<SimpleTransformationMatrix44<float>&>(openNodes.at(index)->getTransformation())));
-			possiblePathNode->setTransformation(transformation);
+			unique_ptr<SimpleTransformationMatrix44<> > transformation(
+				new SimpleTransformationMatrix44<>(
+					static_cast<SimpleTransformationMatrix44<>&>(openNodes.at(index)->getTransformation())));
+			possiblePathNode->setTransformation(move(transformation));
 
 			possiblePathEntity->addComponent(possiblePathNode);
 			renderingEngine.addEntity(possiblePathEntity);
@@ -207,15 +206,15 @@ namespace simplicity
 
 			shared_ptr<Sphere> waypointModel(new GLUSphere);
 			waypointModel->setColour(
-				shared_ptr<RGBAColourVector<float> > (new SimpleRGBAColourVector4<float>(0.0f, 1.0f, 0.0f, 1.0f)));
+				shared_ptr<RGBAColourVector<> > (new SimpleRGBAColourVector4<>(0.0f, 1.0f, 0.0f, 1.0f)));
 			waypointModel->setRadius(0.1f);
 			waypointNode->setModel(waypointModel);
 
-			shared_ptr<SimpleTransformationMatrix44<float> > transformation(
-				new SimpleTransformationMatrix44<float>(
-					static_cast<SimpleTransformationMatrix44<float>&>(path.at(index)->getTransformation())));
-			waypointNode->setTransformation(transformation);
-			waypointNode->getTransformation().translate(SimpleTranslationVector4<float>(0.5f, 0.0f, 0.5f, 1.0f));
+			unique_ptr<SimpleTransformationMatrix44<> > transformation(
+				new SimpleTransformationMatrix44<>(
+					static_cast<SimpleTransformationMatrix44<>&>(path.at(index)->getTransformation())));
+			waypointNode->setTransformation(move(transformation));
+			waypointNode->getTransformation().translate(SimpleTranslationVector4<>(0.5f, 0.0f, 0.5f, 1.0f));
 		}
 
 		pathEntity->addComponent(pathRootNode);
@@ -232,7 +231,7 @@ namespace simplicity
 			{
 				shared_ptr<Node> meshNode(new SimpleNode);
 				meshNode->getTransformation().translate(
-					SimpleTranslationVector4<float>(-5.0f + column, 0.0f, 5.0f - row, 1.0f));
+					SimpleTranslationVector4<>(-5.0f + column, 0.0f, 5.0f - row, 1.0f));
 				navigationMesh.push_back(meshNode);
 			}
 		}

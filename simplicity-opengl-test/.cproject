@@ -29,10 +29,11 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-opengl/src/main/c++}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-test/src/main/c++}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity/src/main/c++}&quot;"/>
+									<listOptionValue builtIn="false" value="/home/simplegsb/workspaces/googlemock-read-only/include"/>
+									<listOptionValue builtIn="false" value="/home/simplegsb/workspaces/googlemock-read-only/gtest/include"/>
 								</option>
-								<option id="gnu.cpp.compiler.option.preprocessor.def.1594895451" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="GTEST_LINKED_AS_SHARED_LIBRARY=1"/>
-								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.1594895451" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
+								<option id="gnu.cpp.compiler.option.other.other.1135474125" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=c++0x" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1104639903" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.539126829" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
@@ -50,13 +51,14 @@
 								<option id="gnu.cpp.link.option.libs.402660821" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="simplicity-opengl"/>
 									<listOptionValue builtIn="false" value="simplicity"/>
-									<listOptionValue builtIn="false" value="boost_system"/>
 									<listOptionValue builtIn="false" value="gmock"/>
-									<listOptionValue builtIn="false" value="gtest"/>
+									<listOptionValue builtIn="false" value="log4cpp"/>
+									<listOptionValue builtIn="false" value="boost_system"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1272003622" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-opengl/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="/home/simplegsb/workspaces/googlemock-read-only/make"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.498587983" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -138,6 +140,9 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.172604752" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1903471406" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release">
+								<option id="gnu.cpp.link.option.paths.2061671215" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="/usr/lib"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.183329000" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -158,7 +163,9 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="simplicity_opengl_test.cdt.managedbuild.target.gnu.exe.2114090725" name="Executable" projectType="cdt.managedbuild.target.gnu.exe"/>
 	</storageModule>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="1">
+		<resource resourceType="PROJECT" workspacePath="/simplicity-opengl-test"/>
+	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">

@@ -53,7 +53,7 @@ namespace simplicity
 
 			void dispose();
 
-			boost::shared_ptr<Camera> getCamera();
+			std::shared_ptr<Camera> getCamera();
 
 			std::string getDescription();
 
@@ -71,7 +71,7 @@ namespace simplicity
 			 * The path finder for the demo.
 			 * </p>
 			 */
-			boost::shared_ptr<PathFinder> pathFinder;
+			std::shared_ptr<PathFinder> pathFinder;
 
 			/**
 			 * <p>

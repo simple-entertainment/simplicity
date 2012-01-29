@@ -12,8 +12,6 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
-#include <boost/smart_ptr.hpp>
-
 #include "../Entity.h"
 #include "EngineInput.h"
 
@@ -49,7 +47,7 @@ namespace simplicity
        * @param entities The <code>Entity</code>s whose components are to be processed by this <code>Engine</code>.
        */
       virtual void
-      addEntities(std::vector<boost::shared_ptr<Entity> > entities) = 0;
+      addEntities(std::vector<std::shared_ptr<Entity> > entities) = 0;
 
       /**
        * <p>
@@ -59,7 +57,7 @@ namespace simplicity
        * @param entity The <code>Entity</code> whose components are to be processed by this <code>Engine</code>.
        */
       virtual void
-      addEntity(boost::shared_ptr<Entity> entity) = 0;
+      addEntity(std::shared_ptr<Entity> entity) = 0;
 
       /**
        * <p>
@@ -72,8 +70,8 @@ namespace simplicity
        *
        * @return The <code>EngineInput</code> for the next {@link com.se.simplicity.engine.Engine Engine} in the chain.
        */
-      virtual boost::shared_ptr<EngineInput>
-      advance(const boost::shared_ptr<EngineInput> input) = 0;
+      virtual std::shared_ptr<EngineInput>
+      advance(const std::shared_ptr<EngineInput> input) = 0;
 
       /**
        * <p>

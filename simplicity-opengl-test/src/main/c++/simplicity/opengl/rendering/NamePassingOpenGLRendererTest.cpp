@@ -16,7 +16,7 @@
 
 #include "NamePassingOpenGLRendererTest.h"
 
-using namespace boost;
+using namespace std;
 using namespace testing;
 
 namespace simplicity

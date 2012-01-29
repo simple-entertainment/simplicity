@@ -55,7 +55,7 @@ namespace simplicity
          *
          * @return The colour to render the back side of the faces with.
          */
-        boost::shared_ptr<RGBAColourVector<float> >
+        std::shared_ptr<RGBAColourVector<> >
         getBackFaceColour();
 
         DrawingMode
@@ -68,7 +68,7 @@ namespace simplicity
          *
          * @return The colour to render the front side of the faces with.
          */
-        boost::shared_ptr<RGBAColourVector<float> >
+        std::shared_ptr<RGBAColourVector<> >
         getFrontFaceColour();
 
         void
@@ -85,7 +85,7 @@ namespace simplicity
          * @param backFaceColour The colour to render the back side of the faces with.
          */
         void
-        setBackFaceColour(boost::shared_ptr<RGBAColourVector<float> > backFaceColour);
+        setBackFaceColour(std::shared_ptr<RGBAColourVector<> > backFaceColour);
 
         void
         setDrawingMode(const DrawingMode mode);
@@ -98,7 +98,7 @@ namespace simplicity
          * @param frontFaceColour The colour to render the front side of the faces with.
          */
         void
-        setFrontFaceColour(boost::shared_ptr<RGBAColourVector<float> > frontFaceColour);
+        setFrontFaceColour(std::shared_ptr<RGBAColourVector<> > frontFaceColour);
 
       private:
         /**
@@ -106,7 +106,7 @@ namespace simplicity
          * The colour to render the back side of the faces with.
          * </p>
          */
-        boost::shared_ptr<RGBAColourVector<float> > fBackFaceColour;
+        std::shared_ptr<RGBAColourVector<> > fBackFaceColour;
 
         /**
          * <p>
@@ -134,7 +134,7 @@ namespace simplicity
          * The colour to render the front side of the faces with.
          * </p>
          */
-        boost::shared_ptr<RGBAColourVector<float> > fFrontFaceColour;
+        std::shared_ptr<RGBAColourVector<> > fFrontFaceColour;
 
         /**
          * <p>

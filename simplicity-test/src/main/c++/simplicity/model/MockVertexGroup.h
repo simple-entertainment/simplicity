@@ -28,11 +28,11 @@ namespace simplicity
   class MockVertexGroup : public VertexGroup
   {
     public:
-      MOCK_METHOD1(createEdgeSubsetVG, boost::shared_ptr<VertexGroup>(const int index));
-      MOCK_METHOD1(createFaceSubsetVG, boost::shared_ptr<VertexGroup>(const int index));
-      MOCK_METHOD2(createSubsetVG, boost::shared_ptr<VertexGroup>(const int index, const int length));
-      MOCK_METHOD1(createVertexSubsetVG, boost::shared_ptr<VertexGroup>(const int index));
-      MOCK_CONST_METHOD0(getCenter, const TranslationVector<float>&());
+      MOCK_METHOD1(createEdgeSubsetVG, std::shared_ptr<VertexGroup>(const int index));
+      MOCK_METHOD1(createFaceSubsetVG, std::shared_ptr<VertexGroup>(const int index));
+      MOCK_METHOD2(createSubsetVG, std::shared_ptr<VertexGroup>(const int index, const int length));
+      MOCK_METHOD1(createVertexSubsetVG, std::shared_ptr<VertexGroup>(const int index));
+      MOCK_CONST_METHOD0(getCenter, const TranslationVector<>&());
       MOCK_CONST_METHOD0(getIndexWithinParent, int());
       MOCK_CONST_METHOD0(getParent, VertexGroup*());
       MOCK_CONST_METHOD0(getVertexCount, int());

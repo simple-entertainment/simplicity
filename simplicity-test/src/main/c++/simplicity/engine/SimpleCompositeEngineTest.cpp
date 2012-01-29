@@ -15,7 +15,7 @@
 #include "MockEngineInput.h"
 #include "SimpleCompositeEngineTest.h"
 
-using namespace boost;
+using namespace std;
 using namespace testing;
 
 namespace simplicity

@@ -32,6 +32,8 @@ namespace simplicity
 {
 	log4cpp::Category& RunnableEngine::logger = log4cpp::Category::getInstance("simplicity::RunnableEngine");
 
+	const double RunnableEngine::MILLISECONDS_IN_A_SECOND = 1000.0;
+
 	RunnableEngine::RunnableEngine() :
 		preferredFrequency(1), sleepTime(0L)
 	{
@@ -80,7 +82,7 @@ namespace simplicity
 
 			try
 			{
-				advance(shared_ptr<EngineInput>());
+				advance(std::shared_ptr<EngineInput>());
 			}
 			catch (std::exception& e)
 			{

@@ -19,8 +19,6 @@
 
 #include <vector>
 
-#include <boost/enable_shared_from_this.hpp>
-
 #include "../rendering/Camera.h"
 #include "../rendering/Light.h"
 
@@ -33,7 +31,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class Scene : public boost::enable_shared_from_this<Scene>
+	class Scene : public std::enable_shared_from_this<Scene>
 	{
 		public:
 			/**
@@ -54,7 +52,7 @@ namespace simplicity
 			 * @param camera The <code>Camera</code>s that can be used to view this <code>Scene</code> from specific
 			 * angles.
 			 */
-			virtual void addCamera(boost::shared_ptr<Camera> camera) = 0;
+			virtual void addCamera(std::shared_ptr<Camera> camera) = 0;
 
 			/**
 			 * <p>
@@ -63,7 +61,7 @@ namespace simplicity
 			 *
 			 * @param light The <code>Light</code> that can be used to illuminate this <code>Scene</code>.
 			 */
-			virtual void addLight(boost::shared_ptr<Light> light) = 0;
+			virtual void addLight(std::shared_ptr<Light> light) = 0;
 
 			/**
 			 * <p>
@@ -78,7 +76,7 @@ namespace simplicity
 			 *
 			 * @param node The <code>Node</code> to add.
 			 */
-			virtual void addNode(boost::shared_ptr<Node> node) = 0;
+			virtual void addNode(std::shared_ptr<Node> node) = 0;
 
 			/**
 			 * <p>
@@ -94,7 +92,7 @@ namespace simplicity
 			 * @param node The <code>Node</code> to add.
 			 * @param parent The <code>Node</code> within the <code>Scene</code> to add the <code>Node</code> under.
 			 */
-			virtual void addNode(boost::shared_ptr<Node> node, Node& parent) = 0;
+			virtual void addNode(std::shared_ptr<Node> node, Node& parent) = 0;
 
 			/**
 			 * <p>
@@ -104,7 +102,7 @@ namespace simplicity
 			 *
 			 * @return The <code>Camera</code>s that can be used to view this <code>Scene</code> from specific angles.
 			 */
-			virtual std::vector<boost::shared_ptr<Camera> > getCameras() const = 0;
+			virtual std::vector<std::shared_ptr<Camera> > getCameras() const = 0;
 
 			/**
 			 * <p>
@@ -113,7 +111,7 @@ namespace simplicity
 			 *
 			 * @return The <code>Light</code>s that can be used to illuminate this <code>Scene</code>.
 			 */
-			virtual std::vector<boost::shared_ptr<Light> > getLights() const = 0;
+			virtual std::vector<std::shared_ptr<Light> > getLights() const = 0;
 
 			/**
 			 * <p>
@@ -124,25 +122,25 @@ namespace simplicity
 			 *
 			 * @return The <code>Node</code> with the given ID.
 			 */
-			virtual boost::shared_ptr<Node> getNode(const int id) const = 0;
+			virtual std::shared_ptr<Node> getNode(const int id) const = 0;
 
 			/**
 			 * Retrieves the root {@link simplicity::Node Node} of this <code>Scene</code>.
 			 *
 			 * @return The root <code>Node</code> of this <code>Scene</code>.
 			 */
-			virtual boost::shared_ptr<Node> getRoot() const = 0;
+			virtual std::shared_ptr<Node> getRoot() const = 0;
 
 			/**
 			 * <p>
 			 * Obtain a shared pointer to this <code>Scene</code>.
 			 * </p>
 			 */
-			boost::shared_ptr<Scene> getThisShared()
+			std::shared_ptr<Scene> getThisShared()
 			{
 				return (shared_from_this());
 			}
-			boost::shared_ptr<const Scene> getThisShared() const
+			std::shared_ptr<const Scene> getThisShared() const
 			{
 				return (shared_from_this());
 			}
@@ -150,13 +148,13 @@ namespace simplicity
 			/**
 			 * <p>
 			 * Retrieves the {@link simplicity::Node Node}s that were added to this <code>Scene</code> using the
-			 * {@link #addNode(boost::shared_ptr<Node>)} method.
+			 * {@link #addNode(std::shared_ptr<Node>)} method.
 			 * </p>
 			 *
 			 * @return The <code>Node</code>s that were added to this <code>Scene</code> using the
-			 * {@link #addNode(boost::shared_ptr<Node>)} method.
+			 * {@link #addNode(std::shared_ptr<Node>)} method.
 			 */
-			virtual std::vector<boost::shared_ptr<Node> > getTopLevelNodes() const = 0;
+			virtual std::vector<std::shared_ptr<Node> > getTopLevelNodes() const = 0;
 
 			/**
 			 * <p>
@@ -188,7 +186,7 @@ namespace simplicity
 			 * @param cameras The <code>Camera</code>s that can be used to view this <code>Scene</code> from specific
 			 * angles.
 			 */
-			virtual void setCameras(std::vector<boost::shared_ptr<Camera> > cameras) = 0;
+			virtual void setCameras(std::vector<std::shared_ptr<Camera> > cameras) = 0;
 
 			/**
 			 * <p>
@@ -197,7 +195,7 @@ namespace simplicity
 			 *
 			 * @param lights The <code>Light</code>s that can be used to illuminate this <code>Scene</code>.
 			 */
-			virtual void setLights(std::vector<boost::shared_ptr<Light> > const lights) = 0;
+			virtual void setLights(std::vector<std::shared_ptr<Light> > const lights) = 0;
 	};
 }
 

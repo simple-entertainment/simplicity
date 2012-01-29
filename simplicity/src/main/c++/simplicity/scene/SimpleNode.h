@@ -45,19 +45,19 @@ namespace simplicity
 			 */
 			virtual ~SimpleNode();
 
-			void addChild(boost::shared_ptr<Node> child);
+			void addChild(std::shared_ptr<Node> child);
 
-			const TransformationMatrix<float>& getAbsoluteTransformation() const;
+			std::unique_ptr<TransformationMatrix<> > getAbsoluteTransformation() const;
 
 			// const BoundingVolume& getBounds() const; TODO
 
-			const std::vector<boost::shared_ptr<Node> >& getChildren() const;
+			const std::vector<std::shared_ptr<Node> >& getChildren() const;
 
 			int getId() const;
 
-			boost::shared_ptr<Node> getParent() const;
+			std::shared_ptr<Node> getParent() const;
 
-			TransformationMatrix<float>& getTransformation() const;
+			TransformationMatrix<>& getTransformation() const;
 
 			bool hasChildren() const;
 
@@ -79,20 +79,13 @@ namespace simplicity
 
 			void setModifiable(const bool modifiable);
 
-			void setParent(boost::shared_ptr<Node> parent);
+			void setParent(std::shared_ptr<Node> parent);
 
-			void setTransformation(boost::shared_ptr<TransformationMatrix<float> > transformation);
+			void setTransformation(std::unique_ptr<TransformationMatrix<> > transformation);
 
 			void setVisible(const bool visible);
 
 		private:
-			/**
-			 * <p>
-			 * This <code>SimpleNode</code>'s absolute position and orientation.
-			 * </p>
-			 */
-			mutable boost::scoped_ptr<TransformationMatrix<float> > absoluteTransformation;
-
 			/**
 			 * <p>
 			 * A volume containing all the {@link simplicity::Model Model}s within the subgraph of which this
@@ -100,14 +93,13 @@ namespace simplicity
 			 * </p>
 			 */
 			// BoundingVolume& bounds; TODO
-
 			/**
 			 * <p>
 			 * The <code>SimpleNode</code>s directly below this <code>SimpleNode</code> in a
 			 * {@link simplicity::Scene Scene}.
 			 * </p>
 			 */
-			std::vector<boost::shared_ptr<Node> > children;
+			std::vector<std::shared_ptr<Node> > children;
 
 			/**
 			 * <p>
@@ -139,14 +131,14 @@ namespace simplicity
 			 * {@link simplicity::Scene Scene}.
 			 * </p>
 			 */
-			boost::shared_ptr<Node> parent;
+			std::shared_ptr<Node> parent;
 
 			/**
 			 * <p>
 			 * This <code>SimpleNode</code>'s relative position and orientation.
 			 * </p>
 			 */
-			boost::shared_ptr<TransformationMatrix<float> > transformation;
+			std::unique_ptr<TransformationMatrix<> > transformation;
 
 			/**
 			 * <p>

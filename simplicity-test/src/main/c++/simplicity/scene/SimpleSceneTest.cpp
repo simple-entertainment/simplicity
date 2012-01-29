@@ -19,7 +19,6 @@
 #include "../testdoubles/NodeHierarchy.h"
 #include "SimpleSceneTest.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity

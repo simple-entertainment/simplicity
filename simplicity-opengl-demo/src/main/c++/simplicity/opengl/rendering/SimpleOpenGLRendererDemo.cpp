@@ -24,7 +24,6 @@
 
 #include "SimpleOpenGLRendererDemo.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity
@@ -67,8 +66,8 @@ namespace simplicity
 		void SimpleOpenGLRendererDemo::init()
 		{
 			fRenderingEngine.setClearingColour(
-				shared_ptr < SimpleRGBAColourVector4<float>
-					> (new SimpleRGBAColourVector4<float>(0.95f, 0.95f, 0.95f, 1.0f)));
+				shared_ptr < SimpleRGBAColourVector4<>
+					> (new SimpleRGBAColourVector4<>(0.95f, 0.95f, 0.95f, 1.0f)));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);

@@ -38,11 +38,11 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1441972423" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.582182006" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity/src/main/c++}&quot;"/>
+									<listOptionValue builtIn="false" value="/home/simplegsb/workspaces/googlemock-read-only/include"/>
+									<listOptionValue builtIn="false" value="/home/simplegsb/workspaces/googlemock-read-only/gtest/include"/>
 								</option>
-								<option id="gnu.cpp.compiler.option.preprocessor.def.1449016224" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="GTEST_LINKED_AS_SHARED_LIBRARY=1"/>
-								</option>
-								<option id="gnu.cpp.compiler.option.other.other.1120162193" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.1449016224" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
+								<option id="gnu.cpp.compiler.option.other.other.1120162193" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=c++0x" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.328695401" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1274831441" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
@@ -60,6 +60,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1304558005" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.paths.187507574" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="/home/simplegsb/workspaces/googlemock-read-only/make"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.75905231" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="simplicity"/>
@@ -67,7 +68,6 @@
 									<listOptionValue builtIn="false" value="boost_date_time"/>
 									<listOptionValue builtIn="false" value="boost_system"/>
 									<listOptionValue builtIn="false" value="gmock"/>
-									<listOptionValue builtIn="false" value="gtest"/>
 									<listOptionValue builtIn="false" value="log4cpp"/>
 								</option>
 								<option id="gnu.cpp.link.option.shared.90330033" name="Shared (-shared)" superClass="gnu.cpp.link.option.shared" value="false" valueType="boolean"/>

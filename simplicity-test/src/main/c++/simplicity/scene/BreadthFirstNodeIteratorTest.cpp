@@ -19,7 +19,7 @@
 #include "../testdoubles/NodeHierarchy.h"
 #include "BreadthFirstNodeIteratorTest.h"
 
-using namespace boost;
+using namespace std;
 
 namespace simplicity
 {

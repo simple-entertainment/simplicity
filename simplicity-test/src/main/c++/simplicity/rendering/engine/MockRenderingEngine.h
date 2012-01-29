@@ -28,31 +28,31 @@ namespace simplicity
   class MockRenderingEngine : public RenderingEngine
   {
     public:
-      MOCK_METHOD1(addEntities, void(std::vector<boost::shared_ptr<Entity> > entities));
-      MOCK_METHOD1(addEntity, void(boost::shared_ptr<Entity> entity));
-      MOCK_METHOD1(addRenderer, void(boost::shared_ptr<Renderer> renderer));
-      MOCK_METHOD2(addRenderer, void(const int index, boost::shared_ptr<Renderer> renderer));
-      MOCK_METHOD1(advance, boost::shared_ptr<EngineInput>(const boost::shared_ptr<EngineInput> input));
+      MOCK_METHOD1(addEntities, void(std::vector<std::shared_ptr<Entity> > entities));
+      MOCK_METHOD1(addEntity, void(std::shared_ptr<Entity> entity));
+      MOCK_METHOD1(addRenderer, void(std::shared_ptr<Renderer> renderer));
+      MOCK_METHOD2(addRenderer, void(const int index, std::shared_ptr<Renderer> renderer));
+      MOCK_METHOD1(advance, std::shared_ptr<EngineInput>(const std::shared_ptr<EngineInput> input));
       MOCK_CONST_METHOD0(clearsBeforeRender, bool());
       MOCK_METHOD0(destroy, void());
-      MOCK_CONST_METHOD0(getCamera, boost::shared_ptr<Camera>());
-      MOCK_CONST_METHOD0(getClearingColour, boost::shared_ptr<RGBAColourVector<float> >());
+      MOCK_CONST_METHOD0(getCamera, std::shared_ptr<Camera>());
+      MOCK_CONST_METHOD0(getClearingColour, std::shared_ptr<RGBAColourVector<> >());
       MOCK_CONST_METHOD0(getPreferredFrequency, int());
-      MOCK_CONST_METHOD1(getRendererRoot, boost::shared_ptr<Node>(const Renderer& renderer));
-      MOCK_CONST_METHOD0(getRenderers, std::vector<boost::shared_ptr<Renderer> >());
-      MOCK_CONST_METHOD0(getScene, boost::shared_ptr<Scene>());
+      MOCK_CONST_METHOD1(getRendererRoot, std::shared_ptr<Node>(const Renderer& renderer));
+      MOCK_CONST_METHOD0(getRenderers, std::vector<std::shared_ptr<Renderer> >());
+      MOCK_CONST_METHOD0(getScene, std::shared_ptr<Scene>());
       MOCK_CONST_METHOD0(getViewportHeight, int());
       MOCK_CONST_METHOD0(getViewportWidth, int());
       MOCK_METHOD0(init, void());
       MOCK_METHOD1(removeRenderer, void(const Renderer& renderer));
       MOCK_METHOD2(renderSceneGraph, void(Renderer& renderer, const Node& root));
       MOCK_METHOD0(reset, void());
-      MOCK_METHOD1(setCamera, void(boost::shared_ptr<Camera> camera));
-      MOCK_METHOD1(setClearingColour, void(boost::shared_ptr<RGBAColourVector<float> > clearingColour));
+      MOCK_METHOD1(setCamera, void(std::shared_ptr<Camera> camera));
+      MOCK_METHOD1(setClearingColour, void(std::shared_ptr<RGBAColourVector<> > clearingColour));
       MOCK_METHOD1(setClearsBeforeRender, void(const bool clearsBeforeRender));
       MOCK_METHOD1(setPreferredFrequency, void(const int preferredFrequency));
-      MOCK_METHOD2(setRendererRoot, void(const Renderer& renderer, boost::shared_ptr<Node> root));
-      MOCK_METHOD1(setScene, void(boost::shared_ptr<Scene> scene));
+      MOCK_METHOD2(setRendererRoot, void(const Renderer& renderer, std::shared_ptr<Node> root));
+      MOCK_METHOD1(setScene, void(std::shared_ptr<Scene> scene));
       MOCK_METHOD1(setViewportHeight, void(const int viewportHeight));
       MOCK_METHOD1(setViewportWidth, void(const int viewportWidth));
   };

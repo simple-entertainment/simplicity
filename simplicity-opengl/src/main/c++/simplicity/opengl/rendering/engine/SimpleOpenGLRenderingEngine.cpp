@@ -20,10 +20,10 @@
 #include <simplicity/common/shared_equals_raw.h>
 #include <simplicity/math/SimpleRGBAColourVector4.h>
 #include <simplicity/scene/PreorderNodeIterator.h>
+#include <simplicity/SEInvalidOperationException.h>
 
 #include "SimpleOpenGLRenderingEngine.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity
@@ -34,7 +34,7 @@ namespace simplicity
 			"simplicity::opengl::SimpleOpenGLRenderingEngine");
 
 		SimpleOpenGLRenderingEngine::SimpleOpenGLRenderingEngine() :
-			clearingColour(new SimpleRGBAColourVector4<float>(0.0f, 0.0f, 0.0f, 1.0f)), clearsBuffers(true), initialised(
+			clearingColour(new SimpleRGBAColourVector4<>(0.0f, 0.0f, 0.0f, 1.0f)), clearsBuffers(true), initialised(
 				false), viewportHeight(600), viewportWidth(800)
 		{
 		}
@@ -43,7 +43,7 @@ namespace simplicity
 		{
 		}
 
-		void SimpleOpenGLRenderingEngine::addEntities(std::vector<boost::shared_ptr<Entity> > entities)
+		void SimpleOpenGLRenderingEngine::addEntities(std::vector<std::shared_ptr<Entity> > entities)
 		{
 			for (unsigned int index = 0; index < entities.size(); index++)
 			{
@@ -51,11 +51,11 @@ namespace simplicity
 			}
 		}
 
-		void SimpleOpenGLRenderingEngine::addEntity(boost::shared_ptr<Entity> entity)
+		void SimpleOpenGLRenderingEngine::addEntity(std::shared_ptr<Entity> entity)
 		{
 			for (unsigned int index = 0; index < entity->getComponents().size(); index++)
 			{
-				shared_ptr<Node> node(dynamic_pointer_cast<Node>(entity->getComponents().at(index)));
+				std::shared_ptr<Node> node(dynamic_pointer_cast<Node>(entity->getComponents().at(index)));
 
 				if (node.get())
 				{
@@ -64,7 +64,7 @@ namespace simplicity
 			}
 		}
 
-		void SimpleOpenGLRenderingEngine::addRenderer(const int index, shared_ptr<Renderer> renderer)
+		void SimpleOpenGLRenderingEngine::addRenderer(const int index, std::shared_ptr<Renderer> renderer)
 		{
 			renderers.insert(renderers.begin() + index, renderer);
 
@@ -74,12 +74,12 @@ namespace simplicity
 			}
 		}
 
-		void SimpleOpenGLRenderingEngine::addRenderer(shared_ptr<Renderer> renderer)
+		void SimpleOpenGLRenderingEngine::addRenderer(std::shared_ptr<Renderer> renderer)
 		{
 			addRenderer(renderers.size(), renderer);
 		}
 
-		shared_ptr<EngineInput> SimpleOpenGLRenderingEngine::advance(const shared_ptr<EngineInput> input)
+		std::shared_ptr<EngineInput> SimpleOpenGLRenderingEngine::advance(const std::shared_ptr<EngineInput> input)
 		{
 			if (!camera.get())
 			{
@@ -116,7 +116,7 @@ namespace simplicity
 				}
 			}
 
-			return shared_ptr<EngineInput>();
+			return std::shared_ptr<EngineInput>();
 		}
 
 		void SimpleOpenGLRenderingEngine::backtrack(const int backtracks)
@@ -148,22 +148,22 @@ namespace simplicity
 			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		}
 
-		shared_ptr<Camera> SimpleOpenGLRenderingEngine::getCamera() const
+		std::shared_ptr<Camera> SimpleOpenGLRenderingEngine::getCamera() const
 		{
 			return camera;
 		}
 
-		shared_ptr<RGBAColourVector<float> > SimpleOpenGLRenderingEngine::getClearingColour() const
+		std::shared_ptr<RGBAColourVector<> > SimpleOpenGLRenderingEngine::getClearingColour() const
 		{
 			return clearingColour;
 		}
 
-		shared_ptr<Node> SimpleOpenGLRenderingEngine::getRendererRoot(const Renderer& renderer) const
+		std::shared_ptr<Node> SimpleOpenGLRenderingEngine::getRendererRoot(const Renderer& renderer) const
 		{
-			shared_ptr<Node> rendererRoot;
+			std::shared_ptr<Node> rendererRoot;
 
 			shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
-			shared_ptr<Renderer> sharedRenderer(*find_if(renderers.begin(), renderers.end(), sharedEqualsRaw));
+			std::shared_ptr<Renderer> sharedRenderer(*find_if(renderers.begin(), renderers.end(), sharedEqualsRaw));
 
 			if (sharedRenderer != *renderers.end())
 			{
@@ -173,12 +173,12 @@ namespace simplicity
 			return rendererRoot;
 		}
 
-		vector<shared_ptr<Renderer> > SimpleOpenGLRenderingEngine::getRenderers() const
+		vector<std::shared_ptr<Renderer> > SimpleOpenGLRenderingEngine::getRenderers() const
 		{
 			return renderers;
 		}
 
-		shared_ptr<Scene> SimpleOpenGLRenderingEngine::getScene() const
+		std::shared_ptr<Scene> SimpleOpenGLRenderingEngine::getScene() const
 		{
 			return scene;
 		}
@@ -225,7 +225,7 @@ namespace simplicity
 		void SimpleOpenGLRenderingEngine::removeRenderer(const Renderer& renderer)
 		{
 			shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
-			vector<shared_ptr<Renderer> >::iterator sharedRenderer(
+			vector<std::shared_ptr<Renderer> >::iterator sharedRenderer(
 				find_if(renderers.begin(), renderers.end(), sharedEqualsRaw));
 
 			renderers.erase(sharedRenderer);
@@ -244,7 +244,7 @@ namespace simplicity
 				}
 
 				shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
-				shared_ptr<Renderer> sharedRenderer(*find_if(renderers.begin(), renderers.end(), sharedEqualsRaw));
+				std::shared_ptr<Renderer> sharedRenderer(*find_if(renderers.begin(), renderers.end(), sharedEqualsRaw));
 				renderSceneGraph(renderer, *rendererRoots.find(sharedRenderer)->second);
 			}
 			glPopMatrix();
@@ -254,7 +254,7 @@ namespace simplicity
 		{
 			// For every node in the traversal of the scene.
 			PreorderNodeIterator iterator(root);
-			shared_ptr<Node> currentNode;
+			std::shared_ptr<Node> currentNode;
 
 			while (iterator.hasMoreNodes())
 			{
@@ -287,12 +287,12 @@ namespace simplicity
 			backtrack(iterator.getBacktracksToNextNode());
 		}
 
-		void SimpleOpenGLRenderingEngine::setCamera(shared_ptr<Camera> camera)
+		void SimpleOpenGLRenderingEngine::setCamera(std::shared_ptr<Camera> camera)
 		{
 			this->camera = camera;
 		}
 
-		void SimpleOpenGLRenderingEngine::setClearingColour(shared_ptr<RGBAColourVector<float> > clearingColour)
+		void SimpleOpenGLRenderingEngine::setClearingColour(std::shared_ptr<RGBAColourVector<> > clearingColour)
 		{
 			this->clearingColour = clearingColour;
 
@@ -304,15 +304,15 @@ namespace simplicity
 			clearsBuffers = clearsBeforeRender;
 		}
 
-		void SimpleOpenGLRenderingEngine::setRendererRoot(const Renderer& renderer, shared_ptr<Node> root)
+		void SimpleOpenGLRenderingEngine::setRendererRoot(const Renderer& renderer, std::shared_ptr<Node> root)
 		{
 			shared_equals_raw<Renderer> sharedEqualsRaw(&renderer);
-			shared_ptr<Renderer> sharedRenderer(*find_if(renderers.begin(), renderers.end(), sharedEqualsRaw));
+			std::shared_ptr<Renderer> sharedRenderer(*find_if(renderers.begin(), renderers.end(), sharedEqualsRaw));
 			rendererRoots.erase(sharedRenderer);
-			rendererRoots.insert(pair<shared_ptr<Renderer>, shared_ptr<Node> >(sharedRenderer, root));
+			rendererRoots.insert(pair<std::shared_ptr<Renderer>, std::shared_ptr<Node> >(sharedRenderer, root));
 		}
 
-		void SimpleOpenGLRenderingEngine::setScene(shared_ptr<Scene> scene)
+		void SimpleOpenGLRenderingEngine::setScene(std::shared_ptr<Scene> scene)
 		{
 			this->scene = scene;
 
@@ -321,7 +321,7 @@ namespace simplicity
 				if (rendererRoots.find(renderers.at(index)) == rendererRoots.end())
 				{
 					rendererRoots.insert(
-						pair<shared_ptr<Renderer>, shared_ptr<Node> >(renderers.at(index), scene->getRoot()));
+						pair<std::shared_ptr<Renderer>, std::shared_ptr<Node> >(renderers.at(index), scene->getRoot()));
 				}
 			}
 		}

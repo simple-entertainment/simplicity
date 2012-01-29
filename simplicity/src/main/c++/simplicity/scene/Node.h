@@ -19,8 +19,6 @@
 
 #include <vector>
 
-#include <boost/enable_shared_from_this.hpp>
-
 #include "../Component.h"
 #include "../math/TransformationMatrix.h"
 #include "../model/BoundingVolume.h"
@@ -34,7 +32,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class Node : public Component, public boost::enable_shared_from_this<Node>
+	class Node : public Component, public std::enable_shared_from_this<Node>
 	{
 		public:
 			/**
@@ -44,7 +42,7 @@ namespace simplicity
 			 *
 			 * @param child The <code>Node</code> to add to this <code>Node</code>'s children.
 			 */
-			virtual void addChild(boost::shared_ptr<Node> child) = 0;
+			virtual void addChild(std::shared_ptr<Node> child) = 0;
 
 			/**
 			 * <p>
@@ -53,7 +51,7 @@ namespace simplicity
 			 *
 			 * @return This <code>Node</code>'s absolute position and orientation.
 			 */
-			virtual const TransformationMatrix<float>& getAbsoluteTransformation() const = 0;
+			virtual std::unique_ptr<TransformationMatrix<> > getAbsoluteTransformation() const = 0;
 
 			/**
 			 * <p>
@@ -74,7 +72,7 @@ namespace simplicity
 			 *
 			 * @return The <code>Node</code>s directly below this <code>Node</code> in a <code>Scene</code>.
 			 */
-			virtual const std::vector<boost::shared_ptr<Node> >& getChildren() const = 0;
+			virtual const std::vector<std::shared_ptr<Node> >& getChildren() const = 0;
 
 			/**
 			 * <p>
@@ -93,18 +91,18 @@ namespace simplicity
 			 *
 			 * @return The <code>Node</code> directly above this <code>Node</code> in a <code>Scene</code>.
 			 */
-			virtual boost::shared_ptr<Node> getParent() const = 0;
+			virtual std::shared_ptr<Node> getParent() const = 0;
 
 			/**
 			 * <p>
 			 * Obtain a shared pointer to this <code>Node</code>.
 			 * </p>
 			 */
-			boost::shared_ptr<Node> getThisShared()
+			std::shared_ptr<Node> getThisShared()
 			{
 				return (shared_from_this());
 			}
-			boost::shared_ptr<const Node> getThisShared() const
+			std::shared_ptr<const Node> getThisShared() const
 			{
 				return (shared_from_this());
 			}
@@ -116,7 +114,7 @@ namespace simplicity
 			 *
 			 * @return This <code>Node</code>'s relative position and orientation.
 			 */
-			virtual TransformationMatrix<float>& getTransformation() const = 0;
+			virtual TransformationMatrix<>& getTransformation() const = 0;
 
 			/**
 			 * <p>
@@ -221,7 +219,7 @@ namespace simplicity
 			 *
 			 * @param parent The <code>Node</code> directly above this <code>Node</code> in a <code>Scene</code>.
 			 */
-			virtual void setParent(boost::shared_ptr<Node> parent) = 0;
+			virtual void setParent(std::shared_ptr<Node> parent) = 0;
 
 			/**
 			 * <p>
@@ -230,7 +228,7 @@ namespace simplicity
 			 *
 			 * @param transformation This <code>Node</code>'s relative position and orientation.
 			 */
-			virtual void setTransformation(boost::shared_ptr<TransformationMatrix<float> > transformation) = 0;
+			virtual void setTransformation(std::unique_ptr<TransformationMatrix<> > transformation) = 0;
 
 			/**
 			 * <p>

@@ -49,7 +49,7 @@ namespace simplicity
 			 *
 			 * @return The interpolated point.
 			 */
-			virtual boost::shared_ptr<TranslationVector<float> > interpolate(const float time) = 0;
+			virtual std::unique_ptr<TranslationVector<> > interpolate(const float time) = 0;
 	};
 }
 

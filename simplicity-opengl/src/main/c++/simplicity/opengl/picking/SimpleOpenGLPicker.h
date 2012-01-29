@@ -71,7 +71,7 @@ namespace simplicity
          *
          * @return The <code>RenderingEngine</code> that renders the <code>Scene</code> to determine which components will be picked.
          */
-        boost::shared_ptr<RenderingEngine>
+        std::shared_ptr<RenderingEngine>
         getRenderingEngine() const;
 
         /**
@@ -115,7 +115,7 @@ namespace simplicity
          * @param renderingEngine The <code>RenderingEngine</code> that renders the <code>Scene</code> to determine which components will be picked.
          */
         void
-        setRenderingEngine(boost::shared_ptr<RenderingEngine> renderingEngine);
+        setRenderingEngine(std::shared_ptr<RenderingEngine> renderingEngine);
 
         /**
          * <p>
@@ -149,7 +149,7 @@ namespace simplicity
          * The <code>RenderingEngine</code> that renders the <code>Scene</code> to determine which components will be picked.
          * </p>
          */
-        boost::shared_ptr<RenderingEngine> fRenderingEngine;
+        std::shared_ptr<RenderingEngine> fRenderingEngine;
 
         /**
          * <p>
@@ -195,7 +195,7 @@ namespace simplicity
          *
          * @return A subset vertex group containing the rendered primitive at the given index of the given <code>VertexGroup</code>.
          */
-        boost::shared_ptr<VertexGroup>
+        std::shared_ptr<VertexGroup>
         getSubsetVG(VertexGroup& vertexGroup, const int index) const;
     };
   }

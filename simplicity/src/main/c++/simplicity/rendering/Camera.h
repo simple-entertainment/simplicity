@@ -147,7 +147,7 @@ namespace simplicity
        *
        * @return The <code>Node</code> that represents this <code>Camera</code>'s location and orientation.
        */
-      virtual boost::shared_ptr<Node>
+      virtual std::shared_ptr<Node>
       getNode() const = 0;
 
       /**
@@ -159,7 +159,7 @@ namespace simplicity
        *
        * @return The picking viewpoint.
        */
-      virtual boost::shared_ptr<Camera>
+      virtual std::shared_ptr<Camera>
       getPickCamera(const Pick pick) const = 0;
 
       /**
@@ -180,7 +180,7 @@ namespace simplicity
        * @return The inverted absolute transformation for the <code>Node</code> of this <code>Camera</code>, or a zero vector if the
        * <code>Node</code> does not exist.
        */
-      virtual const TransformationMatrix<float>&
+      virtual const TransformationMatrix<>&
       getTransformation() const = 0;
 
       /**
@@ -289,7 +289,7 @@ namespace simplicity
        * @param node The <code>Node</code> that represents this <code>Camera</code>'s location and orientation.
        */
       virtual void
-      setNode(boost::shared_ptr<Node> node) = 0;
+      setNode(std::shared_ptr<Node> node) = 0;
 
       /**
        * <p>

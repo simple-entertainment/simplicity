@@ -16,7 +16,6 @@
  */
 #include "SimpleAIEngine.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity
@@ -64,7 +63,7 @@ namespace simplicity
 	{
 	}
 
-	const std::vector<boost::weak_ptr<Agent> > SimpleAIEngine::getAgents()
+	const std::vector<weak_ptr<Agent> > SimpleAIEngine::getAgents()
 	{
 		return agents;
 	}

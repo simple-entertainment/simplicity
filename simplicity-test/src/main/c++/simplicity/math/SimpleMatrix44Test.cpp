@@ -11,184 +11,229 @@
  */
 #include "SimpleMatrix44Test.h"
 
+using namespace std;
 
 namespace simplicity
 {
-  /**
-   * <p>
-   * Unit test the method {@link simplicity::SimpleMatrix44.getDeterminant getDeterminant()}.
-   * </p>
-   */
-  TEST_F(SimpleMatrix44Test, getDeterminant)
-  {
-    ASSERT_EQ(20.0f, fTestObject.getDeterminant());
-  }
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleMatrix44#getDeterminant() getDeterminant()}.
+	 * </p>
+	 */
+	TEST_F(SimpleMatrix44Test, getDeterminant)
+	{
+		ASSERT_EQ(20.0f, objectUnderTest.getDeterminant());
+	}
 
-  /**
-   * <p>
-   * Unit test the method {@link simplicity::SimpleMatrix44.invert invert()}.
-   * </p>
-   *
-   * @throws SEInvalidOperationException Thrown by the method being unit tested.
-   */
-  TEST_F(SimpleMatrix44Test, invert)
-  {
-    fTestObject.invert();
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleMatrix44#invert() invert()}.
+	 * </p>
+	 *
+	 * @throws SEInvalidOperationException Thrown by the method being unit tested.
+	 */
+	TEST_F(SimpleMatrix44Test, invert)
+	{
+		objectUnderTest.invert();
 
-    array<float, 16>& data = fTestObject.getData();
+		array<float, SimpleMatrix44<>::SIZE>& data = objectUnderTest.getData();
 
-    ASSERT_EQ(-0.75f, data.at(0));
-    ASSERT_EQ(0.5f, data.at(1));
-    ASSERT_EQ(0.25f, data.at(2));
-    ASSERT_EQ(0.0f, data.at(3));
-    ASSERT_EQ(0.5f, data.at(4));
-    ASSERT_EQ(-0.4f, data.at(5));
-    ASSERT_EQ(0.1f, data.at(6));
-    ASSERT_EQ(0.0f, data.at(7));
-    ASSERT_EQ(0.25f, data.at(8));
-    ASSERT_EQ(0.1f, data.at(9));
-    ASSERT_EQ(-0.15f, data.at(10));
-    ASSERT_EQ(0.0f, data.at(11));
-    ASSERT_EQ(1.0f, data.at(12));
-    ASSERT_EQ(-1.0f, data.at(13));
-    ASSERT_EQ(-1.0f, data.at(14));
-    ASSERT_EQ(1.0f, data.at(15));
-  }
+		ASSERT_EQ(-0.75f, data.at(0));
+		ASSERT_EQ(0.5f, data.at(1));
+		ASSERT_EQ(0.25f, data.at(2));
+		ASSERT_EQ(0.0f, data.at(3));
+		ASSERT_EQ(0.5f, data.at(4));
+		ASSERT_EQ(-0.4f, data.at(5));
+		ASSERT_EQ(0.1f, data.at(6));
+		ASSERT_EQ(0.0f, data.at(7));
+		ASSERT_EQ(0.25f, data.at(8));
+		ASSERT_EQ(0.1f, data.at(9));
+		ASSERT_EQ(-0.15f, data.at(10));
+		ASSERT_EQ(0.0f, data.at(11));
+		ASSERT_EQ(1.0f, data.at(12));
+		ASSERT_EQ(-1.0f, data.at(13));
+		ASSERT_EQ(-1.0f, data.at(14));
+		ASSERT_EQ(1.0f, data.at(15));
+	}
 
-  /**
-   * <p>
-   * Unit test the method {@link simplicity::SimpleMatrix44.invert invert()} for the special condition where the
-   * {@link simplicity::SimpleMatrix44 SimpleMatrix44} being tested has a determinant of 0.
-   * </p>
-   */
-  TEST_F(SimpleMatrix44Test, invertDeterminant0)
-  {
-    array<float, 16>& data = fTestObject.getData();
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleMatrix44#invert() invert()} for the special condition where the
+	 * {@link simplicity::SimpleMatrix44 SimpleMatrix44} being tested has a determinant of 0.
+	 * </p>
+	 */
+	TEST_F(SimpleMatrix44Test, invertDeterminant0)
+	{
+		array<float, SimpleMatrix44<>::SIZE>& data = objectUnderTest.getData();
 
-    data.at(0) = 0.0f;
-    data.at(4) = 0.0f;
-    data.at(8) = 0.0f;
-    data.at(12) = 0.0f;
-    data.at(1) = 0.0f;
-    data.at(5) = 0.0f;
-    data.at(9) = 0.0f;
-    data.at(13) = 0.0f;
-    data.at(2) = 0.0f;
-    data.at(6) = 0.0f;
-    data.at(10) = 0.0f;
-    data.at(14) = 0.0f;
-    data.at(3) = 0.0f;
-    data.at(7) = 0.0f;
-    data.at(11) = 0.0f;
-    data.at(15) = 0.0f;
+		data.at(0) = 0.0f;
+		data.at(4) = 0.0f;
+		data.at(8) = 0.0f;
+		data.at(12) = 0.0f;
+		data.at(1) = 0.0f;
+		data.at(5) = 0.0f;
+		data.at(9) = 0.0f;
+		data.at(13) = 0.0f;
+		data.at(2) = 0.0f;
+		data.at(6) = 0.0f;
+		data.at(10) = 0.0f;
+		data.at(14) = 0.0f;
+		data.at(3) = 0.0f;
+		data.at(7) = 0.0f;
+		data.at(11) = 0.0f;
+		data.at(15) = 0.0f;
 
-    ASSERT_THROW(fTestObject.invert(), SEInvalidOperationException);
-  }
+		ASSERT_THROW(objectUnderTest.invert(), SEInvalidOperationException);
+	}
 
-  /**
-   * <p>
-   * Unit test the method {@link simplicity::SimpleMatrix44.multiply multiply()}.
-   * </p>
-   */
-  TEST_F(SimpleMatrix44Test, multiply)
-  {
-    SimpleMatrix44<float> otherMatrix;
-    array<float, 16>& otherData = otherMatrix.getData();
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleMatrix44#multiply() multiply()}.
+	 * </p>
+	 */
+	TEST_F(SimpleMatrix44Test, multiply)
+	{
+		SimpleMatrix44<> otherMatrix;
+		array<float, SimpleMatrix44<>::SIZE>& otherData = otherMatrix.getData();
 
-    otherData.at(0) = 1.0f;
-    otherData.at(4) = 2.0f;
-    otherData.at(8) = 3.0f;
-    otherData.at(12) = 4.0f;
-    otherData.at(1) = 2.0f;
-    otherData.at(5) = 1.0f;
-    otherData.at(9) = 4.0f;
-    otherData.at(13) = 3.0f;
-    otherData.at(2) = 3.0f;
-    otherData.at(6) = 4.0f;
-    otherData.at(10) = 1.0f;
-    otherData.at(14) = 2.0f;
-    otherData.at(3) = 0.0f;
-    otherData.at(7) = 0.0f;
-    otherData.at(11) = 0.0f;
-    otherData.at(15) = 1.0f;
+		otherData.at(0) = 1.0f;
+		otherData.at(4) = 2.0f;
+		otherData.at(8) = 3.0f;
+		otherData.at(12) = 4.0f;
+		otherData.at(1) = 2.0f;
+		otherData.at(5) = 1.0f;
+		otherData.at(9) = 4.0f;
+		otherData.at(13) = 3.0f;
+		otherData.at(2) = 3.0f;
+		otherData.at(6) = 4.0f;
+		otherData.at(10) = 1.0f;
+		otherData.at(14) = 2.0f;
+		otherData.at(3) = 0.0f;
+		otherData.at(7) = 0.0f;
+		otherData.at(11) = 0.0f;
+		otherData.at(15) = 1.0f;
 
-    fTestObject.multiplyLeft(otherMatrix);
+		unique_ptr<Matrix<> > resultMatrix = otherMatrix * objectUnderTest;
 
-    array<float, 16>& data = fTestObject.getData();
+		array<float, SimpleMatrix44<>::SIZE>& data = resultMatrix->getData();
 
-    ASSERT_EQ(14.0f, data.at(0));
-    ASSERT_EQ(16.0f, data.at(1));
-    ASSERT_EQ(14.0f, data.at(2));
-    ASSERT_EQ(0.0f, data.at(3));
-    ASSERT_EQ(16.0f, data.at(4));
-    ASSERT_EQ(21.0f, data.at(5));
-    ASSERT_EQ(14.0f, data.at(6));
-    ASSERT_EQ(0.0f, data.at(7));
-    ASSERT_EQ(14.0f, data.at(8));
-    ASSERT_EQ(14.0f, data.at(9));
-    ASSERT_EQ(26.0f, data.at(10));
-    ASSERT_EQ(0.0f, data.at(11));
-    ASSERT_EQ(20.0f, data.at(12));
-    ASSERT_EQ(22.0f, data.at(13));
-    ASSERT_EQ(28.0f, data.at(14));
-    ASSERT_EQ(1.0f, data.at(15));
-  }
+		ASSERT_EQ(14.0f, data.at(0));
+		ASSERT_EQ(16.0f, data.at(1));
+		ASSERT_EQ(14.0f, data.at(2));
+		ASSERT_EQ(0.0f, data.at(3));
+		ASSERT_EQ(16.0f, data.at(4));
+		ASSERT_EQ(21.0f, data.at(5));
+		ASSERT_EQ(14.0f, data.at(6));
+		ASSERT_EQ(0.0f, data.at(7));
+		ASSERT_EQ(14.0f, data.at(8));
+		ASSERT_EQ(14.0f, data.at(9));
+		ASSERT_EQ(26.0f, data.at(10));
+		ASSERT_EQ(0.0f, data.at(11));
+		ASSERT_EQ(20.0f, data.at(12));
+		ASSERT_EQ(22.0f, data.at(13));
+		ASSERT_EQ(28.0f, data.at(14));
+		ASSERT_EQ(1.0f, data.at(15));
+	}
 
-  /**
-   * <p>
-   * Unit test the method {@link simplicity::SimpleMatrix44.setIdentity setIdentity()}.
-   * </p>
-   */
-  TEST_F(SimpleMatrix44Test, setIdentity)
-  {
-    fTestObject.setIdentity();
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleVectorf4#multiplyWithVector() multiplyWithVector()}.
+	 * </p>
+	 */
+	TEST_F(SimpleMatrix44Test, multiplyWithVector)
+	{
+		array<float, SimpleMatrix44<>::SIZE>& data = objectUnderTest.getData();
 
-    array<float, 16>& data = fTestObject.getData();
+		data.at(0) = 1.0f;
+		data.at(4) = 2.0f;
+		data.at(8) = 3.0f;
+		data.at(12) = 4.0f;
+		data.at(1) = 2.0f;
+		data.at(5) = 1.0f;
+		data.at(9) = 4.0f;
+		data.at(13) = 3.0f;
+		data.at(2) = 3.0f;
+		data.at(6) = 4.0f;
+		data.at(10) = 1.0f;
+		data.at(14) = 2.0f;
+		data.at(3) = 0.0f;
+		data.at(7) = 0.0f;
+		data.at(11) = 0.0f;
+		data.at(15) = 1.0f;
 
-    ASSERT_EQ(1.0f, data.at(0));
-    ASSERT_EQ(0.0f, data.at(1));
-    ASSERT_EQ(0.0f, data.at(2));
-    ASSERT_EQ(0.0f, data.at(3));
-    ASSERT_EQ(0.0f, data.at(4));
-    ASSERT_EQ(1.0f, data.at(5));
-    ASSERT_EQ(0.0f, data.at(6));
-    ASSERT_EQ(0.0f, data.at(7));
-    ASSERT_EQ(0.0f, data.at(8));
-    ASSERT_EQ(0.0f, data.at(9));
-    ASSERT_EQ(1.0f, data.at(10));
-    ASSERT_EQ(0.0f, data.at(11));
-    ASSERT_EQ(0.0f, data.at(12));
-    ASSERT_EQ(0.0f, data.at(13));
-    ASSERT_EQ(0.0f, data.at(14));
-    ASSERT_EQ(1.0f, data.at(15));
-  }
+		SimpleVector4<> vector;
+		array<float, SimpleVector4<>::SIZE>& vectorData = vector.getData();
 
-  /**
-   * <p>
-   * Unit test the method {@link simplicity::SimpleMatrix44.transpose transpose()}.
-   * </p>
-   */
-  TEST_F(SimpleMatrix44Test, transpose)
-  {
-    fTestObject.transpose();
+		vectorData.at(0) = 1.0f;
+		vectorData.at(1) = 2.0f;
+		vectorData.at(2) = 3.0f;
+		vectorData.at(3) = 1.0f;
 
-    array<float, 16>& data = fTestObject.getData();
+		unique_ptr<Vector<> > product = objectUnderTest * vector;
 
-    ASSERT_EQ(1.0f, data.at(0));
-    ASSERT_EQ(2.0f, data.at(1));
-    ASSERT_EQ(3.0f, data.at(2));
-    ASSERT_EQ(4.0f, data.at(3));
-    ASSERT_EQ(2.0f, data.at(4));
-    ASSERT_EQ(1.0f, data.at(5));
-    ASSERT_EQ(4.0f, data.at(6));
-    ASSERT_EQ(3.0f, data.at(7));
-    ASSERT_EQ(3.0f, data.at(8));
-    ASSERT_EQ(4.0f, data.at(9));
-    ASSERT_EQ(1.0f, data.at(10));
-    ASSERT_EQ(2.0f, data.at(11));
-    ASSERT_EQ(0.0f, data.at(12));
-    ASSERT_EQ(0.0f, data.at(13));
-    ASSERT_EQ(0.0f, data.at(14));
-    ASSERT_EQ(1.0f, data.at(15));
-  }
+		array<float, SimpleVector4<>::SIZE>& productData = product->getData();
+
+		ASSERT_EQ(18.0f, productData.at(0));
+		ASSERT_EQ(19.0f, productData.at(1));
+		ASSERT_EQ(16.0f, productData.at(2));
+		ASSERT_EQ(1.0f, productData.at(3));
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleMatrix44#setIdentity() setIdentity()}.
+	 * </p>
+	 */
+	TEST_F(SimpleMatrix44Test, setIdentity)
+	{
+		objectUnderTest.setIdentity();
+
+		array<float, SimpleMatrix44<>::SIZE>& data = objectUnderTest.getData();
+
+		ASSERT_EQ(1.0f, data.at(0));
+		ASSERT_EQ(0.0f, data.at(1));
+		ASSERT_EQ(0.0f, data.at(2));
+		ASSERT_EQ(0.0f, data.at(3));
+		ASSERT_EQ(0.0f, data.at(4));
+		ASSERT_EQ(1.0f, data.at(5));
+		ASSERT_EQ(0.0f, data.at(6));
+		ASSERT_EQ(0.0f, data.at(7));
+		ASSERT_EQ(0.0f, data.at(8));
+		ASSERT_EQ(0.0f, data.at(9));
+		ASSERT_EQ(1.0f, data.at(10));
+		ASSERT_EQ(0.0f, data.at(11));
+		ASSERT_EQ(0.0f, data.at(12));
+		ASSERT_EQ(0.0f, data.at(13));
+		ASSERT_EQ(0.0f, data.at(14));
+		ASSERT_EQ(1.0f, data.at(15));
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleMatrix44#transpose() transpose()}.
+	 * </p>
+	 */
+	TEST_F(SimpleMatrix44Test, transpose)
+	{
+		objectUnderTest.transpose();
+
+		array<float, SimpleMatrix44<>::SIZE>& data = objectUnderTest.getData();
+
+		ASSERT_EQ(1.0f, data.at(0));
+		ASSERT_EQ(2.0f, data.at(1));
+		ASSERT_EQ(3.0f, data.at(2));
+		ASSERT_EQ(4.0f, data.at(3));
+		ASSERT_EQ(2.0f, data.at(4));
+		ASSERT_EQ(1.0f, data.at(5));
+		ASSERT_EQ(4.0f, data.at(6));
+		ASSERT_EQ(3.0f, data.at(7));
+		ASSERT_EQ(3.0f, data.at(8));
+		ASSERT_EQ(4.0f, data.at(9));
+		ASSERT_EQ(1.0f, data.at(10));
+		ASSERT_EQ(2.0f, data.at(11));
+		ASSERT_EQ(0.0f, data.at(12));
+		ASSERT_EQ(0.0f, data.at(13));
+		ASSERT_EQ(0.0f, data.at(14));
+		ASSERT_EQ(1.0f, data.at(15));
+	}
 }

@@ -23,8 +23,12 @@ using namespace std;
 
 namespace simplicity
 {
+	const double OverrunningFakeRunnableEngine::FRACTION_OF_FREQUENCY_TO_WAIT = 1.5;
+
 	log4cpp::Category& OverrunningFakeRunnableEngine::logger = log4cpp::Category::getInstance(
 		"simplicity::OverrunningFakeRunnableEngine");
+
+	const double OverrunningFakeRunnableEngine::MILLISECONDS_IN_A_SECOND = 1000.0;
 
 	OverrunningFakeRunnableEngine::OverrunningFakeRunnableEngine() :
 		advanceCount(0), advanceIndex(0), destroyCount(0), initCount(0), overrunIndex(-1)
@@ -35,15 +39,15 @@ namespace simplicity
 	{
 	}
 
-	void OverrunningFakeRunnableEngine::addEntities(vector<shared_ptr<Entity> > entities)
+	void OverrunningFakeRunnableEngine::addEntities(vector<std::shared_ptr<Entity> > entities)
 	{
 	}
 
-	void OverrunningFakeRunnableEngine::addEntity(shared_ptr<Entity> entity)
+	void OverrunningFakeRunnableEngine::addEntity(std::shared_ptr<Entity> entity)
 	{
 	}
 
-	shared_ptr<EngineInput> OverrunningFakeRunnableEngine::advance(const shared_ptr<EngineInput> input)
+	std::shared_ptr<EngineInput> OverrunningFakeRunnableEngine::advance(const std::shared_ptr<EngineInput> input)
 	{
 		advanceCount++;
 
@@ -61,7 +65,7 @@ namespace simplicity
 			}
 		}
 
-		return shared_ptr<EngineInput>();
+		return std::shared_ptr<EngineInput>();
 	}
 
 	void OverrunningFakeRunnableEngine::destroy()

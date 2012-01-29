@@ -35,7 +35,7 @@ namespace simplicity
 	TEST_F(SimpleNodeTest, addChild)
 	{
 		// Create dependencies.
-		shared_ptr<SimpleNode> child(new SimpleNode);
+		std::shared_ptr<SimpleNode> child(new SimpleNode);
 
 		// Perform test.
 		fTestObject->addChild(child);
@@ -53,34 +53,33 @@ namespace simplicity
 	TEST_F(SimpleNodeTest, getAbsoluteTransformation)
 	{
 		// Create dependencies.
-		shared_ptr<MockNode> mockNode1(new NiceMock<MockNode>);
-		shared_ptr<MockNode> mockNode2(new NiceMock<MockNode>);
+		std::shared_ptr<MockNode> mockNode1(new NiceMock<MockNode>);
+		std::shared_ptr<MockNode> mockNode2(new NiceMock<MockNode>);
 
-		SimpleTransformationMatrix44<float> matrix1;
-		SimpleTranslationVector4<float> translation(0.0f, 10.0f, 0.0f, 1.0f);
+		SimpleTransformationMatrix44<> matrix1;
+		SimpleTranslationVector4<> translation(0.0f, 10.0f, 0.0f, 1.0f);
 		matrix1.translate(translation);
 
-		SimpleTransformationMatrix44<float> matrix2;
-		SimpleTranslationVector4<float> rotateTranslation(1.0f, 0.0f, 0.0f, 1.0f);
+		SimpleTransformationMatrix44<> matrix2;
+		SimpleTranslationVector4<> rotateTranslation(1.0f, 0.0f, 0.0f, 1.0f);
 		matrix2.rotate(90.0f * pi<float>() / 180.0f, rotateTranslation);
 
-		SimpleTransformationMatrix44<float> matrix3;
-		matrix3.multiplyLeft(matrix1);
-		matrix3.multiplyLeft(matrix2);
+		SimpleTransformationMatrix44<> matrix3;
+		matrix3 *= matrix2;
+		matrix3 *= matrix1;
 
 		// Dictate correct behaviour.
 		ON_CALL(*mockNode1, getTransformation()).WillByDefault(ReturnRef(matrix1));
 		ON_CALL(*mockNode1, getParent()).WillByDefault(Return(mockNode2));
 		ON_CALL(*mockNode2, getTransformation()).WillByDefault(ReturnRef(matrix2));
-		ON_CALL(*mockNode2, getParent()).WillByDefault(Return(shared_ptr<Node>()));
+		ON_CALL(*mockNode2, getParent()).WillByDefault(Return(std::shared_ptr<Node>()));
 
 		// Initialise test environment.
 		fTestObject->setParent(mockNode1);
 
 		// Perform test - Verify test results.
 		bool equal = false;
-		if (matrix3.getData()
-			== dynamic_cast<const SimpleMatrix44<float>&>(fTestObject->getAbsoluteTransformation()).getData())
+		if (matrix3.getData() == fTestObject->getAbsoluteTransformation()->getData())
 		{
 			equal = true;
 		}
@@ -96,7 +95,7 @@ namespace simplicity
 	TEST_F(SimpleNodeTest, hasChildren)
 	{
 		// Create dependencies.
-		shared_ptr<Node> child(new SimpleNode);
+		std::shared_ptr<Node> child(new SimpleNode);
 
 		// Verify prerequisite state.
 		ASSERT_FALSE(fTestObject->hasChildren());
@@ -115,10 +114,10 @@ namespace simplicity
 	 */
 	TEST_F(SimpleNodeTest, isAncestor)
 	{
-		shared_ptr<Node> child(new SimpleNode);
+		std::shared_ptr<Node> child(new SimpleNode);
 		fTestObject->addChild(child);
 
-		shared_ptr<Node> grandChild(new SimpleNode);
+		std::shared_ptr<Node> grandChild(new SimpleNode);
 		child->addChild(grandChild);
 
 		ASSERT_TRUE(child->isAncestor(*fTestObject));
@@ -135,10 +134,10 @@ namespace simplicity
 	 */
 	TEST_F(SimpleNodeTest, isSuccessor)
 	{
-		shared_ptr<Node> child(new SimpleNode);
+		std::shared_ptr<Node> child(new SimpleNode);
 		fTestObject->addChild(child);
 
-		shared_ptr<Node> grandChild(new SimpleNode);
+		std::shared_ptr<Node> grandChild(new SimpleNode);
 		child->addChild(grandChild);
 
 		ASSERT_TRUE(child->isSuccessor(*grandChild));
@@ -155,14 +154,14 @@ namespace simplicity
 	 */
 	TEST_F(SimpleNodeTest, removeChild)
 	{
-		shared_ptr<Node> child(new SimpleNode);
+		std::shared_ptr<Node> child(new SimpleNode);
 
 		fTestObject->addChild(child);
 
 		fTestObject->removeChild(*child);
 
-		vector < shared_ptr<Node> > children = fTestObject->getChildren();
-		vector<shared_ptr<Node> >::iterator iterator = find(children.begin(), children.end(), child);
+		vector <std::shared_ptr<Node> > children = fTestObject->getChildren();
+		vector<std::shared_ptr<Node> >::iterator iterator = find(children.begin(), children.end(), child);
 		ASSERT_TRUE(iterator == children.end());
 		ASSERT_FALSE(child->getParent());
 	}

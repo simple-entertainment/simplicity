@@ -46,7 +46,7 @@ namespace simplicity
 			 */
 			virtual ~OpenGLDemoRunner();
 
-			void addDemo(boost::shared_ptr<Demo> demo);
+			void addDemo(std::shared_ptr<Demo> demo);
 
 			void dispose();
 
@@ -107,7 +107,7 @@ namespace simplicity
 			 * The list of {@link simplicity::Demo Demo}s to be run.
 			 * </p>
 			 */
-			std::vector<boost::shared_ptr<Demo> > demos;
+			std::vector<std::shared_ptr<Demo> > demos;
 
 			/**
 			 * <p>

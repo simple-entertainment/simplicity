@@ -28,9 +28,9 @@ namespace simplicity
   class MockShape : public Shape
   {
     public:
-      MOCK_CONST_METHOD0(getCenter, const TranslationVector<float>&());
-      MOCK_CONST_METHOD0(getColour, RGBAColourVector<float>&());
-      MOCK_METHOD1(setColour, void(boost::shared_ptr<RGBAColourVector<float> > colour));
+      MOCK_CONST_METHOD0(getCenter, const TranslationVector<>&());
+      MOCK_CONST_METHOD0(getColour, RGBAColourVector<>&());
+      MOCK_METHOD1(setColour, void(std::shared_ptr<RGBAColourVector<> > colour));
   };
 }
 

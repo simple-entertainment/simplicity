@@ -39,7 +39,7 @@ namespace simplicity
 			 *
 			 * @param path The path to be interpolated.
 			 */
-			BezierPathInterpolator(std::vector<boost::shared_ptr<const Node> > path);
+			BezierPathInterpolator(std::vector<std::shared_ptr<const Node> > path);
 
 			/**
 			 * <p>
@@ -48,7 +48,7 @@ namespace simplicity
 			 */
 			virtual ~BezierPathInterpolator();
 
-			boost::shared_ptr<TranslationVector<float> > interpolate(const float time);
+			std::unique_ptr<TranslationVector<> > interpolate(const float time);
 
 		private:
 			/**
@@ -56,7 +56,7 @@ namespace simplicity
 			 * The path to be interpolated.
 			 * </p>
 			 */
-			std::vector<boost::shared_ptr<const Node> > path;
+			std::vector<std::shared_ptr<const Node> > path;
 
 			/**
 			 * <p>
@@ -68,9 +68,9 @@ namespace simplicity
 			 *
 			 * @return The interpolated point.
 			 */
-			boost::shared_ptr<Vector<float> > interpolate(const float time,
-				const std::vector<boost::shared_ptr<const simplicity::Node> >::iterator& begin,
-				const std::vector<boost::shared_ptr<const simplicity::Node> >::iterator& end);
+			std::unique_ptr<TranslationVector<> > interpolate(const float time,
+				const std::vector<std::shared_ptr<const Node> >::iterator& begin,
+				const std::vector<std::shared_ptr<const Node> >::iterator& end);
 	};
 }
 

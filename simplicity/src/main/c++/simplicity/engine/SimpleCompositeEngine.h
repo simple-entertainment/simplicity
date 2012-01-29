@@ -19,8 +19,6 @@
 
 #include <vector>
 
-#include <boost/smart_ptr.hpp>
-
 #include "CompositeEngine.h"
 #include "Engine.h"
 #include "RunnableEngine.h"
@@ -52,17 +50,17 @@ namespace simplicity
 			 */
 			virtual ~SimpleCompositeEngine();
 
-			void addEngine(boost::shared_ptr<Engine> engine);
+			void addEngine(std::shared_ptr<Engine> engine);
 
-			void addEntities(std::vector<boost::shared_ptr<Entity> > entities);
+			void addEntities(std::vector<std::shared_ptr<Entity> > entities);
 
-			void addEntity(boost::shared_ptr<Entity> entity);
+			void addEntity(std::shared_ptr<Entity> entity);
 
-			boost::shared_ptr<EngineInput> advance(const boost::shared_ptr<EngineInput> input);
+			std::shared_ptr<EngineInput> advance(const std::shared_ptr<EngineInput> input);
 
 			void destroy();
 
-			void removeEngine(const boost::shared_ptr<Engine> engine);
+			void removeEngine(const std::shared_ptr<Engine> engine);
 
 		private:
 			/**
@@ -85,7 +83,7 @@ namespace simplicity
 			 * The sub-engines managed by this <code>SimpleCompositeEngine</code>.
 			 * </p>
 			 */
-			std::vector<boost::shared_ptr<Engine> > engines;
+			std::vector<std::shared_ptr<Engine> > engines;
 
 			/**
 			 * <p>

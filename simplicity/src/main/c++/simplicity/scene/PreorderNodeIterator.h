@@ -63,7 +63,7 @@ namespace simplicity
 			 */
 			int getBacktracksToNextNode() const;
 
-			boost::shared_ptr<Node> getNextNode();
+			std::shared_ptr<Node> getNextNode();
 
 			bool hasMoreNodes() const;
 
@@ -82,7 +82,7 @@ namespace simplicity
 			 * The next {@link simplicity::Node Node} to retrieve from the iteration.
 			 * </p>
 			 */
-			boost::shared_ptr<Node> nextNode;
+			std::shared_ptr<Node> nextNode;
 
 			/**
 			 * <p>
@@ -99,7 +99,7 @@ namespace simplicity
 			 *
 			 * @return The next <code>Node</code> in the iteration.
 			 */
-			boost::shared_ptr<Node> findNextNode();
+			std::shared_ptr<Node> findNextNode();
 	};
 }
 

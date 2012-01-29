@@ -71,19 +71,19 @@ namespace simplicity
       virtual
       ~IndexedVectorVG();
 
-      boost::shared_ptr<VertexGroup>
+      std::shared_ptr<VertexGroup>
       createEdgeSubsetVG(const int index);
 
-      boost::shared_ptr<VertexGroup>
+      std::shared_ptr<VertexGroup>
       createFaceSubsetVG(const int index);
 
-      boost::shared_ptr<VertexGroup>
+      std::shared_ptr<VertexGroup>
       createSubsetVG(const int index, const int length);
 
-      boost::shared_ptr<VertexGroup>
+      std::shared_ptr<VertexGroup>
       createVertexSubsetVG(const int index);
 
-      const TranslationVector<float>&
+      const TranslationVector<>&
       getCenter() const;
 
       /**
@@ -189,7 +189,7 @@ namespace simplicity
        * @param colours The colours of all the vertices in this <code>IndexedVectorVG</code>.
        */
       void
-      setColours(boost::shared_ptr<std::vector<float> > colours);
+      setColours(std::shared_ptr<std::vector<float> > colours);
 
       /**
        * <p>
@@ -199,7 +199,7 @@ namespace simplicity
        * @param indices The indices of all the vertices in this <code>IndexedVectorVG</code>.
        */
       void
-      setIndices(boost::shared_ptr<std::vector<int> > indices);
+      setIndices(std::shared_ptr<std::vector<int> > indices);
 
       void
       setIndexWithinParent(const int indexWithinParent);
@@ -212,7 +212,7 @@ namespace simplicity
        * @param normals The surface normals of all the vertices in this <code>IndexedVectorVG</code>.
        */
       void
-      setNormals(boost::shared_ptr<std::vector<float> > normals);
+      setNormals(std::shared_ptr<std::vector<float> > normals);
 
       /**
        * <p>
@@ -222,7 +222,7 @@ namespace simplicity
        * @param vertices The coordinates of all the vertices in this <code>IndexedVectorVG</code>.
        */
       void
-      setVertices(boost::shared_ptr<std::vector<float> > vertices);
+      setVertices(std::shared_ptr<std::vector<float> > vertices);
 
     private:
       /**
@@ -239,7 +239,7 @@ namespace simplicity
        * The colours of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        */
-      boost::shared_ptr<std::vector<float> > fColours;
+      std::shared_ptr<std::vector<float> > fColours;
 
       /**
        * <p>
@@ -253,7 +253,7 @@ namespace simplicity
        * The indices of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        */
-      boost::shared_ptr<std::vector<int> > fIndices;
+      std::shared_ptr<std::vector<int> > fIndices;
 
       /**
        * <p>
@@ -268,7 +268,7 @@ namespace simplicity
        * The surface normals of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        */
-      boost::shared_ptr<std::vector<float> > fNormals;
+      std::shared_ptr<std::vector<float> > fNormals;
 
       /**
        * <p>
@@ -282,7 +282,7 @@ namespace simplicity
        * The coordinates of all the vertices in this <code>IndexedVectorVG</code>.
        * </p>
        */
-      boost::shared_ptr<std::vector<float> > fVertices;
+      std::shared_ptr<std::vector<float> > fVertices;
   };
 }
 

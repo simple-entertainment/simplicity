@@ -21,7 +21,6 @@
 #include "../../rendering/SimpleOpenGLCamera.h"
 #include "SimpleOpenGLPickingEngine.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity
@@ -36,11 +35,11 @@ namespace simplicity
 		{
 		}
 
-		void SimpleOpenGLPickingEngine::addEntities(std::vector<boost::shared_ptr<Entity> > entities)
+		void SimpleOpenGLPickingEngine::addEntities(std::vector<shared_ptr<Entity> > entities)
 		{
 		}
 
-		void SimpleOpenGLPickingEngine::addEntity(boost::shared_ptr<Entity> entity)
+		void SimpleOpenGLPickingEngine::addEntity(shared_ptr<Entity> entity)
 		{
 		}
 

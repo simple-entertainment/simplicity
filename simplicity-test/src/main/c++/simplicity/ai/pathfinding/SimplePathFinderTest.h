@@ -38,7 +38,7 @@ namespace simplicity
 
 			const static unsigned int ROWS = 5;
 
-			std::vector<boost::shared_ptr<Node> > pathNodes;
+			std::vector<std::shared_ptr<Node> > pathNodes;
 
 			void SetUp()
 			{
@@ -47,7 +47,7 @@ namespace simplicity
 				{
 					for (unsigned int row = 0; row < ROWS; row++)
 					{
-						boost::shared_ptr<Node> pathNode(new SimpleNode);
+						std::shared_ptr<Node> pathNode(new SimpleNode);
 						pathNodes.push_back(pathNode);
 					}
 				}

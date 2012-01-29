@@ -12,7 +12,7 @@
 #ifndef SHARED_EQUALS_RAW_H_
 #define SHARED_EQUALS_RAW_H_
 
-#include <boost/smart_ptr.hpp>
+#include <memory>
 
 /**
  * <p>
@@ -32,7 +32,7 @@ template<class T>
       }
 
       bool
-      operator()(const boost::shared_ptr<T> shared) const
+      operator()(const std::shared_ptr<T> shared) const
       {
         return (shared.get() == raw);
       }

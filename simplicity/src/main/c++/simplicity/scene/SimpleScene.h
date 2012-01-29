@@ -43,31 +43,31 @@ namespace simplicity
 			 */
 			virtual ~SimpleScene();
 
-			void addCamera(boost::shared_ptr<Camera> camera);
+			void addCamera(std::shared_ptr<Camera> camera);
 
-			void addLight(boost::shared_ptr<Light> light);
+			void addLight(std::shared_ptr<Light> light);
 
-			void addNode(boost::shared_ptr<Node> node);
+			void addNode(std::shared_ptr<Node> node);
 
-			void addNode(boost::shared_ptr<Node> node, Node& parent);
+			void addNode(std::shared_ptr<Node> node, Node& parent);
 
-			std::vector<boost::shared_ptr<Camera> > getCameras() const;
+			std::vector<std::shared_ptr<Camera> > getCameras() const;
 
-			std::vector<boost::shared_ptr<Light> > getLights() const;
+			std::vector<std::shared_ptr<Light> > getLights() const;
 
-			boost::shared_ptr<Node> getNode(const int id) const;
+			std::shared_ptr<Node> getNode(const int id) const;
 
-			boost::shared_ptr<Node> getRoot() const;
+			std::shared_ptr<Node> getRoot() const;
 
-			std::vector<boost::shared_ptr<Node> > getTopLevelNodes() const;
+			std::vector<std::shared_ptr<Node> > getTopLevelNodes() const;
 
 			void removeNode(Node& node);
 
 			void resetIds();
 
-			void setCameras(std::vector<boost::shared_ptr<Camera> > cameras);
+			void setCameras(std::vector<std::shared_ptr<Camera> > cameras);
 
-			void setLights(std::vector<boost::shared_ptr<Light> > lights);
+			void setLights(std::vector<std::shared_ptr<Light> > lights);
 
 		private:
 			/**
@@ -76,7 +76,7 @@ namespace simplicity
 			 * specific angles.
 			 * </p>
 			 */
-			std::vector<boost::shared_ptr<Camera> > cameras;
+			std::vector<std::shared_ptr<Camera> > cameras;
 
 			/**
 			 * The unique identifier that was assigned to the last {@link com.se.simplicity.scenegraph.Node Node} added
@@ -89,21 +89,21 @@ namespace simplicity
 			 * The {@link simplicity::Light Light}s that can be used to illuminate this <code>SimpleScene</code>.
 			 * </p>
 			 */
-			std::vector<boost::shared_ptr<Light> > lights;
+			std::vector<std::shared_ptr<Light> > lights;
 
 			/**
 			 * <p>
 			 * The {@link simplicity::Node Node}s within this <code>SimpleScene</code>.
 			 * </p>
 			 */
-			std::map<int, boost::shared_ptr<Node> > nodes;
+			std::map<int, std::shared_ptr<Node> > nodes;
 
 			/**
 			 * <p>
 			 * The root {@link simplicity::Node Node} of this <code>SimpleScene</code>.
 			 * </p>
 			 */
-			boost::shared_ptr<Node> root;
+			std::shared_ptr<Node> root;
 
 			/**
 			 * <p>

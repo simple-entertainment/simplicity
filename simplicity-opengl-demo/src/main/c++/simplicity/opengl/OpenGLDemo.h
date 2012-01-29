@@ -47,7 +47,7 @@ namespace simplicity
 				 *
 				 * @return The standard camera.
 				 */
-				boost::shared_ptr<Camera> addStandardCamera(boost::shared_ptr<Node> parentNode);
+				std::shared_ptr<Camera> addStandardCamera(std::shared_ptr<Node> parentNode);
 
 				/**
 				 * <p>
@@ -56,7 +56,7 @@ namespace simplicity
 				 *
 				 * @param parentNode The node under which the capsule should be added.
 				 */
-				void addStandardCapsule(boost::shared_ptr<Node> parentNode);
+				void addStandardCapsule(std::shared_ptr<Node> parentNode);
 
 				/**
 				 * <p>
@@ -65,7 +65,7 @@ namespace simplicity
 				 *
 				 * @param parentNode The node under which the cylinder should be added.
 				 */
-				void addStandardCylinder(boost::shared_ptr<Node> parentNode);
+				void addStandardCylinder(std::shared_ptr<Node> parentNode);
 
 				/**
 				 * <p>
@@ -76,7 +76,7 @@ namespace simplicity
 				 *
 				 * @return The standard light.
 				 */
-				boost::shared_ptr<Light> addStandardLight(boost::shared_ptr<Node> parentNode);
+				std::shared_ptr<Light> addStandardLight(std::shared_ptr<Node> parentNode);
 
 				/**
 				 * <p>
@@ -85,7 +85,7 @@ namespace simplicity
 				 *
 				 * @param parentNode The node under which the sphere should be added.
 				 */
-				void addStandardSphere(boost::shared_ptr<Node> parentNode);
+				void addStandardSphere(std::shared_ptr<Node> parentNode);
 
 				/**
 				 * <p>
@@ -94,7 +94,7 @@ namespace simplicity
 				 *
 				 * @param parentNode The node under which the torus should be added.
 				 */
-				void addStandardTorus(boost::shared_ptr<Node> parentNode);
+				void addStandardTorus(std::shared_ptr<Node> parentNode);
 
 			private:
 				/**
@@ -102,7 +102,7 @@ namespace simplicity
 				 * The root node of the standard camera.
 				 * </p>
 				 */
-				boost::shared_ptr<Node> cameraRootNode;
+				std::shared_ptr<Node> cameraRootNode;
 
 				/**
 				 * <p>

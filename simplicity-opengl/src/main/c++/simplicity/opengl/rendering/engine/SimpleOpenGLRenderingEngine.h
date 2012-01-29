@@ -54,29 +54,29 @@ namespace simplicity
 				 */
 				virtual ~SimpleOpenGLRenderingEngine();
 
-				void addEntities(std::vector<boost::shared_ptr<Entity> > entities);
+				void addEntities(std::vector<std::shared_ptr<Entity> > entities);
 
-				void addEntity(boost::shared_ptr<Entity> entity);
+				void addEntity(std::shared_ptr<Entity> entity);
 
-				void addRenderer(const int index, boost::shared_ptr<Renderer> renderer);
+				void addRenderer(const int index, std::shared_ptr<Renderer> renderer);
 
-				void addRenderer(boost::shared_ptr<Renderer> renderer);
+				void addRenderer(std::shared_ptr<Renderer> renderer);
 
-				boost::shared_ptr<EngineInput> advance(const boost::shared_ptr<EngineInput> input);
+				std::shared_ptr<EngineInput> advance(const std::shared_ptr<EngineInput> input);
 
 				bool clearsBeforeRender() const;
 
 				void destroy();
 
-				boost::shared_ptr<Camera> getCamera() const;
+				std::shared_ptr<Camera> getCamera() const;
 
-				boost::shared_ptr<RGBAColourVector<float> > getClearingColour() const;
+				std::shared_ptr<RGBAColourVector<> > getClearingColour() const;
 
-				boost::shared_ptr<Node> getRendererRoot(const Renderer& renderer) const;
+				std::shared_ptr<Node> getRendererRoot(const Renderer& renderer) const;
 
-				std::vector<shared_ptr<Renderer> > getRenderers() const;
+				std::vector<std::shared_ptr<Renderer> > getRenderers() const;
 
-				boost::shared_ptr<Scene> getScene() const;
+				std::shared_ptr<Scene> getScene() const;
 
 				int getViewportHeight() const;
 
@@ -86,15 +86,15 @@ namespace simplicity
 
 				void renderSceneGraph(Renderer& renderer, const Node& root);
 
-				void setCamera(boost::shared_ptr<Camera> camera);
+				void setCamera(std::shared_ptr<Camera> camera);
 
-				void setClearingColour(boost::shared_ptr<RGBAColourVector<float> > clearingColour);
+				void setClearingColour(std::shared_ptr<RGBAColourVector<> > clearingColour);
 
 				void setClearsBeforeRender(const bool clearsBeforeRender);
 
-				void setRendererRoot(const Renderer& renderer, boost::shared_ptr<Node> root);
+				void setRendererRoot(const Renderer& renderer, std::shared_ptr<Node> root);
 
-				void setScene(boost::shared_ptr<Scene> scene);
+				void setScene(std::shared_ptr<Scene> scene);
 
 				void setViewportHeight(const int viewportHeight);
 
@@ -114,14 +114,14 @@ namespace simplicity
 				 * {@link simplicity::Scene Scene} will be rendered.
 				 * </p>
 				 */
-				boost::shared_ptr<Camera> camera;
+				std::shared_ptr<Camera> camera;
 
 				/**
 				 * <p>
 				 * The colour to clear the screen buffer with before rendering.
 				 * </p>
 				 */
-				boost::shared_ptr<RGBAColourVector<float> > clearingColour;
+				std::shared_ptr<RGBAColourVector<> > clearingColour;
 
 				/**
 				 * <p>
@@ -146,7 +146,7 @@ namespace simplicity
 				 * the {@link simplicity::Renderer Renderer}s will render when they are executed.
 				 * </p>
 				 */
-				std::map<boost::shared_ptr<Renderer>, boost::shared_ptr<Node> > rendererRoots;
+				std::map<std::shared_ptr<Renderer>, std::shared_ptr<Node> > rendererRoots;
 
 				/**
 				 * <p>
@@ -154,14 +154,14 @@ namespace simplicity
 				 * {@link simplicity::Scene Scene} during the {@link advance()} method.
 				 * </p>
 				 */
-				std::vector<boost::shared_ptr<Renderer> > renderers;
+				std::vector<std::shared_ptr<Renderer> > renderers;
 
 				/**
 				 * <p>
 				 * The {@link simplicity::SceneGraph SceneGraph} to be rendered.
 				 * </p>
 				 */
-				boost::shared_ptr<Scene> scene;
+				std::shared_ptr<Scene> scene;
 
 				/**
 				 * <p>

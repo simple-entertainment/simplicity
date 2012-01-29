@@ -37,7 +37,7 @@ namespace simplicity
        * @return The <code>EngineInputCodec</code> used to compress and decompress the <code>EngineInput</code> input to this
        * <code>ClientEngine</code>.
        */
-      boost::shared_ptr<EngineInputCodec>
+      std::shared_ptr<EngineInputCodec>
       getInputCodec();
 
       /**
@@ -71,7 +71,7 @@ namespace simplicity
        * @return The <code>EngineInputCodec</code> used to compress and decompress the <code>EngineInput</code> output from this
        * <code>ClientEngine</code>.
        */
-      boost::shared_ptr<EngineInputCodec>
+      std::shared_ptr<EngineInputCodec>
       getOutputCodec() const;
 
       /**
@@ -81,7 +81,7 @@ namespace simplicity
        *
        * @return The protocol used to communicate between this <code>ClientEngine</code> and the <code>ServerEngine</code>.
        */
-      boost::shared_ptr<EngineProtocol>
+      std::shared_ptr<EngineProtocol>
       getProtocol() const;
 
       /**
@@ -94,7 +94,7 @@ namespace simplicity
        * <code>ClientEngine</code>.
        */
       void
-      setInputCodec(boost::shared_ptr<EngineInputCodec> codec);
+      setInputCodec(std::shared_ptr<EngineInputCodec> codec);
 
       /**
        * <p>
@@ -128,7 +128,7 @@ namespace simplicity
        * <code>ClientEngine</code>.
        */
       void
-      setOutputCodec(boost::shared_ptr<EngineInputCodec> codec);
+      setOutputCodec(std::shared_ptr<EngineInputCodec> codec);
 
       /**
        * <p>
@@ -138,7 +138,7 @@ namespace simplicity
        * @param protocol The protocol used to communicate between this <code>ClientEngine</code> and the <code>ServerEngine</code>.
        */
       void
-      setProtocol(boost::shared_ptr<EngineProtocol> protocol);
+      setProtocol(std::shared_ptr<EngineProtocol> protocol);
   };
 }
 

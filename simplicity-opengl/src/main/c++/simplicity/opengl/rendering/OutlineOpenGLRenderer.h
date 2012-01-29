@@ -62,7 +62,7 @@ namespace simplicity
          *
          * @return The colour of the outline.
          */
-        boost::shared_ptr<RGBAColourVector<float> >
+        std::shared_ptr<RGBAColourVector<> >
         getOutlineColour() const;
 
         /**
@@ -93,7 +93,7 @@ namespace simplicity
          * @param outlineColour The colour of the outline.
          */
         void
-        setOutlineColour(boost::shared_ptr<RGBAColourVector<float> > outlineColour);
+        setOutlineColour(std::shared_ptr<RGBAColourVector<> > outlineColour);
 
         /**
          * <p>
@@ -112,14 +112,14 @@ namespace simplicity
          * The default width of the outline.
          * </p>
          */
-        static const float DEFAULT_OUTLINE_WIDTH = 3.0f;
+        static const float DEFAULT_OUTLINE_WIDTH;
 
         /**
          * <p>
          * The {@link simplicity::Renderer Renderer} used to perform the first rendering pass (the normal object).
          * </p>
          */
-        boost::scoped_ptr<AlwaysStencilOpenGLRenderer> fAlwaysStencil;
+        std::unique_ptr<AlwaysStencilOpenGLRenderer> fAlwaysStencil;
 
         /**
          * <p>
@@ -127,14 +127,14 @@ namespace simplicity
          * the outline.
          * </p>
          */
-        boost::shared_ptr<MonoColourOpenGLRenderer> fMonoColour;
+        std::shared_ptr<MonoColourOpenGLRenderer> fMonoColour;
 
         /**
          * <p>
          * The {@link simplicity::Renderer Renderer} used to perform the second rendering pass (the outline).
          * </p>
          */
-        boost::scoped_ptr<NotEqualStencilOpenGLRenderer> fNotEqualStencil;
+        std::unique_ptr<NotEqualStencilOpenGLRenderer> fNotEqualStencil;
 
         /**
          * <p>

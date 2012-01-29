@@ -40,7 +40,7 @@ namespace simplicity
 			 *
 			 * @param renderer The decorated {@link simplicity::Renderer Renderer}.
 			 */
-			RendererDecorator(boost::shared_ptr<Renderer> renderer);
+			RendererDecorator(std::shared_ptr<Renderer> renderer);
 
 			void
 			dispose();
@@ -55,7 +55,7 @@ namespace simplicity
 			 *
 			 * @return The decorated <code>Renderer</code>.
 			 */
-			boost::shared_ptr<Renderer>
+			std::shared_ptr<Renderer>
 			getRenderer();
 
 			void
@@ -75,7 +75,7 @@ namespace simplicity
 			 * @param renderer The decorated <code>Renderer</code>.
 			 */
 			void
-			setRenderer(boost::shared_ptr<Renderer> renderer);
+			setRenderer(std::shared_ptr<Renderer> renderer);
 
 		private:
 			/**
@@ -83,7 +83,7 @@ namespace simplicity
 			 * The decorated {@link simplicity::Renderer Renderer}.
 			 * </p>
 			 */
-			boost::shared_ptr<Renderer> renderer;
+			std::shared_ptr<Renderer> renderer;
 
 			/**
 			 * <p>

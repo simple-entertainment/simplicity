@@ -34,7 +34,7 @@ namespace simplicity
 			 *
 			 * @parentNode The node under which the background scene is to be added.
 			 */
-			void addBackground(boost::shared_ptr<Node> parentNode);
+			void addBackground(std::shared_ptr<Node> parentNode);
 
 			/**
 			 * <p>
@@ -45,7 +45,7 @@ namespace simplicity
 			 *
 			 * @return The camera that has been added.
 			 */
-			boost::shared_ptr<Camera> addCamera(boost::shared_ptr<Node> parentNode);
+			std::shared_ptr<Camera> addCamera(std::shared_ptr<Node> parentNode);
 
 			/**
 			 * <p>
@@ -56,7 +56,7 @@ namespace simplicity
 			 *
 			 * @return The light that has been added.
 			 */
-			boost::shared_ptr<Light> addLight(boost::shared_ptr<Node> parentNode);
+			std::shared_ptr<Light> addLight(std::shared_ptr<Node> parentNode);
 
 			/**
 			 * <p>
@@ -67,7 +67,7 @@ namespace simplicity
 			 *
 			 * @return A node containing the light or dark grey square.
 			 */
-			boost::shared_ptr<Node> createGreySquareOnXZPlane(const bool dark);
+			std::shared_ptr<Node> createGreySquareOnXZPlane(const bool dark);
 
 			/**
 			 * <p>
@@ -76,7 +76,7 @@ namespace simplicity
 			 *
 			 * @return The obstacle entities.
 			 */
-			std::vector<boost::shared_ptr<Entity> > createObstacles();
+			std::vector<std::shared_ptr<Entity> > createObstacles();
 
 			/**
 			 * <p>
@@ -87,7 +87,7 @@ namespace simplicity
 			 *
 			 * @return A node containing the square.
 			 */
-			boost::shared_ptr<Node> createSquareOnXZPlane(const RGBAColourVector<float>& colour);
+			std::shared_ptr<Node> createSquareOnXZPlane(const RGBAColourVector<>& colour);
 
 			/**
 			 * <p>
@@ -98,7 +98,7 @@ namespace simplicity
 			 * @param openNodes The 'open' nodes to display.
 			 */
 			void displayOpenNodes(RenderingEngine& renderingEngine,
-				const std::vector<boost::shared_ptr<const Node> >& openNodes);
+				const std::vector<std::shared_ptr<const Node> >& openNodes);
 
 			/**
 			 * <p>
@@ -108,7 +108,7 @@ namespace simplicity
 			 * @param renderingEngine The engine to display the path with.
 			 * @param path The path to display.
 			 */
-			void displayPath(RenderingEngine& renderingEngine, const std::vector<boost::shared_ptr<const Node> >& path);
+			void displayPath(RenderingEngine& renderingEngine, const std::vector<std::shared_ptr<const Node> >& path);
 
 			/**
 			 * <p>
@@ -117,7 +117,7 @@ namespace simplicity
 			 *
 			 * @return The navigation mesh.
 			 */
-			std::vector<boost::shared_ptr<Node> >& getNavigationMesh();
+			std::vector<std::shared_ptr<Node> >& getNavigationMesh();
 
 			/**
 			 * <p>
@@ -132,7 +132,7 @@ namespace simplicity
 			 * The navigation mesh from which the shortest path is to be found.
 			 * </p>
 			 */
-			std::vector<boost::shared_ptr<Node> > navigationMesh;
+			std::vector<std::shared_ptr<Node> > navigationMesh;
 	};
 }
 

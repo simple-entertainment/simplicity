@@ -31,7 +31,6 @@
 
 #include "SimpleOpenGLPickerDemo.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity
@@ -78,8 +77,7 @@ namespace simplicity
 		void SimpleOpenGLPickerDemo::init()
 		{
 			fRenderingEngine->setClearingColour(
-				shared_ptr < SimpleRGBAColourVector4<float>
-					> (new SimpleRGBAColourVector4<float>(0.95f, 0.95f, 0.95f, 1.0f)));
+				shared_ptr < SimpleRGBAColourVector4<> > (new SimpleRGBAColourVector4<>(0.95f, 0.95f, 0.95f, 1.0f)));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
@@ -106,7 +104,7 @@ namespace simplicity
 
 			shared_ptr<SimpleOpenGLPicker> picker(new SimpleOpenGLPicker);
 			picker->setRenderingEngine(fRenderingEngine);
-			static_pointer_cast<SimpleOpenGLPickingEngine>(fPickingEngine)->setRenderingEngine(fRenderingEngine);
+			static_pointer_cast < SimpleOpenGLPickingEngine > (fPickingEngine)->setRenderingEngine(fRenderingEngine);
 			fPickingEngine->setPicker(picker);
 
 			shared_ptr<SimpleOpenGLPickerDemo> demo(this);
@@ -120,7 +118,8 @@ namespace simplicity
 
 		void SimpleOpenGLPickerDemo::mouseClick(const int x, const int y)
 		{
-			cout << "Mouse clicked at (" + lexical_cast < string > (x) + ", " + lexical_cast < string > (y) + ")\n";
+			cout << "Mouse clicked at (" + boost::lexical_cast < string > (x) + ", " + boost::lexical_cast < string
+				> (y) + ")\n";
 
 			fPickingEngine->pickViewport(800, 600, x, y, 2.0f, 2.0f);
 		}

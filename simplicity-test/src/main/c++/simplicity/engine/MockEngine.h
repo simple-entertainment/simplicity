@@ -28,9 +28,9 @@ namespace simplicity
   class MockEngine : public simplicity::Engine
   {
     public:
-      MOCK_METHOD1(addEntities, void(std::vector<boost::shared_ptr<Entity> > entities));
-      MOCK_METHOD1(addEntity, void(boost::shared_ptr<Entity> entity));
-      MOCK_METHOD1(advance, boost::shared_ptr<EngineInput>(const boost::shared_ptr<EngineInput> input));
+      MOCK_METHOD1(addEntities, void(std::vector<std::shared_ptr<Entity> > entities));
+      MOCK_METHOD1(addEntity, void(std::shared_ptr<Entity> entity));
+      MOCK_METHOD1(advance, std::shared_ptr<EngineInput>(const std::shared_ptr<EngineInput> input));
       MOCK_METHOD0(destroy, void());
       MOCK_CONST_METHOD0(getPreferredFrequency, int());
       MOCK_METHOD0(init, void());

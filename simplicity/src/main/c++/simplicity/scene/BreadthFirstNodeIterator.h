@@ -49,7 +49,7 @@ namespace simplicity
 			 */
 			virtual ~BreadthFirstNodeIterator();
 
-			boost::shared_ptr<Node> getNextNode();
+			std::shared_ptr<Node> getNextNode();
 
 			bool hasMoreNodes() const;
 
@@ -61,7 +61,7 @@ namespace simplicity
 			 * The {@link simplicity::Node Node}s that have already been visited by the iteration.
 			 * </p>
 			 */
-			std::vector<boost::shared_ptr<Node> > queuedNodes;
+			std::vector<std::shared_ptr<Node> > queuedNodes;
 
 			/**
 			 * <p>
@@ -75,7 +75,7 @@ namespace simplicity
 			 * The {@link simplicity::Node Node}s who are still to be visited.
 			 * </p>
 			 */
-			std::queue<boost::shared_ptr<Node> > unvisitedNodes;
+			std::queue<std::shared_ptr<Node> > unvisitedNodes;
 	};
 }
 

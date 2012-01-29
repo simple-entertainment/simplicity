@@ -18,7 +18,6 @@
 
 #include "PreorderNodeIterator.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity
@@ -42,13 +41,13 @@ namespace simplicity
 		{
 			backtracksToNextNode++;
 
-			return (shared_ptr<Node>());
+			return shared_ptr<Node>();
 		}
 
 		// If the current node has children, move to it's first child.
 		if (nextNode->hasChildren())
 		{
-			return (nextNode->getChildren().at(0));
+			return nextNode->getChildren().at(0);
 		}
 
 		// If the current node has no children, backtrack to the next sibling.
@@ -64,7 +63,7 @@ namespace simplicity
 			// If the next node is the root, end the iteration.
 			if (nextNode.get() == &root)
 			{
-				return (shared_ptr<Node>());
+				return shared_ptr<Node>();
 			}
 
 			siblings = nextNode->getParent()->getChildren();
@@ -74,12 +73,12 @@ namespace simplicity
 		vector<shared_ptr<Node> >::iterator iterator = find(siblings.begin(), siblings.end(), nextNode);
 		iterator++;
 
-		return (*iterator);
+		return *iterator;
 	}
 
 	int PreorderNodeIterator::getBacktracksToNextNode() const
 	{
-		return (backtracksToNextNode);
+		return backtracksToNextNode;
 	}
 
 	shared_ptr<Node> PreorderNodeIterator::getNextNode()
@@ -87,18 +86,18 @@ namespace simplicity
 		// If the iteration has ended.
 		if (!nextNode.get())
 		{
-			return (shared_ptr<Node>());
+			return shared_ptr<Node>();
 		}
 
 		shared_ptr<Node> currentNode(nextNode);
 		nextNode = findNextNode();
 
-		return (currentNode);
+		return currentNode;
 	}
 
 	bool PreorderNodeIterator::hasMoreNodes() const
 	{
-		return (nextNode);
+		return nextNode.get();
 	}
 
 	void PreorderNodeIterator::reset()

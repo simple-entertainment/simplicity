@@ -47,11 +47,11 @@ namespace simplicity
 			 */
 			virtual ~SimpleAIEngine();
 
-			void addEntities(std::vector<boost::shared_ptr<Entity> > entities);
+			void addEntities(std::vector<std::shared_ptr<Entity> > entities);
 
-			void addEntity(boost::shared_ptr<Entity> entity);
+			void addEntity(std::shared_ptr<Entity> entity);
 
-			boost::shared_ptr<EngineInput> advance(const boost::shared_ptr<EngineInput> input);
+			std::shared_ptr<EngineInput> advance(const std::shared_ptr<EngineInput> input);
 
 			void destroy();
 
@@ -62,7 +62,7 @@ namespace simplicity
 			 *
 			 * @return The agents that are managed by this engine.
 			 */
-			const std::vector<boost::weak_ptr<Agent> > getAgents();
+			const std::vector<std::weak_ptr<Agent> > getAgents();
 
 		private:
 			/**
@@ -70,7 +70,7 @@ namespace simplicity
 			 * The agents that are managed by this engine.
 			 * </p>
 			 */
-			std::vector<boost::weak_ptr<Agent> > agents;
+			std::vector<std::weak_ptr<Agent> > agents;
 
 			void onInit();
 

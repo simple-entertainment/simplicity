@@ -53,7 +53,7 @@ namespace simplicity
 
 				void dispose();
 
-				boost::shared_ptr<Camera> getCamera();
+				std::shared_ptr<Camera> getCamera();
 
 				std::string getDescription();
 
@@ -80,21 +80,21 @@ namespace simplicity
 				 * The renderer used to render the outline of the selected shape.
 				 * </p>
 				 */
-				boost::shared_ptr<Renderer> fOutlineRenderer;
+				std::shared_ptr<Renderer> fOutlineRenderer;
 
 				/**
 				 * <p>
 				 * The picking engine for the demo.
 				 * </p>
 				 */
-				boost::shared_ptr<PickingEngine> fPickingEngine;
+				std::shared_ptr<PickingEngine> fPickingEngine;
 
 				/**
 				 * <p>
 				 * The rendering engine for the demo.
 				 * </p>
 				 */
-				boost::shared_ptr<RenderingEngine> fRenderingEngine;
+				std::shared_ptr<RenderingEngine> fRenderingEngine;
 		};
 	}
 }

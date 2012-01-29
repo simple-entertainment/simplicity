@@ -35,7 +35,7 @@ namespace simplicity
        * @param engine The <code>Engine</code> to add to the set of engines managed by this <code>CompositeEngine</code>.
        */
       virtual void
-      addEngine(boost::shared_ptr<Engine> engine) = 0;
+      addEngine(std::shared_ptr<Engine> engine) = 0;
 
       /**
        * <p>
@@ -45,7 +45,7 @@ namespace simplicity
        * @param engine The <code>Engine<code> to remove from the set of engines managed by this <code>CompositeEngine</code>.
        */
       virtual void
-      removeEngine(const boost::shared_ptr<Engine> engine) = 0;
+      removeEngine(const std::shared_ptr<Engine> engine) = 0;
   };
 }
 

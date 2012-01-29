@@ -19,7 +19,6 @@
 #include "../SENotSupportedException.h"
 #include "SimpleCompositeEngine.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity
@@ -38,7 +37,7 @@ namespace simplicity
 		engines.push_back(engine);
 	}
 
-	void SimpleCompositeEngine::addEntities(std::vector<boost::shared_ptr<Entity> > entities)
+	void SimpleCompositeEngine::addEntities(std::vector<shared_ptr<Entity> > entities)
 	{
 		for (unsigned int index = 0; index < engines.size(); index++)
 		{
@@ -46,7 +45,7 @@ namespace simplicity
 		}
 	}
 
-	void SimpleCompositeEngine::addEntity(boost::shared_ptr<Entity> entity)
+	void SimpleCompositeEngine::addEntity(shared_ptr<Entity> entity)
 	{
 		for (unsigned int index = 0; index < engines.size(); index++)
 		{

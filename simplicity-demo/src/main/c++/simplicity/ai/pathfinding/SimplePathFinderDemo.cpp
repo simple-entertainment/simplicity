@@ -24,7 +24,6 @@
 
 #include "SimplePathFinderDemo.h"
 
-using namespace boost;
 using namespace simplicity::opengl;
 using namespace std;
 

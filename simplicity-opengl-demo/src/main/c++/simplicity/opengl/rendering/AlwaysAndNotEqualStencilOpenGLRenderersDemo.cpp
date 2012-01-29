@@ -26,8 +26,6 @@
 
 #include "AlwaysAndNotEqualStencilOpenGLRenderersDemo.h"
 
-using namespace boost;
-
 namespace simplicity
 {
 	namespace opengl
@@ -70,8 +68,8 @@ namespace simplicity
 		void AlwaysAndNotEqualStencilOpenGLRenderersDemo::init()
 		{
 			renderingEngine.setClearingColour(
-				shared_ptr < SimpleRGBAColourVector4<float>
-					> (new SimpleRGBAColourVector4<float>(0.95f, 0.95f, 0.95f, 1.0f)));
+				shared_ptr < SimpleRGBAColourVector4<>
+					> (new SimpleRGBAColourVector4<>(0.95f, 0.95f, 0.95f, 1.0f)));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);

@@ -21,7 +21,6 @@
 
 #include "SimpleOpenGLRenderingEngineTest.h"
 
-using namespace boost;
 using namespace std;
 using namespace testing;
 
@@ -32,7 +31,7 @@ namespace simplicity
     /**
      * <p>
      * Unit test the method
-     * {@link simplicity::opengl::SimpleOpenGLRenderingEngine#addEntities(std::vector<boost::shared_ptr<Entity> >) addEntities(std::vector<boost::shared_ptr<Entity> >)}.
+     * {@link simplicity::opengl::SimpleOpenGLRenderingEngine#addEntities(std::vector<std::shared_ptr<Entity> >) addEntities(std::vector<std::shared_ptr<Entity> >)}.
      * </p>
      */
     TEST_F(SimpleOpenGLRenderingEngineTest, addEntities)
@@ -74,7 +73,7 @@ namespace simplicity
     /**
      * <p>
      * Unit test the methods
-     * {@link simplicity::opengl::SimpleOpenGLRenderingEngine#addRenderer(boost::shared_ptr<Renderer>) addRenderer(boost::shared_ptr<Renderer>)}
+     * {@link simplicity::opengl::SimpleOpenGLRenderingEngine#addRenderer(std::shared_ptr<Renderer>) addRenderer(std::shared_ptr<Renderer>)}
      * and {@link simplicity::opengl::SimpleOpenGLRenderingEngine#removeRenderer(const Renderer&) removeRenderer(const Renderer&)}.
      * </p>
      */

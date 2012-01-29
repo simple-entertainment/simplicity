@@ -13,7 +13,6 @@
 #include "VectorVG.h"
 #include "ModelConstants.h"
 
-using namespace boost;
 using namespace simplicity::model_constants;
 using namespace std;
 
@@ -33,32 +32,32 @@ namespace simplicity
   {
   }
 
-  shared_ptr<VertexGroup>
+  std::shared_ptr<VertexGroup>
   VectorVG::createEdgeSubsetVG(const int index)
   {
     return (createSubsetVG(index, 2));
   }
 
-  shared_ptr<VertexGroup>
+  std::shared_ptr<VertexGroup>
   VectorVG::createFaceSubsetVG(const int index)
   {
     return (createSubsetVG(index * VERTICES_IN_A_FACE, VERTICES_IN_A_FACE));
   }
 
-  shared_ptr<VertexGroup>
+  std::shared_ptr<VertexGroup>
   VectorVG::createSubsetVG(const int index, const int length)
   {
     int subsetStart = index * ITEMS_IN_CNV;
     int subsetLength = length * ITEMS_IN_CNV;
 
-    shared_ptr<vector<float> > subsetColours(
+    std::shared_ptr<vector<float> > subsetColours(
         new vector<float> (fColours->begin() + subsetStart, fColours->begin() + subsetStart + subsetLength));
-    shared_ptr<vector<float> > subsetNormals(
+    std::shared_ptr<vector<float> > subsetNormals(
         new vector<float> (fNormals->begin() + subsetStart, fNormals->begin() + subsetStart + subsetLength));
-    shared_ptr<vector<float> > subsetVertices(
+    std::shared_ptr<vector<float> > subsetVertices(
         new vector<float> (fVertices->begin() + subsetStart, fVertices->begin() + subsetStart + subsetLength));
 
-    shared_ptr<VectorVG> subsetVertexGroup(new VectorVG(*this));
+    std::shared_ptr<VectorVG> subsetVertexGroup(new VectorVG(*this));
     subsetVertexGroup->setIndexWithinParent(index);
     subsetVertexGroup->setColours(subsetColours);
     subsetVertexGroup->setNormals(subsetNormals);
@@ -67,16 +66,16 @@ namespace simplicity
     return (subsetVertexGroup);
   }
 
-  shared_ptr<VertexGroup>
+  std::shared_ptr<VertexGroup>
   VectorVG::createVertexSubsetVG(const int index)
   {
     return (createSubsetVG(index, 1));
   }
 
-  const TranslationVector<float>&
+  const TranslationVector<>&
   VectorVG::getCenter() const
   {
-    SimpleTranslationVector4<float>* translation = new SimpleTranslationVector4<float> ();
+    SimpleTranslationVector4<>* translation = new SimpleTranslationVector4<> ();
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;
@@ -177,7 +176,7 @@ namespace simplicity
   }
 
   void
-  VectorVG::setColours(shared_ptr<vector<float> > colours)
+  VectorVG::setColours(std::shared_ptr<vector<float> > colours)
   {
     fColours = colours;
   }
@@ -189,13 +188,13 @@ namespace simplicity
   }
 
   void
-  VectorVG::setNormals(shared_ptr<vector<float> > normals)
+  VectorVG::setNormals(std::shared_ptr<vector<float> > normals)
   {
     fNormals = normals;
   }
 
   void
-  VectorVG::setVertices(shared_ptr<vector<float> > vertices)
+  VectorVG::setVertices(std::shared_ptr<vector<float> > vertices)
   {
     fVertices = vertices;
   }

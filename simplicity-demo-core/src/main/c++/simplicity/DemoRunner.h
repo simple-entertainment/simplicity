@@ -42,7 +42,7 @@ namespace simplicity
        * @param demo The <code>Demo</code> to be added to the list of <code>Demo</code>s to be run.
        */
       virtual void
-      addDemo(boost::shared_ptr<Demo> demo) = 0;
+      addDemo(std::shared_ptr<Demo> demo) = 0;
 
       /**
        * <p>

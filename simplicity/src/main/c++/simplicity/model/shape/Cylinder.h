@@ -40,10 +40,10 @@ namespace simplicity
        */
       ~Cylinder();
 
-      const TranslationVector<float>&
+      const TranslationVector<>&
       getCenter() const;
 
-      RGBAColourVector<float>&
+      RGBAColourVector<>&
       getColour() const;
 
       /**
@@ -67,7 +67,7 @@ namespace simplicity
       getRadius() const;
 
       void
-      setColour(boost::shared_ptr<RGBAColourVector<float> > colour);
+      setColour(std::shared_ptr<RGBAColourVector<> > colour);
 
       /**
        * <p>
@@ -95,14 +95,14 @@ namespace simplicity
        * The point at the center of this <code>Cylinder</code>.
        * </p>
        */
-      boost::shared_ptr<TranslationVector<float> > fCenter;
+      std::shared_ptr<TranslationVector<> > fCenter;
 
       /**
        * <p>
        * The colour to render this <code>Cylinder</code> as.
        * </p>
        */
-      boost::shared_ptr<RGBAColourVector<float> > fColour;
+      std::shared_ptr<RGBAColourVector<> > fColour;
 
       /**
        * <p>

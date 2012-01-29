@@ -17,8 +17,8 @@
 
 #include "SimpleOpenGLPicker.h"
 
-using namespace boost;
 using namespace simplicity::model_constants;
+using namespace std;
 
 namespace simplicity
 {

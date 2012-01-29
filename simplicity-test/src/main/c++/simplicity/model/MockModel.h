@@ -28,7 +28,7 @@ namespace simplicity
   class MockModel : public Model
   {
     public:
-      MOCK_CONST_METHOD0(getCenter, const TranslationVector<float>&());
+      MOCK_CONST_METHOD0(getCenter, const TranslationVector<>&());
   };
 }
 

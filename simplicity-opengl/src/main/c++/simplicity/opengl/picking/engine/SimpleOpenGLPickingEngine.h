@@ -50,21 +50,21 @@ namespace simplicity
 				 */
 				virtual ~SimpleOpenGLPickingEngine();
 
-				void addEntities(std::vector<boost::shared_ptr<Entity> > entities);
+				void addEntities(std::vector<std::shared_ptr<Entity> > entities);
 
-				void addEntity(boost::shared_ptr<Entity> entity);
+				void addEntity(std::shared_ptr<Entity> entity);
 
-				void addPickListener(boost::shared_ptr<PickListener> listener);
+				void addPickListener(std::shared_ptr<PickListener> listener);
 
-				boost::shared_ptr<EngineInput> advance(const boost::shared_ptr<EngineInput> input);
+				std::shared_ptr<EngineInput> advance(const std::shared_ptr<EngineInput> input);
 
 				void destroy();
 
 				void firePickEvent(PickEvent event) const;
 
-				boost::shared_ptr<Camera> getCamera() const;
+				std::shared_ptr<Camera> getCamera() const;
 
-				boost::shared_ptr<Picker> getPicker() const;
+				std::shared_ptr<Picker> getPicker() const;
 
 				std::vector<Pick> getPicks() const;
 
@@ -77,9 +77,9 @@ namespace simplicity
 				 * @return The <code>RenderingEngine</code> who's <code>Scene</code> and <code>Camera</code> are used
 				 * when picking.
 				 */
-				boost::shared_ptr<RenderingEngine> getRenderingEngine() const;
+				std::shared_ptr<RenderingEngine> getRenderingEngine() const;
 
-				boost::shared_ptr<Scene> getScene() const;
+				std::shared_ptr<Scene> getScene() const;
 
 				void pick(const float x, const float y, const float width, const float height);
 
@@ -92,9 +92,9 @@ namespace simplicity
 
 				void removePickListener(const PickListener& listener);
 
-				void setCamera(boost::shared_ptr<Camera> camera);
+				void setCamera(std::shared_ptr<Camera> camera);
 
-				void setPicker(boost::shared_ptr<Picker> picker);
+				void setPicker(std::shared_ptr<Picker> picker);
 
 				/**
 				 * <p>
@@ -108,22 +108,22 @@ namespace simplicity
 				 * @param renderingEngine The <code>RenderingEngine</code> who's <code>Scene</code> and
 				 * <code>Camera</code> are used when picking.
 				 */
-				void setRenderingEngine(boost::shared_ptr<RenderingEngine> renderingEngine);
+				void setRenderingEngine(std::shared_ptr<RenderingEngine> renderingEngine);
 
-				void setScene(boost::shared_ptr<Scene> scene);
+				void setScene(std::shared_ptr<Scene> scene);
 
 			private:
 				/**
 				 * The viewpoint that will be adapted to create the picking viewpoint.
 				 */
-				boost::shared_ptr<Camera> camera;
+				std::shared_ptr<Camera> camera;
 
 				/**
 				 * <p>
 				 * The <code>PickListener</code>s to be invoked when a <code>Scene</code> is picked.
 				 * </p>
 				 */
-				std::vector<boost::shared_ptr<PickListener> > listeners;
+				std::vector<std::shared_ptr<PickListener> > listeners;
 
 				/**
 				 * <p>
@@ -131,7 +131,7 @@ namespace simplicity
 				 * <code>SimpleJOGLPickingEngine</code>.
 				 * </p>
 				 */
-				boost::shared_ptr<Picker> picker;
+				std::shared_ptr<Picker> picker;
 
 				/**
 				 * <p>
@@ -146,12 +146,12 @@ namespace simplicity
 				 * picking.
 				 * </p>
 				 */
-				boost::shared_ptr<RenderingEngine> renderingEngine;
+				std::shared_ptr<RenderingEngine> renderingEngine;
 
 				/**
 				 * The <code>Scene</code> to pick.
 				 */
-				boost::shared_ptr<Scene> scene;
+				std::shared_ptr<Scene> scene;
 
 				/**
 				 * <p>

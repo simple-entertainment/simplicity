@@ -19,7 +19,6 @@
 #include "ai/pathfinding/SimplePathFinderDemo.h"
 #include "ai/pathfinding/BezierPathInterpreterDemo.h"
 
-using namespace boost;
 using namespace simplicity;
 
 int main(int argc, char** argv)

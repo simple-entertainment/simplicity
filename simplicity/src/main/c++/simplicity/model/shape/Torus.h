@@ -41,10 +41,10 @@ namespace simplicity
       virtual
       ~Torus();
 
-      const TranslationVector<float>&
+      const TranslationVector<>&
       getCenter() const;
 
-      RGBAColourVector<float>&
+      RGBAColourVector<>&
       getColour() const;
 
       /**
@@ -68,7 +68,7 @@ namespace simplicity
       getOuterRadius() const;
 
       void
-      setColour(boost::shared_ptr<RGBAColourVector<float> > colour);
+      setColour(std::shared_ptr<RGBAColourVector<> > colour);
 
       /**
        * <p>
@@ -96,14 +96,14 @@ namespace simplicity
        * The point at the center of this <code>Torus</code>.
        * </p>
        */
-      boost::shared_ptr<TranslationVector<float> > fCenter;
+      std::shared_ptr<TranslationVector<> > fCenter;
 
       /**
        * <p>
        * The colour to render this <code>Torus</code> as.
        * </p>
        */
-      boost::shared_ptr<RGBAColourVector<float> > fColour;
+      std::shared_ptr<RGBAColourVector<> > fColour;
 
       /**
        * <p>

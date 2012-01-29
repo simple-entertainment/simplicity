@@ -39,15 +39,15 @@ namespace simplicity
        * @param listener A <code>PickListener</code> to be invoked when a <code>SceneGraph</code> is picked.
        */
       virtual void
-      addPickListener(boost::shared_ptr<PickListener> listener) = 0;
+      addPickListener(std::shared_ptr<PickListener> listener) = 0;
 
       /**
        * <p>
        * Performs the outstanding picks against a {@link simplicity::SceneGraph SceneGraph}.
        * </p>
        */
-      virtual boost::shared_ptr<EngineInput>
-      advance(const boost::shared_ptr<EngineInput> input) = 0;
+      virtual std::shared_ptr<EngineInput>
+      advance(const std::shared_ptr<EngineInput> input) = 0;
 
       /**
        * <p>
@@ -67,7 +67,7 @@ namespace simplicity
        *
        * @return The viewpoint that will be adapted to create the picking viewpoint.
        */
-      virtual boost::shared_ptr<Camera>
+      virtual std::shared_ptr<Camera>
       getCamera() const = 0;
 
       /**
@@ -78,7 +78,7 @@ namespace simplicity
        *
        * @return The <code>Picker</code> that picks the <code>SceneGraph</code> for this <code>PickingEngine</code>.
        */
-      virtual boost::shared_ptr<Picker>
+      virtual std::shared_ptr<Picker>
       getPicker() const = 0;
 
       /**
@@ -99,7 +99,7 @@ namespace simplicity
        *
        * @return The <code>Scene</code> to be picked.
        */
-      virtual boost::shared_ptr<Scene>
+      virtual std::shared_ptr<Scene>
       getScene() const = 0;
 
       /**
@@ -174,7 +174,7 @@ namespace simplicity
        * given will not be modified when creating the picking viewpoint.
        */
       virtual void
-      setCamera(boost::shared_ptr<Camera> camera) = 0;
+      setCamera(std::shared_ptr<Camera> camera) = 0;
 
       /**
        * <p>
@@ -186,7 +186,7 @@ namespace simplicity
        * for this <code>PickingEngine</code>.
        */
       virtual void
-      setPicker(boost::shared_ptr<Picker> picker) = 0;
+      setPicker(std::shared_ptr<Picker> picker) = 0;
 
       /**
        * <p>
@@ -196,7 +196,7 @@ namespace simplicity
        * @param scene The <code>Scene</code> to be picked.
        */
       virtual void
-      setScene(boost::shared_ptr<Scene> scene) = 0;
+      setScene(std::shared_ptr<Scene> scene) = 0;
   };
 }
 
