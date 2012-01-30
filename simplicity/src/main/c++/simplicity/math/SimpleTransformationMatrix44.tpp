@@ -36,9 +36,9 @@ namespace simplicity
 	}
 
 	template<typename Data>
-	unique_ptr<TranslationVector<> > SimpleTransformationMatrix44<Data>::getTranslation()
+	unique_ptr<TranslationVector<> > SimpleTransformationMatrix44<Data>::getTranslation() const
 	{
-		array<Data, SimpleMatrix44<>::SIZE>& data = SimpleMatrix44<>::getData();
+		const array<Data, SimpleMatrix44<>::SIZE>& data = SimpleMatrix44<>::getData();
 		unique_ptr<TranslationVector<> > translation(new SimpleTranslationVector4<>);
 		array<Data, SimpleTranslationVector4<>::SIZE>& translationData = translation->getData();
 

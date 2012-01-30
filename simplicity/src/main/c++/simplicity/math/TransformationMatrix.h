@@ -43,7 +43,7 @@ namespace simplicity
 			 *
 			 * @return The translation portion of this <code>TransformationMatrix</code>.
 			 */
-			virtual std::unique_ptr<TranslationVector<> > getTranslation() = 0;
+			virtual std::unique_ptr<TranslationVector<> > getTranslation() const = 0;
 
 			/**
 			 * <p>

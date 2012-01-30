@@ -92,7 +92,7 @@ namespace simplicity
         SimpleTransformationMatrix44<> transformation;
         transformation.getTranslation()->translateZ(capsule.getLength());
 
-        glMultMatrixf(transformation.getRawData());
+        glMultMatrixf(transformation.getData().data());
 
         gluSphere(gluNewQuadric(), capsule.getRadius(), capsule.getSlices(), capsule.getSlices());
       }
@@ -113,7 +113,7 @@ namespace simplicity
         SimpleTransformationMatrix44<> transformation;
         transformation.rotate(pi<float> (), SimpleTranslationVector4<> (0.0f, 1.0f, 0.0f, 1.0f));
 
-        glMultMatrixf(transformation.getRawData());
+        glMultMatrixf(transformation.getData().data());
 
         gluDisk(gluNewQuadric(), 0.0f, cylinder.getRadius(), cylinder.getSlices(), 1);
       }
@@ -124,7 +124,7 @@ namespace simplicity
         SimpleTransformationMatrix44<> transformation;
         transformation.getTranslation()->translateZ(cylinder.getLength());
 
-        glMultMatrixf(transformation.getRawData());
+        glMultMatrixf(transformation.getData().data());
 
         gluDisk(gluNewQuadric(), 0.0f, cylinder.getRadius(), cylinder.getSlices(), 1);
       }

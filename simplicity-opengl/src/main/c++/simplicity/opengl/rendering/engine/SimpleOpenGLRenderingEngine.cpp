@@ -265,7 +265,7 @@ namespace simplicity
 				currentNode = iterator.getNextNode();
 
 				glPushMatrix();
-				glMultMatrixf(currentNode->getTransformation().getRawData());
+				glMultMatrixf(currentNode->getTransformation().getData().data());
 
 				// Render the current node.
 				ModelNode* modelNode = dynamic_cast<ModelNode*>(currentNode.get());

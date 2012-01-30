@@ -51,7 +51,7 @@ namespace simplicity
         init();
       }
 
-      glMultMatrixf(getTransformation().getRawData());
+      glMultMatrixf(getTransformation().getData().data());
     }
 
     float

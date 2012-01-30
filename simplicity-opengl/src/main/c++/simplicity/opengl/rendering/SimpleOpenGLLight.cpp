@@ -46,14 +46,14 @@ namespace simplicity
       if (fLightingMode == Light::SHADED)
       {
         SimpleTranslationVector4<> origin;
-        glLightfv(GL_LIGHT0, GL_POSITION, origin.getRawData());
+        glLightfv(GL_LIGHT0, GL_POSITION, origin.getData().data());
       }
       else if (fLightingMode == Light::SCENE)
       {
-        glLightfv(GL_LIGHT0, GL_POSITION, getTransformation().getTranslation()->getRawData());
-        glLightfv(GL_LIGHT0, GL_AMBIENT, fAmbientLight->getRawData());
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, fDiffuseLight->getRawData());
-        glLightfv(GL_LIGHT0, GL_SPECULAR, fSpecularLight->getRawData());
+        glLightfv(GL_LIGHT0, GL_POSITION, getTransformation().getTranslation()->getData().data());
+        glLightfv(GL_LIGHT0, GL_AMBIENT, fAmbientLight->getData().data());
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, fDiffuseLight->getData().data());
+        glLightfv(GL_LIGHT0, GL_SPECULAR, fSpecularLight->getData().data());
       }
     }
 
@@ -129,9 +129,9 @@ namespace simplicity
         colour.setRed(0.5f);
         colour.setGreen(0.5f);
         colour.setBlue(0.5f);
-        glLightfv(GL_LIGHT0, GL_AMBIENT, colour.getRawData());
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, colour.getRawData());
-        glLightfv(GL_LIGHT0, GL_SPECULAR, colour.getRawData());
+        glLightfv(GL_LIGHT0, GL_AMBIENT, colour.getData().data());
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, colour.getData().data());
+        glLightfv(GL_LIGHT0, GL_SPECULAR, colour.getData().data());
 
         glEnable(GL_LIGHT0);
       }

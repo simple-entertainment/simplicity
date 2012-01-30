@@ -78,7 +78,7 @@ namespace simplicity
 			 */
 			SimpleTransformationMatrix44(const array<Data, SimpleMatrix44<>::SIZE>& data);
 
-			std::unique_ptr<TranslationVector<> > getTranslation();
+			std::unique_ptr<TranslationVector<> > getTranslation() const;
 
 			void rotate(const Data angle, const TranslationVector<Data, SimpleMatrix44<>::HEIGHT>& axis);
 
