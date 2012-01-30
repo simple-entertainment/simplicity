@@ -20,7 +20,18 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTranslationVector4#translateX() translateX()}.
+	 * Unit test the method
+	 * {@link simplicity::SimpleTranslationVector4#getProximity(const TranslationVector<>&) getProximity(const TranslationVector<>&)}.
+	 * </p>
+	 */
+	TEST_F(SimpleTranslationVector4Test, getProximity)
+	{
+		ASSERT_NEAR(8.775f, objectUnderTest.getProximity(SimpleTranslationVector4<>(4.0f, 5.0f, 6.0f, 1.0f)), 0.0001f);
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleTranslationVector4#translateX(const Data) translateX(const Data)}.
 	 * </p>
 	 */
 	TEST_F(SimpleTranslationVector4Test, translateX)
@@ -33,7 +44,7 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTranslationVector4#translateY() translateY()}.
+	 * Unit test the method {@link simplicity::SimpleTranslationVector4#translateY(const Data) translateY(const Data)}.
 	 * </p>
 	 */
 	TEST_F(SimpleTranslationVector4Test, translateY)
@@ -46,7 +57,7 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTranslationVector4#translateZ() translateZ()}.
+	 * Unit test the method {@link simplicity::SimpleTranslationVector4#translateZ(const Data) translateZ(const Data)}.
 	 * </p>
 	 */
 	TEST_F(SimpleTranslationVector4Test, translateZ)

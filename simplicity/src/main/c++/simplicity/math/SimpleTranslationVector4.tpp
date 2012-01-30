@@ -37,6 +37,12 @@ namespace simplicity
 	}
 
 	template<typename Data>
+	Data SimpleTranslationVector4<Data>::getProximity(const TranslationVector<>& other) const
+	{
+		return (*this - other)->getLength();
+	}
+
+	template<typename Data>
 	Data SimpleTranslationVector4<Data>::getW() const
 	{
 		return SimpleVector4<Data>::getData().at(3);

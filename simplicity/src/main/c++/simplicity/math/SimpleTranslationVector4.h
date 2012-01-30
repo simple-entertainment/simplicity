@@ -71,6 +71,8 @@ namespace simplicity
 			 */
 			SimpleTranslationVector4(const std::array<Data, SimpleVector4<>::SIZE>& data);
 
+			Data getProximity(const TranslationVector<>& other) const;
+
 			Data getW() const;
 
 			Data getX() const;

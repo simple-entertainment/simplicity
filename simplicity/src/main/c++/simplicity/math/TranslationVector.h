@@ -34,6 +34,19 @@ namespace simplicity
 		public:
 			/**
 			 * <p>
+			 * Retrieves the distance between this <code>TranslationVector</code> and the <code>TranslationVector</code>
+			 * given.
+			 * </p>
+			 *
+			 * @param other The <code>TranslationVector</code> whose proximity is to be retrieved.
+			 *
+			 * @return The distance between this <code>TranslationVector</code> and the <code>TranslationVector</code>
+			 * given.
+			 */
+			virtual Data getProximity(const TranslationVector<>& other) const = 0;
+
+			/**
+			 * <p>
 			 * Retrieves the w component of this <code>TranslationVector</code>.
 			 * </p>
 			 *
