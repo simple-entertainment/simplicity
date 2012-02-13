@@ -14,35 +14,26 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include <algorithm>
-
-#include "common/shared_equals_raw.h"
-
 #include "Entity.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	Entity::Entity()
+	template<typename ComponentType>
+	vector<shared_ptr<ComponentType> > Entity::getComponents()
 	{
-	}
+		vector<shared_ptr<ComponentType> > typedComponents;
 
-	Entity::~Entity()
-	{
-	}
+		for (unsigned int index = 0; index < components.size(); index++)
+		{
+			shared_ptr<ComponentType> component(dynamic_pointer_cast<ComponentType>(components.at(index)));
+			if (component.get() != NULL)
+			{
+				typedComponents.push_back(component);
+			}
+		}
 
-	void Entity::addComponent(shared_ptr<Component> component)
-	{
-		components.push_back(component);
-	}
-
-	void Entity::removeComponent(const Component& component)
-	{
-		shared_equals_raw<Component> sharedEqualsRaw(&component);
-		vector<shared_ptr<Component> >::iterator sharedComponent(
-			find_if(components.begin(), components.end(), sharedEqualsRaw));
-
-		components.erase(sharedComponent);
+		return typedComponents;
 	}
 }

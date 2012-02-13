@@ -62,18 +62,10 @@ namespace simplicity
 			 * Retrieves the components.
 			 * </p>
 			 *
-			 * @return components The components.
+			 * @return The components.
 			 */
-			std::vector<std::shared_ptr<Component> > getComponents();
-
-			/**
-			 * <p>
-			 * Retrieves the components.
-			 * </p>
-			 *
-			 * @return components The components.
-			 */
-			const std::vector<std::shared_ptr<Component> > getComponents() const;
+			template<typename ComponentType = Component>
+			std::vector<std::shared_ptr<ComponentType> > getComponents();
 
 			/**
 			 * <p>
@@ -93,5 +85,7 @@ namespace simplicity
 			std::vector<std::shared_ptr<Component> > components;
 	};
 }
+
+#include "Entity.tpp"
 
 #endif /* ENTITY_H_ */
