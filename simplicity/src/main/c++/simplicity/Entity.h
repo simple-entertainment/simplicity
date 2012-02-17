@@ -65,7 +65,7 @@ namespace simplicity
 			 * @return The components.
 			 */
 			template<typename ComponentType = Component>
-			std::vector<std::shared_ptr<ComponentType> > getComponents();
+			std::vector<std::shared_ptr<ComponentType> > getComponents() const;
 
 			/**
 			 * <p>

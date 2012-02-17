@@ -21,7 +21,7 @@ using namespace std;
 namespace simplicity
 {
 	template<typename ComponentType>
-	vector<shared_ptr<ComponentType> > Entity::getComponents()
+	vector<shared_ptr<ComponentType> > Entity::getComponents() const
 	{
 		vector<shared_ptr<ComponentType> > typedComponents;
 
