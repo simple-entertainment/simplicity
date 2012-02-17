@@ -174,9 +174,7 @@ namespace simplicity
 	template<typename Data>
 	void SimpleVector4<Data>::normalize()
 	{
-		Data sum = data.at(0) + data.at(1) + data.at(2);
-
-		scale(data, 1 / sum);
+		scale(data, 1 / getLength());
 	}
 
 	template<typename Data>

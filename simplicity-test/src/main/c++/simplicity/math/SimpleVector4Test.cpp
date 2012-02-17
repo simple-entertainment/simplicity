@@ -214,16 +214,14 @@ namespace simplicity
 	{
 		array<float, SimpleVector4<>::SIZE>& data = objectUnderTest.getData();
 
-		data.at(0) = 0.0f;
-		data.at(1) = 0.0f;
-		data.at(2) = 3.0f;
+		data.at(0) = 1.0f;
+		data.at(1) = 2.0f;
+		data.at(2) = 7.0f;
 		data.at(3) = 1.0f;
 
 		objectUnderTest.normalize();
 
-		ASSERT_EQ(0.0f, data.at(0));
-		ASSERT_EQ(0.0f, data.at(1));
-		ASSERT_EQ(1.0f, data.at(2));
+		ASSERT_EQ(1.0f, objectUnderTest.getLength());
 		ASSERT_EQ(1.0f, data.at(3));
 	}
 
