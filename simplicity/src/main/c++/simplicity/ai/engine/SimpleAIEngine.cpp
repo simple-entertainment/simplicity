@@ -30,30 +30,25 @@ namespace simplicity
 
 	void SimpleAIEngine::addEntities(vector<shared_ptr<Entity> > entities)
 	{
-		for (unsigned int index = 0; index < entities.size(); index++)
+		for (shared_ptr<Entity> entity : entities)
 		{
-			addEntity(entities.at(index));
+			addEntity(entity);
 		}
 	}
 
 	void SimpleAIEngine::addEntity(shared_ptr<Entity> entity)
 	{
-		for (unsigned int index = 0; index < entity->getComponents().size(); index++)
+		for (shared_ptr<Agent> agent : entity->getComponents<Agent>())
 		{
-			weak_ptr<Agent> agent(dynamic_pointer_cast<Agent>(entity->getComponents().at(index)));
-
-			if (!agent.expired())
-			{
-				agents.push_back(agent);
-			}
+			agents.push_back(agent);
 		}
 	}
 
 	shared_ptr<EngineInput> SimpleAIEngine::advance(const shared_ptr<EngineInput> input)
 	{
-		for (unsigned int index = 0; index < agents.size(); index++)
+		for (shared_ptr<Agent> agent : agents)
 		{
-			agents.at(index).lock()->think();
+			agent->think();
 		}
 
 		return shared_ptr<EngineInput>();
@@ -63,7 +58,7 @@ namespace simplicity
 	{
 	}
 
-	const std::vector<weak_ptr<Agent> > SimpleAIEngine::getAgents()
+	const std::vector<shared_ptr<Agent> > SimpleAIEngine::getAgents()
 	{
 		return agents;
 	}

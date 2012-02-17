@@ -62,7 +62,7 @@ namespace simplicity
 			 *
 			 * @return The agents that are managed by this engine.
 			 */
-			const std::vector<std::weak_ptr<Agent> > getAgents();
+			const std::vector<std::shared_ptr<Agent> > getAgents();
 
 		private:
 			/**
@@ -70,7 +70,7 @@ namespace simplicity
 			 * The agents that are managed by this engine.
 			 * </p>
 			 */
-			std::vector<std::weak_ptr<Agent> > agents;
+			std::vector<std::shared_ptr<Agent> > agents;
 
 			void onInit();
 

@@ -59,9 +59,9 @@ namespace simplicity
 		// Verify test results.
 		// //////////////////////////////////////////////////
 		ASSERT_EQ(3u, objectUnderTest.getAgents().size());
-		ASSERT_EQ(mockComponent0, objectUnderTest.getAgents().at(0).lock());
-		ASSERT_EQ(mockComponent1, objectUnderTest.getAgents().at(1).lock());
-		ASSERT_EQ(mockComponent2, objectUnderTest.getAgents().at(2).lock());
+		ASSERT_EQ(mockComponent0, objectUnderTest.getAgents().at(0));
+		ASSERT_EQ(mockComponent1, objectUnderTest.getAgents().at(1));
+		ASSERT_EQ(mockComponent2, objectUnderTest.getAgents().at(2));
 	}
 
 	/**
