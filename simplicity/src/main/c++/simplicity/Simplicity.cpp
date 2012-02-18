@@ -20,7 +20,9 @@ using namespace std;
 
 namespace simplicity
 {
-	unique_ptr<RunnableEngine> Simplicity::ENGINE = unique_ptr<RunnableEngine>();
+	unique_ptr<RunnableEngine> Simplicity::engine = unique_ptr<RunnableEngine>();
+
+	vector<shared_ptr<Entity> > Simplicity::entities = vector<shared_ptr<Entity> >();
 
 	Simplicity::Simplicity()
 	{
@@ -30,13 +32,33 @@ namespace simplicity
 	{
 	}
 
-	RunnableEngine& Simplicity::simplicity()
+	void Simplicity::addEntities(vector<shared_ptr<Entity> > entities)
 	{
-		return *ENGINE;
+		for (shared_ptr<Entity> entity : entities)
+		{
+			Simplicity::entities.push_back(entity);
+			engine->addEntity(entity);
+		}
 	}
 
-	void Simplicity::simplicity(unique_ptr<RunnableEngine> engine)
+	void Simplicity::addEntity(shared_ptr<Entity> entity)
 	{
-		ENGINE = move(engine);
+		entities.push_back(entity);
+		engine->addEntity(entity);
+	}
+
+	void Simplicity::finish()
+	{
+		engine->destroy();
+	}
+
+	void Simplicity::init(unique_ptr<RunnableEngine> engine)
+	{
+		Simplicity::engine = move(engine);
+	}
+
+	void Simplicity::start()
+	{
+		engine->run();
 	}
 }

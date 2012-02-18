@@ -24,12 +24,51 @@ namespace simplicity
 	class Simplicity
 	{
 		public:
-			static RunnableEngine& simplicity();
+			/**
+			 * <p>
+			 * Adds the given {@link simplicity::Entity Entity}s to the <code>Entity</code>s managed by simplicity.
+			 * </p>
+			 *
+			 * @param entities The <code>Entity</code>s to be managed by simplicity.
+			 */
+			static void addEntities(std::vector<std::shared_ptr<Entity> > entities);
 
-			static void simplicity(std::unique_ptr<RunnableEngine> engine);
+			/**
+			 * <p>
+			 * Adds the given {@link simplicity::Entity Entity} to the <code>Entity</code>s managed by simplicity.
+			 * </p>
+			 *
+			 * @param entity The <code>Entity</code> to be managed by simplicity.
+			 */
+			static void addEntity(std::shared_ptr<Entity> entity);
+
+			static void finish();
+
+			/**
+			 * <p>
+			 * Initialises simplicity with the given {@link simplicity::Engine Engine}.
+			 * </p>
+			 *
+			 * @param engine The <code>Engine</code> to initialise simplicity with.
+			 */
+			static void init(std::unique_ptr<RunnableEngine> engine);
+
+			static void start();
 
 		private:
-			static std::unique_ptr<RunnableEngine> ENGINE;
+			/**
+			 * <p>
+			 * The {@link simplicity::Engine Engine} that does the actual work for simplicity.
+			 * </p>
+			 */
+			static std::unique_ptr<RunnableEngine> engine;
+
+			/**
+			 * <p>
+			 * The {@link simplicity::Entity Entity}s managed by simplicity.
+			 * </p>
+			 */
+			static std::vector<std::shared_ptr<Entity> > entities;
 
 			Simplicity();
 
