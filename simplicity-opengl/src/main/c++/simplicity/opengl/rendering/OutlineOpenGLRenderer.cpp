@@ -1,143 +1,141 @@
 /*
- This file is part of The Simplicity Engine.
-
- The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
- by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
- The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright © 2012 Simple Entertainment Limited
+ *
+ * This file is part of The Simplicity Engine.
+ *
+ * The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
+ * <http://www.gnu.org/licenses/>.
  */
 #include <GL/glew.h>
 
 #include "OutlineOpenGLRenderer.h"
 
+using namespace std;
+
 namespace simplicity
 {
-  namespace opengl
-  {
-	  const float OutlineOpenGLRenderer::DEFAULT_OUTLINE_WIDTH = 3.0f;
+	namespace opengl
+	{
+		const float OutlineOpenGLRenderer::DEFAULT_OUTLINE_WIDTH = 3.0f;
 
-    OutlineOpenGLRenderer::OutlineOpenGLRenderer() :
-      fMonoColour(new MonoColourOpenGLRenderer), fOutlineWidth(DEFAULT_OUTLINE_WIDTH)
-    {
-      fAlwaysStencil.reset(new AlwaysStencilOpenGLRenderer(fMonoColour));
-      fNotEqualStencil.reset(new NotEqualStencilOpenGLRenderer(fMonoColour));
-    }
+		OutlineOpenGLRenderer::OutlineOpenGLRenderer() :
+			alwaysStencil(new AlwaysStencilOpenGLRenderer(monoColour)), monoColour(new MonoColourOpenGLRenderer), notEqualStencil(
+				new NotEqualStencilOpenGLRenderer(monoColour)), outlineWidth(DEFAULT_OUTLINE_WIDTH)
+		{
 
-    OutlineOpenGLRenderer::~OutlineOpenGLRenderer()
-    {
-    }
+		}
 
-    void
-    OutlineOpenGLRenderer::dispose()
-    {
-    }
+		OutlineOpenGLRenderer::~OutlineOpenGLRenderer()
+		{
+		}
 
-    Renderer::DrawingMode
-    OutlineOpenGLRenderer::getDrawingMode() const
-    {
-      return (fMonoColour->getDrawingMode());
-    }
+		void OutlineOpenGLRenderer::dispose()
+		{
+		}
 
-    std::shared_ptr<RGBAColourVector<> >
-    OutlineOpenGLRenderer::getOutlineColour() const
-    {
-      return (fMonoColour->getColour());
-    }
+		Renderer::DrawingMode OutlineOpenGLRenderer::getDrawingMode() const
+		{
+			return monoColour->getDrawingMode();
+		}
 
-    float
-    OutlineOpenGLRenderer::getOutlineWidth() const
-    {
-      return (fOutlineWidth);
-    }
+		const RGBAColourVector<>& OutlineOpenGLRenderer::getOutlineColour() const
+		{
+			return monoColour->getColour();
+		}
 
-    void
-    OutlineOpenGLRenderer::init()
-    {
-    }
+		float OutlineOpenGLRenderer::getOutlineWidth() const
+		{
+			return outlineWidth;
+		}
 
-    void
-    OutlineOpenGLRenderer::renderModel(const Model& model)
-    {
-      unsigned char lightingEnabledParams;
-      glGetBooleanv(GL_LIGHTING, &lightingEnabledParams);
-      unsigned char cullFaceEnabledParams;
-      glGetBooleanv(GL_CULL_FACE, &cullFaceEnabledParams);
+		void OutlineOpenGLRenderer::init()
+		{
+		}
 
-      // Prepare for setting the stencil.
-      glDrawBuffer(GL_NONE);
-      if (cullFaceEnabledParams)
-      {
-        glDisable(GL_CULL_FACE);
-      }
+		void OutlineOpenGLRenderer::renderModel(const Model& model)
+		{
+			unsigned char lightingEnabledParams;
+			glGetBooleanv(GL_LIGHTING, &lightingEnabledParams);
+			unsigned char cullFaceEnabledParams;
+			glGetBooleanv(GL_CULL_FACE, &cullFaceEnabledParams);
 
-      fAlwaysStencil->init();
-      fAlwaysStencil->renderModel(model);
-      fAlwaysStencil->dispose();
+			// Prepare for setting the stencil.
+			glDrawBuffer(GL_NONE);
+			if (cullFaceEnabledParams)
+			{
+				glDisable(GL_CULL_FACE);
+			}
 
-      // Restore rendering environment settings.
-      glDrawBuffer(GL_BACK);
+			alwaysStencil->init();
+			alwaysStencil->renderModel(model);
+			alwaysStencil->dispose();
 
-      // Prepare for rendering the outline.
+			// Restore rendering environment settings.
+			glDrawBuffer(GL_BACK);
 
-      if (lightingEnabledParams)
-      {
-        glDisable(GL_LIGHTING);
-      }
+			// Prepare for rendering the outline.
 
-      // If outlines need to be drawn for the edges or faces, draw them.
-      if (getDrawingMode() != VERTICES)
-      {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glLineWidth(fOutlineWidth);
+			if (lightingEnabledParams)
+			{
+				glDisable(GL_LIGHTING);
+			}
 
-        fNotEqualStencil->init();
-        fNotEqualStencil->renderModel(model);
-        fNotEqualStencil->dispose();
+			// If outlines need to be drawn for the edges or faces, draw them.
+			if (getDrawingMode() != VERTICES)
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+				glLineWidth(outlineWidth);
 
-        glLineWidth(1.0f);
-      }
+				notEqualStencil->init();
+				notEqualStencil->renderModel(model);
+				notEqualStencil->dispose();
 
-      // Draw outlines for the vertices (if edges or faces are being drawn this just gives nice rounded corners).
-      glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-      glPointSize(fOutlineWidth);
+				glLineWidth(1.0f);
+			}
 
-      fNotEqualStencil->init();
-      fNotEqualStencil->renderModel(model);
-      fNotEqualStencil->dispose();
+			// Draw outlines for the vertices (if edges or faces are being drawn this just gives nice rounded corners).
+			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+			glPointSize(outlineWidth);
 
-      glPointSize(1.0f);
+			notEqualStencil->init();
+			notEqualStencil->renderModel(model);
+			notEqualStencil->dispose();
 
-      // Restore rendering environment settings.
-      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-      if (lightingEnabledParams)
-      {
-        glEnable(GL_LIGHTING);
-      }
-      if (cullFaceEnabledParams)
-      {
-        glEnable(GL_CULL_FACE);
-      }
-    }
+			glPointSize(1.0f);
 
-    void
-    OutlineOpenGLRenderer::setDrawingMode(const DrawingMode mode)
-    {
-      fMonoColour->setDrawingMode(mode);
-    }
+			// Restore rendering environment settings.
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			if (lightingEnabledParams)
+			{
+				glEnable(GL_LIGHTING);
+			}
+			if (cullFaceEnabledParams)
+			{
+				glEnable(GL_CULL_FACE);
+			}
+		}
 
-    void
-    OutlineOpenGLRenderer::setOutlineColour(std::shared_ptr<RGBAColourVector<> > outlineColour)
-    {
-      fMonoColour->setColour(outlineColour);
-    }
+		void OutlineOpenGLRenderer::setDrawingMode(const DrawingMode mode)
+		{
+			this->monoColour->setDrawingMode(mode);
+		}
 
-    void
-    OutlineOpenGLRenderer::setOutlineWidth(const float outlineWidth)
-    {
-      fOutlineWidth = outlineWidth;
-    }
-  }
+		void OutlineOpenGLRenderer::setOutlineColour(unique_ptr<RGBAColourVector<> > outlineColour)
+		{
+			this->monoColour->setColour(move(outlineColour));
+		}
+
+		void OutlineOpenGLRenderer::setOutlineWidth(const float outlineWidth)
+		{
+			this->outlineWidth = outlineWidth;
+		}
+	}
 }

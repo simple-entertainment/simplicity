@@ -18,7 +18,7 @@
 #include <stdio.h>
 
 #include <simplicity/common/shared_equals_raw.h>
-#include <simplicity/math/SimpleRGBAColourVector4.h>
+#include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/PreorderNodeIterator.h>
 #include <simplicity/SEInvalidOperationException.h>
 
@@ -34,7 +34,7 @@ namespace simplicity
 			"simplicity::opengl::SimpleOpenGLRenderingEngine");
 
 		SimpleOpenGLRenderingEngine::SimpleOpenGLRenderingEngine() :
-			clearingColour(new SimpleRGBAColourVector4<>(0.0f, 0.0f, 0.0f, 1.0f)), clearsBuffers(true), initialised(
+			clearingColour(MathFactory::getInstance().createRGBAColourVector()), clearsBuffers(true), initialised(
 				false), viewportHeight(600), viewportWidth(800)
 		{
 		}
@@ -55,7 +55,7 @@ namespace simplicity
 		{
 			for (unsigned int index = 0; index < entity->getComponents().size(); index++)
 			{
-				std::shared_ptr<Node> node(dynamic_pointer_cast<Node>(entity->getComponents().at(index)));
+				std::shared_ptr<Node> node(dynamic_pointer_cast < Node > (entity->getComponents().at(index)));
 
 				if (node.get())
 				{
@@ -153,9 +153,9 @@ namespace simplicity
 			return camera;
 		}
 
-		std::shared_ptr<RGBAColourVector<> > SimpleOpenGLRenderingEngine::getClearingColour() const
+		const RGBAColourVector<>& SimpleOpenGLRenderingEngine::getClearingColour() const
 		{
-			return clearingColour;
+			return *clearingColour;
 		}
 
 		std::shared_ptr<Node> SimpleOpenGLRenderingEngine::getRendererRoot(const Renderer& renderer) const
@@ -268,8 +268,8 @@ namespace simplicity
 				glMultMatrixf(currentNode->getTransformation().getData().data());
 
 				// Render the current node.
-				ModelNode* modelNode = dynamic_cast<ModelNode*>(currentNode.get());
-				if (modelNode)
+				ModelNode* modelNode = dynamic_cast<ModelNode*>(currentNode.get());if
+(				modelNode)
 				{
 					NamedRenderer* namedRenderer = dynamic_cast<NamedRenderer*> (&renderer);
 					if (namedRenderer)
@@ -292,9 +292,9 @@ namespace simplicity
 			this->camera = camera;
 		}
 
-		void SimpleOpenGLRenderingEngine::setClearingColour(std::shared_ptr<RGBAColourVector<> > clearingColour)
+		void SimpleOpenGLRenderingEngine::setClearingColour(unique_ptr<RGBAColourVector<> > clearingColour)
 		{
-			this->clearingColour = clearingColour;
+			this->clearingColour = move(clearingColour);
 
 			initialised = false;
 		}

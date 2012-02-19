@@ -274,6 +274,12 @@ namespace simplicity
 	}
 
 	template<typename Data>
+	void SimpleVector4<Data>::setData(const array<Data, SIZE>& data)
+	{
+		this->data = data;
+	}
+
+	template<typename Data>
 	void SimpleVector4<Data>::subtract(array<Data, SIZE>& lhs, const array<Data, SIZE>& rhs)
 	{
 		lhs.at(0) = lhs.at(0) - rhs.at(0);

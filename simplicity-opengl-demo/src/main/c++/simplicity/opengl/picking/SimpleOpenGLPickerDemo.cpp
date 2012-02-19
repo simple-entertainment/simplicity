@@ -18,7 +18,7 @@
 
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/math/SimpleRGBAColourVector4.h>
+#include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/SimpleNode.h>
 #include <simplicity/scene/SimpleScene.h>
 
@@ -38,8 +38,8 @@ namespace simplicity
 	namespace opengl
 	{
 		SimpleOpenGLPickerDemo::SimpleOpenGLPickerDemo() :
-			fOutlineRenderer(shared_ptr < Renderer > (new OutlineOpenGLRenderer)), fPickingEngine(
-				shared_ptr < PickingEngine > (new SimpleOpenGLPickingEngine)), fRenderingEngine(
+			outlineRenderer(shared_ptr < Renderer > (new OutlineOpenGLRenderer)), pickingEngine(
+				shared_ptr < PickingEngine > (new SimpleOpenGLPickingEngine)), renderingEngine(
 				shared_ptr < RenderingEngine > (new SimpleOpenGLRenderingEngine))
 		{
 		}
@@ -50,17 +50,17 @@ namespace simplicity
 
 		void SimpleOpenGLPickerDemo::advance()
 		{
-			fEngine.advance(shared_ptr<EngineInput>());
+			engine.advance(shared_ptr<EngineInput>());
 		}
 
 		void SimpleOpenGLPickerDemo::dispose()
 		{
-			fEngine.destroy();
+			engine.destroy();
 		}
 
 		shared_ptr<Camera> SimpleOpenGLPickerDemo::getCamera()
 		{
-			return (fRenderingEngine->getCamera());
+			return (renderingEngine->getCamera());
 		}
 
 		string SimpleOpenGLPickerDemo::getDescription()
@@ -76,16 +76,19 @@ namespace simplicity
 
 		void SimpleOpenGLPickerDemo::init()
 		{
-			fRenderingEngine->setClearingColour(
-				shared_ptr < SimpleRGBAColourVector4<> > (new SimpleRGBAColourVector4<>(0.95f, 0.95f, 0.95f, 1.0f)));
+			unique_ptr<RGBAColourVector<> > clearingColour(MathFactory::getInstance().createRGBAColourVector());
+			clearingColour->setRed(0.95f);
+			clearingColour->setGreen(0.95f);
+			clearingColour->setBlue(0.95f);
+			renderingEngine->setClearingColour(move(clearingColour));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
-			fRenderingEngine->setScene(scene);
+			renderingEngine->setScene(scene);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
 			scene->addCamera(camera);
-			fRenderingEngine->setCamera(camera);
+			renderingEngine->setCamera(camera);
 
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
@@ -97,23 +100,23 @@ namespace simplicity
 			scene->addNode(sceneRoot);
 
 			shared_ptr<NamedOpenGLRenderer> firstRenderer(new NamedOpenGLRenderer);
-			fRenderingEngine->addRenderer(firstRenderer);
+			renderingEngine->addRenderer(firstRenderer);
 
-			fRenderingEngine->addRenderer(fOutlineRenderer);
-			fRenderingEngine->setRendererRoot(*fOutlineRenderer, shared_ptr<Node>());
+			renderingEngine->addRenderer(outlineRenderer);
+			renderingEngine->setRendererRoot(*outlineRenderer, shared_ptr<Node>());
 
 			shared_ptr<SimpleOpenGLPicker> picker(new SimpleOpenGLPicker);
-			picker->setRenderingEngine(fRenderingEngine);
-			static_pointer_cast < SimpleOpenGLPickingEngine > (fPickingEngine)->setRenderingEngine(fRenderingEngine);
-			fPickingEngine->setPicker(picker);
+			picker->setRenderingEngine(renderingEngine);
+			static_pointer_cast < SimpleOpenGLPickingEngine > (pickingEngine)->setRenderingEngine(renderingEngine);
+			pickingEngine->setPicker(picker);
 
 			shared_ptr<SimpleOpenGLPickerDemo> demo(this);
-			fPickingEngine->addPickListener(demo);
+			pickingEngine->addPickListener(demo);
 
-			fEngine.addEngine(fPickingEngine);
-			fEngine.addEngine(fRenderingEngine);
+			engine.addEngine(pickingEngine);
+			engine.addEngine(renderingEngine);
 
-			fEngine.init();
+			engine.init();
 		}
 
 		void SimpleOpenGLPickerDemo::mouseClick(const int x, const int y)
@@ -121,7 +124,7 @@ namespace simplicity
 			cout << "Mouse clicked at (" + boost::lexical_cast < string > (x) + ", " + boost::lexical_cast < string
 				> (y) + ")\n";
 
-			fPickingEngine->pickViewport(800, 600, x, y, 2.0f, 2.0f);
+			pickingEngine->pickViewport(800, 600, x, y, 2.0f, 2.0f);
 		}
 
 		void SimpleOpenGLPickerDemo::operator()(const PickEvent& event) const
@@ -132,7 +135,7 @@ namespace simplicity
 			{
 				cout << "Selecting shape!\n";
 
-				fRenderingEngine->setRendererRoot(*fOutlineRenderer, event.getHit(0).node);
+				renderingEngine->setRendererRoot(*outlineRenderer, event.getHit(0).node);
 			}
 		}
 	}

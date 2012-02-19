@@ -30,7 +30,7 @@ namespace simplicity
 		 * A small demonstration of the {@link simplicity::opengl::MonoColourOpenGLRenderer MonoColourOpenGLRenderer}.
 		 * </p>
 		 */
-		class MonoColourOpenGLRendererDemo: public OpenGLDemo
+		class MonoColourOpenGLRendererDemo : public OpenGLDemo
 		{
 			public:
 				/**
@@ -65,7 +65,7 @@ namespace simplicity
 				 * The rendering engine for the demo.
 				 * </p>
 				 */
-				SimpleOpenGLRenderingEngine fRenderingEngine;
+				SimpleOpenGLRenderingEngine renderingEngine;
 		};
 	}
 }

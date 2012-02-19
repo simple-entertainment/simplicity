@@ -31,7 +31,7 @@ namespace simplicity
 		 * {@link simplicity::opengl::DepthClearingOpenGLRenderer DepthClearingOpenGLRenderer}.
 		 * </p>
 		 */
-		class DepthClearingOpenGLRendererDemo: public OpenGLDemo
+		class DepthClearingOpenGLRendererDemo : public OpenGLDemo
 		{
 			public:
 				/**
@@ -66,7 +66,7 @@ namespace simplicity
 				 * The rendering engine for the demo.
 				 * </p>
 				 */
-				SimpleOpenGLRenderingEngine fRenderingEngine;
+				SimpleOpenGLRenderingEngine renderingEngine;
 		};
 	}
 }

@@ -62,7 +62,7 @@ namespace simplicity
 			 * @return A volume containing all the <code>Model</code>s within the subgraph of which this
 			 * <code>Node</code> is the root.
 			 */
-			// virtual const BoundingVolume& getBounds() const = 0; TODO
+			// virtual const BoundingVolume& getBounds() const = 0; TODO Create BoundingVolume
 
 			/**
 			 * <p>

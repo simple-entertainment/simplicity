@@ -101,6 +101,8 @@ namespace simplicity
 
 			Matrix<Data, SIZE>& operator*=(const Matrix<Data, SIZE>& rhs);
 
+			void setData(const std::array<Data, SIZE>& data);
+
 			void setIdentity();
 
 			/**

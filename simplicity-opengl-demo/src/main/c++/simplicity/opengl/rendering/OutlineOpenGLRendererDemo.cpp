@@ -16,7 +16,7 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/math/SimpleRGBAColourVector4.h>
+#include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/SimpleNode.h>
 #include <simplicity/scene/SimpleScene.h>
 
@@ -38,17 +38,17 @@ namespace simplicity
 
 		void OutlineOpenGLRendererDemo::advance()
 		{
-			fRenderingEngine.advance(shared_ptr<EngineInput>());
+			renderingEngine.advance(shared_ptr<EngineInput>());
 		}
 
 		void OutlineOpenGLRendererDemo::dispose()
 		{
-			fRenderingEngine.destroy();
+			renderingEngine.destroy();
 		}
 
 		shared_ptr<Camera> OutlineOpenGLRendererDemo::getCamera()
 		{
-			return (fRenderingEngine.getCamera());
+			return (renderingEngine.getCamera());
 		}
 
 		string OutlineOpenGLRendererDemo::getDescription()
@@ -64,17 +64,19 @@ namespace simplicity
 
 		void OutlineOpenGLRendererDemo::init()
 		{
-			fRenderingEngine.setClearingColour(
-				shared_ptr < SimpleRGBAColourVector4<>
-					> (new SimpleRGBAColourVector4<>(0.95f, 0.95f, 0.95f, 1.0f)));
+			unique_ptr<RGBAColourVector<> > clearingColour(MathFactory::getInstance().createRGBAColourVector());
+			clearingColour->setRed(0.95f);
+			clearingColour->setGreen(0.95f);
+			clearingColour->setBlue(0.95f);
+			renderingEngine.setClearingColour(move(clearingColour));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
-			fRenderingEngine.setScene(scene);
+			renderingEngine.setScene(scene);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
 			scene->addCamera(camera);
-			fRenderingEngine.setCamera(camera);
+			renderingEngine.setCamera(camera);
 
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
@@ -86,9 +88,9 @@ namespace simplicity
 			scene->addNode(sceneRoot);
 
 			shared_ptr<OutlineOpenGLRenderer> renderer(new OutlineOpenGLRenderer);
-			fRenderingEngine.addRenderer(renderer);
+			renderingEngine.addRenderer(renderer);
 
-			fRenderingEngine.init();
+			renderingEngine.init();
 		}
 	}
 }

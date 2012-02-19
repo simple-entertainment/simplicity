@@ -49,7 +49,7 @@ namespace simplicity
 
 			std::unique_ptr<TransformationMatrix<> > getAbsoluteTransformation() const;
 
-			// const BoundingVolume& getBounds() const; TODO
+			// const BoundingVolume& getBounds() const; TODO Create BoundingVolume
 
 			const std::vector<std::shared_ptr<Node> >& getChildren() const;
 
@@ -92,7 +92,7 @@ namespace simplicity
 			 * <code>SimpleNode</code> is the root.
 			 * </p>
 			 */
-			// BoundingVolume& bounds; TODO
+			// BoundingVolume& bounds; TODO Create BoundingVolume
 			/**
 			 * <p>
 			 * The <code>SimpleNode</code>s directly below this <code>SimpleNode</code> in a

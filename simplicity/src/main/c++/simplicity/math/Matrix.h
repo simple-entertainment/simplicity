@@ -145,6 +145,15 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Sets the data for this <code>Matrix</code>.
+			 * </p>
+			 *
+			 * @param data The data for this <code>Matrix</code>.
+			 */
+			virtual void setData(const std::array<Data, Size>& data) = 0;
+
+			/**
+			 * <p>
 			 * Sets this <code>Matrix</code> to the identity matrix.
 			 * </p>
 			 */

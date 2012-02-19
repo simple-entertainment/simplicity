@@ -16,8 +16,7 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/math/SimpleRGBAColourVector4.h>
-#include <simplicity/math/SimpleTranslationVector4.h>
+#include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/model/SimpleModelNode.h>
 #include <simplicity/scene/SimpleNode.h>
 #include <simplicity/scene/SimpleScene.h>
@@ -41,17 +40,17 @@ namespace simplicity
 
 		void BlendingOpenGLRendererDemo::advance()
 		{
-			fRenderingEngine.advance(shared_ptr<EngineInput>());
+			renderingEngine.advance(shared_ptr<EngineInput>());
 		}
 
 		void BlendingOpenGLRendererDemo::dispose()
 		{
-			fRenderingEngine.destroy();
+			renderingEngine.destroy();
 		}
 
 		shared_ptr<Camera> BlendingOpenGLRendererDemo::getCamera()
 		{
-			return (fRenderingEngine.getCamera());
+			return (renderingEngine.getCamera());
 		}
 
 		string BlendingOpenGLRendererDemo::getDescription()
@@ -67,17 +66,19 @@ namespace simplicity
 
 		void BlendingOpenGLRendererDemo::init()
 		{
-			fRenderingEngine.setClearingColour(
-				shared_ptr < SimpleRGBAColourVector4<>
-					> (new SimpleRGBAColourVector4<>(0.95f, 0.95f, 0.95f, 1.0f)));
+			unique_ptr<RGBAColourVector<> > clearingColour(MathFactory::getInstance().createRGBAColourVector());
+			clearingColour->setRed(0.95f);
+			clearingColour->setGreen(0.95f);
+			clearingColour->setBlue(0.95f);
+			renderingEngine.setClearingColour(move(clearingColour));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
-			fRenderingEngine.setScene(scene);
+			renderingEngine.setScene(scene);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
 			scene->addCamera(camera);
-			fRenderingEngine.setCamera(camera);
+			renderingEngine.setCamera(camera);
 
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
@@ -91,24 +92,33 @@ namespace simplicity
 
 			shared_ptr<SimpleNode> renderingPass2Root(new SimpleNode);
 			shared_ptr<SimpleModelNode> torusNode(new SimpleModelNode);
-			torusNode->getTransformation().translate(SimpleTranslationVector4<>(0.0f, -2.0f, 0.0f, 1.0f));
+
+			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+			translation->setY(-2.0f);
+			torusNode->getTransformation().translate(*translation);
+
 			shared_ptr<GLUTorus> torus(new GLUTorus);
-			torus->setColour(
-				shared_ptr < SimpleRGBAColourVector4<>
-					> (new SimpleRGBAColourVector4<>(1.0f, 1.0f, 1.0f, 0.5f)));
+
+			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
+			colour->setRed(1.0f);
+			colour->setGreen(1.0f);
+			colour->setBlue(1.0f);
+			colour->setAlpha(0.5f);
+			torus->setColour(move(colour));
+
 			torusNode->setModel(torus);
 			renderingPass2Root->addChild(torusNode);
 			scene->addNode(renderingPass2Root);
 
 			shared_ptr<SimpleOpenGLRenderer> firstRenderer(new SimpleOpenGLRenderer);
-			fRenderingEngine.addRenderer(firstRenderer);
-			fRenderingEngine.setRendererRoot(*firstRenderer, renderingPass1Root);
+			renderingEngine.addRenderer(firstRenderer);
+			renderingEngine.setRendererRoot(*firstRenderer, renderingPass1Root);
 
 			shared_ptr<BlendingOpenGLRenderer> secondRenderer(new BlendingOpenGLRenderer(firstRenderer));
-			fRenderingEngine.addRenderer(secondRenderer);
-			fRenderingEngine.setRendererRoot(*secondRenderer, renderingPass2Root);
+			renderingEngine.addRenderer(secondRenderer);
+			renderingEngine.setRendererRoot(*secondRenderer, renderingPass2Root);
 
-			fRenderingEngine.init();
+			renderingEngine.init();
 		}
 	}
 }

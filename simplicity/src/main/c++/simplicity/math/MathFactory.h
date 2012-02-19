@@ -14,46 +14,36 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../../math/MathFactory.h"
-#include "Sphere.h"
+#ifndef MATHFACTORY_H_
+#define MATHFACTORY_H_
+
+#include "RGBAColourVector.h"
+#include "TransformationMatrix.h"
 
 namespace simplicity
 {
-	Sphere::Sphere() :
-		center(MathFactory::getInstance().createTranslationVector()), colour(
-			MathFactory::getInstance().createRGBAColourVector()), radius(1.0f)
+	class MathFactory
 	{
-		colour->setRed(1.0f);
-		colour->setGreen(1.0f);
-		colour->setBlue(1.0f);
-	}
+		public:
+			static const MathFactory& getInstance();
 
-	Sphere::~Sphere()
-	{
-	}
+			static void setInstance(std::unique_ptr<MathFactory> instance);
 
-	const TranslationVector<>& Sphere::getCenter() const
-	{
-		return *center;
-	}
+			virtual ~MathFactory();
 
-	RGBAColourVector<>& Sphere::getColour() const
-	{
-		return *colour;
-	}
+			virtual std::unique_ptr<Matrix<> > createMatrix() const = 0;
 
-	float Sphere::getRadius() const
-	{
-		return radius;
-	}
+			virtual std::unique_ptr<RGBAColourVector<> > createRGBAColourVector() const = 0;
 
-	void Sphere::setColour(std::shared_ptr<RGBAColourVector<> > colour)
-	{
-		this->colour = colour;
-	}
+			virtual std::unique_ptr<TransformationMatrix<> > createTransformationMatrix() const = 0;
 
-	void Sphere::setRadius(const float radius)
-	{
-		this->radius = radius;
-	}
+			virtual std::unique_ptr<TranslationVector<> > createTranslationVector() const = 0;
+
+			virtual std::unique_ptr<Vector<> > createVector() const = 0;
+
+		private:
+			static std::unique_ptr<MathFactory> instance;
+	};
 }
+
+#endif /* MATHFACTORY_H_ */

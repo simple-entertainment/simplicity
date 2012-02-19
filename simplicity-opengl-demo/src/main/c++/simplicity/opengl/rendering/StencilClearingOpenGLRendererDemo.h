@@ -31,7 +31,7 @@ namespace simplicity
 		 * {@link simplicity::opengl::StencilClearingOpenGLRenderer StencilClearingOpenGLRenderer}.
 		 * </p>
 		 */
-		class StencilClearingOpenGLRendererDemo: public OpenGLDemo
+		class StencilClearingOpenGLRendererDemo : public OpenGLDemo
 		{
 			public:
 				/**
@@ -66,7 +66,7 @@ namespace simplicity
 				 * The rendering engine for the demo.
 				 * </p>
 				 */
-				SimpleOpenGLRenderingEngine fRenderingEngine;
+				SimpleOpenGLRenderingEngine renderingEngine;
 		};
 	}
 }

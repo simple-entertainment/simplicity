@@ -70,7 +70,7 @@ namespace simplicity
 
 				std::shared_ptr<Camera> getCamera() const;
 
-				std::shared_ptr<RGBAColourVector<> > getClearingColour() const;
+				const RGBAColourVector<>& getClearingColour() const;
 
 				std::shared_ptr<Node> getRendererRoot(const Renderer& renderer) const;
 
@@ -88,7 +88,7 @@ namespace simplicity
 
 				void setCamera(std::shared_ptr<Camera> camera);
 
-				void setClearingColour(std::shared_ptr<RGBAColourVector<> > clearingColour);
+				void setClearingColour(std::unique_ptr<RGBAColourVector<> > clearingColour);
 
 				void setClearsBeforeRender(const bool clearsBeforeRender);
 
@@ -121,7 +121,7 @@ namespace simplicity
 				 * The colour to clear the screen buffer with before rendering.
 				 * </p>
 				 */
-				std::shared_ptr<RGBAColourVector<> > clearingColour;
+				std::unique_ptr<RGBAColourVector<> > clearingColour;
 
 				/**
 				 * <p>

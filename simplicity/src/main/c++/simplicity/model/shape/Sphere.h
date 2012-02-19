@@ -1,13 +1,18 @@
 /*
- This file is part of The Simplicity Engine.
-
- The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
- by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
- The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright © 2012 Simple Entertainment Limited
+ *
+ * This file is part of The Simplicity Engine.
+ *
+ * The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
+ * <http://www.gnu.org/licenses/>.
  */
 #ifndef SPHERE_H_
 #define SPHERE_H_
@@ -40,11 +45,9 @@ namespace simplicity
        */
       ~Sphere();
 
-      const TranslationVector<>&
-      getCenter() const;
+      const TranslationVector<>& getCenter() const;
 
-      RGBAColourVector<>&
-      getColour() const;
+      RGBAColourVector<>& getColour() const;
 
       /**
        * <p>
@@ -53,11 +56,9 @@ namespace simplicity
        *
        * @return The radius.
        */
-      float
-      getRadius() const;
+      float getRadius() const;
 
-      void
-      setColour(std::shared_ptr<RGBAColourVector<> > colour);
+      void setColour(std::shared_ptr<RGBAColourVector<> > colour);
 
       /**
        * <p>
@@ -66,8 +67,7 @@ namespace simplicity
        *
        * @param radius The radius.
        */
-      void
-      setRadius(const float radius);
+      void setRadius(const float radius);
 
     private:
       /**
@@ -75,21 +75,21 @@ namespace simplicity
        * The point at the center of this <code>Sphere</code>.
        * </p>
        */
-      std::shared_ptr<TranslationVector<> > fCenter;
+      std::shared_ptr<TranslationVector<> > center;
 
       /**
        * <p>
        * The colour to render this <code>Sphere</code> as.
        * </p>
        */
-      std::shared_ptr<RGBAColourVector<> > fColour;
+      std::shared_ptr<RGBAColourVector<> > colour;
 
       /**
        * <p>
        * The radius.
        * </p>
        */
-      float fRadius;
+      float radius;
   };
 }
 

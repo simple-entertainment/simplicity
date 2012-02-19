@@ -75,6 +75,7 @@ namespace simplicity
   const TranslationVector<>&
   VectorVG::getCenter() const
   {
+	// FIXME Memory leak!
     SimpleTranslationVector4<>* translation = new SimpleTranslationVector4<> ();
     float x = 0.0f;
     float y = 0.0f;

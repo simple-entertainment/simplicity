@@ -19,7 +19,6 @@
 
 #include "SimpleMatrix44.h"
 #include "TransformationMatrix.h"
-#include "SimpleTranslationVector4.h"
 
 namespace simplicity
 {

@@ -219,6 +219,8 @@ namespace simplicity
 			 */
 			void scale(std::array<Data, SIZE>& lhs, const Data rhs);
 
+			void setData(const std::array<Data, SIZE>& data);
+
 			/**
 			 * <p>
 			 * Performs a subtraction of the <code>SimpleVector4</code> data given.

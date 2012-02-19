@@ -32,7 +32,7 @@ namespace simplicity
 		 * {@link simplicity::opengl::NotEqualStencilOpenGLRenderer NotEqualStencilOpenGLRenderer}.
 		 * </p>
 		 */
-		class AlwaysAndNotEqualStencilOpenGLRenderersDemo: public OpenGLDemo
+		class AlwaysAndNotEqualStencilOpenGLRenderersDemo : public OpenGLDemo
 		{
 			public:
 				/**

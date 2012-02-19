@@ -30,7 +30,7 @@ namespace simplicity
 		 * Provides common elements required by OpenGL demos.
 		 * </p>
 		 */
-		class OpenGLDemo: public Demo
+		class OpenGLDemo : public Demo
 		{
 			public:
 				void onMouseButton(const int button, const int state, const int x, const int y);

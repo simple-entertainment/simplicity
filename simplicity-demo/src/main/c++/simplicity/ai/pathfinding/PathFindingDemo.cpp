@@ -16,9 +16,7 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/math/SimpleRGBAColourVector4.h>
-#include <simplicity/math/SimpleTransformationMatrix44.h>
-#include <simplicity/math/SimpleTranslationVector4.h>
+#include <simplicity/math/MathFactory.h>
 #include <simplicity/model/VectorVG.h>
 #include <simplicity/scene/model/SimpleModelNode.h>
 #include <simplicity/scene/SimpleNode.h>
@@ -46,8 +44,13 @@ namespace simplicity
 			for (unsigned int row = 0; row < 10; row++)
 			{
 				shared_ptr<Node> tileNode = createGreySquareOnXZPlane(darkTile);
-				tileNode->getTransformation().translate(
-					SimpleTranslationVector4<>(-5.0f + column, 0.0f, 5.0f - row, 1.0f));
+
+				unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+				translation->setX(-5.0f + column);
+				translation->setY(0.0f);
+				translation->setZ(5.0f - row);
+				tileNode->getTransformation().translate(*translation);
+
 				parentNode->addChild(tileNode);
 
 				darkTile = !darkTile;
@@ -63,32 +66,53 @@ namespace simplicity
 		camera->setFrameAspectRatio(1.0f);
 
 		shared_ptr<SimpleNode> cameraNode(new SimpleNode);
-		cameraNode->getTransformation().translate(SimpleTranslationVector4<>(0.0f, 10.0f, 1.0f, 1.0f));
-		cameraNode->getTransformation().rotate(pi<float>() * 1.5f,
-			SimpleTranslationVector4<>(1.0f, 0.0f, 0.0f, 1.0f));
+
+		unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+		translation->setY(10.0f);
+		translation->setZ(1.0f);
+		cameraNode->getTransformation().translate(*translation);
+
+		unique_ptr<TranslationVector<> > rotationAxis(MathFactory::getInstance().createTranslationVector());
+		rotationAxis->setX(1.0f);
+		cameraNode->getTransformation().rotate(pi<float>() * 1.5f, *rotationAxis);
+
 		camera->setNode(cameraNode);
 		parentNode->addChild(cameraNode);
 
-		return (camera);
+		return camera;
 	}
 
 	shared_ptr<Light> PathFindingDemo::addLight(shared_ptr<Node> parentNode)
 	{
 		shared_ptr<SimpleOpenGLLight> light(new SimpleOpenGLLight);
-		light->setAmbientLight(
-			unique_ptr<SimpleRGBAColourVector4<>
-				> (new SimpleRGBAColourVector4<>(0.25f, 0.25f, 0.25f, 1.0f)));
-		light->setDiffuseLight(
-			unique_ptr<SimpleRGBAColourVector4<>
-				> (new SimpleRGBAColourVector4<>(0.25f, 0.25f, 0.25f, 1.0f)));
-		light->setSpecularLight(
-			unique_ptr<SimpleRGBAColourVector4<> > (new SimpleRGBAColourVector4<>(0.1f, 0.1f, 0.1f, 1.0f)));
 		shared_ptr<SimpleNode> lightNode(new SimpleNode);
-		lightNode->getTransformation().translate(SimpleTranslationVector4<>(0.0f, 10.0f, 0.0f, 1.0f));
+
+		unique_ptr<RGBAColourVector<> > ambientLight(MathFactory::getInstance().createRGBAColourVector());
+		ambientLight->setRed(0.25f);
+		ambientLight->setGreen(0.25f);
+		ambientLight->setBlue(0.25f);
+		light->setAmbientLight(move(ambientLight));
+
+		unique_ptr<RGBAColourVector<> > diffuseLight(MathFactory::getInstance().createRGBAColourVector());
+		diffuseLight->setRed(0.25f);
+		diffuseLight->setGreen(0.25f);
+		diffuseLight->setBlue(0.25f);
+		light->setDiffuseLight(move(diffuseLight));
+
+		unique_ptr<RGBAColourVector<> > specularLight(MathFactory::getInstance().createRGBAColourVector());
+		specularLight->setRed(0.1f);
+		specularLight->setGreen(0.1f);
+		specularLight->setBlue(0.1f);
+		light->setSpecularLight(move(specularLight));
+
+		unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+		translation->setY(10.0f);
+		lightNode->getTransformation().translate(*translation);
 		light->setNode(lightNode);
+
 		parentNode->addChild(lightNode);
 
-		return (light);
+		return light;
 	}
 
 	shared_ptr<Node> PathFindingDemo::createGreySquareOnXZPlane(const bool dark)
@@ -97,19 +121,27 @@ namespace simplicity
 
 		if (dark)
 		{
-			squareNode = createSquareOnXZPlane(SimpleRGBAColourVector4<>(0.75f, 0.75f, 0.75f, 1.0f));
+			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
+			colour->setRed(0.75f);
+			colour->setBlue(0.75f);
+			colour->setGreen(0.75f);
+			squareNode = createSquareOnXZPlane(*colour);
 		}
 		else
 		{
-			squareNode = createSquareOnXZPlane(SimpleRGBAColourVector4<>(0.25f, 0.25f, 0.25f, 1.0f));
+			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
+			colour->setRed(0.25f);
+			colour->setBlue(0.25f);
+			colour->setGreen(0.25f);
+			squareNode = createSquareOnXZPlane(*colour);
 		}
 
-		return (squareNode);
+		return squareNode;
 	}
 
 	vector<shared_ptr<Entity> > PathFindingDemo::createObstacles()
 	{
-		vector<shared_ptr<Entity> > obstacles;
+		vector < shared_ptr<Entity> > obstacles;
 		srand((unsigned) time(0));
 
 		for (unsigned int column = 0; column < 10; column++)
@@ -120,10 +152,17 @@ namespace simplicity
 				if (rand() % 5 == 0)
 				{
 					shared_ptr<Entity> obstacle(new Entity);
-					shared_ptr<Node> obstacleNode(
-						createSquareOnXZPlane(SimpleRGBAColourVector4<>(1.0f, 0.0f, 0.0f, 1.0f)));
-					obstacleNode->getTransformation().translate(
-						SimpleTranslationVector4<>(-5.0f + column, 1.0f, 5.0f - row, 1.0f));
+
+					unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
+					colour->setRed(1.0f);
+					shared_ptr<Node> obstacleNode(createSquareOnXZPlane(*colour));
+
+					unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+					translation->setX(-5.0f + column);
+					translation->setY(1.0f);
+					translation->setZ(5.0f - row);
+					obstacleNode->getTransformation().translate(*translation);
+
 					obstacle->addComponent(obstacleNode);
 					obstacles.push_back(obstacle);
 
@@ -136,7 +175,7 @@ namespace simplicity
 			}
 		}
 
-		return (obstacles);
+		return obstacles;
 	}
 
 	shared_ptr<Node> PathFindingDemo::createSquareOnXZPlane(const RGBAColourVector<>& colour)
@@ -151,22 +190,22 @@ namespace simplicity
 			colours[index * 3 + 1] = colour.getGreen();
 			colours[index * 3 + 2] = colour.getBlue();
 		}
-		shared_ptr<vector<float> > coloursVector(new vector<float>(colours, colours + 18));
+		shared_ptr < vector<float> > coloursVector(new vector<float>(colours, colours + 18));
 		squareModel->setColours(coloursVector);
 
 		float normals[18] = {0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 			0.0f, 1.0f, 0.0f};
-		shared_ptr<vector<float> > normalsVector(new vector<float>(normals, normals + 18));
+		shared_ptr < vector<float> > normalsVector(new vector<float>(normals, normals + 18));
 		squareModel->setNormals(normalsVector);
 
 		float vertices[18] = {0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 			1.0f, 0.0f, 1.0f};
-		shared_ptr<vector<float> > verticesVector(new vector<float>(vertices, vertices + 18));
+		shared_ptr < vector<float> > verticesVector(new vector<float>(vertices, vertices + 18));
 		squareModel->setVertices(verticesVector);
 
 		squareNode->setModel(squareModel);
 
-		return (squareNode);
+		return squareNode;
 	}
 
 	void PathFindingDemo::displayOpenNodes(RenderingEngine& renderingEngine,
@@ -176,12 +215,12 @@ namespace simplicity
 		{
 			shared_ptr<Entity> possiblePathEntity(new Entity);
 
-			shared_ptr<Node> possiblePathNode = createSquareOnXZPlane(
-				SimpleRGBAColourVector4<>(0.0f, 0.0f, 1.0f, 1.0f));
+			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
+			colour->setBlue(1.0f);
+			shared_ptr<Node> possiblePathNode(createSquareOnXZPlane(*colour));
 
-			unique_ptr<SimpleTransformationMatrix44<> > transformation(
-				new SimpleTransformationMatrix44<>(
-					static_cast<SimpleTransformationMatrix44<>&>(openNodes.at(index)->getTransformation())));
+			unique_ptr<TransformationMatrix<> > transformation(MathFactory::getInstance().createTransformationMatrix());
+			transformation->setData(openNodes.at(index)->getTransformation().getData());
 			possiblePathNode->setTransformation(move(transformation));
 
 			possiblePathEntity->addComponent(possiblePathNode);
@@ -205,16 +244,21 @@ namespace simplicity
 			pathRootNode->addChild(waypointNode);
 
 			shared_ptr<Sphere> waypointModel(new GLUSphere);
-			waypointModel->setColour(
-				shared_ptr<RGBAColourVector<> > (new SimpleRGBAColourVector4<>(0.0f, 1.0f, 0.0f, 1.0f)));
+
+			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
+			colour->setGreen(1.0f);
+			waypointModel->setColour(move(colour));
 			waypointModel->setRadius(0.1f);
 			waypointNode->setModel(waypointModel);
 
-			unique_ptr<SimpleTransformationMatrix44<> > transformation(
-				new SimpleTransformationMatrix44<>(
-					static_cast<SimpleTransformationMatrix44<>&>(path.at(index)->getTransformation())));
+			unique_ptr<TransformationMatrix<> > transformation(MathFactory::getInstance().createTransformationMatrix());
+			transformation->setData(path.at(index)->getTransformation().getData());
 			waypointNode->setTransformation(move(transformation));
-			waypointNode->getTransformation().translate(SimpleTranslationVector4<>(0.5f, 0.0f, 0.5f, 1.0f));
+
+			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+			translation->setX(0.5f);
+			translation->setZ(0.5f);
+			waypointNode->getTransformation().translate(*translation);
 		}
 
 		pathEntity->addComponent(pathRootNode);
@@ -230,8 +274,12 @@ namespace simplicity
 			for (unsigned int row = 0; row < 10; row++)
 			{
 				shared_ptr<Node> meshNode(new SimpleNode);
-				meshNode->getTransformation().translate(
-					SimpleTranslationVector4<>(-5.0f + column, 0.0f, 5.0f - row, 1.0f));
+
+				unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+				translation->setX(-5.0f + column);
+				translation->setZ(5.0f - row);
+				meshNode->getTransformation().translate(*translation);
+
 				navigationMesh.push_back(meshNode);
 			}
 		}

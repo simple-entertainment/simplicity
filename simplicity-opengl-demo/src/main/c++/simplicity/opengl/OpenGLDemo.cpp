@@ -19,8 +19,7 @@
 
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/math/SimpleRGBAColourVector4.h>
-#include <simplicity/math/SimpleTranslationVector4.h>
+#include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/model/SimpleModelNode.h>
 #include <simplicity/scene/SimpleNode.h>
 
@@ -34,6 +33,7 @@
 #include "OpenGLDemo.h"
 
 using namespace boost::math::constants;
+using namespace std;
 
 namespace simplicity
 {
@@ -44,26 +44,43 @@ namespace simplicity
 			shared_ptr<SimpleOpenGLCamera> camera(new SimpleOpenGLCamera);
 			shared_ptr<SimpleNode> cameraNode(new SimpleNode);
 			cameraRootNode.reset(new SimpleNode);
-			cameraNode->getTransformation().translate(SimpleTranslationVector4<>(0.0f, 0.0f, -20.0f, 1.0f));
-			cameraNode->getTransformation().rotate(pi<float>(),
-				SimpleTranslationVector4<>(0.0f, 1.0f, 0.0f, 1.0f));
+
+			unique_ptr<TranslationVector<> > cameraTranslation(MathFactory::getInstance().createTranslationVector());
+			cameraTranslation->setZ(-20.0f);
+			cameraNode->getTransformation().translate(*cameraTranslation);
+
+			unique_ptr<TranslationVector<> > cameraRotationAxis(MathFactory::getInstance().createTranslationVector());
+			cameraRotationAxis->setY(1.0f);
+			cameraNode->getTransformation().rotate(pi<float>(), *cameraRotationAxis);
+
 			camera->setNode(cameraNode);
-			cameraRootNode->getTransformation().rotate(pi<float>() / 8.0f,
-				SimpleTranslationVector4<>(-0.5f, -0.5f, 0.0f, 1.0f));
+
+			unique_ptr<TranslationVector<> > rootRotationAxis(MathFactory::getInstance().createTranslationVector());
+			rootRotationAxis->setX(-0.5f);
+			rootRotationAxis->setY(-0.5f);
+			cameraRootNode->getTransformation().rotate(pi<float>() / 8.0f, *rootRotationAxis);
+
 			cameraRootNode->addChild(cameraNode);
 			parentNode->addChild(cameraRootNode);
 
-			return (camera);
+			return camera;
 		}
 
 		void OpenGLDemo::addStandardCapsule(shared_ptr<Node> parentNode)
 		{
 			shared_ptr<SimpleModelNode> capsuleNode(new SimpleModelNode);
-			capsuleNode->getTransformation().translate(SimpleTranslationVector4<>(-3.0f, 3.0f, 0.0f, 1.0f));
+
+			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+			translation->setX(-3.0f);
+			translation->setY(3.0f);
+			capsuleNode->getTransformation().translate(*translation);
+
 			shared_ptr<GLUCapsule> capsule(new GLUCapsule);
-			capsule->setColour(
-				shared_ptr < SimpleRGBAColourVector4<>
-					> (new SimpleRGBAColourVector4<>(0.75f, 0.0f, 0.0f, 1.0f)));
+
+			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
+			colour->setRed(0.75f);
+			capsule->setColour(move(colour));
+
 			capsuleNode->setModel(capsule);
 			parentNode->addChild(capsuleNode);
 		}
@@ -71,11 +88,17 @@ namespace simplicity
 		void OpenGLDemo::addStandardCylinder(shared_ptr<Node> parentNode)
 		{
 			shared_ptr<SimpleModelNode> cylinderNode(new SimpleModelNode);
-			cylinderNode->getTransformation().translate(SimpleTranslationVector4<>(0.0f, 3.0f, 0.0f, 1.0f));
+
+			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+			translation->setY(3.0f);
+			cylinderNode->getTransformation().translate(*translation);
+
 			shared_ptr<GLUCylinder> cylinder(new GLUCylinder);
-			cylinder->setColour(
-				shared_ptr < SimpleRGBAColourVector4<>
-					> (new SimpleRGBAColourVector4<>(0.0f, 0.75f, 0.0f, 1.0f)));
+
+			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
+			colour->setGreen(0.75f);
+			cylinder->setColour(move(colour));
+
 			cylinderNode->setModel(cylinder);
 			parentNode->addChild(cylinderNode);
 		}
@@ -83,31 +106,52 @@ namespace simplicity
 		shared_ptr<Light> OpenGLDemo::addStandardLight(shared_ptr<Node> parentNode)
 		{
 			shared_ptr<SimpleOpenGLLight> light(new SimpleOpenGLLight);
-			light->setAmbientLight(
-				unique_ptr < SimpleRGBAColourVector4<>
-					> (new SimpleRGBAColourVector4<>(0.25f, 0.25f, 0.25f, 1.0f)));
-			light->setDiffuseLight(
-				unique_ptr < SimpleRGBAColourVector4<>
-					> (new SimpleRGBAColourVector4<>(0.25f, 0.25f, 0.25f, 1.0f)));
-			light->setSpecularLight(
-				unique_ptr < SimpleRGBAColourVector4<>
-					> (new SimpleRGBAColourVector4<>(0.1f, 0.1f, 0.1f, 1.0f)));
+
+			unique_ptr<RGBAColourVector<> > ambientLight(MathFactory::getInstance().createRGBAColourVector());
+			ambientLight->setRed(0.25f);
+			ambientLight->setGreen(0.25f);
+			ambientLight->setBlue(0.25f);
+			light->setAmbientLight(move(ambientLight));
+
+			unique_ptr<RGBAColourVector<> > diffuseLight(MathFactory::getInstance().createRGBAColourVector());
+			diffuseLight->setRed(0.25f);
+			diffuseLight->setGreen(0.25f);
+			diffuseLight->setBlue(0.25f);
+			light->setDiffuseLight(move(diffuseLight));
+
+			unique_ptr<RGBAColourVector<> > specularLight(MathFactory::getInstance().createRGBAColourVector());
+			specularLight->setRed(0.1f);
+			specularLight->setGreen(0.1f);
+			specularLight->setBlue(0.1f);
+			light->setSpecularLight(move(specularLight));
+
 			shared_ptr<SimpleNode> lightNode(new SimpleNode);
-			lightNode->getTransformation().translate(SimpleTranslationVector4<>(0.0f, 0.0f, 20.0f, 1.0f));
+
+			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+			translation->setZ(20.0f);
+			lightNode->getTransformation().translate(*translation);
+
 			light->setNode(lightNode);
 			parentNode->addChild(lightNode);
 
-			return (light);
+			return light;
 		}
 
 		void OpenGLDemo::addStandardSphere(shared_ptr<Node> parentNode)
 		{
 			shared_ptr<SimpleModelNode> sphereNode(new SimpleModelNode);
-			sphereNode->getTransformation().translate(SimpleTranslationVector4<>(3.0f, 3.0f, 0.0f, 1.0f));
+
+			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+			translation->setX(3.0f);
+			translation->setY(3.0f);
+			sphereNode->getTransformation().translate(*translation);
+
 			shared_ptr<GLUSphere> sphere(new GLUSphere);
-			sphere->setColour(
-				shared_ptr < SimpleRGBAColourVector4<>
-					> (new SimpleRGBAColourVector4<>(0.0f, 0.0f, 0.75f, 1.0f)));
+
+			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
+			colour->setBlue(0.75f);
+			sphere->setColour(move(colour));
+
 			sphereNode->setModel(sphere);
 			parentNode->addChild(sphereNode);
 		}
@@ -115,7 +159,11 @@ namespace simplicity
 		void OpenGLDemo::addStandardTorus(shared_ptr<Node> parentNode)
 		{
 			shared_ptr<SimpleModelNode> torusNode(new SimpleModelNode);
-			torusNode->getTransformation().translate(SimpleTranslationVector4<>(0.0f, -2.0f, 0.0f, 1.0f));
+
+			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+			translation->setY(-2.0f);
+			torusNode->getTransformation().translate(*translation);
+
 			shared_ptr<GLUTorus> torus(new GLUTorus);
 			torusNode->setModel(torus);
 			parentNode->addChild(torusNode);
@@ -134,10 +182,13 @@ namespace simplicity
 
 			if (cameraRootNode.get())
 			{
-				cameraRootNode->getTransformation().rotate(angleX / pi<float>(),
-					SimpleTranslationVector4<>(0.0f, 1.0f, 0.0f, 1.0f));
-				cameraRootNode->getTransformation().rotate(angleY / pi<float>(),
-					SimpleTranslationVector4<>(1.0f, 0.0f, 0.0f, 1.0f));
+				unique_ptr<TranslationVector<> > yAxis(MathFactory::getInstance().createTranslationVector());
+				yAxis->setY(1.0f);
+				cameraRootNode->getTransformation().rotate(angleX / pi<float>(), *yAxis);
+
+				unique_ptr<TranslationVector<> > xAxis(MathFactory::getInstance().createTranslationVector());
+				xAxis->setX(1.0f);
+				cameraRootNode->getTransformation().rotate(angleY / pi<float>(), *xAxis);
 			}
 		}
 	}

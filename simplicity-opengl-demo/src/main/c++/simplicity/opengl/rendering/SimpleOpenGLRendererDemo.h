@@ -30,7 +30,7 @@ namespace simplicity
 		 * A small demonstration of the {@link simplicity::opengl::SimpleOpenGLRenderer SimpleOpenGLRenderer}.
 		 * </p>
 		 */
-		class SimpleOpenGLRendererDemo: public OpenGLDemo
+		class SimpleOpenGLRendererDemo : public OpenGLDemo
 		{
 			public:
 				/**
@@ -65,7 +65,7 @@ namespace simplicity
 				 * The rendering engine for the demo.
 				 * </p>
 				 */
-				SimpleOpenGLRenderingEngine fRenderingEngine;
+				SimpleOpenGLRenderingEngine renderingEngine;
 		};
 	}
 }

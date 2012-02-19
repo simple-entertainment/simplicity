@@ -299,6 +299,15 @@ namespace simplicity
 				return (lhs.equals(rhs));
 			}
 
+			/**
+			 * <p>
+			 * Sets the data for this <code>Vector</code>.
+			 * </p>
+			 *
+			 * @param data The data for this <code>Vector</code>.
+			 */
+			virtual void setData(const std::array<Data, Size>& data) = 0;
+
 		private:
 			/**
 			 * <p>

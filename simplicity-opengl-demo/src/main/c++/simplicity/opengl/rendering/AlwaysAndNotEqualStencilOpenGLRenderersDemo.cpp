@@ -16,7 +16,7 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/math/SimpleRGBAColourVector4.h>
+#include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/SimpleNode.h>
 #include <simplicity/scene/SimpleScene.h>
 
@@ -67,9 +67,11 @@ namespace simplicity
 
 		void AlwaysAndNotEqualStencilOpenGLRenderersDemo::init()
 		{
-			renderingEngine.setClearingColour(
-				shared_ptr < SimpleRGBAColourVector4<>
-					> (new SimpleRGBAColourVector4<>(0.95f, 0.95f, 0.95f, 1.0f)));
+			unique_ptr<RGBAColourVector<> > clearingColour(MathFactory::getInstance().createRGBAColourVector());
+			clearingColour->setRed(0.95f);
+			clearingColour->setGreen(0.95f);
+			clearingColour->setBlue(0.95f);
+			renderingEngine.setClearingColour(move(clearingColour));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);

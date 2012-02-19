@@ -17,7 +17,6 @@
 #include <math.h>
 
 #include "SimpleTransformationMatrix44.h"
-#include "SimpleTranslationVector4.h"
 
 using namespace std;
 
@@ -39,8 +38,8 @@ namespace simplicity
 	unique_ptr<TranslationVector<> > SimpleTransformationMatrix44<Data>::getTranslation() const
 	{
 		const array<Data, SimpleMatrix44<>::SIZE>& data = SimpleMatrix44<>::getData();
-		unique_ptr<TranslationVector<> > translation(new SimpleTranslationVector4<>);
-		array<Data, SimpleTranslationVector4<>::SIZE>& translationData = translation->getData();
+		unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+		array<Data, SimpleMatrix44<>::HEIGHT>& translationData = translation->getData();
 
 		translationData.at(0) = data.at(12);
 		translationData.at(1) = data.at(13);

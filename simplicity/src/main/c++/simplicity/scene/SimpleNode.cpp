@@ -16,7 +16,7 @@
  */
 #include <stack>
 
-#include "../math/SimpleTransformationMatrix44.h"
+#include "../math/MathFactory.h"
 #include "SimpleNode.h"
 #include "PreorderNodeIterator.h"
 
@@ -26,7 +26,7 @@ namespace simplicity
 {
 	SimpleNode::SimpleNode() :
 		children(), collidable(true), id(0), modifiable(true), parent(), transformation(
-			new SimpleTransformationMatrix44<>()), visible(true)
+			MathFactory::getInstance().createTransformationMatrix()), visible(true)
 	{
 	}
 
@@ -42,7 +42,8 @@ namespace simplicity
 
 	unique_ptr<TransformationMatrix<> > SimpleNode::getAbsoluteTransformation() const
 	{
-		unique_ptr<SimpleTransformationMatrix44<> > absoluteTransformation(new SimpleTransformationMatrix44<>());
+		unique_ptr<TransformationMatrix<> > absoluteTransformation(
+			MathFactory::getInstance().createTransformationMatrix());
 		stack<std::shared_ptr<Node> > ancestors;
 		std::shared_ptr<Node> currentNode(((Node*) this)->getThisShared());
 
@@ -61,7 +62,7 @@ namespace simplicity
 		return move(absoluteTransformation);
 	}
 
-	// const BoundingVolume& SimpleNode::getBounds() const TODO
+	// const BoundingVolume& SimpleNode::getBounds() const TODO Create BoundingVolume
 	// {
 	// 	return (bounds);
 	// }

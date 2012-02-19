@@ -32,7 +32,7 @@ namespace simplicity
 		 * A small demonstration of the {@link simplicity::opengl::SimpleOpenGLPicker SimpleOpenGLPicker}.
 		 * </p>
 		 */
-		class SimpleOpenGLPickerDemo: public OpenGLDemo, public PickListener
+		class SimpleOpenGLPickerDemo : public OpenGLDemo, public PickListener
 		{
 			public:
 				/**
@@ -73,28 +73,28 @@ namespace simplicity
 				 * The overall engine for the demo.
 				 * </p>
 				 */
-				SimpleCompositeEngine fEngine;
+				SimpleCompositeEngine engine;
 
 				/**
 				 * <p>
 				 * The renderer used to render the outline of the selected shape.
 				 * </p>
 				 */
-				std::shared_ptr<Renderer> fOutlineRenderer;
+				std::shared_ptr<Renderer> outlineRenderer;
 
 				/**
 				 * <p>
 				 * The picking engine for the demo.
 				 * </p>
 				 */
-				std::shared_ptr<PickingEngine> fPickingEngine;
+				std::shared_ptr<PickingEngine> pickingEngine;
 
 				/**
 				 * <p>
 				 * The rendering engine for the demo.
 				 * </p>
 				 */
-				std::shared_ptr<RenderingEngine> fRenderingEngine;
+				std::shared_ptr<RenderingEngine> renderingEngine;
 		};
 	}
 }

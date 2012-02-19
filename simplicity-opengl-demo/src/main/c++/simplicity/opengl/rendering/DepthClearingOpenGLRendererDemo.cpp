@@ -16,7 +16,7 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/math/SimpleRGBAColourVector4.h>
+#include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/SimpleNode.h>
 #include <simplicity/scene/SimpleScene.h>
 
@@ -39,17 +39,17 @@ namespace simplicity
 
 		void DepthClearingOpenGLRendererDemo::advance()
 		{
-			fRenderingEngine.advance(shared_ptr<EngineInput>());
+			renderingEngine.advance(shared_ptr<EngineInput>());
 		}
 
 		void DepthClearingOpenGLRendererDemo::dispose()
 		{
-			fRenderingEngine.destroy();
+			renderingEngine.destroy();
 		}
 
 		shared_ptr<Camera> DepthClearingOpenGLRendererDemo::getCamera()
 		{
-			return (fRenderingEngine.getCamera());
+			return (renderingEngine.getCamera());
 		}
 
 		string DepthClearingOpenGLRendererDemo::getDescription()
@@ -66,17 +66,19 @@ namespace simplicity
 
 		void DepthClearingOpenGLRendererDemo::init()
 		{
-			fRenderingEngine.setClearingColour(
-				shared_ptr < SimpleRGBAColourVector4<>
-					> (new SimpleRGBAColourVector4<>(0.95f, 0.95f, 0.95f, 1.0f)));
+			unique_ptr<RGBAColourVector<> > clearingColour(MathFactory::getInstance().createRGBAColourVector());
+			clearingColour->setRed(0.95f);
+			clearingColour->setGreen(0.95f);
+			clearingColour->setBlue(0.95f);
+			renderingEngine.setClearingColour(move(clearingColour));
 
 			shared_ptr<SimpleScene> scene(new SimpleScene);
 			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
-			fRenderingEngine.setScene(scene);
+			renderingEngine.setScene(scene);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
 			scene->addCamera(camera);
-			fRenderingEngine.setCamera(camera);
+			renderingEngine.setCamera(camera);
 
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
@@ -93,14 +95,14 @@ namespace simplicity
 			scene->addNode(renderingPass2Root);
 
 			shared_ptr<SimpleOpenGLRenderer> firstRenderer(new SimpleOpenGLRenderer);
-			fRenderingEngine.addRenderer(firstRenderer);
-			fRenderingEngine.setRendererRoot(*firstRenderer, renderingPass1Root);
+			renderingEngine.addRenderer(firstRenderer);
+			renderingEngine.setRendererRoot(*firstRenderer, renderingPass1Root);
 
 			shared_ptr<DepthClearingOpenGLRenderer> secondRenderer(new DepthClearingOpenGLRenderer(firstRenderer));
-			fRenderingEngine.addRenderer(secondRenderer);
-			fRenderingEngine.setRendererRoot(*secondRenderer, renderingPass2Root);
+			renderingEngine.addRenderer(secondRenderer);
+			renderingEngine.setRendererRoot(*secondRenderer, renderingPass2Root);
 
-			fRenderingEngine.init();
+			renderingEngine.init();
 		}
 	}
 }

@@ -17,8 +17,8 @@
 #include <boost/lexical_cast.hpp>
 
 #include "../SEInvalidOperationException.h"
+#include "MathFactory.h"
 #include "SimpleMatrix44.h"
-#include "SimpleVector4.h"
 
 using namespace std;
 
@@ -220,7 +220,9 @@ namespace simplicity
 	unique_ptr<Vector<Data, SimpleMatrix44<>::HEIGHT> > SimpleMatrix44<Data>::operator*(
 		const Vector<Data, HEIGHT>& rhs) const
 	{
-		return unique_ptr<SimpleVector4<Data> >(new SimpleVector4<Data>(multiplyWithVector(data, rhs.getData())));
+		unique_ptr<Vector<Data> > product(MathFactory::getInstance().createVector());
+		product->setData(multiplyWithVector(data, rhs.getData()));
+		return product;
 	}
 
 	template<typename Data>
@@ -229,6 +231,12 @@ namespace simplicity
 		data = multiply(data, rhs.getData());
 
 		return *this;
+	}
+
+	template<typename Data>
+	void SimpleMatrix44<Data>::setData(const array<Data, SIZE>& data)
+	{
+		this->data = data;
 	}
 
 	template<typename Data>

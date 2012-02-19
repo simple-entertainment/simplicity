@@ -14,46 +14,30 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../../math/MathFactory.h"
-#include "Sphere.h"
+#include "MathFactory.h"
+#include "SimpleMathFactory.h"
+
+using namespace std;
 
 namespace simplicity
 {
-	Sphere::Sphere() :
-		center(MathFactory::getInstance().createTranslationVector()), colour(
-			MathFactory::getInstance().createRGBAColourVector()), radius(1.0f)
+	unique_ptr<MathFactory> MathFactory::instance = unique_ptr<MathFactory>();
+
+	const MathFactory& MathFactory::getInstance()
 	{
-		colour->setRed(1.0f);
-		colour->setGreen(1.0f);
-		colour->setBlue(1.0f);
+		if (instance.get() == NULL) {
+			instance.reset(new SimpleMathFactory);
+		}
+
+		return *instance;
 	}
 
-	Sphere::~Sphere()
+	void MathFactory::setInstance(unique_ptr<MathFactory> instance)
 	{
+		MathFactory::instance = move(instance);
 	}
 
-	const TranslationVector<>& Sphere::getCenter() const
+	MathFactory::~MathFactory()
 	{
-		return *center;
-	}
-
-	RGBAColourVector<>& Sphere::getColour() const
-	{
-		return *colour;
-	}
-
-	float Sphere::getRadius() const
-	{
-		return radius;
-	}
-
-	void Sphere::setColour(std::shared_ptr<RGBAColourVector<> > colour)
-	{
-		this->colour = colour;
-	}
-
-	void Sphere::setRadius(const float radius)
-	{
-		this->radius = radius;
 	}
 }
