@@ -18,8 +18,7 @@
 
 #include <simplicity/math/MathFactory.h>
 #include <simplicity/model/VectorVG.h>
-#include <simplicity/scene/model/SimpleModelNode.h>
-#include <simplicity/scene/SimpleNode.h>
+#include <simplicity/scene/SceneFactory.h>
 
 #include <simplicity/opengl/model/shape/GLUSphere.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLCamera.h>
@@ -65,7 +64,7 @@ namespace simplicity
 		camera->setFrameWidth(10.0f);
 		camera->setFrameAspectRatio(1.0f);
 
-		shared_ptr<SimpleNode> cameraNode(new SimpleNode);
+		shared_ptr<Node> cameraNode(SceneFactory::getInstance().createNode());
 
 		unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
 		translation->setY(10.0f);
@@ -85,7 +84,7 @@ namespace simplicity
 	shared_ptr<Light> PathFindingDemo::addLight(shared_ptr<Node> parentNode)
 	{
 		shared_ptr<SimpleOpenGLLight> light(new SimpleOpenGLLight);
-		shared_ptr<SimpleNode> lightNode(new SimpleNode);
+		shared_ptr<Node> lightNode(SceneFactory::getInstance().createNode());
 
 		unique_ptr<RGBAColourVector<> > ambientLight(MathFactory::getInstance().createRGBAColourVector());
 		ambientLight->setRed(0.25f);
@@ -180,7 +179,7 @@ namespace simplicity
 
 	shared_ptr<Node> PathFindingDemo::createSquareOnXZPlane(const RGBAColourVector<>& colour)
 	{
-		shared_ptr<ModelNode> squareNode(new SimpleModelNode);
+		shared_ptr<ModelNode> squareNode(SceneFactory::getInstance().createModelNode());
 		shared_ptr<VectorVG> squareModel(new VectorVG);
 
 		float colours[18];
@@ -236,11 +235,11 @@ namespace simplicity
 	void PathFindingDemo::displayPath(RenderingEngine& renderingEngine, const vector<shared_ptr<const Node> >& path)
 	{
 		shared_ptr<Entity> pathEntity(new Entity);
-		shared_ptr<Node> pathRootNode(new SimpleNode);
+		shared_ptr<Node> pathRootNode(SceneFactory::getInstance().createNode());
 
 		for (unsigned int index = 0; index < path.size(); index++)
 		{
-			shared_ptr<ModelNode> waypointNode(new SimpleModelNode);
+			shared_ptr<ModelNode> waypointNode(SceneFactory::getInstance().createModelNode());
 			pathRootNode->addChild(waypointNode);
 
 			shared_ptr<Sphere> waypointModel(new GLUSphere);
@@ -273,7 +272,7 @@ namespace simplicity
 		{
 			for (unsigned int row = 0; row < 10; row++)
 			{
-				shared_ptr<Node> meshNode(new SimpleNode);
+				shared_ptr<Node> meshNode(SceneFactory::getInstance().createNode());
 
 				unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
 				translation->setX(-5.0f + column);

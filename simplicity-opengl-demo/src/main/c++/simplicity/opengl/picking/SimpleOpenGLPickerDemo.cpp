@@ -19,8 +19,7 @@
 #include <boost/math/constants/constants.hpp>
 
 #include <simplicity/math/MathFactory.h>
-#include <simplicity/scene/SimpleNode.h>
-#include <simplicity/scene/SimpleScene.h>
+#include <simplicity/scene/SceneFactory.h>
 
 #include <simplicity/opengl/picking/engine/SimpleOpenGLPickingEngine.h>
 #include <simplicity/opengl/picking/SimpleOpenGLPicker.h>
@@ -82,8 +81,8 @@ namespace simplicity
 			clearingColour->setBlue(0.95f);
 			renderingEngine->setClearingColour(move(clearingColour));
 
-			shared_ptr<SimpleScene> scene(new SimpleScene);
-			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
+			shared_ptr<Scene> scene(SceneFactory::getInstance().createScene());
+			shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
 			renderingEngine->setScene(scene);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);

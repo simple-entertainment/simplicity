@@ -20,8 +20,7 @@
 #include <boost/math/constants/constants.hpp>
 
 #include <simplicity/math/MathFactory.h>
-#include <simplicity/scene/model/SimpleModelNode.h>
-#include <simplicity/scene/SimpleNode.h>
+#include <simplicity/scene/SceneFactory.h>
 
 #include <simplicity/opengl/model/shape/GLUCapsule.h>
 #include <simplicity/opengl/model/shape/GLUCylinder.h>
@@ -42,8 +41,8 @@ namespace simplicity
 		shared_ptr<Camera> OpenGLDemo::addStandardCamera(shared_ptr<Node> parentNode)
 		{
 			shared_ptr<SimpleOpenGLCamera> camera(new SimpleOpenGLCamera);
-			shared_ptr<SimpleNode> cameraNode(new SimpleNode);
-			cameraRootNode.reset(new SimpleNode);
+			shared_ptr<Node> cameraNode(SceneFactory::getInstance().createNode());
+			cameraRootNode = SceneFactory::getInstance().createNode();
 
 			unique_ptr<TranslationVector<> > cameraTranslation(MathFactory::getInstance().createTranslationVector());
 			cameraTranslation->setZ(-20.0f);
@@ -68,7 +67,7 @@ namespace simplicity
 
 		void OpenGLDemo::addStandardCapsule(shared_ptr<Node> parentNode)
 		{
-			shared_ptr<SimpleModelNode> capsuleNode(new SimpleModelNode);
+			shared_ptr<ModelNode> capsuleNode(SceneFactory::getInstance().createModelNode());
 
 			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
 			translation->setX(-3.0f);
@@ -87,7 +86,7 @@ namespace simplicity
 
 		void OpenGLDemo::addStandardCylinder(shared_ptr<Node> parentNode)
 		{
-			shared_ptr<SimpleModelNode> cylinderNode(new SimpleModelNode);
+			shared_ptr<ModelNode> cylinderNode(SceneFactory::getInstance().createModelNode());
 
 			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
 			translation->setY(3.0f);
@@ -125,7 +124,7 @@ namespace simplicity
 			specularLight->setBlue(0.1f);
 			light->setSpecularLight(move(specularLight));
 
-			shared_ptr<SimpleNode> lightNode(new SimpleNode);
+			shared_ptr<Node> lightNode(SceneFactory::getInstance().createNode());
 
 			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
 			translation->setZ(20.0f);
@@ -139,7 +138,7 @@ namespace simplicity
 
 		void OpenGLDemo::addStandardSphere(shared_ptr<Node> parentNode)
 		{
-			shared_ptr<SimpleModelNode> sphereNode(new SimpleModelNode);
+			shared_ptr<ModelNode> sphereNode(SceneFactory::getInstance().createModelNode());
 
 			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
 			translation->setX(3.0f);
@@ -158,7 +157,7 @@ namespace simplicity
 
 		void OpenGLDemo::addStandardTorus(shared_ptr<Node> parentNode)
 		{
-			shared_ptr<SimpleModelNode> torusNode(new SimpleModelNode);
+			shared_ptr<ModelNode> torusNode(SceneFactory::getInstance().createModelNode());
 
 			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
 			translation->setY(-2.0f);

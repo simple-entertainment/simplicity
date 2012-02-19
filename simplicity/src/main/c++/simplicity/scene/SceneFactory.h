@@ -14,31 +14,32 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "MathFactory.h"
-#include "SimpleMathFactory.h"
+#ifndef SCENEFACTORY_H_
+#define SCENEFACTORY_H_
 
-using namespace std;
+#include "model/ModelNode.h"
+#include "Scene.h"
 
 namespace simplicity
 {
-	unique_ptr<MathFactory> MathFactory::instance = unique_ptr<MathFactory>();
-
-	const MathFactory& MathFactory::getInstance()
+	class SceneFactory
 	{
-		if (instance.get() == NULL)
-		{
-			instance.reset(new SimpleMathFactory);
-		}
+		public:
+			static const SceneFactory& getInstance();
 
-		return *instance;
-	}
+			static void setInstance(std::unique_ptr<SceneFactory> instance);
 
-	void MathFactory::setInstance(unique_ptr<MathFactory> instance)
-	{
-		MathFactory::instance = move(instance);
-	}
+			virtual ~SceneFactory();
 
-	MathFactory::~MathFactory()
-	{
-	}
+			virtual std::shared_ptr<ModelNode> createModelNode() const = 0;
+
+			virtual std::shared_ptr<Node> createNode() const = 0;
+
+			virtual std::shared_ptr<Scene> createScene() const = 0;
+
+		private:
+			static std::unique_ptr<SceneFactory> instance;
+	};
 }
+
+#endif /* SCENEFACTORY_H_ */

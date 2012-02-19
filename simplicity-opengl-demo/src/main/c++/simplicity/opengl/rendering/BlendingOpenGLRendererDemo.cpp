@@ -18,8 +18,7 @@
 
 #include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/model/SimpleModelNode.h>
-#include <simplicity/scene/SimpleNode.h>
-#include <simplicity/scene/SimpleScene.h>
+#include <simplicity/scene/SceneFactory.h>
 
 #include <simplicity/opengl/rendering/BlendingOpenGLRenderer.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
@@ -72,8 +71,8 @@ namespace simplicity
 			clearingColour->setBlue(0.95f);
 			renderingEngine.setClearingColour(move(clearingColour));
 
-			shared_ptr<SimpleScene> scene(new SimpleScene);
-			shared_ptr<SimpleNode> sceneRoot(new SimpleNode);
+			shared_ptr<Scene> scene(SceneFactory::getInstance().createScene());
+			shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
 			renderingEngine.setScene(scene);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
@@ -84,14 +83,14 @@ namespace simplicity
 			scene->addLight(light);
 			scene->addNode(sceneRoot);
 
-			shared_ptr<SimpleNode> renderingPass1Root(new SimpleNode);
+			shared_ptr<Node> renderingPass1Root(SceneFactory::getInstance().createNode());
 			addStandardCapsule(renderingPass1Root);
 			addStandardCylinder(renderingPass1Root);
 			addStandardSphere(renderingPass1Root);
 			scene->addNode(renderingPass1Root);
 
-			shared_ptr<SimpleNode> renderingPass2Root(new SimpleNode);
-			shared_ptr<SimpleModelNode> torusNode(new SimpleModelNode);
+			shared_ptr<Node> renderingPass2Root(SceneFactory::getInstance().createNode());
+			shared_ptr<ModelNode> torusNode(SceneFactory::getInstance().createModelNode());
 
 			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
 			translation->setY(-2.0f);
