@@ -32,7 +32,8 @@ namespace simplicity
 		class SimpleOpenGLTexture : public Texture
 		{
 			public:
-				SimpleOpenGLTexture(const std::string& fileName, const unsigned int width, const unsigned int height);
+				SimpleOpenGLTexture(const std::string& fileName, const unsigned int width, const unsigned int height,
+					const bool hasAlpha);
 
 				virtual ~SimpleOpenGLTexture();
 
@@ -40,6 +41,8 @@ namespace simplicity
 
 			private:
 				std::string fileName;
+
+				bool hasAlpha;
 
 				unsigned int height;
 

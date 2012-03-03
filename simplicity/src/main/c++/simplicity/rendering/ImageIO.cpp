@@ -18,6 +18,7 @@
 #include <iostream>
 
 #include <boost/gil/extension/io/jpeg_io.hpp>
+#include <boost/gil/extension/io/png_io.hpp>
 
 #include "ImageIO.h"
 
@@ -30,6 +31,11 @@ namespace simplicity
 	{
 		vector<char> loadImage(const string& fileName)
 		{
+			return loadImage(fileName, false);
+		}
+
+		vector<char> loadImage(const string& fileName, const bool hasAlpha)
+		{
 			string::size_type extensionIndex(fileName.rfind("."));
 			if (extensionIndex == string::npos)
 			{
@@ -40,6 +46,10 @@ namespace simplicity
 			if (extension == "jpeg" || extension == "jpg")
 			{
 				return loadImageJpeg(fileName);
+			}
+			else if (extension == "png")
+			{
+				return loadImagePng(fileName, hasAlpha);
 			}
 			else
 			{
@@ -60,6 +70,43 @@ namespace simplicity
 				data.push_back(at_c<0>(*iterator));
 				data.push_back(at_c<1>(*iterator));
 				data.push_back(at_c<2>(*iterator));
+			}
+
+			return data;
+		}
+
+		vector<char> loadImagePng(const string& fileName, const bool hasAlpha)
+		{
+			vector<char> data;
+
+			if (hasAlpha)
+			{
+				rgba8_image_t image;
+				png_read_and_convert_image(fileName.data(), image);
+				rgba8_image_t::const_view_t view(const_view(image));
+				data.reserve(image.width() * image.height() * view.num_channels());
+
+				for (rgba8_image_t::const_view_t::iterator iterator(view.begin()); iterator != view.end(); iterator++)
+				{
+					data.push_back(at_c<0>(*iterator));
+					data.push_back(at_c<1>(*iterator));
+					data.push_back(at_c<2>(*iterator));
+					data.push_back(at_c<3>(*iterator));
+				}
+			}
+			else
+			{
+				rgb8_image_t image;
+				png_read_and_convert_image(fileName.data(), image);
+				rgb8_image_t::const_view_t view(const_view(image));
+				data.reserve(image.width() * image.height() * view.num_channels());
+
+				for (rgb8_image_t::const_view_t::iterator iterator(view.begin()); iterator != view.end(); iterator++)
+				{
+					data.push_back(at_c<0>(*iterator));
+					data.push_back(at_c<1>(*iterator));
+					data.push_back(at_c<2>(*iterator));
+				}
 			}
 
 			return data;

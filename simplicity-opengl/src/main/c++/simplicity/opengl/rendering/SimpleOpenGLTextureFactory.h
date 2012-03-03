@@ -31,7 +31,7 @@ namespace simplicity
 				virtual ~SimpleOpenGLTextureFactory();
 
 				std::shared_ptr<Texture> createTexture(const std::string& fileName, const unsigned int width,
-					const unsigned int height) const;
+					const unsigned int height, const bool hasAlpha) const;
 		};
 	}
 }

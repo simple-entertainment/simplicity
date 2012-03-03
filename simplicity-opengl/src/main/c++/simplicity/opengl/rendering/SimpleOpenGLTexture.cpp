@@ -28,8 +28,8 @@ namespace simplicity
 	namespace opengl
 	{
 		SimpleOpenGLTexture::SimpleOpenGLTexture(const string& fileName, const unsigned int width,
-			const unsigned int height) :
-			fileName(fileName), height(height), loaded(false), name(), width(width)
+			const unsigned int height, const bool hasAlpha) :
+			fileName(fileName), hasAlpha(hasAlpha), height(height), loaded(false), name(), width(width)
 		{
 		}
 
@@ -43,7 +43,7 @@ namespace simplicity
 
 		void SimpleOpenGLTexture::load()
 		{
-			vector<char> data(imageio::loadImage(fileName));
+			vector<char> data(imageio::loadImage(fileName, hasAlpha));
 
 			glGenTextures(1, &name);
 
@@ -64,8 +64,14 @@ namespace simplicity
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
+			GLint format = GL_RGB;
+			if (hasAlpha)
+			{
+				format = GL_RGBA;
+			}
+
 			// build our texture mipmaps
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, data.data());
+			gluBuild2DMipmaps(GL_TEXTURE_2D, format, width, height, format, GL_UNSIGNED_BYTE, data.data());
 
 			loaded = true;
 		}

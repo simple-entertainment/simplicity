@@ -33,9 +33,9 @@ namespace simplicity
 		}
 
 		shared_ptr<Texture> SimpleOpenGLTextureFactory::createTexture(const string& fileName, const unsigned int width,
-			const unsigned int height) const
+			const unsigned int height, const bool hasAlpha) const
 		{
-			return shared_ptr < Texture > (new SimpleOpenGLTexture(fileName, width, height));
+			return shared_ptr < Texture > (new SimpleOpenGLTexture(fileName, width, height, hasAlpha));
 		}
 	}
 }

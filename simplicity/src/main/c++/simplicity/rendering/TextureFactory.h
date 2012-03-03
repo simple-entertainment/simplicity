@@ -33,7 +33,7 @@ namespace simplicity
 			virtual ~TextureFactory();
 
 			virtual std::shared_ptr<Texture> createTexture(const std::string& fileName, const unsigned int width,
-				const unsigned int height) const = 0;
+				const unsigned int height, const bool hasAlpha) const = 0;
 
 		private:
 			static std::unique_ptr<TextureFactory> instance;

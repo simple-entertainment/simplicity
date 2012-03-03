@@ -27,12 +27,24 @@ namespace simplicity
 		/**
 		 * <p>
 		 * Loads an image, using the extension to determine the image format. If the extension not recognised or no
-		 * extension exists, the image format is assumed to be RAW.
+		 * extension exists, the image format is assumed to be RAW. It is also assumed that the image has no alpha
+		 * channel. For images with alpha channels, use {@link loadImage(const std::string&, const bool)}.
 		 * </p>
 		 *
 		 * @param fileName The name of the file to load the image from.
 		 */
 		std::vector<char> loadImage(const std::string& fileName);
+
+		/**
+		 * <p>
+		 * Loads an image, using the extension to determine the image format. If the extension not recognised or no
+		 * extension exists, the image format is assumed to be RAW.
+		 * </p>
+		 *
+		 * @param fileName The name of the file to load the image from.
+		 * @param hasAlpha Determines whether the image to be loaded has an alpha channel.
+		 */
+		std::vector<char> loadImage(const std::string& fileName, const bool hasAlpha);
 
 		/**
 		 * <p>
@@ -42,6 +54,16 @@ namespace simplicity
 		 * @param fileName The name of the file to load the image from.
 		 */
 		std::vector<char> loadImageJpeg(const std::string& fileName);
+
+		/**
+		 * <p>
+		 * Loads a PNG image.
+		 * </p>
+		 *
+		 * @param fileName The name of the file to load the image from.
+		 * @param hasAlpha Determines whether the image to be loaded has an alpha channel.
+		 */
+		std::vector<char> loadImagePng(const std::string& fileName, const bool hasAlpha);
 
 		/**
 		 * <p>
