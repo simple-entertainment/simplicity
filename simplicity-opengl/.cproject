@@ -54,6 +54,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.202758065" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.libs.1975020371" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="simplicity"/>
+									<listOptionValue builtIn="false" value="jpeg"/>
 									<listOptionValue builtIn="false" value="log4cpp"/>
 									<listOptionValue builtIn="false" value="glut"/>
 									<listOptionValue builtIn="false" value="GLEW"/>

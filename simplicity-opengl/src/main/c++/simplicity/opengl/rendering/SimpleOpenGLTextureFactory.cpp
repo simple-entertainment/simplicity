@@ -14,50 +14,28 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "Simplicity.h"
+#include "SimpleOpenGLTextureFactory.h"
+
+#include "SimpleOpenGLTexture.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	unique_ptr<RunnableEngine> Simplicity::engine = unique_ptr<RunnableEngine>();
-
-	vector<shared_ptr<Entity> > Simplicity::entities = vector<shared_ptr<Entity> >();
-
-	Simplicity::Simplicity()
+	namespace opengl
 	{
-	}
-
-	Simplicity::~Simplicity()
-	{
-	}
-
-	void Simplicity::addEntities(vector<shared_ptr<Entity> > entities)
-	{
-		for (shared_ptr<Entity> entity : entities)
+		SimpleOpenGLTextureFactory::SimpleOpenGLTextureFactory()
 		{
-			addEntity(entity);
 		}
-	}
 
-	void Simplicity::addEntity(shared_ptr<Entity> entity)
-	{
-		entities.push_back(entity);
-		engine->addEntity(entity);
-	}
+		SimpleOpenGLTextureFactory::~SimpleOpenGLTextureFactory()
+		{
+		}
 
-	void Simplicity::finish()
-	{
-		engine->destroy();
-	}
-
-	void Simplicity::init(unique_ptr<RunnableEngine> engine)
-	{
-		Simplicity::engine = move(engine);
-	}
-
-	void Simplicity::start()
-	{
-		engine->run();
+		shared_ptr<Texture> SimpleOpenGLTextureFactory::createTexture(const string& fileName, const unsigned int width,
+			const unsigned int height) const
+		{
+			return shared_ptr < Texture > (new SimpleOpenGLTexture(fileName, width, height));
+		}
 	}
 }

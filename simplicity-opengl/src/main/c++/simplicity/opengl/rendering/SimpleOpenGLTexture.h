@@ -14,50 +14,44 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "Simplicity.h"
+#ifndef SIMPLEOPENGLTEXTURE_H_
+#define SIMPLEOPENGLTEXTURE_H_
 
-using namespace std;
+#include <string>
+
+#include <boost/gil/gil_all.hpp>
+
+#include <GL/gl.h>
+
+#include <simplicity/rendering/Texture.h>
 
 namespace simplicity
 {
-	unique_ptr<RunnableEngine> Simplicity::engine = unique_ptr<RunnableEngine>();
-
-	vector<shared_ptr<Entity> > Simplicity::entities = vector<shared_ptr<Entity> >();
-
-	Simplicity::Simplicity()
+	namespace opengl
 	{
-	}
-
-	Simplicity::~Simplicity()
-	{
-	}
-
-	void Simplicity::addEntities(vector<shared_ptr<Entity> > entities)
-	{
-		for (shared_ptr<Entity> entity : entities)
+		class SimpleOpenGLTexture : public Texture
 		{
-			addEntity(entity);
-		}
-	}
+			public:
+				SimpleOpenGLTexture(const std::string& fileName, const unsigned int width, const unsigned int height);
 
-	void Simplicity::addEntity(shared_ptr<Entity> entity)
-	{
-		entities.push_back(entity);
-		engine->addEntity(entity);
-	}
+				virtual ~SimpleOpenGLTexture();
 
-	void Simplicity::finish()
-	{
-		engine->destroy();
-	}
+				void select();
 
-	void Simplicity::init(unique_ptr<RunnableEngine> engine)
-	{
-		Simplicity::engine = move(engine);
-	}
+			private:
+				std::string fileName;
 
-	void Simplicity::start()
-	{
-		engine->run();
+				unsigned int height;
+
+				bool loaded;
+
+				GLuint name;
+
+				unsigned int width;
+
+				void load();
+		};
 	}
 }
+
+#endif /* SIMPLEOPENGLTEXTURE_H_ */

@@ -47,8 +47,9 @@
 								<option defaultValue="true" id="gnu.cpp.link.so.debug.option.shared.1162136646" name="Shared (-shared)" superClass="gnu.cpp.link.so.debug.option.shared" valueType="boolean"/>
 								<option id="gnu.cpp.link.option.libs.752204727" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="log4cpp"/>
-									<listOptionValue builtIn="false" value="boost_date_time-mt"/>
-									<listOptionValue builtIn="false" value="boost_thread-mt"/>
+									<listOptionValue builtIn="false" value="boost_thread"/>
+									<listOptionValue builtIn="false" value="boost_date_time"/>
+									<listOptionValue builtIn="false" value="boost_system"/>
 								</option>
 								<option id="gnu.cpp.link.option.flags.2060962760" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="" valueType="string"/>
 								<option id="gnu.cpp.link.option.paths.937572345" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths"/>

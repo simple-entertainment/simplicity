@@ -208,7 +208,14 @@ namespace simplicity
 		{
 			const vector<float>& colours = vertexGroup.getColours();
 			const vector<float>& normals = vertexGroup.getNormals();
+			const vector<float>& textureCoordinates = vertexGroup.getTextureCoordinates();
 			const vector<float>& vertices = vertexGroup.getVertices();
+
+			if (vertexGroup.getTexture().get() != NULL)
+			{
+				vertexGroup.getTexture()->select();
+				glEnable(GL_TEXTURE_2D);
+			}
 
 			glBegin(getOpenGlDrawingMode(drawingMode));
 			{
@@ -216,10 +223,23 @@ namespace simplicity
 				{
 					glColor3f(colours.at(index), colours.at(index + 1), colours.at(index + 2));
 					glNormal3f(normals.at(index), normals.at(index + 1), normals.at(index + 2));
+
+					if (vertexGroup.getTexture().get() != NULL)
+					{
+						unsigned int cnvIndex = index / ITEMS_IN_CNV;
+						glTexCoord2f(textureCoordinates.at(index - cnvIndex),
+							textureCoordinates.at(index - cnvIndex + 1));
+					}
+
 					glVertex3f(vertices.at(index), vertices.at(index + 1), vertices.at(index + 2));
 				}
 			}
 			glEnd();
+
+			if (vertexGroup.getTexture().get() != NULL)
+			{
+				glDisable(GL_TEXTURE_2D);
+			}
 		}
 
 		void SimpleOpenGLRenderer::setDrawingMode(const DrawingMode mode)

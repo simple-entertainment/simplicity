@@ -14,50 +14,30 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "Simplicity.h"
+#ifndef TEXTUREFACTORY_H_
+#define TEXTUREFACTORY_H_
 
-using namespace std;
+#include <memory>
+
+#include "Texture.h"
 
 namespace simplicity
 {
-	unique_ptr<RunnableEngine> Simplicity::engine = unique_ptr<RunnableEngine>();
-
-	vector<shared_ptr<Entity> > Simplicity::entities = vector<shared_ptr<Entity> >();
-
-	Simplicity::Simplicity()
+	class TextureFactory
 	{
-	}
+		public:
+			static const TextureFactory& getInstance();
 
-	Simplicity::~Simplicity()
-	{
-	}
+			static void setInstance(std::unique_ptr<TextureFactory> instance);
 
-	void Simplicity::addEntities(vector<shared_ptr<Entity> > entities)
-	{
-		for (shared_ptr<Entity> entity : entities)
-		{
-			addEntity(entity);
-		}
-	}
+			virtual ~TextureFactory();
 
-	void Simplicity::addEntity(shared_ptr<Entity> entity)
-	{
-		entities.push_back(entity);
-		engine->addEntity(entity);
-	}
+			virtual std::shared_ptr<Texture> createTexture(const std::string& fileName, const unsigned int width,
+				const unsigned int height) const = 0;
 
-	void Simplicity::finish()
-	{
-		engine->destroy();
-	}
-
-	void Simplicity::init(unique_ptr<RunnableEngine> engine)
-	{
-		Simplicity::engine = move(engine);
-	}
-
-	void Simplicity::start()
-	{
-		engine->run();
-	}
+		private:
+			static std::unique_ptr<TextureFactory> instance;
+	};
 }
+
+#endif /* TEXTUREFACTORY_H_ */
