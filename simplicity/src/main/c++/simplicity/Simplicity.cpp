@@ -54,7 +54,7 @@ namespace simplicity
 		// eventObservers.erase(find(eventObservers.begin(), eventObservers.end(), observer));
 	}
 
-	void Simplicity::fireEvent(const string eventName, const boost::any source)
+	void Simplicity::fireEvent(const string eventName, const boost::any data)
 	{
 		if (observers.find(eventName) == observers.end())
 		{
@@ -63,7 +63,7 @@ namespace simplicity
 
 		for (function<void(const boost::any)> observer : observers.find(eventName)->second)
 		{
-			observer(source);
+			observer(data);
 		}
 	}
 

@@ -70,9 +70,9 @@ namespace simplicity
 			 * </p>
 			 *
 			 * @param eventName The name of the event to fire.
-			 * @param source The object on which event occurred.
+			 * @param data Data associated with the event.
 			 */
-			static void fireEvent(const std::string eventName, const boost::any source);
+			static void fireEvent(const std::string eventName, const boost::any data);
 
 			/**
 			 * <p>
