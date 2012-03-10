@@ -35,6 +35,8 @@ namespace simplicity
 	class Simplicity
 	{
 		public:
+			typedef void(Observer)(const boost::any);
+
 			/**
 			 * <p>
 			 * Adds the given {@link simplicity::Entity Entity}s to the <code>Entity</code>s managed by simplicity.
@@ -62,7 +64,7 @@ namespace simplicity
 			 * @param eventName The name of the event to deregister the observer from.
 			 * @param observer The observer to deregister.
 			 */
-			static void deregisterObserver(const std::string eventName, std::function<void(const boost::any)> observer);
+			static void deregisterObserver(const std::string eventName, std::function<Observer> observer);
 
 			/**
 			 * <p>
@@ -103,7 +105,7 @@ namespace simplicity
 			 * @param eventName The name of the event to register the observer with.
 			 * @param observer The observer to notify when the event is fired.
 			 */
-			static void registerObserver(const std::string eventName, std::function<void(const boost::any)> observer);
+			static void registerObserver(const std::string eventName, std::function<Observer> observer);
 
 			/**
 			 * <p>
@@ -156,7 +158,7 @@ namespace simplicity
 			 * The observers to any events fired within simplicity.
 			 * </p>
 			 */
-			static std::map<const std::string, std::vector<std::function<void(const boost::any)> > > observers;
+			static std::map<const std::string, std::vector<std::function<Observer> > > observers;
 
 			Simplicity();
 	};

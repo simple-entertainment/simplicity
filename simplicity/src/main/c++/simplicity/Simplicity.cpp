@@ -24,8 +24,8 @@ namespace simplicity
 
 	map<const string, shared_ptr<Entity> > Simplicity::entities = map<const string, shared_ptr<Entity> >();
 
-	map<const string, vector<function<void(const boost::any)> > > Simplicity::observers = map<const string,
-		vector<function<void(const boost::any)> > >();
+	map<const string, vector<function<Simplicity::Observer> > > Simplicity::observers = map<const string,
+		vector<function<Simplicity::Observer> > >();
 
 	Simplicity::Simplicity()
 	{
@@ -47,11 +47,17 @@ namespace simplicity
 
 	void Simplicity::deregisterObserver(const string eventName, function<void(const boost::any)> observer)
 	{
-		// TODO Add support for this when using proper C++11, currently equality of functions does not seem to be
-		// supported so function to be erased cannot be found.
-		// vector<function<void(const boost::any)> >& eventObservers(observers.find(eventName)->second);
+		vector<function<Observer> >& eventObservers(observers.find(eventName)->second);
 
-		// eventObservers.erase(find(eventObservers.begin(), eventObservers.end(), observer));
+		vector<function<Observer> >::iterator currentObserver(eventObservers.begin());
+		while (currentObserver != eventObservers.end())
+		{
+			if (currentObserver->target<Observer>() == observer.target<Observer>())
+			{
+				eventObservers.erase(currentObserver);
+				return;
+			}
+		}
 	}
 
 	void Simplicity::fireEvent(const string eventName, const boost::any data)
@@ -61,7 +67,7 @@ namespace simplicity
 			return;
 		}
 
-		for (function<void(const boost::any)> observer : observers.find(eventName)->second)
+		for (function<Observer> observer : observers.find(eventName)->second)
 		{
 			observer(data);
 		}
@@ -77,13 +83,12 @@ namespace simplicity
 		Simplicity::engine = move(engine);
 	}
 
-	void Simplicity::registerObserver(const string eventName, function<void(const boost::any)> observer)
+	void Simplicity::registerObserver(const string eventName, function<Observer> observer)
 	{
 		if (observers.find(eventName) == observers.end())
 		{
 			observers.insert(
-				pair<const string, vector<function<void(const boost::any)> > >(eventName,
-					vector<function<void(const boost::any)> >()));
+				pair<const string, vector<function<Observer> > >(eventName, vector<function<Observer> >()));
 		}
 
 		observers.find(eventName)->second.push_back(observer);

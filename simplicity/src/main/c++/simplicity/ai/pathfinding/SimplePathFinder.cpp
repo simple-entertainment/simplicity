@@ -60,7 +60,7 @@ namespace simplicity
 		{
 			for (unsigned int adjacentNodeIndex = 0; adjacentNodeIndex < currentNode->getChildren().size();
 				adjacentNodeIndex++)
-				{
+			{
 				shared_ptr<Node> adjacentNode(currentNode->getChildren().at(adjacentNodeIndex));
 				if (isTraversed(*adjacentNode)
 					&& nodeDistances.find(adjacentNode)->second < nodeDistances.find(nextNode)->second)

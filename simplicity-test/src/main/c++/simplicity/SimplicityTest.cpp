@@ -52,6 +52,33 @@ namespace simplicity
 
 	/**
 	 * <p>
+	 * Unit test the method
+	 * {@link simplicity::Simplicity#deregisterObserver(std::string, std::function<Simplicity::Observer>) deregisterObserver(std::string, std::function<Simplicity::Observer>)}.
+	 * </p>
+	 */
+	TEST_F(SimplicityTest, deregisterObserver)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		std::function<Simplicity::Observer> observer(testObserver);
+
+		// Initialise test environment.
+		// //////////////////////////////////////////////////
+		testObserverCalled = false;
+		Simplicity::registerObserver("testEvent", observer);
+
+		// Perform test.
+		// //////////////////////////////////////////////////
+		Simplicity::deregisterObserver("testEvent", observer);
+
+		// Verify test results.
+		// //////////////////////////////////////////////////
+		Simplicity::fireEvent("testEvent", this);
+		ASSERT_FALSE(testObserverCalled);
+	}
+
+	/**
+	 * <p>
 	 * Unit test the method {@link simplicity::Simplicity#fireEvent(std::string) fireEvent(std::string)}.
 	 * </p>
 	 */
@@ -59,7 +86,7 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::function<void(boost::any)> observer(testObserver);
+		std::function<Simplicity::Observer> observer(testObserver);
 
 		// Initialise test environment.
 		// //////////////////////////////////////////////////
@@ -110,6 +137,32 @@ namespace simplicity
 
 	/**
 	 * <p>
+	 * Unit test the method
+	 * {@link simplicity::Simplicity#registerObserver(std::string, std::function<Simplicity::Observer>) registerObserver(std::string, std::function<Simplicity::Observer>)}.
+	 * </p>
+	 */
+	TEST_F(SimplicityTest, registerObserver)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		std::function<Simplicity::Observer> observer(testObserver);
+
+		// Initialise test environment.
+		// //////////////////////////////////////////////////
+		testObserverCalled = false;
+
+		// Perform test.
+		// //////////////////////////////////////////////////
+		Simplicity::registerObserver("testEvent", observer);
+
+		// Verify test results.
+		// //////////////////////////////////////////////////
+		Simplicity::fireEvent("testEvent", this);
+		ASSERT_TRUE(testObserverCalled);
+	}
+
+	/**
+	 * <p>
 	 * Unit test the method {@link simplicity::Simplicity#reset() reset()}.
 	 * </p>
 	 */
@@ -119,7 +172,7 @@ namespace simplicity
 		// //////////////////////////////////////////////////
 		std::unique_ptr<MockEngine> mockEngine(new testing::NiceMock<MockEngine>);
 		std::shared_ptr<Entity> entity(new Entity("entity"));
-		std::function<void(boost::any)> observer(testObserver);
+		std::function<Simplicity::Observer> observer(testObserver);
 
 		// Initialise test environment.
 		// //////////////////////////////////////////////////
