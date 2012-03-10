@@ -109,7 +109,6 @@ namespace simplicity
 				if (adjacentNode.get() == &finish)
 				{
 					markAsTraversed(*adjacentNode);
-					openNodes.clear();
 					return true;
 				}
 
