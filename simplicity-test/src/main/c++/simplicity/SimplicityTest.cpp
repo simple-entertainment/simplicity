@@ -52,35 +52,6 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::Simplicity#finish() finish()}.
-	 * </p>
-	 */
-	TEST_F(SimplicityTest, finish)
-	{
-		// Create dependencies.
-		// //////////////////////////////////////////////////
-		std::unique_ptr<MockEngine> mockEngine(new testing::NiceMock<MockEngine>);
-		MockEngine& engineRef = *mockEngine;
-
-		// Initialise test environment.
-		// //////////////////////////////////////////////////
-		Simplicity::init(move(mockEngine));
-
-		// Dictate expected results.
-		// //////////////////////////////////////////////////
-		EXPECT_CALL(engineRef, destroy());
-
-		// Perform test.
-		// //////////////////////////////////////////////////
-		Simplicity::finish();
-
-		// Cleanup.
-		// //////////////////////////////////////////////////
-		Simplicity::reset();
-	}
-
-	/**
-	 * <p>
 	 * Unit test the method {@link simplicity::Simplicity#fireEvent(std::string) fireEvent(std::string)}.
 	 * </p>
 	 */
@@ -195,7 +166,36 @@ namespace simplicity
 
 		// Cleanup.
 		// //////////////////////////////////////////////////
-		Simplicity::finish();
+		Simplicity::stop();
+		Simplicity::reset();
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::Simplicity#stop() stop()}.
+	 * </p>
+	 */
+	TEST_F(SimplicityTest, stop)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		std::unique_ptr<MockEngine> mockEngine(new testing::NiceMock<MockEngine>);
+		MockEngine& engineRef = *mockEngine;
+
+		// Initialise test environment.
+		// //////////////////////////////////////////////////
+		Simplicity::init(move(mockEngine));
+
+		// Dictate expected results.
+		// //////////////////////////////////////////////////
+		EXPECT_CALL(engineRef, destroy());
+
+		// Perform test.
+		// //////////////////////////////////////////////////
+		Simplicity::stop();
+
+		// Cleanup.
+		// //////////////////////////////////////////////////
 		Simplicity::reset();
 	}
 }
