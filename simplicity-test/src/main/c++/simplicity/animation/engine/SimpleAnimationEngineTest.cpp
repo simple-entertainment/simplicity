@@ -26,42 +26,30 @@ namespace simplicity
 	/**
 	 * <p>
 	 * Unit test the method
-	 * {@link simplicity::SimpleAnimationEngine#addEntities(std::vector<std::shared_ptr<Entity> >) addEntities(std::vector<std::shared_ptr<Entity> >)}.
+	 * {@link simplicity::SimpleAnimationEngine#addEntity(std::shared_ptr<Entity>) addEntity(std::shared_ptr<Entity>)}.
 	 * </p>
 	 */
-	TEST_F(SimpleAnimationEngineTest, addEntities)
+	TEST_F(SimpleAnimationEngineTest, addEntity)
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		vector<shared_ptr<Entity> > entities;
-		shared_ptr<Entity> entity0(new Entity("entity0"));
-		shared_ptr<Entity> entity1(new Entity("entity1"));
-		shared_ptr<Entity> entity2(new Entity("entity2"));
+		shared_ptr<Entity> entity(new Entity("entity"));
 		shared_ptr<Animator> mockComponent0(new NiceMock<MockAnimator>);
-		shared_ptr<Animator> mockComponent1(new NiceMock<MockAnimator>);
-		shared_ptr<Animator> mockComponent2(new NiceMock<MockAnimator>);
-		shared_ptr<Component> mockComponent3(new NiceMock<MockComponent>);
+		shared_ptr<Component> mockComponent1(new NiceMock<MockComponent>);
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
-		entities.push_back(entity0);
-		entities.push_back(entity1);
-		entities.push_back(entity2);
-		entity1->addComponent(mockComponent0);
-		entity2->addComponent(mockComponent1);
-		entity2->addComponent(mockComponent2);
-		entity2->addComponent(mockComponent3);
+		entity->addComponent(mockComponent0);
+		entity->addComponent(mockComponent1);
 
 		// Perform test.
 		// //////////////////////////////////////////////////
-		objectUnderTest.addEntities(entities);
+		objectUnderTest.addEntity(entity);
 
 		// Verify test results.
 		// //////////////////////////////////////////////////
-		ASSERT_EQ(3u, objectUnderTest.getAnimators().size());
+		ASSERT_EQ(1u, objectUnderTest.getAnimators().size());
 		ASSERT_EQ(mockComponent0, objectUnderTest.getAnimators().at(0));
-		ASSERT_EQ(mockComponent1, objectUnderTest.getAnimators().at(1));
-		ASSERT_EQ(mockComponent2, objectUnderTest.getAnimators().at(2));
 	}
 
 	/**
@@ -92,7 +80,9 @@ namespace simplicity
 		entity2->addComponent(mockComponent1);
 		entity2->addComponent(mockComponent2);
 		entity2->addComponent(mockComponent3);
-		objectUnderTest.addEntities(entities);
+		objectUnderTest.addEntity(entity0);
+		objectUnderTest.addEntity(entity1);
+		objectUnderTest.addEntity(entity2);
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////

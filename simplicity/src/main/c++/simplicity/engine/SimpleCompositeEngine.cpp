@@ -37,14 +37,6 @@ namespace simplicity
 		engines.push_back(engine);
 	}
 
-	void SimpleCompositeEngine::addEntities(std::vector<shared_ptr<Entity> > entities)
-	{
-		for (unsigned int index = 0; index < engines.size(); index++)
-		{
-			engines.at(index)->addEntities(entities);
-		}
-	}
-
 	void SimpleCompositeEngine::addEntity(shared_ptr<Entity> entity)
 	{
 		for (unsigned int index = 0; index < engines.size(); index++)

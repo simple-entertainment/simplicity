@@ -54,8 +54,6 @@ namespace simplicity
 				 */
 				virtual ~SimpleOpenGLRenderingEngine();
 
-				void addEntities(std::vector<std::shared_ptr<Entity> > entities);
-
 				void addEntity(std::shared_ptr<Entity> entity);
 
 				void addRenderer(const int index, std::shared_ptr<Renderer> renderer);

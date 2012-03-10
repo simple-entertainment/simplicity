@@ -36,7 +36,7 @@ namespace simplicity
 			/**
 			 * An instance of the class being unit tested.
 			 */
-			simplicity::SimpleAnimationEngine objectUnderTest;
+			SimpleAnimationEngine objectUnderTest;
 	};
 }
 

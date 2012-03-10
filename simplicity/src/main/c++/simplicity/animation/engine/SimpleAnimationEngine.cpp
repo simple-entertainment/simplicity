@@ -28,14 +28,6 @@ namespace simplicity
 	{
 	}
 
-	void SimpleAnimationEngine::addEntities(vector<shared_ptr<Entity> > entities)
-	{
-		for (shared_ptr<Entity> entity : entities)
-		{
-			addEntity(entity);
-		}
-	}
-
 	void SimpleAnimationEngine::addEntity(shared_ptr<Entity> entity)
 	{
 		for (shared_ptr<Animator> animator : entity->getComponents<Animator>())

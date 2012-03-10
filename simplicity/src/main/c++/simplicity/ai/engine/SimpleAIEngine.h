@@ -47,8 +47,6 @@ namespace simplicity
 			 */
 			virtual ~SimpleAIEngine();
 
-			void addEntities(std::vector<std::shared_ptr<Entity> > entities);
-
 			void addEntity(std::shared_ptr<Entity> entity);
 
 			std::shared_ptr<EngineInput> advance(const std::shared_ptr<EngineInput> input);

@@ -35,10 +35,6 @@ namespace simplicity
 		{
 		}
 
-		void SimpleOpenGLPickingEngine::addEntities(std::vector<shared_ptr<Entity> > entities)
-		{
-		}
-
 		void SimpleOpenGLPickingEngine::addEntity(shared_ptr<Entity> entity)
 		{
 		}

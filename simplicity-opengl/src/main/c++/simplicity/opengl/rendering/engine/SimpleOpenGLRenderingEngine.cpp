@@ -43,14 +43,6 @@ namespace simplicity
 		{
 		}
 
-		void SimpleOpenGLRenderingEngine::addEntities(std::vector<std::shared_ptr<Entity> > entities)
-		{
-			for (unsigned int index = 0; index < entities.size(); index++)
-			{
-				addEntity(entities.at(index));
-			}
-		}
-
 		void SimpleOpenGLRenderingEngine::addEntity(std::shared_ptr<Entity> entity)
 		{
 			for (std::shared_ptr<Model> model : entity->getComponents<Model>())

@@ -50,8 +50,6 @@ namespace simplicity
 				 */
 				virtual ~SimpleOpenGLPickingEngine();
 
-				void addEntities(std::vector<std::shared_ptr<Entity> > entities);
-
 				void addEntity(std::shared_ptr<Entity> entity);
 
 				void addPickListener(std::shared_ptr<PickListener> listener);

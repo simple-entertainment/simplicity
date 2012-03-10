@@ -46,16 +46,6 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Adds the given {@link simplicity::Entity Entity}s to the <code>Entity</code>s whose components are to be
-			 * processed by this <code>Engine</code>.
-			 * </p>
-			 *
-			 * @param entities The <code>Entity</code>s whose components are to be processed by this <code>Engine</code>.
-			 */
-			virtual void addEntities(std::vector<std::shared_ptr<Entity> > entities) = 0;
-
-			/**
-			 * <p>
 			 * Adds the given {@link simplicity::Entity Entity} to the <code>Entity</code>s whose components are to be
 			 * processed by this <code>Engine</code>.
 			 * </p>

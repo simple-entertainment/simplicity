@@ -37,52 +37,36 @@ namespace simplicity
 	/**
 	 * <p>
 	 * Unit test the method
-	 * {@link simplicity::opengl::SimpleOpenGLRenderingEngine#addEntities(std::vector<std::shared_ptr<Entity> >) addEntities(std::vector<std::shared_ptr<Entity> >)}.
+	 * {@link simplicity::opengl::SimpleOpenGLRenderingEngine#addEntity(std::shared_ptr<Entity>) addEntity(std::shared_ptr<Entity>)}.
 	 * </p>
 	 */
-	TEST_F(SimpleOpenGLRenderingEngineTest, addEntities)
+	TEST_F(SimpleOpenGLRenderingEngineTest, addEntity)
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
 		shared_ptr<MockScene> mockScene(new NiceMock<MockScene>);
-		vector<shared_ptr<Entity> > entities;
-		shared_ptr<Entity> entity0(new Entity("entity0"));
-		shared_ptr<Entity> entity1(new Entity("entity1"));
-		shared_ptr<Entity> entity2(new Entity("entity2"));
+		shared_ptr<Entity> entity(new Entity("entity"));
 		shared_ptr<MockModel> mockComponent0(new NiceMock<MockModel>);
-		shared_ptr<MockModel> mockComponent1(new NiceMock<MockModel>);
-		shared_ptr<MockModel> mockComponent2(new NiceMock<MockModel>);
-		shared_ptr<Component> mockComponent3(new NiceMock<MockComponent>);
-		shared_ptr<ModelNode> mockNode0(new NiceMock<MockModelNode>);
-		shared_ptr<ModelNode> mockNode1(new NiceMock<MockModelNode>);
-		shared_ptr<ModelNode> mockNode2(new NiceMock<MockModelNode>);
+		shared_ptr<Component> mockComponent1(new NiceMock<MockComponent>);
+		shared_ptr<ModelNode> mockNode(new NiceMock<MockModelNode>);
 
 		// Dictate correct behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockComponent0, getNode()).WillByDefault(Return(mockNode0));
-		ON_CALL(*mockComponent1, getNode()).WillByDefault(Return(mockNode1));
-		ON_CALL(*mockComponent2, getNode()).WillByDefault(Return(mockNode2));
+		ON_CALL(*mockComponent0, getNode()).WillByDefault(Return(mockNode));
 
 		// Dictate expected results.
 		// //////////////////////////////////////////////////
-		EXPECT_CALL(*mockScene, addNode(dynamic_pointer_cast<Node>(mockNode0)));
-		EXPECT_CALL(*mockScene, addNode(dynamic_pointer_cast<Node>(mockNode1)));
-		EXPECT_CALL(*mockScene, addNode(dynamic_pointer_cast<Node>(mockNode2)));
+		EXPECT_CALL(*mockScene, addNode(dynamic_pointer_cast<Node>(mockNode)));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
 		fTestObject.setScene(mockScene);
-		entities.push_back(entity0);
-		entities.push_back(entity1);
-		entities.push_back(entity2);
-		entity1->addComponent(mockComponent0);
-		entity2->addComponent(mockComponent1);
-		entity2->addComponent(mockComponent2);
-		entity2->addComponent(mockComponent3);
+		entity->addComponent(mockComponent0);
+		entity->addComponent(mockComponent1);
 
 		// Perform test.
 		// //////////////////////////////////////////////////
-		fTestObject.addEntities(entities);
+		fTestObject.addEntity(entity);
 	}
 
 	/**

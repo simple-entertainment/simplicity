@@ -28,14 +28,6 @@ namespace simplicity
 	{
 	}
 
-	void SimpleAIEngine::addEntities(vector<shared_ptr<Entity> > entities)
-	{
-		for (shared_ptr<Entity> entity : entities)
-		{
-			addEntity(entity);
-		}
-	}
-
 	void SimpleAIEngine::addEntity(shared_ptr<Entity> entity)
 	{
 		for (shared_ptr<Agent> agent : entity->getComponents<Agent>())

@@ -39,10 +39,6 @@ namespace simplicity
 	{
 	}
 
-	void OverrunningFakeEngine::addEntities(vector<std::shared_ptr<Entity> > entities)
-	{
-	}
-
 	void OverrunningFakeEngine::addEntity(std::shared_ptr<Entity> entity)
 	{
 	}

@@ -33,7 +33,6 @@ namespace simplicity
 	class MockRenderingEngine : public RenderingEngine
 	{
 		public:
-			MOCK_METHOD1(addEntities, void(std::vector<std::shared_ptr<Entity> > entities));
 			MOCK_METHOD1(addEntity, void(std::shared_ptr<Entity> entity));
 			MOCK_METHOD1(addRenderer, void(std::shared_ptr<Renderer> renderer));
 			MOCK_METHOD2(addRenderer, void(const int index, std::shared_ptr<Renderer> renderer));
