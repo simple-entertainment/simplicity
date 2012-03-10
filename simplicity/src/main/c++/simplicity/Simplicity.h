@@ -17,10 +17,21 @@
 #ifndef SIMPLICITY_H_
 #define SIMPLICITY_H_
 
-#include "engine/RunnableEngine.h"
+#include <map>
+
+#include <boost/any.hpp>
+
+#include "engine/Engine.h"
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * The interface to The Simplicity Engine.
+	 * </p>
+	 *
+	 * @author Gary Buyn
+	 */
 	class Simplicity
 	{
 		public:
@@ -42,7 +53,38 @@ namespace simplicity
 			 */
 			static void addEntity(std::shared_ptr<Entity> entity);
 
-			static void finish();
+			/**
+			 * <p>
+			 * Deregisters the given observer from the given event. Standard simplicity events can be found in
+			 * SimpleEvents.h.
+			 * </p>
+			 *
+			 * @param eventName The name of the event to deregister the observer from.
+			 * @param observer The observer to deregister.
+			 */
+			static void deregisterObserver(const std::string eventName, std::function<void(const boost::any)> observer);
+
+			/**
+			 * <p>
+			 * Fires the given event, notifying all registered observers.
+			 * </p>
+			 *
+			 * @param eventName The name of the event to fire.
+			 * @param source The object on which event occurred.
+			 */
+			static void fireEvent(const std::string eventName, const boost::any source);
+
+			/**
+			 * <p>
+			 * Retrieves the {@link simplicity::Entity Entity} with the given name from the <code>Entity</code>s managed
+			 * by simplicity.
+			 * </p>
+			 *
+			 * @param name The name of the <code>Entity</code> to retrieve.
+			 *
+			 * @return The <code>Entity</code> with the given name.
+			 */
+			static std::shared_ptr<Entity> getEntity(const std::string name);
 
 			/**
 			 * <p>
@@ -51,9 +93,48 @@ namespace simplicity
 			 *
 			 * @param engine The <code>Engine</code> to initialise simplicity with.
 			 */
-			static void init(std::unique_ptr<RunnableEngine> engine);
+			static void init(std::unique_ptr<Engine> engine);
 
+			/**
+			 * <p>
+			 * Registers an observer for the given event. Standard simplicity events can be found in SimpleEvents.h.
+			 * </p>
+			 *
+			 * @param eventName The name of the event to register the observer with.
+			 * @param observer The observer to notify when the event is fired.
+			 */
+			static void registerObserver(const std::string eventName, std::function<void(const boost::any)> observer);
+
+			/**
+			 * <p>
+			 * Removes the {@link simplicity::Entity Entity} with the given name from the <code>Entity</code>s managed
+			 * by simplicity.
+			 * </p>
+			 *
+			 * @param name The name of the <code>Entity</code> to be removed from simplicity.
+			 */
+			static void removeEntity(const std::string name);
+
+			/**
+			 * <p>
+			 * Resets simplicity so that it may be started again.
+			 * </p>
+			 */
+			static void reset();
+
+			/**
+			 * <p>
+			 * Starts simplicity.
+			 * </p>
+			 */
 			static void start();
+
+			/**
+			 * <p>
+			 * Stops simplicity.
+			 * </p>
+			 */
+			static void stop();
 
 		private:
 			/**
@@ -61,18 +142,23 @@ namespace simplicity
 			 * The {@link simplicity::Engine Engine} that does the actual work for simplicity.
 			 * </p>
 			 */
-			static std::unique_ptr<RunnableEngine> engine;
+			static std::unique_ptr<Engine> engine;
 
 			/**
 			 * <p>
 			 * The {@link simplicity::Entity Entity}s managed by simplicity.
 			 * </p>
 			 */
-			static std::vector<std::shared_ptr<Entity> > entities;
+			static std::map<const std::string, std::shared_ptr<Entity> > entities;
+
+			/**
+			 * <p>
+			 * The observers to any events fired within simplicity.
+			 * </p>
+			 */
+			static std::map<const std::string, std::vector<std::function<void(const boost::any)> > > observers;
 
 			Simplicity();
-
-			~Simplicity();
 	};
 }
 

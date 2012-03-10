@@ -14,13 +14,12 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef OVERRUNNINGFAKERUNNABLEENGINE_H_
-#define OVERRUNNINGFAKERUNNABLEENGINE_H_
+#ifndef OVERRUNNINGFAKEENGINE_H_
+#define OVERRUNNINGFAKEENGINE_H_
 
 #include <log4cpp/Category.hh>
 
-#include <simplicity/engine/Engine.h>
-#include <simplicity/engine/RunnableEngine.h>
+#include <simplicity/engine/BaseEngine.h>
 
 namespace simplicity
 {
@@ -33,22 +32,22 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class OverrunningFakeRunnableEngine: public RunnableEngine
+	class OverrunningFakeEngine: public BaseEngine
 	{
 		public:
 			/**
 			 * <p>
-			 * Creates an instance of <code>OverrunningFakeRunnableEngine</code>.
+			 * Creates an instance of <code>OverrunningFakeEngine</code>.
 			 * </p>
 			 */
-			OverrunningFakeRunnableEngine();
+			OverrunningFakeEngine();
 
 			/**
 			 * <p>
-			 * Disposes of an instance of <code>OverrunningFakeRunnableEngine</code>.
+			 * Disposes of an instance of <code>OverrunningFakeEngine</code>.
 			 * </p>
 			 */
-			virtual ~OverrunningFakeRunnableEngine();
+			virtual ~OverrunningFakeEngine();
 
 			void addEntities(std::vector<std::shared_ptr<Entity> > entities);
 
@@ -106,8 +105,8 @@ namespace simplicity
 		private:
 			/**
 			 * <p>
-			 * The fraction of the preferred frequency this <code>MockEngine</code> should wait. This should be above 1
-			 * to test over-running the frequency.
+			 * The fraction of the preferred frequency this <code>OverrunningFakeEngine</code> should wait. This should
+			 * be above 1 to test over-running the frequency.
 			 * </p>
 			 */
 			static const double FRACTION_OF_FREQUENCY_TO_WAIT;
@@ -167,4 +166,4 @@ namespace simplicity
 	};
 }
 
-#endif /* OVERRUNNINGFAKERUNNABLEENGINE_H_ */
+#endif /* OVERRUNNINGFAKEENGINE_H_ */

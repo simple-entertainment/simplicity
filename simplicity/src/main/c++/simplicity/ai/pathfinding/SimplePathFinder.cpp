@@ -41,7 +41,7 @@ namespace simplicity
 		{
 			if (stepForward())
 			{
-				return (generatePath());
+				return generatePath();
 			}
 		}
 		while (!openNodes.empty());
@@ -73,19 +73,19 @@ namespace simplicity
 			currentNode = nextNode;
 		}
 
-		return (path);
+		return path;
 	}
 
 	vector<shared_ptr<const Node> > SimplePathFinder::getOpenNodes()
 	{
-		return (openNodes);
+		return openNodes;
 	}
 
 	bool SimplePathFinder::isTraversed(const Node& node)
 	{
 		shared_equals_raw<const Node> sharedEqualsRaw(&node);
 
-		return (find_if(traversedNodes.begin(), traversedNodes.end(), sharedEqualsRaw) != traversedNodes.end());
+		return find_if(traversedNodes.begin(), traversedNodes.end(), sharedEqualsRaw) != traversedNodes.end();
 	}
 
 	void SimplePathFinder::markAsTraversed(const Node& node)
@@ -109,7 +109,8 @@ namespace simplicity
 				if (adjacentNode.get() == &finish)
 				{
 					markAsTraversed(*adjacentNode);
-					return (true);
+					openNodes.clear();
+					return true;
 				}
 
 				if (!isTraversed(*adjacentNode))
@@ -122,6 +123,6 @@ namespace simplicity
 
 		openNodes = newOpenNodes;
 
-		return (false);
+		return false;
 	}
 }

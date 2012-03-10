@@ -18,10 +18,11 @@
 #define MODELNODE_H_
 
 #include "../Node.h"
-#include "../../model/Model.h"
 
 namespace simplicity
 {
+	class Model;
+
 	/**
 	 * <p>
 	 * A {@link simplicity::Node Node} that contains a {@link simplicity::Model Model}.

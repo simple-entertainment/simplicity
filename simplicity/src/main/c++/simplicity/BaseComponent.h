@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Simple Entertainment Limited
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,39 +14,38 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef AGENT_H_
-#define AGENT_H_
+#ifndef BASECOMPONENT_H_
+#define BASECOMPONENT_H_
 
-#include "../Component.h"
+#include <memory>
+
+#include "Component.h"
 
 namespace simplicity
 {
+	class Entity;
+
 	/**
 	 * <p>
-	 * An intelligent agent.
+	 * A component to be processed by an engine.
 	 * </p>
 	 *
 	 * @author Gary Buyn
 	 */
-	class Agent : public virtual Component
+	class BaseComponent : public virtual Component
 	{
 		public:
-			/**
-			 * <p>
-			 * Disposes of an instance of <code>Agent</code> (included to allow polymorphic deletion).
-			 * </p>
-			 */
-			virtual ~Agent()
-			{
-			}
+			BaseComponent();
 
-			/**
-			 * <p>
-			 * Make decisions and act upon them.
-			 * </p>
-			 */
-			virtual void think() = 0;
+			virtual ~BaseComponent();
+
+			const Entity& getEntity() const;
+
+			void setEntity(std::shared_ptr<Entity> entity);
+
+		private:
+			std::shared_ptr<Entity> entity;
 	};
 }
 
-#endif /* AGENT_H_ */
+#endif /* BASECOMPONENT_H_ */

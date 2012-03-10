@@ -19,7 +19,6 @@
 
 #include <vector>
 
-#include "../Component.h"
 #include "../math/TransformationMatrix.h"
 #include "../model/BoundingVolume.h"
 
@@ -32,7 +31,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class Node : public Component, public std::enable_shared_from_this<Node>
+	class Node : public std::enable_shared_from_this<Node>
 	{
 		public:
 			/**

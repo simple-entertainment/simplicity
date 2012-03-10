@@ -24,7 +24,8 @@ using namespace std;
 
 namespace simplicity
 {
-	Entity::Entity()
+	Entity::Entity(const string& name) :
+		name(name)
 	{
 	}
 
@@ -35,6 +36,11 @@ namespace simplicity
 	void Entity::addComponent(shared_ptr<Component> component)
 	{
 		components.push_back(component);
+	}
+
+	const string& Entity::getName() const
+	{
+		return name;
 	}
 
 	void Entity::removeComponent(const Component& component)

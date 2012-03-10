@@ -17,7 +17,7 @@
 #ifndef SIMPLEOPENGLPICKINGENGINE_H_
 #define SIMPLEOPENGLPICKINGENGINE_H_
 
-#include <simplicity/engine/RunnableEngine.h>
+#include <simplicity/engine/BaseEngine.h>
 #include <simplicity/picking/engine/PickingEngine.h>
 #include <simplicity/rendering/engine/RenderingEngine.h>
 
@@ -33,7 +33,7 @@ namespace simplicity
 		 *
 		 * @author Gary Buyn
 		 */
-		class SimpleOpenGLPickingEngine : public RunnableEngine, public PickingEngine
+		class SimpleOpenGLPickingEngine : public BaseEngine, public PickingEngine
 		{
 			public:
 				/**

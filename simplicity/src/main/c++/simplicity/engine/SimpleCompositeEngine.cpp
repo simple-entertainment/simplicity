@@ -130,7 +130,7 @@ namespace simplicity
 		advanceIndex = 0;
 		compositeFrequency = getCompositeFrequency();
 
-		RunnableEngine::setPreferredFrequency(compositeFrequency);
+		BaseEngine::setPreferredFrequency(compositeFrequency);
 
 		for (unsigned int index = 0; index < engines.size(); index++)
 		{
@@ -143,7 +143,7 @@ namespace simplicity
 		advanceIndex = 0;
 		compositeFrequency = getCompositeFrequency();
 
-		RunnableEngine::setPreferredFrequency(compositeFrequency);
+		BaseEngine::setPreferredFrequency(compositeFrequency);
 
 		for (unsigned int index = 0; index < engines.size(); index++)
 		{

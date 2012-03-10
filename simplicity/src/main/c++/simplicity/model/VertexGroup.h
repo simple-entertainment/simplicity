@@ -24,7 +24,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class VertexGroup : public Model
+  class VertexGroup : public virtual Model
   {
     public:
       /**

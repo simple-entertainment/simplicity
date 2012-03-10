@@ -53,14 +53,9 @@ namespace simplicity
 
 		void SimpleOpenGLRenderingEngine::addEntity(std::shared_ptr<Entity> entity)
 		{
-			for (unsigned int index = 0; index < entity->getComponents().size(); index++)
+			for (std::shared_ptr<Model> model : entity->getComponents<Model>())
 			{
-				std::shared_ptr<Node> node(dynamic_pointer_cast < Node > (entity->getComponents().at(index)));
-
-				if (node.get())
-				{
-					scene->addNode(node);
-				}
+				scene->addNode(model->getNode());
 			}
 		}
 
@@ -268,11 +263,12 @@ namespace simplicity
 				glMultMatrixf(currentNode->getTransformation().getData().data());
 
 				// Render the current node.
-				ModelNode* modelNode = dynamic_cast<ModelNode*>(currentNode.get());if
-(				modelNode)
+				std::shared_ptr<ModelNode> modelNode = dynamic_pointer_cast < ModelNode > (currentNode);
+
+				if (modelNode.get() != NULL)
 				{
-					NamedRenderer* namedRenderer = dynamic_cast<NamedRenderer*> (&renderer);
-					if (namedRenderer)
+					NamedRenderer* namedRenderer = dynamic_cast<NamedRenderer*>(&renderer);
+					if (namedRenderer != NULL)
 					{
 						namedRenderer->renderModel(*modelNode->getModel(), modelNode->getId());
 					}

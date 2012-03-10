@@ -19,9 +19,8 @@
 
 #include <vector>
 
+#include "BaseEngine.h"
 #include "CompositeEngine.h"
-#include "Engine.h"
-#include "RunnableEngine.h"
 
 namespace simplicity
 {
@@ -33,7 +32,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class SimpleCompositeEngine : public RunnableEngine, public CompositeEngine
+	class SimpleCompositeEngine : public BaseEngine, public CompositeEngine
 	{
 		public:
 			/**

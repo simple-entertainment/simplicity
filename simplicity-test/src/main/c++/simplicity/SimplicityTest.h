@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Simple Entertainment Limited
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,39 +14,28 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef AGENT_H_
-#define AGENT_H_
+#ifndef SIMPLICITYTEST_H_
+#define SIMPLICITYTEST_H_
 
-#include "../Component.h"
+#include <gtest/gtest.h>
+
+#include <simplicity/Simplicity.h>
+
+#include "engine/MockEngine.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * An intelligent agent.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
-	class Agent : public virtual Component
+	class SimplicityTest : public testing::Test
 	{
-		public:
-			/**
-			 * <p>
-			 * Disposes of an instance of <code>Agent</code> (included to allow polymorphic deletion).
-			 * </p>
-			 */
-			virtual ~Agent()
+		protected:
+			void SetUp()
 			{
-			}
+				Simplicity::reset();
 
-			/**
-			 * <p>
-			 * Make decisions and act upon them.
-			 * </p>
-			 */
-			virtual void think() = 0;
+				std::unique_ptr<MockEngine> engine(new testing::NiceMock<MockEngine>);
+				Simplicity::init(move(engine));
+			}
 	};
 }
 
-#endif /* AGENT_H_ */
+#endif /* SIMPLICITYTEST_H_ */

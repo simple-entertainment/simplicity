@@ -19,7 +19,7 @@
 
 #include <GL/glew.h>
 
-#include <simplicity/engine/RunnableEngine.h>
+#include <simplicity/engine/BaseEngine.h>
 #include <simplicity/math/SimpleVector4.h>
 #include <simplicity/rendering/engine/RenderingEngine.h>
 #include <simplicity/rendering/NamedRenderer.h>
@@ -37,7 +37,7 @@ namespace simplicity
 		 *
 		 * @author Gary Buyn
 		 */
-		class SimpleOpenGLRenderingEngine : public RunnableEngine, public RenderingEngine
+		class SimpleOpenGLRenderingEngine : public BaseEngine, public RenderingEngine
 		{
 			public:
 				/**
@@ -188,14 +188,11 @@ namespace simplicity
 				 *
 				 * @param backtracks The number of levels to backtrack.
 				 */
-				void
-				backtrack(const int backtracks);
+				void backtrack(const int backtracks);
 
-				void
-				onInit();
+				void onInit();
 
-				void
-				onReset();
+				void onReset();
 
 				/**
 				 * <p>
@@ -204,8 +201,7 @@ namespace simplicity
 				 *
 				 * @param renderer The Renderer that will render the <code>Scene</code>.
 				 */
-				void
-				renderScene(Renderer& renderer);
+				void renderScene(Renderer& renderer);
 		};
 	}
 }

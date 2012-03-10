@@ -20,15 +20,14 @@ using namespace std;
 
 namespace simplicity
 {
-	unique_ptr<RunnableEngine> Simplicity::engine = unique_ptr<RunnableEngine>();
+	unique_ptr<Engine> Simplicity::engine = unique_ptr<Engine>();
 
-	vector<shared_ptr<Entity> > Simplicity::entities = vector<shared_ptr<Entity> >();
+	map<const string, shared_ptr<Entity> > Simplicity::entities = map<const string, shared_ptr<Entity> >();
+
+	map<const string, vector<function<void(const boost::any)> > > Simplicity::observers = map<const string,
+		vector<function<void(const boost::any)> > >();
 
 	Simplicity::Simplicity()
-	{
-	}
-
-	Simplicity::~Simplicity()
 	{
 	}
 
@@ -42,22 +41,73 @@ namespace simplicity
 
 	void Simplicity::addEntity(shared_ptr<Entity> entity)
 	{
-		entities.push_back(entity);
+		entities.insert(pair<const string, shared_ptr<Entity> >(entity->getName(), entity));
 		engine->addEntity(entity);
 	}
 
-	void Simplicity::finish()
+	void Simplicity::deregisterObserver(const string eventName, function<void(const boost::any)> observer)
 	{
-		engine->destroy();
+		// TODO Add support for this when using proper C++11, currently equality of functions does not seem to be
+		// supported so function to be erased cannot be found.
+		// vector<function<void(const boost::any)> >& eventObservers(observers.find(eventName)->second);
+
+		// eventObservers.erase(find(eventObservers.begin(), eventObservers.end(), observer));
 	}
 
-	void Simplicity::init(unique_ptr<RunnableEngine> engine)
+	void Simplicity::fireEvent(const string eventName, const boost::any source)
+	{
+		if (observers.find(eventName) == observers.end())
+		{
+			return;
+		}
+
+		for (function<void(const boost::any)> observer : observers.find(eventName)->second)
+		{
+			observer(source);
+		}
+	}
+
+	shared_ptr<Entity> Simplicity::getEntity(const string name)
+	{
+		return entities.find(name)->second;
+	}
+
+	void Simplicity::init(unique_ptr<Engine> engine)
 	{
 		Simplicity::engine = move(engine);
+	}
+
+	void Simplicity::registerObserver(const string eventName, function<void(const boost::any)> observer)
+	{
+		if (observers.find(eventName) == observers.end())
+		{
+			observers.insert(
+				pair<const string, vector<function<void(const boost::any)> > >(eventName,
+					vector<function<void(const boost::any)> >()));
+		}
+
+		observers.find(eventName)->second.push_back(observer);
+	}
+
+	void Simplicity::removeEntity(const string name)
+	{
+		entities.erase(name);
+	}
+
+	void Simplicity::reset()
+	{
+		engine.reset();
+		entities.clear();
+		observers.clear();
 	}
 
 	void Simplicity::start()
 	{
 		engine->run();
+	}
+
+	void Simplicity::stop()
+	{
+		engine->destroy();
 	}
 }

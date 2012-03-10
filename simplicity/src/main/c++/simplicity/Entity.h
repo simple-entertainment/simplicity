@@ -18,12 +18,13 @@
 #define ENTITY_H_
 
 #include <memory>
+#include <string>
 #include <vector>
-
-#include "Component.h"
 
 namespace simplicity
 {
+	class Component;
+
 	/**
 	 * <p>
 	 * An entity.
@@ -39,7 +40,7 @@ namespace simplicity
 			 * Creates an instance of <code>Entity</code>.
 			 * </p>
 			 */
-			Entity();
+			Entity(const std::string& name);
 
 			/**
 			 * <p>
@@ -69,6 +70,15 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Retrieves the name of this <code>Entity</code>.
+			 * </p>
+			 *
+			 * @return The name of this <code>Entity</code>.
+			 */
+			const std::string& getName() const;
+
+			/**
+			 * <p>
 			 * Removes a component.
 			 * </p>
 			 *
@@ -83,6 +93,13 @@ namespace simplicity
 			 * </p>
 			 */
 			std::vector<std::shared_ptr<Component> > components;
+
+			/**
+			 * <p>
+			 * The name of this <code>Entity</code>.
+			 * </p>
+			 */
+			std::string name;
 	};
 }
 

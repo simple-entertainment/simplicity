@@ -17,6 +17,7 @@
 #ifndef CAPSULE_H_
 #define CAPSULE_H_
 
+#include "../BaseModel.h"
 #include "Shape.h"
 
 namespace simplicity
@@ -28,7 +29,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class Capsule : public virtual Shape
+	class Capsule : public BaseModel, public virtual Shape
 	{
 		public:
 			/**

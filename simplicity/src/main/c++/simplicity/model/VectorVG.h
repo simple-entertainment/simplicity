@@ -21,6 +21,7 @@
 
 #include "../math/TranslationVector.h"
 #include "../rendering/Texture.h"
+#include "BaseModel.h"
 #include "VertexGroup.h"
 
 namespace simplicity
@@ -53,7 +54,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class VectorVG : public VertexGroup
+	class VectorVG : public BaseModel, public VertexGroup
 	{
 		public:
 			/**

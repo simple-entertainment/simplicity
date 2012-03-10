@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -17,7 +17,7 @@
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
 
-#include "RunnableEngineTest.h"
+#include "BaseEngineTest.h"
 
 using namespace boost;
 
@@ -25,16 +25,16 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::RunnableEngine#run() run()}.
+	 * Unit test the method {@link simplicity::BaseEngine#run() run()}.
 	 * </p>
 	 */
-	TEST_F(RunnableEngineTest, run)
+	TEST_F(BaseEngineTest, run)
 	{
 		// Initialise test environment.
-		fTestObject.setPreferredFrequency(5);
+		objectUnderTest.setPreferredFrequency(5);
 
 		// Perform test.
-		thread engineThread(bind(&OverrunningFakeRunnableEngine::run, &fTestObject));
+		thread engineThread(bind(&OverrunningFakeEngine::run, &objectUnderTest));
 
 		this_thread::sleep(posix_time::milliseconds(2500));
 
@@ -42,25 +42,25 @@ namespace simplicity
 		engineThread.join();
 
 		// Verify test results.
-		ASSERT_EQ(1, fTestObject.getInitCount());
-		ASSERT_EQ(12, fTestObject.getAdvanceCount());
-		ASSERT_EQ(1, fTestObject.getDestroyCount());
+		ASSERT_EQ(1, objectUnderTest.getInitCount());
+		ASSERT_EQ(12, objectUnderTest.getAdvanceCount());
+		ASSERT_EQ(1, objectUnderTest.getDestroyCount());
 	}
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::RunnableEngine#run() run()} with the special condition that it runs
-	 * longer than is allowed by its preferred frequency.
+	 * Unit test the method {@link simplicity::BaseEngine#run() run()} with the special condition that it runs longer
+	 * than is allowed by its preferred frequency.
 	 * </p>
 	 */
-	TEST_F(RunnableEngineTest, runOverrunFrequency)
+	TEST_F(BaseEngineTest, runOverrunFrequency)
 	{
 		// Initialise test environment.
-		fTestObject.setPreferredFrequency(5);
-		fTestObject.setOverrunIndex(2);
+		objectUnderTest.setPreferredFrequency(5);
+		objectUnderTest.setOverrunIndex(2);
 
 		// Perform test.
-		thread engineThread(bind(&OverrunningFakeRunnableEngine::run, &fTestObject));
+		thread engineThread(bind(&OverrunningFakeEngine::run, &objectUnderTest));
 
 		this_thread::sleep(posix_time::milliseconds(2500));
 
@@ -68,6 +68,6 @@ namespace simplicity
 		engineThread.join();
 
 		// Verify test results.
-		ASSERT_EQ(12, fTestObject.getAdvanceCount());
+		ASSERT_EQ(12, objectUnderTest.getAdvanceCount());
 	}
 }

@@ -17,6 +17,7 @@
 #ifndef CYLINDER_H_
 #define CYLINDER_H_
 
+#include "../BaseModel.h"
 #include "Shape.h"
 
 namespace simplicity
@@ -28,7 +29,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class Cylinder : public virtual Shape
+	class Cylinder : public BaseModel, public virtual Shape
 	{
 		public:
 			/**

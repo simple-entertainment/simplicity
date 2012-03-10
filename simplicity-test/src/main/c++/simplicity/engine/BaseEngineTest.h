@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Simple Entertainment Limited
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,39 +14,30 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef AGENT_H_
-#define AGENT_H_
+#ifndef BASEENGINETEST_H_
+#define BASEENGINETEST_H_
 
-#include "../Component.h"
+#include <gtest/gtest.h>
+
+#include "../testdoubles/OverrunningFakeEngine.h"
 
 namespace simplicity
 {
 	/**
 	 * <p>
-	 * An intelligent agent.
+	 * Unit tests for the class {@link simplicity::BaseEngine BaseEngine}.
 	 * </p>
 	 *
 	 * @author Gary Buyn
 	 */
-	class Agent : public virtual Component
+	class BaseEngineTest : public testing::Test
 	{
-		public:
+		protected:
 			/**
-			 * <p>
-			 * Disposes of an instance of <code>Agent</code> (included to allow polymorphic deletion).
-			 * </p>
+			 * An instance of the class being unit tested.
 			 */
-			virtual ~Agent()
-			{
-			}
-
-			/**
-			 * <p>
-			 * Make decisions and act upon them.
-			 * </p>
-			 */
-			virtual void think() = 0;
+			OverrunningFakeEngine objectUnderTest;
 	};
 }
 
-#endif /* AGENT_H_ */
+#endif /* BASEENGINETEST_H_ */

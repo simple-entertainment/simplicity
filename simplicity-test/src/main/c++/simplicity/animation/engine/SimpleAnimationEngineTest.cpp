@@ -34,9 +34,9 @@ namespace simplicity
 		// Create dependencies.
 		// //////////////////////////////////////////////////
 		vector<shared_ptr<Entity> > entities;
-		shared_ptr<Entity> entity0(new Entity);
-		shared_ptr<Entity> entity1(new Entity);
-		shared_ptr<Entity> entity2(new Entity);
+		shared_ptr<Entity> entity0(new Entity("entity0"));
+		shared_ptr<Entity> entity1(new Entity("entity1"));
+		shared_ptr<Entity> entity2(new Entity("entity2"));
 		shared_ptr<Animator> mockComponent0(new NiceMock<MockAnimator>);
 		shared_ptr<Animator> mockComponent1(new NiceMock<MockAnimator>);
 		shared_ptr<Animator> mockComponent2(new NiceMock<MockAnimator>);
@@ -75,9 +75,9 @@ namespace simplicity
 		// Create dependencies.
 		// //////////////////////////////////////////////////
 		vector<shared_ptr<Entity> > entities;
-		shared_ptr<Entity> entity0(new Entity);
-		shared_ptr<Entity> entity1(new Entity);
-		shared_ptr<Entity> entity2(new Entity);
+		shared_ptr<Entity> entity0(new Entity("entity0"));
+		shared_ptr<Entity> entity1(new Entity("entity1"));
+		shared_ptr<Entity> entity2(new Entity("entity2"));
 		shared_ptr<MockAnimator> mockComponent0(new NiceMock<MockAnimator>);
 		shared_ptr<MockAnimator> mockComponent1(new NiceMock<MockAnimator>);
 		shared_ptr<MockAnimator> mockComponent2(new NiceMock<MockAnimator>);

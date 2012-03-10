@@ -17,7 +17,7 @@
 #ifndef SIMPLEAIENGINE_H_
 #define SIMPLEAIENGINE_H_
 
-#include "../../engine/RunnableEngine.h"
+#include "../../engine/BaseEngine.h"
 #include "../Agent.h"
 
 namespace simplicity
@@ -30,7 +30,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class SimpleAIEngine : public RunnableEngine
+	class SimpleAIEngine : public BaseEngine
 	{
 		public:
 			/**

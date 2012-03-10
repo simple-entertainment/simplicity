@@ -17,6 +17,7 @@
 #ifndef SPHERE_H_
 #define SPHERE_H_
 
+#include "../BaseModel.h"
 #include "Shape.h"
 
 namespace simplicity
@@ -28,7 +29,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class Sphere : public virtual Shape
+  class Sphere : public BaseModel, public virtual Shape
   {
     public:
       /**

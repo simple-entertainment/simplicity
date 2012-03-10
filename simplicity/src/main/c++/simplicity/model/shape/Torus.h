@@ -17,6 +17,7 @@
 #ifndef TORUS_H_
 #define TORUS_H_
 
+#include "../BaseModel.h"
 #include "Shape.h"
 
 namespace simplicity
@@ -28,7 +29,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class Torus : public virtual Shape
+	class Torus : public BaseModel, public virtual Shape
 	{
 		public:
 			/**

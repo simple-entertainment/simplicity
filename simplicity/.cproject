@@ -47,6 +47,7 @@
 								<option defaultValue="true" id="gnu.cpp.link.so.debug.option.shared.1162136646" name="Shared (-shared)" superClass="gnu.cpp.link.so.debug.option.shared" valueType="boolean"/>
 								<option id="gnu.cpp.link.option.libs.752204727" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="png"/>
+									<listOptionValue builtIn="false" value="jpeg"/>
 									<listOptionValue builtIn="false" value="log4cpp"/>
 									<listOptionValue builtIn="false" value="boost_thread"/>
 									<listOptionValue builtIn="false" value="boost_date_time"/>

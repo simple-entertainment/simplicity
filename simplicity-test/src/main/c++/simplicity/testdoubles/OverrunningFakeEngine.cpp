@@ -16,38 +16,38 @@
  */
 #include <boost/thread.hpp>
 
-#include "OverrunningFakeRunnableEngine.h"
+#include "OverrunningFakeEngine.h"
 
 using namespace boost;
 using namespace std;
 
 namespace simplicity
 {
-	const double OverrunningFakeRunnableEngine::FRACTION_OF_FREQUENCY_TO_WAIT = 1.5;
+	const double OverrunningFakeEngine::FRACTION_OF_FREQUENCY_TO_WAIT = 1.5;
 
-	log4cpp::Category& OverrunningFakeRunnableEngine::logger = log4cpp::Category::getInstance(
-		"simplicity::OverrunningFakeRunnableEngine");
+	log4cpp::Category& OverrunningFakeEngine::logger = log4cpp::Category::getInstance(
+		"simplicity::OverrunningFakeEngine");
 
-	const double OverrunningFakeRunnableEngine::MILLISECONDS_IN_A_SECOND = 1000.0;
+	const double OverrunningFakeEngine::MILLISECONDS_IN_A_SECOND = 1000.0;
 
-	OverrunningFakeRunnableEngine::OverrunningFakeRunnableEngine() :
+	OverrunningFakeEngine::OverrunningFakeEngine() :
 		advanceCount(0), advanceIndex(0), destroyCount(0), initCount(0), overrunIndex(-1)
 	{
 	}
 
-	OverrunningFakeRunnableEngine::~OverrunningFakeRunnableEngine()
+	OverrunningFakeEngine::~OverrunningFakeEngine()
 	{
 	}
 
-	void OverrunningFakeRunnableEngine::addEntities(vector<std::shared_ptr<Entity> > entities)
+	void OverrunningFakeEngine::addEntities(vector<std::shared_ptr<Entity> > entities)
 	{
 	}
 
-	void OverrunningFakeRunnableEngine::addEntity(std::shared_ptr<Entity> entity)
+	void OverrunningFakeEngine::addEntity(std::shared_ptr<Entity> entity)
 	{
 	}
 
-	std::shared_ptr<EngineInput> OverrunningFakeRunnableEngine::advance(const std::shared_ptr<EngineInput> input)
+	std::shared_ptr<EngineInput> OverrunningFakeEngine::advance(const std::shared_ptr<EngineInput> input)
 	{
 		advanceCount++;
 
@@ -68,41 +68,41 @@ namespace simplicity
 		return std::shared_ptr<EngineInput>();
 	}
 
-	void OverrunningFakeRunnableEngine::destroy()
+	void OverrunningFakeEngine::destroy()
 	{
 		destroyCount++;
 	}
 
-	int OverrunningFakeRunnableEngine::getAdvanceCount()
+	int OverrunningFakeEngine::getAdvanceCount()
 	{
 		return advanceCount;
 	}
 
-	int OverrunningFakeRunnableEngine::getDestroyCount()
+	int OverrunningFakeEngine::getDestroyCount()
 	{
 		return destroyCount;
 	}
 
-	int OverrunningFakeRunnableEngine::getInitCount()
+	int OverrunningFakeEngine::getInitCount()
 	{
 		return initCount;
 	}
 
-	int OverrunningFakeRunnableEngine::getOverrunIndex() const
+	int OverrunningFakeEngine::getOverrunIndex() const
 	{
 		return overrunIndex;
 	}
 
-	void OverrunningFakeRunnableEngine::onInit()
+	void OverrunningFakeEngine::onInit()
 	{
 		initCount++;
 	}
 
-	void OverrunningFakeRunnableEngine::onReset()
+	void OverrunningFakeEngine::onReset()
 	{
 	}
 
-	void OverrunningFakeRunnableEngine::setOverrunIndex(const int overrunIndex)
+	void OverrunningFakeEngine::setOverrunIndex(const int overrunIndex)
 	{
 		this->overrunIndex = overrunIndex;
 	}

@@ -51,6 +51,7 @@ namespace simplicity
 			MOCK_METHOD1(removeRenderer, void(const Renderer& renderer));
 			MOCK_METHOD2(renderSceneGraph, void(Renderer& renderer, const Node& root));
 			MOCK_METHOD0(reset, void());
+			MOCK_METHOD0(run, void());
 			MOCK_METHOD1(setCamera, void(std::shared_ptr<Camera> camera));
 			//MOCK_METHOD1(setClearingColour, void(std::unique_ptr<RGBAColourVector<> > clearingColour));
 			MOCK_METHOD1(setClearsBeforeRender, void(const bool clearsBeforeRender));

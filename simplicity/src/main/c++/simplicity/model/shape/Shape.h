@@ -29,7 +29,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class Shape : public Model
+	class Shape : public virtual Model
 	{
 		public:
 			/**

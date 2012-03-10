@@ -28,7 +28,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class Animator : public Component
+	class Animator : public virtual Component
 	{
 		public:
 			/**

@@ -21,7 +21,7 @@
 #include <boost/thread.hpp>
 #include <log4cpp/Category.hh>
 
-#include "RunnableEngine.h"
+#include "BaseEngine.h"
 
 using namespace boost;
 using namespace boost::posix_time;
@@ -30,25 +30,25 @@ using namespace std;
 
 namespace simplicity
 {
-	log4cpp::Category& RunnableEngine::logger = log4cpp::Category::getInstance("simplicity::RunnableEngine");
+	log4cpp::Category& BaseEngine::logger = log4cpp::Category::getInstance("simplicity::BaseEngine");
 
-	const double RunnableEngine::MILLISECONDS_IN_A_SECOND = 1000.0;
+	const double BaseEngine::MILLISECONDS_IN_A_SECOND = 1000.0;
 
-	RunnableEngine::RunnableEngine() :
+	BaseEngine::BaseEngine() :
 		preferredFrequency(1), sleepTime(0L)
 	{
 	}
 
-	RunnableEngine::~RunnableEngine()
+	BaseEngine::~BaseEngine()
 	{
 	}
 
-	int RunnableEngine::getPreferredFrequency() const
+	int BaseEngine::getPreferredFrequency() const
 	{
 		return (preferredFrequency);
 	}
 
-	void RunnableEngine::init()
+	void BaseEngine::init()
 	{
 		onInit();
 
@@ -56,7 +56,7 @@ namespace simplicity
 		sleepTime = (long) (MILLISECONDS_IN_A_SECOND / preferredFrequency);
 	}
 
-	void RunnableEngine::reset()
+	void BaseEngine::reset()
 	{
 		onReset();
 
@@ -64,7 +64,7 @@ namespace simplicity
 		sleepTime = (long) (MILLISECONDS_IN_A_SECOND / preferredFrequency);
 	}
 
-	void RunnableEngine::run()
+	void BaseEngine::run()
 	{
 		init();
 
@@ -102,12 +102,12 @@ namespace simplicity
 		destroy();
 	}
 
-	void RunnableEngine::setPreferredFrequency(const int preferredFrequency)
+	void BaseEngine::setPreferredFrequency(const int preferredFrequency)
 	{
 		this->preferredFrequency = preferredFrequency;
 	}
 
-	long RunnableEngine::sleep(const long adjustedSleepTime)
+	long BaseEngine::sleep(const long adjustedSleepTime)
 	{
 		// If the engine needs to sleep.
 		if (adjustedSleepTime > 0)

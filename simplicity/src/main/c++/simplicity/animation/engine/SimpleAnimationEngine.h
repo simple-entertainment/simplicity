@@ -17,7 +17,7 @@
 #ifndef SIMPLEANIMATIONENGINE_H_
 #define SIMPLEANIMATIONENGINE_H_
 
-#include "../../engine/RunnableEngine.h"
+#include "../../engine/BaseEngine.h"
 #include "../Animator.h"
 
 namespace simplicity
@@ -30,7 +30,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class SimpleAnimationEngine : public RunnableEngine
+	class SimpleAnimationEngine : public BaseEngine
 	{
 		public:
 			/**

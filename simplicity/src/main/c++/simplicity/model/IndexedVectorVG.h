@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "../math/TranslationVector.h"
+#include "BaseModel.h"
 #include "VertexGroup.h"
 
 namespace simplicity
@@ -53,7 +54,7 @@ namespace simplicity
    *
    * @author Gary Buyn
    */
-  class IndexedVectorVG : public VertexGroup
+  class IndexedVectorVG : public BaseModel, public VertexGroup
   {
     public:
       /**
