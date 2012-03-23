@@ -21,6 +21,7 @@
 #include <simplicity/model/VectorVG.h>
 #include <simplicity/rendering/Renderer.h>
 
+#include "../model/OpenGLText.h"
 #include "../model/shape/GLUCapsule.h"
 #include "../model/shape/GLUCylinder.h"
 #include "../model/shape/GLUSphere.h"
@@ -128,6 +129,15 @@ namespace simplicity
 				 * @param vertexGroup The <code>IndexedArrayVG</code> to render.
 				 */
 				void renderModel(const IndexedVectorVG& vertexGroup);
+
+				/**
+				 * <p>
+				 * Renders <code>OpenGLText</code>.
+				 * </p>
+				 *
+				 * @param text The <code>OpenGLText</code> to render.
+				 */
+				void renderModel(const OpenGLText& text);
 
 				/**
 				 * <p>
