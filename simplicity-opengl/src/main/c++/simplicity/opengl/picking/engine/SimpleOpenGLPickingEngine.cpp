@@ -17,6 +17,8 @@
 #include <log4cpp/Category.hh>
 
 #include <simplicity/common/shared_equals_raw.h>
+#include <simplicity/SimpleEvents.h>
+#include <simplicity/Simplicity.h>
 
 #include "../../rendering/SimpleOpenGLCamera.h"
 #include "SimpleOpenGLPickingEngine.h"
@@ -37,11 +39,6 @@ namespace simplicity
 
 		void SimpleOpenGLPickingEngine::addEntity(shared_ptr<Entity> entity)
 		{
-		}
-
-		void SimpleOpenGLPickingEngine::addPickListener(shared_ptr<PickListener> listener)
-		{
-			listeners.push_back(listener);
 		}
 
 		shared_ptr<EngineInput> SimpleOpenGLPickingEngine::advance(const shared_ptr<EngineInput> input)
@@ -69,7 +66,7 @@ namespace simplicity
 			// For every pick.
 			for (unsigned int index = 0; index < picks.size(); index++)
 			{
-				firePickEvent(picker->pickScene(*scene, *camera, picks.at(index)));
+				Simplicity::fireEvent(PICK_EVENT, picker->pickScene(*scene, *camera, picks.at(index)));
 			}
 
 			picker->dispose();
@@ -92,15 +89,6 @@ namespace simplicity
 
 		void SimpleOpenGLPickingEngine::destroy()
 		{
-		}
-
-		void SimpleOpenGLPickingEngine::firePickEvent(PickEvent event) const
-		{
-			for (unsigned int index = 0; index < listeners.size(); index++)
-			{
-				PickListener& listener = *listeners.at(index);
-				listener(event);
-			}
 		}
 
 		shared_ptr<Camera> SimpleOpenGLPickingEngine::getCamera() const
@@ -167,12 +155,6 @@ namespace simplicity
 		void SimpleOpenGLPickingEngine::pickViewport(const int viewportWidth, const int viewportHeight, const Pick pick)
 		{
 			picks.push_back(convertPickCoordinatesFromViewportToSceneGraph(viewportWidth, viewportHeight, pick));
-		}
-
-		void SimpleOpenGLPickingEngine::removePickListener(const PickListener& listener)
-		{
-			shared_equals_raw<PickListener> sharedEqualsRaw(&listener);
-			listeners.erase(find_if(listeners.begin(), listeners.end(), sharedEqualsRaw));
 		}
 
 		void SimpleOpenGLPickingEngine::setCamera(shared_ptr<Camera> camera)

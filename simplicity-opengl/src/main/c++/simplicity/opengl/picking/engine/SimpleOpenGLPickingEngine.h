@@ -52,13 +52,9 @@ namespace simplicity
 
 				void addEntity(std::shared_ptr<Entity> entity);
 
-				void addPickListener(std::shared_ptr<PickListener> listener);
-
 				std::shared_ptr<EngineInput> advance(const std::shared_ptr<EngineInput> input);
 
 				void destroy();
-
-				void firePickEvent(PickEvent event) const;
 
 				std::shared_ptr<Camera> getCamera() const;
 
@@ -88,8 +84,6 @@ namespace simplicity
 
 				void pickViewport(const int viewportWidth, const int viewportHeight, const Pick pick);
 
-				void removePickListener(const PickListener& listener);
-
 				void setCamera(std::shared_ptr<Camera> camera);
 
 				void setPicker(std::shared_ptr<Picker> picker);
@@ -115,13 +109,6 @@ namespace simplicity
 				 * The viewpoint that will be adapted to create the picking viewpoint.
 				 */
 				std::shared_ptr<Camera> camera;
-
-				/**
-				 * <p>
-				 * The <code>PickListener</code>s to be invoked when a <code>Scene</code> is picked.
-				 * </p>
-				 */
-				std::vector<std::shared_ptr<PickListener> > listeners;
 
 				/**
 				 * <p>
