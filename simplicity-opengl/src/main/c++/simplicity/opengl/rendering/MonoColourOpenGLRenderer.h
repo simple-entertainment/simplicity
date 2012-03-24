@@ -22,6 +22,7 @@
 #include <simplicity/model/VectorVG.h>
 #include <simplicity/rendering/Renderer.h>
 
+#include "../model/OpenGLText.h"
 #include "../model/shape/GLUCapsule.h"
 #include "../model/shape/GLUCylinder.h"
 #include "../model/shape/GLUSphere.h"
@@ -70,6 +71,20 @@ namespace simplicity
 
 				void init();
 
+				void renderModel(const Model& model);
+
+				/**
+				 * <p>
+				 * Sets the colour to render the {@link com.se.simplicity.model.Model Model} in.
+				 * </p>
+				 *
+				 * @param renderColour The colour to render the {@link com.se.simplicity.model.Model Model} in.
+				 */
+				void setColour(std::unique_ptr<RGBAColourVector<> > colour);
+
+				void setDrawingMode(const DrawingMode mode);
+
+			private:
 				/**
 				 * <p>
 				 * Renders a <code>GLUCapsule</code>.
@@ -115,7 +130,14 @@ namespace simplicity
 				 */
 				void renderModel(const IndexedVectorVG& vertexGroup);
 
-				void renderModel(const Model& model);
+				/**
+				 * <p>
+				 * Renders an <code>OpenGLText</code>.
+				 * </p>
+				 *
+				 * @param vertexGroup The <code>OpenGLText</code> to render.
+				 */
+				void renderModel(const OpenGLText& text);
 
 				/**
 				 * <p>
@@ -126,18 +148,6 @@ namespace simplicity
 				 */
 				void renderModel(const VectorVG& vertexGroup);
 
-				/**
-				 * <p>
-				 * Sets the colour to render the {@link com.se.simplicity.model.Model Model} in.
-				 * </p>
-				 *
-				 * @param renderColour The colour to render the {@link com.se.simplicity.model.Model Model} in.
-				 */
-				void setColour(std::unique_ptr<RGBAColourVector<> > colour);
-
-				void setDrawingMode(const DrawingMode mode);
-
-			private:
 				/**
 				 * <p>
 				 * The colour to render the {@link com.se.simplicity.model.Model Model} in.

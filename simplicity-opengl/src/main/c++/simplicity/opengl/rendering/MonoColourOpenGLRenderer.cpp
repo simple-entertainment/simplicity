@@ -194,6 +194,10 @@ namespace simplicity
 			{
 				renderModel(dynamic_cast<const IndexedVectorVG&>(model));
 			}
+			else if (dynamic_cast<const OpenGLText*>(&model))
+			{
+				renderModel(dynamic_cast<const OpenGLText&>(model));
+			}
 			else if (dynamic_cast<const VectorVG*>(&model))
 			{
 				renderModel(dynamic_cast<const VectorVG&>(model));
@@ -201,6 +205,20 @@ namespace simplicity
 			else
 			{
 				throw new SENotSupportedException;
+			}
+		}
+
+		void MonoColourOpenGLRenderer::renderModel(const OpenGLText& text)
+		{
+			glColor3f(colour->getRed(), colour->getBlue(), colour->getGreen());
+
+			unique_ptr<TranslationVector<> > location(text.getNode()->getTransformation().getTranslation());
+			glRasterPos3f(location->getX(), location->getY(), location->getZ());
+
+			const string& data = text.getText();
+			for (unsigned int index = 0; index < data.length(); index++)
+			{
+				glutBitmapCharacter(text.getFont(), data.at(index));
 			}
 		}
 

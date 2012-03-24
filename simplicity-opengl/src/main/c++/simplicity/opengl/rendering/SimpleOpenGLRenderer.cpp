@@ -214,9 +214,7 @@ namespace simplicity
 			glColor3f(colour.getRed(), colour.getBlue(), colour.getGreen());
 
 			unique_ptr<TranslationVector<> > location(text.getNode()->getTransformation().getTranslation());
-
-			float currentY = location->getY();
-			glRasterPos3f(location->getX(), currentY, location->getZ());
+			glRasterPos3f(location->getX(), location->getY(), location->getZ());
 
 			const string& data = text.getText();
 			for (unsigned int index = 0; index < data.length(); index++)
