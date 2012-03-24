@@ -46,7 +46,7 @@ namespace simplicity
 			return monoColour->getDrawingMode();
 		}
 
-		const RGBAColourVector<>& OutlineOpenGLRenderer::getOutlineColour() const
+		const ColourVector<>& OutlineOpenGLRenderer::getOutlineColour() const
 		{
 			return monoColour->getColour();
 		}
@@ -128,7 +128,7 @@ namespace simplicity
 			this->monoColour->setDrawingMode(mode);
 		}
 
-		void OutlineOpenGLRenderer::setOutlineColour(unique_ptr<RGBAColourVector<> > outlineColour)
+		void OutlineOpenGLRenderer::setOutlineColour(unique_ptr<ColourVector<> > outlineColour)
 		{
 			this->monoColour->setColour(move(outlineColour));
 		}

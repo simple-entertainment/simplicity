@@ -16,8 +16,8 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/math/SimpleTransformationMatrix44.h>
-#include <simplicity/math/SimpleTranslationVector4.h>
+#include <simplicity/math/SimpleTransformationMatrix.h>
+#include <simplicity/math/SimpleTranslationVector.h>
 
 #include "MockNode.h"
 #include "SimpleNodeTest.h"
@@ -56,15 +56,15 @@ namespace simplicity
 		std::shared_ptr<MockNode> mockNode1(new NiceMock<MockNode>);
 		std::shared_ptr<MockNode> mockNode2(new NiceMock<MockNode>);
 
-		SimpleTransformationMatrix44<> matrix1;
-		SimpleTranslationVector4<> translation(0.0f, 10.0f, 0.0f, 1.0f);
+		SimpleTransformationMatrix<> matrix1;
+		SimpleTranslationVector<> translation(0.0f, 10.0f, 0.0f, 1.0f);
 		matrix1.translate(translation);
 
-		SimpleTransformationMatrix44<> matrix2;
-		SimpleTranslationVector4<> rotateTranslation(1.0f, 0.0f, 0.0f, 1.0f);
+		SimpleTransformationMatrix<> matrix2;
+		SimpleTranslationVector<> rotateTranslation(1.0f, 0.0f, 0.0f, 1.0f);
 		matrix2.rotate(90.0f * pi<float>() / 180.0f, rotateTranslation);
 
-		SimpleTransformationMatrix44<> matrix3;
+		SimpleTransformationMatrix<> matrix3;
 		matrix3 *= matrix2;
 		matrix3 *= matrix1;
 

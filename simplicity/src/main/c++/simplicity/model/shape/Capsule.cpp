@@ -21,7 +21,7 @@ namespace simplicity
 {
 	Capsule::Capsule() :
 		center(MathFactory::getInstance().createTranslationVector()), colour(
-			MathFactory::getInstance().createRGBAColourVector()), length(1.0f), radius(1.0f)
+			MathFactory::getInstance().createColourVector()), length(1.0f), radius(1.0f)
 	{
 		colour->setRed(1.0f);
 		colour->setGreen(1.0f);
@@ -37,7 +37,7 @@ namespace simplicity
 		return *center;
 	}
 
-	RGBAColourVector<>& Capsule::getColour() const
+	ColourVector<>& Capsule::getColour() const
 	{
 		return *colour;
 	}
@@ -52,7 +52,7 @@ namespace simplicity
 		return radius;
 	}
 
-	void Capsule::setColour(std::shared_ptr<RGBAColourVector<> > colour)
+	void Capsule::setColour(std::shared_ptr<ColourVector<> > colour)
 	{
 		this->colour = colour;
 	}

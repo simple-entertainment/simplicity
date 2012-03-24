@@ -16,9 +16,9 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/math/SimpleTranslationVector4.h>
+#include <simplicity/math/SimpleTranslationVector.h>
 
-#include "SimpleTransformationMatrix44Test.h"
+#include "SimpleTransformationMatrixTest.h"
 
 using namespace boost::math::constants;
 
@@ -26,14 +26,14 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTransformationMatrix44#rotate() rotate()}.
+	 * Unit test the method {@link simplicity::SimpleTransformationMatrix#rotate() rotate()}.
 	 * </p>
 	 */
-	TEST_F(SimpleTransformationMatrix44Test, rotate)
+	TEST_F(SimpleTransformationMatrixTest, rotate)
 	{
-		objectUnderTest.rotate(pi<float>() / 2.0f, SimpleTranslationVector4<>(0.0f, 1.0f, 0.0f, 1.0f));
+		objectUnderTest.rotate(pi<float>() / 2.0f, SimpleTranslationVector<>(0.0f, 1.0f, 0.0f, 1.0f));
 
-		array<float, SimpleTransformationMatrix44<>::SIZE>& data = objectUnderTest.getData();
+		array<float, SimpleTransformationMatrix<>::SIZE>& data = objectUnderTest.getData();
 
 		ASSERT_NEAR(0.0f, data.at(0), 0.0000001f);
 		ASSERT_NEAR(0.0f, data.at(1), 0.0000001f);
@@ -48,18 +48,18 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTransformationMatrix44#translate() translate()}.
+	 * Unit test the method {@link simplicity::SimpleTransformationMatrix#translate() translate()}.
 	 * </p>
 	 */
-	TEST_F(SimpleTransformationMatrix44Test, translate)
+	TEST_F(SimpleTransformationMatrixTest, translate)
 	{
-		array<float, SimpleTransformationMatrix44<>::SIZE>& data = objectUnderTest.getData();
+		array<float, SimpleTransformationMatrix<>::SIZE>& data = objectUnderTest.getData();
 
 		data.at(12) = 1.0f;
 		data.at(13) = 2.0f;
 		data.at(14) = 3.0f;
 
-		objectUnderTest.translate(SimpleTranslationVector4<>(1.0f, 2.0f, 3.0f, 1.0f));
+		objectUnderTest.translate(SimpleTranslationVector<>(1.0f, 2.0f, 3.0f, 1.0f));
 
 		ASSERT_EQ(2.0f, data.at(12));
 		ASSERT_EQ(4.0f, data.at(13));

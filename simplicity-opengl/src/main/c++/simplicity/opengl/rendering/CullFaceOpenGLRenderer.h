@@ -59,7 +59,7 @@ namespace simplicity
 				 *
 				 * @return The colour to render the back side of the faces with.
 				 */
-				const RGBAColourVector<>& getBackFaceColour() const;
+				const ColourVector<>& getBackFaceColour() const;
 
 				DrawingMode getDrawingMode() const;
 
@@ -70,7 +70,7 @@ namespace simplicity
 				 *
 				 * @return The colour to render the front side of the faces with.
 				 */
-				const RGBAColourVector<>&getFrontFaceColour() const;
+				const ColourVector<>&getFrontFaceColour() const;
 
 				void init();
 
@@ -83,7 +83,7 @@ namespace simplicity
 				 *
 				 * @param backFaceColour The colour to render the back side of the faces with.
 				 */
-				void setBackFaceColour(std::unique_ptr<RGBAColourVector<> > backFaceColour);
+				void setBackFaceColour(std::unique_ptr<ColourVector<> > backFaceColour);
 
 				void setDrawingMode(const DrawingMode mode);
 
@@ -94,7 +94,7 @@ namespace simplicity
 				 *
 				 * @param frontFaceColour The colour to render the front side of the faces with.
 				 */
-				void setFrontFaceColour(std::unique_ptr<RGBAColourVector<> > frontFaceColour);
+				void setFrontFaceColour(std::unique_ptr<ColourVector<> > frontFaceColour);
 
 			private:
 				/**
@@ -102,7 +102,7 @@ namespace simplicity
 				 * The colour to render the back side of the faces with.
 				 * </p>
 				 */
-				std::unique_ptr<RGBAColourVector<> > backFaceColour;
+				std::unique_ptr<ColourVector<> > backFaceColour;
 
 				/**
 				 * <p>
@@ -130,7 +130,7 @@ namespace simplicity
 				 * The colour to render the front side of the faces with.
 				 * </p>
 				 */
-				std::unique_ptr<RGBAColourVector<> > frontFaceColour;
+				std::unique_ptr<ColourVector<> > frontFaceColour;
 
 				/**
 				 * <p>

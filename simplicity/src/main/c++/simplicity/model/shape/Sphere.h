@@ -48,7 +48,7 @@ namespace simplicity
 
       const TranslationVector<>& getCenter() const;
 
-      RGBAColourVector<>& getColour() const;
+      ColourVector<>& getColour() const;
 
       /**
        * <p>
@@ -59,7 +59,7 @@ namespace simplicity
        */
       float getRadius() const;
 
-      void setColour(std::shared_ptr<RGBAColourVector<> > colour);
+      void setColour(std::shared_ptr<ColourVector<> > colour);
 
       /**
        * <p>
@@ -83,7 +83,7 @@ namespace simplicity
        * The colour to render this <code>Sphere</code> as.
        * </p>
        */
-      std::shared_ptr<RGBAColourVector<> > colour;
+      std::shared_ptr<ColourVector<> > colour;
 
       /**
        * <p>

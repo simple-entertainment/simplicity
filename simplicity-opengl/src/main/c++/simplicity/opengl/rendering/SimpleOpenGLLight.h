@@ -52,15 +52,15 @@ namespace simplicity
 
 				void apply();
 
-				RGBAColourVector<>& getAmbientLight() const;
+				ColourVector<>& getAmbientLight() const;
 
-				RGBAColourVector<>& getDiffuseLight() const;
+				ColourVector<>& getDiffuseLight() const;
 
 				Light::LightingMode getLightingMode() const;
 
 				std::shared_ptr<Node> getNode() const;
 
-				RGBAColourVector<>& getSpecularLight() const;
+				ColourVector<>& getSpecularLight() const;
 
 				const TransformationMatrix<>& getTransformation() const;
 
@@ -68,9 +68,9 @@ namespace simplicity
 
 				bool isInitialised() const;
 
-				void setAmbientLight(std::unique_ptr<RGBAColourVector<> > ambientLight);
+				void setAmbientLight(std::unique_ptr<ColourVector<> > ambientLight);
 
-				void setDiffuseLight(std::unique_ptr<RGBAColourVector<> > diffuseLight);
+				void setDiffuseLight(std::unique_ptr<ColourVector<> > diffuseLight);
 
 				void setInitialised(const bool isInitialised);
 
@@ -78,7 +78,7 @@ namespace simplicity
 
 				void setNode(std::shared_ptr<Node> node);
 
-				void setSpecularLight(std::unique_ptr<RGBAColourVector<> > specularLight);
+				void setSpecularLight(std::unique_ptr<ColourVector<> > specularLight);
 
 			private:
 				/**
@@ -93,14 +93,14 @@ namespace simplicity
 				 * The ambient component.
 				 * </p>
 				 */
-				std::unique_ptr<RGBAColourVector<> > ambientLight;
+				std::unique_ptr<ColourVector<> > ambientLight;
 
 				/**
 				 * <p>
 				 * The diffuse component.
 				 * </p>
 				 */
-				std::unique_ptr<RGBAColourVector<> > diffuseLight;
+				std::unique_ptr<ColourVector<> > diffuseLight;
 
 				/**
 				 * <p>
@@ -128,7 +128,7 @@ namespace simplicity
 				 * The specular component.
 				 * </p>
 				 */
-				std::unique_ptr<RGBAColourVector<> > specularLight;
+				std::unique_ptr<ColourVector<> > specularLight;
 
 				/**
 				 * <p>

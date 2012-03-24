@@ -32,8 +32,8 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	template<typename Data = float, unsigned int Size = 16, unsigned int Height = 4>
-	class TransformationMatrix : public virtual Matrix<Data, Size, Height>
+	template<typename Data = float, unsigned int Columns = 4, unsigned int Rows = 4>
+	class TransformationMatrix : public virtual Matrix<Data, Columns, Rows>
 	{
 		public:
 			/**
@@ -53,7 +53,7 @@ namespace simplicity
 			 * @param angle The angle to rotate this <code>TransformationMatrix</code>.
 			 * @param axis The axis to rotate this <code>TransformationMatrix</code> about.
 			 */
-			virtual void rotate(const Data angle, const TranslationVector<Data, Height>& axis) = 0;
+			virtual void rotate(const Data angle, const TranslationVector<Data, Rows>& axis) = 0;
 
 			/**
 			 * <p>
@@ -62,7 +62,7 @@ namespace simplicity
 			 *
 			 * @param translation The translation portion of this <code>TransformationMatrix</code>.
 			 */
-			virtual void setTranslation(const TranslationVector<Data, Height>& translation) = 0;
+			virtual void setTranslation(const TranslationVector<Data, Rows>& translation) = 0;
 
 			/**
 			 * <p>
@@ -71,7 +71,7 @@ namespace simplicity
 			 *
 			 * @param translation The translation to translate this <code>TransformationMatrix</code> by.
 			 */
-			virtual void translate(const TranslationVector<Data, Height>& translation) = 0;
+			virtual void translate(const TranslationVector<Data, Rows>& translation) = 0;
 	};
 }
 

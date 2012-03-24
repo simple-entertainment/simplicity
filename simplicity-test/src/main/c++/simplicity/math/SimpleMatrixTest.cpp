@@ -9,9 +9,9 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <simplicity/math/SimpleVector4.h>
+#include <simplicity/math/SimpleVector.h>
 
-#include "SimpleMatrix44Test.h"
+#include "SimpleMatrixTest.h"
 
 using namespace std;
 
@@ -19,26 +19,26 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleMatrix44#getDeterminant() getDeterminant()}.
+	 * Unit test the method {@link simplicity::SimpleMatrix#getDeterminant() getDeterminant()}.
 	 * </p>
 	 */
-	TEST_F(SimpleMatrix44Test, getDeterminant)
+	TEST_F(SimpleMatrixTest, getDeterminant)
 	{
 		ASSERT_EQ(20.0f, objectUnderTest.getDeterminant());
 	}
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleMatrix44#invert() invert()}.
+	 * Unit test the method {@link simplicity::SimpleMatrix#invert() invert()}.
 	 * </p>
 	 *
 	 * @throws SEInvalidOperationException Thrown by the method being unit tested.
 	 */
-	TEST_F(SimpleMatrix44Test, invert)
+	TEST_F(SimpleMatrixTest, invert)
 	{
 		objectUnderTest.invert();
 
-		array<float, SimpleMatrix44<>::SIZE>& data = objectUnderTest.getData();
+		array<float, 16>& data = objectUnderTest.getData();
 
 		ASSERT_EQ(-0.75f, data.at(0));
 		ASSERT_EQ(0.5f, data.at(1));
@@ -60,13 +60,13 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleMatrix44#invert() invert()} for the special condition where the
-	 * {@link simplicity::SimpleMatrix44 SimpleMatrix44} being tested has a determinant of 0.
+	 * Unit test the method {@link simplicity::SimpleMatrix#invert() invert()} for the special condition where the
+	 * {@link simplicity::SimpleMatrix SimpleMatrix} being tested has a determinant of 0.
 	 * </p>
 	 */
-	TEST_F(SimpleMatrix44Test, invertDeterminant0)
+	TEST_F(SimpleMatrixTest, invertDeterminant0)
 	{
-		array<float, SimpleMatrix44<>::SIZE>& data = objectUnderTest.getData();
+		array<float, 16>& data = objectUnderTest.getData();
 
 		data.at(0) = 0.0f;
 		data.at(4) = 0.0f;
@@ -90,13 +90,13 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleMatrix44#multiply() multiply()}.
+	 * Unit test the method {@link simplicity::SimpleMatrix#multiply() multiply()}.
 	 * </p>
 	 */
-	TEST_F(SimpleMatrix44Test, multiply)
+	TEST_F(SimpleMatrixTest, multiply)
 	{
-		SimpleMatrix44<> otherMatrix;
-		array<float, SimpleMatrix44<>::SIZE>& otherData = otherMatrix.getData();
+		SimpleMatrix<> otherMatrix;
+		array<float, 16>& otherData = otherMatrix.getData();
 
 		otherData.at(0) = 1.0f;
 		otherData.at(4) = 2.0f;
@@ -117,7 +117,7 @@ namespace simplicity
 
 		unique_ptr<Matrix<> > resultMatrix = otherMatrix * objectUnderTest;
 
-		array<float, SimpleMatrix44<>::SIZE>& data = resultMatrix->getData();
+		array<float, 16>& data = resultMatrix->getData();
 
 		ASSERT_EQ(14.0f, data.at(0));
 		ASSERT_EQ(16.0f, data.at(1));
@@ -142,9 +142,9 @@ namespace simplicity
 	 * Unit test the method {@link simplicity::SimpleVectorf4#multiplyWithVector() multiplyWithVector()}.
 	 * </p>
 	 */
-	TEST_F(SimpleMatrix44Test, multiplyWithVector)
+	TEST_F(SimpleMatrixTest, multiplyWithVector)
 	{
-		array<float, SimpleMatrix44<>::SIZE>& data = objectUnderTest.getData();
+		array<float, 16>& data = objectUnderTest.getData();
 
 		data.at(0) = 1.0f;
 		data.at(4) = 2.0f;
@@ -163,8 +163,8 @@ namespace simplicity
 		data.at(11) = 0.0f;
 		data.at(15) = 1.0f;
 
-		SimpleVector4<> vector;
-		array<float, SimpleVector4<>::SIZE>& vectorData = vector.getData();
+		SimpleVector<> vector;
+		array<float, 4>& vectorData = vector.getData();
 
 		vectorData.at(0) = 1.0f;
 		vectorData.at(1) = 2.0f;
@@ -173,7 +173,7 @@ namespace simplicity
 
 		unique_ptr<Vector<> > product = objectUnderTest * vector;
 
-		array<float, SimpleVector4<>::SIZE>& productData = product->getData();
+		array<float, 4>& productData = product->getData();
 
 		ASSERT_EQ(18.0f, productData.at(0));
 		ASSERT_EQ(19.0f, productData.at(1));
@@ -183,14 +183,14 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleMatrix44#setIdentity() setIdentity()}.
+	 * Unit test the method {@link simplicity::SimpleMatrix#setIdentity() setIdentity()}.
 	 * </p>
 	 */
-	TEST_F(SimpleMatrix44Test, setIdentity)
+	TEST_F(SimpleMatrixTest, setIdentity)
 	{
 		objectUnderTest.setIdentity();
 
-		array<float, SimpleMatrix44<>::SIZE>& data = objectUnderTest.getData();
+		array<float, 16>& data = objectUnderTest.getData();
 
 		ASSERT_EQ(1.0f, data.at(0));
 		ASSERT_EQ(0.0f, data.at(1));
@@ -212,14 +212,14 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleMatrix44#transpose() transpose()}.
+	 * Unit test the method {@link simplicity::SimpleMatrix#transpose() transpose()}.
 	 * </p>
 	 */
-	TEST_F(SimpleMatrix44Test, transpose)
+	TEST_F(SimpleMatrixTest, transpose)
 	{
 		objectUnderTest.transpose();
 
-		array<float, SimpleMatrix44<>::SIZE>& data = objectUnderTest.getData();
+		array<float, 16>& data = objectUnderTest.getData();
 
 		ASSERT_EQ(1.0f, data.at(0));
 		ASSERT_EQ(2.0f, data.at(1));

@@ -19,7 +19,7 @@
 
 #include "../Renderer.h"
 #include "../../engine/Engine.h"
-#include "../../math/RGBAColourVector.h"
+#include "../../math/ColourVector.h"
 #include "../../scene/Scene.h"
 
 namespace simplicity
@@ -111,7 +111,7 @@ namespace simplicity
 			 *
 			 * @return The colour to clear the screen buffer with before rendering.
 			 */
-			virtual const RGBAColourVector<>& getClearingColour() const = 0;
+			virtual const ColourVector<>& getClearingColour() const = 0;
 
 			/**
 			 * <p>
@@ -214,7 +214,7 @@ namespace simplicity
 			 *
 			 * @param clearingColour The colour to clear the buffer with before rendering.
 			 */
-			virtual void setClearingColour(std::unique_ptr<RGBAColourVector<> > clearingColour) = 0;
+			virtual void setClearingColour(std::unique_ptr<ColourVector<> > clearingColour) = 0;
 
 			/**
 			 * <p>

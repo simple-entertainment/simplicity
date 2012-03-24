@@ -34,7 +34,7 @@ namespace simplicity
 			"simplicity::opengl::SimpleOpenGLRenderingEngine");
 
 		SimpleOpenGLRenderingEngine::SimpleOpenGLRenderingEngine() :
-			clearingColour(MathFactory::getInstance().createRGBAColourVector()), clearsBuffers(true), initialised(
+			clearingColour(MathFactory::getInstance().createColourVector()), clearsBuffers(true), initialised(
 				false), viewportHeight(600), viewportWidth(800)
 		{
 		}
@@ -140,7 +140,7 @@ namespace simplicity
 			return camera;
 		}
 
-		const RGBAColourVector<>& SimpleOpenGLRenderingEngine::getClearingColour() const
+		const ColourVector<>& SimpleOpenGLRenderingEngine::getClearingColour() const
 		{
 			return *clearingColour;
 		}
@@ -280,7 +280,7 @@ namespace simplicity
 			this->camera = camera;
 		}
 
-		void SimpleOpenGLRenderingEngine::setClearingColour(unique_ptr<RGBAColourVector<> > clearingColour)
+		void SimpleOpenGLRenderingEngine::setClearingColour(unique_ptr<ColourVector<> > clearingColour)
 		{
 			this->clearingColour = move(clearingColour);
 

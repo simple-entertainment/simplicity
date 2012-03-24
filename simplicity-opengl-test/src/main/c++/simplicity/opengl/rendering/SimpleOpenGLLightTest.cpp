@@ -11,8 +11,8 @@
  */
 #include <boost/math/constants/constants.hpp>
 
-#include <simplicity/math/SimpleTransformationMatrix44.h>
-#include <simplicity/math/SimpleTranslationVector4.h>
+#include <simplicity/math/SimpleTransformationMatrix.h>
+#include <simplicity/math/SimpleTranslationVector.h>
 #include <simplicity/scene/MockNode.h>
 
 #include "SimpleOpenGLLightTest.h"
@@ -32,8 +32,8 @@ namespace simplicity
     TEST_F(SimpleOpenGLLightTest, getTransformation)
     {
       shared_ptr<MockNode> mockNode(new MockNode);
-      SimpleTransformationMatrix44<> matrix;
-      SimpleTranslationVector4<> translation(1.0f, 0.0f, 0.0f, 1.0f);
+      SimpleTransformationMatrix<> matrix;
+      SimpleTranslationVector<> translation(1.0f, 0.0f, 0.0f, 1.0f);
       matrix.rotate(90.0f * pi<float>() / 180.0f, translation);
 
       fTestObject.setNode(mockNode);
@@ -41,7 +41,7 @@ namespace simplicity
       // TODO Uncomment when unique_ptr is supported!
       //EXPECT_CALL(*mockNode, getAbsoluteTransformation()).WillRepeatedly(ReturnRef(matrix));
 
-      //SimpleTransformationMatrix44<> invertedMatrix;
+      //SimpleTransformationMatrix<> invertedMatrix;
       //invertedMatrix.multiplyRight(matrix);
       //invertedMatrix.invert();
 

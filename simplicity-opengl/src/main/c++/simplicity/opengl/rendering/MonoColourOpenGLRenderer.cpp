@@ -34,7 +34,7 @@ namespace simplicity
 	namespace opengl
 	{
 		MonoColourOpenGLRenderer::MonoColourOpenGLRenderer() :
-			colour(MathFactory::getInstance().createRGBAColourVector()), drawingMode(FACES)
+			colour(MathFactory::getInstance().createColourVector()), drawingMode(FACES)
 		{
 		}
 
@@ -47,7 +47,7 @@ namespace simplicity
 			glPointSize(1.0f);
 		}
 
-		const RGBAColourVector<>& MonoColourOpenGLRenderer::getColour() const
+		const ColourVector<>& MonoColourOpenGLRenderer::getColour() const
 		{
 			return *colour;
 		}
@@ -239,7 +239,7 @@ namespace simplicity
 			glEnd();
 		}
 
-		void MonoColourOpenGLRenderer::setColour(unique_ptr<RGBAColourVector<> > colour)
+		void MonoColourOpenGLRenderer::setColour(unique_ptr<ColourVector<> > colour)
 		{
 			this->colour = move(colour);
 		}

@@ -21,7 +21,7 @@ namespace simplicity
 {
 	Sphere::Sphere() :
 		center(MathFactory::getInstance().createTranslationVector()), colour(
-			MathFactory::getInstance().createRGBAColourVector()), radius(1.0f)
+			MathFactory::getInstance().createColourVector()), radius(1.0f)
 	{
 		colour->setRed(1.0f);
 		colour->setGreen(1.0f);
@@ -37,7 +37,7 @@ namespace simplicity
 		return *center;
 	}
 
-	RGBAColourVector<>& Sphere::getColour() const
+	ColourVector<>& Sphere::getColour() const
 	{
 		return *colour;
 	}
@@ -47,7 +47,7 @@ namespace simplicity
 		return radius;
 	}
 
-	void Sphere::setColour(std::shared_ptr<RGBAColourVector<> > colour)
+	void Sphere::setColour(std::shared_ptr<ColourVector<> > colour)
 	{
 		this->colour = colour;
 	}

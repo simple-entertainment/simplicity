@@ -39,7 +39,7 @@ namespace simplicity
 			MOCK_METHOD1(advance, std::shared_ptr<EngineInput>(const std::shared_ptr<EngineInput> input));
 			MOCK_CONST_METHOD0(clearsBeforeRender, bool());MOCK_METHOD0(destroy, void());
 			MOCK_CONST_METHOD0(getCamera, std::shared_ptr<Camera>());
-			MOCK_CONST_METHOD0(getClearingColour, const RGBAColourVector<>&());
+			MOCK_CONST_METHOD0(getClearingColour, const ColourVector<>&());
 			MOCK_CONST_METHOD0(getPreferredFrequency, int());
 			MOCK_CONST_METHOD1(getRendererRoot, std::shared_ptr<Node>(const Renderer& renderer));
 			MOCK_CONST_METHOD0(getRenderers, std::vector<std::shared_ptr<Renderer> >());
@@ -52,7 +52,7 @@ namespace simplicity
 			MOCK_METHOD0(reset, void());
 			MOCK_METHOD0(run, void());
 			MOCK_METHOD1(setCamera, void(std::shared_ptr<Camera> camera));
-			//MOCK_METHOD1(setClearingColour, void(std::unique_ptr<RGBAColourVector<> > clearingColour));
+			//MOCK_METHOD1(setClearingColour, void(std::unique_ptr<ColourVector<> > clearingColour));
 			MOCK_METHOD1(setClearsBeforeRender, void(const bool clearsBeforeRender));
 			MOCK_METHOD1(setPreferredFrequency, void(const int preferredFrequency));
 			MOCK_METHOD2(setRendererRoot, void(const Renderer& renderer, std::shared_ptr<Node> root));
@@ -61,7 +61,7 @@ namespace simplicity
 			MOCK_METHOD1(setViewportWidth, void(const int viewportWidth));
 
 			// TODO Mock this properly when it is supported!
-			void setClearingColour(std::unique_ptr<RGBAColourVector<> > clearingColour)
+			void setClearingColour(std::unique_ptr<ColourVector<> > clearingColour)
 			{
 			}
 	};

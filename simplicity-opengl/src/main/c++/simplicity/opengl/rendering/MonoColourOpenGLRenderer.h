@@ -17,7 +17,7 @@
 #ifndef MONOCOLOUROPENGLRENDERER_H_
 #define MONOCOLOUROPENGLRENDERER_H_
 
-#include <simplicity/math/RGBAColourVector.h>
+#include <simplicity/math/ColourVector.h>
 #include <simplicity/model/IndexedVertexGroup.h>
 #include <simplicity/model/VertexGroup.h>
 #include <simplicity/rendering/Renderer.h>
@@ -65,7 +65,7 @@ namespace simplicity
 				 *
 				 * @return The colour to render the {@link simplicity::Model Model} in.
 				 */
-				const RGBAColourVector<>& getColour() const;
+				const ColourVector<>& getColour() const;
 
 				DrawingMode getDrawingMode() const;
 
@@ -80,7 +80,7 @@ namespace simplicity
 				 *
 				 * @param renderColour The colour to render the {@link com.se.simplicity.model.Model Model} in.
 				 */
-				void setColour(std::unique_ptr<RGBAColourVector<> > colour);
+				void setColour(std::unique_ptr<ColourVector<> > colour);
 
 				void setDrawingMode(const DrawingMode mode);
 
@@ -153,7 +153,7 @@ namespace simplicity
 				 * The colour to render the {@link com.se.simplicity.model.Model Model} in.
 				 * </p>
 				 */
-				std::unique_ptr<RGBAColourVector<> > colour;
+				std::unique_ptr<ColourVector<> > colour;
 
 				/**
 				 * <p>

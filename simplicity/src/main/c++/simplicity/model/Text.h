@@ -17,7 +17,7 @@
 #ifndef TEXT_H_
 #define TEXT_H_
 
-#include "../math/RGBAColourVector.h"
+#include "../math/ColourVector.h"
 #include "BaseModel.h"
 
 namespace simplicity
@@ -36,11 +36,11 @@ namespace simplicity
 
 			const TranslationVector<>& getCenter() const;
 
-			const RGBAColourVector<>& getColour() const;
+			const ColourVector<>& getColour() const;
 
 			const std::string& getText() const;
 
-			void setColour(std::unique_ptr<RGBAColourVector<> > colour);
+			void setColour(std::unique_ptr<ColourVector<> > colour);
 
 			void setText(const std::string& text);
 
@@ -52,7 +52,7 @@ namespace simplicity
 			 */
 			std::unique_ptr<TranslationVector<> > center;
 
-			std::unique_ptr<RGBAColourVector<> > colour;
+			std::unique_ptr<ColourVector<> > colour;
 
 			std::string text;
 	};

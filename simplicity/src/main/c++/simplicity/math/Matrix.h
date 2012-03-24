@@ -32,7 +32,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	template<typename Data = float, unsigned int Size = 16, unsigned int Height = 4>
+	template<typename Data = float, unsigned int Columns = 4, unsigned int Rows = 4>
 	class Matrix
 	{
 		public:
@@ -52,7 +52,7 @@ namespace simplicity
 			 *
 			 * @return The data for this <code>Matrix</code>.
 			 */
-			virtual std::array<Data, Size>& getData() = 0;
+			virtual std::array<Data, Columns * Rows>& getData() = 0;
 
 			/**
 			 * <p>
@@ -61,7 +61,7 @@ namespace simplicity
 			 *
 			 * @return The data for this <code>Matrix</code>.
 			 */
-			virtual const std::array<Data, Size>& getData() const = 0;
+			virtual const std::array<Data, Columns * Rows>& getData() const = 0;
 
 			/**
 			 * <p>
@@ -77,11 +77,11 @@ namespace simplicity
 			 * Attempts to set this <code>Matrix</code> to the inverse of this <code>Matrix</code>.
 			 * </p>
 			 *
-			 * @throw SEInvalidOperationException If this <code>SimpleMatrix44</code> has a determinant of 0.
+			 * @throw SEInvalidOperationException If this <code>SimpleMatrix</code> has a determinant of 0.
 			 */
 			virtual void invert() = 0;
 
-			friend bool operator!=(const Matrix<Data, Size>& lhs, const Matrix<Data, Size>& rhs)
+			friend bool operator!=(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Rows, Columns>& rhs)
 			{
 				// Allows polymorphic equality checking.
 				return (!lhs.equals(rhs));
@@ -98,7 +98,8 @@ namespace simplicity
 			 *
 			 * @return The result of the multiplication.
 			 */
-			virtual std::unique_ptr<Matrix<Data, Size> > operator*(const Matrix<Data, Size>& rhs) const = 0;
+			virtual std::unique_ptr<Matrix<Data, Columns, Rows> > operator*(
+				const Matrix<Data, Rows, Columns>& rhs) const = 0;
 
 			/**
 			 * <p>
@@ -122,7 +123,7 @@ namespace simplicity
 			 *
 			 * @return The result of the multiplication.
 			 */
-			virtual std::unique_ptr<Vector<Data, Height> > operator*(const Vector<Data, Height>& rhs) const = 0;
+			virtual std::unique_ptr<Vector<Data, Rows> > operator*(const Vector<Data, Rows>& rhs) const = 0;
 
 			/**
 			 * <p>
@@ -135,9 +136,9 @@ namespace simplicity
 			 *
 			 * @return The result of the multiplication (this <code>Matrix</code>).
 			 */
-			virtual Matrix<Data, Size>& operator*=(const Matrix<Data, Size>& rhs) = 0;
+			virtual Matrix<Data, Columns, Rows>& operator*=(const Matrix<Data, Rows, Columns>& rhs) = 0;
 
-			friend bool operator==(const Matrix<Data, Size>& lhs, const Matrix<Data, Size>& rhs)
+			friend bool operator==(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Columns, Rows>& rhs)
 			{
 				// Allows polymorphic equality checking.
 				return (lhs.equals(rhs));
@@ -150,7 +151,7 @@ namespace simplicity
 			 *
 			 * @param data The data for this <code>Matrix</code>.
 			 */
-			virtual void setData(const std::array<Data, Size>& data) = 0;
+			virtual void setData(const std::array<Data, Columns * Rows>& data) = 0;
 
 			/**
 			 * <p>
@@ -174,7 +175,7 @@ namespace simplicity
 			 *
 			 * @param otherMatrix The <code>Matrix</code> to compare with this <code>Matrix</code>.
 			 */
-			virtual bool equals(const Matrix<Data, Size>& otherMatrix) const = 0;
+			virtual bool equals(const Matrix<Data, Columns, Rows>& otherMatrix) const = 0;
 	};
 }
 

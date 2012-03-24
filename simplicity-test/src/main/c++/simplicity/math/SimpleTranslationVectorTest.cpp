@@ -14,27 +14,27 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "SimpleTranslationVector4Test.h"
+#include "SimpleTranslationVectorTest.h"
 
 namespace simplicity
 {
 	/**
 	 * <p>
 	 * Unit test the method
-	 * {@link simplicity::SimpleTranslationVector4#getProximity(const TranslationVector<>&) getProximity(const TranslationVector<>&)}.
+	 * {@link simplicity::SimpleTranslationVector#getProximity(const TranslationVector<>&) getProximity(const TranslationVector<>&)}.
 	 * </p>
 	 */
-	TEST_F(SimpleTranslationVector4Test, getProximity)
+	TEST_F(SimpleTranslationVectorTest, getProximity)
 	{
-		ASSERT_NEAR(8.775f, objectUnderTest.getProximity(SimpleTranslationVector4<>(4.0f, 5.0f, 6.0f, 1.0f)), 0.0001f);
+		ASSERT_NEAR(8.775f, objectUnderTest.getProximity(SimpleTranslationVector<>(4.0f, 5.0f, 6.0f, 1.0f)), 0.0001f);
 	}
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTranslationVector4#translateX(const Data) translateX(const Data)}.
+	 * Unit test the method {@link simplicity::SimpleTranslationVector#translateX(const Data) translateX(const Data)}.
 	 * </p>
 	 */
-	TEST_F(SimpleTranslationVector4Test, translateX)
+	TEST_F(SimpleTranslationVectorTest, translateX)
 	{
 		objectUnderTest.setX(1.0f);
 		objectUnderTest.translateX(1.0f);
@@ -44,10 +44,10 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTranslationVector4#translateY(const Data) translateY(const Data)}.
+	 * Unit test the method {@link simplicity::SimpleTranslationVector#translateY(const Data) translateY(const Data)}.
 	 * </p>
 	 */
-	TEST_F(SimpleTranslationVector4Test, translateY)
+	TEST_F(SimpleTranslationVectorTest, translateY)
 	{
 		objectUnderTest.setY(1.0f);
 		objectUnderTest.translateY(1.0f);
@@ -57,10 +57,10 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTranslationVector4#translateZ(const Data) translateZ(const Data)}.
+	 * Unit test the method {@link simplicity::SimpleTranslationVector#translateZ(const Data) translateZ(const Data)}.
 	 * </p>
 	 */
-	TEST_F(SimpleTranslationVector4Test, translateZ)
+	TEST_F(SimpleTranslationVectorTest, translateZ)
 	{
 		objectUnderTest.setZ(1.0f);
 		objectUnderTest.translateZ(1.0f);

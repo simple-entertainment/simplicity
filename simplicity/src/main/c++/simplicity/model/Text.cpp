@@ -22,7 +22,7 @@ using namespace std;
 namespace simplicity
 {
 	Text::Text() :
-		center(MathFactory::getInstance().createTranslationVector()), colour(MathFactory::getInstance().createRGBAColourVector()), text()
+		center(MathFactory::getInstance().createTranslationVector()), colour(MathFactory::getInstance().createColourVector()), text()
 	{
 	}
 
@@ -31,7 +31,7 @@ namespace simplicity
 		return *center;
 	}
 
-	const RGBAColourVector<>& Text::getColour() const
+	const ColourVector<>& Text::getColour() const
 	{
 		return *colour;
 	}
@@ -41,7 +41,7 @@ namespace simplicity
 		return text;
 	}
 
-	void Text::setColour(unique_ptr<RGBAColourVector<> > colour)
+	void Text::setColour(unique_ptr<ColourVector<> > colour)
 	{
 		this->colour = move(colour);
 	}

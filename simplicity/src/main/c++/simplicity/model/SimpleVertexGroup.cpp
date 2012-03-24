@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../math/SimpleTranslationVector4.h"
+#include "../math/SimpleTranslationVector.h"
 #include "SimpleVertexGroup.h"
 #include "ModelConstants.h"
 
@@ -72,7 +72,7 @@ namespace simplicity
 	const TranslationVector<>& SimpleVertexGroup::getCenter() const
 	{
 		// FIXME Memory leak!
-		SimpleTranslationVector4<>* translation = new SimpleTranslationVector4<>();
+		SimpleTranslationVector<>* translation = new SimpleTranslationVector<>();
 		float x = 0.0f;
 		float y = 0.0f;
 		float z = 0.0f;

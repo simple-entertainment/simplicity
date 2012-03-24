@@ -20,7 +20,7 @@
 #include <GL/glew.h>
 
 #include <simplicity/engine/BaseEngine.h>
-#include <simplicity/math/SimpleVector4.h>
+#include <simplicity/math/SimpleVector.h>
 #include <simplicity/rendering/engine/RenderingEngine.h>
 #include <simplicity/rendering/NamedRenderer.h>
 #include <simplicity/scene/model/ModelNode.h>
@@ -68,7 +68,7 @@ namespace simplicity
 
 				std::shared_ptr<Camera> getCamera() const;
 
-				const RGBAColourVector<>& getClearingColour() const;
+				const ColourVector<>& getClearingColour() const;
 
 				std::shared_ptr<Node> getRendererRoot(const Renderer& renderer) const;
 
@@ -86,7 +86,7 @@ namespace simplicity
 
 				void setCamera(std::shared_ptr<Camera> camera);
 
-				void setClearingColour(std::unique_ptr<RGBAColourVector<> > clearingColour);
+				void setClearingColour(std::unique_ptr<ColourVector<> > clearingColour);
 
 				void setClearsBeforeRender(const bool clearsBeforeRender);
 
@@ -119,7 +119,7 @@ namespace simplicity
 				 * The colour to clear the screen buffer with before rendering.
 				 * </p>
 				 */
-				std::unique_ptr<RGBAColourVector<> > clearingColour;
+				std::unique_ptr<ColourVector<> > clearingColour;
 
 				/**
 				 * <p>

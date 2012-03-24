@@ -17,7 +17,7 @@
 #ifndef SHAPE_H_
 #define SHAPE_H_
 
-#include "../../math/RGBAColourVector.h"
+#include "../../math/ColourVector.h"
 #include "../Model.h"
 
 namespace simplicity
@@ -39,7 +39,7 @@ namespace simplicity
 			 *
 			 * @return The colour to render this <code>Shape</code> as.
 			 */
-			virtual RGBAColourVector<>& getColour() const = 0;
+			virtual ColourVector<>& getColour() const = 0;
 
 			/**
 			 * <p>
@@ -48,7 +48,7 @@ namespace simplicity
 			 *
 			 * @param colour The colour to render this <code>Shape</code> as.
 			 */
-			virtual void setColour(std::shared_ptr<RGBAColourVector<> > colour) = 0;
+			virtual void setColour(std::shared_ptr<ColourVector<> > colour) = 0;
 	};
 }
 

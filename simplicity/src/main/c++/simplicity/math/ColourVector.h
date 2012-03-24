@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef RGBACOLOURVECTOR_H_
-#define RGBACOLOURVECTOR_H_
+#ifndef COLOURVECTOR_H_
+#define COLOURVECTOR_H_
 
 #include "Vector.h"
 
@@ -23,13 +23,13 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * An RGBA colour vector.
+	 * A colour vector.
 	 * </p>
 	 *
 	 * @author Gary Buyn
 	 */
 	template<typename Data = float, int Size = 4>
-	class RGBAColourVector : public virtual Vector<Data, Size>
+	class ColourVector : public virtual Vector<Data, Size>
 	{
 		public:
 			/**
@@ -106,4 +106,4 @@ namespace simplicity
 	};
 }
 
-#endif /* RGBACOLOURVECTOR_H_ */
+#endif /* COLOURVECTOR_H_ */

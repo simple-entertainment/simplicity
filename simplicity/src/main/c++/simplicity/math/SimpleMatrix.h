@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLEMATRIX44_H_
-#define SIMPLEMATRIX44_H_
+#ifndef SIMPLEMATRIX_H_
+#define SIMPLEMATRIX_H_
 
 #include <string>
 
@@ -30,58 +30,37 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	template<typename Data = float>
-	class SimpleMatrix44 : public virtual Matrix<Data, 16, 4>
+	template<typename Data = float, unsigned int Columns = 4, unsigned int Rows = 4>
+	class SimpleMatrix : public virtual Matrix<Data, Columns, Rows>
 	{
 		public:
 			/**
 			 * <p>
-			 * The number of cells in a column of this matrix.
-			 * </p>
-			 */
-			static const unsigned int HEIGHT = 4;
-
-			/**
-			 * <p>
-			 * The number of cells in this matrix.
-			 * </p>
-			 */
-			static const unsigned int SIZE = 16;
-
-			/**
-			 * <p>
-			 * The number of cells in a row of this matrix.
-			 * </p>
-			 */
-			static const unsigned int WIDTH = 4;
-
-			/**
-			 * <p>
-			 * Creates an instance of <code>SimpleMatrix44</code>.
+			 * Creates an instance of <code>SimpleMatrix</code>.
 			 * </p>
 			 *
 			 * <p>
-			 * The <code>SimpleMatrix44</code> is initialised as an identity matrix.
+			 * The <code>SimpleMatrix</code> is initialised as an identity matrix.
 			 * </p>
 			 */
-			SimpleMatrix44();
+			SimpleMatrix();
 
 			/**
 			 * <p>
-			 * Creates an instance of <code>SimpleMatrix44</code>.
+			 * Creates an instance of <code>SimpleMatrix</code>.
 			 * </p>
 			 *
 			 * <p>
-			 * The <code>SimpleMatrix44</code> is initialised to the contents of the array given.
+			 * The <code>SimpleMatrix</code> is initialised to the contents of the array given.
 			 * </p>
 			 *
-			 * @param data An array containing the initial elements for this <code>SimpleMatrix44</code>.
+			 * @param data An array containing the initial elements for this <code>SimpleMatrix</code>.
 			 */
-			SimpleMatrix44(const std::array<Data, SIZE>& data);
+			SimpleMatrix(const std::array<Data, Columns * Rows>& data);
 
-			std::array<Data, SIZE>& getData();
+			std::array<Data, Columns * Rows>& getData();
 
-			const std::array<Data, SIZE>& getData() const;
+			const std::array<Data, Columns * Rows>& getData() const;
 
 			Data getDeterminant() const;
 
@@ -91,23 +70,23 @@ namespace simplicity
 			 * Elimination could be a more efficient means of computing the inverse.
 			 * </p>
 			 *
-			 * @throws SEInvalidOperationException Thrown if this <code>SimpleMatrix44</code> has a determinant of 0.
+			 * @throws SEInvalidOperationException Thrown if this <code>SimpleMatrix</code> has a determinant of 0.
 			 */
 			void invert();
 
-			std::unique_ptr<Matrix<Data, SIZE> > operator*(const Matrix<Data, SIZE>& rhs) const;
+			std::unique_ptr<Matrix<Data, Columns, Rows> > operator*(const Matrix<Data, Rows, Columns>& rhs) const;
 
-			std::unique_ptr<Vector<Data, HEIGHT> > operator*(const Vector<Data, HEIGHT>& rhs) const;
+			std::unique_ptr<Vector<Data, Rows> > operator*(const Vector<Data, Rows>& rhs) const;
 
-			Matrix<Data, SIZE>& operator*=(const Matrix<Data, SIZE>& rhs);
+			Matrix<Data, Columns, Rows>& operator*=(const Matrix<Data, Rows, Columns>& rhs);
 
-			void setData(const std::array<Data, SIZE>& data);
+			void setData(const std::array<Data, Columns * Rows>& data);
 
 			void setIdentity();
 
 			/**
 			 * <p>
-			 * Retrieves a textual representation of this <code>SimpleMatrix44</code> in the following format.
+			 * Retrieves a textual representation of this <code>SimpleMatrix</code> in the following format.
 			 * </p>
 			 *
 			 * <pre>
@@ -122,7 +101,7 @@ namespace simplicity
 			 * ----------------
 			 * </pre>
 			 *
-			 * @return A textual representation of this <code>SimpleMatrix44</code>.
+			 * @return A textual representation of this <code>SimpleMatrix</code>.
 			 */
 			std::string toString() const;
 
@@ -131,12 +110,12 @@ namespace simplicity
 		private:
 			/**
 			 * <p>
-			 * The array that contains the data for this <code>SimpleMatrix44</code>.
+			 * The array that contains the data for this <code>SimpleMatrix</code>.
 			 * </p>
 			 */
-			std::array<Data, SIZE> data;
+			std::array<Data, Columns * Rows> data;
 
-			bool equals(const Matrix<Data, SIZE>& otherMatrix) const;
+			bool equals(const Matrix<Data, Columns, Rows>& otherMatrix) const;
 
 			/**
 			 * <p>
@@ -170,7 +149,7 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Multiplies the <code>SimpleMatrix44</code> data given.
+			 * Multiplies the <code>SimpleMatrix</code> data given.
 			 * </p>
 			 *
 			 * @param lhs The data to be placed on the left hand side of the equation.
@@ -178,11 +157,12 @@ namespace simplicity
 			 *
 			 * @return The result of the multiplication.
 			 */
-			std::array<Data, SIZE> multiply(const std::array<Data, SIZE>& lhs, const std::array<Data, SIZE>& rhs) const;
+			std::array<Data, Columns * Rows> multiply(const std::array<Data, Columns * Rows>& lhs
+				, const std::array<Data, Columns * Rows>& rhs) const;
 
 			/**
 			 * <p>
-			 * Multiplies this <code>SimpleMatrix44</code>'s data with the given {@link simplicity::Vector Vector} data.
+			 * Multiplies this <code>SimpleMatrix</code>'s data with the given {@link simplicity::Vector Vector} data.
 			 * The <code>Vector</code> is treated as a column vector and multiplied as follows:
 			 * </p>
 			 *
@@ -198,16 +178,16 @@ namespace simplicity
 			 *   -----------------     -----
 			 * </pre>
 			 *
-			 * @param lhs The <code>SimpleMatrix44</code> data to be placed on the left hand side of the equation.
+			 * @param lhs The <code>SimpleMatrix</code> data to be placed on the left hand side of the equation.
 			 * @param rhs The <code>Vector</code> data to be placed on the right hand side of the equation.
 			 *
 			 * @return The result of the multiplication.
 			 */
-			std::array<Data, HEIGHT> multiplyWithVector(const std::array<Data, SIZE>& lhs
-				, const std::array<Data, HEIGHT>& rhs) const;
+			std::array<Data, Rows> multiplyWithVector(const std::array<Data, Columns * Rows>& lhs
+				, const std::array<Data, Rows>& rhs) const;
 	};
 }
 
-#include "SimpleMatrix44.tpp"
+#include "SimpleMatrix.tpp"
 
-#endif /* SIMPLEMATRIX44_H_ */
+#endif /* SIMPLEMATRIX_H_ */

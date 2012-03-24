@@ -21,7 +21,7 @@ namespace simplicity
 {
 	Cylinder::Cylinder() :
 		center(MathFactory::getInstance().createTranslationVector()), colour(
-			MathFactory::getInstance().createRGBAColourVector()), length(1.0f), radius(1.0f)
+			MathFactory::getInstance().createColourVector()), length(1.0f), radius(1.0f)
 	{
 		colour->setRed(1.0f);
 		colour->setGreen(1.0f);
@@ -37,7 +37,7 @@ namespace simplicity
 		return *center;
 	}
 
-	RGBAColourVector<>& Cylinder::getColour() const
+	ColourVector<>& Cylinder::getColour() const
 	{
 		return *colour;
 	}
@@ -52,7 +52,7 @@ namespace simplicity
 		return radius;
 	}
 
-	void Cylinder::setColour(std::shared_ptr<RGBAColourVector<> > colour)
+	void Cylinder::setColour(std::shared_ptr<ColourVector<> > colour)
 	{
 		this->colour = colour;
 	}

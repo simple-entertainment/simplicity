@@ -14,30 +14,30 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLEVECTOR4TEST_H_
-#define SIMPLEVECTOR4TEST_H_
+#ifndef SIMPLETRANSLATIONVECTORTEST_H_
+#define SIMPLETRANSLATIONVECTORTEST_H_
 
 #include <gtest/gtest.h>
 
-#include <simplicity/math/SimpleTranslationVector4.h>
+#include <simplicity/math/SimpleTranslationVector.h>
 
 namespace simplicity
 {
 	/**
 	 * <p>
-	 * Unit tests for the class {@link simplicity::SimpleTranslationVector4 SimpleTranslationVector4}.
+	 * Unit tests for the class {@link simplicity::SimpleTranslationVector SimpleTranslationVector}.
 	 * </p>
 	 *
 	 * @author Gary Buyn
 	 */
-	class SimpleTranslationVector4Test : public testing::Test
+	class SimpleTranslationVectorTest : public testing::Test
 	{
 		protected:
 			/**
 			 * An instance of the class being unit tested.
 			 */
-			SimpleTranslationVector4<> objectUnderTest;
+			SimpleTranslationVector<> objectUnderTest;
 	};
 }
 
-#endif /* SIMPLEVECTOR4TEST_H_ */
+#endif /* SIMPLETRANSLATIONVECTORTEST_H_ */

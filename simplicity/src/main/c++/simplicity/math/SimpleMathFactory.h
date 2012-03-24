@@ -30,7 +30,7 @@ namespace simplicity
 
 			std::unique_ptr<Matrix<> > createMatrix() const;
 
-			std::unique_ptr<RGBAColourVector<> > createRGBAColourVector() const;
+			std::unique_ptr<ColourVector<> > createColourVector() const;
 
 			std::unique_ptr<TransformationMatrix<> > createTransformationMatrix() const;
 

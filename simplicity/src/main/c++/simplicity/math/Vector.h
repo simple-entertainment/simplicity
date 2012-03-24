@@ -189,7 +189,7 @@ namespace simplicity
 			 *
 			 * @return The result of the multiplication.
 			 */
-			virtual std::unique_ptr<Vector<Data, Size> > operator*(const Matrix<Data, Size * Size>& rhs) const = 0;
+			virtual std::unique_ptr<Vector<Data, Size> > operator*(const Matrix<Data, Size, Size>& rhs) const = 0;
 
 			/**
 			 * <p>
@@ -235,7 +235,7 @@ namespace simplicity
 			 *
 			 * @return The result of the multiplication (this <code>Vector</code>).
 			 */
-			virtual Vector<Data, Size>& operator*=(const Matrix<Data, Size * Size>& rhs) = 0;
+			virtual Vector<Data, Size>& operator*=(const Matrix<Data, Size, Size>& rhs) = 0;
 
 			/**
 			 * <p>

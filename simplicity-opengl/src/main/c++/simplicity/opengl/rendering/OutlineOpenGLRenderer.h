@@ -17,7 +17,7 @@
 #ifndef OUTLINEOPENGLRENDERER_H_
 #define OUTLINEOPENGLRENDERER_H_
 
-#include <simplicity/math/RGBAColourVector.h>
+#include <simplicity/math/ColourVector.h>
 #include <simplicity/rendering/Renderer.h>
 
 #include "AlwaysStencilOpenGLRenderer.h"
@@ -64,7 +64,7 @@ namespace simplicity
 				 *
 				 * @return The colour of the outline.
 				 */
-				const RGBAColourVector<>& getOutlineColour() const;
+				const ColourVector<>& getOutlineColour() const;
 
 				/**
 				 * <p>
@@ -89,7 +89,7 @@ namespace simplicity
 				 *
 				 * @param outlineColour The colour of the outline.
 				 */
-				void setOutlineColour(std::unique_ptr<RGBAColourVector<> > outlineColour);
+				void setOutlineColour(std::unique_ptr<ColourVector<> > outlineColour);
 
 				/**
 				 * <p>

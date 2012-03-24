@@ -21,7 +21,7 @@ namespace simplicity
 {
 	Torus::Torus() :
 		center(MathFactory::getInstance().createTranslationVector()), colour(
-			MathFactory::getInstance().createRGBAColourVector()), innerRadius(1.0f), outerRadius(2.0f)
+			MathFactory::getInstance().createColourVector()), innerRadius(1.0f), outerRadius(2.0f)
 	{
 		colour->setRed(1.0f);
 		colour->setGreen(1.0f);
@@ -37,7 +37,7 @@ namespace simplicity
 		return *center;
 	}
 
-	RGBAColourVector<>& Torus::getColour() const
+	ColourVector<>& Torus::getColour() const
 	{
 		return *colour;
 	}
@@ -52,7 +52,7 @@ namespace simplicity
 		return outerRadius;
 	}
 
-	void Torus::setColour(std::shared_ptr<RGBAColourVector<> > colour)
+	void Torus::setColour(std::shared_ptr<ColourVector<> > colour)
 	{
 		this->colour = colour;
 	}

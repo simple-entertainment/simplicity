@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLETRANSFORMATIONMATRIX44_H_
-#define SIMPLETRANSFORMATIONMATRIX44_H_
+#ifndef SIMPLETRANSFORMATIONMATRIX_H_
+#define SIMPLETRANSFORMATIONMATRIX_H_
 
-#include "SimpleMatrix44.h"
+#include "SimpleMatrix.h"
 #include "TransformationMatrix.h"
 
 namespace simplicity
@@ -28,7 +28,7 @@ namespace simplicity
 	 * </p>
 	 *
 	 * <p>
-	 * This <code>SimpleTransformationMatrix44</code> uses a 3D homogeneous coordinate system. It is of the following
+	 * This <code>SimpleTransformationMatrix</code> uses a 3D homogeneous coordinate system. It is of the following
 	 * format:
 	 * </p>
 	 *
@@ -51,42 +51,62 @@ namespace simplicity
 	 *
 	 * <p>
 	 * It is stored in column-major format. This means the first four indices of the array represent the first column of
-	 * the <code>SimpleTransformationMatrix44</code>, the second four represent the second column etc.
+	 * the <code>SimpleTransformationMatrix</code>, the second four represent the second column etc.
 	 * </p>
 	 *
 	 * @author Gary Buyn
 	 */
 	template<typename Data = float>
-	class SimpleTransformationMatrix44 : public SimpleMatrix44<Data>, public TransformationMatrix<Data,
-		SimpleMatrix44<>::SIZE, SimpleMatrix44<>::HEIGHT>
+	class SimpleTransformationMatrix : public SimpleMatrix<Data, 4, 4>, public TransformationMatrix<Data, 4, 4>
 	{
 		public:
 			/**
 			 * <p>
-			 * Creates an instance of <code>SimpleTransformationMatrix44</code>.
+			 * The number of columns in this matrix.
 			 * </p>
 			 */
-			SimpleTransformationMatrix44();
+			static const unsigned int COLUMNS = 4;
 
 			/**
 			 * <p>
-			 * Creates an instance of <code>SimpleTransformationMatrix44</code>.
+			 * The number of rows in this matrix.
+			 * </p>
+			 */
+			static const unsigned int ROWS = 4;
+
+			/**
+			 * <p>
+			 * The number of cells in this matrix.
+			 * </p>
+			 */
+			static const unsigned int SIZE = 16;
+
+			/**
+			 * <p>
+			 * Creates an instance of <code>SimpleTransformationMatrix</code>.
+			 * </p>
+			 */
+			SimpleTransformationMatrix();
+
+			/**
+			 * <p>
+			 * Creates an instance of <code>SimpleTransformationMatrix</code>.
 			 * </p>
 			 *
-			 * @param data A array containing the initial elements for this <code>SimpleMatrix44</code>.
+			 * @param data A array containing the initial elements for this <code>SimpleTransformationMatrix</code>.
 			 */
-			SimpleTransformationMatrix44(const array<Data, SimpleMatrix44<>::SIZE>& data);
+			SimpleTransformationMatrix(const array<Data, SIZE>& data);
 
 			std::unique_ptr<TranslationVector<> > getTranslation() const;
 
-			void rotate(const Data angle, const TranslationVector<Data, SimpleMatrix44<>::HEIGHT>& axis);
+			void rotate(const Data angle, const TranslationVector<Data, ROWS>& axis);
 
-			void setTranslation(const TranslationVector<Data, SimpleMatrix44<>::HEIGHT>& translation);
+			void setTranslation(const TranslationVector<Data, ROWS>& translation);
 
-			void translate(const TranslationVector<Data, SimpleMatrix44<>::HEIGHT>& translation);
+			void translate(const TranslationVector<Data, ROWS>& translation);
 	};
 }
 
-#include "SimpleTransformationMatrix44.tpp"
+#include "SimpleTransformationMatrix.tpp"
 
-#endif /* SIMPLETRANSFORMATIONMATRIX44_H_ */
+#endif /* SIMPLETRANSFORMATIONMATRIX_H_ */

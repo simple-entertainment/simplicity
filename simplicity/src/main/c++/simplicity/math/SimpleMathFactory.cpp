@@ -15,9 +15,9 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include "SimpleMathFactory.h"
-#include "SimpleRGBAColourVector4.h"
-#include "SimpleTranslationVector4.h"
-#include "SimpleTransformationMatrix44.h"
+#include "SimpleColourVector.h"
+#include "SimpleTranslationVector.h"
+#include "SimpleTransformationMatrix.h"
 
 using namespace std;
 
@@ -33,26 +33,26 @@ namespace simplicity
 
 	unique_ptr<Matrix<> > SimpleMathFactory::createMatrix() const
 	{
-		return unique_ptr<Matrix<> >(new SimpleMatrix44<>);
+		return unique_ptr<Matrix<> >(new SimpleMatrix<>);
 	}
 
-	unique_ptr<RGBAColourVector<> > SimpleMathFactory::createRGBAColourVector() const
+	unique_ptr<ColourVector<> > SimpleMathFactory::createColourVector() const
 	{
-		return unique_ptr<RGBAColourVector<> >(new SimpleRGBAColourVector4<>);
+		return unique_ptr<ColourVector<> >(new SimpleColourVector<>);
 	}
 
 	unique_ptr<TransformationMatrix<> > SimpleMathFactory::createTransformationMatrix() const
 	{
-		return unique_ptr<TransformationMatrix<> >(new SimpleTransformationMatrix44<>);
+		return unique_ptr<TransformationMatrix<> >(new SimpleTransformationMatrix<>);
 	}
 
 	unique_ptr<TranslationVector<> > SimpleMathFactory::createTranslationVector() const
 	{
-		return unique_ptr<TranslationVector<> >(new SimpleTranslationVector4<>);
+		return unique_ptr<TranslationVector<> >(new SimpleTranslationVector<>);
 	}
 
 	unique_ptr<Vector<> > SimpleMathFactory::createVector() const
 	{
-		return unique_ptr<Vector<> >(new SimpleVector4<>);
+		return unique_ptr<Vector<> >(new SimpleVector<>);
 	}
 }

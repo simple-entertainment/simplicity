@@ -16,30 +16,30 @@
  */
 #include <math.h>
 
-#include "SimpleTransformationMatrix44.h"
+#include "SimpleTransformationMatrix.h"
 
 using namespace std;
 
 namespace simplicity
 {
 	template<typename Data>
-	SimpleTransformationMatrix44<Data>::SimpleTransformationMatrix44() :
-		SimpleMatrix44<Data>()
+	SimpleTransformationMatrix<Data>::SimpleTransformationMatrix() :
+		SimpleMatrix<Data>()
 	{
 	}
 
 	template<typename Data>
-	SimpleTransformationMatrix44<Data>::SimpleTransformationMatrix44(const array<Data, SimpleMatrix44<>::SIZE>& data) :
-		SimpleMatrix44<Data>(data)
+	SimpleTransformationMatrix<Data>::SimpleTransformationMatrix(const array<Data, SIZE>& data) :
+		SimpleMatrix<Data>(data)
 	{
 	}
 
 	template<typename Data>
-	unique_ptr<TranslationVector<> > SimpleTransformationMatrix44<Data>::getTranslation() const
+	unique_ptr<TranslationVector<> > SimpleTransformationMatrix<Data>::getTranslation() const
 	{
-		const array<Data, SimpleMatrix44<>::SIZE>& data = SimpleMatrix44<>::getData();
-		unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
-		array<Data, SimpleMatrix44<>::HEIGHT>& translationData = translation->getData();
+		const array<Data, SIZE>& data = SimpleMatrix<>::getData();
+		unique_ptr < TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
+		array < Data, ROWS > &translationData = translation->getData();
 
 		translationData.at(0) = data.at(12);
 		translationData.at(1) = data.at(13);
@@ -49,11 +49,10 @@ namespace simplicity
 	}
 
 	template<typename Data>
-	void SimpleTransformationMatrix44<Data>::rotate(const Data angle,
-		const TranslationVector<Data, SimpleMatrix44<>::HEIGHT>& axis)
+	void SimpleTransformationMatrix<Data>::rotate(const Data angle, const TranslationVector<Data, ROWS>& axis)
 	{
-		array < Data, SimpleMatrix44<>::SIZE > &data = SimpleMatrix44<Data>::getData();
-		const array<Data, SimpleMatrix44<>::HEIGHT>& axisData = axis.getData();
+		array < Data, SIZE > &data = SimpleMatrix < Data > ::getData();
+		const array<Data, ROWS>& axisData = axis.getData();
 
 		// Initialise trigonometric information.
 		Data cosine = cos(angle);
@@ -107,11 +106,10 @@ namespace simplicity
 	}
 
 	template<typename Data>
-	void SimpleTransformationMatrix44<Data>::setTranslation(
-		const TranslationVector<Data, SimpleMatrix44<>::HEIGHT>& translation)
+	void SimpleTransformationMatrix<Data>::setTranslation(const TranslationVector<Data, ROWS>& translation)
 	{
-		array < Data, SimpleMatrix44<>::SIZE > &data = SimpleMatrix44<Data>::getData();
-		const array<Data, SimpleMatrix44<>::HEIGHT>& transData = translation.getData();
+		array < Data, SIZE > &data = SimpleMatrix < Data > ::getData();
+		const array<Data, ROWS>& transData = translation.getData();
 
 		data.at(12) = transData.at(0);
 		data.at(13) = transData.at(1);
@@ -120,11 +118,10 @@ namespace simplicity
 	}
 
 	template<typename Data>
-	void SimpleTransformationMatrix44<Data>::translate(
-		const TranslationVector<Data, SimpleMatrix44<>::HEIGHT>& translation)
+	void SimpleTransformationMatrix<Data>::translate(const TranslationVector<Data, ROWS>& translation)
 	{
-		array < Data, SimpleMatrix44<>::SIZE > &data = SimpleMatrix44<Data>::getData();
-		const array<Data, SimpleMatrix44<>::HEIGHT>& transData = translation.getData();
+		array < Data, SIZE > &data = SimpleMatrix < Data > ::getData();
+		const array<Data, ROWS>& transData = translation.getData();
 
 		data.at(12) += data.at(0) * transData.at(0) + data.at(4) * transData.at(1) + data.at(8) * transData.at(2);
 		data.at(13) += data.at(1) * transData.at(0) + data.at(5) * transData.at(1) + data.at(9) * transData.at(2);

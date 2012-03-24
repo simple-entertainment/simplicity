@@ -17,7 +17,7 @@
 #ifndef MATHFACTORY_H_
 #define MATHFACTORY_H_
 
-#include "RGBAColourVector.h"
+#include "ColourVector.h"
 #include "TransformationMatrix.h"
 
 namespace simplicity
@@ -33,7 +33,7 @@ namespace simplicity
 
 			virtual std::unique_ptr<Matrix<> > createMatrix() const = 0;
 
-			virtual std::unique_ptr<RGBAColourVector<> > createRGBAColourVector() const = 0;
+			virtual std::unique_ptr<ColourVector<> > createColourVector() const = 0;
 
 			virtual std::unique_ptr<TransformationMatrix<> > createTransformationMatrix() const = 0;
 

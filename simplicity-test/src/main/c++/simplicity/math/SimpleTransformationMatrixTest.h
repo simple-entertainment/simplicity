@@ -14,30 +14,30 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLETRANSFORMATIONMATRIX44TEST_H_
-#define SIMPLETRANSFORMATIONMATRIX44TEST_H_
+#ifndef SIMPLETRANSFORMATIONMATRIXTEST_H_
+#define SIMPLETRANSFORMATIONMATRIXTEST_H_
 
 #include <gtest/gtest.h>
 
-#include <simplicity/math/SimpleTransformationMatrix44.h>
+#include <simplicity/math/SimpleTransformationMatrix.h>
 
 namespace simplicity
 {
 	/**
 	 * <p>
-	 * Unit tests for the class {@link simplicity::SimpleTransformationMatrix44 SimpleTransformationMatrix44}.
+	 * Unit tests for the class {@link simplicity::SimpleTransformationMatrix SimpleTransformationMatrix}.
 	 * </p>
 	 *
 	 * @author Gary Buyn
 	 */
-	class SimpleTransformationMatrix44Test : public testing::Test
+	class SimpleTransformationMatrixTest : public testing::Test
 	{
 		protected:
 			/**
 			 * An instance of the class being unit tested.
 			 */
-			SimpleTransformationMatrix44<> objectUnderTest;
+			SimpleTransformationMatrix<> objectUnderTest;
 	};
 }
 
-#endif /* SIMPLETRANSFORMATIONMATRIX44TEST_H_ */
+#endif /* SIMPLETRANSFORMATIONMATRIXTEST_H_ */

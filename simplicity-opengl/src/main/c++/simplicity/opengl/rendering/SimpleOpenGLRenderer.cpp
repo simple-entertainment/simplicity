@@ -79,7 +79,7 @@ namespace simplicity
 
 		void SimpleOpenGLRenderer::renderModel(const GLUCapsule& capsule)
 		{
-			RGBAColourVector<>& color(capsule.getColour());
+			ColourVector<>& color(capsule.getColour());
 			glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
 			gluCylinder(gluNewQuadric(), capsule.getRadius(), capsule.getRadius(), capsule.getLength(),
@@ -102,7 +102,7 @@ namespace simplicity
 
 		void SimpleOpenGLRenderer::renderModel(const GLUCylinder& cylinder)
 		{
-			RGBAColourVector<>& color(cylinder.getColour());
+			ColourVector<>& color(cylinder.getColour());
 			glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
 			gluCylinder(gluNewQuadric(), cylinder.getRadius(), cylinder.getRadius(), cylinder.getLength(),
@@ -137,7 +137,7 @@ namespace simplicity
 
 		void SimpleOpenGLRenderer::renderModel(const GLUSphere& sphere)
 		{
-			RGBAColourVector<>& color(sphere.getColour());
+			ColourVector<>& color(sphere.getColour());
 			glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
 			gluSphere(gluNewQuadric(), sphere.getRadius(), sphere.getSlices(), sphere.getStacks());
@@ -145,7 +145,7 @@ namespace simplicity
 
 		void SimpleOpenGLRenderer::renderModel(const GLUTorus& torus)
 		{
-			RGBAColourVector<>& color(torus.getColour());
+			ColourVector<>& color(torus.getColour());
 			glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
 			glutSolidTorus(torus.getInnerRadius(), torus.getOuterRadius(), torus.getSlices(), torus.getStacks());
@@ -210,7 +210,7 @@ namespace simplicity
 
 		void SimpleOpenGLRenderer::renderModel(const OpenGLText& text)
 		{
-			const RGBAColourVector<>& colour(text.getColour());
+			const ColourVector<>& colour(text.getColour());
 			glColor3f(colour.getRed(), colour.getBlue(), colour.getGreen());
 
 			unique_ptr<TranslationVector<> > location(text.getNode()->getTransformation().getTranslation());

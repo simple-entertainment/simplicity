@@ -27,8 +27,8 @@ namespace simplicity
 	namespace opengl
 	{
 		CullFaceOpenGLRenderer::CullFaceOpenGLRenderer() :
-			backFaceColour(MathFactory::getInstance().createRGBAColourVector()), cullFace(), drawingMode(), frontFace(), frontFaceColour(
-				MathFactory::getInstance().createRGBAColourVector()), renderer()
+			backFaceColour(MathFactory::getInstance().createColourVector()), cullFace(), drawingMode(), frontFace(), frontFaceColour(
+				MathFactory::getInstance().createColourVector()), renderer()
 		{
 			backFaceColour->setRed(1.0f);
 			frontFaceColour->setGreen(1.0f);
@@ -55,7 +55,7 @@ namespace simplicity
 			}
 		}
 
-		const RGBAColourVector<>& CullFaceOpenGLRenderer::getBackFaceColour() const
+		const ColourVector<>& CullFaceOpenGLRenderer::getBackFaceColour() const
 		{
 			return *backFaceColour;
 		}
@@ -65,7 +65,7 @@ namespace simplicity
 			return drawingMode;
 		}
 
-		const RGBAColourVector<>& CullFaceOpenGLRenderer::getFrontFaceColour() const
+		const ColourVector<>& CullFaceOpenGLRenderer::getFrontFaceColour() const
 		{
 			return *frontFaceColour;
 		}
@@ -80,7 +80,7 @@ namespace simplicity
 
 		void CullFaceOpenGLRenderer::renderModel(const Model& model)
 		{
-			unique_ptr<RGBAColourVector<> > renderColour;
+			unique_ptr<ColourVector<> > renderColour;
 
 			// Prepare for rendering of the back sides.
 			if (frontFace == GL_CW)
@@ -92,7 +92,7 @@ namespace simplicity
 				glFrontFace(GL_CW);
 			}
 
-			renderColour = MathFactory::getInstance().createRGBAColourVector();
+			renderColour = MathFactory::getInstance().createColourVector();
 			renderColour->setData(backFaceColour->getData());
 			renderer.setColour(move(renderColour));
 
@@ -109,7 +109,7 @@ namespace simplicity
 				glFrontFace(GL_CCW);
 			}
 
-			renderColour = MathFactory::getInstance().createRGBAColourVector();
+			renderColour = MathFactory::getInstance().createColourVector();
 			renderColour->setData(frontFaceColour->getData());
 			renderer.setColour(move(renderColour));
 
@@ -117,7 +117,7 @@ namespace simplicity
 			renderer.renderModel(model);
 		}
 
-		void CullFaceOpenGLRenderer::setBackFaceColour(unique_ptr<RGBAColourVector<> > backFaceColour)
+		void CullFaceOpenGLRenderer::setBackFaceColour(unique_ptr<ColourVector<> > backFaceColour)
 		{
 			this->backFaceColour = move(backFaceColour);
 		}
@@ -127,7 +127,7 @@ namespace simplicity
 			this->drawingMode = mode;
 		}
 
-		void CullFaceOpenGLRenderer::setFrontFaceColour(unique_ptr<RGBAColourVector<> > frontFaceColour)
+		void CullFaceOpenGLRenderer::setFrontFaceColour(unique_ptr<ColourVector<> > frontFaceColour)
 		{
 			this->frontFaceColour = move(frontFaceColour);
 		}

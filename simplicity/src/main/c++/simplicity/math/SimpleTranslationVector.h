@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLETRANSLATIONVECTOR4_H_
-#define SIMPLETRANSLATIONVECTOR4_H_
+#ifndef SIMPLETRANSLATIONVECTOR_H_
+#define SIMPLETRANSLATIONVECTOR_H_
 
-#include "SimpleVector4.h"
+#include "SimpleVector.h"
 #include "TranslationVector.h"
 
 namespace simplicity
@@ -28,7 +28,7 @@ namespace simplicity
 	 * </p>
 	 *
 	 * <p>
-	 * This <code>SimpleVector4</code> uses a 3D homogeneous coordinate system. It is of the following format:
+	 * This <code>SimpleVector</code> uses a 3D homogeneous coordinate system. It is of the following format:
 	 * </p>
 	 *
 	 * <pre>
@@ -40,36 +40,43 @@ namespace simplicity
 	 * @author Gary Buyn
 	 */
 	template<typename Data = float>
-	class SimpleTranslationVector4 : public SimpleVector4<Data>, public TranslationVector<Data, SimpleVector4<>::SIZE>
+	class SimpleTranslationVector : public SimpleVector<Data, 4>, public TranslationVector<Data, 4>
 	{
 		public:
 			/**
 			 * <p>
-			 * Creates an instance of <code>SimpleTranslationVector4</code>.
+			 * The number of cells in this vector.
 			 * </p>
 			 */
-			SimpleTranslationVector4();
+			static const unsigned int SIZE = 4;
 
 			/**
 			 * <p>
-			 * Creates an instance of <code>SimpleTranslationVector4</code>.
+			 * Creates an instance of <code>SimpleTranslationVector</code>.
 			 * </p>
-			 *
-			 * @param x The x element of this <code>SimpleTranslationVector4</code>.
-			 * @param y The y element of this <code>SimpleTranslationVector4</code>.
-			 * @param z The z element of this <code>SimpleTranslationVector4</code>.
-			 * @param w The w element of this <code>SimpleTranslationVector4</code>.
 			 */
-			SimpleTranslationVector4(const Data x, const Data y, const Data z, const Data w);
+			SimpleTranslationVector();
 
 			/**
 			 * <p>
-			 * Creates an instance of <code>SimpleTranslationVector4</code>.
+			 * Creates an instance of <code>SimpleTranslationVector</code>.
 			 * </p>
 			 *
-			 * @param data An array containing the initial elements of this <code>SimpleTranslationVector4</code>.
+			 * @param x The x element of this <code>SimpleTranslationVector</code>.
+			 * @param y The y element of this <code>SimpleTranslationVector</code>.
+			 * @param z The z element of this <code>SimpleTranslationVector</code>.
+			 * @param w The w element of this <code>SimpleTranslationVector</code>.
 			 */
-			SimpleTranslationVector4(const std::array<Data, SimpleVector4<>::SIZE>& data);
+			SimpleTranslationVector(const Data x, const Data y, const Data z, const Data w);
+
+			/**
+			 * <p>
+			 * Creates an instance of <code>SimpleTranslationVector</code>.
+			 * </p>
+			 *
+			 * @param data An array containing the initial elements of this <code>SimpleTranslationVector</code>.
+			 */
+			SimpleTranslationVector(const std::array<Data, SIZE>& data);
 
 			Data getProximity(const TranslationVector<>& other) const;
 
@@ -95,6 +102,6 @@ namespace simplicity
 	};
 }
 
-#include "SimpleTranslationVector4.tpp"
+#include "SimpleTranslationVector.tpp"
 
-#endif /* SIMPLETRANSLATIONVECTOR4_H_ */
+#endif /* SIMPLETRANSLATIONVECTOR_H_ */

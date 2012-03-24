@@ -31,9 +31,9 @@ namespace simplicity
 			"simplicity_opengl::SimpleOpenGLLight");
 
 		SimpleOpenGLLight::SimpleOpenGLLight() :
-			ambientLight(MathFactory::getInstance().createRGBAColourVector()), diffuseLight(
-				MathFactory::getInstance().createRGBAColourVector()), initialised(false), lightingMode(Light::SCENE), specularLight(
-				MathFactory::getInstance().createRGBAColourVector())
+			ambientLight(MathFactory::getInstance().createColourVector()), diffuseLight(
+				MathFactory::getInstance().createColourVector()), initialised(false), lightingMode(Light::SCENE), specularLight(
+				MathFactory::getInstance().createColourVector())
 		{
 		}
 
@@ -62,12 +62,12 @@ namespace simplicity
 			}
 		}
 
-		RGBAColourVector<>& SimpleOpenGLLight::getAmbientLight() const
+		ColourVector<>& SimpleOpenGLLight::getAmbientLight() const
 		{
 			return *ambientLight;
 		}
 
-		RGBAColourVector<>& SimpleOpenGLLight::getDiffuseLight() const
+		ColourVector<>& SimpleOpenGLLight::getDiffuseLight() const
 		{
 			return *diffuseLight;
 		}
@@ -82,7 +82,7 @@ namespace simplicity
 			return node;
 		}
 
-		RGBAColourVector<>& SimpleOpenGLLight::getSpecularLight() const
+		ColourVector<>& SimpleOpenGLLight::getSpecularLight() const
 		{
 			return *specularLight;
 		}
@@ -124,7 +124,7 @@ namespace simplicity
 				glEnable(GL_COLOR_MATERIAL);
 				glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
-				unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
+				unique_ptr<ColourVector<> > colour(MathFactory::getInstance().createColourVector());
 				colour->setRed(0.5f);
 				colour->setGreen(0.5f);
 				colour->setBlue(0.5f);
@@ -150,12 +150,12 @@ namespace simplicity
 			return (initialised);
 		}
 
-		void SimpleOpenGLLight::setAmbientLight(unique_ptr<RGBAColourVector<> > ambientLight)
+		void SimpleOpenGLLight::setAmbientLight(unique_ptr<ColourVector<> > ambientLight)
 		{
 			this->ambientLight = move(ambientLight);
 		}
 
-		void SimpleOpenGLLight::setDiffuseLight(unique_ptr<RGBAColourVector<> > diffuseLight)
+		void SimpleOpenGLLight::setDiffuseLight(unique_ptr<ColourVector<> > diffuseLight)
 		{
 			this->diffuseLight = move(diffuseLight);
 		}
@@ -177,7 +177,7 @@ namespace simplicity
 			this->node = newNode;
 		}
 
-		void SimpleOpenGLLight::setSpecularLight(unique_ptr<RGBAColourVector<> > specularLight)
+		void SimpleOpenGLLight::setSpecularLight(unique_ptr<ColourVector<> > specularLight)
 		{
 			this->specularLight = move(specularLight);
 		}

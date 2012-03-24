@@ -15,8 +15,8 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include <simplicity/ai/pathfinding/BezierPathInterpolator.h>
-#include <simplicity/math/SimpleTransformationMatrix44.h>
-#include <simplicity/math/SimpleTranslationVector4.h>
+#include <simplicity/math/SimpleTransformationMatrix.h>
+#include <simplicity/math/SimpleTranslationVector.h>
 
 #include "../../scene/MockNode.h"
 #include "BezierPathInterpolatorTest.h"
@@ -38,7 +38,7 @@ namespace simplicity
 	    // Create dependencies.
 	    // //////////////////////////////////////////////////
 		std::shared_ptr<MockNode> mockNode(new NiceMock<MockNode>);
-		SimpleTransformationMatrix44<> transformation;
+		SimpleTransformationMatrix<> transformation;
 
 		vector<std::shared_ptr<const Node> > path;
 		path.push_back(mockNode);
@@ -49,7 +49,7 @@ namespace simplicity
 
 	    // Initialise the test environment.
 	    // //////////////////////////////////////////////////
-		transformation.translate(SimpleTranslationVector4<>(1.0f, 1.0f, 1.0f, 1.0f));
+		transformation.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
 
 	    // Perform test.
 	    // //////////////////////////////////////////////////
@@ -87,9 +87,9 @@ namespace simplicity
 		std::shared_ptr<MockNode> mockNode1(new NiceMock<MockNode>);
 		std::shared_ptr<MockNode> mockNode2(new NiceMock<MockNode>);
 		std::shared_ptr<MockNode> mockNode3(new NiceMock<MockNode>);
-		SimpleTransformationMatrix44<> transformation1;
-		SimpleTransformationMatrix44<> transformation2;
-		SimpleTransformationMatrix44<> transformation3;
+		SimpleTransformationMatrix<> transformation1;
+		SimpleTransformationMatrix<> transformation2;
+		SimpleTransformationMatrix<> transformation3;
 
 		vector<std::shared_ptr<const Node> > path;
 		path.push_back(mockNode1);
@@ -104,9 +104,9 @@ namespace simplicity
 
 	    // Initialise the test environment.
 	    // //////////////////////////////////////////////////
-		transformation1.translate(SimpleTranslationVector4<>(1.0f, 1.0f, 1.0f, 1.0f));
-		transformation2.translate(SimpleTranslationVector4<>(2.0f, 2.0f, 2.0f, 1.0f));
-		transformation3.translate(SimpleTranslationVector4<>(3.0f, 1.0f, 1.0f, 1.0f));
+		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
+		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
+		transformation3.translate(SimpleTranslationVector<>(3.0f, 1.0f, 1.0f, 1.0f));
 
 	    // Perform test.
 	    // //////////////////////////////////////////////////
@@ -143,8 +143,8 @@ namespace simplicity
 	    // //////////////////////////////////////////////////
 		std::shared_ptr<MockNode> mockNode1(new NiceMock<MockNode>);
 		std::shared_ptr<MockNode> mockNode2(new NiceMock<MockNode>);
-		SimpleTransformationMatrix44<> transformation1;
-		SimpleTransformationMatrix44<> transformation2;
+		SimpleTransformationMatrix<> transformation1;
+		SimpleTransformationMatrix<> transformation2;
 
 		vector<std::shared_ptr<const Node> > path;
 		path.push_back(mockNode1);
@@ -157,8 +157,8 @@ namespace simplicity
 
 	    // Initialise the test environment.
 	    // //////////////////////////////////////////////////
-		transformation1.translate(SimpleTranslationVector4<>(1.0f, 1.0f, 1.0f, 1.0f));
-		transformation2.translate(SimpleTranslationVector4<>(2.0f, 2.0f, 2.0f, 1.0f));
+		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
+		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
 
 	    // Perform test.
 	    // //////////////////////////////////////////////////
