@@ -17,8 +17,8 @@
 #ifndef NAMEDOPENGLRENDERER_H_
 #define NAMEDOPENGLRENDERER_H_
 
-#include <simplicity/model/IndexedVectorVG.h>
-#include <simplicity/model/VectorVG.h>
+#include <simplicity/model/IndexedVertexGroup.h>
+#include <simplicity/model/VertexGroup.h>
 #include <simplicity/rendering/NamedRenderer.h>
 
 #include "../model/shape/GLUCapsule.h"
@@ -125,26 +125,26 @@ namespace simplicity
 
 				/**
 				 * <p>
-				 * Renders an <code>IndexedArrayVG</code>.
+				 * Renders an <code>IndexedVertexGroup</code>.
 				 * </p>
 				 *
-				 * @param vertexGroup The <code>IndexedArrayVG</code> to render.
+				 * @param vertexGroup The <code>IndexedVertexGroup</code> to render.
 				 */
-				void renderModel(const IndexedVectorVG& vertexGroup);
+				void renderModel(const IndexedVertexGroup& vertexGroup);
 
 				/**
 				 * <p>
-				 * Renders an <code>ArrayVG</code>.
+				 * Renders an <code>VertexGroup</code>.
 				 * </p>
 				 *
-				 * @param vertexGroup The <code>ArrayVG</code> to render.
+				 * @param vertexGroup The <code>VertexGroup</code> to render.
 				 */
-				void renderModel(const VectorVG& vertexGroup);
+				void renderModel(const VertexGroup& vertexGroup);
 
 				/**
 				 * <p>
-				 * Renders the given <code>ArrayVG</code> naming the edges with consecutive integers beginning with
-				 * zero. This means that the section of the <code>ArrayVG</code>'s arrays containing data for a
+				 * Renders the given <code>VertexGroup</code> naming the edges with consecutive integers beginning with
+				 * zero. This means that the section of the <code>VertexGroup</code>'s arrays containing data for a
 				 * particular edge can be found as follows:
 				 * </p>
 				 *
@@ -158,14 +158,14 @@ namespace simplicity
 				 * array.
 				 * </p>
 				 *
-				 * @param vertexGroup The <code>ArrayVG</code> to render.
+				 * @param vertexGroup The <code>VertexGroup</code> to render.
 				 */
-				void renderVectorVGEdges(const VectorVG& vertexGroup);
+				void renderVertexGroupEdges(const VertexGroup& vertexGroup);
 
 				/**
 				 * <p>
-				 * Renders the given <code>ArrayVG</code> naming the faces with consecutive integers beginning with
-				 * zero. This means that the section of the <code>ArrayVG</code>'s arrays containing data for a
+				 * Renders the given <code>VertexGroup</code> naming the faces with consecutive integers beginning with
+				 * zero. This means that the section of the <code>VertexGroup</code>'s arrays containing data for a
 				 * particular face can be found as follows:
 				 * </p>
 				 *
@@ -179,14 +179,14 @@ namespace simplicity
 				 * array.
 				 * </p>
 				 *
-				 * @param vertexGroup The <code>ArrayVG</code> to render.
+				 * @param vertexGroup The <code>VertexGroup</code> to render.
 				 */
-				void renderVectorVGFaces(const VectorVG& vertexGroup);
+				void renderVertexGroupFaces(const VertexGroup& vertexGroup);
 
 				/**
 				 * <p>
-				 * Renders the given <code>ArrayVG</code> naming the vertices with consecutive integers beginning with
-				 * zero. This means that the section of the <code>ArrayVG</code>'s arrays containing data for a
+				 * Renders the given <code>VertexGroup</code> naming the vertices with consecutive integers beginning
+				 * with zero. This means that the section of the <code>VertexGroup</code>'s arrays containing data for a
 				 * particular vertex can be found as follows:
 				 * </p>
 				 *
@@ -196,13 +196,12 @@ namespace simplicity
 				 *
 				 * <p>
 				 * The section containing a particular vertex consists of three consecutive items of data beginning at
-				 * <code>firstIndexOfVertexSection</code> in
-				 * each array.
+				 * <code>firstIndexOfVertexSection</code> in each array.
 				 * </p>
 				 *
-				 * @param vertexGroup The <code>ArrayVG</code> to render.
+				 * @param vertexGroup The <code>VertexGroup</code> to render.
 				 */
-				void renderVectorVGVertices(const VectorVG& vertexGroup);
+				void renderVertexGroupVertices(const VertexGroup& vertexGroup);
 		};
 	}
 }

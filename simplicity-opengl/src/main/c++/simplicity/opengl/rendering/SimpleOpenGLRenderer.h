@@ -17,8 +17,8 @@
 #ifndef SIMPLEOPENGLRENDERER_H_
 #define SIMPLEOPENGLRENDERER_H_
 
-#include <simplicity/model/IndexedVectorVG.h>
-#include <simplicity/model/VectorVG.h>
+#include <simplicity/model/IndexedVertexGroup.h>
+#include <simplicity/model/VertexGroup.h>
 #include <simplicity/rendering/Renderer.h>
 
 #include "../model/OpenGLText.h"
@@ -123,12 +123,12 @@ namespace simplicity
 
 				/**
 				 * <p>
-				 * Renders an <code>IndexedArrayVG</code>.
+				 * Renders an <code>IndexedVertexGroup</code>.
 				 * </p>
 				 *
-				 * @param vertexGroup The <code>IndexedArrayVG</code> to render.
+				 * @param vertexGroup The <code>IndexedVertexGroup</code> to render.
 				 */
-				void renderModel(const IndexedVectorVG& vertexGroup);
+				void renderModel(const IndexedVertexGroup& vertexGroup);
 
 				/**
 				 * <p>
@@ -141,12 +141,12 @@ namespace simplicity
 
 				/**
 				 * <p>
-				 * Renders an <code>ArrayVG</code>.
+				 * Renders an <code>VertexGroup</code>.
 				 * </p>
 				 *
-				 * @param vertexGroup The <code>ArrayVG</code> to render.
+				 * @param vertexGroup The <code>VertexGroup</code> to render.
 				 */
-				void renderModel(const VectorVG& vertexGroup);
+				void renderModel(const VertexGroup& vertexGroup);
 		};
 	}
 }

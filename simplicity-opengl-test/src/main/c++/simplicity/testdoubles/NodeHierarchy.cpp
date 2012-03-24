@@ -9,7 +9,7 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <simplicity/model/VectorVG.h>
+#include <simplicity/model/SimpleVertexGroup.h>
 #include <simplicity/scene/model/SimpleModelNode.h>
 
 #include "NodeHierarchy.h"
@@ -34,7 +34,7 @@ namespace simplicity
     }
 
     // A white triangle.
-    shared_ptr<VectorVG> vertexGroup(new VectorVG);
+    shared_ptr<SimpleVertexGroup> vertexGroup(new SimpleVertexGroup);
     float newColours[9] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
     shared_ptr<vector<float> > coloursVector(new vector<float>(newColours, newColours + 9));
     vertexGroup->setColours(coloursVector);
@@ -80,7 +80,7 @@ namespace simplicity
     node7->setId(6);
 
     // A white triangle.
-    shared_ptr<VectorVG> vertexGroup(new VectorVG);
+    shared_ptr<SimpleVertexGroup> vertexGroup(new SimpleVertexGroup);
     float newColours[9] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
     shared_ptr<vector<float> > coloursVector(new vector<float>(newColours, newColours + 9));
     vertexGroup->setColours(coloursVector);

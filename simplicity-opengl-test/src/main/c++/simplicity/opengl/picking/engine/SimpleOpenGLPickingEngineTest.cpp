@@ -9,7 +9,6 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <simplicity/picking/event/MockPickListener.h>
 #include <simplicity/picking/MockPicker.h>
 #include <simplicity/rendering/engine/MockRenderingEngine.h>
 #include <simplicity/rendering/MockCamera.h>

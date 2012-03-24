@@ -15,7 +15,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include "../math/SimpleTranslationVector4.h"
-#include "VectorVG.h"
+#include "SimpleVertexGroup.h"
 #include "ModelConstants.h"
 
 using namespace simplicity::model_constants;
@@ -23,31 +23,27 @@ using namespace std;
 
 namespace simplicity
 {
-	VectorVG::VectorVG() :
+	SimpleVertexGroup::SimpleVertexGroup() :
 		indexWithinParent(-1), parent(0), subset(false)
 	{
 	}
 
-	VectorVG::VectorVG(VectorVG& parent) :
+	SimpleVertexGroup::SimpleVertexGroup(SimpleVertexGroup& parent) :
 		indexWithinParent(-1), parent(&parent), subset(true)
 	{
 	}
 
-	VectorVG::~VectorVG()
-	{
-	}
-
-	std::shared_ptr<VertexGroup> VectorVG::createEdgeSubsetVG(const int index)
+	std::shared_ptr<VertexGroup> SimpleVertexGroup::createEdgeSubsetVG(const int index)
 	{
 		return createSubsetVG(index, 2);
 	}
 
-	std::shared_ptr<VertexGroup> VectorVG::createFaceSubsetVG(const int index)
+	std::shared_ptr<VertexGroup> SimpleVertexGroup::createFaceSubsetVG(const int index)
 	{
 		return createSubsetVG(index * VERTICES_IN_A_FACE, VERTICES_IN_A_FACE);
 	}
 
-	std::shared_ptr<VertexGroup> VectorVG::createSubsetVG(const int index, const int length)
+	std::shared_ptr<VertexGroup> SimpleVertexGroup::createSubsetVG(const int index, const int length)
 	{
 		int subsetStart = index * ITEMS_IN_CNV;
 		int subsetLength = length * ITEMS_IN_CNV;
@@ -59,7 +55,7 @@ namespace simplicity
 		std::shared_ptr<vector<float> > subsetVertices(
 			new vector<float>(vertices->begin() + subsetStart, vertices->begin() + subsetStart + subsetLength));
 
-		std::shared_ptr<VectorVG> subsetVertexGroup(new VectorVG(*this));
+		std::shared_ptr<SimpleVertexGroup> subsetVertexGroup(new SimpleVertexGroup(*this));
 		subsetVertexGroup->setIndexWithinParent(index);
 		subsetVertexGroup->setColours(subsetColours);
 		subsetVertexGroup->setNormals(subsetNormals);
@@ -68,12 +64,12 @@ namespace simplicity
 		return subsetVertexGroup;
 	}
 
-	std::shared_ptr<VertexGroup> VectorVG::createVertexSubsetVG(const int index)
+	std::shared_ptr<VertexGroup> SimpleVertexGroup::createVertexSubsetVG(const int index)
 	{
 		return createSubsetVG(index, 1);
 	}
 
-	const TranslationVector<>& VectorVG::getCenter() const
+	const TranslationVector<>& SimpleVertexGroup::getCenter() const
 	{
 		// FIXME Memory leak!
 		SimpleTranslationVector4<>* translation = new SimpleTranslationVector4<>();
@@ -100,72 +96,72 @@ namespace simplicity
 		return *translation;
 	}
 
-	vector<float>& VectorVG::getColours()
+	vector<float>& SimpleVertexGroup::getColours()
 	{
 		return *colours;
 	}
 
-	const vector<float>& VectorVG::getColours() const
+	const vector<float>& SimpleVertexGroup::getColours() const
 	{
 		return *colours;
 	}
 
-	int VectorVG::getIndexWithinParent() const
+	int SimpleVertexGroup::getIndexWithinParent() const
 	{
 		return indexWithinParent;
 	}
 
-	vector<float>& VectorVG::getNormals()
+	vector<float>& SimpleVertexGroup::getNormals()
 	{
 		return *normals;
 	}
 
-	const vector<float>& VectorVG::getNormals() const
+	const vector<float>& SimpleVertexGroup::getNormals() const
 	{
 		return *normals;
 	}
 
-	VertexGroup* VectorVG::getParent() const
+	VertexGroup* SimpleVertexGroup::getParent() const
 	{
 		return parent;
 	}
 
-	shared_ptr<Texture> VectorVG::getTexture() const
+	shared_ptr<Texture> SimpleVertexGroup::getTexture() const
 	{
 		return texture;
 	}
 
-	vector<float>& VectorVG::getTextureCoordinates()
+	vector<float>& SimpleVertexGroup::getTextureCoordinates()
 	{
 		return *textureCoordinates;
 	}
 
-	const vector<float>& VectorVG::getTextureCoordinates() const
+	const vector<float>& SimpleVertexGroup::getTextureCoordinates() const
 	{
 		return *textureCoordinates;
 	}
 
-	int VectorVG::getVertexCount() const
+	int SimpleVertexGroup::getVertexCount() const
 	{
 		return vertices->size() / ITEMS_IN_CNV;
 	}
 
-	vector<float>& VectorVG::getVertices()
+	vector<float>& SimpleVertexGroup::getVertices()
 	{
 		return *vertices;
 	}
 
-	const vector<float>& VectorVG::getVertices() const
+	const vector<float>& SimpleVertexGroup::getVertices() const
 	{
 		return *vertices;
 	}
 
-	bool VectorVG::isSubset() const
+	bool SimpleVertexGroup::isSubset() const
 	{
 		return subset;
 	}
 
-	void VectorVG::mergeWithParent() const
+	void SimpleVertexGroup::mergeWithParent() const
 	{
 		if (!subset)
 		{
@@ -180,32 +176,32 @@ namespace simplicity
 		}
 	}
 
-	void VectorVG::setColours(std::shared_ptr<vector<float> > colours)
+	void SimpleVertexGroup::setColours(std::shared_ptr<vector<float> > colours)
 	{
 		this->colours = colours;
 	}
 
-	void VectorVG::setIndexWithinParent(const int indexWithinParent)
+	void SimpleVertexGroup::setIndexWithinParent(const int indexWithinParent)
 	{
 		this->indexWithinParent = indexWithinParent;
 	}
 
-	void VectorVG::setNormals(std::shared_ptr<vector<float> > normals)
+	void SimpleVertexGroup::setNormals(std::shared_ptr<vector<float> > normals)
 	{
 		this->normals = normals;
 	}
 
-	void VectorVG::setTexture(std::shared_ptr<Texture> texture)
+	void SimpleVertexGroup::setTexture(std::shared_ptr<Texture> texture)
 	{
 		this->texture = texture;
 	}
 
-	void VectorVG::setTextureCoordinates(std::shared_ptr<vector<float> > textureCoordinates)
+	void SimpleVertexGroup::setTextureCoordinates(std::shared_ptr<vector<float> > textureCoordinates)
 	{
 		this->textureCoordinates = textureCoordinates;
 	}
 
-	void VectorVG::setVertices(std::shared_ptr<vector<float> > vertices)
+	void SimpleVertexGroup::setVertices(std::shared_ptr<vector<float> > vertices)
 	{
 		this->vertices = vertices;
 	}

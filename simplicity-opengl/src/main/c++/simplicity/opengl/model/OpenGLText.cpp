@@ -21,18 +21,21 @@
 
 namespace simplicity
 {
-	OpenGLText::OpenGLText() :
-		font(GLUT_BITMAP_HELVETICA_12)
+	namespace opengl
 	{
-	}
+		OpenGLText::OpenGLText() :
+			font(GLUT_BITMAP_HELVETICA_12)
+		{
+		}
 
-	void* OpenGLText::getFont() const
-	{
-		return font;
-	}
+		void* OpenGLText::getFont() const
+		{
+			return font;
+		}
 
-	void OpenGLText::setFont(void* font)
-	{
-		this->font = font;
+		void OpenGLText::setFont(void* font)
+		{
+			this->font = font;
+		}
 	}
 }

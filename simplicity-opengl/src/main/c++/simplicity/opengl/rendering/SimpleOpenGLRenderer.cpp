@@ -151,7 +151,7 @@ namespace simplicity
 			glutSolidTorus(torus.getInnerRadius(), torus.getOuterRadius(), torus.getSlices(), torus.getStacks());
 		}
 
-		void SimpleOpenGLRenderer::renderModel(const IndexedVectorVG& vertexGroup)
+		void SimpleOpenGLRenderer::renderModel(const IndexedVertexGroup& vertexGroup)
 		{
 			const vector<int>& indices = vertexGroup.getIndices();
 			const vector<float>& colours = vertexGroup.getColours();
@@ -190,17 +190,17 @@ namespace simplicity
 			{
 				renderModel(dynamic_cast<const GLUTorus&>(model));
 			}
-			else if (dynamic_cast<const IndexedVectorVG*>(&model))
+			else if (dynamic_cast<const IndexedVertexGroup*>(&model))
 			{
-				renderModel(dynamic_cast<const IndexedVectorVG&>(model));
+				renderModel(dynamic_cast<const IndexedVertexGroup&>(model));
 			}
 			else if (dynamic_cast<const OpenGLText*>(&model))
 			{
 				renderModel(dynamic_cast<const OpenGLText&>(model));
 			}
-			else if (dynamic_cast<const VectorVG*>(&model))
+			else if (dynamic_cast<const VertexGroup*>(&model))
 			{
-				renderModel(dynamic_cast<const VectorVG&>(model));
+				renderModel(dynamic_cast<const VertexGroup&>(model));
 			}
 			else
 			{
@@ -223,7 +223,7 @@ namespace simplicity
 			}
 		}
 
-		void SimpleOpenGLRenderer::renderModel(const VectorVG& vertexGroup)
+		void SimpleOpenGLRenderer::renderModel(const VertexGroup& vertexGroup)
 		{
 			const vector<float>& colours = vertexGroup.getColours();
 			const vector<float>& normals = vertexGroup.getNormals();

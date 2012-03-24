@@ -23,6 +23,10 @@ namespace simplicity
 {
 	unique_ptr<SceneFactory> SceneFactory::instance = unique_ptr<SceneFactory>();
 
+	SceneFactory::~SceneFactory()
+	{
+	}
+
 	const SceneFactory& SceneFactory::getInstance()
 	{
 		if (instance.get() == NULL)
@@ -36,9 +40,5 @@ namespace simplicity
 	void SceneFactory::setInstance(unique_ptr<SceneFactory> instance)
 	{
 		SceneFactory::instance = move(instance);
-	}
-
-	SceneFactory::~SceneFactory()
-	{
 	}
 }

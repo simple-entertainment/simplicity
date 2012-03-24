@@ -151,7 +151,7 @@ namespace simplicity
 			glutSolidTorus(torus.getInnerRadius(), torus.getOuterRadius(), torus.getSlices(), torus.getStacks());
 		}
 
-		void NamedOpenGLRenderer::renderModel(const IndexedVectorVG& vertexGroup)
+		void NamedOpenGLRenderer::renderModel(const IndexedVertexGroup& vertexGroup)
 		{
 			const vector<int>& indices = vertexGroup.getIndices();
 			const vector<float>& colours = vertexGroup.getColours();
@@ -197,13 +197,13 @@ namespace simplicity
 			{
 				renderModel(dynamic_cast<const GLUTorus&>(model));
 			}
-			else if (dynamic_cast<const IndexedVectorVG*>(&model))
+			else if (dynamic_cast<const IndexedVertexGroup*>(&model))
 			{
-				renderModel(dynamic_cast<const IndexedVectorVG&>(model));
+				renderModel(dynamic_cast<const IndexedVertexGroup&>(model));
 			}
-			else if (dynamic_cast<const VectorVG*>(&model))
+			else if (dynamic_cast<const VertexGroup*>(&model))
 			{
-				renderModel(dynamic_cast<const VectorVG&>(model));
+				renderModel(dynamic_cast<const VertexGroup&>(model));
 			}
 			else
 			{
@@ -214,7 +214,7 @@ namespace simplicity
 			glPopName();
 		}
 
-		void NamedOpenGLRenderer::renderModel(const VectorVG& vertexGroup)
+		void NamedOpenGLRenderer::renderModel(const VertexGroup& vertexGroup)
 		{
 			if (getDrawingMode() == EDGES)
 			{
@@ -230,7 +230,7 @@ namespace simplicity
 			}
 		}
 
-		void NamedOpenGLRenderer::renderVectorVGEdges(const VectorVG& vertexGroup)
+		void NamedOpenGLRenderer::renderVertexGroupEdges(const VertexGroup& vertexGroup)
 		{
 			const vector<float>& colours = vertexGroup.getColours();
 			const vector<float>& normals = vertexGroup.getNormals();
@@ -260,7 +260,7 @@ namespace simplicity
 			}
 		}
 
-		void NamedOpenGLRenderer::renderVectorVGFaces(const VectorVG& vertexGroup)
+		void NamedOpenGLRenderer::renderVertexGroupFaces(const VertexGroup& vertexGroup)
 		{
 			const vector<float>& colours = vertexGroup.getColours();
 			const vector<float>& normals = vertexGroup.getNormals();
@@ -285,7 +285,7 @@ namespace simplicity
 			}
 		}
 
-		void NamedOpenGLRenderer::renderVectorVGVertices(const VectorVG& vertexGroup)
+		void NamedOpenGLRenderer::renderVertexGroupVertices(const VertexGroup& vertexGroup)
 		{
 			const vector<float>& colours = vertexGroup.getColours();
 			const vector<float>& normals = vertexGroup.getNormals();

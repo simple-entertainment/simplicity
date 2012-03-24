@@ -23,6 +23,10 @@ namespace simplicity
 {
 	unique_ptr<MathFactory> MathFactory::instance = unique_ptr<MathFactory>();
 
+	MathFactory::~MathFactory()
+	{
+	}
+
 	const MathFactory& MathFactory::getInstance()
 	{
 		if (instance.get() == NULL)
@@ -36,9 +40,5 @@ namespace simplicity
 	void MathFactory::setInstance(unique_ptr<MathFactory> instance)
 	{
 		MathFactory::instance = move(instance);
-	}
-
-	MathFactory::~MathFactory()
-	{
 	}
 }

@@ -14,28 +14,25 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef OPENGLTEXT_H_
-#define OPENGLTEXT_H_
+#include "ModelFactory.h"
 
-#include <simplicity/model/Text.h>
+using namespace std;
 
 namespace simplicity
 {
-	namespace opengl
+	unique_ptr<ModelFactory> ModelFactory::instance = unique_ptr<ModelFactory>();
+
+	ModelFactory::~ModelFactory()
 	{
-		class OpenGLText : public Text
-		{
-			public:
-				OpenGLText();
+	}
 
-				void* getFont() const;
+	const ModelFactory& ModelFactory::getInstance()
+	{
+		return *instance;
+	}
 
-				void setFont(void* font);
-
-			private:
-				void* font;
-		};
+	void ModelFactory::setInstance(unique_ptr<ModelFactory> instance)
+	{
+		ModelFactory::instance = move(instance);
 	}
 }
-
-#endif /* OPENGLTEXT_H_ */
