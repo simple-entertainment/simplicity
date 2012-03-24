@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -17,100 +17,114 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 
-#include <simplicity/scene/SimpleNode.h>
-#include <simplicity/scene/SimpleScene.h>
+#include <simplicity/scene/SceneFactory.h>
+#include <simplicity/Simplicity.h>
 
+#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
+
+#include <simplicity/freeglut/FreeglutEvents.h>
+#include <simplicity/freeglut/input/FreeglutInputEvent.h>
 
 #include "SimplePathFinderDemo.h"
 
+using namespace simplicity::freeglut;
 using namespace simplicity::opengl;
 using namespace std;
 
 namespace simplicity
 {
-	SimplePathFinderDemo::SimplePathFinderDemo()
+	SimplePathFinderDemo::SimplePathFinderDemo() :
+		pathDisplayed(false), pathFinder(), renderingEngine()
 	{
-	}
-
-	SimplePathFinderDemo::~SimplePathFinderDemo()
-	{
-	}
-
-	void SimplePathFinderDemo::advance()
-	{
-		renderingEngine.advance(shared_ptr<EngineInput>());
 	}
 
 	void SimplePathFinderDemo::dispose()
 	{
-		renderingEngine.destroy();
-	}
+		renderingEngine->destroy();
 
-	shared_ptr<Camera> SimplePathFinderDemo::getCamera()
-	{
-		return (renderingEngine.getCamera());
+		Simplicity::deregisterObserver(FREEGLUT_MOUSE_EVENT,
+			bind(&SimplePathFinderDemo::onMouse, this, placeholders::_1));
 	}
 
 	string SimplePathFinderDemo::getDescription()
 	{
-		return ("");
+		return "Click the mouse to advance the simple pathfinding algorithm.\n"
+			"When a path is found, it will be displayed as green dots.";
+	}
+
+	shared_ptr<Engine> SimplePathFinderDemo::getEngine()
+	{
+		return renderingEngine;
 	}
 
 	string SimplePathFinderDemo::getTitle()
 	{
-		return ("SimplePathFinderDemo");
+		return "SimplePathFinderDemo";
 	}
 
 	void SimplePathFinderDemo::init()
 	{
-		renderingEngine.setViewportWidth(800);
-		renderingEngine.setViewportHeight(800);
+		pathDisplayed = false;
+		renderingEngine.reset(new SimpleOpenGLRenderingEngine);
 
-		shared_ptr<Scene> scene(new SimpleScene);
-		renderingEngine.setScene(scene);
+		renderingEngine->setPreferredFrequency(100);
+		renderingEngine->setViewportWidth(800);
+		renderingEngine->setViewportHeight(800);
 
-		shared_ptr<Node> sceneRoot(new SimpleNode);
+		shared_ptr<Scene> scene(SceneFactory::getInstance().createScene());
+		renderingEngine->setScene(scene);
+
+		shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
+		scene->addNode(sceneRoot);
 
 		shared_ptr<Camera> camera = addCamera(sceneRoot);
 		scene->addCamera(camera);
-		renderingEngine.setCamera(camera);
+		renderingEngine->setCamera(camera);
 
 		shared_ptr<Light> light = addLight(sceneRoot);
 		scene->addLight(light);
 
 		addBackground(sceneRoot);
-		scene->addNode(sceneRoot);
 
 		populateNavigationMesh();
 
-		renderingEngine.addRenderer(shared_ptr<Renderer> (new SimpleOpenGLRenderer));
-		renderingEngine.addEntities(createObstacles());
+		for (shared_ptr<Entity> obstacle : createObstacles())
+		{
+			renderingEngine->addEntity(obstacle);
+		}
 
-		pathFinder = shared_ptr<SimplePathFinder> (new SimplePathFinder(*getNavigationMesh().at(4),
-			*getNavigationMesh().at(95)));
+		renderingEngine->addEntity(createTitle());
+		for (shared_ptr<Entity> descriptionLine : createDescription()) {
+			renderingEngine->addEntity(descriptionLine);
+		}
 
-		renderingEngine.init();
+		renderingEngine->addRenderer(shared_ptr < Renderer > (new SimpleOpenGLRenderer));
+		renderingEngine->init();
+
+		pathFinder.reset(new SimplePathFinder(*getNavigationMesh().at(4), *getNavigationMesh().at(95)));
+
+		Simplicity::registerObserver(FREEGLUT_MOUSE_EVENT,
+			bind(&SimplePathFinderDemo::onMouse, this, placeholders::_1));
 	}
 
-	void SimplePathFinderDemo::onMouseButton(const int button, const int state, const int x, const int y)
+	void SimplePathFinderDemo::onMouse(const boost::any data)
 	{
-		if (button != GLUT_LEFT_BUTTON || state != GLUT_UP)
+		const FreeglutInputEvent& event(boost::any_cast < FreeglutInputEvent > (data));
+
+		if (event.button != GLUT_LEFT_BUTTON || event.state != GLUT_UP)
 		{
 			return;
 		}
 
 		bool pathFound = pathFinder->stepForward();
 
-		displayOpenNodes(renderingEngine, pathFinder->getOpenNodes());
+		displayOpenNodes(pathFinder->getOpenNodes());
 
-		if (pathFound)
+		if (pathFound && !pathDisplayed)
 		{
-			displayPath(renderingEngine, pathFinder->findShortestPath());
+			displayPath(pathFinder->findShortestPath());
+			pathDisplayed = true;
 		}
-	}
-
-	void SimplePathFinderDemo::onMouseMotion(const int x, const int y)
-	{
 	}
 }

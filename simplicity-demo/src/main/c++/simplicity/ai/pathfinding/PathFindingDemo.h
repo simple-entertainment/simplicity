@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -17,15 +17,19 @@
 #ifndef PATHFINDINGDEMO_H_
 #define PATHFINDINGDEMO_H_
 
-#include <simplicity/Demo.h>
 #include <simplicity/Entity.h>
 #include <simplicity/rendering/engine/RenderingEngine.h>
 #include <simplicity/rendering/Light.h>
+
+#include "../../Demo.h"
 
 namespace simplicity
 {
 	class PathFindingDemo : public Demo
 	{
+		public:
+			PathFindingDemo();
+
 		protected:
 			/**
 			 * <p>
@@ -65,9 +69,9 @@ namespace simplicity
 			 *
 			 * @param dark Determines whether a light or dark square should be created.
 			 *
-			 * @return A node containing the light or dark grey square.
+			 * @return The light or dark grey square.
 			 */
-			std::shared_ptr<Node> createGreySquareOnXZPlane(const bool dark);
+			std::shared_ptr<Model> createGreySquareOnXZPlane(const bool dark);
 
 			/**
 			 * <p>
@@ -80,14 +84,14 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Creates a square on the XZ plane with dimensions 1x1 centered on the origin.
+			 * Creates a square on the XZ plane with dimensions 1x1 centred on the origin.
 			 * </p>
 			 *
 			 * @param colour The colour of the square.
 			 *
-			 * @return A node containing the square.
+			 * @return The square.
 			 */
-			std::shared_ptr<Node> createSquareOnXZPlane(const RGBAColourVector<>& colour);
+			std::shared_ptr<Model> createSquareOnXZPlane(const ColourVector<>& colour);
 
 			/**
 			 * <p>
@@ -97,8 +101,7 @@ namespace simplicity
 			 * @param renderingEngine The engine to display the path with.
 			 * @param openNodes The 'open' nodes to display.
 			 */
-			void displayOpenNodes(RenderingEngine& renderingEngine,
-				const std::vector<std::shared_ptr<const Node> >& openNodes);
+			void displayOpenNodes(const std::vector<std::shared_ptr<const Node> >& openNodes);
 
 			/**
 			 * <p>
@@ -108,7 +111,7 @@ namespace simplicity
 			 * @param renderingEngine The engine to display the path with.
 			 * @param path The path to display.
 			 */
-			void displayPath(RenderingEngine& renderingEngine, const std::vector<std::shared_ptr<const Node> >& path);
+			void displayPath(const std::vector<std::shared_ptr<const Node> >& path);
 
 			/**
 			 * <p>
@@ -126,13 +129,32 @@ namespace simplicity
 			 */
 			void populateNavigationMesh();
 
+		protected:
+			std::vector<std::shared_ptr<Entity> > createDescription();
+
+			std::shared_ptr<Entity> createTitle();
+
 		private:
+			static std::string OBSTACLE_ENTITY_NAME;
+
+			static std::string OPEN_NODE_ENTITY_NAME;
+
+			static std::string WAYPOINT_ENTITY_NAME;
+
 			/**
 			 * <p>
 			 * The navigation mesh from which the shortest path is to be found.
 			 * </p>
 			 */
 			std::vector<std::shared_ptr<Node> > navigationMesh;
+
+			unsigned int obstacleIndex;
+
+			unsigned int openNodeIndex;
+
+			unsigned int waypointIndex;
+
+			std::shared_ptr<Entity> createDescriptionLine(const std::string& line, const unsigned int lineNum);
 	};
 }
 

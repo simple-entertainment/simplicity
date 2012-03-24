@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Simple Entertainment Limited
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,23 +14,98 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include <simplicity/opengl/OpenGLDemoRunner.h>
+#include <simplicity/engine/SimpleCompositeEngine.h>
+#include <simplicity/Simplicity.h>
+
+#include <simplicity/opengl/model/OpenGLModelFactory.h>
+
+#include <simplicity/freeglut/FreeglutEvents.h>
+#include <simplicity/freeglut/input/engine/FreeglutInputEngine.h>
+#include <simplicity/freeglut/input/FreeglutInputEvent.h>
+#include <simplicity/freeglut/rendering/engine/FreeglutWindowEngine.h>
 
 #include "ai/pathfinding/SimplePathFinderDemo.h"
 #include "ai/pathfinding/BezierPathInterpreterDemo.h"
 
 using namespace simplicity;
+using namespace simplicity::freeglut;
+using namespace simplicity::opengl;
+using namespace std;
+
+unique_ptr<CompositeEngine> engine(new SimpleCompositeEngine);
+CompositeEngine& engineRef = *engine;
+
+vector<unique_ptr<Demo> > demos;
+unsigned int demoIndex = 0;
+
+void nextDemo()
+{
+	if (demoIndex < demos.size() - 1)
+	{
+		engineRef.removeEngine(demos.at(demoIndex)->getEngine());
+		demos.at(demoIndex)->dispose();
+
+		demoIndex++;
+
+		demos.at(demoIndex)->init();
+		engineRef.addEngine(demos.at(demoIndex)->getEngine());
+	}
+}
+
+void previousDemo()
+{
+	if (demoIndex > 0)
+	{
+		engineRef.removeEngine(demos.at(demoIndex)->getEngine());
+		demos.at(demoIndex)->dispose();
+
+		demoIndex--;
+
+		demos.at(demoIndex)->init();
+		engineRef.addEngine(demos.at(demoIndex)->getEngine());
+	}
+}
+
+void changeDemo(const boost::any data)
+{
+	const FreeglutInputEvent& event(boost::any_cast < FreeglutInputEvent > (data));
+
+	if (event.key == ' ')
+	{
+		nextDemo();
+	}
+	else if (event.key == 8) // backspace
+	{
+		previousDemo();
+	}
+}
 
 int main(int argc, char** argv)
 {
-	OpenGLDemoRunner runner("Simplicity Demo");
+	shared_ptr<Engine> windowEngine(new FreeglutWindowEngine);
+	windowEngine->setPreferredFrequency(100);
+	engine->addEngine(windowEngine);
 
-	runner.addDemo(shared_ptr<Demo> (new SimplePathFinderDemo));
-	runner.addDemo(shared_ptr<Demo> (new BezierPathInterpreterDemo));
+	shared_ptr<Engine> inputEngine(new FreeglutInputEngine);
+	inputEngine->setPreferredFrequency(100);
+	engine->addEngine(inputEngine);
 
-	runner.init(argc, argv);
-	runner.run();
-	runner.dispose();
+	Simplicity::init(move(engine));
 
-	return (0);
+	Simplicity::registerObserver(FREEGLUT_KEYBOARD_EVENT, changeDemo);
+
+	unique_ptr<ModelFactory> modelFactory(new OpenGLModelFactory);
+	ModelFactory::setInstance(move(modelFactory));
+
+	unique_ptr<Demo> simplePathFinderDemo(new SimplePathFinderDemo);
+	demos.push_back(move(simplePathFinderDemo));
+	unique_ptr<Demo> bezierPathInterpreterDemo(new BezierPathInterpreterDemo);
+	demos.push_back(move(bezierPathInterpreterDemo));
+
+	demos.at(demoIndex)->init();
+	engineRef.addEngine(demos.at(demoIndex)->getEngine());
+
+	Simplicity::start();
+
+	return 0;
 }

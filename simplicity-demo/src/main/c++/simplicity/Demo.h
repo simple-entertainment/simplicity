@@ -14,68 +14,68 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef BEZIERPATHINTERPRETERDEMO_H_
-#define BEZIERPATHINTERPRETERDEMO_H_
+#ifndef DEMO_H_
+#define DEMO_H_
 
-#include <boost/any.hpp>
+#include <string>
 
-#include <simplicity/rendering/engine/RenderingEngine.h>
-
-#include "PathFindingDemo.h"
+#include <simplicity/engine/Engine.h>
 
 namespace simplicity
 {
 	/**
 	 * <p>
-	 * A small demonstration of the {@link simplicity::BezierPathInterpreter BezierPathInterpreter}.
+	 * A small demonstration of a function.
 	 * </p>
-	 *
-	 * @author Gary Buyn
 	 */
-	class BezierPathInterpreterDemo : public PathFindingDemo
+	class Demo
 	{
 		public:
-			BezierPathInterpreterDemo();
-
-			void dispose();
-
-			std::string getDescription();
-
-			std::shared_ptr<Engine> getEngine();
-
-			std::string getTitle();
-
-			void init();
-
-		private:
-			/**
-			 * <p>
-			 * The rendering engine for the demo.
-			 * </p>
-			 */
-			std::shared_ptr<simplicity::RenderingEngine> renderingEngine;
+			virtual ~Demo()
+			{
+			}
 
 			/**
 			 * <p>
-			 * The shortest path for the demo.
+			 * Restores the state of the demo environment for use by other demos.
 			 * </p>
 			 */
-			std::vector<std::shared_ptr<const Node> > shortestPath;
+			virtual void dispose() = 0;
 
 			/**
 			 * <p>
-			 * The number of interpolations to display.
+			 * Retrieves a description of the demo.
 			 * </p>
+			 *
+			 * @return A description of the demo.
 			 */
-			float interpolationCount;
+			virtual std::string getDescription() = 0;
 
 			/**
 			 * <p>
-			 * Responds to mouse events.
+			 * Retrieves the engine that runs the demo.
+			 * </p>
+			 *
+			 * @return The engine that runs the demo.
+			 */
+			virtual std::shared_ptr<Engine> getEngine() = 0;
+
+			/**
+			 * <p>
+			 * Retrieves the title of the demo.
+			 * </p>
+			 *
+			 * @return The title of the demo.
+			 */
+			virtual std::string getTitle() = 0;
+
+			/**
+			 * <p>
+			 * Initialises the state of the demo environment for use with this demo.
 			 * </p>
 			 */
-			void onMouse(const boost::any data);
+			virtual void init() = 0;
 	};
 }
 
-#endif /* BEZIERPATHINTERPRETERDEMO_H_ */
+#endif /* DEMO_H_ */

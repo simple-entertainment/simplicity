@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -17,9 +17,10 @@
 #ifndef SIMPLEPATHFINDERDEMO_H_
 #define SIMPLEPATHFINDERDEMO_H_
 
-#include <simplicity/ai/pathfinding/SimplePathFinder.h>
+#include <boost/any.hpp>
 
-#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
+#include <simplicity/ai/pathfinding/SimplePathFinder.h>
+#include <simplicity/rendering/engine/RenderingEngine.h>
 
 #include "PathFindingDemo.h"
 
@@ -35,37 +36,21 @@ namespace simplicity
 	class SimplePathFinderDemo : public PathFindingDemo
 	{
 		public:
-			/**
-			 * <p>
-			 * Creates an instance of <code>SimplePathFinderDemo</code>.
-			 * </p>
-			 */
 			SimplePathFinderDemo();
-
-			/**
-			 * <p>
-			 * Disposes of an instance of <code>SimplePathFinderDemo</code>.
-			 * </p>
-			 */
-			virtual ~SimplePathFinderDemo();
-
-			void advance();
 
 			void dispose();
 
-			std::shared_ptr<Camera> getCamera();
-
 			std::string getDescription();
+
+			std::shared_ptr<Engine> getEngine();
 
 			std::string getTitle();
 
 			void init();
 
-			void onMouseButton(const int button, const int state, const int x, const int y);
-
-			void onMouseMotion(const int x, const int y);
-
 		private:
+			bool pathDisplayed;
+
 			/**
 			 * <p>
 			 * The path finder for the demo.
@@ -78,7 +63,14 @@ namespace simplicity
 			 * The rendering engine for the demo.
 			 * </p>
 			 */
-			simplicity::opengl::SimpleOpenGLRenderingEngine renderingEngine;
+			std::shared_ptr<simplicity::RenderingEngine> renderingEngine;
+
+			/**
+			 * <p>
+			 * Responds to mouse events.
+			 * </p>
+			 */
+			void onMouse(const boost::any data);
 	};
 }
 

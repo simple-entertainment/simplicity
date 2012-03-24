@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -20,13 +20,18 @@
 #include <simplicity/ai/pathfinding/BezierPathInterpolator.h>
 #include <simplicity/ai/pathfinding/NoPathException.h>
 #include <simplicity/ai/pathfinding/SimplePathFinder.h>
-#include <simplicity/scene/SimpleNode.h>
-#include <simplicity/scene/SimpleScene.h>
+#include <simplicity/scene/SceneFactory.h>
+#include <simplicity/Simplicity.h>
 
+#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
+
+#include <simplicity/freeglut/FreeglutEvents.h>
+#include <simplicity/freeglut/input/FreeglutInputEvent.h>
 
 #include "BezierPathInterpreterDemo.h"
 
+using namespace simplicity::freeglut;
 using namespace simplicity::opengl;
 using namespace std;
 
@@ -37,99 +42,108 @@ namespace simplicity
 	{
 	}
 
-	BezierPathInterpreterDemo::~BezierPathInterpreterDemo()
-	{
-	}
-
-	void BezierPathInterpreterDemo::advance()
-	{
-		renderingEngine.advance(shared_ptr<EngineInput>());
-	}
-
 	void BezierPathInterpreterDemo::dispose()
 	{
-		renderingEngine.destroy();
-	}
+		renderingEngine->destroy();
 
-	shared_ptr<Camera> BezierPathInterpreterDemo::getCamera()
-	{
-		return (renderingEngine.getCamera());
+		Simplicity::deregisterObserver(FREEGLUT_MOUSE_EVENT,
+			bind(&BezierPathInterpreterDemo::onMouse, this, placeholders::_1));
 	}
 
 	string BezierPathInterpreterDemo::getDescription()
 	{
-		return ("");
+		return "Click the mouse to interpolate points on the path.";
+	}
+
+	shared_ptr<Engine> BezierPathInterpreterDemo::getEngine()
+	{
+		return renderingEngine;
 	}
 
 	string BezierPathInterpreterDemo::getTitle()
 	{
-		return ("BezierPathInterpreterDemo");
+		return "BezierPathInterpreterDemo";
 	}
 
 	void BezierPathInterpreterDemo::init()
 	{
-		renderingEngine.setViewportWidth(800);
-		renderingEngine.setViewportHeight(800);
+		renderingEngine.reset(new SimpleOpenGLRenderingEngine);
+		renderingEngine->setPreferredFrequency(100);
+		renderingEngine->setViewportWidth(800);
+		renderingEngine->setViewportHeight(800);
 
-		shared_ptr<Scene> scene(new SimpleScene);
-		renderingEngine.setScene(scene);
+		shared_ptr<Scene> scene(SceneFactory::getInstance().createScene());
+		renderingEngine->setScene(scene);
 
-		shared_ptr<Node> sceneRoot(new SimpleNode);
+		shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
+		scene->addNode(sceneRoot);
 
 		shared_ptr<Camera> camera = addCamera(sceneRoot);
 		scene->addCamera(camera);
-		renderingEngine.setCamera(camera);
+		renderingEngine->setCamera(camera);
 
 		shared_ptr<Light> light = addLight(sceneRoot);
 		scene->addLight(light);
 
 		addBackground(sceneRoot);
-		scene->addNode(sceneRoot);
 
-		renderingEngine.addRenderer(shared_ptr<Renderer> (new SimpleOpenGLRenderer));
-		renderingEngine.init();
+		renderingEngine->addEntity(createTitle());
+		for (shared_ptr<Entity> descriptionLine : createDescription()) {
+			renderingEngine->addEntity(descriptionLine);
+		}
+
+		renderingEngine->addRenderer(shared_ptr < Renderer > (new SimpleOpenGLRenderer));
+		renderingEngine->init();
 
 		do
 		{
 			populateNavigationMesh();
-			vector<shared_ptr<Entity> > obstacles = createObstacles();
+			vector < shared_ptr<Entity> > obstacles = createObstacles();
 
 			try
 			{
 				SimplePathFinder pathFinder = SimplePathFinder(*getNavigationMesh().at(4), *getNavigationMesh().at(95));
 				shortestPath = pathFinder.findShortestPath();
 
-				renderingEngine.addEntities(obstacles);
+				for (shared_ptr<Entity> obstacle : obstacles)
+				{
+					renderingEngine->addEntity(obstacle);
+				}
 			}
 			catch (NoPathException& e)
 			{
 			}
 		}
 		while (shortestPath.empty());
+
+		interpolationCount = 2;
+
+		Simplicity::registerObserver(FREEGLUT_MOUSE_EVENT,
+			bind(&BezierPathInterpreterDemo::onMouse, this, placeholders::_1));
 	}
 
-	void BezierPathInterpreterDemo::onMouseButton(const int button, const int state, const int x, const int y)
+	void BezierPathInterpreterDemo::onMouse(const boost::any data)
 	{
-		if (button == GLUT_LEFT_BUTTON || state == GLUT_UP)
+		const FreeglutInputEvent& event(boost::any_cast < FreeglutInputEvent > (data));
+
+		if (event.button != GLUT_LEFT_BUTTON || event.state != GLUT_UP)
 		{
-			BezierPathInterpolator pathInterpolator(shortestPath);
-			vector<shared_ptr<const Node> > path;
-
-			for (unsigned int index = 0; index <= interpolationCount; index++)
-			{
-				shared_ptr<Node> pathNode(new SimpleNode);
-				pathNode->getTransformation().setTranslation(*pathInterpolator.interpolate(index / interpolationCount));
-
-				path.push_back(pathNode);
-			}
-
-			displayPath(renderingEngine, path);
-
-			interpolationCount *= 2;
+			return;
 		}
-	}
 
-	void BezierPathInterpreterDemo::onMouseMotion(const int x, const int y)
-	{
+		BezierPathInterpolator pathInterpolator(shortestPath);
+		vector < shared_ptr<const Node> > path;
+
+		for (unsigned int index = 0; index <= interpolationCount; index++)
+		{
+			shared_ptr<Node> pathNode(SceneFactory::getInstance().createNode());
+			pathNode->getTransformation().setTranslation(*pathInterpolator.interpolate(index / interpolationCount));
+
+			path.push_back(pathNode);
+		}
+
+		displayPath(path);
+
+		interpolationCount *= 2;
 	}
 }

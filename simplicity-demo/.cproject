@@ -26,21 +26,19 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1761245273" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1273436370" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.175699490" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-freeglut/src/main/c++}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-opengl/src/main/c++}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo-core/src/main/c++}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo-opengl/src/main/c++}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity/src/main/c++}&quot;"/>
 								</option>
-								<option id="gnu.cpp.compiler.option.other.other.227755598" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=c++0x" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.other.other.227755598" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=c++0x" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1593868761" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.622850090" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.1986239133" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.1432036296" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.371898022" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-freeglut}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-opengl}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo-opengl}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo-core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.647189223" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
@@ -48,14 +46,15 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.1762159114" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.953981946" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.paths.1170394474" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-freeglut/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-opengl/Debug}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo-opengl/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity/Debug}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.1108581949" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="simplicity-freeglut"/>
 									<listOptionValue builtIn="false" value="simplicity-opengl"/>
-									<listOptionValue builtIn="false" value="simplicity-demo-opengl"/>
 									<listOptionValue builtIn="false" value="simplicity"/>
+									<listOptionValue builtIn="false" value="glut"/>
 									<listOptionValue builtIn="false" value="boost_system"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.794686896" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
@@ -65,9 +64,8 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.1638468991" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.913036420" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-freeglut}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-opengl}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo-opengl}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity-demo-core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/simplicity}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1535722566" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
@@ -87,21 +85,11 @@
 						<entry flags="RESOLVED" kind="libraryFile" name="simplicity"/>
 					</externalSetting>
 				</externalSettings>
-				<externalSettings containerId="simplicity-demo-core;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+				<externalSettings containerId="simplicity-freeglut;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/simplicity-demo"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/simplicity-demo-core"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/simplicity-demo/Debug"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/simplicity-demo-core/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="simplicity-demo"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="simplicity-demo-core"/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="simplicity-demo-opengl;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/simplicity-demo-opengl"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/simplicity-demo-opengl/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="simplicity-demo-opengl"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/simplicity-freeglut"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/simplicity-freeglut/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="simplicity-freeglut"/>
 					</externalSetting>
 				</externalSettings>
 				<externalSettings containerId="simplicity-opengl;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
