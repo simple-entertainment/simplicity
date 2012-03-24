@@ -14,7 +14,7 @@
 
 #include <gtest/gtest.h>
 
-#include <simplicity/picking/event/PickEvent.h>
+#include <simplicity/picking/PickEvent.h>
 
 namespace simplicity
 {
