@@ -38,9 +38,11 @@ namespace simplicity
 
 	shared_ptr<EngineInput> SimpleAIEngine::advance(const shared_ptr<EngineInput> input)
 	{
-		for (shared_ptr<Agent> agent : agents)
+		// Does not use C++11 for loop as elements could be added to the vector while iterating.
+		// Take care - this is a fragile 'solution'.
+		for (unsigned int index = 0; index < agents.size(); index++)
 		{
-			agent->think();
+			agents.at(index)->think();
 		}
 
 		return shared_ptr<EngineInput>();
