@@ -201,6 +201,10 @@ namespace simplicity
 			{
 				renderModel(dynamic_cast<const IndexedVertexGroup&>(model));
 			}
+			else if (dynamic_cast<const OpenGLText*>(&model))
+			{
+				renderModel(dynamic_cast<const OpenGLText&>(model));
+			}
 			else if (dynamic_cast<const VertexGroup*>(&model))
 			{
 				renderModel(dynamic_cast<const VertexGroup&>(model));
@@ -212,6 +216,21 @@ namespace simplicity
 			}
 
 			glPopName();
+		}
+
+		void NamedOpenGLRenderer::renderModel(const OpenGLText& text)
+		{
+			const ColourVector<>& colour(text.getColour());
+			glColor3f(colour.getRed(), colour.getBlue(), colour.getGreen());
+
+			unique_ptr<TranslationVector<> > location(text.getNode()->getTransformation().getTranslation());
+			glRasterPos3f(location->getX(), location->getY(), location->getZ());
+
+			const string& data = text.getText();
+			for (unsigned int index = 0; index < data.length(); index++)
+			{
+				glutBitmapCharacter(text.getFont(), data.at(index));
+			}
 		}
 
 		void NamedOpenGLRenderer::renderModel(const VertexGroup& vertexGroup)

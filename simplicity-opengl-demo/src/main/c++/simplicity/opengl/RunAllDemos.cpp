@@ -9,7 +9,15 @@
 
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <simplicity/opengl/OpenGLDemoRunner.h>
+#include <simplicity/engine/SimpleCompositeEngine.h>
+#include <simplicity/Simplicity.h>
+
+#include <simplicity/opengl/model/OpenGLModelFactory.h>
+
+#include <simplicity/freeglut/FreeglutEvents.h>
+#include <simplicity/freeglut/input/engine/FreeglutInputEngine.h>
+#include <simplicity/freeglut/input/FreeglutInputEvent.h>
+#include <simplicity/freeglut/rendering/engine/FreeglutWindowEngine.h>
 
 #include "picking/SimpleOpenGLPickerDemo.h"
 #include "rendering/AlwaysAndNotEqualStencilOpenGLRenderersDemo.h"
@@ -22,26 +30,98 @@
 #include "rendering/StencilClearingOpenGLRendererDemo.h"
 
 using namespace simplicity;
+using namespace simplicity::freeglut;
 using namespace simplicity::opengl;
+using namespace std;
 
-int
-main(int argc, char** argv)
+unique_ptr<CompositeEngine> engine(new SimpleCompositeEngine);
+CompositeEngine& engineRef = *engine;
+
+vector<unique_ptr<Demo> > demos;
+unsigned int demoIndex = 0;
+
+void nextDemo()
 {
-  OpenGLDemoRunner runner("Simplicity OpenGL Demo");
+	if (demoIndex < demos.size() - 1)
+	{
+		engineRef.removeEngine(demos.at(demoIndex)->getEngine());
+		demos.at(demoIndex)->dispose();
 
-  runner.addDemo(shared_ptr < Demo > (new SimpleOpenGLRendererDemo));
-  runner.addDemo(shared_ptr < Demo > (new MonoColourOpenGLRendererDemo));
-  runner.addDemo(shared_ptr < Demo > (new CullFaceOpenGLRendererDemo));
-  runner.addDemo(shared_ptr < Demo > (new BlendingOpenGLRendererDemo));
-  runner.addDemo(shared_ptr < Demo > (new AlwaysAndNotEqualStencilOpenGLRenderersDemo));
-  runner.addDemo(shared_ptr < Demo > (new StencilClearingOpenGLRendererDemo));
-  runner.addDemo(shared_ptr < Demo > (new DepthClearingOpenGLRendererDemo));
-  runner.addDemo(shared_ptr < Demo > (new OutlineOpenGLRendererDemo));
-  runner.addDemo(shared_ptr < Demo > (new SimpleOpenGLPickerDemo));
+		demoIndex++;
 
-  runner.init(argc, argv);
-  runner.run();
-  runner.dispose();
+		demos.at(demoIndex)->init();
+		engineRef.addEngine(demos.at(demoIndex)->getEngine());
+	}
+}
 
-  return (0);
+void previousDemo()
+{
+	if (demoIndex > 0)
+	{
+		engineRef.removeEngine(demos.at(demoIndex)->getEngine());
+		demos.at(demoIndex)->dispose();
+
+		demoIndex--;
+
+		demos.at(demoIndex)->init();
+		engineRef.addEngine(demos.at(demoIndex)->getEngine());
+	}
+}
+
+void changeDemo(const boost::any data)
+{
+	const FreeglutInputEvent& event(boost::any_cast < FreeglutInputEvent > (data));
+
+	if (event.key == ' ')
+	{
+		nextDemo();
+	}
+	else if (event.key == 8) // backspace
+	{
+		previousDemo();
+	}
+}
+
+int main(int argc, char** argv)
+{
+	shared_ptr<Engine> windowEngine(new FreeglutWindowEngine);
+	windowEngine->setPreferredFrequency(100);
+	engine->addEngine(windowEngine);
+
+	shared_ptr<Engine> inputEngine(new FreeglutInputEngine);
+	inputEngine->setPreferredFrequency(100);
+	engine->addEngine(inputEngine);
+
+	Simplicity::init(move(engine));
+
+	Simplicity::registerObserver(FREEGLUT_KEYBOARD_EVENT, changeDemo);
+
+	unique_ptr<ModelFactory> modelFactory(new OpenGLModelFactory);
+	ModelFactory::setInstance(move(modelFactory));
+
+	unique_ptr<Demo> simpleOpenGLRendererDemo(new SimpleOpenGLRendererDemo);
+	demos.push_back(move(simpleOpenGLRendererDemo));
+	unique_ptr<Demo> monoColourOpenGLRendererDemo(new MonoColourOpenGLRendererDemo);
+	demos.push_back(move(monoColourOpenGLRendererDemo));
+	unique_ptr<Demo> cullFaceOpenGLRendererDemo(new CullFaceOpenGLRendererDemo);
+	demos.push_back(move(cullFaceOpenGLRendererDemo));
+	unique_ptr<Demo> blendingOpenGLRendererDemo(new BlendingOpenGLRendererDemo);
+	demos.push_back(move(blendingOpenGLRendererDemo));
+	unique_ptr<Demo> alwaysAndNotEqualStencilOpenGLRenderersDemo(new AlwaysAndNotEqualStencilOpenGLRenderersDemo);
+	demos.push_back(move(alwaysAndNotEqualStencilOpenGLRenderersDemo));
+	unique_ptr<Demo> stencilClearingOpenGLRendererDemo(new StencilClearingOpenGLRendererDemo);
+	demos.push_back(move(stencilClearingOpenGLRendererDemo));
+	unique_ptr<Demo> depthClearingOpenGLRendererDemo(new DepthClearingOpenGLRendererDemo);
+	demos.push_back(move(depthClearingOpenGLRendererDemo));
+	unique_ptr<Demo> outlineOpenGLRendererDemo(new OutlineOpenGLRendererDemo);
+	demos.push_back(move(outlineOpenGLRendererDemo));
+	unique_ptr<Demo> simpleOpenGLPickerDemo(new SimpleOpenGLPickerDemo);
+	demos.push_back(move(simpleOpenGLPickerDemo));
+
+	demos.at(demoIndex)->init();
+	engineRef.addEngine(demos.at(demoIndex)->getEngine());
+
+	Simplicity::start();
+
+	return 0;
 }

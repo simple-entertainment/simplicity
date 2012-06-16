@@ -4,9 +4,9 @@
 	<comment></comment>
 	<projects>
 		<project>simplicity</project>
-		<project>simplicity-demo-opengl</project>
-		<project>simplicity-demo-core</project>
 		<project>simplicity-opengl</project>
+		<project>simplicity-demo</project>
+		<project>simplicity-freeglut</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

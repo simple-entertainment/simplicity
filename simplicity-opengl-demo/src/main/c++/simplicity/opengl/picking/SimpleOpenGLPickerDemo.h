@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2011 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -17,7 +17,7 @@
 #ifndef SIMPLEOPENGLPICKERDEMO_H_
 #define SIMPLEOPENGLPICKERDEMO_H_
 
-#include <simplicity/engine/SimpleCompositeEngine.h>
+#include <simplicity/engine/CompositeEngine.h>
 #include <simplicity/picking/engine/PickingEngine.h>
 #include <simplicity/rendering/engine/RenderingEngine.h>
 
@@ -32,40 +32,16 @@ namespace simplicity
 		 * A small demonstration of the {@link simplicity::opengl::SimpleOpenGLPicker SimpleOpenGLPicker}.
 		 * </p>
 		 */
-		class SimpleOpenGLPickerDemo : public OpenGLDemo, public PickListener
+		class SimpleOpenGLPickerDemo : public OpenGLDemo
 		{
 			public:
-				/**
-				 * <p>
-				 * Creates an instance of <code>SimpleOpenGLPickerDemo</code>.
-				 * </p>
-				 */
 				SimpleOpenGLPickerDemo();
-
-				/**
-				 * <p>
-				 * Disposes of an instance of <code>SimpleOpenGLPickerDemo</code>.
-				 * </p>
-				 */
-				virtual ~SimpleOpenGLPickerDemo();
-
-				void advance();
-
-				void dispose();
-
-				std::shared_ptr<Camera> getCamera();
 
 				std::string getDescription();
 
+				std::shared_ptr<Engine> getEngine();
+
 				std::string getTitle();
-
-				void init();
-
-				void mouseClick(const int x, const int y);
-
-				void selectModel(const PickEvent& event);
-
-				void operator()(const PickEvent& event) const;
 
 			private:
 				/**
@@ -73,7 +49,7 @@ namespace simplicity
 				 * The overall engine for the demo.
 				 * </p>
 				 */
-				SimpleCompositeEngine engine;
+				std::shared_ptr<CompositeEngine> engine;
 
 				/**
 				 * <p>
@@ -95,6 +71,14 @@ namespace simplicity
 				 * </p>
 				 */
 				std::shared_ptr<RenderingEngine> renderingEngine;
+
+				void onDispose();
+
+				void onInit();
+
+				void onMouse(const boost::any data);
+
+				void onPick(const boost::any data);
 		};
 	}
 }

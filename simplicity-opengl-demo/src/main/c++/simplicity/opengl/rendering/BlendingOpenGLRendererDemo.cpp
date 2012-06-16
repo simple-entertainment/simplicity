@@ -17,10 +17,11 @@
 #include <boost/math/constants/constants.hpp>
 
 #include <simplicity/math/MathFactory.h>
-#include <simplicity/scene/model/SimpleModelNode.h>
+#include <simplicity/model/ModelFactory.h>
 #include <simplicity/scene/SceneFactory.h>
 
 #include <simplicity/opengl/rendering/BlendingOpenGLRenderer.h>
+#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
 
 #include "BlendingOpenGLRendererDemo.h"
@@ -29,95 +30,105 @@ namespace simplicity
 {
 	namespace opengl
 	{
-		BlendingOpenGLRendererDemo::BlendingOpenGLRendererDemo()
+		BlendingOpenGLRendererDemo::BlendingOpenGLRendererDemo() :
+			renderingEngine()
 		{
-		}
-
-		BlendingOpenGLRendererDemo::~BlendingOpenGLRendererDemo()
-		{
-		}
-
-		void BlendingOpenGLRendererDemo::advance()
-		{
-			renderingEngine.advance(shared_ptr<EngineInput>());
-		}
-
-		void BlendingOpenGLRendererDemo::dispose()
-		{
-			renderingEngine.destroy();
-		}
-
-		shared_ptr<Camera> BlendingOpenGLRendererDemo::getCamera()
-		{
-			return (renderingEngine.getCamera());
 		}
 
 		string BlendingOpenGLRendererDemo::getDescription()
 		{
-			return ("Pass #1 Renders the sphere, cylinder and capsule normally.\n"
-				"Pass #2 Renders the torus with 50% opacity and blends it.");
+			return "Pass #1 Renders the sphere, cylinder and capsule normally.\n"
+				"Pass #2 Renders the torus with 50% opacity and blends it.";
+		}
+
+		shared_ptr<Engine> BlendingOpenGLRendererDemo::getEngine()
+		{
+			return renderingEngine;
 		}
 
 		string BlendingOpenGLRendererDemo::getTitle()
 		{
-			return ("BlendingOpenGLRenderer");
+			return "BlendingOpenGLRenderer";
 		}
 
-		void BlendingOpenGLRendererDemo::init()
+		void BlendingOpenGLRendererDemo::onDispose()
 		{
-			unique_ptr<RGBAColourVector<> > clearingColour(MathFactory::getInstance().createRGBAColourVector());
+			renderingEngine->destroy();
+		}
+
+		void BlendingOpenGLRendererDemo::onInit()
+		{
+			renderingEngine.reset(new SimpleOpenGLRenderingEngine);
+
+			renderingEngine->setPreferredFrequency(100);
+			renderingEngine->setViewportWidth(800);
+			renderingEngine->setViewportHeight(800);
+
+			unique_ptr<ColourVector<> > clearingColour(MathFactory::getInstance().createColourVector());
 			clearingColour->setRed(0.95f);
 			clearingColour->setGreen(0.95f);
 			clearingColour->setBlue(0.95f);
-			renderingEngine.setClearingColour(move(clearingColour));
+			renderingEngine->setClearingColour(move(clearingColour));
 
 			shared_ptr<Scene> scene(SceneFactory::getInstance().createScene());
+			renderingEngine->setScene(scene);
+
 			shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
-			renderingEngine.setScene(scene);
+			scene->addNode(sceneRoot);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
 			scene->addCamera(camera);
-			renderingEngine.setCamera(camera);
+			renderingEngine->setCamera(camera);
 
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
-			scene->addNode(sceneRoot);
+
+			shared_ptr<Node> textRoot(SceneFactory::getInstance().createNode());
+			sceneRoot->addChild(textRoot);
+
+			textRoot->addChild(createTitle()->getNode());
+			for (shared_ptr<Model> descriptionLine : createDescription()) {
+				textRoot->addChild(descriptionLine->getNode());
+			}
+
+			sceneRoot->addChild(getModelsRoot());
 
 			shared_ptr<Node> renderingPass1Root(SceneFactory::getInstance().createNode());
-			addStandardCapsule(renderingPass1Root);
-			addStandardCylinder(renderingPass1Root);
-			addStandardSphere(renderingPass1Root);
-			scene->addNode(renderingPass1Root);
+			getModelsRoot()->addChild(renderingPass1Root);
+
+			shared_ptr<Model> capsule(createStandardCapsule());
+			renderingPass1Root->addChild(capsule->getNode());
+			shared_ptr<Model> cylinder(createStandardCylinder());
+			renderingPass1Root->addChild(cylinder->getNode());
+			shared_ptr<Model> sphere(createStandardSphere());
+			renderingPass1Root->addChild(sphere->getNode());
 
 			shared_ptr<Node> renderingPass2Root(SceneFactory::getInstance().createNode());
-			shared_ptr<ModelNode> torusNode(SceneFactory::getInstance().createModelNode());
+			getModelsRoot()->addChild(renderingPass2Root);
 
-			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
-			translation->setY(-2.0f);
-			torusNode->getTransformation().translate(*translation);
+			shared_ptr<Torus> torus(createStandardTorus());
+			renderingPass2Root->addChild(torus->getNode());
 
-			shared_ptr<GLUTorus> torus(new GLUTorus);
+			unique_ptr<ColourVector<> > torusColour(MathFactory::getInstance().createColourVector());
+			torusColour->setRed(1.0f);
+			torusColour->setGreen(1.0f);
+			torusColour->setBlue(1.0f);
+			torusColour->setAlpha(0.5f);
+			torus->setColour(move(torusColour));
 
-			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
-			colour->setRed(1.0f);
-			colour->setGreen(1.0f);
-			colour->setBlue(1.0f);
-			colour->setAlpha(0.5f);
-			torus->setColour(move(colour));
-
-			torusNode->setModel(torus);
-			renderingPass2Root->addChild(torusNode);
-			scene->addNode(renderingPass2Root);
+			shared_ptr<SimpleOpenGLRenderer> textRenderer(new SimpleOpenGLRenderer);
+			renderingEngine->addRenderer(textRenderer);
+			renderingEngine->setRendererRoot(*textRenderer, textRoot);
 
 			shared_ptr<SimpleOpenGLRenderer> firstRenderer(new SimpleOpenGLRenderer);
-			renderingEngine.addRenderer(firstRenderer);
-			renderingEngine.setRendererRoot(*firstRenderer, renderingPass1Root);
+			renderingEngine->addRenderer(firstRenderer);
+			renderingEngine->setRendererRoot(*firstRenderer, renderingPass1Root);
 
 			shared_ptr<BlendingOpenGLRenderer> secondRenderer(new BlendingOpenGLRenderer(firstRenderer));
-			renderingEngine.addRenderer(secondRenderer);
-			renderingEngine.setRendererRoot(*secondRenderer, renderingPass2Root);
+			renderingEngine->addRenderer(secondRenderer);
+			renderingEngine->setRendererRoot(*secondRenderer, renderingPass2Root);
 
-			renderingEngine.init();
+			renderingEngine->init();
 		}
 	}
 }

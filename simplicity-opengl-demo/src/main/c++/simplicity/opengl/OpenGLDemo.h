@@ -17,6 +17,8 @@
 #ifndef OPENGLDEMO_H_
 #define OPENGLDEMO_H_
 
+#include <boost/any.hpp>
+
 #include <simplicity/rendering/Light.h>
 
 #include <simplicity/Demo.h>
@@ -33,9 +35,7 @@ namespace simplicity
 		class OpenGLDemo : public Demo
 		{
 			public:
-				void onMouseButton(const int button, const int state, const int x, const int y);
-
-				void onMouseMotion(const int x, const int y);
+				OpenGLDemo();
 
 			protected:
 				/**
@@ -51,24 +51,6 @@ namespace simplicity
 
 				/**
 				 * <p>
-				 * Creates a standard OpenGL capsule in the standard location for use with demos.
-				 * </p>
-				 *
-				 * @param parentNode The node under which the capsule should be added.
-				 */
-				void addStandardCapsule(std::shared_ptr<Node> parentNode);
-
-				/**
-				 * <p>
-				 * Creates a standard OpenGL cylinder in the standard location for use with demos.
-				 * </p>
-				 *
-				 * @param parentNode The node under which the cylinder should be added.
-				 */
-				void addStandardCylinder(std::shared_ptr<Node> parentNode);
-
-				/**
-				 * <p>
 				 * Creates a standard OpenGL light in the standard location for use with demos.
 				 * </p>
 				 *
@@ -78,6 +60,28 @@ namespace simplicity
 				 */
 				std::shared_ptr<Light> addStandardLight(std::shared_ptr<Node> parentNode);
 
+				std::vector<std::shared_ptr<Model> > createDescription();
+
+				std::shared_ptr<Model> createTitle();
+
+				/**
+				 * <p>
+				 * Creates a standard OpenGL capsule in the standard location for use with demos.
+				 * </p>
+				 *
+				 * @param parentNode The node under which the capsule should be added.
+				 */
+				std::shared_ptr<Model> createStandardCapsule();
+
+				/**
+				 * <p>
+				 * Creates a standard OpenGL cylinder in the standard location for use with demos.
+				 * </p>
+				 *
+				 * @param parentNode The node under which the cylinder should be added.
+				 */
+				std::shared_ptr<Model> createStandardCylinder();
+
 				/**
 				 * <p>
 				 * Creates a standard OpenGL sphere in the standard location for use with demos.
@@ -85,7 +89,7 @@ namespace simplicity
 				 *
 				 * @param parentNode The node under which the sphere should be added.
 				 */
-				void addStandardSphere(std::shared_ptr<Node> parentNode);
+				std::shared_ptr<Model> createStandardSphere();
 
 				/**
 				 * <p>
@@ -94,15 +98,21 @@ namespace simplicity
 				 *
 				 * @param parentNode The node under which the torus should be added.
 				 */
-				void addStandardTorus(std::shared_ptr<Node> parentNode);
+				std::shared_ptr<Torus> createStandardTorus();
+
+				void dispose();
+
+				shared_ptr<Node> getModelsRoot();
+
+				void init();
 
 			private:
 				/**
 				 * <p>
-				 * The root node of the standard camera.
+				 * The root node of the scene (excluding the camera, light(s) and text).
 				 * </p>
 				 */
-				std::shared_ptr<Node> cameraRootNode;
+				std::shared_ptr<Node> modelsRoot;
 
 				/**
 				 * <p>
@@ -117,6 +127,19 @@ namespace simplicity
 				 * </p>
 				 */
 				int mouseY;
+
+				std::shared_ptr<Model> createDescriptionLine(const std::string& line, const unsigned int lineNum);
+
+				virtual void onDispose() = 0;
+
+				virtual void onInit() = 0;
+
+				/**
+				 * <p>
+				 * Responds to motion events.
+				 * </p>
+				 */
+				void onMotion(const boost::any data);
 		};
 	}
 }

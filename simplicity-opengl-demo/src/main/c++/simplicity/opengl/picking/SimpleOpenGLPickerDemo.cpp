@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2011 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -18,8 +18,11 @@
 
 #include <boost/math/constants/constants.hpp>
 
+#include <simplicity/engine/SimpleCompositeEngine.h>
 #include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/SceneFactory.h>
+#include <simplicity/SimpleEvents.h>
+#include <simplicity/Simplicity.h>
 
 #include <simplicity/opengl/picking/engine/SimpleOpenGLPickingEngine.h>
 #include <simplicity/opengl/picking/SimpleOpenGLPicker.h>
@@ -28,8 +31,12 @@
 #include <simplicity/opengl/rendering/OutlineOpenGLRenderer.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
 
+#include <simplicity/freeglut/FreeglutEvents.h>
+#include <simplicity/freeglut/input/FreeglutInputEvent.h>
+
 #include "SimpleOpenGLPickerDemo.h"
 
+using namespace simplicity::freeglut;
 using namespace std;
 
 namespace simplicity
@@ -37,53 +44,58 @@ namespace simplicity
 	namespace opengl
 	{
 		SimpleOpenGLPickerDemo::SimpleOpenGLPickerDemo() :
-			outlineRenderer(shared_ptr < Renderer > (new OutlineOpenGLRenderer)), pickingEngine(
-				shared_ptr < PickingEngine > (new SimpleOpenGLPickingEngine)), renderingEngine(
-				shared_ptr < RenderingEngine > (new SimpleOpenGLRenderingEngine))
-		{
-		}
+			outlineRenderer(shared_ptr < Renderer > (new OutlineOpenGLRenderer))
 
-		SimpleOpenGLPickerDemo::~SimpleOpenGLPickerDemo()
 		{
-		}
-
-		void SimpleOpenGLPickerDemo::advance()
-		{
-			engine.advance(shared_ptr<EngineInput>());
-		}
-
-		void SimpleOpenGLPickerDemo::dispose()
-		{
-			engine.destroy();
-		}
-
-		shared_ptr<Camera> SimpleOpenGLPickerDemo::getCamera()
-		{
-			return (renderingEngine->getCamera());
 		}
 
 		string SimpleOpenGLPickerDemo::getDescription()
 		{
-			return ("Pass #1 Renders the shapes.\nPass #2 Renders only an outline of the selected shape.\n"
-				"Shapes can be selected by 'picking' them (right-clicking on them).");
+			return "Pass #1 Renders the shapes.\nPass #2 Renders only an outline of the selected shape.\n"
+				"Shapes can be selected by 'picking' them (right-clicking on them).";
+		}
+
+		shared_ptr<Engine> SimpleOpenGLPickerDemo::getEngine()
+		{
+			return engine;
 		}
 
 		string SimpleOpenGLPickerDemo::getTitle()
 		{
-			return ("SimpleOpenGLPicker");
+			return "SimpleOpenGLPicker";
 		}
 
-		void SimpleOpenGLPickerDemo::init()
+		void SimpleOpenGLPickerDemo::onDispose()
 		{
-			unique_ptr<RGBAColourVector<> > clearingColour(MathFactory::getInstance().createRGBAColourVector());
+			engine->destroy();
+
+			Simplicity::deregisterObserver(FREEGLUT_MOUSE_EVENT,
+				bind(&SimpleOpenGLPickerDemo::onMouse, this, placeholders::_1));
+			Simplicity::deregisterObserver(PICK_EVENT, bind(&SimpleOpenGLPickerDemo::onPick, this, placeholders::_1));
+		}
+
+		void SimpleOpenGLPickerDemo::onInit()
+		{
+			engine.reset(new SimpleCompositeEngine);
+
+			renderingEngine.reset(new SimpleOpenGLRenderingEngine);
+			engine->addEngine(renderingEngine);
+
+			renderingEngine->setPreferredFrequency(100);
+			renderingEngine->setViewportWidth(800);
+			renderingEngine->setViewportHeight(800);
+
+			unique_ptr<ColourVector<> > clearingColour(MathFactory::getInstance().createColourVector());
 			clearingColour->setRed(0.95f);
 			clearingColour->setGreen(0.95f);
 			clearingColour->setBlue(0.95f);
 			renderingEngine->setClearingColour(move(clearingColour));
 
 			shared_ptr<Scene> scene(SceneFactory::getInstance().createScene());
-			shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
 			renderingEngine->setScene(scene);
+
+			shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
+			scene->addNode(sceneRoot);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
 			scene->addCamera(camera);
@@ -92,48 +104,73 @@ namespace simplicity
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
 
-			addStandardCapsule(sceneRoot);
-			addStandardCylinder(sceneRoot);
-			addStandardSphere(sceneRoot);
-			addStandardTorus(sceneRoot);
-			scene->addNode(sceneRoot);
+			sceneRoot->addChild(createTitle()->getNode());
+			for (shared_ptr<Model> descriptionLine : createDescription()) {
+				sceneRoot->addChild(descriptionLine->getNode());
+			}
 
-			shared_ptr<NamedOpenGLRenderer> firstRenderer(new NamedOpenGLRenderer);
-			renderingEngine->addRenderer(firstRenderer);
+			shared_ptr<Model> capsule(createStandardCapsule());
+			sceneRoot->addChild(capsule->getNode());
+			shared_ptr<Model> cylinder(createStandardCylinder());
+			sceneRoot->addChild(cylinder->getNode());
+			shared_ptr<Model> sphere(createStandardSphere());
+			sceneRoot->addChild(sphere->getNode());
+			shared_ptr<Model> torus(createStandardTorus());
+			sceneRoot->addChild(torus->getNode());
+
+			shared_ptr<Renderer> renderer(new SimpleOpenGLRenderer);
+			renderingEngine->addRenderer(renderer);
 
 			renderingEngine->addRenderer(outlineRenderer);
 			renderingEngine->setRendererRoot(*outlineRenderer, shared_ptr<Node>());
 
+			pickingEngine.reset(new SimpleOpenGLPickingEngine);
+			engine->addEngine(pickingEngine);
+
+			pickingEngine->setPreferredFrequency(100);
+
+			shared_ptr<RenderingEngine> pickerRenderingEngine(new SimpleOpenGLRenderingEngine);
+			pickerRenderingEngine->setScene(scene);
+			pickerRenderingEngine->setViewportWidth(800);
+			pickerRenderingEngine->setViewportHeight(800);
+
+			clearingColour = MathFactory::getInstance().createColourVector();
+			clearingColour->setRed(0.95f);
+			clearingColour->setGreen(0.95f);
+			clearingColour->setBlue(0.95f);
+			pickerRenderingEngine->setClearingColour(move(clearingColour));
+
+			shared_ptr<NamedOpenGLRenderer> namedRenderer(new NamedOpenGLRenderer);
+			pickerRenderingEngine->addRenderer(namedRenderer);
+
 			shared_ptr<SimpleOpenGLPicker> picker(new SimpleOpenGLPicker);
-			picker->setRenderingEngine(renderingEngine);
+			picker->setRenderingEngine(pickerRenderingEngine);
 			static_pointer_cast < SimpleOpenGLPickingEngine > (pickingEngine)->setRenderingEngine(renderingEngine);
 			pickingEngine->setPicker(picker);
 
-			shared_ptr<SimpleOpenGLPickerDemo> demo(this);
-			pickingEngine->addPickListener(demo);
+			Simplicity::registerObserver(FREEGLUT_MOUSE_EVENT,
+				bind(&SimpleOpenGLPickerDemo::onMouse, this, placeholders::_1));
+			Simplicity::registerObserver(PICK_EVENT, bind(&SimpleOpenGLPickerDemo::onPick, this, placeholders::_1));
 
-			engine.addEngine(pickingEngine);
-			engine.addEngine(renderingEngine);
-
-			engine.init();
+			engine->init();
 		}
 
-		void SimpleOpenGLPickerDemo::mouseClick(const int x, const int y)
+		void SimpleOpenGLPickerDemo::onMouse(const boost::any data)
 		{
-			cout << "Mouse clicked at (" + boost::lexical_cast < string > (x) + ", " + boost::lexical_cast < string
-				> (y) + ")\n";
+			const FreeglutInputEvent& event(boost::any_cast < FreeglutInputEvent > (data));
 
-			pickingEngine->pickViewport(800, 600, x, y, 2.0f, 2.0f);
+			if (event.state == 1)
+			{
+				pickingEngine->pickViewport(800, 800, event.x, event.y, 2.0f, 2.0f);
+			}
 		}
 
-		void SimpleOpenGLPickerDemo::operator()(const PickEvent& event) const
+		void SimpleOpenGLPickerDemo::onPick(const boost::any data)
 		{
-			cout << "Event handled by function object!\n";
+			const PickEvent& event(boost::any_cast < PickEvent > (data));
 
 			if (event.getHitCount() > 0)
 			{
-				cout << "Selecting shape!\n";
-
 				renderingEngine->setRendererRoot(*outlineRenderer, event.getHit(0).node);
 			}
 		}

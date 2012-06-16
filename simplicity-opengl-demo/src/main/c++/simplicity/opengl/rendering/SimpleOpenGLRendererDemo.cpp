@@ -19,6 +19,7 @@
 #include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/SceneFactory.h>
 
+#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
 
 #include "SimpleOpenGLRendererDemo.h"
@@ -29,68 +30,77 @@ namespace simplicity
 {
 	namespace opengl
 	{
-		SimpleOpenGLRendererDemo::SimpleOpenGLRendererDemo()
+		SimpleOpenGLRendererDemo::SimpleOpenGLRendererDemo() :
+			renderingEngine()
 		{
-		}
-
-		SimpleOpenGLRendererDemo::~SimpleOpenGLRendererDemo()
-		{
-		}
-
-		void SimpleOpenGLRendererDemo::advance()
-		{
-			renderingEngine.advance(shared_ptr<EngineInput>());
-		}
-
-		void SimpleOpenGLRendererDemo::dispose()
-		{
-			renderingEngine.destroy();
-		}
-
-		shared_ptr<Camera> SimpleOpenGLRendererDemo::getCamera()
-		{
-			return (renderingEngine.getCamera());
 		}
 
 		string SimpleOpenGLRendererDemo::getDescription()
 		{
-			return ("");
+			return "";
+		}
+
+		shared_ptr<Engine> SimpleOpenGLRendererDemo::getEngine()
+		{
+			return renderingEngine;
 		}
 
 		string SimpleOpenGLRendererDemo::getTitle()
 		{
-			return ("SimpleOpenGLRenderer");
+			return "SimpleOpenGLRenderer";
 		}
 
-		void SimpleOpenGLRendererDemo::init()
+		void SimpleOpenGLRendererDemo::onDispose()
 		{
-			unique_ptr<RGBAColourVector<> > clearingColour(MathFactory::getInstance().createRGBAColourVector());
+			renderingEngine->destroy();
+		}
+
+		void SimpleOpenGLRendererDemo::onInit()
+		{
+			renderingEngine.reset(new SimpleOpenGLRenderingEngine);
+
+			renderingEngine->setPreferredFrequency(100);
+			renderingEngine->setViewportWidth(800);
+			renderingEngine->setViewportHeight(800);
+
+			unique_ptr<ColourVector<> > clearingColour(MathFactory::getInstance().createColourVector());
 			clearingColour->setRed(0.95f);
 			clearingColour->setGreen(0.95f);
 			clearingColour->setBlue(0.95f);
-			renderingEngine.setClearingColour(move(clearingColour));
+			renderingEngine->setClearingColour(move(clearingColour));
 
 			shared_ptr<Scene> scene(SceneFactory::getInstance().createScene());
+			renderingEngine->setScene(scene);
+
 			shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
-			renderingEngine.setScene(scene);
+			scene->addNode(sceneRoot);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
 			scene->addCamera(camera);
-			renderingEngine.setCamera(camera);
+			renderingEngine->setCamera(camera);
 
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
 
-			addStandardCapsule(sceneRoot);
-			addStandardCylinder(sceneRoot);
-			addStandardSphere(sceneRoot);
-			addStandardTorus(sceneRoot);
-			scene->addNode(sceneRoot);
+			sceneRoot->addChild(createTitle()->getNode());
+			for (shared_ptr<Model> descriptionLine : createDescription()) {
+				sceneRoot->addChild(descriptionLine->getNode());
+			}
+
+			sceneRoot->addChild(getModelsRoot());
+			shared_ptr<Model> capsule(createStandardCapsule());
+			getModelsRoot()->addChild(capsule->getNode());
+			shared_ptr<Model> cylinder(createStandardCylinder());
+			getModelsRoot()->addChild(cylinder->getNode());
+			shared_ptr<Model> sphere(createStandardSphere());
+			getModelsRoot()->addChild(sphere->getNode());
+			shared_ptr<Model> torus(createStandardTorus());
+			getModelsRoot()->addChild(torus->getNode());
 
 			shared_ptr<SimpleOpenGLRenderer> renderer(new SimpleOpenGLRenderer);
-			renderingEngine.addRenderer(renderer);
+			renderingEngine->addRenderer(renderer);
 
-			renderingEngine.init();
+			renderingEngine->init();
 		}
 	}
 }

@@ -17,7 +17,7 @@
 #ifndef BLENDINGOPENGLRENDERERDEMO_H_
 #define BLENDINGOPENGLRENDERERDEMO_H_
 
-#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
+#include <simplicity/rendering/engine/RenderingEngine.h>
 
 #include "../OpenGLDemo.h"
 
@@ -33,31 +33,13 @@ namespace simplicity
 		class BlendingOpenGLRendererDemo : public OpenGLDemo
 		{
 			public:
-				/**
-				 * <p>
-				 * Creates an instance of <code>BlendingOpenGLRendererDemo</code>.
-				 * </p>
-				 */
 				BlendingOpenGLRendererDemo();
-
-				/**
-				 * <p>
-				 * Disposes of an instance of <code>BlendingOpenGLRendererDemo</code>.
-				 * </p>
-				 */
-				virtual ~BlendingOpenGLRendererDemo();
-
-				void advance();
-
-				void dispose();
-
-				std::shared_ptr<Camera> getCamera();
 
 				std::string getDescription();
 
-				std::string getTitle();
+				std::shared_ptr<Engine> getEngine();
 
-				void init();
+				std::string getTitle();
 
 			private:
 				/**
@@ -65,7 +47,11 @@ namespace simplicity
 				 * The rendering engine for the demo.
 				 * </p>
 				 */
-				SimpleOpenGLRenderingEngine renderingEngine;
+				std::shared_ptr<simplicity::RenderingEngine> renderingEngine;
+
+				void onDispose();
+
+				void onInit();
 		};
 	}
 }

@@ -252,7 +252,15 @@ namespace simplicity
 				currentNode = iterator.getNextNode();
 
 				glPushMatrix();
-				glMultMatrixf(currentNode->getTransformation().getData().data());
+
+				if (currentNode.get() == &root && currentNode != scene->getRoot())
+				{
+					glMultMatrixf(currentNode->getAbsoluteTransformation()->getData().data());
+				}
+				else
+				{
+					glMultMatrixf(currentNode->getTransformation().getData().data());
+				}
 
 				// Render the current node.
 				std::shared_ptr<ModelNode> modelNode = dynamic_pointer_cast < ModelNode > (currentNode);

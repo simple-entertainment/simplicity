@@ -111,18 +111,18 @@ namespace simplicity
 
 				/**
 				 * <p>
-				 * The {@link simplicity::Renderer Renderer} used to perform the first rendering pass (the normal object).
-				 * </p>
-				 */
-				std::unique_ptr<AlwaysStencilOpenGLRenderer> alwaysStencil;
-
-				/**
-				 * <p>
 				 * The {@link simplicity::Renderer Renderer} used in the second rendering pass to ensure the colours in the object are ignored when drawing
 				 * the outline.
 				 * </p>
 				 */
 				std::shared_ptr<MonoColourOpenGLRenderer> monoColour;
+
+				/**
+				 * <p>
+				 * The {@link simplicity::Renderer Renderer} used to perform the first rendering pass (the normal object).
+				 * </p>
+				 */
+				std::unique_ptr<AlwaysStencilOpenGLRenderer> alwaysStencil;
 
 				/**
 				 * <p>

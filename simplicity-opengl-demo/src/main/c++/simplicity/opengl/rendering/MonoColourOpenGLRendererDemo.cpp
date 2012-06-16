@@ -19,6 +19,7 @@
 #include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/SceneFactory.h>
 
+#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 #include <simplicity/opengl/rendering/MonoColourOpenGLRenderer.h>
 
 #include "MonoColourOpenGLRendererDemo.h"
@@ -29,75 +30,84 @@ namespace simplicity
 {
 	namespace opengl
 	{
-		MonoColourOpenGLRendererDemo::MonoColourOpenGLRendererDemo()
+		MonoColourOpenGLRendererDemo::MonoColourOpenGLRendererDemo() :
+			renderingEngine()
 		{
-		}
-
-		MonoColourOpenGLRendererDemo::~MonoColourOpenGLRendererDemo()
-		{
-		}
-
-		void MonoColourOpenGLRendererDemo::advance()
-		{
-			renderingEngine.advance(shared_ptr<EngineInput>());
-		}
-
-		void MonoColourOpenGLRendererDemo::dispose()
-		{
-			renderingEngine.destroy();
-		}
-
-		shared_ptr<Camera> MonoColourOpenGLRendererDemo::getCamera()
-		{
-			return (renderingEngine.getCamera());
 		}
 
 		string MonoColourOpenGLRendererDemo::getDescription()
 		{
-			return ("You'll just have to trust me on this one (unless you check the code). All the shapes are"
-				"different colours but the renderer overrides that.");
+			return "You'll just have to trust me on this one (unless you check the code). All the shapes are "
+				"different colours but the renderer overrides that.";
+		}
+
+		shared_ptr<Engine> MonoColourOpenGLRendererDemo::getEngine()
+		{
+			return renderingEngine;
 		}
 
 		string MonoColourOpenGLRendererDemo::getTitle()
 		{
-			return ("MonoColourOpenGLRenderer");
+			return "MonoColourOpenGLRenderer";
 		}
 
-		void MonoColourOpenGLRendererDemo::init()
+		void MonoColourOpenGLRendererDemo::onDispose()
 		{
-			unique_ptr<RGBAColourVector<> > clearingColour(MathFactory::getInstance().createRGBAColourVector());
+			renderingEngine->destroy();
+		}
+
+		void MonoColourOpenGLRendererDemo::onInit()
+		{
+			renderingEngine.reset(new SimpleOpenGLRenderingEngine);
+
+			renderingEngine->setPreferredFrequency(100);
+			renderingEngine->setViewportWidth(800);
+			renderingEngine->setViewportHeight(800);
+
+			unique_ptr<ColourVector<> > clearingColour(MathFactory::getInstance().createColourVector());
 			clearingColour->setRed(0.95f);
 			clearingColour->setGreen(0.95f);
 			clearingColour->setBlue(0.95f);
-			renderingEngine.setClearingColour(move(clearingColour));
+			renderingEngine->setClearingColour(move(clearingColour));
 
 			shared_ptr<Scene> scene(SceneFactory::getInstance().createScene());
+			renderingEngine->setScene(scene);
+
 			shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
-			renderingEngine.setScene(scene);
+			scene->addNode(sceneRoot);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
 			scene->addCamera(camera);
-			renderingEngine.setCamera(camera);
+			renderingEngine->setCamera(camera);
 
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
 
-			addStandardCapsule(sceneRoot);
-			addStandardCylinder(sceneRoot);
-			addStandardSphere(sceneRoot);
-			addStandardTorus(sceneRoot);
-			scene->addNode(sceneRoot);
+			sceneRoot->addChild(createTitle()->getNode());
+			for (shared_ptr<Model> descriptionLine : createDescription()) {
+				sceneRoot->addChild(descriptionLine->getNode());
+			}
+
+			sceneRoot->addChild(getModelsRoot());
+			shared_ptr<Model> capsule(createStandardCapsule());
+			getModelsRoot()->addChild(capsule->getNode());
+			shared_ptr<Model> cylinder(createStandardCylinder());
+			getModelsRoot()->addChild(cylinder->getNode());
+			shared_ptr<Model> sphere(createStandardSphere());
+			getModelsRoot()->addChild(sphere->getNode());
+			shared_ptr<Model> torus(createStandardTorus());
+			getModelsRoot()->addChild(torus->getNode());
 
 			shared_ptr<MonoColourOpenGLRenderer> renderer(new MonoColourOpenGLRenderer);
 
-			unique_ptr<RGBAColourVector<> > renderColour(MathFactory::getInstance().createRGBAColourVector());
+			unique_ptr<ColourVector<> > renderColour(MathFactory::getInstance().createColourVector());
 			renderColour->setGreen(0.5f);
 			renderColour->setBlue(0.5f);
 			renderer->setColour(move(renderColour));
 
-			renderingEngine.addRenderer(renderer);
+			renderingEngine->addRenderer(renderer);
 
-			renderingEngine.init();
+			renderingEngine->init();
 		}
 	}
 }

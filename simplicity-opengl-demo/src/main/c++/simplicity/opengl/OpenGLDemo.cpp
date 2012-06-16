@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2011 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -20,174 +20,253 @@
 #include <boost/math/constants/constants.hpp>
 
 #include <simplicity/math/MathFactory.h>
+#include <simplicity/model/ModelFactory.h>
 #include <simplicity/scene/SceneFactory.h>
+#include <simplicity/Simplicity.h>
 
-#include <simplicity/opengl/model/shape/GLUCapsule.h>
-#include <simplicity/opengl/model/shape/GLUCylinder.h>
-#include <simplicity/opengl/model/shape/GLUSphere.h>
-#include <simplicity/opengl/model/shape/GLUTorus.h>
+#include <simplicity/opengl/model/OpenGLText.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLCamera.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLLight.h>
+
+#include <simplicity/freeglut/FreeglutEvents.h>
+#include <simplicity/freeglut/input/FreeglutInputEvent.h>
 
 #include "OpenGLDemo.h"
 
 using namespace boost::math::constants;
+using namespace simplicity::freeglut;
 using namespace std;
 
 namespace simplicity
 {
 	namespace opengl
 	{
+		OpenGLDemo::OpenGLDemo() :
+			modelsRoot(SceneFactory::getInstance().createNode())
+		{
+		}
+
 		shared_ptr<Camera> OpenGLDemo::addStandardCamera(shared_ptr<Node> parentNode)
 		{
 			shared_ptr<SimpleOpenGLCamera> camera(new SimpleOpenGLCamera);
-			shared_ptr<Node> cameraNode(SceneFactory::getInstance().createNode());
-			cameraRootNode = SceneFactory::getInstance().createNode();
 
-			unique_ptr<TranslationVector<> > cameraTranslation(MathFactory::getInstance().createTranslationVector());
-			cameraTranslation->setZ(-20.0f);
-			cameraNode->getTransformation().translate(*cameraTranslation);
+			shared_ptr<Node> node(SceneFactory::getInstance().createNode());
+			camera->setNode(node);
 
-			unique_ptr<TranslationVector<> > cameraRotationAxis(MathFactory::getInstance().createTranslationVector());
-			cameraRotationAxis->setY(1.0f);
-			cameraNode->getTransformation().rotate(pi<float>(), *cameraRotationAxis);
+			unique_ptr<TranslationVector<> > location(MathFactory::getInstance().createTranslationVector());
+			location->setZ(15.0f);
+			node->getTransformation().translate(*location);
 
-			camera->setNode(cameraNode);
-
-			unique_ptr<TranslationVector<> > rootRotationAxis(MathFactory::getInstance().createTranslationVector());
-			rootRotationAxis->setX(-0.5f);
-			rootRotationAxis->setY(-0.5f);
-			cameraRootNode->getTransformation().rotate(pi<float>() / 8.0f, *rootRotationAxis);
-
-			cameraRootNode->addChild(cameraNode);
-			parentNode->addChild(cameraRootNode);
+			parentNode->addChild(node);
 
 			return camera;
-		}
-
-		void OpenGLDemo::addStandardCapsule(shared_ptr<Node> parentNode)
-		{
-			shared_ptr<ModelNode> capsuleNode(SceneFactory::getInstance().createModelNode());
-
-			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
-			translation->setX(-3.0f);
-			translation->setY(3.0f);
-			capsuleNode->getTransformation().translate(*translation);
-
-			shared_ptr<GLUCapsule> capsule(new GLUCapsule);
-
-			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
-			colour->setRed(0.75f);
-			capsule->setColour(move(colour));
-
-			capsuleNode->setModel(capsule);
-			parentNode->addChild(capsuleNode);
-		}
-
-		void OpenGLDemo::addStandardCylinder(shared_ptr<Node> parentNode)
-		{
-			shared_ptr<ModelNode> cylinderNode(SceneFactory::getInstance().createModelNode());
-
-			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
-			translation->setY(3.0f);
-			cylinderNode->getTransformation().translate(*translation);
-
-			shared_ptr<GLUCylinder> cylinder(new GLUCylinder);
-
-			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
-			colour->setGreen(0.75f);
-			cylinder->setColour(move(colour));
-
-			cylinderNode->setModel(cylinder);
-			parentNode->addChild(cylinderNode);
 		}
 
 		shared_ptr<Light> OpenGLDemo::addStandardLight(shared_ptr<Node> parentNode)
 		{
 			shared_ptr<SimpleOpenGLLight> light(new SimpleOpenGLLight);
 
-			unique_ptr<RGBAColourVector<> > ambientLight(MathFactory::getInstance().createRGBAColourVector());
+			shared_ptr<Node> node(SceneFactory::getInstance().createNode());
+			light->setNode(node);
+
+			unique_ptr<TranslationVector<> > location(MathFactory::getInstance().createTranslationVector());
+			location->setZ(15.0f);
+			node->getTransformation().translate(*location);
+
+			unique_ptr<ColourVector<> > ambientLight(MathFactory::getInstance().createColourVector());
 			ambientLight->setRed(0.25f);
 			ambientLight->setGreen(0.25f);
 			ambientLight->setBlue(0.25f);
 			light->setAmbientLight(move(ambientLight));
 
-			unique_ptr<RGBAColourVector<> > diffuseLight(MathFactory::getInstance().createRGBAColourVector());
-			diffuseLight->setRed(0.25f);
-			diffuseLight->setGreen(0.25f);
-			diffuseLight->setBlue(0.25f);
+			unique_ptr<ColourVector<> > diffuseLight(MathFactory::getInstance().createColourVector());
+			diffuseLight->setRed(0.5f);
+			diffuseLight->setGreen(0.5f);
+			diffuseLight->setBlue(0.5f);
 			light->setDiffuseLight(move(diffuseLight));
 
-			unique_ptr<RGBAColourVector<> > specularLight(MathFactory::getInstance().createRGBAColourVector());
-			specularLight->setRed(0.1f);
-			specularLight->setGreen(0.1f);
-			specularLight->setBlue(0.1f);
+			unique_ptr<ColourVector<> > specularLight(MathFactory::getInstance().createColourVector());
+			specularLight->setRed(0.5f);
+			specularLight->setGreen(0.5f);
+			specularLight->setBlue(0.5f);
 			light->setSpecularLight(move(specularLight));
 
-			shared_ptr<Node> lightNode(SceneFactory::getInstance().createNode());
-
-			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
-			translation->setZ(20.0f);
-			lightNode->getTransformation().translate(*translation);
-
-			light->setNode(lightNode);
-			parentNode->addChild(lightNode);
+			parentNode->addChild(node);
 
 			return light;
 		}
 
-		void OpenGLDemo::addStandardSphere(shared_ptr<Node> parentNode)
+		vector<shared_ptr<Model> > OpenGLDemo::createDescription()
 		{
-			shared_ptr<ModelNode> sphereNode(SceneFactory::getInstance().createModelNode());
+			vector <shared_ptr<Model> > description;
+			string text(getDescription());
 
-			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
-			translation->setX(3.0f);
-			translation->setY(3.0f);
-			sphereNode->getTransformation().translate(*translation);
+			unsigned int lineNum = 0;
+			while (text.find('\n') != string::npos)
+			{
+				description.push_back(createDescriptionLine(text.substr(0, text.find('\n')), lineNum));
+				text = text.substr(text.find('\n') + 1);
+				lineNum++;
+			}
+			description.push_back(createDescriptionLine(text, lineNum));
 
-			shared_ptr<GLUSphere> sphere(new GLUSphere);
+			return description;
+		}
 
-			unique_ptr<RGBAColourVector<> > colour(MathFactory::getInstance().createRGBAColourVector());
+		shared_ptr<Model> OpenGLDemo::createDescriptionLine(const string& line, const unsigned int lineNum)
+		{
+			shared_ptr<Text> descriptionLine(ModelFactory::getInstance().createText());
+
+			unique_ptr<ColourVector<> > colour(MathFactory::getInstance().createColourVector());
+			colour->setRed(1.0f);
+			colour->setGreen(1.0f);
+			colour->setBlue(1.0f);
+			descriptionLine->setColour(move(colour));
+
+			descriptionLine->setText(line);
+
+			shared_ptr<ModelNode> node(SceneFactory::getInstance().createModelNode());
+			descriptionLine->setNode(node);
+			node->setModel(descriptionLine);
+
+			unique_ptr<TranslationVector<> > location(MathFactory::getInstance().createTranslationVector());
+			location->setX(-3.6f);
+			location->setY(2.4f - (lineNum / 10.0f));
+			node->getTransformation().setTranslation(*location);
+
+			return descriptionLine;
+		}
+
+		shared_ptr<Model> OpenGLDemo::createStandardCapsule()
+		{
+			shared_ptr<Capsule> capsule(ModelFactory::getInstance().createCapsule());
+
+			unique_ptr<ColourVector<> > colour(MathFactory::getInstance().createColourVector());
+			colour->setRed(0.75f);
+			capsule->setColour(move(colour));
+
+			shared_ptr<ModelNode> node(SceneFactory::getInstance().createModelNode());
+			capsule->setNode(node);
+			node->setModel(capsule);
+
+			unique_ptr<TranslationVector<> > location(MathFactory::getInstance().createTranslationVector());
+			location->setX(-3.0f);
+			location->setY(3.0f);
+			node->getTransformation().translate(*location);
+
+			return capsule;
+		}
+
+		shared_ptr<Model> OpenGLDemo::createStandardCylinder()
+		{
+			shared_ptr<Cylinder> cylinder(ModelFactory::getInstance().createCylinder());
+
+			unique_ptr<ColourVector<> > colour(MathFactory::getInstance().createColourVector());
+			colour->setGreen(0.75f);
+			cylinder->setColour(move(colour));
+
+			shared_ptr<ModelNode> node(SceneFactory::getInstance().createModelNode());
+			cylinder->setNode(node);
+			node->setModel(cylinder);
+
+			unique_ptr<TranslationVector<> > location(MathFactory::getInstance().createTranslationVector());
+			location->setY(3.0f);
+			node->getTransformation().translate(*location);
+
+			return cylinder;
+		}
+
+		shared_ptr<Model> OpenGLDemo::createStandardSphere()
+		{
+			shared_ptr<Sphere> sphere(ModelFactory::getInstance().createSphere());
+
+			unique_ptr<ColourVector<> > colour(MathFactory::getInstance().createColourVector());
 			colour->setBlue(0.75f);
 			sphere->setColour(move(colour));
 
-			sphereNode->setModel(sphere);
-			parentNode->addChild(sphereNode);
+			shared_ptr<ModelNode> node(SceneFactory::getInstance().createModelNode());
+			sphere->setNode(node);
+			node->setModel(sphere);
+
+			unique_ptr<TranslationVector<> > location(MathFactory::getInstance().createTranslationVector());
+			location->setX(3.0f);
+			location->setY(3.0f);
+			node->getTransformation().translate(*location);
+
+			return sphere;
 		}
 
-		void OpenGLDemo::addStandardTorus(shared_ptr<Node> parentNode)
+		shared_ptr<Torus> OpenGLDemo::createStandardTorus()
 		{
-			shared_ptr<ModelNode> torusNode(SceneFactory::getInstance().createModelNode());
+			shared_ptr<Torus> torus(ModelFactory::getInstance().createTorus());
 
-			unique_ptr<TranslationVector<> > translation(MathFactory::getInstance().createTranslationVector());
-			translation->setY(-2.0f);
-			torusNode->getTransformation().translate(*translation);
+			shared_ptr<ModelNode> node(SceneFactory::getInstance().createModelNode());
+			torus->setNode(node);
+			node->setModel(torus);
 
-			shared_ptr<GLUTorus> torus(new GLUTorus);
-			torusNode->setModel(torus);
-			parentNode->addChild(torusNode);
+			unique_ptr<TranslationVector<> > location(MathFactory::getInstance().createTranslationVector());
+			location->setY(-2.0f);
+			node->getTransformation().translate(*location);
+
+			return torus;
 		}
 
-		void OpenGLDemo::onMouseButton(const int button, const int state, const int x, const int y)
+		shared_ptr<Model> OpenGLDemo::createTitle()
 		{
+			shared_ptr<Text> title(ModelFactory::getInstance().createText());
+
+			dynamic_cast<OpenGLText*>(title.get())->setFont(GLUT_BITMAP_HELVETICA_18);
+			title->setText(getTitle());
+
+			shared_ptr<ModelNode> node(SceneFactory::getInstance().createModelNode());
+			title->setNode(node);
+			node->setModel(title);
+
+			unique_ptr<TranslationVector<> > location(MathFactory::getInstance().createTranslationVector());
+			location->setX(-3.6f);
+			location->setY(2.6f);
+			node->getTransformation().setTranslation(*location);
+
+			return title;
 		}
 
-		void OpenGLDemo::onMouseMotion(const int x, const int y)
+		void OpenGLDemo::dispose()
 		{
-			float angleX = (mouseX - x) / 10.0f;
-			float angleY = (y - mouseY) / 10.0f;
-			mouseX = x;
-			mouseY = y;
+			Simplicity::deregisterObserver(FREEGLUT_MOTION_EVENT, bind(&OpenGLDemo::onMotion, this, placeholders::_1));
 
-			if (cameraRootNode.get())
+			onDispose();
+		}
+
+		shared_ptr<Node> OpenGLDemo::getModelsRoot()
+		{
+			return modelsRoot;
+		}
+
+		void OpenGLDemo::init()
+		{
+			Simplicity::registerObserver(FREEGLUT_MOTION_EVENT, bind(&OpenGLDemo::onMotion, this, placeholders::_1));
+
+			onInit();
+		}
+
+		void OpenGLDemo::onMotion(const boost::any data)
+		{
+			const FreeglutInputEvent& event(boost::any_cast < FreeglutInputEvent > (data));
+
+			float angleX = (mouseX - event.x) / 10.0f;
+			float angleY = (event.y - mouseY) / 10.0f;
+			mouseX = event.x;
+			mouseY = event.y;
+
+			if (modelsRoot.get() != NULL)
 			{
 				unique_ptr<TranslationVector<> > yAxis(MathFactory::getInstance().createTranslationVector());
 				yAxis->setY(1.0f);
-				cameraRootNode->getTransformation().rotate(angleX / pi<float>(), *yAxis);
+				modelsRoot->getTransformation().rotate(angleX / pi<float>(), *yAxis);
 
 				unique_ptr<TranslationVector<> > xAxis(MathFactory::getInstance().createTranslationVector());
 				xAxis->setX(1.0f);
-				cameraRootNode->getTransformation().rotate(angleY / pi<float>(), *xAxis);
+				modelsRoot->getTransformation().rotate(angleY / pi<float>(), *xAxis);
 			}
 		}
 	}

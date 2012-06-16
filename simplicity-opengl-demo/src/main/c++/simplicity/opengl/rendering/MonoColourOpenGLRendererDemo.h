@@ -1,5 +1,5 @@
 /*
- * Copyright © Simple Entertainment Limited 2011
+ * Copyright © 2011 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -17,7 +17,7 @@
 #ifndef MONOCOLOUROPENGLRENDERERDEMO_H_
 #define MONOCOLOUROPENGLRENDERERDEMO_H_
 
-#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
+#include <simplicity/rendering/engine/RenderingEngine.h>
 
 #include "../OpenGLDemo.h"
 
@@ -33,31 +33,13 @@ namespace simplicity
 		class MonoColourOpenGLRendererDemo : public OpenGLDemo
 		{
 			public:
-				/**
-				 * <p>
-				 * Creates an instance of <code>MonoColourOpenGLRendererDemo</code>.
-				 * </p>
-				 */
 				MonoColourOpenGLRendererDemo();
-
-				/**
-				 * <p>
-				 * Disposes of an instance of <code>MonoColourOpenGLRendererDemo</code>.
-				 * </p>
-				 */
-				virtual ~MonoColourOpenGLRendererDemo();
-
-				void advance();
-
-				void dispose();
-
-				std::shared_ptr<Camera> getCamera();
 
 				std::string getDescription();
 
-				std::string getTitle();
+				std::shared_ptr<Engine> getEngine();
 
-				void init();
+				std::string getTitle();
 
 			private:
 				/**
@@ -65,7 +47,11 @@ namespace simplicity
 				 * The rendering engine for the demo.
 				 * </p>
 				 */
-				SimpleOpenGLRenderingEngine renderingEngine;
+				std::shared_ptr<simplicity::RenderingEngine> renderingEngine;
+
+				void onDispose();
+
+				void onInit();
 		};
 	}
 }

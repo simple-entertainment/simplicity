@@ -27,7 +27,7 @@ namespace simplicity
 		const float OutlineOpenGLRenderer::DEFAULT_OUTLINE_WIDTH = 3.0f;
 
 		OutlineOpenGLRenderer::OutlineOpenGLRenderer() :
-			alwaysStencil(new AlwaysStencilOpenGLRenderer(monoColour)), monoColour(new MonoColourOpenGLRenderer), notEqualStencil(
+			monoColour(new MonoColourOpenGLRenderer), alwaysStencil(new AlwaysStencilOpenGLRenderer(monoColour)), notEqualStencil(
 				new NotEqualStencilOpenGLRenderer(monoColour)), outlineWidth(DEFAULT_OUTLINE_WIDTH)
 		{
 

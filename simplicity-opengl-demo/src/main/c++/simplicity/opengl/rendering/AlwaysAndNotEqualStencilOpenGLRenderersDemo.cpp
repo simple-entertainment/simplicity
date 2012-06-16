@@ -19,6 +19,7 @@
 #include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/SceneFactory.h>
 
+#include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 #include <simplicity/opengl/rendering/AlwaysStencilOpenGLRenderer.h>
 #include <simplicity/opengl/rendering/NotEqualStencilOpenGLRenderer.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
@@ -29,83 +30,100 @@ namespace simplicity
 {
 	namespace opengl
 	{
-		AlwaysAndNotEqualStencilOpenGLRenderersDemo::AlwaysAndNotEqualStencilOpenGLRenderersDemo()
+		AlwaysAndNotEqualStencilOpenGLRenderersDemo::AlwaysAndNotEqualStencilOpenGLRenderersDemo() :
+			renderingEngine()
 		{
-		}
-
-		AlwaysAndNotEqualStencilOpenGLRenderersDemo::~AlwaysAndNotEqualStencilOpenGLRenderersDemo()
-		{
-		}
-
-		void AlwaysAndNotEqualStencilOpenGLRenderersDemo::advance()
-		{
-			renderingEngine.advance(shared_ptr<EngineInput>());
-		}
-
-		void AlwaysAndNotEqualStencilOpenGLRenderersDemo::dispose()
-		{
-			renderingEngine.destroy();
-		}
-
-		shared_ptr<Camera> AlwaysAndNotEqualStencilOpenGLRenderersDemo::getCamera()
-		{
-			return (renderingEngine.getCamera());
 		}
 
 		string AlwaysAndNotEqualStencilOpenGLRenderersDemo::getDescription()
 		{
-			return ("Pass #1 Renders the sphere, cylinder and capsule and assigns a value to the stencil buffer.\n"
+			return "Pass #1 Renders the sphere, cylinder and capsule and assigns a value to the stencil buffer.\n"
 				"Pass #2 Renders the torus only where the stencil buffer has not been assigned a value.\n"
-				"The result of this is that the torus will never be rendered over the other shapes.");
+				"The result of this is that the torus will never be rendered over the other shapes.";
+		}
+
+		shared_ptr<Engine> AlwaysAndNotEqualStencilOpenGLRenderersDemo::getEngine()
+		{
+			return renderingEngine;
 		}
 
 		string AlwaysAndNotEqualStencilOpenGLRenderersDemo::getTitle()
 		{
-			return ("AlwaysStencilOpenGLRenderer and NotEqualStencilOpenGLRenderer");
+			return "AlwaysStencilOpenGLRenderer and NotEqualStencilOpenGLRenderer";
 		}
 
-		void AlwaysAndNotEqualStencilOpenGLRenderersDemo::init()
+		void AlwaysAndNotEqualStencilOpenGLRenderersDemo::onDispose()
 		{
-			unique_ptr<RGBAColourVector<> > clearingColour(MathFactory::getInstance().createRGBAColourVector());
+			renderingEngine->destroy();
+		}
+
+		void AlwaysAndNotEqualStencilOpenGLRenderersDemo::onInit()
+		{
+			renderingEngine.reset(new SimpleOpenGLRenderingEngine);
+
+			renderingEngine->setPreferredFrequency(100);
+			renderingEngine->setViewportWidth(800);
+			renderingEngine->setViewportHeight(800);
+
+			unique_ptr<ColourVector<> > clearingColour(MathFactory::getInstance().createColourVector());
 			clearingColour->setRed(0.95f);
 			clearingColour->setGreen(0.95f);
 			clearingColour->setBlue(0.95f);
-			renderingEngine.setClearingColour(move(clearingColour));
+			renderingEngine->setClearingColour(move(clearingColour));
 
 			shared_ptr<Scene> scene(SceneFactory::getInstance().createScene());
+			renderingEngine->setScene(scene);
+
 			shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
-			renderingEngine.setScene(scene);
+			scene->addNode(sceneRoot);
 
 			shared_ptr<Camera> camera = addStandardCamera(sceneRoot);
 			scene->addCamera(camera);
-			renderingEngine.setCamera(camera);
+			renderingEngine->setCamera(camera);
 
 			shared_ptr<Light> light = addStandardLight(sceneRoot);
 			scene->addLight(light);
-			scene->addNode(sceneRoot);
+
+			shared_ptr<Node> textRoot(SceneFactory::getInstance().createNode());
+			sceneRoot->addChild(textRoot);
+
+			textRoot->addChild(createTitle()->getNode());
+			for (shared_ptr<Model> descriptionLine : createDescription()) {
+				textRoot->addChild(descriptionLine->getNode());
+			}
+
+			sceneRoot->addChild(getModelsRoot());
 
 			shared_ptr<Node> renderingPass1Root(SceneFactory::getInstance().createNode());
-			addStandardCapsule(renderingPass1Root);
-			addStandardCylinder(renderingPass1Root);
-			addStandardSphere(renderingPass1Root);
-			scene->addNode(renderingPass1Root);
+			getModelsRoot()->addChild(renderingPass1Root);
+
+			shared_ptr<Model> capsule(createStandardCapsule());
+			renderingPass1Root->addChild(capsule->getNode());
+			shared_ptr<Model> cylinder(createStandardCylinder());
+			renderingPass1Root->addChild(cylinder->getNode());
+			shared_ptr<Model> sphere(createStandardSphere());
+			renderingPass1Root->addChild(sphere->getNode());
 
 			shared_ptr<Node> renderingPass2Root(SceneFactory::getInstance().createNode());
-			addStandardTorus(renderingPass2Root);
-			scene->addNode(renderingPass2Root);
+			getModelsRoot()->addChild(renderingPass2Root);
+
+			shared_ptr<Model> torus(createStandardTorus());
+			renderingPass2Root->addChild(torus->getNode());
 
 			shared_ptr<SimpleOpenGLRenderer> renderer(new SimpleOpenGLRenderer);
 
+			renderingEngine->addRenderer(renderer);
+			renderingEngine->setRendererRoot(*renderer, textRoot);
+
 			shared_ptr<AlwaysStencilOpenGLRenderer> firstRenderer(new AlwaysStencilOpenGLRenderer(renderer));
-			renderingEngine.addRenderer(firstRenderer);
-			renderingEngine.setRendererRoot(*firstRenderer, renderingPass1Root);
+			renderingEngine->addRenderer(firstRenderer);
+			renderingEngine->setRendererRoot(*firstRenderer, renderingPass1Root);
 
-			shared_ptr<NotEqualStencilOpenGLRenderer> secondRenderer(
-				new NotEqualStencilOpenGLRenderer(renderer));
-			renderingEngine.addRenderer(secondRenderer);
-			renderingEngine.setRendererRoot(*secondRenderer, renderingPass2Root);
+			shared_ptr<NotEqualStencilOpenGLRenderer> secondRenderer(new NotEqualStencilOpenGLRenderer(renderer));
+			renderingEngine->addRenderer(secondRenderer);
+			renderingEngine->setRendererRoot(*secondRenderer, renderingPass2Root);
 
-			renderingEngine.init();
+			renderingEngine->init();
 		}
 	}
 }
