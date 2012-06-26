@@ -35,28 +35,28 @@ namespace simplicity
 	 */
 	TEST_F(BezierPathInterpolatorTest, interpolateOneNode)
 	{
-	    // Create dependencies.
-	    // //////////////////////////////////////////////////
+		// Create dependencies.
+		// //////////////////////////////////////////////////
 		std::shared_ptr<MockNode> mockNode(new NiceMock<MockNode>);
 		SimpleTransformationMatrix<> transformation;
 
 		vector<std::shared_ptr<const Node> > path;
 		path.push_back(mockNode);
 
-	    // Provide stub behaviour.
-	    // //////////////////////////////////////////////////
+		// Provide stub behaviour.
+		// //////////////////////////////////////////////////
 		ON_CALL(*mockNode, getTransformation()).WillByDefault(ReturnRef(transformation));
 
-	    // Initialise the test environment.
-	    // //////////////////////////////////////////////////
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
 		transformation.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
 
-	    // Perform test.
-	    // //////////////////////////////////////////////////
+		// Perform test.
+		// //////////////////////////////////////////////////
 		BezierPathInterpolator interpolator(path);
 
-	    // Verify test results.
-	    // //////////////////////////////////////////////////
+		// Verify test results.
+		// //////////////////////////////////////////////////
 		std::shared_ptr<TranslationVector<> > point1 = interpolator.interpolate(0.0f);
 		ASSERT_NEAR(1.0f, point1->getX(), 0.0001f);
 		ASSERT_NEAR(1.0f, point1->getY(), 0.0001f);
@@ -82,8 +82,8 @@ namespace simplicity
 	 */
 	TEST_F(BezierPathInterpolatorTest, interpolateThreeNodes)
 	{
-	    // Create dependencies.
-	    // //////////////////////////////////////////////////
+		// Create dependencies.
+		// //////////////////////////////////////////////////
 		std::shared_ptr<MockNode> mockNode1(new NiceMock<MockNode>);
 		std::shared_ptr<MockNode> mockNode2(new NiceMock<MockNode>);
 		std::shared_ptr<MockNode> mockNode3(new NiceMock<MockNode>);
@@ -96,24 +96,24 @@ namespace simplicity
 		path.push_back(mockNode2);
 		path.push_back(mockNode3);
 
-	    // Provide stub behaviour.
-	    // //////////////////////////////////////////////////
+		// Provide stub behaviour.
+		// //////////////////////////////////////////////////
 		ON_CALL(*mockNode1, getTransformation()).WillByDefault(ReturnRef(transformation1));
 		ON_CALL(*mockNode2, getTransformation()).WillByDefault(ReturnRef(transformation2));
 		ON_CALL(*mockNode3, getTransformation()).WillByDefault(ReturnRef(transformation3));
 
-	    // Initialise the test environment.
-	    // //////////////////////////////////////////////////
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
 		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
 		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
 		transformation3.translate(SimpleTranslationVector<>(3.0f, 1.0f, 1.0f, 1.0f));
 
-	    // Perform test.
-	    // //////////////////////////////////////////////////
+		// Perform test.
+		// //////////////////////////////////////////////////
 		BezierPathInterpolator interpolator(path);
 
-	    // Verify test results.
-	    // //////////////////////////////////////////////////
+		// Verify test results.
+		// //////////////////////////////////////////////////
 		unique_ptr<TranslationVector<> > point1 = interpolator.interpolate(0.0f);
 		ASSERT_NEAR(1.0f, point1->getX(), 0.0001f);
 		ASSERT_NEAR(1.0f, point1->getY(), 0.0001f);
@@ -139,8 +139,8 @@ namespace simplicity
 	 */
 	TEST_F(BezierPathInterpolatorTest, interpolateTwoNodes)
 	{
-	    // Create dependencies.
-	    // //////////////////////////////////////////////////
+		// Create dependencies.
+		// //////////////////////////////////////////////////
 		std::shared_ptr<MockNode> mockNode1(new NiceMock<MockNode>);
 		std::shared_ptr<MockNode> mockNode2(new NiceMock<MockNode>);
 		SimpleTransformationMatrix<> transformation1;
@@ -150,22 +150,22 @@ namespace simplicity
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
-	    // Provide stub behaviour.
-	    // //////////////////////////////////////////////////
+		// Provide stub behaviour.
+		// //////////////////////////////////////////////////
 		ON_CALL(*mockNode1, getTransformation()).WillByDefault(ReturnRef(transformation1));
 		ON_CALL(*mockNode2, getTransformation()).WillByDefault(ReturnRef(transformation2));
 
-	    // Initialise the test environment.
-	    // //////////////////////////////////////////////////
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
 		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
 		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
 
-	    // Perform test.
-	    // //////////////////////////////////////////////////
+		// Perform test.
+		// //////////////////////////////////////////////////
 		BezierPathInterpolator interpolator(path);
 
-	    // Verify test results.
-	    // //////////////////////////////////////////////////
+		// Verify test results.
+		// //////////////////////////////////////////////////
 		std::shared_ptr<TranslationVector<> > point1 = interpolator.interpolate(0.0f);
 		ASSERT_NEAR(1.0f, point1->getX(), 0.0001f);
 		ASSERT_NEAR(1.0f, point1->getY(), 0.0001f);
