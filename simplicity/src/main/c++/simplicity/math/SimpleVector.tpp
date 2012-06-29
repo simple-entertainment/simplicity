@@ -51,12 +51,14 @@ namespace simplicity
 	}
 
 	template<typename Data, unsigned int Size>
-	void SimpleVector<Data, Size>::add(array<Data, Size>& lhs, const array<Data, Size>& rhs)
+	void SimpleVector<Data, Size>::add(const Vector<Data, Size>& rhs)
 	{
-		lhs.at(0) = lhs.at(0) + rhs.at(0);
-		lhs.at(1) = lhs.at(1) + rhs.at(1);
-		lhs.at(2) = lhs.at(2) + rhs.at(2);
-		lhs.at(3) = 1;
+		const array<Data, Size>& rhsData = rhs.getData();
+
+		data.at(0) = data.at(0) + rhsData.at(0);
+		data.at(1) = data.at(1) + rhsData.at(1);
+		data.at(2) = data.at(2) + rhsData.at(2);
+		data.at(3) = 1;
 	}
 
 	template<typename Data, unsigned int Size>
@@ -132,140 +134,96 @@ namespace simplicity
 	}
 
 	template<typename Data, unsigned int Size>
-	void SimpleVector<Data, Size>::multiply(array<Data, Size>& lhs, const array<Data, Size>& rhs) const
+	void SimpleVector<Data, Size>::multiply(const Matrix<Data, Size, Size>& matrix,
+	const bool rhs)
 	{
-		lhs.at(0) = lhs.at(0) * rhs.at(0);
-		lhs.at(1) = lhs.at(1) * rhs.at(1);
-		lhs.at(2) = lhs.at(2) * rhs.at(2);
-		lhs.at(3) = 1;
+		if (rhs)
+		{
+			multiplyAsRowVector(matrix);
+		}
+		else
+		{
+			multiplyAsColumnVector(matrix);
+		}
 	}
 
 	template<typename Data, unsigned int Size>
-	array<Data, Size> SimpleVector<Data, Size>::multiplyWithMatrix(const array<Data, Size>& lhs,
-	const array<Data, Size * Size>& rhs) const
+	void SimpleVector<Data, Size>::multiply(const Vector<Data, Size>& rhs)
 	{
-		array < Data, Size > product;
+		const array<Data, Size>& rhsData = rhs.getData();
+
+		data.at(0) = data.at(0) * rhsData.at(0);
+		data.at(1) = data.at(1) * rhsData.at(1);
+		data.at(2) = data.at(2) * rhsData.at(2);
+		data.at(3) = 1;
+	}
+
+	template<typename Data, unsigned int Size>
+	void SimpleVector<Data, Size>::multiplyAsColumnVector(const Matrix<Data, Size, Size>& lhs)
+	{
+		const array<Data, Size * Size>& lhsData = lhs.getData();
+		array<Data, Size> productData;
+
+		// For every row in the matrix.
+		for (unsigned int row = 0; row < Size; row++)
+		{
+			Data sum = 0;
+
+			// For every element in the vector and every element in the current row of the matrix.
+			for (unsigned int element = 0; element < Size; element++)
+			{
+				// Add the product of the two to the value for the new vector.
+				sum += lhsData.at(row + (element * Size)) * data.at(element);
+			}
+
+			productData.at(row) = sum;
+		}
+
+		data.swap(productData);
+	}
+
+	template<typename Data, unsigned int Size>
+	void SimpleVector<Data, Size>::multiplyAsRowVector(const Matrix<Data, Size, Size>& rhs)
+	{
+		const array<Data, Size * Size>& rhsData = rhs.getData();
+		array<Data, Size> productData;
 
 		// For every column in the matrix.
 		for (unsigned int column = 0; column < Size; column++)
 		{
 			Data sum = 0;
 
-			// For every element in the vector and every element in the current
-			// column of the matrix.
+			// For every element in the vector and every element in the current column of the matrix.
 			for (unsigned int element = 0; element < Size; element++)
 			{
 				// Add the product of the two to the value for the new vector.
-				sum += lhs.at(element) * rhs.at((column * Size) + element);
+				sum += data.at(element) * rhsData.at((column * Size) + element);
 			}
 
-			product.at(column) = sum;
+			productData.at(column) = sum;
 		}
 
-		return product;
+		data.swap(productData);
 	}
 
 	template<typename Data, unsigned int Size>
 	void SimpleVector<Data, Size>::negate()
 	{
-		scale(data, -1);
+		scale(-1);
 	}
 
 	template<typename Data, unsigned int Size>
 	void SimpleVector<Data, Size>::normalize()
 	{
-		scale(data, 1 / getLength());
+		scale(1 / getLength());
 	}
 
 	template<typename Data, unsigned int Size>
-	std::unique_ptr<Vector<Data, Size> > SimpleVector<Data, Size>::operator-(const Vector<Data, Size>& rhs) const
+	void SimpleVector<Data, Size>::scale(const Data scalar)
 	{
-		std::unique_ptr < SimpleVector<Data, Size> > sum(new SimpleVector<Data, Size>(data));
-		const_cast<SimpleVector<>*>(this)->subtract(sum->getData(), rhs.getData());
-
-		return move(sum);
-	}
-
-	template<typename Data, unsigned int Size>
-	std::unique_ptr<Vector<Data, Size> > SimpleVector<Data, Size>::operator*(const Data rhs) const
-	{
-		std::unique_ptr < SimpleVector<Data, Size> > product(new SimpleVector<Data, Size>(data));
-		const_cast<SimpleVector<>*>(this)->scale(product->getData(), rhs);
-
-		return move(product);
-	}
-
-	template<typename Data, unsigned int Size>
-	std::unique_ptr<Vector<Data, Size> > SimpleVector<Data, Size>::operator*(const Matrix<Data, Size, Size>& rhs) const
-	{
-		return std::unique_ptr < SimpleVector<Data, Size>
-			> (new SimpleVector<Data, Size>(multiplyWithMatrix(data, rhs.getData())));
-	}
-
-	template<typename Data, unsigned int Size>
-	std::unique_ptr<Vector<Data, Size> > SimpleVector<Data, Size>::operator*(const Vector<Data, Size>& rhs) const
-	{
-		std::unique_ptr < SimpleVector<Data, Size> > product(new SimpleVector<Data, Size>(data));
-		multiply(product->getData(), rhs.getData());
-
-		return move(product);
-	}
-
-	template<typename Data, unsigned int Size>
-	Vector<Data, Size>& SimpleVector<Data, Size>::operator*=(const Data rhs)
-	{
-		scale(data, rhs);
-
-		return *this;
-	}
-
-	template<typename Data, unsigned int Size>
-	Vector<Data, Size>& SimpleVector<Data, Size>::operator*=(const Matrix<Data, Size, Size>& rhs)
-	{
-		data = multiplyWithMatrix(data, rhs.getData());
-
-		return *this;
-	}
-
-	template<typename Data, unsigned int Size>
-	Vector<Data, Size>& SimpleVector<Data, Size>::operator*=(const Vector<Data, Size>& rhs)
-	{
-		multiply(data, rhs.getData());
-
-		return *this;
-	}
-
-	template<typename Data, unsigned int Size>
-	std::unique_ptr<Vector<Data, Size> > SimpleVector<Data, Size>::operator+(const Vector<Data, Size>& rhs) const
-	{
-		std::unique_ptr < SimpleVector<Data, Size> > sum(new SimpleVector<Data, Size>(data));
-		const_cast<SimpleVector<>*>(this)->add(sum->getData(), rhs.getData());
-
-		return move(sum);
-	}
-
-	template<typename Data, unsigned int Size>
-	Vector<Data, Size>& SimpleVector<Data, Size>::operator+=(const Vector<Data, Size>& rhs)
-	{
-		add(data, rhs.getData());
-
-		return *this;
-	}
-
-	template<typename Data, unsigned int Size>
-	Vector<Data, Size>& SimpleVector<Data, Size>::operator-=(const Vector<Data, Size>& rhs)
-	{
-		subtract(data, rhs.getData());
-
-		return *this;
-	}
-
-	template<typename Data, unsigned int Size>
-	void SimpleVector<Data, Size>::scale(array<Data, Size>& lhs, const Data rhs)
-	{
-		lhs.at(0) = lhs.at(0) * rhs;
-		lhs.at(1) = lhs.at(1) * rhs;
-		lhs.at(2) = lhs.at(2) * rhs;
+		data.at(0) = data.at(0) * scalar;
+		data.at(1) = data.at(1) * scalar;
+		data.at(2) = data.at(2) * scalar;
 	}
 
 	template<typename Data, unsigned int Size>
@@ -275,12 +233,14 @@ namespace simplicity
 	}
 
 	template<typename Data, unsigned int Size>
-	void SimpleVector<Data, Size>::subtract(array<Data, Size>& lhs, const array<Data, Size>& rhs)
+	void SimpleVector<Data, Size>::subtract(const Vector<Data, Size>& rhs)
 	{
-		lhs.at(0) = lhs.at(0) - rhs.at(0);
-		lhs.at(1) = lhs.at(1) - rhs.at(1);
-		lhs.at(2) = lhs.at(2) - rhs.at(2);
-		lhs.at(3) = 1;
+		const array<Data, Size>& rhsData = rhs.getData();
+
+		data.at(0) = data.at(0) - rhsData.at(0);
+		data.at(1) = data.at(1) - rhsData.at(1);
+		data.at(2) = data.at(2) - rhsData.at(2);
+		data.at(3) = 1;
 	}
 
 	template<typename Data, unsigned int Size>

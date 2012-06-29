@@ -65,8 +65,8 @@ namespace simplicity
 		matrix2.rotate(90.0f * pi<float>() / 180.0f, rotateTranslation);
 
 		SimpleTransformationMatrix<> matrix3;
-		matrix3 *= matrix2;
-		matrix3 *= matrix1;
+		matrix3.multiply(matrix2);
+		matrix3.multiply(matrix1);
 
 		// Dictate correct behaviour.
 		ON_CALL(*mockNode1, getTransformation()).WillByDefault(ReturnRef(matrix1));

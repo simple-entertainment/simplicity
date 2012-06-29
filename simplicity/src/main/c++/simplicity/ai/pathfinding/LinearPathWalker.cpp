@@ -31,8 +31,10 @@ namespace simplicity
 
 	unique_ptr<Vector<> > LinearPathWalker::getSegment(const unsigned int segmentStartIndex) const
 	{
-		return *path.at(segmentStartIndex + 1)->getTransformation().getTranslation()
-			- *path.at(segmentStartIndex)->getTransformation().getTranslation();
+		unique_ptr<Vector<> > segment = path.at(segmentStartIndex + 1)->getTransformation().getTranslation();
+		segment->subtract(*path.at(segmentStartIndex)->getTransformation().getTranslation());
+
+		return move(segment);
 	}
 
 	unsigned int LinearPathWalker::getSegmentStartIndex() const
@@ -58,10 +60,10 @@ namespace simplicity
 		unique_ptr<Vector<> > segment = getSegment(segmentStartIndex);
 		float distanceIntoSegment = distance - nodeDistances.find(segmentStartIndex)->second;
 
-		*segment *= distanceIntoSegment / segment->getLength();
-		unique_ptr<Vector<> > newLocation(*path.at(segmentStartIndex)->getTransformation().getTranslation() + *segment);
+		location = path.at(segmentStartIndex)->getTransformation().getTranslation();
 
-		location->setData(newLocation->getData());
+		segment->scale(distanceIntoSegment / segment->getLength());
+		location->add(*segment);
 
 		return *location;
 	}

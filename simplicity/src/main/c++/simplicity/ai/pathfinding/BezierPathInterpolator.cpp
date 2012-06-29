@@ -45,12 +45,12 @@ namespace simplicity
 		}
 
 		unique_ptr<TranslationVector<> > p0 = interpolate(time, begin, end - 1);
-		*p0 *= (1 - time);
+		p0->scale(1 - time);
 
 		unique_ptr<TranslationVector<> > p1 = interpolate(time, begin + 1, end);
-		*p1 *= time;
+		p1->scale(time);
 
-		*p0 += *p1;
+		p0->add(*p1);
 
 		return move(p0);
 	}

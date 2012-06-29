@@ -85,6 +85,8 @@ namespace simplicity
 			 */
 			SimpleVector(const std::array<Data, Size * Size>& data, unsigned int offset);
 
+			void add(const Vector<Data, Size>& rhs);
+
 			std::unique_ptr<Vector<Data, Size> > crossProduct(const Vector<Data, Size>& rhs) const;
 
 			Data dotProduct(const Vector<Data, Size>& otherVector);
@@ -99,29 +101,17 @@ namespace simplicity
 
 			void homogenize();
 
+			void multiply(const Matrix<Data, Size, Size>& matrix, const bool rhs = true);
+
+			void multiply(const Vector<Data, Size>& rhs);
+
 			void negate();
 
 			void normalize();
 
-			std::unique_ptr<Vector<Data, Size> > operator-(const Vector<Data, Size>& rhs) const;
+			void scale(const Data scalar);
 
-			std::unique_ptr<Vector<Data, Size> > operator*(const Data rhs) const;
-
-			std::unique_ptr<Vector<Data, Size> > operator*(const Matrix<Data, Size, Size>& rhs) const;
-
-			std::unique_ptr<Vector<Data, Size> > operator*(const Vector<Data, Size>& rhs) const;
-
-			Vector<Data, Size>& operator*=(const Data rhs);
-
-			Vector<Data, Size>& operator*=(const Matrix<Data, Size, Size>& rhs);
-
-			Vector<Data, Size>& operator*=(const Vector<Data, Size>& rhs);
-
-			std::unique_ptr<Vector<Data, Size> > operator+(const Vector<Data, Size>& rhs) const;
-
-			Vector<Data, Size>& operator+=(const Vector<Data, Size>& rhs);
-
-			Vector<Data, Size>& operator-=(const Vector<Data, Size>& rhs);
+			void subtract(const Vector<Data, Size>& rhs);
 
 			/**
 			 * <p>
@@ -146,86 +136,13 @@ namespace simplicity
 			 */
 			std::array<Data, Size> data;
 
-			/**
-			 * <p>
-			 * Adds the <code>SimpleVector</code> data given.
-			 * <p>
-			 *
-			 * <p>
-			 * This method assumes both <code>SimSimpleVectorpleVector</code>s to be homogenised.
-			 * </p>
-			 *
-			 * @param lhs The data to be placed on the left hand side of the equation.
-			 * @param rhs The data to be placed on the right hand side of the equation.
-			 */
-			void add(std::array<Data, Size>& lhs, const std::array<Data, Size>& rhs);
-
 			bool equals(const Vector<Data, Size>& otherVector) const;
 
-			/**
-			 * <p>
-			 * Multiplies the <code>SimpleVector</code> data given.
-			 * </p>
-			 *
-			 * <p>
-			 * This method assumes both <code>SimpleVector</code>s to be homogenised.
-			 * </p>
-			 *
-			 * @param lhs The data to be placed on the left hand side of the equation.
-			 * @param rhs The data to be placed on the right hand side of the equation.
-			 */
-			void multiply(std::array<Data, Size>& lhs, const std::array<Data, Size>& rhs) const;
+			void multiplyAsColumnVector(const Matrix<Data, Size, Size>& lhs);
 
-			/**
-			 * <p>
-			 * Multiplies this <code>SimpleVector</code> with the
-			 * {@link com.se.simplicity.vector.SimpleMatrix SimpleMatrix} given. This <code>SimpleVector</code> is
-			 * treated as a row vector and multiplied as follows:
-			 * </p>
-			 *
-			 * <pre>
-			 * -----------------     -----------------
-			 * | x | x | x | x |  *  | x | x | x | x |
-			 * -----------------     -----------------
-			 *                       | x | x | x | x |
-			 *                       -----------------
-			 *                       | x | x | x | x |
-			 *                       -----------------
-			 *                       | x | x | x | x |
-			 *                       -----------------
-			 * </pre>
-			 *
-			 * @param lhs The <code>SimpleVector</code> data to be placed on the left hand side of the equation.
-			 * @param rhs The <code>SimpleMatrix</code> data to be placed on the right hand side of the equation.
-			 *
-			 * @return The result of the multiplication.
-			 */
-			std::array<Data, Size> multiplyWithMatrix(const std::array<Data, Size>& lhs,
-			const std::array<Data, Size * Size>& rhs) const;
-
-			/**
-			 * <p>
-			 * Scales the <code>SimpleVector</code> data given.
-			 * </p>
-			 *
-			 * @param lhs The data to be scaled.
-			 * @param rhs The scalar.
-			 */
-			void scale(std::array<Data, Size>& lhs, const Data rhs);
+			void multiplyAsRowVector(const Matrix<Data, Size, Size>& rhs);
 
 			void setData(const std::array<Data, Size>& data);
-
-			/**
-			 * <p>
-			 * Performs a subtraction of the <code>SimpleVector</code> data given.
-			 * </p>
-			 *
-			 * @param lhs The data to be placed on the left hand side of the equation.
-			 * @param rhs The data to be placed on the right hand side of the equation.
-			 *
-			 * @return The result of the subtraction.
-			 */
-			void subtract(std::array<Data, Size>& lhs, const std::array<Data, Size>& rhs);
 	};
 }
 

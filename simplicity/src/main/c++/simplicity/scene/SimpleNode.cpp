@@ -55,7 +55,7 @@ namespace simplicity
 
 		while (!ancestors.empty())
 		{
-			*absoluteTransformation *= ancestors.top()->getTransformation();
+			absoluteTransformation->multiply(ancestors.top()->getTransformation());
 			ancestors.pop();
 		}
 

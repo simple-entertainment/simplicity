@@ -39,7 +39,10 @@ namespace simplicity
 	template<typename Data>
 	Data SimpleTranslationVector<Data>::getProximity(const TranslationVector<>& other) const
 	{
-		return (*this - other)->getLength();
+		SimpleTranslationVector<> difference = *this;
+		difference.subtract(other);
+
+		return difference.getLength();
 	}
 
 	template<typename Data>

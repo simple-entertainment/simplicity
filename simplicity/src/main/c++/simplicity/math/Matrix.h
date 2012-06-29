@@ -81,50 +81,6 @@ namespace simplicity
 			 */
 			virtual void invert() = 0;
 
-			friend bool operator!=(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Rows, Columns>& rhs)
-			{
-				// Allows polymorphic equality checking.
-				return (!lhs.equals(rhs));
-			}
-
-			/**
-			 * <p>
-			 * Multiplies this <code>Matrix</code> with the <code>Matrix</code> given. The <code>Matrix</code> given is
-			 * placed on the right hand side of the equation.
-			 * </p>
-			 *
-			 * @param leftMatrix The <code>Matrix</code> to be placed on the right hand side of the multiplication with
-			 * this <code>Matrix</code>.
-			 *
-			 * @return The result of the multiplication.
-			 */
-			virtual std::unique_ptr<Matrix<Data, Columns, Rows> > operator*(
-				const Matrix<Data, Rows, Columns>& rhs) const = 0;
-
-			/**
-			 * <p>
-			 * Multiplies this <code>Matrix</code> with the {@link simplicity::Vector Vector} given. The
-			 * <code>Vector</code> is treated as a column vector and multiplied as follows:
-			 * </p>
-			 *
-			 * <pre>
-			 * ----------------     -----
-			 *  x | x | x | x |  *  | x |
-			 * ----------------     -----
-			 *  x | x | x | x |     | x |
-			 * ----------------     -----
-			 *  x | x | x | x |     | x |
-			 * ----------------     -----
-			 *  x | x | x | x |     | x |
-			 * ----------------     -----
-			 * </pre>
-			 *
-			 * @param rhs The <code>Vector</code> to be placed on the right hand side of the equation.
-			 *
-			 * @return The result of the multiplication.
-			 */
-			virtual std::unique_ptr<Vector<Data, Rows> > operator*(const Vector<Data, Rows>& rhs) const = 0;
-
 			/**
 			 * <p>
 			 * Multiplies this <code>Matrix</code> with the <code>Matrix</code> given. The <code>Matrix</code> given is
@@ -133,10 +89,14 @@ namespace simplicity
 			 *
 			 * @param rhs The <code>Matrix</code> to be placed on the right hand side of the multiplication with
 			 * this <code>Matrix</code>.
-			 *
-			 * @return The result of the multiplication (this <code>Matrix</code>).
 			 */
-			virtual Matrix<Data, Columns, Rows>& operator*=(const Matrix<Data, Rows, Columns>& rhs) = 0;
+			virtual void multiply(const Matrix<Data, Rows, Columns>& rhs) = 0;
+
+			friend bool operator!=(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Rows, Columns>& rhs)
+			{
+				// Allows polymorphic equality checking.
+				return (!lhs.equals(rhs));
+			}
 
 			friend bool operator==(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Columns, Rows>& rhs)
 			{

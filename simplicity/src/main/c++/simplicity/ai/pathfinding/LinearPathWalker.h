@@ -46,7 +46,7 @@ namespace simplicity
 
 			float distance;
 
-			std::unique_ptr<TranslationVector<> > location;
+			mutable std::unique_ptr<TranslationVector<> > location;
 
 			std::map<unsigned int, float> nodeDistances;
 

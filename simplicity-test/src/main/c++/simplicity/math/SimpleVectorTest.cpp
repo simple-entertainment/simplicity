@@ -29,7 +29,7 @@ namespace simplicity
 	 */
 	TEST_F(SimpleVectorTest, add)
 	{
-		objectUnderTest += SimpleVector<>(4.0f, 2.0f, 7.5f, 3.9f);
+		objectUnderTest.add(SimpleVector<>(4.0f, 2.0f, 7.5f, 3.9f));
 
 		array<float, 4>& data = objectUnderTest.getData();
 
@@ -141,8 +141,7 @@ namespace simplicity
 		otherData.at(2) = 6.0f;
 		otherData.at(3) = 1.0f;
 
-		objectUnderTest *= otherVector;
-
+		objectUnderTest.multiply(otherVector);
 		array<float, 4>& data = objectUnderTest.getData();
 
 		ASSERT_EQ(4.0f, data.at(0));
@@ -153,10 +152,10 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleVectorf4#multiplyWithMatrix() multiplyWithMatrix()}.
+	 * Unit test the method {@link simplicity::SimpleVectorf4#multiplyAsColumnVector() multiplyAsColumnVector()}.
 	 * </p>
 	 */
-	TEST_F(SimpleVectorTest, multiplyWithMatrix)
+	TEST_F(SimpleVectorTest, multiplyAsColumnVector)
 	{
 		SimpleMatrix<> matrix;
 		array<float, 16>& matrixData = matrix.getData();
@@ -178,8 +177,49 @@ namespace simplicity
 		matrixData.at(11) = 0.0f;
 		matrixData.at(15) = 1.0f;
 
-		objectUnderTest *= matrix;
+		array<float, 4>& data = objectUnderTest.getData();
 
+		data.at(0) = 1.0f;
+		data.at(1) = 2.0f;
+		data.at(2) = 3.0f;
+		data.at(3) = 1.0f;
+
+		objectUnderTest.multiply(matrix, false);
+
+		ASSERT_EQ(18.0f, data.at(0));
+		ASSERT_EQ(19.0f, data.at(1));
+		ASSERT_EQ(16.0f, data.at(2));
+		ASSERT_EQ(1.0f, data.at(3));
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleVectorf4#multiplyAsRowVector() multiplyAsRowVector()}.
+	 * </p>
+	 */
+	TEST_F(SimpleVectorTest, multiplyAsRowVector)
+	{
+		SimpleMatrix<> matrix;
+		array<float, 16>& matrixData = matrix.getData();
+
+		matrixData.at(0) = 1.0f;
+		matrixData.at(4) = 2.0f;
+		matrixData.at(8) = 3.0f;
+		matrixData.at(12) = 4.0f;
+		matrixData.at(1) = 2.0f;
+		matrixData.at(5) = 1.0f;
+		matrixData.at(9) = 4.0f;
+		matrixData.at(13) = 3.0f;
+		matrixData.at(2) = 3.0f;
+		matrixData.at(6) = 4.0f;
+		matrixData.at(10) = 1.0f;
+		matrixData.at(14) = 2.0f;
+		matrixData.at(3) = 0.0f;
+		matrixData.at(7) = 0.0f;
+		matrixData.at(11) = 0.0f;
+		matrixData.at(15) = 1.0f;
+
+		objectUnderTest.multiply(matrix);
 		array<float, 4>& data = objectUnderTest.getData();
 
 		ASSERT_EQ(14.0f, data.at(0));
@@ -232,8 +272,7 @@ namespace simplicity
 	 */
 	TEST_F(SimpleVectorTest, subtract)
 	{
-		objectUnderTest -= SimpleVector<>(4.0f, 2.0f, 7.5f, 3.9f);
-
+		objectUnderTest.subtract(SimpleVector<>(4.0f, 2.0f, 7.5f, 3.9f));
 		array<float, 4>& data = objectUnderTest.getData();
 
 		ASSERT_EQ(-3.0f, data.at(0));

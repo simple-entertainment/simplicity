@@ -115,70 +115,24 @@ namespace simplicity
 		otherData.at(11) = 0.0f;
 		otherData.at(15) = 1.0f;
 
-		unique_ptr<Matrix<> > resultMatrix = otherMatrix * objectUnderTest;
+		otherMatrix.multiply(objectUnderTest);
 
-		array<float, 16>& data = resultMatrix->getData();
-
-		ASSERT_EQ(14.0f, data.at(0));
-		ASSERT_EQ(16.0f, data.at(1));
-		ASSERT_EQ(14.0f, data.at(2));
-		ASSERT_EQ(0.0f, data.at(3));
-		ASSERT_EQ(16.0f, data.at(4));
-		ASSERT_EQ(21.0f, data.at(5));
-		ASSERT_EQ(14.0f, data.at(6));
-		ASSERT_EQ(0.0f, data.at(7));
-		ASSERT_EQ(14.0f, data.at(8));
-		ASSERT_EQ(14.0f, data.at(9));
-		ASSERT_EQ(26.0f, data.at(10));
-		ASSERT_EQ(0.0f, data.at(11));
-		ASSERT_EQ(20.0f, data.at(12));
-		ASSERT_EQ(22.0f, data.at(13));
-		ASSERT_EQ(28.0f, data.at(14));
-		ASSERT_EQ(1.0f, data.at(15));
-	}
-
-	/**
-	 * <p>
-	 * Unit test the method {@link simplicity::SimpleVectorf4#multiplyWithVector() multiplyWithVector()}.
-	 * </p>
-	 */
-	TEST_F(SimpleMatrixTest, multiplyWithVector)
-	{
-		array<float, 16>& data = objectUnderTest.getData();
-
-		data.at(0) = 1.0f;
-		data.at(4) = 2.0f;
-		data.at(8) = 3.0f;
-		data.at(12) = 4.0f;
-		data.at(1) = 2.0f;
-		data.at(5) = 1.0f;
-		data.at(9) = 4.0f;
-		data.at(13) = 3.0f;
-		data.at(2) = 3.0f;
-		data.at(6) = 4.0f;
-		data.at(10) = 1.0f;
-		data.at(14) = 2.0f;
-		data.at(3) = 0.0f;
-		data.at(7) = 0.0f;
-		data.at(11) = 0.0f;
-		data.at(15) = 1.0f;
-
-		SimpleVector<> vector;
-		array<float, 4>& vectorData = vector.getData();
-
-		vectorData.at(0) = 1.0f;
-		vectorData.at(1) = 2.0f;
-		vectorData.at(2) = 3.0f;
-		vectorData.at(3) = 1.0f;
-
-		unique_ptr<Vector<> > product = objectUnderTest * vector;
-
-		array<float, 4>& productData = product->getData();
-
-		ASSERT_EQ(18.0f, productData.at(0));
-		ASSERT_EQ(19.0f, productData.at(1));
-		ASSERT_EQ(16.0f, productData.at(2));
-		ASSERT_EQ(1.0f, productData.at(3));
+		ASSERT_EQ(14.0f, otherData.at(0));
+		ASSERT_EQ(16.0f, otherData.at(1));
+		ASSERT_EQ(14.0f, otherData.at(2));
+		ASSERT_EQ(0.0f, otherData.at(3));
+		ASSERT_EQ(16.0f, otherData.at(4));
+		ASSERT_EQ(21.0f, otherData.at(5));
+		ASSERT_EQ(14.0f, otherData.at(6));
+		ASSERT_EQ(0.0f, otherData.at(7));
+		ASSERT_EQ(14.0f, otherData.at(8));
+		ASSERT_EQ(14.0f, otherData.at(9));
+		ASSERT_EQ(26.0f, otherData.at(10));
+		ASSERT_EQ(0.0f, otherData.at(11));
+		ASSERT_EQ(20.0f, otherData.at(12));
+		ASSERT_EQ(22.0f, otherData.at(13));
+		ASSERT_EQ(28.0f, otherData.at(14));
+		ASSERT_EQ(1.0f, otherData.at(15));
 	}
 
 	/**

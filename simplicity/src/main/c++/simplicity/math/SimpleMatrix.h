@@ -74,11 +74,7 @@ namespace simplicity
 			 */
 			void invert();
 
-			std::unique_ptr<Matrix<Data, Columns, Rows> > operator*(const Matrix<Data, Rows, Columns>& rhs) const;
-
-			std::unique_ptr<Vector<Data, Rows> > operator*(const Vector<Data, Rows>& rhs) const;
-
-			Matrix<Data, Columns, Rows>& operator*=(const Matrix<Data, Rows, Columns>& rhs);
+			void multiply(const Matrix<Data, Rows, Columns>& rhs);
 
 			void setData(const std::array<Data, Columns * Rows>& data);
 
@@ -146,45 +142,6 @@ namespace simplicity
 			 */
 			Data getDeterminant33(const Data d00, const Data d10, const Data d20, const Data d01, const Data d11,
 				const Data d21, const Data d02, const Data d12, const Data d22) const;
-
-			/**
-			 * <p>
-			 * Multiplies the <code>SimpleMatrix</code> data given.
-			 * </p>
-			 *
-			 * @param lhs The data to be placed on the left hand side of the equation.
-			 * @param rhs The data to be placed on the right hand side of the equation.
-			 *
-			 * @return The result of the multiplication.
-			 */
-			std::array<Data, Columns * Rows> multiply(const std::array<Data, Columns * Rows>& lhs
-				, const std::array<Data, Columns * Rows>& rhs) const;
-
-			/**
-			 * <p>
-			 * Multiplies this <code>SimpleMatrix</code>'s data with the given {@link simplicity::Vector Vector} data.
-			 * The <code>Vector</code> is treated as a column vector and multiplied as follows:
-			 * </p>
-			 *
-			 * <pre>
-			 *   -----------------     -----
-			 *   | x | x | x | x |  *  | x |
-			 *   -----------------     -----
-			 *   | x | x | x | x |     | x |
-			 *   -----------------     -----
-			 *   | x | x | x | x |     | x |
-			 *   -----------------     -----
-			 *   | x | x | x | x |     | x |
-			 *   -----------------     -----
-			 * </pre>
-			 *
-			 * @param lhs The <code>SimpleMatrix</code> data to be placed on the left hand side of the equation.
-			 * @param rhs The <code>Vector</code> data to be placed on the right hand side of the equation.
-			 *
-			 * @return The result of the multiplication.
-			 */
-			std::array<Data, Rows> multiplyWithVector(const std::array<Data, Columns * Rows>& lhs
-				, const std::array<Data, Rows>& rhs) const;
 	};
 }
 

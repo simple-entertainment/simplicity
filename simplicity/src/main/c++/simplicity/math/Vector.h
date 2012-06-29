@@ -43,6 +43,19 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Adds the <code>Vector</code> given to this <code>Vector</code>.
+			 * <p>
+			 *
+			 * <p>
+			 * This method assumes both <code>Vector</code>s to be homogenised.
+			 * </p>
+			 *
+			 * @param rhs The <code>Vector</code> to add to this <code>Vector</code>.
+			 */
+			virtual void add(const Vector<Data, Size>& rhs) = 0;
+
+			/**
+			 * <p>
 			 * Performs a cross product of this <code>Vector</code> and the <code>Vector</code> given. The
 			 * <code>Vector</code> given is placed on the right hand side of the equation.
 			 * </p>
@@ -143,33 +156,8 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Subtracts the <code>Vector</code> given from this <code>Vector</code>.
-			 * <p>
-			 *
-			 * <p>
-			 * This method assumes both <code>Vector</code>s to be homogenised.
-			 * </p>
-			 *
-			 * @param rhs The <code>Vector</code> to subtract from this <code>Vector</code>.
-			 *
-			 * @return The result of the subtraction.
-			 */
-			virtual std::unique_ptr<Vector<Data, Size> > operator-(const Vector<Data, Size>& rhs) const = 0;
-
-			/**
-			 * <p>
-			 * Scales this <code>Vector</code> by the scalar given.
-			 * </p>
-			 *
-			 * @param rhs The scalar.
-			 *
-			 * @return The result of the scale.
-			 */
-			virtual std::unique_ptr<Vector<Data, Size> > operator*(const Data rhs) const = 0;
-
-			/**
-			 * <p>
-			 * Multiplies this <code>Vector</code> with the {@link simplicity::Matrix Matrix} given. This
+			 * Multiplies this <code>Vector</code> with the {@link simplicity::Matrix Matrix} given. If the given
+			 * <code>Matrix</code> is placed on the right hand side of the equation (the default), this
 			 * <code>Vector</code> is treated as a row vector and multiplied as follows:
 			 * </p>
 			 *
@@ -185,113 +173,37 @@ namespace simplicity
 			 *                       -----------------
 			 * </pre>
 			 *
-			 * @param matrix The <code>Matrix</code> to be placed on the right hand side of the equation.
-			 *
-			 * @return The result of the multiplication.
-			 */
-			virtual std::unique_ptr<Vector<Data, Size> > operator*(const Matrix<Data, Size, Size>& rhs) const = 0;
-
-			/**
 			 * <p>
-			 * Subtracts the <code>Vector</code> given from this <code>Vector</code>.
-			 * </p>
-			 *
-			 * @param rhs The <code>Vector</code> to be placed on the right hand side of the equation.
-			 *
-			 * @return The result of the multiplication.
-			 */
-			virtual std::unique_ptr<Vector<Data, Size> > operator*(const Vector<Data, Size>& rhs) const = 0;
-
-			/**
-			 * <p>
-			 * Scales this <code>Vector</code> by the scalar given.
-			 * </p>
-			 *
-			 * @param rhs The scalar.
-			 *
-			 * @return The result of the scale (this <code>Vector</code>).
-			 */
-			virtual Vector<Data, Size>& operator*=(const Data rhs) = 0;
-
-			/**
-			 * <p>
-			 * Multiplies this <code>Vector</code> with the {@link simplicity::Matrix Matrix} given. This
-			 * <code>Vector</code> is treated as a row vector and multiplied as follows:
+			 * If the given <code>Matrix</code> is placed on the left hand side of the equation, this
+			 * <code>Vector</code> is treated as a column vector and multiplied as follows:
 			 * </p>
 			 *
 			 * <pre>
-			 * -----------------     -----------------
-			 * | x | x | x | x |  *  | x | x | x | x |
-			 * -----------------     -----------------
-			 *                       | x | x | x | x |
-			 *                       -----------------
-			 *                       | x | x | x | x |
-			 *                       -----------------
-			 *                       | x | x | x | x |
-			 *                       -----------------
+			 * ----------------     -----
+			 *  x | x | x | x |  *  | x |
+			 * ----------------     -----
+			 *  x | x | x | x |     | x |
+			 * ----------------     -----
+			 *  x | x | x | x |     | x |
+			 * ----------------     -----
+			 *  x | x | x | x |     | x |
+			 * ----------------     -----
 			 * </pre>
 			 *
-			 * @param matrix The <code>Matrix</code> to be placed on the right hand side of the equation.
-			 *
-			 * @return The result of the multiplication (this <code>Vector</code>).
+			 * @param matrix The <code>Matrix</code> to multiply this vector by.
+			 * @param rhs Determines if the given <code>Matrix</code> should be placed on the right hand side of the
+			 * equation.
 			 */
-			virtual Vector<Data, Size>& operator*=(const Matrix<Data, Size, Size>& rhs) = 0;
+			virtual void multiply(const Matrix<Data, Size, Size>& matrix, const bool rhs = true) = 0;
 
 			/**
 			 * <p>
-			 * Subtracts the <code>Vector</code> given from this <code>Vector</code>.
+			 * Multiplies this <code>Vector</code> with the given <code>Vector</code>.
 			 * </p>
 			 *
 			 * @param rhs The <code>Vector</code> to be placed on the right hand side of the equation.
-			 *
-			 * @return The result of the multiplication (this <code>Vector</code>).
 			 */
-			virtual Vector<Data, Size>& operator*=(const Vector<Data, Size>& rhs) = 0;
-
-			/**
-			 * <p>
-			 * Adds the <code>Vector</code> given to this <code>Vector</code>.
-			 * <p>
-			 *
-			 * <p>
-			 * This method assumes both <code>Vector</code>s to be homogenised.
-			 * </p>
-			 *
-			 * @param rhs The <code>Vector</code> to add to this <code>Vector</code>.
-			 *
-			 * @return The result of the addition.
-			 */
-			virtual std::unique_ptr<Vector<Data, Size> > operator+(const Vector<Data, Size>& rhs) const = 0;
-
-			/**
-			 * <p>
-			 * Adds the <code>Vector</code> given to this <code>Vector</code>.
-			 * <p>
-			 *
-			 * <p>
-			 * This method assumes both <code>Vector</code>s to be homogenised.
-			 * </p>
-			 *
-			 * @param rhs The <code>Vector</code> to add to this <code>Vector</code>.
-			 *
-			 * @return The result of the addition (this <code>Vector</code>).
-			 */
-			virtual Vector<Data, Size>& operator+=(const Vector<Data, Size>& rhs) = 0;
-
-			/**
-			 * <p>
-			 * Subtracts the <code>Vector</code> given from this <code>Vector</code>.
-			 * <p>
-			 *
-			 * <p>
-			 * This method assumes both <code>Vector</code>s to be homogenised.
-			 * </p>
-			 *
-			 * @param rhs The <code>Vector</code> to subtract from this <code>Vector</code>.
-			 *
-			 * @return The result of the subtraction (this <code>Vector</code>).
-			 */
-			virtual Vector<Data, Size>& operator-=(const Vector<Data, Size>& rhs) = 0;
+			virtual void multiply(const Vector<Data, Size>& rhs) = 0;
 
 			friend bool operator==(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
 			{
@@ -301,12 +213,34 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Scales this <code>Vector</code> by the scalar given.
+			 * </p>
+			 *
+			 * @param scalar The factor to scale by.
+			 */
+			virtual void scale(const Data scalar) = 0;
+
+			/**
+			 * <p>
 			 * Sets the data for this <code>Vector</code>.
 			 * </p>
 			 *
 			 * @param data The data for this <code>Vector</code>.
 			 */
 			virtual void setData(const std::array<Data, Size>& data) = 0;
+
+			/**
+			 * <p>
+			 * Subtracts the <code>Vector</code> given from this <code>Vector</code>.
+			 * <p>
+			 *
+			 * <p>
+			 * This method assumes both <code>Vector</code>s to be homogenised.
+			 * </p>
+			 *
+			 * @param rhs The <code>Vector</code> to subtract from this <code>Vector</code>.
+			 */
+			virtual void subtract(const Vector<Data, Size>& rhs) = 0;
 
 		private:
 			/**

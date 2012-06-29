@@ -157,10 +157,10 @@ namespace simplicity
 	}
 
 	template<typename Data, unsigned int Columns, unsigned int Rows>
-	array<Data, Columns * Rows> SimpleMatrix<Data, Columns, Rows>::multiply(const array<Data, Columns * Rows>& lhs
-		, const array<Data, Columns * Rows>& rhs) const
+	void SimpleMatrix<Data, Columns, Rows>::multiply(const Matrix<Data, Rows, Columns>& rhs)
 	{
-		array < Data, Columns * Rows > product;
+		const array<Data, Columns * Rows>& rhsData = rhs.getData();
+		array<Data, Columns * Rows> productData;
 
 		// For every row in the left hand matrix.
 		for (unsigned int row = 0; row < Rows; row++)
@@ -175,62 +175,14 @@ namespace simplicity
 				for (unsigned int element = 0; element < Columns; element++)
 				{
 					// Add the product of the two to the value for the new matrix.
-					sum += lhs.at(row + (element * Rows)) * rhs.at((column * Columns) + element);
+					sum += data.at(row + (element * Rows)) * rhsData.at((column * Columns) + element);
 				}
 
-				product.at((column * Columns) + row) = sum;
+				productData.at((column * Columns) + row) = sum;
 			}
 		}
 
-		return product;
-	}
-
-	template<typename Data, unsigned int Columns, unsigned int Rows>
-	array<Data, Rows> SimpleMatrix<Data, Columns, Rows>::multiplyWithVector(const array<Data, Columns * Rows>& lhs
-		, const array<Data, Rows>& rhs) const
-	{
-		array < Data, Rows > product;
-
-		// For every row in the matrix.
-		for (unsigned int row = 0; row < Rows; row++)
-		{
-			Data sum = 0;
-
-			// For every element in the vector and every element in the current row of the matrix.
-			for (unsigned int element = 0; element < Rows; element++)
-			{
-				// Add the product of the two to the value for the new vector.
-				sum += lhs.at(row + (element * Rows)) * rhs.at(element);
-			}
-
-			product.at(row) = sum;
-		}
-
-		return product;
-	}
-
-	template<typename Data, unsigned int Columns, unsigned int Rows>
-	unique_ptr<Matrix<Data, Columns, Rows> > SimpleMatrix<Data, Columns, Rows>::operator*(
-		const Matrix<Data, Rows, Columns>& rhs) const
-	{
-		return unique_ptr < SimpleMatrix<Data, Columns, Rows>
-			> (new SimpleMatrix<Data, Columns, Rows>(multiply(data, rhs.getData())));
-	}
-
-	template<typename Data, unsigned int Columns, unsigned int Rows>
-	unique_ptr<Vector<Data, Rows> > SimpleMatrix<Data, Columns, Rows>::operator*(const Vector<Data, Rows>& rhs) const
-	{
-		unique_ptr < Vector<Data> > product(MathFactory::getInstance().createVector());
-		product->setData(multiplyWithVector(data, rhs.getData()));
-		return product;
-	}
-
-	template<typename Data, unsigned int Columns, unsigned int Rows>
-	Matrix<Data, Columns, Rows>& SimpleMatrix<Data, Columns, Rows>::operator*=(const Matrix<Data, Rows, Columns>& rhs)
-	{
-		data = multiply(data, rhs.getData());
-
-		return *this;
+		data.swap(productData);
 	}
 
 	template<typename Data, unsigned int Columns, unsigned int Rows>
