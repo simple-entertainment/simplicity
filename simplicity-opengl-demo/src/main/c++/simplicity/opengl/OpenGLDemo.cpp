@@ -19,22 +19,20 @@
 
 #include <boost/math/constants/constants.hpp>
 
+#include <simplicity/input/InputEvent.h>
 #include <simplicity/math/MathFactory.h>
 #include <simplicity/model/ModelFactory.h>
 #include <simplicity/scene/SceneFactory.h>
 #include <simplicity/Simplicity.h>
+#include <simplicity/SimpleEvents.h>
 
 #include <simplicity/opengl/model/OpenGLText.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLCamera.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLLight.h>
 
-#include <simplicity/freeglut/FreeglutEvents.h>
-#include <simplicity/freeglut/input/FreeglutInputEvent.h>
-
 #include "OpenGLDemo.h"
 
 using namespace boost::math::constants;
-using namespace simplicity::freeglut;
 using namespace std;
 
 namespace simplicity
@@ -232,7 +230,7 @@ namespace simplicity
 
 		void OpenGLDemo::dispose()
 		{
-			Simplicity::deregisterObserver(FREEGLUT_MOTION_EVENT, bind(&OpenGLDemo::onMotion, this, placeholders::_1));
+			Simplicity::deregisterObserver(INPUT_EVENT, bind(&OpenGLDemo::onMotion, this, placeholders::_1));
 
 			onDispose();
 		}
@@ -244,14 +242,19 @@ namespace simplicity
 
 		void OpenGLDemo::init()
 		{
-			Simplicity::registerObserver(FREEGLUT_MOTION_EVENT, bind(&OpenGLDemo::onMotion, this, placeholders::_1));
+			Simplicity::registerObserver(INPUT_EVENT, bind(&OpenGLDemo::onMotion, this, placeholders::_1));
 
 			onInit();
 		}
 
 		void OpenGLDemo::onMotion(const boost::any data)
 		{
-			const FreeglutInputEvent& event(boost::any_cast < FreeglutInputEvent > (data));
+			const InputEvent& event= boost::any_cast<InputEvent>(data);
+
+			if (event.type != InputEvent::Type::MOUSE_MOVE)
+			{
+				return;
+			}
 
 			float angleX = (mouseX - event.x) / 10.0f;
 			float angleY = (event.y - mouseY) / 10.0f;

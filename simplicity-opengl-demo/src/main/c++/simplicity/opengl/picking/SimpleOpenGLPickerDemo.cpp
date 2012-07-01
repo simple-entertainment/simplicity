@@ -19,6 +19,7 @@
 #include <boost/math/constants/constants.hpp>
 
 #include <simplicity/engine/SimpleCompositeEngine.h>
+#include <simplicity/input/InputEvent.h>
 #include <simplicity/math/MathFactory.h>
 #include <simplicity/scene/SceneFactory.h>
 #include <simplicity/SimpleEvents.h>
@@ -31,12 +32,8 @@
 #include <simplicity/opengl/rendering/OutlineOpenGLRenderer.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
 
-#include <simplicity/freeglut/FreeglutEvents.h>
-#include <simplicity/freeglut/input/FreeglutInputEvent.h>
-
 #include "SimpleOpenGLPickerDemo.h"
 
-using namespace simplicity::freeglut;
 using namespace std;
 
 namespace simplicity
@@ -69,8 +66,7 @@ namespace simplicity
 		{
 			engine->destroy();
 
-			Simplicity::deregisterObserver(FREEGLUT_MOUSE_EVENT,
-				bind(&SimpleOpenGLPickerDemo::onMouse, this, placeholders::_1));
+			Simplicity::deregisterObserver(INPUT_EVENT, bind(&SimpleOpenGLPickerDemo::onMouse, this, placeholders::_1));
 			Simplicity::deregisterObserver(PICK_EVENT, bind(&SimpleOpenGLPickerDemo::onPick, this, placeholders::_1));
 		}
 
@@ -148,8 +144,7 @@ namespace simplicity
 			static_pointer_cast < SimpleOpenGLPickingEngine > (pickingEngine)->setRenderingEngine(renderingEngine);
 			pickingEngine->setPicker(picker);
 
-			Simplicity::registerObserver(FREEGLUT_MOUSE_EVENT,
-				bind(&SimpleOpenGLPickerDemo::onMouse, this, placeholders::_1));
+			Simplicity::registerObserver(INPUT_EVENT, bind(&SimpleOpenGLPickerDemo::onMouse, this, placeholders::_1));
 			Simplicity::registerObserver(PICK_EVENT, bind(&SimpleOpenGLPickerDemo::onPick, this, placeholders::_1));
 
 			engine->init();
@@ -157,9 +152,9 @@ namespace simplicity
 
 		void SimpleOpenGLPickerDemo::onMouse(const boost::any data)
 		{
-			const FreeglutInputEvent& event(boost::any_cast < FreeglutInputEvent > (data));
+			const InputEvent& event = boost::any_cast<InputEvent>(data);
 
-			if (event.state == 1)
+			if (event.buttonState == InputEvent::ButtonState::UP)
 			{
 				pickingEngine->pickViewport(800, 800, event.x, event.y, 2.0f, 2.0f);
 			}
@@ -167,7 +162,7 @@ namespace simplicity
 
 		void SimpleOpenGLPickerDemo::onPick(const boost::any data)
 		{
-			const PickEvent& event(boost::any_cast < PickEvent > (data));
+			const PickEvent& event = boost::any_cast<PickEvent>(data);
 
 			if (event.getHitCount() > 0)
 			{

@@ -20,18 +20,16 @@
 #include <simplicity/ai/pathfinding/BezierPathInterpolator.h>
 #include <simplicity/ai/pathfinding/NoPathException.h>
 #include <simplicity/ai/pathfinding/SimplePathFinder.h>
+#include <simplicity/input/InputEvent.h>
 #include <simplicity/scene/SceneFactory.h>
+#include <simplicity/SimpleEvents.h>
 #include <simplicity/Simplicity.h>
 
 #include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
 
-#include <simplicity/freeglut/FreeglutEvents.h>
-#include <simplicity/freeglut/input/FreeglutInputEvent.h>
-
 #include "BezierPathInterpreterDemo.h"
 
-using namespace simplicity::freeglut;
 using namespace simplicity::opengl;
 using namespace std;
 
@@ -46,8 +44,7 @@ namespace simplicity
 	{
 		renderingEngine->destroy();
 
-		Simplicity::deregisterObserver(FREEGLUT_MOUSE_EVENT,
-			bind(&BezierPathInterpreterDemo::onMouse, this, placeholders::_1));
+		Simplicity::deregisterObserver(INPUT_EVENT, bind(&BezierPathInterpreterDemo::onMouse, this, placeholders::_1));
 	}
 
 	string BezierPathInterpreterDemo::getDescription()
@@ -118,15 +115,15 @@ namespace simplicity
 
 		interpolationCount = 2;
 
-		Simplicity::registerObserver(FREEGLUT_MOUSE_EVENT,
-			bind(&BezierPathInterpreterDemo::onMouse, this, placeholders::_1));
+		Simplicity::registerObserver(INPUT_EVENT, bind(&BezierPathInterpreterDemo::onMouse, this, placeholders::_1));
 	}
 
 	void BezierPathInterpreterDemo::onMouse(const boost::any data)
 	{
-		const FreeglutInputEvent& event(boost::any_cast < FreeglutInputEvent > (data));
+		const InputEvent& event = boost::any_cast<InputEvent>(data);
 
-		if (event.button != GLUT_LEFT_BUTTON || event.state != GLUT_UP)
+		if (event.type != InputEvent::Type::MOUSE_BUTTON || event.mouseButton != InputEvent::MouseButton::LEFT
+			|| event.buttonState != InputEvent::ButtonState::UP)
 		{
 			return;
 		}

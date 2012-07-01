@@ -21,6 +21,8 @@
 
 namespace simplicity
 {
+	const std::string INPUT_EVENT = "Simplicity.input";
+
 	const std::string PICK_EVENT = "Simplicity.pick";
 }
 

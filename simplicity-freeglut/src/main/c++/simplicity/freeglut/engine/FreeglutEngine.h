@@ -14,51 +14,34 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef FREEGLUTEVENT_H_
-#define FREEGLUTEVENT_H_
+#ifndef FREEGLUTENGINE_H_
+#define FREEGLUTENGINE_H_
+
+#include <simplicity/engine/BaseEngine.h>
 
 namespace simplicity
 {
 	namespace freeglut
 	{
-		struct FreeglutInputEvent
+		class FreeglutEngine : public BaseEngine
 		{
-				/**
-				 * <p>
-				 * The button that triggered the event (mouse events only). A GLUT mouse button constant.
-				 * </p>
-				 */
-				int button;
+			public:
+				FreeglutEngine(std::string title = "Simplicity (powered by Freeglut)");
 
-				/**
-				 * <p>
-				 * The key that was pressed (keyboard events only).
-				 * </p>
-				 */
-				unsigned char key;
+				void addEntity(std::shared_ptr<simplicity::Entity> entity);
 
-				/**
-				 * <p>
-				 * The new state of the button (mouse events only).
-				 * </p>
-				 */
-				int state;
+				std::shared_ptr<simplicity::EngineInput> advance(const std::shared_ptr<simplicity::EngineInput> input);
 
-				/**
-				 * <p>
-				 * The location at which the event took place on the x axis (or the distance moved for motion events).
-				 * </p>
-				 */
-				int x;
+				void destroy();
 
-				/**
-				 * <p>
-				 * The location at which the event took place on the y axis (or the distance moved for motion events).
-				 * </p>
-				 */
-				int y;
+			private:
+				std::string title;
+
+				void onInit();
+
+				void onReset();
 		};
 	}
 }
 
-#endif /* FREEGLUTEVENT_H_ */
+#endif /* FREEGLUTENGINE_H_ */

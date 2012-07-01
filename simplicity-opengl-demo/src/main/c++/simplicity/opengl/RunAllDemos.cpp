@@ -10,14 +10,13 @@
  You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <simplicity/engine/SimpleCompositeEngine.h>
+#include <simplicity/input/InputEvent.h>
 #include <simplicity/Simplicity.h>
+#include <simplicity/SimpleEvents.h>
 
 #include <simplicity/opengl/model/OpenGLModelFactory.h>
 
-#include <simplicity/freeglut/FreeglutEvents.h>
-#include <simplicity/freeglut/input/engine/FreeglutInputEngine.h>
-#include <simplicity/freeglut/input/FreeglutInputEvent.h>
-#include <simplicity/freeglut/rendering/engine/FreeglutWindowEngine.h>
+#include <simplicity/freeglut/engine/FreeglutEngine.h>
 
 #include "picking/SimpleOpenGLPickerDemo.h"
 #include "rendering/AlwaysAndNotEqualStencilOpenGLRenderersDemo.h"
@@ -70,7 +69,7 @@ void previousDemo()
 
 void changeDemo(const boost::any data)
 {
-	const FreeglutInputEvent& event(boost::any_cast < FreeglutInputEvent > (data));
+	const InputEvent& event = boost::any_cast<InputEvent>(data);
 
 	if (event.key == ' ')
 	{
@@ -84,17 +83,13 @@ void changeDemo(const boost::any data)
 
 int main(int argc, char** argv)
 {
-	shared_ptr<Engine> windowEngine(new FreeglutWindowEngine);
-	windowEngine->setPreferredFrequency(100);
-	engine->addEngine(windowEngine);
-
-	shared_ptr<Engine> inputEngine(new FreeglutInputEngine);
-	inputEngine->setPreferredFrequency(100);
-	engine->addEngine(inputEngine);
+	shared_ptr<Engine> freeglutEngine(new FreeglutEngine);
+	freeglutEngine->setPreferredFrequency(100);
+	engine->addEngine(freeglutEngine);
 
 	Simplicity::init(move(engine));
 
-	Simplicity::registerObserver(FREEGLUT_KEYBOARD_EVENT, changeDemo);
+	Simplicity::registerObserver(INPUT_EVENT, changeDemo);
 
 	unique_ptr<ModelFactory> modelFactory(new OpenGLModelFactory);
 	ModelFactory::setInstance(move(modelFactory));

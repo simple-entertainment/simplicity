@@ -45,16 +45,16 @@ namespace simplicity
 		engine->addEntity(entity);
 	}
 
-	void Simplicity::deregisterObserver(const string eventName, function<void(const boost::any)> observer)
+	void Simplicity::deregisterObserver(const string eventName, function<Observer> observer)
 	{
-		vector<function<Observer> >& eventObservers(observers.find(eventName)->second);
+		vector<function<Observer> >& registeredObservers = observers.find(eventName)->second;
 
-		vector<function<Observer> >::iterator currentObserver(eventObservers.begin());
-		while (currentObserver != eventObservers.end())
+		for (vector<function<Observer> >::iterator registeredObserver = registeredObservers.begin();
+			registeredObserver != registeredObservers.end(); registeredObserver++)
 		{
-			if (currentObserver->target<Observer>() == observer.target<Observer>())
+			if (registeredObserver->target_type() == observer.target_type())
 			{
-				eventObservers.erase(currentObserver);
+				registeredObservers.erase(registeredObserver);
 				return;
 			}
 		}
@@ -67,9 +67,13 @@ namespace simplicity
 			return;
 		}
 
-		for (function<Observer> observer : observers.find(eventName)->second)
+		vector<function<Observer> >& registeredObservers = observers.find(eventName)->second;
+
+		// Does not use C++11 for loop as elements could be added to the vector while iterating.
+		// Take care - this is a fragile 'solution'.
+		for (unsigned int index = 0; index < registeredObservers.size(); index++)
 		{
-			observer(data);
+			registeredObservers.at(index)(data);
 		}
 	}
 

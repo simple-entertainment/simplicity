@@ -17,14 +17,11 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
+#include <simplicity/input/InputEvent.h>
+#include <simplicity/SimpleEvents.h>
 #include <simplicity/Simplicity.h>
 
-#include "../../FreeglutEvents.h"
-#include "../FreeglutInputEvent.h"
-#include "FreeglutInputEngine.h"
-
-using namespace simplicity;
-using namespace std;
+#include "FreeglutEngine.h"
 
 namespace simplicity
 {
@@ -37,12 +34,13 @@ namespace simplicity
 		 */
 		void keyboard(const unsigned char key, const int x, const int y)
 		{
-			FreeglutInputEvent event;
+			InputEvent event;
+			event.type = InputEvent::Type::KEYBOARD_BUTTON;
 			event.key = key;
 			event.x = x;
 			event.y = y;
 
-			Simplicity::fireEvent(FREEGLUT_KEYBOARD_EVENT, event);
+			Simplicity::fireEvent(INPUT_EVENT, event);
 		}
 
 		/**
@@ -52,11 +50,12 @@ namespace simplicity
 		 */
 		void motion(const int x, const int y)
 		{
-			FreeglutInputEvent event;
+			InputEvent event;
+			event.type = InputEvent::Type::MOUSE_MOVE;
 			event.x = x;
 			event.y = y;
 
-			Simplicity::fireEvent(FREEGLUT_MOTION_EVENT, event);
+			Simplicity::fireEvent(INPUT_EVENT, event);
 		}
 
 		/**
@@ -66,38 +65,75 @@ namespace simplicity
 		 */
 		void mouse(const int button, const int state, const int x, const int y)
 		{
-			FreeglutInputEvent event;
-			event.button = button;
-			event.state = state;
+			InputEvent event;
+
+			if (button == GLUT_LEFT_BUTTON)
+			{
+				event.mouseButton = InputEvent::MouseButton::LEFT;
+			}
+			else if (GLUT_MIDDLE_BUTTON)
+			{
+				event.mouseButton = InputEvent::MouseButton::MIDDLE;
+			}
+			else if (GLUT_RIGHT_BUTTON)
+			{
+				event.mouseButton = InputEvent::MouseButton::RIGHT;
+			}
+
+			if (state == GLUT_DOWN)
+			{
+				event.buttonState = InputEvent::ButtonState::DOWN;
+			}
+			else
+			{
+				event.buttonState = InputEvent::ButtonState::UP;
+			}
+
+			event.type = InputEvent::Type::MOUSE_BUTTON;
 			event.x = x;
 			event.y = y;
 
-			Simplicity::fireEvent(FREEGLUT_MOUSE_EVENT, event);
+			Simplicity::fireEvent(INPUT_EVENT, event);
 		}
 
-		void FreeglutInputEngine::addEntity(shared_ptr<Entity> entity)
+		FreeglutEngine::FreeglutEngine(string title) :
+			title(title)
 		{
 		}
 
-		shared_ptr<EngineInput> FreeglutInputEngine::advance(const shared_ptr<EngineInput> input)
+		void FreeglutEngine::addEntity(shared_ptr<Entity> entity)
+		{
+		}
+
+		shared_ptr<EngineInput> FreeglutEngine::advance(const shared_ptr<EngineInput> input)
 		{
 			glutMainLoopEvent();
+			glutSwapBuffers();
 
 			return input;
 		}
 
-		void FreeglutInputEngine::destroy()
+		void FreeglutEngine::destroy()
 		{
 		}
 
-		void FreeglutInputEngine::onInit()
+		void FreeglutEngine::onInit()
 		{
+			int argc = 1;
+			unique_ptr<char> argv(new char);
+			char* argvPtr(argv.get());
+
+			glutInit(&argc, &argvPtr);
+			glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+			glutInitWindowSize(800, 800);
+			glutCreateWindow(title.data());
+
 			glutKeyboardFunc(keyboard);
 			glutMotionFunc(motion);
 			glutMouseFunc(mouse);
 		}
 
-		void FreeglutInputEngine::onReset()
+		void FreeglutEngine::onReset()
 		{
 		}
 	}
