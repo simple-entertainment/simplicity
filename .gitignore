@@ -1,16 +1,7 @@
-# Maven project management
-simplicity-editor/target
-simplicity-util/target
-
 # Eclipse project management
 *.metadata
 *.settings
 simplicity/Debug
 simplicity-demo/Debug
-simplicity-demo-opengl/Debug
-simplicity-opengl/Debug
-simplicity-opengl-demo/Debug
-simplicity-opengl-test/Debug
 simplicity-test/Debug
-
 
