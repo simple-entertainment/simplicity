@@ -17,9 +17,9 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 
-#include <simplicity/input/InputEvent.h>
+#include <simplicity/Events.h>
+#include <simplicity/input/MouseButtonEvent.h>
 #include <simplicity/scene/SceneFactory.h>
-#include <simplicity/SimpleEvents.h>
 #include <simplicity/Simplicity.h>
 
 #include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
@@ -41,7 +41,7 @@ namespace simplicity
 	{
 		renderingEngine->destroy();
 
-		Simplicity::deregisterObserver(INPUT_EVENT, bind(&SimplePathFinderDemo::onMouse, this, placeholders::_1));
+		Simplicity::deregisterObserver(MOUSE_BUTTON_EVENT, bind(&SimplePathFinderDemo::onMouse, this, placeholders::_1));
 	}
 
 	string SimplePathFinderDemo::getDescription()
@@ -92,7 +92,8 @@ namespace simplicity
 		}
 
 		renderingEngine->addEntity(createTitle());
-		for (shared_ptr<Entity> descriptionLine : createDescription()) {
+		for (shared_ptr<Entity> descriptionLine : createDescription())
+		{
 			renderingEngine->addEntity(descriptionLine);
 		}
 
@@ -101,15 +102,14 @@ namespace simplicity
 
 		pathFinder.reset(new SimplePathFinder(*getNavigationMesh().at(4), *getNavigationMesh().at(95)));
 
-		Simplicity::registerObserver(INPUT_EVENT, bind(&SimplePathFinderDemo::onMouse, this, placeholders::_1));
+		Simplicity::registerObserver(MOUSE_BUTTON_EVENT, bind(&SimplePathFinderDemo::onMouse, this, placeholders::_1));
 	}
 
 	void SimplePathFinderDemo::onMouse(const boost::any data)
 	{
-		const InputEvent& event = boost::any_cast<InputEvent>(data);
+		const MouseButtonEvent& event = boost::any_cast < MouseButtonEvent > (data);
 
-		if (event.type != InputEvent::Type::MOUSE_BUTTON || event.mouseButton != InputEvent::MouseButton::LEFT
-					|| event.buttonState != InputEvent::ButtonState::UP)
+		if (event.button != Mouse::Button::LEFT || event.buttonState != Button::State::UP)
 		{
 			return;
 		}

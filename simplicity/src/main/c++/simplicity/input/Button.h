@@ -14,16 +14,21 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLEEVENTS_H_
-#define SIMPLEEVENTS_H_
-
-#include <string>
+#ifndef BUTTON_H_
+#define BUTTON_H_
 
 namespace simplicity
 {
-	const std::string INPUT_EVENT = "Simplicity.input";
+	struct Button
+	{
+		enum State
+		{
+			DOWN,
+			UP,
 
-	const std::string PICK_EVENT = "Simplicity.pick";
+			UNKNOWN_STATE
+		};
+	};
 }
 
-#endif /* SIMPLEEVENTS_H_ */
+#endif /* BUTTON_H_ */

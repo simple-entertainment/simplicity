@@ -15,8 +15,8 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include <simplicity/engine/SimpleCompositeEngine.h>
-#include <simplicity/input/InputEvent.h>
-#include <simplicity/SimpleEvents.h>
+#include <simplicity/Events.h>
+#include <simplicity/input/KeyboardButtonEvent.h>
 #include <simplicity/Simplicity.h>
 
 #include <simplicity/opengl/model/OpenGLModelFactory.h>
@@ -67,13 +67,18 @@ void previousDemo()
 
 void changeDemo(const boost::any data)
 {
-	const InputEvent& event = boost::any_cast<InputEvent>(data);
+	const KeyboardButtonEvent& event = boost::any_cast<KeyboardButtonEvent>(data);
 
-	if (event.key == ' ')
+	if (event.buttonState != Button::State::DOWN)
+	{
+		return;
+	}
+
+	if (event.button == Keyboard::Button::SPACE)
 	{
 		nextDemo();
 	}
-	else if (event.key == 8) // backspace
+	else if (event.button == Keyboard::Button::BACKSPACE)
 	{
 		previousDemo();
 	}
@@ -87,7 +92,7 @@ int main(int argc, char** argv)
 
 	Simplicity::init(move(engine));
 
-	Simplicity::registerObserver(INPUT_EVENT, changeDemo);
+	Simplicity::registerObserver(KEYBOARD_BUTTON_EVENT, changeDemo);
 
 	unique_ptr<ModelFactory> modelFactory(new OpenGLModelFactory);
 	ModelFactory::setInstance(move(modelFactory));
