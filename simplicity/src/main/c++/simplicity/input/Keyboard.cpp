@@ -20,7 +20,7 @@ using namespace std;
 
 namespace simplicity
 {
-	map<unsigned char, Keyboard::Button> createAsciiButtonMap()
+	map<unsigned char, Keyboard::Button> createAsciiKeyboardButtonMap()
 	{
 		map<unsigned char, Keyboard::Button> asciiButtonMap;
 

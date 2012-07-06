@@ -117,7 +117,7 @@ namespace simplicity
 		};
 	};
 
-	std::map<unsigned char, Keyboard::Button> createAsciiButtonMap();
+	std::map<unsigned char, Keyboard::Button> createAsciiKeyboardButtonMap();
 }
 
 #endif /* KEYBOARD_H_ */
