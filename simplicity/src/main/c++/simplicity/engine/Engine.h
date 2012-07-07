@@ -46,11 +46,10 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Adds the given {@link simplicity::Entity Entity} to the <code>Entity</code>s whose components are to be
-			 * processed by this <code>Engine</code>.
+			 * Adds the given {@link simplicity::Entity Entity} to this <code>Engine</code>.
 			 * </p>
 			 *
-			 * @param entity The <code>Entity</code> whose components are to be processed by this <code>Engine</code>.
+			 * @param entity The <code>Entity</code> to be added to this <code>Engine</code>.
 			 */
 			virtual void addEntity(std::shared_ptr<Entity> entity) = 0;
 
@@ -89,6 +88,15 @@ namespace simplicity
 			 * </p>
 			 */
 			virtual void init() = 0;
+
+			/**
+			 * <p>
+			 * Removes the given {@link simplicity::Entity Entity} from this <code>Engine</code>.
+			 * </p>
+			 *
+			 * @param entity The <code>Entity</code> to be removed from this <code>Engine</code>.
+			 */
+			virtual void removeEntity(const Entity& entity) = 0;
 
 			/**
 			 * <p>

@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include <algorithm>
+
 #include "SimpleAnimationEngine.h"
 
 using namespace std;
@@ -38,9 +40,9 @@ namespace simplicity
 
 	shared_ptr<EngineInput> SimpleAnimationEngine::advance(const shared_ptr<EngineInput> input)
 	{
-		for (shared_ptr<Animator> animator : animators)
+		for (unsigned int index = 0; index < animators.size(); index++)
 		{
-			animator->animate();
+			animators.at(index)->animate();
 		}
 
 		return shared_ptr<EngineInput>();
@@ -61,5 +63,13 @@ namespace simplicity
 
 	void SimpleAnimationEngine::onReset()
 	{
+	}
+
+	void SimpleAnimationEngine::removeEntity(const Entity& entity)
+	{
+		for (shared_ptr<Animator> animator : entity.getComponents<Animator>())
+		{
+			animators.erase(remove(animators.begin(), animators.end(), animator));
+		}
 	}
 }

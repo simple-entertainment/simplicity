@@ -59,6 +59,8 @@ namespace simplicity
 
 			void removeEngine(const std::shared_ptr<Engine> engine);
 
+			void removeEntity(const Entity& entity);
+
 		private:
 			/**
 			 * <p>

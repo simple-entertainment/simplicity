@@ -100,6 +100,7 @@ namespace simplicity
 
 	void Simplicity::removeEntity(const string name)
 	{
+		engine->removeEntity(*entities.find(name)->second);
 		entities.erase(name);
 	}
 

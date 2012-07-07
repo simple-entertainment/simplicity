@@ -33,6 +33,7 @@ namespace simplicity
       MOCK_METHOD0(destroy, void());
       MOCK_CONST_METHOD0(getPreferredFrequency, int());
       MOCK_METHOD0(init, void());
+      MOCK_METHOD1(removeEntity, void(const Entity& entity));
       MOCK_METHOD0(reset, void());
       MOCK_METHOD0(run, void());
       MOCK_METHOD1(setPreferredFrequency, void(const int preferredFrequency));

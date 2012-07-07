@@ -91,6 +91,8 @@ namespace simplicity
 			 */
 			int getOverrunIndex() const;
 
+			void removeEntity(const Entity& entity);
+
 			/**
 			 * <p>
 			 * Sets the index of the advancement in which this engine will overrun.

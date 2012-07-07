@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include <algorithm>
+
 #include "SimpleAIEngine.h"
 
 using namespace std;
@@ -63,5 +65,13 @@ namespace simplicity
 
 	void SimpleAIEngine::onReset()
 	{
+	}
+
+	void SimpleAIEngine::removeEntity(const Entity& entity)
+	{
+		for (shared_ptr<Agent> agent : entity.getComponents<Agent>())
+		{
+			agents.erase(remove(agents.begin(), agents.end(), agent));
+		}
 	}
 }

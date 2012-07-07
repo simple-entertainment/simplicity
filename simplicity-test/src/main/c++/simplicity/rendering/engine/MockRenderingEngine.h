@@ -47,6 +47,7 @@ namespace simplicity
 			MOCK_CONST_METHOD0(getViewportHeight, int());
 			MOCK_CONST_METHOD0(getViewportWidth, int());
 			MOCK_METHOD0(init, void());
+			MOCK_METHOD1(removeEntity, void(const Entity& entity));
 			MOCK_METHOD1(removeRenderer, void(const Renderer& renderer));
 			MOCK_METHOD2(renderSceneGraph, void(Renderer& renderer, const Node& root));
 			MOCK_METHOD0(reset, void());

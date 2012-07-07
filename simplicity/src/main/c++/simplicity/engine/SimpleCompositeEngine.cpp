@@ -157,4 +157,12 @@ namespace simplicity
 			iterator++;
 		}
 	}
+
+	void SimpleCompositeEngine::removeEntity(const Entity& entity)
+	{
+		for (unsigned int index = 0; index < engines.size(); index++)
+		{
+			engines.at(index)->removeEntity(entity);
+		}
+	}
 }

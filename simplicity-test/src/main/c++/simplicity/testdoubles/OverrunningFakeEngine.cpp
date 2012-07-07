@@ -98,6 +98,10 @@ namespace simplicity
 	{
 	}
 
+	void OverrunningFakeEngine::removeEntity(const Entity& entity)
+	{
+	}
+
 	void OverrunningFakeEngine::setOverrunIndex(const int overrunIndex)
 	{
 		this->overrunIndex = overrunIndex;

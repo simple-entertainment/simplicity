@@ -62,6 +62,8 @@ namespace simplicity
 			 */
 			const std::vector<std::shared_ptr<Animator> > getAnimators();
 
+			void removeEntity(const Entity& entity);
+
 		private:
 			/**
 			 * <p>
