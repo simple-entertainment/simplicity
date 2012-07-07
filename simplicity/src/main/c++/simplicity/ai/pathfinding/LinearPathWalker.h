@@ -38,6 +38,10 @@ namespace simplicity
 
 			const TranslationVector<> & getLocation() const;
 
+			bool isAtEnd() const;
+
+			bool isAtStart() const;
+
 			void stepBackward(const float stepDistance);
 
 			void stepForward(const float stepDistance);

@@ -51,6 +51,24 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Determines if the walker is currently at the end of the path.
+			 * </p>
+			 *
+			 * @return True if the walker is currently at the end of the path, false otherwise.
+			 */
+			virtual bool isAtEnd() const = 0;
+
+			/**
+			 * <p>
+			 * Determines if the walker is currently at the start of the path.
+			 * </p>
+			 *
+			 * @return True if the walker is currently at the start of the path, false otherwise.
+			 */
+			virtual bool isAtStart() const = 0;
+
+			/**
+			 * <p>
 			 * Walks one 'step' backward.
 			 * </p>
 			 *

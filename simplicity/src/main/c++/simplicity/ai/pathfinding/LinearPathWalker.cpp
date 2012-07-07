@@ -89,6 +89,16 @@ namespace simplicity
 		}
 	}
 
+	bool LinearPathWalker::isAtEnd() const
+	{
+		return distance == totalDistance;
+	}
+
+	bool LinearPathWalker::isAtStart() const
+	{
+		return distance == 0.0f;
+	}
+
 	void LinearPathWalker::step(const float stepDistance)
 	{
 		distance += stepDistance;
