@@ -36,6 +36,8 @@ namespace simplicity
 		public:
 			LinearPathWalker(std::vector<std::shared_ptr<const Node> > path);
 
+			const Node& getClosestNode() const;
+
 			const TranslationVector<> & getLocation() const;
 
 			bool isAtEnd() const;

@@ -29,29 +29,20 @@ namespace simplicity
 		initNodeDistances();
 	}
 
-	unique_ptr<Vector<> > LinearPathWalker::getSegment(const unsigned int segmentStartIndex) const
+	const Node& LinearPathWalker::getClosestNode() const
 	{
-		unique_ptr<Vector<> > segment = path.at(segmentStartIndex + 1)->getTransformation().getTranslation();
-		segment->subtract(*path.at(segmentStartIndex)->getTransformation().getTranslation());
+		unsigned int segmentStartIndex = getSegmentStartIndex();
+		float distanceToPreviousNode = distance - nodeDistances.find(segmentStartIndex)->second;
+		float distanceToNextNode = nodeDistances.find(segmentStartIndex + 1)->second - distance;
 
-		return move(segment);
-	}
-
-	unsigned int LinearPathWalker::getSegmentStartIndex() const
-	{
-		unsigned int segmentEndIndex = 0;
-
-		while (segmentEndIndex < path.size())
+		if (distanceToPreviousNode < distanceToNextNode)
 		{
-			if (nodeDistances.find(segmentEndIndex)->second > distance)
-			{
-				return segmentEndIndex - 1;
-			}
-
-			segmentEndIndex++;
+			return *path.at(segmentStartIndex);
 		}
-
-		return path.size() - 2;
+		else
+		{
+			return *path.at(segmentStartIndex + 1);
+		}
 	}
 
 	const TranslationVector<>& LinearPathWalker::getLocation() const
@@ -66,6 +57,27 @@ namespace simplicity
 		location->add(*segment);
 
 		return *location;
+	}
+
+	unique_ptr<Vector<> > LinearPathWalker::getSegment(const unsigned int segmentStartIndex) const
+	{
+		unique_ptr<Vector<> > segment = path.at(segmentStartIndex + 1)->getTransformation().getTranslation();
+		segment->subtract(*path.at(segmentStartIndex)->getTransformation().getTranslation());
+
+		return move(segment);
+	}
+
+	unsigned int LinearPathWalker::getSegmentStartIndex() const
+	{
+		for (unsigned int segmentEndIndex = 0; segmentEndIndex < path.size(); segmentEndIndex++)
+		{
+			if (nodeDistances.find(segmentEndIndex)->second > distance)
+			{
+				return segmentEndIndex - 1;
+			}
+		}
+
+		return path.size() - 2;
 	}
 
 	void LinearPathWalker::initNodeDistances()

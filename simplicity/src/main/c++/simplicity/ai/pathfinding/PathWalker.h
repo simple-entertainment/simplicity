@@ -40,6 +40,8 @@ namespace simplicity
 			{
 			}
 
+			virtual const Node& getClosestNode() const = 0;
+
 			/**
 			 * <p>
 			 * Gets the current location on the path that the walker has walked to.

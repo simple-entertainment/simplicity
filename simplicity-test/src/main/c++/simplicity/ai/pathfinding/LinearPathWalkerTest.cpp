@@ -30,6 +30,268 @@ namespace simplicity
 {
 	/**
 	 * <p>
+	 * Unit test the method {@link simplicity::LinearPathWalker#getNearestNode() getNearestNode()} with the special
+	 * condition that the first node is the nearest.
+	 * </p>
+	 */
+	TEST_F(LinearPathWalkerTest, getNearestNodeFirst)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
+		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		SimpleTransformationMatrix<> transformation1;
+		SimpleTransformationMatrix<> transformation2;
+
+		vector<shared_ptr<const Node> > path;
+		path.push_back(mockNode1);
+		path.push_back(mockNode2);
+
+		// Provide stub behaviour.
+		// //////////////////////////////////////////////////
+		ON_CALL(*mockNode1, getId()).WillByDefault(Return(1));
+		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(*mockNode2, getId()).WillByDefault(Return(2));
+		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
+		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
+		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
+		LinearPathWalker objectUnderTest(path);
+		objectUnderTest.stepForward(0.5f);
+
+		// Perform test - Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_EQ(mockNode1->getId(), objectUnderTest.getClosestNode().getId());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::LinearPathWalker#getNearestNode() getNearestNode()} with the special
+	 * condition that the last node is the nearest.
+	 * </p>
+	 */
+	TEST_F(LinearPathWalkerTest, getNearestNodeLast)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
+		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		SimpleTransformationMatrix<> transformation1;
+		SimpleTransformationMatrix<> transformation2;
+
+		vector<shared_ptr<const Node> > path;
+		path.push_back(mockNode1);
+		path.push_back(mockNode2);
+
+		// Provide stub behaviour.
+		// //////////////////////////////////////////////////
+		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
+		ON_CALL(*mockNode1, getId()).WillByDefault(Return(1));
+		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
+		ON_CALL(*mockNode2, getId()).WillByDefault(Return(2));
+		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
+		LinearPathWalker objectUnderTest(path);
+		objectUnderTest.stepForward(1.0f);
+
+		// Perform test - Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_EQ(mockNode2->getId(), objectUnderTest.getClosestNode().getId());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::LinearPathWalker#getNearestNode() getNearestNode()} with the special
+	 * condition that the middle node is the nearest.
+	 * </p>
+	 */
+	TEST_F(LinearPathWalkerTest, getNearestNodeMiddle)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
+		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		std::shared_ptr<const MockNode> mockNode3(new testing::NiceMock<MockNode>);
+		SimpleTransformationMatrix<> transformation1;
+		SimpleTransformationMatrix<> transformation2;
+		SimpleTransformationMatrix<> transformation3;
+
+		vector<shared_ptr<const Node> > path;
+		path.push_back(mockNode1);
+		path.push_back(mockNode2);
+		path.push_back(mockNode3);
+
+		// Provide stub behaviour.
+		// //////////////////////////////////////////////////
+		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(*mockNode3, getTransformation()).WillByDefault(testing::ReturnRef(transformation3));
+
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
+		ON_CALL(*mockNode1, getId()).WillByDefault(Return(1));
+		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
+		ON_CALL(*mockNode2, getId()).WillByDefault(Return(2));
+		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
+		ON_CALL(*mockNode3, getId()).WillByDefault(Return(3));
+		transformation3.translate(SimpleTranslationVector<>(3.0f, 3.0f, 3.0f, 1.0f));
+		LinearPathWalker objectUnderTest(path);
+		objectUnderTest.stepForward(1.0f);
+
+		// Perform test - Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_EQ(mockNode2->getId(), objectUnderTest.getClosestNode().getId());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::LinearPathWalker#isAtEnd() isAtEnd()} with the special condition that the
+	 * walker is NOT at the end of the path.
+	 * </p>
+	 */
+	TEST_F(LinearPathWalkerTest, isAtEndFalse)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
+		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		SimpleTransformationMatrix<> transformation1;
+		SimpleTransformationMatrix<> transformation2;
+
+		vector<shared_ptr<const Node> > path;
+		path.push_back(mockNode1);
+		path.push_back(mockNode2);
+
+		// Provide stub behaviour.
+		// //////////////////////////////////////////////////
+		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
+		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
+		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
+		LinearPathWalker objectUnderTest(path);
+
+		// Perform test - Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_FALSE(objectUnderTest.isAtEnd());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::LinearPathWalker#isAtEnd() isAtEnd()} with the special condition that the
+	 * walker is at the end of the path.
+	 * </p>
+	 */
+	TEST_F(LinearPathWalkerTest, isAtEndTrue)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
+		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		SimpleTransformationMatrix<> transformation1;
+		SimpleTransformationMatrix<> transformation2;
+
+		vector<shared_ptr<const Node> > path;
+		path.push_back(mockNode1);
+		path.push_back(mockNode2);
+
+		// Provide stub behaviour.
+		// //////////////////////////////////////////////////
+		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
+		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
+		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
+		LinearPathWalker objectUnderTest(path);
+		objectUnderTest.stepForward(2.0f);
+
+		// Perform test - Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_TRUE(objectUnderTest.isAtEnd());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::LinearPathWalker#isAtStart() isAtStart()} with the special condition that
+	 * the walker is NOT at the start of the path.
+	 * </p>
+	 */
+	TEST_F(LinearPathWalkerTest, isAtStartFalse)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
+		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		SimpleTransformationMatrix<> transformation1;
+		SimpleTransformationMatrix<> transformation2;
+
+		vector<shared_ptr<const Node> > path;
+		path.push_back(mockNode1);
+		path.push_back(mockNode2);
+
+		// Provide stub behaviour.
+		// //////////////////////////////////////////////////
+		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
+		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
+		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
+		LinearPathWalker objectUnderTest(path);
+		objectUnderTest.stepForward(1.0f);
+
+		// Perform test - Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_FALSE(objectUnderTest.isAtStart());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::LinearPathWalker#isAtStart() isAtStart()} with the special condition that
+	 * the walker is at the start of the path.
+	 * </p>
+	 */
+	TEST_F(LinearPathWalkerTest, isAtStartTrue)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
+		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		SimpleTransformationMatrix<> transformation1;
+		SimpleTransformationMatrix<> transformation2;
+
+		vector<shared_ptr<const Node> > path;
+		path.push_back(mockNode1);
+		path.push_back(mockNode2);
+
+		// Provide stub behaviour.
+		// //////////////////////////////////////////////////
+		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
+		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
+		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
+		LinearPathWalker objectUnderTest(path);
+
+		// Perform test - Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_TRUE(objectUnderTest.isAtStart());
+	}
+
+	/**
+	 * <p>
 	 * Unit test the method {@link simplicity::LinearPathWalker#stepBackward(const float) stepBackward(const float)}
 	 * with the special condition that the walker is already at the start of the path.
 	 * </p>
