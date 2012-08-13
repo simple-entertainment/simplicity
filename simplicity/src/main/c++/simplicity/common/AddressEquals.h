@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Simple Entertainment Limited
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,35 +14,46 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include <algorithm>
+#ifndef ADDRESSEQUALS_H_
+#define ADDRESSEQUALS_H_
 
-#include "PreorderNodeIterator.h"
-
-using namespace std;
+#include <functional>
+#include <memory>
 
 namespace simplicity
 {
-	PreorderNodeIterator::PreorderNodeIterator(Node& root) :
-		delegate(static_cast<const Node&>(root))
+	template<class T>
+	class AddressEquals
 	{
-	}
+		public:
+			AddressEquals(const T& lhs) :
+				lhs(lhs)
+			{
+			}
 
-	PreorderNodeIterator::~PreorderNodeIterator()
-	{
-	}
+			bool operator()(const T& rhs) const
+			{
+				return &lhs == &rhs;
+			}
 
-	int PreorderNodeIterator::getBacktracksToNextNode() const
-	{
-		return delegate.getBacktracksToNextNode();
-	}
+			bool operator()(const std::reference_wrapper<T>& rhs) const
+			{
+				return &lhs == &rhs.get();
+			}
 
-	Node& PreorderNodeIterator::getNextNode()
-	{
-		return const_cast<Node&>(delegate.getNextNode());
-	}
+			bool operator()(const std::shared_ptr<T>& rhs) const
+			{
+				return &lhs == rhs.get();
+			}
 
-	bool PreorderNodeIterator::hasMoreNodes() const
-	{
-		return delegate.hasMoreNodes();
-	}
+			bool operator()(const std::unique_ptr<T>& rhs) const
+			{
+				return &lhs == rhs.get();
+			}
+
+		private:
+			const T& lhs;
+	};
 }
+
+#endif /* ADDRESSEQUALS_H_ */

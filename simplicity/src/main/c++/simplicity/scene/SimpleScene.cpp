@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include "PreorderConstNodeIterator.h"
 #include "PreorderNodeIterator.h"
 #include "SimpleNode.h"
 #include "SimpleScene.h"
@@ -54,10 +55,10 @@ namespace simplicity
 
 		while (iterator.hasMoreNodes())
 		{
-			shared_ptr<Node> node(iterator.getNextNode());
+			Node& currentNode = iterator.getNextNode();
 
-			node->setId(getNextNodeId());
-			nodes.insert(pair<int, shared_ptr<Node> >(node->getId(), node));
+			currentNode.setId(getNextNodeId());
+			nodes.insert(pair<int, shared_ptr<Node> >(currentNode.getId(), currentNode.getThisShared()));
 		}
 
 		parent.addChild(node);
@@ -95,11 +96,11 @@ namespace simplicity
 
 	void SimpleScene::removeNode(Node& node)
 	{
-		PreorderNodeIterator iterator(node);
+		PreorderConstNodeIterator iterator(node);
 
 		while (iterator.hasMoreNodes())
 		{
-			nodes.erase(iterator.getNextNode()->getId());
+			nodes.erase(iterator.getNextNode().getId());
 		}
 
 		node.getParent()->removeChild(node);
@@ -114,10 +115,10 @@ namespace simplicity
 
 		while (iterator.hasMoreNodes())
 		{
-			shared_ptr<Node> node(iterator.getNextNode());
+			Node& node = iterator.getNextNode();
 
-			node->setId(getNextNodeId());
-			nodes.insert(pair<int, shared_ptr<Node> >(node->getId(), node));
+			node.setId(getNextNodeId());
+			nodes.insert(pair<int, shared_ptr<Node> >(node.getId(), node.getThisShared()));
 		}
 	}
 

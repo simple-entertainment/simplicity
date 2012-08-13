@@ -38,21 +38,21 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getId()).WillByDefault(Return(1));
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getId()).WillByDefault(Return(2));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getId()).WillByDefault(Return(1));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getId()).WillByDefault(Return(2));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -63,7 +63,7 @@ namespace simplicity
 
 		// Perform test - Verify test results.
 		// //////////////////////////////////////////////////
-		ASSERT_EQ(mockNode1->getId(), objectUnderTest.getClosestNode().getId());
+		ASSERT_EQ(mockNode1.getId(), objectUnderTest.getClosestNode().getId());
 	}
 
 	/**
@@ -76,32 +76,32 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getId()).WillByDefault(Return(1));
+		ON_CALL(mockNode1, getId()).WillByDefault(Return(1));
 		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
-		ON_CALL(*mockNode2, getId()).WillByDefault(Return(2));
+		ON_CALL(mockNode2, getId()).WillByDefault(Return(2));
 		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
 		LinearPathWalker objectUnderTest(path);
 		objectUnderTest.stepForward(1.0f);
 
 		// Perform test - Verify test results.
 		// //////////////////////////////////////////////////
-		ASSERT_EQ(mockNode2->getId(), objectUnderTest.getClosestNode().getId());
+		ASSERT_EQ(mockNode2.getId(), objectUnderTest.getClosestNode().getId());
 	}
 
 	/**
@@ -114,38 +114,38 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode3(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
+		NiceMock<MockNode> mockNode3;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 		SimpleTransformationMatrix<> transformation3;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 		path.push_back(mockNode3);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
-		ON_CALL(*mockNode3, getTransformation()).WillByDefault(testing::ReturnRef(transformation3));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode3, getTransformation()).WillByDefault(testing::ReturnRef(transformation3));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getId()).WillByDefault(Return(1));
+		ON_CALL(mockNode1, getId()).WillByDefault(Return(1));
 		transformation1.translate(SimpleTranslationVector<>(1.0f, 1.0f, 1.0f, 1.0f));
-		ON_CALL(*mockNode2, getId()).WillByDefault(Return(2));
+		ON_CALL(mockNode2, getId()).WillByDefault(Return(2));
 		transformation2.translate(SimpleTranslationVector<>(2.0f, 2.0f, 2.0f, 1.0f));
-		ON_CALL(*mockNode3, getId()).WillByDefault(Return(3));
+		ON_CALL(mockNode3, getId()).WillByDefault(Return(3));
 		transformation3.translate(SimpleTranslationVector<>(3.0f, 3.0f, 3.0f, 1.0f));
 		LinearPathWalker objectUnderTest(path);
 		objectUnderTest.stepForward(1.0f);
 
 		// Perform test - Verify test results.
 		// //////////////////////////////////////////////////
-		ASSERT_EQ(mockNode2->getId(), objectUnderTest.getClosestNode().getId());
+		ASSERT_EQ(mockNode2.getId(), objectUnderTest.getClosestNode().getId());
 	}
 
 	/**
@@ -158,19 +158,19 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -193,19 +193,19 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -229,19 +229,19 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -265,19 +265,19 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -300,19 +300,19 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -343,19 +343,19 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -386,19 +386,19 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -429,19 +429,19 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -472,19 +472,19 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -516,19 +516,19 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -560,19 +560,19 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::shared_ptr<const MockNode> mockNode1(new testing::NiceMock<MockNode>);
-		std::shared_ptr<const MockNode> mockNode2(new testing::NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 		SimpleTransformationMatrix<> transformation1;
 		SimpleTransformationMatrix<> transformation2;
 
-		vector<shared_ptr<const Node> > path;
+		vector<reference_wrapper<const Node> > path;
 		path.push_back(mockNode1);
 		path.push_back(mockNode2);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(testing::ReturnRef(transformation1));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(testing::ReturnRef(transformation2));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////

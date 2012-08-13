@@ -42,7 +42,7 @@ namespace simplicity
 
 		// Verify test results.
 		ASSERT_EQ(child, fTestObject->getChildren().at(0));
-		ASSERT_EQ(fTestObject, child->getParent());
+		ASSERT_EQ(fTestObject.get(), child->getParent());
 	}
 
 	/**
@@ -53,8 +53,8 @@ namespace simplicity
 	TEST_F(SimpleNodeTest, getAbsoluteTransformation)
 	{
 		// Create dependencies.
-		std::shared_ptr<MockNode> mockNode1(new NiceMock<MockNode>);
-		std::shared_ptr<MockNode> mockNode2(new NiceMock<MockNode>);
+		NiceMock<MockNode> mockNode1;
+		NiceMock<MockNode> mockNode2;
 
 		SimpleTransformationMatrix<> matrix1;
 		SimpleTranslationVector<> translation(0.0f, 10.0f, 0.0f, 1.0f);
@@ -69,13 +69,13 @@ namespace simplicity
 		matrix3.multiply(matrix1);
 
 		// Dictate correct behaviour.
-		ON_CALL(*mockNode1, getTransformation()).WillByDefault(ReturnRef(matrix1));
-		ON_CALL(*mockNode1, getParent()).WillByDefault(Return(mockNode2));
-		ON_CALL(*mockNode2, getTransformation()).WillByDefault(ReturnRef(matrix2));
-		ON_CALL(*mockNode2, getParent()).WillByDefault(Return(std::shared_ptr<Node>()));
+		ON_CALL(mockNode1, getTransformation()).WillByDefault(ReturnRef(matrix1));
+		ON_CALL(mockNode1, getParent()).WillByDefault(Return(&mockNode2));
+		ON_CALL(mockNode2, getTransformation()).WillByDefault(ReturnRef(matrix2));
+		ON_CALL(mockNode2, getParent()).WillByDefault(ReturnNull());
 
 		// Initialise test environment.
-		fTestObject->setParent(mockNode1);
+		fTestObject->setParent(&mockNode1);
 
 		// Perform test - Verify test results.
 		bool equal = false;

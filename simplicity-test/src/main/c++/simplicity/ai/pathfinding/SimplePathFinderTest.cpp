@@ -16,6 +16,8 @@
  */
 #include <algorithm>
 
+#include <simplicity/common/AddressEquals.h>
+
 #include "SimplePathFinderTest.h"
 
 using namespace std;
@@ -33,7 +35,7 @@ namespace simplicity
 		SimplePathFinder objectUnderTest(*pathNodes.at(2), *pathNodes.at(22));
 
 		// Perform test.
-		vector<shared_ptr<const Node> > path = objectUnderTest.findShortestPath();
+		vector<reference_wrapper<const Node> > path = objectUnderTest.findShortestPath();
 
 		// Verify test results.
 		ASSERT_EQ(5u, path.size());
@@ -41,15 +43,17 @@ namespace simplicity
 		// Verify that all nodes in the path are connected correctly.
 		for (unsigned int index = 0; index < path.size(); index++)
 		{
-			const vector<shared_ptr<Node> >& children = path.at(index)->getChildren();
+			const vector<shared_ptr<Node> >& children = path.at(index).get().getChildren();
 
 			if (index > 0)
 			{
-				ASSERT_TRUE(find(children.begin(), children.end(), path.at(index - 1)) != children.end());
+				ASSERT_TRUE(
+					find_if(children.begin(), children.end(), AddressEquals<Node>(path.at(index - 1).get())) != children.end());
 			}
 			if (index < path.size() - 1)
 			{
-				ASSERT_TRUE(find(children.begin(), children.end(), path.at(index + 1)) != children.end());
+				ASSERT_TRUE(
+					find_if(children.begin(), children.end(), AddressEquals<Node>(path.at(index + 1).get())) != children.end());
 			}
 		}
 	}
@@ -68,15 +72,15 @@ namespace simplicity
 		// Create 'obstacles' by removing path nodes.
 		for (unsigned int nodeIndex = 10; nodeIndex < 14; nodeIndex++)
 		{
-			shared_ptr<Node> pathNode = pathNodes.at(nodeIndex);
-			for (unsigned int childIndex = 0; childIndex < pathNode->getChildren().size(); childIndex++)
+			Node& pathNode = *pathNodes.at(nodeIndex);
+			for (shared_ptr<Node> child : pathNode.getChildren())
 			{
-				pathNode->getChildren().at(childIndex)->removeChild(*pathNode);
+				child->removeChild(pathNode);
 			}
 		}
 
 		// Perform test.
-		vector<shared_ptr<const Node> > path = objectUnderTest.findShortestPath();
+		vector<reference_wrapper<const Node> > path = objectUnderTest.findShortestPath();
 
 		// Verify test results.
 		ASSERT_EQ(9u, path.size());
@@ -84,15 +88,17 @@ namespace simplicity
 		// Verify that all nodes in the path are connected correctly.
 		for (unsigned int index = 0; index < path.size(); index++)
 		{
-			const vector<shared_ptr<Node> >& children = path.at(index)->getChildren();
+			const vector<shared_ptr<Node> >& children = path.at(index).get().getChildren();
 
 			if (index > 0)
 			{
-				ASSERT_TRUE(find(children.begin(), children.end(), path.at(index - 1)) != children.end());
+				ASSERT_TRUE(
+					find_if(children.begin(), children.end(), AddressEquals<Node>(path.at(index - 1).get())) != children.end());
 			}
 			if (index < path.size() - 1)
 			{
-				ASSERT_TRUE(find(children.begin(), children.end(), path.at(index + 1)) != children.end());
+				ASSERT_TRUE(
+					find_if(children.begin(), children.end(), AddressEquals<Node>(path.at(index + 1).get())) != children.end());
 			}
 		}
 	}
@@ -126,12 +132,15 @@ namespace simplicity
 		objectUnderTest.stepForward();
 
 		// Perform test.
-		vector<shared_ptr<const Node> > openNodes = objectUnderTest.getOpenNodes();
+		vector<reference_wrapper<const Node> > openNodes = objectUnderTest.getOpenNodes();
 
 		// Verify test results.
 		ASSERT_EQ(3u, openNodes.size());
-		ASSERT_TRUE(find(openNodes.begin(), openNodes.end(), pathNodes.at(1)) != openNodes.end());
-		ASSERT_TRUE(find(openNodes.begin(), openNodes.end(), pathNodes.at(3)) != openNodes.end());
-		ASSERT_TRUE(find(openNodes.begin(), openNodes.end(), pathNodes.at(7)) != openNodes.end());
+		ASSERT_TRUE(
+			find_if(openNodes.begin(), openNodes.end(), AddressEquals<Node>(*pathNodes.at(1))) != openNodes.end());
+		ASSERT_TRUE(
+			find_if(openNodes.begin(), openNodes.end(), AddressEquals<Node>(*pathNodes.at(3))) != openNodes.end());
+		ASSERT_TRUE(
+			find_if(openNodes.begin(), openNodes.end(), AddressEquals<Node>(*pathNodes.at(7))) != openNodes.end());
 	}
 }

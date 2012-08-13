@@ -16,7 +16,7 @@
  */
 #include <algorithm>
 
-#include "../../common/shared_equals_raw.h"
+#include "../../common/AddressEquals.h"
 #include "NoPathException.h"
 #include "SimplePathFinder.h"
 
@@ -28,14 +28,14 @@ namespace simplicity
 		distance(0), finish(finish), start(start)
 	{
 		markAsTraversed(start);
-		openNodes.push_back(start.getThisShared());
+		openNodes.push_back(start);
 	}
 
 	SimplePathFinder::~SimplePathFinder()
 	{
 	}
 
-	vector<shared_ptr<const Node> > SimplePathFinder::findShortestPath()
+	vector<reference_wrapper<const Node> > SimplePathFinder::findShortestPath()
 	{
 		do
 		{
@@ -49,63 +49,56 @@ namespace simplicity
 		throw NoPathException();
 	}
 
-	vector<shared_ptr<const Node> > SimplePathFinder::generatePath()
+	vector<reference_wrapper<const Node> > SimplePathFinder::generatePath()
 	{
-		vector<shared_ptr<const Node> > path;
-		path.push_back(finish.getThisShared());
-		shared_ptr<const Node> currentNode(finish.getThisShared());
-		shared_ptr<const Node> nextNode(finish.getThisShared());
+		vector<reference_wrapper<const Node> > path;
+		path.push_back(finish);
+		const Node* currentNode = &finish;
+		const Node* nextNode = &finish;
 
-		while (currentNode.get() != &start)
+		while (currentNode != &start)
 		{
-			for (unsigned int adjacentNodeIndex = 0; adjacentNodeIndex < currentNode->getChildren().size();
-				adjacentNodeIndex++)
+			for (shared_ptr<const Node> adjacentNode : currentNode->getChildren())
 			{
-				shared_ptr<Node> adjacentNode(currentNode->getChildren().at(adjacentNodeIndex));
 				if (isTraversed(*adjacentNode)
-					&& nodeDistances.find(adjacentNode)->second < nodeDistances.find(nextNode)->second)
+					&& nodeDistances.find(adjacentNode.get())->second < nodeDistances.find(nextNode)->second)
 				{
-					nextNode = adjacentNode;
+					nextNode = adjacentNode.get();
 				}
 			}
 
-			path.insert(path.begin(), nextNode);
+			path.insert(path.begin(), *nextNode);
 			currentNode = nextNode;
 		}
 
 		return path;
 	}
 
-	vector<shared_ptr<const Node> > SimplePathFinder::getOpenNodes()
+	vector<reference_wrapper<const Node> > SimplePathFinder::getOpenNodes()
 	{
 		return openNodes;
 	}
 
 	bool SimplePathFinder::isTraversed(const Node& node)
 	{
-		shared_equals_raw<const Node> sharedEqualsRaw(&node);
-
-		return find_if(traversedNodes.begin(), traversedNodes.end(), sharedEqualsRaw) != traversedNodes.end();
+		return find_if(traversedNodes.begin(), traversedNodes.end(), AddressEquals<Node>(node)) != traversedNodes.end();
 	}
 
 	void SimplePathFinder::markAsTraversed(const Node& node)
 	{
-		traversedNodes.push_back(node.getThisShared());
-		nodeDistances.insert(pair<shared_ptr<const Node>, int>(node.getThisShared(), distance));
+		traversedNodes.push_back(node);
+		nodeDistances.insert(pair<const Node*, int>(&node, distance));
 	}
 
 	bool SimplePathFinder::stepForward()
 	{
-		vector<shared_ptr<const Node> > newOpenNodes;
+		vector<reference_wrapper<const Node> > newOpenNodes;
 		distance++;
 
-		for (unsigned int openNodeIndex = 0; openNodeIndex < openNodes.size(); openNodeIndex++)
+		for (reference_wrapper<const Node> openNode : openNodes)
 		{
-			shared_ptr<const Node> openNode(openNodes.at(openNodeIndex));
-			for (unsigned int adjacentNodeIndex = 0; adjacentNodeIndex < openNode->getChildren().size();
-				adjacentNodeIndex++)
+			for (shared_ptr<const Node> adjacentNode : openNode.get().getChildren())
 			{
-				shared_ptr<const Node> adjacentNode(openNode->getChildren().at(adjacentNodeIndex));
 				if (adjacentNode.get() == &finish)
 				{
 					markAsTraversed(*adjacentNode);
@@ -115,7 +108,7 @@ namespace simplicity
 				if (!isTraversed(*adjacentNode))
 				{
 					markAsTraversed(*adjacentNode);
-					newOpenNodes.push_back(adjacentNode->getThisShared());
+					newOpenNodes.push_back(*adjacentNode);
 				}
 			}
 		}

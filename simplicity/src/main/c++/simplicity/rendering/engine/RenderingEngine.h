@@ -123,7 +123,7 @@ namespace simplicity
 			 *
 			 * @return The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
 			 */
-			virtual std::shared_ptr<Node> getRendererRoot(const Renderer& renderer) const = 0;
+			virtual Node* getRendererRoot(const Renderer& renderer) const = 0;
 
 			/**
 			 * <p>
@@ -236,7 +236,7 @@ namespace simplicity
 			 * @param renderer The <code>Renderer</code> to set the root <code>Node</code> for.
 			 * @param root The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
 			 */
-			virtual void setRendererRoot(const Renderer& renderer, std::shared_ptr<Node> root) = 0;
+			virtual void setRendererRoot(const Renderer& renderer, Node* root) = 0;
 
 			/**
 			 * <p>

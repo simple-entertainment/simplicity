@@ -55,7 +55,7 @@ namespace simplicity
 
 			int getId() const;
 
-			std::shared_ptr<Node> getParent() const;
+			Node* getParent() const;
 
 			TransformationMatrix<>& getTransformation() const;
 
@@ -79,7 +79,7 @@ namespace simplicity
 
 			void setModifiable(const bool modifiable);
 
-			void setParent(std::shared_ptr<Node> parent);
+			void setParent(Node* parent);
 
 			void setTransformation(std::unique_ptr<TransformationMatrix<> > transformation);
 
@@ -131,7 +131,7 @@ namespace simplicity
 			 * {@link simplicity::Scene Scene}.
 			 * </p>
 			 */
-			std::shared_ptr<Node> parent;
+			Node* parent;
 
 			/**
 			 * <p>

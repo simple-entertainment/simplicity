@@ -32,16 +32,16 @@ namespace simplicity
 
 	shared_ptr<ModelNode> SimpleSceneFactory::createModelNode() const
 	{
-		return shared_ptr < ModelNode > (new SimpleModelNode);
+		return shared_ptr<ModelNode>(new SimpleModelNode);
 	}
 
 	shared_ptr<Node> SimpleSceneFactory::createNode() const
 	{
-		return shared_ptr < Node > (new SimpleNode);
+		return shared_ptr<Node>(new SimpleNode);
 	}
 
 	shared_ptr<Scene> SimpleSceneFactory::createScene() const
 	{
-		return shared_ptr < Scene > (new SimpleScene);
+		return shared_ptr<Scene>(new SimpleScene);
 	}
 }

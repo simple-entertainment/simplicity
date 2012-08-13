@@ -39,7 +39,7 @@ namespace simplicity
 			 *
 			 * @param path The path to be interpolated.
 			 */
-			BezierPathInterpolator(std::vector<std::shared_ptr<const Node> > path);
+			BezierPathInterpolator(std::vector<std::reference_wrapper<const Node> > path);
 
 			/**
 			 * <p>
@@ -56,7 +56,7 @@ namespace simplicity
 			 * The path to be interpolated.
 			 * </p>
 			 */
-			std::vector<std::shared_ptr<const Node> > path;
+			std::vector<std::reference_wrapper<const Node> > path;
 
 			/**
 			 * <p>
@@ -69,8 +69,8 @@ namespace simplicity
 			 * @return The interpolated point.
 			 */
 			std::unique_ptr<TranslationVector<> > interpolate(const float time,
-				const std::vector<std::shared_ptr<const Node> >::iterator& begin,
-				const std::vector<std::shared_ptr<const Node> >::iterator& end);
+				const std::vector<std::reference_wrapper<const Node> >::iterator& begin,
+				const std::vector<std::reference_wrapper<const Node> >::iterator& end);
 	};
 }
 

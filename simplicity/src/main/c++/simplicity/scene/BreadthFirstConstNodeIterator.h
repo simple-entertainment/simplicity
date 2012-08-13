@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Simple Entertainment Limited
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,13 +14,12 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef BREADTHFIRSTNODEITERATOR_H_
-#define BREADTHFIRSTNODEITERATOR_H_
+#ifndef BREADTHFIRSTCONSTNODEITERATOR_H_
+#define BREADTHFIRSTCONSTNODEITERATOR_H_
 
 #include <queue>
 
-#include "BreadthFirstConstNodeIterator.h"
-#include "NodeIterator.h"
+#include "ConstNodeIterator.h"
 
 namespace simplicity
 {
@@ -31,7 +30,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class BreadthFirstNodeIterator : public NodeIterator
+	class BreadthFirstConstNodeIterator : public ConstNodeIterator
 	{
 		public:
 			/**
@@ -41,22 +40,41 @@ namespace simplicity
 			 *
 			 * @param root The root {@link simplicity::Node Node} of the graph to iterate over.
 			 */
-			BreadthFirstNodeIterator(Node& root);
+			BreadthFirstConstNodeIterator(const Node& root);
 
 			/**
 			 * <p>
 			 * Disposes of an instance of <code>BreadthFirstNodeIterator</code>.
 			 * </p>
 			 */
-			virtual ~BreadthFirstNodeIterator();
+			virtual ~BreadthFirstConstNodeIterator();
 
-			Node& getNextNode();
+			const Node& getNextNode();
 
 			bool hasMoreNodes() const;
 
 		private:
-			BreadthFirstConstNodeIterator delegate;
+			/**
+			 * <p>
+			 * The {@link simplicity::Node Node}s that have already been visited by the iteration.
+			 * </p>
+			 */
+			std::vector<std::reference_wrapper<const Node> > queuedNodes;
+
+			/**
+			 * <p>
+			 * The root {@link simplicity::Node Node} of the graph to iterate over.
+			 * </p>
+			 */
+			const Node& root;
+
+			/**
+			 * <p>
+			 * The {@link simplicity::Node Node}s who are still to be visited.
+			 * </p>
+			 */
+			std::queue<std::reference_wrapper<const Node> > unvisitedNodes;
 	};
 }
 
-#endif /* BREADTHFIRSTNODEITERATOR_H_ */
+#endif /* BREADTHFIRSTCONSTNODEITERATOR_H_ */

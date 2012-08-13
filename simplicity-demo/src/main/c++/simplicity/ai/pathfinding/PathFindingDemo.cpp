@@ -48,7 +48,7 @@ namespace simplicity
 	{
 	}
 
-	void PathFindingDemo::addBackground(shared_ptr<Node> parentNode)
+	void PathFindingDemo::addBackground(Node& parentNode)
 	{
 		bool dark;
 
@@ -66,14 +66,14 @@ namespace simplicity
 				location->setZ(5.0f - row);
 				tile->getNode()->getTransformation().translate(*location);
 
-				parentNode->addChild(tile->getNode());
+				parentNode.addChild(tile->getNode());
 
 				dark = !dark;
 			}
 		}
 	}
 
-	shared_ptr<Camera> PathFindingDemo::addCamera(shared_ptr<Node> parentNode)
+	shared_ptr<Camera> PathFindingDemo::addCamera(Node& parentNode)
 	{
 		shared_ptr<SimpleOpenGLCamera> camera(new SimpleOpenGLCamera);
 		camera->setProjectionMode(Camera::ORTHOGONAL);
@@ -81,7 +81,7 @@ namespace simplicity
 		camera->setFrameAspectRatio(1.0f);
 
 		shared_ptr<Node> node(SceneFactory::getInstance().createNode());
-		camera->setNode(node);
+		camera->setNode(node.get());
 
 		unique_ptr<TranslationVector<> > location(MathFactory::getInstance().createTranslationVector());
 		location->setY(10.0f);
@@ -92,17 +92,17 @@ namespace simplicity
 		rotationAxis->setX(1.0f);
 		node->getTransformation().rotate(pi<float>() * 1.5f, *rotationAxis);
 
-		parentNode->addChild(node);
+		parentNode.addChild(node);
 
 		return camera;
 	}
 
-	shared_ptr<Light> PathFindingDemo::addLight(shared_ptr<Node> parentNode)
+	shared_ptr<Light> PathFindingDemo::addLight(Node& parentNode)
 	{
 		shared_ptr<SimpleOpenGLLight> light(new SimpleOpenGLLight);
 
 		shared_ptr<Node> lightNode(SceneFactory::getInstance().createNode());
-		light->setNode(lightNode);
+		light->setNode(lightNode.get());
 
 		unique_ptr<TranslationVector<> > location(MathFactory::getInstance().createTranslationVector());
 		location->setY(10.0f);
@@ -126,7 +126,7 @@ namespace simplicity
 		specularLight->setBlue(0.1f);
 		light->setSpecularLight(move(specularLight));
 
-		parentNode->addChild(lightNode);
+		parentNode.addChild(lightNode);
 
 		return light;
 	}
@@ -232,10 +232,10 @@ namespace simplicity
 
 					obstacles.push_back(obstacle);
 
-					shared_ptr<Node> pathNode = navigationMesh.at(column * 10 + row);
-					for (unsigned int index = 0; index < pathNode->getChildren().size(); index++)
+					Node& pathNode = *navigationMesh.at(column * 10 + row);
+					for (unsigned int index = 0; index < pathNode.getChildren().size(); index++)
 					{
-						pathNode->getChildren().at(index)->removeChild(*pathNode);
+						pathNode.getChildren().at(index)->removeChild(pathNode);
 					}
 				}
 			}
@@ -305,26 +305,26 @@ namespace simplicity
 		return title;
 	}
 
-	void PathFindingDemo::displayOpenNodes(const vector<shared_ptr<const Node> >& openNodes)
+	void PathFindingDemo::displayOpenNodes(const vector<reference_wrapper<const Node> >& openNodes)
 	{
-		for (unsigned int index = 0; index < openNodes.size(); index++)
+		for (reference_wrapper<const Node> openNode : openNodes)
 		{
 			string name(OPEN_NODE_ENTITY_NAME + boost::lexical_cast < string > (openNodeIndex));
-			shared_ptr<Entity> openNode(new Entity(name));
+			shared_ptr<Entity> node(new Entity(name));
 			openNodeIndex++;
 
 			unique_ptr<ColourVector<> > colour(MathFactory::getInstance().createColourVector());
 			colour->setBlue(1.0f);
 
 			shared_ptr<Model> model(createSquareOnXZPlane(*colour));
-			openNode->addComponent(model);
-			model->setEntity(openNode);
+			node->addComponent(model);
+			model->setEntity(node);
 
 			unique_ptr<TransformationMatrix<> > transformation(MathFactory::getInstance().createTransformationMatrix());
-			transformation->setData(openNodes.at(index)->getTransformation().getData());
+			transformation->setData(openNode.get().getTransformation().getData());
 			model->getNode()->setTransformation(move(transformation));
 
-			Simplicity::addEntity(openNode);
+			Simplicity::addEntity(node);
 		}
 	}
 
@@ -333,9 +333,9 @@ namespace simplicity
 		return navigationMesh;
 	}
 
-	void PathFindingDemo::displayPath(const vector<shared_ptr<const Node> >& path)
+	void PathFindingDemo::displayPath(const vector<reference_wrapper<const Node> >& path)
 	{
-		for (unsigned int index = 0; index < path.size(); index++)
+		for (reference_wrapper<const Node> pathNode : path)
 		{
 			string name(WAYPOINT_ENTITY_NAME + boost::lexical_cast < string > (waypointIndex));
 			shared_ptr<Entity> waypoint(new Entity(name));
@@ -355,7 +355,7 @@ namespace simplicity
 			node->setModel(model);
 
 			unique_ptr<TransformationMatrix<> > transformation(MathFactory::getInstance().createTransformationMatrix());
-			transformation->setData(path.at(index)->getTransformation().getData());
+			transformation->setData(pathNode.get().getTransformation().getData());
 			node->setTransformation(move(transformation));
 
 			unique_ptr<TranslationVector<> > location(MathFactory::getInstance().createTranslationVector());

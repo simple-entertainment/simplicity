@@ -75,14 +75,14 @@ namespace simplicity
 		shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
 		scene->addNode(sceneRoot);
 
-		shared_ptr<Camera> camera = addCamera(sceneRoot);
+		shared_ptr<Camera> camera = addCamera(*sceneRoot);
 		scene->addCamera(camera);
 		renderingEngine->setCamera(camera);
 
-		shared_ptr<Light> light = addLight(sceneRoot);
+		shared_ptr<Light> light = addLight(*sceneRoot);
 		scene->addLight(light);
 
-		addBackground(sceneRoot);
+		addBackground(*sceneRoot);
 
 		populateNavigationMesh();
 

@@ -34,7 +34,7 @@ namespace simplicity
 	class LinearPathWalker : public PathWalker
 	{
 		public:
-			LinearPathWalker(std::vector<std::shared_ptr<const Node> > path);
+			LinearPathWalker(std::vector<std::reference_wrapper<const Node> > path);
 
 			const Node& getClosestNode() const;
 
@@ -56,7 +56,7 @@ namespace simplicity
 
 			std::map<unsigned int, float> nodeDistances;
 
-			std::vector<std::shared_ptr<const Node> > path;
+			std::vector<std::reference_wrapper<const Node> > path;
 
 			float totalDistance;
 

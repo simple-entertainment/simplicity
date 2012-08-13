@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Simple Entertainment Limited
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,35 +14,17 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include <algorithm>
-
-#include "PreorderNodeIterator.h"
-
-using namespace std;
+#ifndef SIMPLICITYENGINE_H_
+#define SIMPLICITYENGINE_H_
 
 namespace simplicity
 {
-	PreorderNodeIterator::PreorderNodeIterator(Node& root) :
-		delegate(static_cast<const Node&>(root))
+	class SimplicityEngine
 	{
-	}
-
-	PreorderNodeIterator::~PreorderNodeIterator()
-	{
-	}
-
-	int PreorderNodeIterator::getBacktracksToNextNode() const
-	{
-		return delegate.getBacktracksToNextNode();
-	}
-
-	Node& PreorderNodeIterator::getNextNode()
-	{
-		return const_cast<Node&>(delegate.getNextNode());
-	}
-
-	bool PreorderNodeIterator::hasMoreNodes() const
-	{
-		return delegate.hasMoreNodes();
-	}
+		public:
+			SimplicityEngine();
+			virtual ~SimplicityEngine();
+	};
 }
+
+#endif /* SIMPLICITYENGINE_H_ */

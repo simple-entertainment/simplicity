@@ -60,7 +60,7 @@ namespace simplicity
 			 * The shortest path for the demo.
 			 * </p>
 			 */
-			std::vector<std::shared_ptr<const Node> > shortestPath;
+			std::vector<std::reference_wrapper<const Node> > shortestPath;
 
 			/**
 			 * <p>

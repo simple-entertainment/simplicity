@@ -48,7 +48,7 @@ namespace simplicity
 			 * @return The next <code>Node</code> in the iteration or <code>null</code> if there are no more
 			 * <code>Node</code>s to be retrieved by the iteration.
 			 */
-			virtual std::shared_ptr<Node> getNextNode() = 0;
+			virtual Node& getNextNode() = 0;
 
 			/**
 			 * <p>
@@ -59,14 +59,6 @@ namespace simplicity
 			 * otherwise.
 			 */
 			virtual bool hasMoreNodes() const = 0;
-
-			/**
-			 * <p>
-			 * Resets this <code>NodeIterator</code> so that the next {@link simplicity::Node Node} retrieved is the
-			 * root <code>Node</code> of the graph.
-			 * </p>
-			 */
-			virtual void reset() = 0;
 	};
 }
 

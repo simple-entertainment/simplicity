@@ -90,7 +90,7 @@ namespace simplicity
 			 *
 			 * @return The <code>Node</code> directly above this <code>Node</code> in a <code>Scene</code>.
 			 */
-			virtual std::shared_ptr<Node> getParent() const = 0;
+			virtual Node* getParent() const = 0;
 
 			/**
 			 * <p>
@@ -218,7 +218,7 @@ namespace simplicity
 			 *
 			 * @param parent The <code>Node</code> directly above this <code>Node</code> in a <code>Scene</code>.
 			 */
-			virtual void setParent(std::shared_ptr<Node> parent) = 0;
+			virtual void setParent(Node* parent) = 0;
 
 			/**
 			 * <p>

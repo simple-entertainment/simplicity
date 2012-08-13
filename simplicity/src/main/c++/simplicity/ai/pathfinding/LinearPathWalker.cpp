@@ -23,7 +23,7 @@ using namespace std;
 
 namespace simplicity
 {
-	LinearPathWalker::LinearPathWalker(vector<shared_ptr<const Node> > path) :
+	LinearPathWalker::LinearPathWalker(vector<reference_wrapper<const Node> > path) :
 		distance(0.0f), location(MathFactory::getInstance().createTranslationVector()), nodeDistances(), path(path), totalDistance()
 	{
 		initNodeDistances();
@@ -37,11 +37,11 @@ namespace simplicity
 
 		if (distanceToPreviousNode < distanceToNextNode)
 		{
-			return *path.at(segmentStartIndex);
+			return path.at(segmentStartIndex).get();
 		}
 		else
 		{
-			return *path.at(segmentStartIndex + 1);
+			return path.at(segmentStartIndex + 1).get();
 		}
 	}
 
@@ -51,7 +51,7 @@ namespace simplicity
 		unique_ptr<Vector<> > segment = getSegment(segmentStartIndex);
 		float distanceIntoSegment = distance - nodeDistances.find(segmentStartIndex)->second;
 
-		location = path.at(segmentStartIndex)->getTransformation().getTranslation();
+		location = path.at(segmentStartIndex).get().getTransformation().getTranslation();
 
 		segment->scale(distanceIntoSegment / segment->getLength());
 		location->add(*segment);
@@ -61,8 +61,8 @@ namespace simplicity
 
 	unique_ptr<Vector<> > LinearPathWalker::getSegment(const unsigned int segmentStartIndex) const
 	{
-		unique_ptr<Vector<> > segment = path.at(segmentStartIndex + 1)->getTransformation().getTranslation();
-		segment->subtract(*path.at(segmentStartIndex)->getTransformation().getTranslation());
+		unique_ptr<Vector<> > segment = path.at(segmentStartIndex + 1).get().getTransformation().getTranslation();
+		segment->subtract(*path.at(segmentStartIndex).get().getTransformation().getTranslation());
 
 		return move(segment);
 	}
@@ -82,15 +82,15 @@ namespace simplicity
 
 	void LinearPathWalker::initNodeDistances()
 	{
-		shared_ptr<const Node> node;
+		const Node* node;
 		float nodeDistance = 0.0f;
 
 		for (unsigned int index = 0; index < path.size(); index++)
 		{
-			node = path.at(index);
+			node = &path.at(index).get();
 			nodeDistances.insert(pair<unsigned int, float>(index, nodeDistance));
 
-			if (node != path.back())
+			if (node != &path.back().get())
 			{
 				nodeDistance += getSegment(index)->getLength();
 			}

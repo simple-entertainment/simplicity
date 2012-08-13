@@ -18,7 +18,7 @@
 
 #include "../math/MathFactory.h"
 #include "SimpleNode.h"
-#include "PreorderNodeIterator.h"
+#include "PreorderConstNodeIterator.h"
 
 using namespace std;
 
@@ -37,17 +37,17 @@ namespace simplicity
 	void SimpleNode::addChild(std::shared_ptr<Node> child)
 	{
 		children.push_back(child);
-		child->setParent(getThisShared());
+		child->setParent(this);
 	}
 
 	unique_ptr<TransformationMatrix<> > SimpleNode::getAbsoluteTransformation() const
 	{
 		unique_ptr<TransformationMatrix<> > absoluteTransformation(
 			MathFactory::getInstance().createTransformationMatrix());
-		stack<std::shared_ptr<Node> > ancestors;
-		std::shared_ptr<Node> currentNode(((Node*) this)->getThisShared());
+		stack<const Node*> ancestors;
+		const Node* currentNode = this;
 
-		while (currentNode.get() != NULL)
+		while (currentNode != NULL)
 		{
 			ancestors.push(currentNode);
 			currentNode = currentNode->getParent();
@@ -77,7 +77,7 @@ namespace simplicity
 		return id;
 	}
 
-	std::shared_ptr<Node> SimpleNode::getParent() const
+	Node* SimpleNode::getParent() const
 	{
 		return parent;
 	}
@@ -99,11 +99,11 @@ namespace simplicity
 
 	bool SimpleNode::isAncestor(const Node& ancestor) const
 	{
-		std::shared_ptr<Node> currentParent(parent);
+		Node* currentParent = parent;
 
-		while (currentParent.get())
+		while (currentParent != NULL)
 		{
-			if (currentParent.get() == &ancestor)
+			if (currentParent == &ancestor)
 			{
 				return true;
 			}
@@ -126,11 +126,11 @@ namespace simplicity
 
 	bool SimpleNode::isSuccessor(const Node& successor) const
 	{
-		PreorderNodeIterator iterator(*this);
+		PreorderConstNodeIterator iterator(*this);
 
 		while (iterator.hasMoreNodes())
 		{
-			if (iterator.getNextNode().get() == &successor && &successor != this)
+			if (&iterator.getNextNode() == &successor && &successor != this)
 			{
 				return true;
 			}
@@ -152,7 +152,7 @@ namespace simplicity
 			if ((*iterator).get() == &child)
 			{
 				children.erase(iterator);
-				child.setParent(std::shared_ptr<Node>());
+				child.setParent(NULL);
 				break;
 			}
 		}
@@ -173,7 +173,7 @@ namespace simplicity
 		this->modifiable = modifiable;
 	}
 
-	void SimpleNode::setParent(std::shared_ptr<Node> parent)
+	void SimpleNode::setParent(Node* parent)
 	{
 		this->parent = parent;
 	}

@@ -119,7 +119,7 @@ namespace simplicity
 			 *
 			 * @return The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
 			 */
-			virtual std::shared_ptr<Node> getNode() const = 0;
+			virtual Node* getNode() const = 0;
 
 			/**
 			 * <p>
@@ -201,7 +201,7 @@ namespace simplicity
 			 *
 			 * @param node The <code>Node</code> that represents this <code>Light</code>'s location and orientation.
 			 */
-			virtual void setNode(std::shared_ptr<Node> node) = 0;
+			virtual void setNode(Node* node) = 0;
 
 			/**
 			 * <p>

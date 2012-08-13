@@ -38,7 +38,7 @@ namespace simplicity
 			 *
 			 * @parentNode The node under which the background scene is to be added.
 			 */
-			void addBackground(std::shared_ptr<Node> parentNode);
+			void addBackground(Node& parentNode);
 
 			/**
 			 * <p>
@@ -49,7 +49,7 @@ namespace simplicity
 			 *
 			 * @return The camera that has been added.
 			 */
-			std::shared_ptr<Camera> addCamera(std::shared_ptr<Node> parentNode);
+			std::shared_ptr<Camera> addCamera(Node& parentNode);
 
 			/**
 			 * <p>
@@ -60,7 +60,7 @@ namespace simplicity
 			 *
 			 * @return The light that has been added.
 			 */
-			std::shared_ptr<Light> addLight(std::shared_ptr<Node> parentNode);
+			std::shared_ptr<Light> addLight(Node& parentNode);
 
 			/**
 			 * <p>
@@ -101,7 +101,7 @@ namespace simplicity
 			 * @param renderingEngine The engine to display the path with.
 			 * @param openNodes The 'open' nodes to display.
 			 */
-			void displayOpenNodes(const std::vector<std::shared_ptr<const Node> >& openNodes);
+			void displayOpenNodes(const std::vector<std::reference_wrapper<const Node> >& openNodes);
 
 			/**
 			 * <p>
@@ -111,7 +111,7 @@ namespace simplicity
 			 * @param renderingEngine The engine to display the path with.
 			 * @param path The path to display.
 			 */
-			void displayPath(const std::vector<std::shared_ptr<const Node> >& path);
+			void displayPath(const std::vector<std::reference_wrapper<const Node> >& path);
 
 			/**
 			 * <p>

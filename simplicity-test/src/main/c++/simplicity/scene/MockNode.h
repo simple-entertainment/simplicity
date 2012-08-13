@@ -38,7 +38,7 @@ namespace simplicity
 			//MOCK_CONST_METHOD0(getBounds, std::shared_ptr<simplicity::BoundingVolume>());
 			MOCK_CONST_METHOD0(getChildren, const std::vector<std::shared_ptr<Node> >&());
 			MOCK_CONST_METHOD0(getId, int());
-			MOCK_CONST_METHOD0(getParent, std::shared_ptr<Node>());
+			MOCK_CONST_METHOD0(getParent, Node*());
 			MOCK_CONST_METHOD0(getTransformation, TransformationMatrix<>&());
 			MOCK_CONST_METHOD0(hasChildren, bool());
 			MOCK_CONST_METHOD1(isAncestor, bool(const Node& ancestor));
@@ -50,7 +50,7 @@ namespace simplicity
 			MOCK_METHOD1(setCollidable, void(const bool collidable));
 			MOCK_METHOD1(setId, void(const int id));
 			MOCK_METHOD1(setModifiable, void(const bool modifiable));
-			MOCK_METHOD1(setParent, void(std::shared_ptr<Node> parent));
+			MOCK_METHOD1(setParent, void(Node* parent));
 			//MOCK_METHOD1(setTransformation, void(std::unique_ptr<TransformationMatrix<> > transformation));
 			MOCK_METHOD1(setVisible, void(const bool visible));
 

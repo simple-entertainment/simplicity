@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Simple Entertainment Limited
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,39 +14,38 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef PREORDERNODEITERATOR_H_
-#define PREORDERNODEITERATOR_H_
+#ifndef PREORDERCONSTNODEITERATOR_H_
+#define PREORDERCONSTNODEITERATOR_H_
 
-#include "NodeIterator.h"
-#include "PreorderConstNodeIterator.h"
+#include "ConstNodeIterator.h"
 
 namespace simplicity
 {
 	/**
 	 * <p>
-	 * A preorder iteration over an acyclic graph of {@link simplicity::Node Node}s.
+	 * A preorder iteration over an acyclic read-only read-only graph of {@link simplicity::Node Node}s.
 	 * </p>
 	 *
 	 * @author Gary Buyn
 	 */
-	class PreorderNodeIterator : public NodeIterator
+	class PreorderConstNodeIterator : public ConstNodeIterator
 	{
 		public:
 			/**
 			 * <p>
-			 * Creates an instance of <code>PreorderNodeIterator</code>.
+			 * Creates an instance of <code>PreorderConstNodeIterator</code>.
 			 * </p>
 			 *
 			 * @param root The root {@link simplicity::Node Node} of the graph to iterate over.
 			 */
-			PreorderNodeIterator(Node& root);
+			PreorderConstNodeIterator(const Node& root);
 
 			/**
 			 * <p>
-			 * Disposes of an instance of <code>PreorderNodeIterator</code>.
+			 * Disposes of an instance of <code>PreorderConstNodeIterator</code>.
 			 * </p>
 			 */
-			virtual ~PreorderNodeIterator();
+			virtual ~PreorderConstNodeIterator();
 
 			/**
 			 * <p>
@@ -64,13 +63,42 @@ namespace simplicity
 			 */
 			int getBacktracksToNextNode() const;
 
-			Node& getNextNode();
+			const Node& getNextNode();
 
 			bool hasMoreNodes() const;
 
 		private:
-			PreorderConstNodeIterator delegate;
+			/**
+			 * <p>
+			 * The number of backtracks required to get to the next {@link simplicity::Node Node}.
+			 * </p>
+			 */
+			int backtracksToNextNode;
+
+			/**
+			 * <p>
+			 * The next {@link simplicity::Node Node} to retrieve from the iteration.
+			 * </p>
+			 */
+			const Node* nextNode;
+
+			/**
+			 * <p>
+			 * The root {@link simplicity::Node Node} of the graph to iterate over.
+			 * </p>
+			 */
+			const Node& root;
+
+			/**
+			 * <p>
+			 * Finds the next {@link simplicity::Node Node} in the iteration, updating the state variables
+			 * appropriately.
+			 * </p>
+			 *
+			 * @return The next <code>Node</code> in the iteration.
+			 */
+			const Node* findNextNode();
 	};
 }
 
-#endif /* PREORDERNODEITERATOR_H_ */
+#endif /* PREORDERCONSTNODEITERATOR_H_ */

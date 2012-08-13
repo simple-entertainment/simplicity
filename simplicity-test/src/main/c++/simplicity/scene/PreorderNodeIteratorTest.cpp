@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include <simplicity/graph/NoMoreNodesException.h>
 #include <simplicity/scene/SimpleNode.h>
 
 #include "../testdoubles/NodeHierarchy.h"
@@ -34,109 +35,54 @@ namespace simplicity
 		nodes.setStandardNodeHierarchy();
 
 		PreorderNodeIterator objectUnderTest(*nodes.node1);
-		shared_ptr<Node> nextNode;
+		Node* nextNode;
 
 		ASSERT_EQ(0, objectUnderTest.getBacktracksToNextNode());
 		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
 
-		nextNode = objectUnderTest.getNextNode();
+		nextNode = &objectUnderTest.getNextNode();
 
-		ASSERT_EQ(nodes.node1, nextNode);
+		ASSERT_EQ(nodes.node1.get(), nextNode);
 		ASSERT_EQ(0, objectUnderTest.getBacktracksToNextNode());
 		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
 
-		nextNode = objectUnderTest.getNextNode();
+		nextNode = &objectUnderTest.getNextNode();
 
-		ASSERT_EQ(nodes.node2, nextNode);
+		ASSERT_EQ(nodes.node2.get(), nextNode);
 		ASSERT_EQ(0, objectUnderTest.getBacktracksToNextNode());
 		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
 
-		nextNode = objectUnderTest.getNextNode();
+		nextNode = &objectUnderTest.getNextNode();
 
-		ASSERT_EQ(nodes.node3, nextNode);
+		ASSERT_EQ(nodes.node3.get(), nextNode);
 		ASSERT_EQ(2, objectUnderTest.getBacktracksToNextNode());
 		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
 
-		nextNode = objectUnderTest.getNextNode();
+		nextNode = &objectUnderTest.getNextNode();
 
-		ASSERT_EQ(nodes.node4, nextNode);
+		ASSERT_EQ(nodes.node4.get(), nextNode);
 		ASSERT_EQ(0, objectUnderTest.getBacktracksToNextNode());
 		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
 
-		nextNode = objectUnderTest.getNextNode();
+		nextNode = &objectUnderTest.getNextNode();
 
-		ASSERT_EQ(nodes.node5, nextNode);
+		ASSERT_EQ(nodes.node5.get(), nextNode);
 		ASSERT_EQ(1, objectUnderTest.getBacktracksToNextNode());
 		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
 
-		nextNode = objectUnderTest.getNextNode();
+		nextNode = &objectUnderTest.getNextNode();
 
-		ASSERT_EQ(nodes.node6, nextNode);
+		ASSERT_EQ(nodes.node6.get(), nextNode);
 		ASSERT_EQ(2, objectUnderTest.getBacktracksToNextNode());
 		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
 
-		nextNode = objectUnderTest.getNextNode();
+		nextNode = &objectUnderTest.getNextNode();
 
-		ASSERT_EQ(nodes.node7, nextNode);
+		ASSERT_EQ(nodes.node7.get(), nextNode);
 		ASSERT_EQ(2, objectUnderTest.getBacktracksToNextNode());
 		ASSERT_FALSE(objectUnderTest.hasMoreNodes());
 
-		ASSERT_FALSE(objectUnderTest.getNextNode());
-	}
-
-	/**
-	 * <p>
-	 * Unit test a reset part way through an iteration of an acyclic graph of
-	 * {@link simplicity::SimpleNode SimpleNode}s.
-	 * </p>
-	 */
-	TEST_F(PreorderNodeIteratorTest, iterationReset)
-	{
-		NodeHierarchy nodes;
-		nodes.setBasicNodeHierarchy();
-
-		PreorderNodeIterator objectUnderTest(*nodes.node1);
-		shared_ptr<Node> nextNode;
-
-		ASSERT_EQ(0, objectUnderTest.getBacktracksToNextNode());
-		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
-
-		nextNode = objectUnderTest.getNextNode();
-
-		ASSERT_EQ(nodes.node1, nextNode);
-		ASSERT_EQ(0, objectUnderTest.getBacktracksToNextNode());
-		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
-
-		nextNode = objectUnderTest.getNextNode();
-
-		ASSERT_EQ(nodes.node2, nextNode);
-		ASSERT_EQ(0, objectUnderTest.getBacktracksToNextNode());
-		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
-
-		objectUnderTest.reset();
-
-		ASSERT_EQ(0, objectUnderTest.getBacktracksToNextNode());
-		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
-
-		nextNode = objectUnderTest.getNextNode();
-
-		ASSERT_EQ(nodes.node1, nextNode);
-		ASSERT_EQ(0, objectUnderTest.getBacktracksToNextNode());
-		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
-
-		nextNode = objectUnderTest.getNextNode();
-
-		ASSERT_EQ(nodes.node2, nextNode);
-		ASSERT_EQ(0, objectUnderTest.getBacktracksToNextNode());
-		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
-
-		nextNode = objectUnderTest.getNextNode();
-
-		ASSERT_EQ(nodes.node3, nextNode);
-		ASSERT_EQ(3, objectUnderTest.getBacktracksToNextNode());
-		ASSERT_FALSE(objectUnderTest.hasMoreNodes());
-
-		ASSERT_FALSE(objectUnderTest.getNextNode());
+		ASSERT_THROW(objectUnderTest.getNextNode(), NoMoreNodesException);
 	}
 
 	/**
@@ -148,17 +94,17 @@ namespace simplicity
 	{
 		shared_ptr<Node> node1(new SimpleNode);
 		PreorderNodeIterator objectUnderTest(*node1);
-		shared_ptr<Node> nextNode;
+		Node* nextNode;
 
 		ASSERT_EQ(0, objectUnderTest.getBacktracksToNextNode());
 		ASSERT_TRUE(objectUnderTest.hasMoreNodes());
 
-		nextNode = objectUnderTest.getNextNode();
+		nextNode = &objectUnderTest.getNextNode();
 
-		ASSERT_EQ(node1, nextNode);
+		ASSERT_EQ(node1.get(), nextNode);
 		ASSERT_EQ(1, objectUnderTest.getBacktracksToNextNode());
 		ASSERT_FALSE(objectUnderTest.hasMoreNodes());
 
-		ASSERT_FALSE(objectUnderTest.getNextNode());
+		ASSERT_THROW(objectUnderTest.getNextNode(), NoMoreNodesException);
 	}
 }

@@ -22,7 +22,7 @@ namespace simplicity
 {
 	template<typename NodeType>
 	SimpleTree<NodeType>::SimpleTree(std::shared_ptr<NodeType> root) :
-		nextId(0), nodes(), root(&add(move(root)))
+		nextId(0), nodes(), root(add(move(root)))
 	{
 	}
 
@@ -40,20 +40,20 @@ namespace simplicity
 	template<typename NodeType>
 	void SimpleTree<NodeType>::connect(Node& parent, Node& child)
 	{
-		if (child.getParent().get() != NULL)
+		if (child.getParent() != NULL)
 		{
 			disconnect(parent, *child.getParent());
 		}
 
 		parent.addChild(child.getThisShared());
-		child.setParent(parent.getThisShared());
+		child.setParent(&parent);
 	}
 
 	template<typename NodeType>
 	void SimpleTree<NodeType>::disconnect(Node& parent, Node& child)
 	{
 		parent.removeChild(child);
-		child.setParent(std::shared_ptr<NodeType>());
+		child.setParent(NULL);
 	}
 
 	template<typename NodeType>
@@ -85,13 +85,13 @@ namespace simplicity
 	template<typename NodeType>
 	NodeType& SimpleTree<NodeType>::getRoot()
 	{
-		return *root;
+		return root;
 	}
 
 	template<typename NodeType>
 	const NodeType& SimpleTree<NodeType>::getRoot() const
 	{
-		return *root;
+		return root;
 	}
 
 	template<typename NodeType>
@@ -102,10 +102,10 @@ namespace simplicity
 			remove(*child);
 		}
 
-		if (node.getParent().get() != NULL)
+		if (node.getParent() != NULL)
 		{
 			node.getParent()->removeChild(node);
-			node.setParent(std::shared_ptr<NodeType>());
+			node.setParent(NULL);
 		}
 
 		nodes.erase(std::remove(nodes.begin(), nodes.end(), node.getThisShared()));

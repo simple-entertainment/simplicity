@@ -45,7 +45,7 @@ namespace simplicity
        * The {@link simplicity::Node Node} that most directly contains the primitive(s) that intersected the pick.
        * </p>
        */
-      std::shared_ptr<Node> node;
+      Node* node;
 
       /**
        * <p>

@@ -76,14 +76,14 @@ namespace simplicity
 		shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
 		scene->addNode(sceneRoot);
 
-		shared_ptr<Camera> camera = addCamera(sceneRoot);
+		shared_ptr<Camera> camera = addCamera(*sceneRoot);
 		scene->addCamera(camera);
 		renderingEngine->setCamera(camera);
 
-		shared_ptr<Light> light = addLight(sceneRoot);
+		shared_ptr<Light> light = addLight(*sceneRoot);
 		scene->addLight(light);
 
-		addBackground(sceneRoot);
+		addBackground(*sceneRoot);
 
 		renderingEngine->addEntity(createTitle());
 		for (shared_ptr<Entity> descriptionLine : createDescription())
@@ -131,14 +131,16 @@ namespace simplicity
 		}
 
 		BezierPathInterpolator pathInterpolator(shortestPath);
-		vector < shared_ptr<const Node> > path;
+		vector < shared_ptr<const Node> > ownedPath;
+		vector < reference_wrapper<const Node> > path;
 
 		for (unsigned int index = 0; index <= interpolationCount; index++)
 		{
 			shared_ptr<Node> pathNode(SceneFactory::getInstance().createNode());
 			pathNode->getTransformation().setTranslation(*pathInterpolator.interpolate(index / interpolationCount));
 
-			path.push_back(pathNode);
+			ownedPath.push_back(pathNode);
+			path.push_back(*pathNode);
 		}
 
 		displayPath(path);

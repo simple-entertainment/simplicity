@@ -21,7 +21,7 @@ using namespace std;
 
 namespace simplicity
 {
-	BezierPathInterpolator::BezierPathInterpolator(vector<std::shared_ptr<const Node> > path) :
+	BezierPathInterpolator::BezierPathInterpolator(vector<std::reference_wrapper<const Node> > path) :
 		path(path)
 	{
 	}
@@ -36,12 +36,12 @@ namespace simplicity
 	}
 
 	unique_ptr<TranslationVector<> > BezierPathInterpolator::interpolate(const float time,
-		const vector<std::shared_ptr<const Node> >::iterator& begin,
-		const vector<std::shared_ptr<const Node> >::iterator& end)
+		const vector<std::reference_wrapper<const Node> >::iterator& begin,
+		const vector<std::reference_wrapper<const Node> >::iterator& end)
 	{
 		if (begin + 1 == end)
 		{
-			return (*begin)->getTransformation().getTranslation();
+			return begin->get().getTransformation().getTranslation();
 		}
 
 		unique_ptr<TranslationVector<> > p0 = interpolate(time, begin, end - 1);

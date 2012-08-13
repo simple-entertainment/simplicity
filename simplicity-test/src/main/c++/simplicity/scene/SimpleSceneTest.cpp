@@ -38,7 +38,7 @@ namespace simplicity
 		vector<shared_ptr<Node> > children(objectUnderTest.getRoot()->getChildren());
 		vector<shared_ptr<Node> >::iterator iterator = find(children.begin(), children.end(), nodes.node1);
 		ASSERT_TRUE(*iterator == nodes.node1);
-		ASSERT_EQ(objectUnderTest.getRoot(), nodes.node1->getParent());
+		ASSERT_EQ(objectUnderTest.getRoot().get(), nodes.node1->getParent());
 
 		ASSERT_EQ(1, nodes.node1->getId());
 		ASSERT_EQ(objectUnderTest.getNode(1), nodes.node1);
@@ -72,12 +72,12 @@ namespace simplicity
 		vector<shared_ptr<Node> > children = objectUnderTest.getRoot()->getChildren();
 		vector<shared_ptr<Node> >::iterator iterator = find(children.begin(), children.end(), nodes.node1);
 		ASSERT_TRUE(*iterator == nodes.node1);
-		ASSERT_EQ(objectUnderTest.getRoot(), nodes.node1->getParent());
+		ASSERT_EQ(objectUnderTest.getRoot().get(), nodes.node1->getParent());
 
 		children = nodes.node1->getChildren();
 		iterator = find(children.begin(), children.end(), nodes.node2);
 		ASSERT_TRUE(*iterator == nodes.node2);
-		ASSERT_EQ(nodes.node1, nodes.node2->getParent());
+		ASSERT_EQ(nodes.node1.get(), nodes.node2->getParent());
 
 		children = nodes.node1->getChildren();
 		iterator = find(children.begin(), children.end(), nodes.node4);
@@ -87,7 +87,7 @@ namespace simplicity
 		children = nodes.node1->getChildren();
 		iterator = find(children.begin(), children.end(), nodes.node7);
 		ASSERT_TRUE(*iterator == nodes.node7);
-		ASSERT_EQ(nodes.node1, nodes.node7->getParent());
+		ASSERT_EQ(nodes.node1.get(), nodes.node7->getParent());
 	}
 
 	/**

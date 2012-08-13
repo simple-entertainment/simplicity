@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Simple Entertainment Limited
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,35 +14,36 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include <algorithm>
+#ifndef UNDIRECTEDGRAPH_H_
+#define UNDIRECTEDGRAPH_H_
 
-#include "PreorderNodeIterator.h"
-
-using namespace std;
+#include "Graph.h"
 
 namespace simplicity
 {
-	PreorderNodeIterator::PreorderNodeIterator(Node& root) :
-		delegate(static_cast<const Node&>(root))
+	template<typename NodeType>
+	class UndirectedGraph : public Graph<NodeType>
 	{
-	}
+		public:
+			NodeType& add(std::shared_ptr<NodeType> node);
 
-	PreorderNodeIterator::~PreorderNodeIterator()
-	{
-	}
+			void connect(Node& source, Node& destination);
 
-	int PreorderNodeIterator::getBacktracksToNextNode() const
-	{
-		return delegate.getBacktracksToNextNode();
-	}
+			void disconnect(Node& source, Node& destination);
 
-	Node& PreorderNodeIterator::getNextNode()
-	{
-		return const_cast<Node&>(delegate.getNextNode());
-	}
+			NodeType& get(int id);
 
-	bool PreorderNodeIterator::hasMoreNodes() const
-	{
-		return delegate.hasMoreNodes();
-	}
+			const NodeType& get(int id) const;
+
+			const std::vector<std::shared_ptr<NodeType> >& getAll() const;
+
+			void remove(Node& node);
+
+		private:
+			std::vector<std::shared_ptr<NodeType> > nodes;
+	};
 }
+
+#include "UndirectedGraph.tpp"
+
+#endif /* UNDIRECTEDGRAPH_H_ */

@@ -16,7 +16,7 @@
  */
 #include <algorithm>
 
-#include "common/shared_equals_raw.h"
+#include "common/AddressEquals.h"
 
 #include "Entity.h"
 
@@ -45,9 +45,8 @@ namespace simplicity
 
 	void Entity::removeComponent(const Component& component)
 	{
-		shared_equals_raw<Component> sharedEqualsRaw(&component);
 		vector<shared_ptr<Component> >::iterator sharedComponent(
-			find_if(components.begin(), components.end(), sharedEqualsRaw));
+			find_if(components.begin(), components.end(), AddressEquals<Component>(component)));
 
 		components.erase(sharedComponent);
 	}

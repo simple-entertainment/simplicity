@@ -14,49 +14,52 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef BREADTHFIRSTNODEITERATOR_H_
-#define BREADTHFIRSTNODEITERATOR_H_
+#ifndef CONSTNODEITERATOR_H_
+#define CONSTNODEITERATOR_H_
 
-#include <queue>
-
-#include "BreadthFirstConstNodeIterator.h"
-#include "NodeIterator.h"
+#include "Node.h"
 
 namespace simplicity
 {
 	/**
 	 * <p>
-	 * A breadth first iteration over a graph (acyclic or cyclic) of {@link simplicity::Node Node}s.
+	 * Iterates over a read-only graph of {@link simplicity::Node Node}s.
 	 * </p>
 	 *
 	 * @author Gary Buyn
 	 */
-	class BreadthFirstNodeIterator : public NodeIterator
+	class ConstNodeIterator
 	{
 		public:
 			/**
 			 * <p>
-			 * Creates an instance of <code>BreadthFirstNodeIterator</code>.
+			 * Disposes of an instance of <code>NodeIterator</code> (included to allow polymorphic deletion).
 			 * </p>
-			 *
-			 * @param root The root {@link simplicity::Node Node} of the graph to iterate over.
 			 */
-			BreadthFirstNodeIterator(Node& root);
+			virtual ~ConstNodeIterator()
+			{
+			}
 
 			/**
 			 * <p>
-			 * Disposes of an instance of <code>BreadthFirstNodeIterator</code>.
+			 * Retrieves the next {@link simplicity::Node Node} in the iteration.
 			 * </p>
+			 *
+			 * @return The next <code>Node</code> in the iteration or <code>null</code> if there are no more
+			 * <code>Node</code>s to be retrieved by the iteration.
 			 */
-			virtual ~BreadthFirstNodeIterator();
+			virtual const Node& getNextNode() = 0;
 
-			Node& getNextNode();
-
-			bool hasMoreNodes() const;
-
-		private:
-			BreadthFirstConstNodeIterator delegate;
+			/**
+			 * <p>
+			 * Determines if there are more {@link simplicity::Node Node}s to be retrieved by the iteration.
+			 * </p>
+			 *
+			 * @return True if a <code>Node</code> will be retrieved by the next call to {@link #getNextNode()}, false
+			 * otherwise.
+			 */
+			virtual bool hasMoreNodes() const = 0;
 	};
 }
 
-#endif /* BREADTHFIRSTNODEITERATOR_H_ */
+#endif /* CONSTNODEITERATOR_H_ */

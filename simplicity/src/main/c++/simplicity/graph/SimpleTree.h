@@ -50,7 +50,7 @@ namespace simplicity
 
 			std::vector<std::shared_ptr<NodeType> > nodes;
 
-			NodeType* root;
+			NodeType& root;
 	};
 }
 

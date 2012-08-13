@@ -50,9 +50,9 @@ namespace simplicity
 			 */
 			virtual ~SimplePathFinder();
 
-			std::vector<std::shared_ptr<const Node> > findShortestPath();
+			std::vector<std::reference_wrapper<const Node> > findShortestPath();
 
-			std::vector<std::shared_ptr<const Node> > getOpenNodes();
+			std::vector<std::reference_wrapper<const Node> > getOpenNodes();
 
 			bool stepForward();
 
@@ -76,14 +76,14 @@ namespace simplicity
 			 * The distance of the traversed {@link simplicity::Node Node}s from the start.
 			 * </p>
 			 */
-			std::map<std::shared_ptr<const Node>, int> nodeDistances;
+			std::map<const Node*, int> nodeDistances;
 
 			/**
 			 * <p>
 			 * The {@link simplicity::Node Node}s that are 'open' after the last step that was performed.
 			 * </p>
 			 */
-			std::vector<std::shared_ptr<const Node> > openNodes;
+			std::vector<std::reference_wrapper<const Node> > openNodes;
 
 			/**
 			 * <p>
@@ -97,7 +97,7 @@ namespace simplicity
 			 * The {@link simplicity::Node Node}s that have already been traversed.
 			 * </p>
 			 */
-			std::vector<std::shared_ptr<const Node> > traversedNodes;
+			std::vector<std::reference_wrapper<const Node> > traversedNodes;
 
 			/**
 			 * <p>
@@ -106,7 +106,7 @@ namespace simplicity
 			 *
 			 * @return The path.
 			 */
-			std::vector<std::shared_ptr<const Node> > generatePath();
+			std::vector<std::reference_wrapper<const Node> > generatePath();
 
 			/**
 			 * <p>
