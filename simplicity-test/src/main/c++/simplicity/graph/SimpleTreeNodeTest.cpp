@@ -31,7 +31,7 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleNode#addChild(Node* const) addChild(Node* const)}.
+	 * Unit test the method {@link simplicity::SimpleTreeNode#addChild(Node* const) addChild(Node* const)}.
 	 * </p>
 	 */
 	TEST_F(SimpleTreeNodeTest, addChild)
@@ -48,7 +48,7 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleNode#getAbsoluteTransformation() getAbsoluteTransformation()}.
+	 * Unit test the method {@link simplicity::SimpleTreeNode#getAbsoluteTransformation() getAbsoluteTransformation()}.
 	 * </p>
 	 */
 	TEST_F(SimpleTreeNodeTest, getAbsoluteTransformation)
@@ -90,7 +90,7 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleNode#hasChildren() hasChildren()}.
+	 * Unit test the method {@link simplicity::SimpleTreeNode#hasChildren() hasChildren()}.
 	 * </p>
 	 */
 	TEST_F(SimpleTreeNodeTest, hasChildren)
@@ -110,7 +110,7 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleNode#isAncestor(Node* const) isAncestor(Node* const)}.
+	 * Unit test the method {@link simplicity::SimpleTreeNode#isAncestor(Node* const) isAncestor(Node* const)}.
 	 * </p>
 	 */
 	TEST_F(SimpleTreeNodeTest, isAncestor)
@@ -132,7 +132,7 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleNode#isSuccessor(Node* const) isSuccessor(Node* const)}.
+	 * Unit test the method {@link simplicity::SimpleTreeNode#isSuccessor(Node* const) isSuccessor(Node* const)}.
 	 * </p>
 	 */
 	TEST_F(SimpleTreeNodeTest, isSuccessor)
@@ -154,7 +154,7 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleNode#removeChild(Node* const) removeChild(Node* const)}.
+	 * Unit test the method {@link simplicity::SimpleTreeNode#removeChild(Node* const) removeChild(Node* const)}.
 	 * </p>
 	 */
 	TEST_F(SimpleTreeNodeTest, removeChild)

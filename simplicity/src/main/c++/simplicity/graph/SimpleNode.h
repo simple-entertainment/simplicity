@@ -31,8 +31,9 @@ namespace simplicity
 	class SimpleNode : public virtual Node
 	{
 		public:
-
 			SimpleNode();
+
+			SimpleNode(const SimpleNode& original);
 
 			virtual ~SimpleNode();
 
@@ -49,6 +50,8 @@ namespace simplicity
 			int getId() const;
 
 			TransformationMatrix<>& getTransformation() const;
+
+			SimpleNode& operator=(const SimpleNode& original);
 
 			void setComponent(Component* component);
 

@@ -27,8 +27,16 @@ using namespace std;
 namespace simplicity
 {
 	SimpleNode::SimpleNode() :
-		component(NULL), id(0), transformation(MathFactory::getInstance().createTransformationMatrix())
+		component(NULL), connectedNodes(), id(0), transformation(
+			MathFactory::getInstance().createTransformationMatrix())
 	{
+	}
+
+	SimpleNode::SimpleNode(const SimpleNode& original) :
+		component(NULL), connectedNodes(), id(0), transformation(
+			MathFactory::getInstance().createTransformationMatrix())
+	{
+		operator=(original);
 	}
 
 	SimpleNode::~SimpleNode()
@@ -63,6 +71,15 @@ namespace simplicity
 	TransformationMatrix<>& SimpleNode::getTransformation() const
 	{
 		return *transformation;
+	}
+
+	SimpleNode& SimpleNode::operator=(const SimpleNode& original)
+	{
+		setComponent(original.getComponent());
+		setId(original.getId());
+		transformation->setData(original.getTransformation().getData());
+
+		return *this;
 	}
 
 	void SimpleNode::setComponent(Component* component)
