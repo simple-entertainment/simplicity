@@ -17,7 +17,7 @@
 #ifndef BEZIERPATHINTERPOLATOR_H_
 #define BEZIERPATHINTERPOLATOR_H_
 
-#include "../../scene/Node.h"
+#include "../../graph/Node.h"
 #include "PathInterpolator.h"
 
 namespace simplicity

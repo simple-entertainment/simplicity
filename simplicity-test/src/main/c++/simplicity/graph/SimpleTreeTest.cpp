@@ -14,11 +14,9 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include <iostream>
+#include <simplicity/graph/SimpleTreeNode.h>
 
-#include <simplicity/scene/SimpleNode.h>
-
-#include "../scene/MockNode.h"
+#include "../graph/MockTreeNode.h"
 #include "SimpleTreeTest.h"
 
 using namespace std;
@@ -35,9 +33,9 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		shared_ptr<MockNode> root(new NiceMock<MockNode>);
-		shared_ptr<MockNode> mockNode(new NiceMock<MockNode>);
-		Node* nodePtr = mockNode.get();
+		shared_ptr<MockTreeNode> root(new NiceMock<MockTreeNode>);
+		shared_ptr<MockTreeNode> mockNode(new NiceMock<MockTreeNode>);
+		TreeNode* nodePtr = mockNode.get();
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
@@ -45,11 +43,11 @@ namespace simplicity
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
-		SimpleTree<Node> objectUnderTest(root);
+		SimpleTree<TreeNode> objectUnderTest(root);
 
 		// Perform test.
 		// //////////////////////////////////////////////////
-		Node& nodeRef = objectUnderTest.add(move(mockNode));
+		TreeNode& nodeRef = objectUnderTest.add(move(mockNode));
 
 		// Verify test results.
 		// //////////////////////////////////////////////////
@@ -67,8 +65,8 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		shared_ptr<MockNode> root(new NiceMock<MockNode>);
-		shared_ptr<MockNode> mockNode(new NiceMock<MockNode>);
+		shared_ptr<MockTreeNode> root(new NiceMock<MockTreeNode>);
+		shared_ptr<MockTreeNode> mockNode(new NiceMock<MockTreeNode>);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
@@ -76,13 +74,13 @@ namespace simplicity
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
-		EXPECT_CALL(*root, addChild(static_pointer_cast<Node>(mockNode)));
-		EXPECT_CALL(*mockNode, setParent(root.get()));
+		EXPECT_CALL(*mockNode, connectTo(Ref(*root)));
+		EXPECT_CALL(*root, addChild(Ref(*mockNode)));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
-		SimpleTree<Node> objectUnderTest(root);
-		Node& nodeRef = objectUnderTest.add(move(mockNode));
+		SimpleTree<TreeNode> objectUnderTest(root);
+		TreeNode& nodeRef = objectUnderTest.add(move(mockNode));
 
 		// Perform test.
 		// //////////////////////////////////////////////////
@@ -94,18 +92,14 @@ namespace simplicity
 	 * Unit test the method {@link simplicity::SimpleTree#connect(NodeType&, NodeType&) connect(NodeType&, NodeType&)}
 	 * with the special case that the child is already connected to a different parent.
 	 * </p>
-	 *
-	 * FIXME
 	 */
 	TEST_F(SimpleTreeTest, connectToDifferentParent)
 	{
-		cout << "WARNING: SKIPPING TEST!!!" << endl;
-
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		shared_ptr<MockNode> root(new NiceMock<MockNode>);
-		NiceMock<MockNode> mockNode1;
-		shared_ptr<MockNode> mockNode2(new NiceMock<MockNode>);
+		shared_ptr<MockTreeNode> root(new NiceMock<MockTreeNode>);
+		NiceMock<MockTreeNode> mockNode1;
+		shared_ptr<MockTreeNode> mockNode2(new NiceMock<MockTreeNode>);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
@@ -113,14 +107,14 @@ namespace simplicity
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
-		// EXPECT_CALL(*root, removeChild(_));
-		// EXPECT_CALL(*mockNode2, setParent(NULL));
-		// EXPECT_CALL(mockNode1, addChild(static_pointer_cast<Node>(mockNode2)));
-		// EXPECT_CALL(*mockNode2, setParent(&mockNode1));
+		EXPECT_CALL(*root, removeChild(Ref(*mockNode2)));
+		EXPECT_CALL(*mockNode2, disconnectFrom(Ref(*root)));
+		EXPECT_CALL(mockNode1, addChild(Ref(*mockNode2)));
+		EXPECT_CALL(*mockNode2, connectTo(Ref(mockNode1)));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
-		SimpleTree<Node> objectUnderTest(root);
+		SimpleTree<TreeNode> objectUnderTest(root);
 
 		// Perform test.
 		// //////////////////////////////////////////////////
@@ -136,8 +130,8 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		shared_ptr<MockNode> root(new NiceMock<MockNode>);
-		Node* rootPtr = root.get();
+		shared_ptr<MockTreeNode> root(new NiceMock<MockTreeNode>);
+		TreeNode* rootPtr = root.get();
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
@@ -145,7 +139,7 @@ namespace simplicity
 
 		// Perform test.
 		// //////////////////////////////////////////////////
-		SimpleTree<Node> objectUnderTest(root);
+		SimpleTree<TreeNode> objectUnderTest(root);
 
 		// Verify test results.
 		// //////////////////////////////////////////////////
@@ -164,8 +158,8 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		shared_ptr<MockNode> root(new NiceMock<MockNode>);
-		shared_ptr<MockNode> mockNode(new NiceMock<MockNode>);
+		shared_ptr<MockTreeNode> root(new NiceMock<MockTreeNode>);
+		shared_ptr<MockTreeNode> mockNode(new NiceMock<MockTreeNode>);
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
@@ -173,14 +167,14 @@ namespace simplicity
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
-		SimpleTree<Node> objectUnderTest(root);
-		Node& nodeRef = objectUnderTest.add(move(mockNode));
+		SimpleTree<TreeNode> objectUnderTest(root);
+		TreeNode& nodeRef = objectUnderTest.add(move(mockNode));
 		objectUnderTest.connect(objectUnderTest.getRoot(), nodeRef);
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
-		EXPECT_CALL(static_cast<MockNode&>(objectUnderTest.getRoot()), removeChild(_));
-		EXPECT_CALL(static_cast<MockNode&>(nodeRef), setParent(NULL));
+		EXPECT_CALL(static_cast<MockTreeNode&>(objectUnderTest.getRoot()), removeChild(Ref(nodeRef)));
+		EXPECT_CALL(static_cast<MockTreeNode&>(nodeRef), disconnectFrom(Ref(objectUnderTest.getRoot())));
 
 		// Perform test.
 		// //////////////////////////////////////////////////
@@ -196,17 +190,17 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		shared_ptr<MockNode> root(new NiceMock<MockNode>);
-		Node* rootPtr = root.get();
+		shared_ptr<MockTreeNode> root(new NiceMock<MockTreeNode>);
+		TreeNode* rootPtr = root.get();
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
 		ON_CALL(*root, getId()).WillByDefault(Return(0));
-		SimpleTree<Node> objectUnderTest(root);
+		SimpleTree<TreeNode> objectUnderTest(root);
 
 		// Perform test.
 		// //////////////////////////////////////////////////
-		Node& rootRef = objectUnderTest.get(0);
+		TreeNode& rootRef = objectUnderTest.get(0);
 
 		// Verify test results.
 		// //////////////////////////////////////////////////
@@ -223,12 +217,12 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		shared_ptr<MockNode> root(new NiceMock<MockNode>);
+		shared_ptr<MockTreeNode> root(new NiceMock<MockTreeNode>);
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
 		ON_CALL(*root, getId()).WillByDefault(Return(0));
-		SimpleTree<Node> objectUnderTest(root);
+		SimpleTree<TreeNode> objectUnderTest(root);
 
 		// Perform test - Verify test results.
 		// //////////////////////////////////////////////////
@@ -244,9 +238,9 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		shared_ptr<MockNode> root(new NiceMock<MockNode>);
-		shared_ptr<MockNode> mockNode(new NiceMock<MockNode>);
-		vector<shared_ptr<Node> > children;
+		shared_ptr<MockTreeNode> root(new NiceMock<MockTreeNode>);
+		shared_ptr<MockTreeNode> mockNode(new NiceMock<MockTreeNode>);
+		vector<reference_wrapper<TreeNode> > children;
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
@@ -255,8 +249,8 @@ namespace simplicity
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
-		SimpleTree<Node> objectUnderTest(root);
-		Node& nodeRef = objectUnderTest.add(move(mockNode));
+		SimpleTree<TreeNode> objectUnderTest(root);
+		TreeNode& nodeRef = objectUnderTest.add(move(mockNode));
 
 		// Perform test.
 		// //////////////////////////////////////////////////

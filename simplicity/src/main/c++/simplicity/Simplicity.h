@@ -19,9 +19,8 @@
 
 #include <map>
 
-#include <boost/any.hpp>
-
 #include "engine/Engine.h"
+#include "scene/Scene.h"
 
 namespace simplicity
 {
@@ -32,136 +31,112 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class Simplicity
+	namespace Simplicity
 	{
-		public:
-			typedef void(Observer)(const boost::any);
+		/**
+		 * <p>
+		 * Adds the given {@link simplicity::Entity Entity}s to the <code>Entity</code>s managed by simplicity.
+		 * </p>
+		 *
+		 * @param entities The <code>Entity</code>s to be managed by simplicity.
+		 */
+		void addEntities(std::vector<std::shared_ptr<Entity> > entities);
 
-			/**
-			 * <p>
-			 * Adds the given {@link simplicity::Entity Entity}s to the <code>Entity</code>s managed by simplicity.
-			 * </p>
-			 *
-			 * @param entities The <code>Entity</code>s to be managed by simplicity.
-			 */
-			static void addEntities(std::vector<std::shared_ptr<Entity> > entities);
+		/**
+		 * <p>
+		 * Adds the given {@link simplicity::Entity Entity} to the <code>Entity</code>s managed by simplicity.
+		 * </p>
+		 *
+		 * @param entity The <code>Entity</code> to be managed by simplicity.
+		 */
+		void addEntity(std::shared_ptr<Entity> entity);
 
-			/**
-			 * <p>
-			 * Adds the given {@link simplicity::Entity Entity} to the <code>Entity</code>s managed by simplicity.
-			 * </p>
-			 *
-			 * @param entity The <code>Entity</code> to be managed by simplicity.
-			 */
-			static void addEntity(std::shared_ptr<Entity> entity);
+		/**
+		 * <p>
+		 * Adds the given {@link simplicity::Entity Entity} to the <code>Entity</code>s managed by simplicity.
+		 * </p>
+		 *
+		 * @param entity The <code>Entity</code> to be managed by simplicity.
+		 * @param node The <code>TreeNode</code> to add to the scene (will be removed when the <code>Entity</code> is
+		 * removed).
+		 */
+		void addEntity(shared_ptr<Entity> entity, shared_ptr<TreeNode> node);
 
-			/**
-			 * <p>
-			 * Deregisters the given observer from the given event. Standard simplicity events can be found in
-			 * SimpleEvents.h.
-			 * </p>
-			 *
-			 * @param eventName The name of the event to deregister the observer from.
-			 * @param observer The observer to deregister.
-			 */
-			static void deregisterObserver(const std::string eventName, std::function<Observer> observer);
+		/**
+		 * <p>
+		 * Adds the given {@link simplicity::Entity Entity} to the <code>Entity</code>s managed by simplicity.
+		 * </p>
+		 *
+		 * @param entity The <code>Entity</code> to be managed by simplicity.
+		 * @param node The <code>TreeNode</code> to add to the scene (will be removed when the <code>Entity</code> is
+		 * removed).
+		 * @param parent The parent to add the <code>TreeNode</code> to.
+		 */
+		void addEntity(shared_ptr<Entity> entity, shared_ptr<TreeNode> node, TreeNode& parent);
 
-			/**
-			 * <p>
-			 * Fires the given event, notifying all registered observers.
-			 * </p>
-			 *
-			 * @param eventName The name of the event to fire.
-			 * @param data Data associated with the event.
-			 */
-			static void fireEvent(const std::string eventName, const boost::any data);
+		/**
+		 * <p>
+		 * Retrieves the {@link simplicity::Entity Entity} with the given name from the <code>Entity</code>s managed
+		 * by simplicity.
+		 * </p>
+		 *
+		 * @param name The name of the <code>Entity</code> to retrieve.
+		 *
+		 * @return The <code>Entity</code> with the given name.
+		 */
+		Entity& getEntity(const std::string name);
 
-			/**
-			 * <p>
-			 * Retrieves the {@link simplicity::Entity Entity} with the given name from the <code>Entity</code>s managed
-			 * by simplicity.
-			 * </p>
-			 *
-			 * @param name The name of the <code>Entity</code> to retrieve.
-			 *
-			 * @return The <code>Entity</code> with the given name.
-			 */
-			static std::shared_ptr<Entity> getEntity(const std::string name);
+		Scene* getScene();
 
-			/**
-			 * <p>
-			 * Initialises simplicity with the given {@link simplicity::Engine Engine}.
-			 * </p>
-			 *
-			 * @param engine The <code>Engine</code> to initialise simplicity with.
-			 */
-			static void init(std::unique_ptr<Engine> engine);
+		/**
+		 * <p>
+		 * Removes the {@link simplicity::Entity Entity} with the given name from the <code>Entity</code>s managed
+		 * by simplicity.
+		 * </p>
+		 *
+		 * @param name The name of the <code>Entity</code> to be removed from simplicity.
+		 */
+		void removeEntity(const std::string name);
 
-			/**
-			 * <p>
-			 * Registers an observer for the given event. Standard simplicity events can be found in SimpleEvents.h.
-			 * </p>
-			 *
-			 * @param eventName The name of the event to register the observer with.
-			 * @param observer The observer to notify when the event is fired.
-			 */
-			static void registerObserver(const std::string eventName, std::function<Observer> observer);
+		/**
+		 * <p>
+		 * Resets simplicity so that it may be started again.
+		 * </p>
+		 */
+		void reset();
 
-			/**
-			 * <p>
-			 * Removes the {@link simplicity::Entity Entity} with the given name from the <code>Entity</code>s managed
-			 * by simplicity.
-			 * </p>
-			 *
-			 * @param name The name of the <code>Entity</code> to be removed from simplicity.
-			 */
-			static void removeEntity(const std::string name);
+		/**
+		 * <p>
+		 * Initialises simplicity with the given {@link simplicity::Engine Engine}.
+		 * </p>
+		 *
+		 * @param engine The <code>Engine</code> to initialise simplicity with.
+		 */
+		void setEngine(std::shared_ptr<Engine> engine);
 
-			/**
-			 * <p>
-			 * Resets simplicity so that it may be started again.
-			 * </p>
-			 */
-			static void reset();
+		/**
+		 * <p>
+		 * Initialises simplicity with the given {@link simplicity::Scene Scene}.
+		 * </p>
+		 *
+		 * @param scene The <code>Scene</code> to initialise simplicity with.
+		 */
+		void setScene(std::shared_ptr<Scene> scene);
 
-			/**
-			 * <p>
-			 * Starts simplicity.
-			 * </p>
-			 */
-			static void start();
+		/**
+		 * <p>
+		 * Starts simplicity.
+		 * </p>
+		 */
+		void start();
 
-			/**
-			 * <p>
-			 * Stops simplicity.
-			 * </p>
-			 */
-			static void stop();
-
-		private:
-			/**
-			 * <p>
-			 * The {@link simplicity::Engine Engine} that does the actual work for simplicity.
-			 * </p>
-			 */
-			static std::unique_ptr<Engine> engine;
-
-			/**
-			 * <p>
-			 * The {@link simplicity::Entity Entity}s managed by simplicity.
-			 * </p>
-			 */
-			static std::map<const std::string, std::shared_ptr<Entity> > entities;
-
-			/**
-			 * <p>
-			 * The observers to any events fired within simplicity.
-			 * </p>
-			 */
-			static std::map<const std::string, std::vector<std::function<Observer> > > observers;
-
-			Simplicity();
-	};
+		/**
+		 * <p>
+		 * Stops simplicity.
+		 * </p>
+		 */
+		void stop();
+	}
 }
 
 #endif /* SIMPLICITY_H_ */

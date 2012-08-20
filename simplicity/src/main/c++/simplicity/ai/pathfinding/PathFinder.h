@@ -17,7 +17,7 @@
 #ifndef PATHFINDER_H_
 #define PATHFINDER_H_
 
-#include "../../scene/Node.h"
+#include "../../graph/Node.h"
 
 namespace simplicity
 {

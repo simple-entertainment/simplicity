@@ -14,10 +14,17 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include "../common/AddressEquals.h"
 #include "NodeDoesNotExistException.h"
 
 namespace simplicity
 {
+	template<typename NodeType>
+	UndirectedGraph<NodeType>::UndirectedGraph() :
+		nextId(0)
+	{
+	}
+
 	template<typename NodeType>
 	NodeType& UndirectedGraph<NodeType>::add(std::shared_ptr<NodeType> node)
 	{
@@ -37,7 +44,7 @@ namespace simplicity
 	}
 
 	template<typename NodeType>
-	void UndirectedGraph<NodeType>::disconnect(Node& source, Node& destination)
+	void UndirectedGraph<NodeType>::disconnect(NodeType& source, NodeType& destination)
 	{
 		source.disconnectFrom(destination);
 		destination.disconnectFrom(source);
@@ -46,15 +53,15 @@ namespace simplicity
 	template<typename NodeType>
 	NodeType& UndirectedGraph<NodeType>::get(int id)
 	{
-		return const_cast<NodeType&>(static_cast<const DirectedGraph&>(*this).get(id));
+		return const_cast<NodeType&>(static_cast<const UndirectedGraph<NodeType>&>(*this).get(id));
 	}
 
 	template<typename NodeType>
 	const NodeType& UndirectedGraph<NodeType>::get(int id) const
 	{
-		for (Node& node : nodes)
+		for (shared_ptr<NodeType> node : nodes)
 		{
-			if (node.getId() == id)
+			if (node->getId() == id)
 			{
 				return *node;
 			}
@@ -70,13 +77,13 @@ namespace simplicity
 	}
 
 	template<typename NodeType>
-	void UndirectedGraph<NodeType>::remove(Node& node)
+	void UndirectedGraph<NodeType>::remove(NodeType& node)
 	{
 		for (Node& connectedNode : node.getConnectedNodes())
 		{
 			disconnect(node, connectedNode);
 		}
 
-		nodes.erase(std::remove(nodes.begin(), nodes.end(), node));
+		nodes.erase(std::remove_if(nodes.begin(), nodes.end(), AddressEquals<NodeType>(node)));
 	}
 }

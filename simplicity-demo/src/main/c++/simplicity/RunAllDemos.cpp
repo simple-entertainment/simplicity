@@ -17,6 +17,7 @@
 #include <simplicity/engine/SimpleCompositeEngine.h>
 #include <simplicity/Events.h>
 #include <simplicity/input/KeyboardButtonEvent.h>
+#include <simplicity/Messages.h>
 #include <simplicity/Simplicity.h>
 
 #include <simplicity/opengl/model/OpenGLModelFactory.h>
@@ -33,21 +34,19 @@ using namespace std;
 
 unsigned int demoIndex = 0;
 vector<unique_ptr<Demo> > demos;
-unique_ptr<CompositeEngine> engine(new SimpleCompositeEngine);
-// The unique pointer will be given to Simplicity.
-CompositeEngine& engineRef = *engine;
+shared_ptr<CompositeEngine> engine(new SimpleCompositeEngine);
 
 void nextDemo()
 {
 	if (demoIndex < demos.size() - 1)
 	{
-		engineRef.removeEngine(demos.at(demoIndex)->getEngine());
+		engine->removeEngine(demos.at(demoIndex)->getEngine());
 		demos.at(demoIndex)->dispose();
 
 		demoIndex++;
 
 		demos.at(demoIndex)->init();
-		engineRef.addEngine(demos.at(demoIndex)->getEngine());
+		engine->addEngine(demos.at(demoIndex)->getEngine());
 	}
 }
 
@@ -55,19 +54,19 @@ void previousDemo()
 {
 	if (demoIndex > 0)
 	{
-		engineRef.removeEngine(demos.at(demoIndex)->getEngine());
+		engine->removeEngine(demos.at(demoIndex)->getEngine());
 		demos.at(demoIndex)->dispose();
 
 		demoIndex--;
 
 		demos.at(demoIndex)->init();
-		engineRef.addEngine(demos.at(demoIndex)->getEngine());
+		engine->addEngine(demos.at(demoIndex)->getEngine());
 	}
 }
 
-void changeDemo(const boost::any data)
+void changeDemo(const boost::any message)
 {
-	const KeyboardButtonEvent& event = boost::any_cast<KeyboardButtonEvent>(data);
+	const KeyboardButtonEvent& event = boost::any_cast<KeyboardButtonEvent>(message);
 
 	if (event.buttonState != Button::State::DOWN)
 	{
@@ -90,9 +89,9 @@ int main(int argc, char** argv)
 	freeglutEngine->setPreferredFrequency(100);
 	engine->addEngine(freeglutEngine);
 
-	Simplicity::init(move(engine));
+	Simplicity::setEngine(engine);
 
-	Simplicity::registerObserver(KEYBOARD_BUTTON_EVENT, changeDemo);
+	Messages::registerRecipient(KEYBOARD_BUTTON_EVENT, changeDemo);
 
 	unique_ptr<ModelFactory> modelFactory(new OpenGLModelFactory);
 	ModelFactory::setInstance(move(modelFactory));
@@ -103,7 +102,7 @@ int main(int argc, char** argv)
 	demos.push_back(move(bezierPathInterpreterDemo));
 
 	demos.at(demoIndex)->init();
-	engineRef.addEngine(demos.at(demoIndex)->getEngine());
+	engine->addEngine(demos.at(demoIndex)->getEngine());
 
 	Simplicity::start();
 

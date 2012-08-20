@@ -18,9 +18,9 @@
 #include <GL/glut.h>
 
 #include <simplicity/Events.h>
+#include <simplicity/graph/NodeFactory.h>
 #include <simplicity/input/MouseButtonEvent.h>
-#include <simplicity/scene/SceneFactory.h>
-#include <simplicity/Simplicity.h>
+#include <simplicity/Messages.h>
 
 #include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
 #include <simplicity/opengl/rendering/SimpleOpenGLRenderer.h>
@@ -40,22 +40,23 @@ namespace simplicity
 	void SimplePathFinderDemo::dispose()
 	{
 		renderingEngine->destroy();
+		removeAllEntities();
 
-		Simplicity::deregisterObserver(MOUSE_BUTTON_EVENT, bind(&SimplePathFinderDemo::onMouse, this, placeholders::_1));
+		Messages::deregisterRecipient(MOUSE_BUTTON_EVENT, bind(&SimplePathFinderDemo::onMouse, this, placeholders::_1));
 	}
 
-	string SimplePathFinderDemo::getDescription()
+	string SimplePathFinderDemo::getDescription() const
 	{
 		return "Click the mouse to advance the simple pathfinding algorithm.\n"
 			"When a path is found, it will be displayed as green dots.";
 	}
 
-	shared_ptr<Engine> SimplePathFinderDemo::getEngine()
+	shared_ptr<Engine> SimplePathFinderDemo::getEngine() const
 	{
 		return renderingEngine;
 	}
 
-	string SimplePathFinderDemo::getTitle()
+	string SimplePathFinderDemo::getTitle() const
 	{
 		return "SimplePathFinderDemo";
 	}
@@ -69,45 +70,34 @@ namespace simplicity
 		renderingEngine->setViewportWidth(800);
 		renderingEngine->setViewportHeight(800);
 
-		shared_ptr<Scene> scene(SceneFactory::getInstance().createScene());
-		renderingEngine->setScene(scene);
+		initScene();
 
-		shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
-		scene->addNode(sceneRoot);
-
-		shared_ptr<Camera> camera = addCamera(*sceneRoot);
-		scene->addCamera(camera);
+		shared_ptr<Camera> camera = addCamera();
 		renderingEngine->setCamera(camera);
 
-		shared_ptr<Light> light = addLight(*sceneRoot);
-		scene->addLight(light);
+		addLight();
+		addBackground();
 
-		addBackground(*sceneRoot);
+		addTitle();
+		addDescription();
 
-		populateNavigationMesh();
+		createNavigationMesh();
+		vector<pair<unsigned int, unsigned int> > obstacleLocations = getRandomObstacleLocations();
+		removeLocationsFromNavigationMesh(obstacleLocations);
+		addObstacles(obstacleLocations);
 
-		for (shared_ptr<Entity> obstacle : createObstacles())
-		{
-			renderingEngine->addEntity(obstacle);
-		}
-
-		renderingEngine->addEntity(createTitle());
-		for (shared_ptr<Entity> descriptionLine : createDescription())
-		{
-			renderingEngine->addEntity(descriptionLine);
-		}
-
-		renderingEngine->addRenderer(shared_ptr < Renderer > (new SimpleOpenGLRenderer));
+		shared_ptr<Renderer> renderer(new SimpleOpenGLRenderer);
+		renderingEngine->addRenderer(renderer);
 		renderingEngine->init();
 
-		pathFinder.reset(new SimplePathFinder(*getNavigationMesh().at(4), *getNavigationMesh().at(95)));
+		pathFinder.reset(new SimplePathFinder(getNavigationMesh().get(4), getNavigationMesh().get(95)));
 
-		Simplicity::registerObserver(MOUSE_BUTTON_EVENT, bind(&SimplePathFinderDemo::onMouse, this, placeholders::_1));
+		Messages::registerRecipient(MOUSE_BUTTON_EVENT, bind(&SimplePathFinderDemo::onMouse, this, placeholders::_1));
 	}
 
-	void SimplePathFinderDemo::onMouse(const boost::any data)
+	void SimplePathFinderDemo::onMouse(const boost::any message)
 	{
-		const MouseButtonEvent& event = boost::any_cast < MouseButtonEvent > (data);
+		const MouseButtonEvent& event = boost::any_cast<MouseButtonEvent>(message);
 
 		if (event.button != Mouse::Button::LEFT || event.buttonState != Button::State::UP)
 		{

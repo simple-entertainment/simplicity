@@ -77,13 +77,12 @@ namespace simplicity
 			 * <code>Pick</code> on the given {@link simplicity::Camera Camera}.
 			 * </p>
 			 *
-			 * @param scene The <code>Scene</code> to pick.
 			 * @param camera The <code>Camera</code> to base the pick on.
 			 * @param pick The <code>Pick</code> to apply to the <code>Scene</code>.
 			 *
 			 * @return An event containing any picked components of the <code>Scene</code>.
 			 */
-			virtual PickEvent pickScene(Scene& scene, const Camera& camera, const Pick pick) = 0;
+			virtual PickEvent pickScene(const Camera& camera, const Pick pick) = 0;
 
 			/**
 			 * <p>

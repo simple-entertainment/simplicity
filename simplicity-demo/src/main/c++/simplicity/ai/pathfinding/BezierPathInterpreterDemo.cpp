@@ -21,8 +21,11 @@
 #include <simplicity/ai/pathfinding/NoPathException.h>
 #include <simplicity/ai/pathfinding/SimplePathFinder.h>
 #include <simplicity/Events.h>
+#include <simplicity/graph/NodeFactory.h>
+#include <simplicity/graph/SimpleTree.h>
 #include <simplicity/input/MouseButtonEvent.h>
-#include <simplicity/scene/SceneFactory.h>
+#include <simplicity/Messages.h>
+#include <simplicity/scene/SimpleScene.h>
 #include <simplicity/Simplicity.h>
 
 #include <simplicity/opengl/rendering/engine/SimpleOpenGLRenderingEngine.h>
@@ -43,22 +46,23 @@ namespace simplicity
 	void BezierPathInterpreterDemo::dispose()
 	{
 		renderingEngine->destroy();
+		removeAllEntities();
 
-		Simplicity::deregisterObserver(MOUSE_BUTTON_EVENT,
+		Messages::deregisterRecipient(MOUSE_BUTTON_EVENT,
 			bind(&BezierPathInterpreterDemo::onMouse, this, placeholders::_1));
 	}
 
-	string BezierPathInterpreterDemo::getDescription()
+	string BezierPathInterpreterDemo::getDescription() const
 	{
 		return "Click the mouse to interpolate points on the path.";
 	}
 
-	shared_ptr<Engine> BezierPathInterpreterDemo::getEngine()
+	shared_ptr<Engine> BezierPathInterpreterDemo::getEngine() const
 	{
 		return renderingEngine;
 	}
 
-	string BezierPathInterpreterDemo::getTitle()
+	string BezierPathInterpreterDemo::getTitle() const
 	{
 		return "BezierPathInterpreterDemo";
 	}
@@ -70,44 +74,33 @@ namespace simplicity
 		renderingEngine->setViewportWidth(800);
 		renderingEngine->setViewportHeight(800);
 
-		shared_ptr<Scene> scene(SceneFactory::getInstance().createScene());
-		renderingEngine->setScene(scene);
+		initScene();
 
-		shared_ptr<Node> sceneRoot(SceneFactory::getInstance().createNode());
-		scene->addNode(sceneRoot);
-
-		shared_ptr<Camera> camera = addCamera(*sceneRoot);
-		scene->addCamera(camera);
+		shared_ptr<Camera> camera = addCamera();
 		renderingEngine->setCamera(camera);
 
-		shared_ptr<Light> light = addLight(*sceneRoot);
-		scene->addLight(light);
+		addLight();
+		addBackground();
 
-		addBackground(*sceneRoot);
+		addTitle();
+		addDescription();
 
-		renderingEngine->addEntity(createTitle());
-		for (shared_ptr<Entity> descriptionLine : createDescription())
-		{
-			renderingEngine->addEntity(descriptionLine);
-		}
-
-		renderingEngine->addRenderer(shared_ptr < Renderer > (new SimpleOpenGLRenderer));
+		shared_ptr<Renderer> renderer(new SimpleOpenGLRenderer);
+		renderingEngine->addRenderer(renderer);
 		renderingEngine->init();
 
 		do
 		{
-			populateNavigationMesh();
-			vector < shared_ptr<Entity> > obstacles = createObstacles();
+			createNavigationMesh();
+			vector<pair<unsigned int, unsigned int> > obstacleLocations = getRandomObstacleLocations();
+			removeLocationsFromNavigationMesh(obstacleLocations);
 
 			try
 			{
-				SimplePathFinder pathFinder = SimplePathFinder(*getNavigationMesh().at(4), *getNavigationMesh().at(95));
+				SimplePathFinder pathFinder = SimplePathFinder(getNavigationMesh().get(4), getNavigationMesh().get(95));
 				shortestPath = pathFinder.findShortestPath();
 
-				for (shared_ptr<Entity> obstacle : obstacles)
-				{
-					renderingEngine->addEntity(obstacle);
-				}
+				addObstacles(obstacleLocations);
 			}
 			catch (NoPathException& e)
 			{
@@ -117,13 +110,13 @@ namespace simplicity
 
 		interpolationCount = 2;
 
-		Simplicity::registerObserver(MOUSE_BUTTON_EVENT,
+		Messages::registerRecipient(MOUSE_BUTTON_EVENT,
 			bind(&BezierPathInterpreterDemo::onMouse, this, placeholders::_1));
 	}
 
-	void BezierPathInterpreterDemo::onMouse(const boost::any data)
+	void BezierPathInterpreterDemo::onMouse(const boost::any message)
 	{
-		const MouseButtonEvent& event = boost::any_cast < MouseButtonEvent > (data);
+		const MouseButtonEvent& event = boost::any_cast<MouseButtonEvent>(message);
 
 		if (event.button != Mouse::Button::LEFT || event.buttonState != Button::State::UP)
 		{
@@ -131,12 +124,12 @@ namespace simplicity
 		}
 
 		BezierPathInterpolator pathInterpolator(shortestPath);
-		vector < shared_ptr<const Node> > ownedPath;
-		vector < reference_wrapper<const Node> > path;
+		vector<shared_ptr<const Node> > ownedPath;
+		vector<reference_wrapper<const Node> > path;
 
 		for (unsigned int index = 0; index <= interpolationCount; index++)
 		{
-			shared_ptr<Node> pathNode(SceneFactory::getInstance().createNode());
+			shared_ptr<Node> pathNode = NodeFactory::getInstance().createNode();
 			pathNode->getTransformation().setTranslation(*pathInterpolator.interpolate(index / interpolationCount));
 
 			ownedPath.push_back(pathNode);

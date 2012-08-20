@@ -29,12 +29,12 @@ namespace simplicity
 
 			virtual ~BaseModel();
 
-			std::shared_ptr<ModelNode> getNode() const;
+			TreeNode* getNode() const;
 
-			void setNode(std::shared_ptr<ModelNode> model);
+			void setNode(TreeNode* model);
 
 		private:
-			std::shared_ptr<ModelNode> node;
+			TreeNode* node;
 	};
 }
 

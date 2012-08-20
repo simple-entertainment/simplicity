@@ -20,6 +20,7 @@
 #include <map>
 
 #include "Scene.h"
+#include "../graph/TreeNode.h"
 
 namespace simplicity
 {
@@ -36,7 +37,7 @@ namespace simplicity
 			/**
 			 * Creates an instance of <code>SimpleScene</code>.
 			 */
-			SimpleScene();
+			SimpleScene(std::shared_ptr<Tree<TreeNode> > tree);
 
 			/**
 			 * Disposes of an instance of <code>SimpleScene</code>.
@@ -47,23 +48,13 @@ namespace simplicity
 
 			void addLight(std::shared_ptr<Light> light);
 
-			void addNode(std::shared_ptr<Node> node);
-
-			void addNode(std::shared_ptr<Node> node, Node& parent);
-
 			std::vector<std::shared_ptr<Camera> > getCameras() const;
 
 			std::vector<std::shared_ptr<Light> > getLights() const;
 
-			std::shared_ptr<Node> getNode(const int id) const;
+			Tree<TreeNode>& getTree();
 
-			std::shared_ptr<Node> getRoot() const;
-
-			std::vector<std::shared_ptr<Node> > getTopLevelNodes() const;
-
-			void removeNode(Node& node);
-
-			void resetIds();
+			const Tree<TreeNode>& getTree() const;
 
 			void setCameras(std::vector<std::shared_ptr<Camera> > cameras);
 
@@ -79,43 +70,13 @@ namespace simplicity
 			std::vector<std::shared_ptr<Camera> > cameras;
 
 			/**
-			 * The unique identifier that was assigned to the last {@link com.se.simplicity.scenegraph.Node Node} added
-			 * to the <code>SimpleScene</code>.
-			 */
-			int nextNodeId;
-
-			/**
 			 * <p>
 			 * The {@link simplicity::Light Light}s that can be used to illuminate this <code>SimpleScene</code>.
 			 * </p>
 			 */
 			std::vector<std::shared_ptr<Light> > lights;
 
-			/**
-			 * <p>
-			 * The {@link simplicity::Node Node}s within this <code>SimpleScene</code>.
-			 * </p>
-			 */
-			std::map<int, std::shared_ptr<Node> > nodes;
-
-			/**
-			 * <p>
-			 * The root {@link simplicity::Node Node} of this <code>SimpleScene</code>.
-			 * </p>
-			 */
-			std::shared_ptr<Node> root;
-
-			/**
-			 * <p>
-			 * Retrieves a unique identifier to assign to the next {@link com.se.simplicity.scenegraph.Node Node} added
-			 * to the <code>SimpleScene</code>.
-			 * </p>
-			 *
-			 * @return A unique identifier to assign to the next <code>Node</code> added to the
-			 * <code>SimpleScene</code>.
-			 */
-			int
-			getNextNodeId();
+			std::shared_ptr<Tree<TreeNode> > tree;
 	};
 }
 

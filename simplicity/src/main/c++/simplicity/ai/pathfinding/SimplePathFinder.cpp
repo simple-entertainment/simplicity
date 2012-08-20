@@ -58,12 +58,12 @@ namespace simplicity
 
 		while (currentNode != &start)
 		{
-			for (shared_ptr<const Node> adjacentNode : currentNode->getChildren())
+			for (reference_wrapper<Node> adjacentNode : currentNode->getConnectedNodes())
 			{
-				if (isTraversed(*adjacentNode)
-					&& nodeDistances.find(adjacentNode.get())->second < nodeDistances.find(nextNode)->second)
+				if (isTraversed(adjacentNode.get())
+					&& nodeDistances.find(&adjacentNode.get())->second < nodeDistances.find(nextNode)->second)
 				{
-					nextNode = adjacentNode.get();
+					nextNode = &adjacentNode.get();
 				}
 			}
 
@@ -97,18 +97,18 @@ namespace simplicity
 
 		for (reference_wrapper<const Node> openNode : openNodes)
 		{
-			for (shared_ptr<const Node> adjacentNode : openNode.get().getChildren())
+			for (reference_wrapper<Node> adjacentNode : openNode.get().getConnectedNodes())
 			{
-				if (adjacentNode.get() == &finish)
+				if (&adjacentNode.get() == &finish)
 				{
-					markAsTraversed(*adjacentNode);
+					markAsTraversed(adjacentNode.get());
 					return true;
 				}
 
-				if (!isTraversed(*adjacentNode))
+				if (!isTraversed(adjacentNode.get()))
 				{
-					markAsTraversed(*adjacentNode);
-					newOpenNodes.push_back(*adjacentNode);
+					markAsTraversed(adjacentNode.get());
+					newOpenNodes.push_back(adjacentNode.get());
 				}
 			}
 		}

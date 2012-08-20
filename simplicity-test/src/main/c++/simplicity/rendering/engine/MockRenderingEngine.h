@@ -41,23 +41,21 @@ namespace simplicity
 			MOCK_CONST_METHOD0(getCamera, std::shared_ptr<Camera>());
 			MOCK_CONST_METHOD0(getClearingColour, const ColourVector<>&());
 			MOCK_CONST_METHOD0(getPreferredFrequency, int());
-			MOCK_CONST_METHOD1(getRendererRoot, Node*(const Renderer& renderer));
+			MOCK_CONST_METHOD1(getRendererRoot, TreeNode*(const Renderer& renderer));
 			MOCK_CONST_METHOD0(getRenderers, std::vector<std::shared_ptr<Renderer> >());
-			MOCK_CONST_METHOD0(getScene, std::shared_ptr<Scene>());
 			MOCK_CONST_METHOD0(getViewportHeight, int());
 			MOCK_CONST_METHOD0(getViewportWidth, int());
 			MOCK_METHOD0(init, void());
 			MOCK_METHOD1(removeEntity, void(const Entity& entity));
 			MOCK_METHOD1(removeRenderer, void(const Renderer& renderer));
-			MOCK_METHOD2(renderSceneGraph, void(Renderer& renderer, const Node& root));
+			MOCK_METHOD2(renderSceneGraph, void(Renderer& renderer, const TreeNode& root));
 			MOCK_METHOD0(reset, void());
 			MOCK_METHOD0(run, void());
 			MOCK_METHOD1(setCamera, void(std::shared_ptr<Camera> camera));
 			//MOCK_METHOD1(setClearingColour, void(std::unique_ptr<ColourVector<> > clearingColour));
 			MOCK_METHOD1(setClearsBeforeRender, void(const bool clearsBeforeRender));
 			MOCK_METHOD1(setPreferredFrequency, void(const int preferredFrequency));
-			MOCK_METHOD2(setRendererRoot, void(const Renderer& renderer, Node* root));
-			MOCK_METHOD1(setScene, void(std::shared_ptr<Scene> scene));
+			MOCK_METHOD2(setRendererRoot, void(const Renderer& renderer, TreeNode* root));
 			MOCK_METHOD1(setViewportHeight, void(const int viewportHeight));
 			MOCK_METHOD1(setViewportWidth, void(const int viewportWidth));
 

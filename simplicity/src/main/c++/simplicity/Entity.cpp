@@ -25,7 +25,7 @@ using namespace std;
 namespace simplicity
 {
 	Entity::Entity(const string& name) :
-		name(name)
+		components(), name(name)
 	{
 	}
 

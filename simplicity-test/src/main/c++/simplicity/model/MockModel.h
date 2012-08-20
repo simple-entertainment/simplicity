@@ -35,9 +35,9 @@ namespace simplicity
 		public:
 			MOCK_CONST_METHOD0(getCenter, const TranslationVector<>&());
 			MOCK_CONST_METHOD0(getEntity, const Entity&());
-			MOCK_CONST_METHOD0(getNode, std::shared_ptr<ModelNode>());
+			MOCK_CONST_METHOD0(getNode, TreeNode*());
 			MOCK_METHOD1(setEntity, void(std::shared_ptr<Entity> entity));
-			MOCK_METHOD1(setNode, void(std::shared_ptr<ModelNode> node));
+			MOCK_METHOD1(setNode, void(TreeNode* node));
 	};
 }
 

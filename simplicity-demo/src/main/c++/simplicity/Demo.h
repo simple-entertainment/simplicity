@@ -49,7 +49,7 @@ namespace simplicity
 			 *
 			 * @return A description of the demo.
 			 */
-			virtual std::string getDescription() = 0;
+			virtual std::string getDescription() const = 0;
 
 			/**
 			 * <p>
@@ -58,7 +58,7 @@ namespace simplicity
 			 *
 			 * @return The engine that runs the demo.
 			 */
-			virtual std::shared_ptr<Engine> getEngine() = 0;
+			virtual std::shared_ptr<Engine> getEngine() const = 0;
 
 			/**
 			 * <p>
@@ -67,7 +67,7 @@ namespace simplicity
 			 *
 			 * @return The title of the demo.
 			 */
-			virtual std::string getTitle() = 0;
+			virtual std::string getTitle() const = 0;
 
 			/**
 			 * <p>

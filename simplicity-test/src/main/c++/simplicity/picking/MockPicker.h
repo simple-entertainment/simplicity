@@ -31,7 +31,7 @@ namespace simplicity
       MOCK_METHOD0(dispose, void());
       MOCK_CONST_METHOD0(getDrawingMode, Renderer::DrawingMode());
       MOCK_METHOD0(init, void());
-      MOCK_METHOD3(pickScene, PickEvent(Scene& scene, const Camera& camera, const Pick pick));
+      MOCK_METHOD2(pickScene, PickEvent(const Camera& camera, const Pick pick));
       MOCK_METHOD1(setDrawingMode, void(const Renderer::DrawingMode mode));
   };
 }

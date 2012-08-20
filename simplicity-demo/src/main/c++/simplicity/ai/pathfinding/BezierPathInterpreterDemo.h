@@ -39,11 +39,11 @@ namespace simplicity
 
 			void dispose();
 
-			std::string getDescription();
+			std::string getDescription() const;
 
-			std::shared_ptr<Engine> getEngine();
+			std::shared_ptr<Engine> getEngine() const;
 
-			std::string getTitle();
+			std::string getTitle() const;
 
 			void init();
 
@@ -74,7 +74,7 @@ namespace simplicity
 			 * Responds to mouse events.
 			 * </p>
 			 */
-			void onMouse(const boost::any data);
+			void onMouse(const boost::any message);
 	};
 }
 

@@ -14,20 +14,17 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "PreorderConstNodeIterator.h"
-#include "PreorderNodeIterator.h"
-#include "SimpleNode.h"
+#include "../graph/PreorderConstNodeIterator.h"
+#include "../graph/PreorderNodeIterator.h"
 #include "SimpleScene.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	SimpleScene::SimpleScene() :
-		nextNodeId(0), root(new SimpleNode)
+	SimpleScene::SimpleScene(shared_ptr<Tree<TreeNode> > tree) :
+		tree(tree)
 	{
-		root->setId(getNextNodeId());
-		nodes.insert(pair<int, shared_ptr<Node> >(root->getId(), root));
 	}
 
 	SimpleScene::~SimpleScene()
@@ -44,82 +41,24 @@ namespace simplicity
 		lights.push_back(light);
 	}
 
-	void SimpleScene::addNode(shared_ptr<Node> node)
-	{
-		addNode(node, *root);
-	}
-
-	void SimpleScene::addNode(shared_ptr<Node> node, Node& parent)
-	{
-		PreorderNodeIterator iterator(*node);
-
-		while (iterator.hasMoreNodes())
-		{
-			Node& currentNode = iterator.getNextNode();
-
-			currentNode.setId(getNextNodeId());
-			nodes.insert(pair<int, shared_ptr<Node> >(currentNode.getId(), currentNode.getThisShared()));
-		}
-
-		parent.addChild(node);
-	}
-
 	vector<shared_ptr<Camera> > SimpleScene::getCameras() const
 	{
-		return (cameras);
+		return cameras;
 	}
 
 	vector<shared_ptr<Light> > SimpleScene::getLights() const
 	{
-		return (lights);
+		return lights;
 	}
 
-	int SimpleScene::getNextNodeId()
+	Tree<TreeNode>& SimpleScene::getTree()
 	{
-		return (nextNodeId++);
+		return *tree;
 	}
 
-	shared_ptr<Node> SimpleScene::getNode(const int id) const
+	const Tree<TreeNode>& SimpleScene::getTree() const
 	{
-		return (nodes.find(id)->second);
-	}
-
-	shared_ptr<Node> SimpleScene::getRoot() const
-	{
-		return (root);
-	}
-
-	vector<shared_ptr<Node> > SimpleScene::getTopLevelNodes() const
-	{
-		return root->getChildren();
-	}
-
-	void SimpleScene::removeNode(Node& node)
-	{
-		PreorderConstNodeIterator iterator(node);
-
-		while (iterator.hasMoreNodes())
-		{
-			nodes.erase(iterator.getNextNode().getId());
-		}
-
-		node.getParent()->removeChild(node);
-	}
-
-	void SimpleScene::resetIds()
-	{
-		nextNodeId = 0;
-		nodes.clear();
-
-		PreorderNodeIterator iterator(*root);
-
-		while (iterator.hasMoreNodes())
-		{
-			Node& node = iterator.getNextNode();
-
-			node.setId(getNextNodeId());
-			nodes.insert(pair<int, shared_ptr<Node> >(node.getId(), node.getThisShared()));
-		}
+		return *tree;
 	}
 
 	void SimpleScene::setCameras(vector<shared_ptr<Camera> > cameras)

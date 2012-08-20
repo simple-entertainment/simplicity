@@ -16,6 +16,7 @@
  */
 #include <algorithm>
 
+#include "../common/AddressEquals.h"
 #include "NodeDoesNotExistException.h"
 
 namespace simplicity
@@ -38,22 +39,22 @@ namespace simplicity
 	}
 
 	template<typename NodeType>
-	void SimpleTree<NodeType>::connect(Node& parent, Node& child)
+	void SimpleTree<NodeType>::connect(NodeType& parent, NodeType& child)
 	{
 		if (child.getParent() != NULL)
 		{
-			disconnect(parent, *child.getParent());
+			disconnect(*child.getParent(), child);
 		}
 
-		parent.addChild(child.getThisShared());
-		child.setParent(&parent);
+		child.connectTo(parent);
+		parent.addChild(child);
 	}
 
 	template<typename NodeType>
-	void SimpleTree<NodeType>::disconnect(Node& parent, Node& child)
+	void SimpleTree<NodeType>::disconnect(NodeType& parent, NodeType& child)
 	{
+		child.disconnectFrom(parent);
 		parent.removeChild(child);
-		child.setParent(NULL);
 	}
 
 	template<typename NodeType>
@@ -95,19 +96,18 @@ namespace simplicity
 	}
 
 	template<typename NodeType>
-	void SimpleTree<NodeType>::remove(Node& node)
+	void SimpleTree<NodeType>::remove(NodeType& node)
 	{
-		for (std::shared_ptr<Node> child : node.getChildren())
+		for (unsigned int index = 0; index < node.getChildren().size(); index++)
 		{
-			remove(*child);
+			remove(node.getChildren().at(index).get());
 		}
 
 		if (node.getParent() != NULL)
 		{
-			node.getParent()->removeChild(node);
-			node.setParent(NULL);
+			disconnect(*node.getParent(), node);
 		}
 
-		nodes.erase(std::remove(nodes.begin(), nodes.end(), node.getThisShared()));
+		nodes.erase(std::remove_if(nodes.begin(), nodes.end(), AddressEquals<NodeType>(node)));
 	}
 }

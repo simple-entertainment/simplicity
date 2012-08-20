@@ -29,9 +29,9 @@ namespace simplicity
 
 			NodeType& add(std::shared_ptr<NodeType> node);
 
-			void connect(Node& parent, Node& child);
+			void connect(NodeType& parent, NodeType& child);
 
-			void disconnect(Node& parent, Node& child);
+			void disconnect(NodeType& parent, NodeType& child);
 
 			NodeType& get(int id);
 
@@ -43,7 +43,7 @@ namespace simplicity
 
 			const NodeType& getRoot() const;
 
-			void remove(Node& node);
+			void remove(NodeType& node);
 
 		private:
 			int nextId;

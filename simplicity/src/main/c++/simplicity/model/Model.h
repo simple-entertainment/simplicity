@@ -18,7 +18,7 @@
 #define MODEL_H_
 
 #include "../Component.h"
-#include "../scene/model/ModelNode.h"
+#include "../graph/TreeNode.h"
 
 namespace simplicity
 {
@@ -48,7 +48,7 @@ namespace simplicity
 			 *
 			 * @return The location of this <code>Model</code> within the scene.
 			 */
-			virtual std::shared_ptr<ModelNode> getNode() const = 0;
+			virtual TreeNode* getNode() const = 0;
 
 			/**
 			 * <p>
@@ -57,7 +57,7 @@ namespace simplicity
 			 *
 			 * @param node The location of this <code>Model</code> within the scene.
 			 */
-			virtual void setNode(std::shared_ptr<ModelNode> node) = 0;
+			virtual void setNode(TreeNode* node) = 0;
 	};
 }
 

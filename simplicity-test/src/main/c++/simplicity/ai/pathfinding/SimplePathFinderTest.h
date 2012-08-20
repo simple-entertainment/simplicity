@@ -20,7 +20,8 @@
 #include <gtest/gtest.h>
 
 #include <simplicity/ai/pathfinding/SimplePathFinder.h>
-#include <simplicity/scene/SimpleNode.h>
+#include <simplicity/graph/SimpleNode.h>
+#include <simplicity/graph/UndirectedGraph.h>
 
 namespace simplicity
 {
@@ -38,7 +39,7 @@ namespace simplicity
 
 			const static unsigned int ROWS = 5;
 
-			std::vector<std::shared_ptr<Node> > pathNodes;
+			UndirectedGraph<Node> graph;
 
 			void SetUp()
 			{
@@ -48,7 +49,7 @@ namespace simplicity
 					for (unsigned int row = 0; row < ROWS; row++)
 					{
 						std::shared_ptr<Node> pathNode(new SimpleNode);
-						pathNodes.push_back(pathNode);
+						graph.add(pathNode);
 					}
 				}
 
@@ -58,19 +59,19 @@ namespace simplicity
 					{
 						if (column > 0)
 						{
-							pathNodes.at(column * ROWS + row)->addChild(pathNodes.at((column - 1) * ROWS + row));
+							graph.connect(graph.get(column * ROWS + row), graph.get((column - 1) * ROWS + row));
 						}
 						if (column < COLUMNS - 1)
 						{
-							pathNodes.at(column * ROWS + row)->addChild(pathNodes.at((column + 1) * ROWS + row));
+							graph.connect(graph.get(column * ROWS + row), graph.get((column + 1) * ROWS + row));
 						}
 						if (row > 0)
 						{
-							pathNodes.at(column * ROWS + row)->addChild(pathNodes.at(column * ROWS + (row - 1)));
+							graph.connect(graph.get(column * ROWS + row), graph.get(column * ROWS + (row - 1)));
 						}
 						if (row < ROWS - 1)
 						{
-							pathNodes.at(column * ROWS + row)->addChild(pathNodes.at(column * ROWS + (row + 1)));
+							graph.connect(graph.get(column * ROWS + row), graph.get(column * ROWS + (row + 1)));
 						}
 					}
 				}

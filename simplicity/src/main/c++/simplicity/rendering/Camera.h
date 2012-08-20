@@ -17,9 +17,9 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
+#include "../graph/TreeNode.h"
 #include "../math/TransformationMatrix.h"
 #include "../picking/Pick.h"
-#include "../scene/Node.h"
 
 namespace simplicity
 {
@@ -152,7 +152,7 @@ namespace simplicity
 			 *
 			 * @return The <code>Node</code> that represents this <code>Camera</code>'s location and orientation.
 			 */
-			virtual Node* getNode() const = 0;
+			virtual TreeNode* getNode() const = 0;
 
 			/**
 			 * <p>
@@ -289,7 +289,7 @@ namespace simplicity
 			 *
 			 * @param node The <code>Node</code> that represents this <code>Camera</code>'s location and orientation.
 			 */
-			virtual void setNode(Node* node) = 0;
+			virtual void setNode(TreeNode* node) = 0;
 
 			/**
 			 * <p>

@@ -32,7 +32,7 @@ namespace simplicity
 			 * @param parent The parent of the connection to be created.
 			 * @param child The child of the connection to be created.
 			 */
-			virtual void connect(Node& parent, Node& child) = 0;
+			virtual void connect(NodeType& parent, NodeType& child) = 0;
 
 			/**
 			 * Disconnects a child from a parent.
@@ -40,7 +40,7 @@ namespace simplicity
 			 * @param parent The parent of the connection to be removed.
 			 * @param child The child of the connection to be removed.
 			 */
-			virtual void disconnect(Node& parent, Node& child) = 0;
+			virtual void disconnect(NodeType& parent, NodeType& child) = 0;
 
 			/**
 			 * Retrieves the root {@link simplicity::Node Node} of this <code>Tree</code>.

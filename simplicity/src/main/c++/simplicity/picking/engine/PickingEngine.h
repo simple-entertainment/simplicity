@@ -75,15 +75,6 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Retrieves the {@link simplicity::Scene Scene} to be picked.
-			 * </p>
-			 *
-			 * @return The <code>Scene</code> to be picked.
-			 */
-			virtual std::shared_ptr<Scene> getScene() const = 0;
-
-			/**
-			 * <p>
 			 * Registers a pick at the given location and area relative to this <code>PickingEngine</code>'s
 			 * {@link simplicity::Camera Camera} in {@link simplicity::Scene Scene} coordinates.
 			 * </p>
@@ -151,15 +142,6 @@ namespace simplicity
 			 * {@link simplicity::Scene Scene} for this <code>PickingEngine</code>.
 			 */
 			virtual void setPicker(std::shared_ptr<Picker> picker) = 0;
-
-			/**
-			 * <p>
-			 * Sets the {@link simplicity::Scene Scene} to be picked.
-			 * </p>
-			 *
-			 * @param scene The <code>Scene</code> to be picked.
-			 */
-			virtual void setScene(std::shared_ptr<Scene> scene) = 0;
 	};
 }
 

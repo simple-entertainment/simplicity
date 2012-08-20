@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../scene/SceneFactory.h"
 #include "BaseModel.h"
 
 using namespace std;
@@ -29,12 +28,12 @@ namespace simplicity
 	{
 	}
 
-	shared_ptr<ModelNode> BaseModel::getNode() const
+	TreeNode* BaseModel::getNode() const
 	{
 		return node;
 	}
 
-	void BaseModel::setNode(shared_ptr<ModelNode> node)
+	void BaseModel::setNode(TreeNode* node)
 	{
 		this->node = node;
 	}

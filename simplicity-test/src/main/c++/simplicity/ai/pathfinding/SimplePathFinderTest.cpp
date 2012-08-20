@@ -28,11 +28,10 @@ namespace simplicity
 	 * <p>
 	 * Unit test the method {@link simplicity::SimplePathFinder#findShortestPath() findShortestPath()}.
 	 * </p>
-	 */
-	TEST_F(SimplePathFinderTest, findShortestPath)
+	 */TEST_F(SimplePathFinderTest, findShortestPath)
 	{
 		// Initialise test environment.
-		SimplePathFinder objectUnderTest(*pathNodes.at(2), *pathNodes.at(22));
+		SimplePathFinder objectUnderTest(graph.get(2), graph.get(22));
 
 		// Perform test.
 		vector<reference_wrapper<const Node> > path = objectUnderTest.findShortestPath();
@@ -43,7 +42,7 @@ namespace simplicity
 		// Verify that all nodes in the path are connected correctly.
 		for (unsigned int index = 0; index < path.size(); index++)
 		{
-			const vector<shared_ptr<Node> >& children = path.at(index).get().getChildren();
+			vector<reference_wrapper<Node> > children = path.at(index).get().getConnectedNodes();
 
 			if (index > 0)
 			{
@@ -63,20 +62,15 @@ namespace simplicity
 	 * Unit test the method {@link simplicity::SimplePathFinder#findShortestPath() findShortestPath()} with the special
 	 * case that obstacles require the path to go around them.
 	 * </p>
-	 */
-	TEST_F(SimplePathFinderTest, findShortestPathObstacles)
+	 */TEST_F(SimplePathFinderTest, findShortestPathObstacles)
 	{
 		// Initialise test environment.
-		SimplePathFinder objectUnderTest(*pathNodes.at(2), *pathNodes.at(22));
+		SimplePathFinder objectUnderTest(graph.get(2), graph.get(22));
 
 		// Create 'obstacles' by removing path nodes.
 		for (unsigned int nodeIndex = 10; nodeIndex < 14; nodeIndex++)
 		{
-			Node& pathNode = *pathNodes.at(nodeIndex);
-			for (shared_ptr<Node> child : pathNode.getChildren())
-			{
-				child->removeChild(pathNode);
-			}
+			graph.remove(graph.get(nodeIndex));
 		}
 
 		// Perform test.
@@ -88,7 +82,7 @@ namespace simplicity
 		// Verify that all nodes in the path are connected correctly.
 		for (unsigned int index = 0; index < path.size(); index++)
 		{
-			const vector<shared_ptr<Node> >& children = path.at(index).get().getChildren();
+			vector<reference_wrapper<Node> > children = path.at(index).get().getConnectedNodes();
 
 			if (index > 0)
 			{
@@ -107,11 +101,10 @@ namespace simplicity
 	 * <p>
 	 * Unit test the method {@link simplicity::SimplePathFinder#stepForward() stepForward()}.
 	 * </p>
-	 */
-	TEST_F(SimplePathFinderTest, stepForward)
+	 */TEST_F(SimplePathFinderTest, stepForward)
 	{
 		// Initialise test environment.
-		SimplePathFinder objectUnderTest(*pathNodes.at(2), *pathNodes.at(22));
+		SimplePathFinder objectUnderTest(graph.get(2), graph.get(22));
 
 		// Perform test - Verify test results.
 		ASSERT_FALSE(objectUnderTest.stepForward());
@@ -124,11 +117,10 @@ namespace simplicity
 	 * <p>
 	 * Unit test the method {@link simplicity::SimplePathFinder#getOpenNodes() getOpenNodes()}.
 	 * </p>
-	 */
-	TEST_F(SimplePathFinderTest, getOpenNodes)
+	 */TEST_F(SimplePathFinderTest, getOpenNodes)
 	{
 		// Initialise test environment.
-		SimplePathFinder objectUnderTest(*pathNodes.at(2), *pathNodes.at(22));
+		SimplePathFinder objectUnderTest(graph.get(2), graph.get(22));
 		objectUnderTest.stepForward();
 
 		// Perform test.
@@ -136,11 +128,8 @@ namespace simplicity
 
 		// Verify test results.
 		ASSERT_EQ(3u, openNodes.size());
-		ASSERT_TRUE(
-			find_if(openNodes.begin(), openNodes.end(), AddressEquals<Node>(*pathNodes.at(1))) != openNodes.end());
-		ASSERT_TRUE(
-			find_if(openNodes.begin(), openNodes.end(), AddressEquals<Node>(*pathNodes.at(3))) != openNodes.end());
-		ASSERT_TRUE(
-			find_if(openNodes.begin(), openNodes.end(), AddressEquals<Node>(*pathNodes.at(7))) != openNodes.end());
+		ASSERT_TRUE( find_if(openNodes.begin(), openNodes.end(), AddressEquals<Node>(graph.get(1))) != openNodes.end());
+		ASSERT_TRUE( find_if(openNodes.begin(), openNodes.end(), AddressEquals<Node>(graph.get(3))) != openNodes.end());
+		ASSERT_TRUE( find_if(openNodes.begin(), openNodes.end(), AddressEquals<Node>(graph.get(7))) != openNodes.end());
 	}
 }

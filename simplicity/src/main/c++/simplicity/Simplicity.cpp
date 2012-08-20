@@ -14,110 +14,83 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include "engine/SimplicityEngine.h"
 #include "Simplicity.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	unique_ptr<Engine> Simplicity::engine = unique_ptr<Engine>();
-
-	map<const string, shared_ptr<Entity> > Simplicity::entities = map<const string, shared_ptr<Entity> >();
-
-	map<const string, vector<function<Simplicity::Observer> > > Simplicity::observers = map<const string,
-		vector<function<Simplicity::Observer> > >();
-
-	Simplicity::Simplicity()
+	namespace Simplicity
 	{
-	}
+		/**
+		 * <p>
+		 * The {@link simplicity::Engine Engine} that does the actual work for simplicity.
+		 * </p>
+		 */
+		unique_ptr<SimplicityEngine> engine(new SimplicityEngine);
 
-	void Simplicity::addEntities(vector<shared_ptr<Entity> > entities)
-	{
-		for (shared_ptr<Entity> entity : entities)
+		void addEntities(vector<shared_ptr<Entity> > entities)
 		{
-			addEntity(entity);
-		}
-	}
-
-	void Simplicity::addEntity(shared_ptr<Entity> entity)
-	{
-		entities.insert(pair<const string, shared_ptr<Entity> >(entity->getName(), entity));
-		engine->addEntity(entity);
-	}
-
-	void Simplicity::deregisterObserver(const string eventName, function<Observer> observer)
-	{
-		vector<function<Observer> >& registeredObservers = observers.find(eventName)->second;
-
-		for (vector<function<Observer> >::iterator registeredObserver = registeredObservers.begin();
-			registeredObserver != registeredObservers.end(); registeredObserver++)
-		{
-			if (registeredObserver->target_type() == observer.target_type())
+			for (shared_ptr<Entity> entity : entities)
 			{
-				registeredObservers.erase(registeredObserver);
-				return;
+				addEntity(entity);
 			}
 		}
-	}
 
-	void Simplicity::fireEvent(const string eventName, const boost::any data)
-	{
-		if (observers.find(eventName) == observers.end())
+		void addEntity(shared_ptr<Entity> entity)
 		{
-			return;
+			engine->addEntity(entity);
 		}
 
-		vector<function<Observer> >& registeredObservers = observers.find(eventName)->second;
-
-		// Does not use C++11 for loop as elements could be added to the vector while iterating.
-		// Take care - this is a fragile 'solution'.
-		for (unsigned int index = 0; index < registeredObservers.size(); index++)
+		void addEntity(shared_ptr<Entity> entity, shared_ptr<TreeNode> node)
 		{
-			registeredObservers.at(index)(data);
-		}
-	}
-
-	shared_ptr<Entity> Simplicity::getEntity(const string name)
-	{
-		return entities.find(name)->second;
-	}
-
-	void Simplicity::init(unique_ptr<Engine> engine)
-	{
-		Simplicity::engine = move(engine);
-	}
-
-	void Simplicity::registerObserver(const string eventName, function<Observer> observer)
-	{
-		if (observers.find(eventName) == observers.end())
-		{
-			observers.insert(
-				pair<const string, vector<function<Observer> > >(eventName, vector<function<Observer> >()));
+			engine->addEntity(entity, node);
 		}
 
-		observers.find(eventName)->second.push_back(observer);
-	}
+		void addEntity(shared_ptr<Entity> entity, shared_ptr<TreeNode> node, TreeNode& parent)
+		{
+			engine->addEntity(entity, node, parent);
+		}
 
-	void Simplicity::removeEntity(const string name)
-	{
-		engine->removeEntity(*entities.find(name)->second);
-		entities.erase(name);
-	}
+		Entity& getEntity(const string name)
+		{
+			return engine->getEntity(name);
+		}
 
-	void Simplicity::reset()
-	{
-		engine.reset();
-		entities.clear();
-		observers.clear();
-	}
+		Scene* getScene()
+		{
+			return engine->getScene();
+		}
 
-	void Simplicity::start()
-	{
-		engine->run();
-	}
+		void removeEntity(const string name)
+		{
+			engine->removeEntity(name);
+		}
 
-	void Simplicity::stop()
-	{
-		engine->destroy();
+		void reset()
+		{
+			engine.reset();
+		}
+
+		void setEngine(std::shared_ptr<Engine> engine)
+		{
+			Simplicity::engine->setEngine(engine);
+		}
+
+		void setScene(std::shared_ptr<Scene> scene)
+		{
+			engine->setScene(scene);
+		}
+
+		void start()
+		{
+			engine->run();
+		}
+
+		void stop()
+		{
+			engine->destroy();
+		}
 	}
 }

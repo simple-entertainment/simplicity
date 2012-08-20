@@ -36,7 +36,7 @@ namespace simplicity
       MOCK_CONST_METHOD0(getFrameX, float());
       MOCK_CONST_METHOD0(getFrameY, float());
       MOCK_CONST_METHOD0(getNearClippingDistance, float());
-      MOCK_CONST_METHOD0(getNode, Node*());
+      MOCK_CONST_METHOD0(getNode, TreeNode*());
       MOCK_CONST_METHOD1(getPickCamera, std::shared_ptr<Camera>(const Pick pick));
       MOCK_CONST_METHOD0(getProjectionMode, ProjectionMode());
       MOCK_CONST_METHOD0(getTransformation, const TransformationMatrix<>&());
@@ -50,7 +50,7 @@ namespace simplicity
       MOCK_METHOD1(setFrameY, void(const float frameY));
       MOCK_METHOD1(setInitialised, void(const bool isInitialised));
       MOCK_METHOD1(setNearClippingDistance, void(const float nearClippingDistance));
-      MOCK_METHOD1(setNode, void(Node* node));
+      MOCK_METHOD1(setNode, void(TreeNode* node));
       MOCK_METHOD1(setProjectionMode, void(const ProjectionMode projectionMode));
   };
 }

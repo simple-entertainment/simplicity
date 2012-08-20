@@ -42,7 +42,7 @@ namespace simplicity
 			MOCK_CONST_METHOD0(getColours, const std::vector<float>&());
 			MOCK_CONST_METHOD0(getEntity, const Entity&());
 			MOCK_CONST_METHOD0(getIndexWithinParent, int());
-			MOCK_CONST_METHOD0(getNode, std::shared_ptr<ModelNode>());
+			MOCK_CONST_METHOD0(getNode, TreeNode*());
 			MOCK_METHOD0(getNormals, std::vector<float>&());
 			MOCK_CONST_METHOD0(getNormals, const std::vector<float>&());
 			MOCK_CONST_METHOD0(getParent, VertexGroup*());
@@ -56,7 +56,7 @@ namespace simplicity
 			MOCK_METHOD1(setColours, void(std::shared_ptr<std::vector<float> > colours));
 			MOCK_METHOD1(setEntity, void(std::shared_ptr<Entity> entity));
 			MOCK_METHOD1(setIndexWithinParent, void(const int indexWithinParent));
-			MOCK_METHOD1(setNode, void(std::shared_ptr<ModelNode> node));
+			MOCK_METHOD1(setNode, void(TreeNode* node));
 			MOCK_METHOD1(setNormals, void(std::shared_ptr<std::vector<float> > normals));
 			MOCK_METHOD1(setTexture, void(std::shared_ptr<Texture> texture));
 			MOCK_METHOD1(setTextureCoordinates, void(std::shared_ptr<std::vector<float> > textureCoordinates));

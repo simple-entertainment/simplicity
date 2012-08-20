@@ -20,7 +20,7 @@
 #include <memory>
 #include <vector>
 
-#include "../scene/Node.h"
+#include "Node.h"
 
 namespace simplicity
 {
@@ -30,9 +30,9 @@ namespace simplicity
 		public:
 			virtual NodeType& add(std::shared_ptr<NodeType> node) = 0;
 
-			virtual void connect(Node& source, Node& destination) = 0;
+			virtual void connect(NodeType& source, NodeType& destination) = 0;
 
-			virtual void disconnect(Node& source, Node& destination) = 0;
+			virtual void disconnect(NodeType& source, NodeType& destination) = 0;
 
 			virtual NodeType& get(int id) = 0;
 
@@ -40,7 +40,7 @@ namespace simplicity
 
 			virtual const std::vector<std::shared_ptr<NodeType> >& getAll() const = 0;
 
-			virtual void remove(Node& node) = 0;
+			virtual void remove(NodeType& node) = 0;
 	};
 }
 

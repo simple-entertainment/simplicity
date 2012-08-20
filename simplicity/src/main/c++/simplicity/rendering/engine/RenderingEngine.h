@@ -123,7 +123,7 @@ namespace simplicity
 			 *
 			 * @return The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
 			 */
-			virtual Node* getRendererRoot(const Renderer& renderer) const = 0;
+			virtual TreeNode* getRendererRoot(const Renderer& renderer) const = 0;
 
 			/**
 			 * <p>
@@ -140,15 +140,6 @@ namespace simplicity
 			 * <code>advance()</code> method.
 			 */
 			virtual std::vector<std::shared_ptr<Renderer> > getRenderers() const = 0;
-
-			/**
-			 * <p>
-			 * Retrieves the {@link simplicity::Scene Scene} to be rendered.
-			 * </p>
-			 *
-			 * @return The {@link simplicity::Scene Scene} to be rendered.
-			 */
-			virtual std::shared_ptr<Scene> getScene() const = 0;
 
 			/**
 			 * <p>
@@ -195,7 +186,7 @@ namespace simplicity
 			 * @param renderer The <code>Renderer</code> that will render the portion of the <code>Scene</code>.
 			 * @param root The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
 			 */
-			virtual void renderSceneGraph(Renderer& renderer, const Node& root) = 0;
+			virtual void renderSceneGraph(Renderer& renderer, const TreeNode& root) = 0;
 
 			/**
 			 * <p>
@@ -236,16 +227,7 @@ namespace simplicity
 			 * @param renderer The <code>Renderer</code> to set the root <code>Node</code> for.
 			 * @param root The root <code>Node</code> of the portion of the <code>Scene</code> that will be rendered.
 			 */
-			virtual void setRendererRoot(const Renderer& renderer, Node* root) = 0;
-
-			/**
-			 * <p>
-			 * Sets the {@link simplicity::Scene Scene} to be rendered.
-			 * </p>
-			 *
-			 * @param scene The <code>Scene</code> to be rendered.
-			 */
-			virtual void setScene(std::shared_ptr<Scene> scene) = 0;
+			virtual void setRendererRoot(const Renderer& renderer, TreeNode* root) = 0;
 
 			/**
 			 * <p>

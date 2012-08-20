@@ -25,11 +25,13 @@ namespace simplicity
 	class UndirectedGraph : public Graph<NodeType>
 	{
 		public:
+			UndirectedGraph();
+
 			NodeType& add(std::shared_ptr<NodeType> node);
 
-			void connect(Node& source, Node& destination);
+			void connect(NodeType& source, NodeType& destination);
 
-			void disconnect(Node& source, Node& destination);
+			void disconnect(NodeType& source, NodeType& destination);
 
 			NodeType& get(int id);
 
@@ -37,9 +39,11 @@ namespace simplicity
 
 			const std::vector<std::shared_ptr<NodeType> >& getAll() const;
 
-			void remove(Node& node);
+			void remove(NodeType& node);
 
 		private:
+			int nextId;
+
 			std::vector<std::shared_ptr<NodeType> > nodes;
 	};
 }

@@ -18,7 +18,7 @@
 #include <simplicity/math/SimpleTransformationMatrix.h>
 #include <simplicity/math/SimpleTranslationVector.h>
 
-#include "../../scene/MockNode.h"
+#include "../../graph/MockNode.h"
 #include "LinearPathWalkerTest.h"
 
 using namespace std;
