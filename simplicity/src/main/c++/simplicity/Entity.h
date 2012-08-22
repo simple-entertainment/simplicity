@@ -79,6 +79,16 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Retrieves a single component.
+			 * </p>
+			 *
+			 * @return The single component.
+			 */
+			template<typename ComponentType = Component>
+			std::shared_ptr<ComponentType> getSingleComponent() const;
+
+			/**
+			 * <p>
 			 * Removes a component.
 			 * </p>
 			 *

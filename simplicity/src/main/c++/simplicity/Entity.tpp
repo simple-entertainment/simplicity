@@ -36,4 +36,19 @@ namespace simplicity
 
 		return typedComponents;
 	}
+
+	template<typename ComponentType>
+	std::shared_ptr<ComponentType> Entity::getSingleComponent() const
+	{
+		for (unsigned int index = 0; index < components.size(); index++)
+		{
+			shared_ptr<ComponentType> component(dynamic_pointer_cast<ComponentType>(components.at(index)));
+			if (component.get() != NULL)
+			{
+				return component;
+			}
+		}
+
+		return std::shared_ptr<ComponentType>();
+	}
 }
