@@ -46,14 +46,14 @@ namespace simplicity
 			disconnect(*child.getParent(), child);
 		}
 
-		child.connectTo(parent);
+		child.setParent(&parent);
 		parent.addChild(child);
 	}
 
 	template<typename NodeType>
 	void SimpleTree<NodeType>::disconnect(NodeType& parent, NodeType& child)
 	{
-		child.disconnectFrom(parent);
+		child.setParent(NULL);
 		parent.removeChild(child);
 	}
 

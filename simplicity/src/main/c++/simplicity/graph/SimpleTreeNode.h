@@ -17,40 +17,33 @@
 #ifndef SIMPLETREENODE_H_
 #define SIMPLETREENODE_H_
 
+#include "BaseNode.h"
 #include "TreeNode.h"
 
 namespace simplicity
 {
-	class SimpleTreeNode : public TreeNode
+	class SimpleTreeNode : public virtual TreeNode, public BaseNode
 	{
 		public:
 			SimpleTreeNode();
 
 			SimpleTreeNode(const SimpleTreeNode& original);
 
-			virtual ~SimpleTreeNode();
-
 			void addChild(TreeNode& child);
 
-			void connectTo(Node& parent);
+			void connectTo(Node& otherNode);
 
 			std::shared_ptr<Node> copy() const;
 
-			void disconnectFrom(Node& parent);
+			void disconnectFrom(Node& otherNode);
 
 			std::unique_ptr<TransformationMatrix<> > getAbsoluteTransformation() const;
 
-			const std::vector<std::reference_wrapper<TreeNode> >& getChildren() const;
-
-			Component* getComponent() const;
+			std::vector<std::reference_wrapper<TreeNode> > getChildren() const;
 
 			std::vector<std::reference_wrapper<Node> > getConnectedNodes() const;
 
-			int getId() const;
-
 			TreeNode* getParent() const;
-
-			TransformationMatrix<>& getTransformation() const;
 
 			bool hasChildren() const;
 
@@ -62,27 +55,12 @@ namespace simplicity
 
 			void removeChild(TreeNode& child);
 
-			void setComponent(Component* component);
-
-			void setId(const int id);
-
-			void setTransformation(std::unique_ptr<TransformationMatrix<> > transformation);
+			void setParent(TreeNode* parent);
 
 		private:
 			std::vector<std::reference_wrapper<TreeNode> > children;
 
-			Component* component;
-
-			int id;
-
 			TreeNode* parent;
-
-			/**
-			 * <p>
-			 * This <code>SimpleNode</code>'s relative position and orientation.
-			 * </p>
-			 */
-			std::unique_ptr<TransformationMatrix<> > transformation;
 	};
 }
 

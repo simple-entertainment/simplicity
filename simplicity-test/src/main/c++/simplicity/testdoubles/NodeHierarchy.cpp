@@ -27,11 +27,11 @@ namespace simplicity
 		node1.setId(0);
 		{
 			node2.setId(1);
-			node2.connectTo(node1);
+			node2.setParent(&node1);
 			node1.addChild(node2);
 			{
 				node3.setId(2);
-				node3.connectTo(node2);
+				node3.setParent(&node2);
 				node2.addChild(node3);
 			}
 		}
@@ -55,30 +55,30 @@ namespace simplicity
 		node1.setId(0);
 		{
 			node2.setId(1);
-			node2.connectTo(node1);
+			node2.setParent(&node1);
 			node1.addChild(node2);
 			{
 				node3.setId(2);
-				node3.connectTo(node2);
+				node3.setParent(&node2);
 				node2.addChild(node3);
 			}
 		}
 		{
 			node4.setId(3);
-			node4.connectTo(node1);
+			node4.setParent(&node1);
 			node1.addChild(node4);
 			{
 				node5.setId(4);
-				node5.connectTo(node4);
+				node5.setParent(&node4);
 				node4.addChild(node5);
 				node6.setId(5);
-				node6.connectTo(node4);
+				node6.setParent(&node4);
 				node4.addChild(node6);
 			}
 		}
 		{
 			node7.setId(6);
-			node7.connectTo(node1);
+			node7.setParent(&node1);
 			node1.addChild(node7);
 		}
 

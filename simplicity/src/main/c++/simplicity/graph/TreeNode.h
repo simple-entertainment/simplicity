@@ -28,7 +28,7 @@ namespace simplicity
 	 *
 	 * @author Gary Buyn
 	 */
-	class TreeNode : public Node
+	class TreeNode : public virtual Node
 	{
 		public:
 			/**
@@ -39,10 +39,6 @@ namespace simplicity
 			 * @param child The <code>TreeNode</code> to add to this <code>TreeNode</code>'s children.
 			 */
 			virtual void addChild(TreeNode& child) = 0;
-
-			virtual void connectTo(Node& parent) = 0;
-
-			virtual void disconnectFrom(Node& parent) = 0;
 
 			/**
 			 * <p>
@@ -61,7 +57,7 @@ namespace simplicity
 			 *
 			 * @return The <code>TreeNode</code>s directly below this <code>TreeNode</code> in the <code>Tree</code>.
 			 */
-			virtual const std::vector<std::reference_wrapper<TreeNode> >& getChildren() const = 0;
+			virtual std::vector<std::reference_wrapper<TreeNode> > getChildren() const = 0;
 
 			/**
 			 * <p>
@@ -112,6 +108,8 @@ namespace simplicity
 			 * @param child The child to be removed.
 			 */
 			virtual void removeChild(TreeNode& child) = 0;
+
+			virtual void setParent(TreeNode* parent) = 0;
 	};
 }
 

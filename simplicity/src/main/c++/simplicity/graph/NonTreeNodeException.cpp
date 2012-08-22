@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Simple Entertainment Limited
+ * Copyright © 2012 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,40 +14,12 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLENODE_H_
-#define SIMPLENODE_H_
-
-#include "BaseNode.h"
+#include "NonTreeNodeException.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * A simple component of a {@link simplicity::Scene Scene}.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
-	class SimpleNode : public BaseNode
+	const char* NonTreeNodeException::what() const throw ()
 	{
-		public:
-			SimpleNode();
-
-			SimpleNode(const SimpleNode& original);
-
-			void connectTo(Node& otherNode);
-
-			std::shared_ptr<Node> copy() const;
-
-			void disconnectFrom(Node& otherNode);
-
-			std::vector<std::reference_wrapper<Node> > getConnectedNodes() const;
-
-			SimpleNode& operator=(const SimpleNode& original);
-
-		private:
-			std::vector<std::reference_wrapper<Node> > connectedNodes;
-	};
+		return ("TreeNodes can only be connected to other TreeNodes.");
+	}
 }
-
-#endif /* SIMPLENODE_H_ */

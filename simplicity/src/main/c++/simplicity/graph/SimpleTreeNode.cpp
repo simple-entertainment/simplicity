@@ -14,31 +14,28 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include <algorithm>
 #include <stack>
 
+#include "../common/AddressEquals.h"
 #include "../math/MathFactory.h"
-#include "SimpleTreeNode.h"
+#include "NonTreeNodeException.h"
 #include "PreorderConstNodeIterator.h"
+#include "SimpleTreeNode.h"
 
 using namespace std;
 
 namespace simplicity
 {
 	SimpleTreeNode::SimpleTreeNode() :
-		children(), component(NULL), parent(NULL), transformation(
-			MathFactory::getInstance().createTransformationMatrix())
+		parent(NULL)
 	{
 	}
 
 	SimpleTreeNode::SimpleTreeNode(const SimpleTreeNode& original) :
-		children(), component(NULL), parent(NULL), transformation(
-			MathFactory::getInstance().createTransformationMatrix())
+		parent(NULL)
 	{
 		operator=(original);
-	}
-
-	SimpleTreeNode::~SimpleTreeNode()
-	{
 	}
 
 	void SimpleTreeNode::addChild(TreeNode& child)
@@ -46,9 +43,15 @@ namespace simplicity
 		children.push_back(child);
 	}
 
-	void SimpleTreeNode::connectTo(Node& parent)
+	void SimpleTreeNode::connectTo(Node& otherNode)
 	{
-		this->parent = dynamic_cast<TreeNode*>(&parent);
+		TreeNode* otherTreeNode = dynamic_cast<TreeNode*>(&otherNode);
+		if (otherTreeNode == NULL)
+		{
+			throw NonTreeNodeException();
+		}
+
+		addChild(*otherTreeNode);
 	}
 
 	std::shared_ptr<Node> SimpleTreeNode::copy() const
@@ -57,9 +60,15 @@ namespace simplicity
 		return copy;
 	}
 
-	void SimpleTreeNode::disconnectFrom(Node& parent)
+	void SimpleTreeNode::disconnectFrom(Node& otherNode)
 	{
-		this->parent = NULL;
+		TreeNode* otherTreeNode = dynamic_cast<TreeNode*>(&otherNode);
+		if (otherTreeNode == NULL)
+		{
+			return;
+		}
+
+		removeChild(*otherTreeNode);
 	}
 
 	unique_ptr<TransformationMatrix<> > SimpleTreeNode::getAbsoluteTransformation() const
@@ -84,36 +93,14 @@ namespace simplicity
 		return move(absoluteTransformation);
 	}
 
-	const vector<reference_wrapper<TreeNode> >& SimpleTreeNode::getChildren() const
+	vector<reference_wrapper<TreeNode> > SimpleTreeNode::getChildren() const
 	{
 		return children;
 	}
 
-	Component* SimpleTreeNode::getComponent() const
-	{
-		return component;
-	}
-
 	vector<reference_wrapper<Node> > SimpleTreeNode::getConnectedNodes() const
 	{
-		vector<reference_wrapper<Node> > connectedNodes;
-
-		if (parent != NULL)
-		{
-			connectedNodes.push_back(*parent);
-		}
-
-		for (reference_wrapper<TreeNode> child : children)
-		{
-			connectedNodes.push_back(child.get());
-		}
-
-		return connectedNodes;
-	}
-
-	int SimpleTreeNode::getId() const
-	{
-		return id;
+		return vector<reference_wrapper<Node> >(children.begin(), children.end());
 	}
 
 	TreeNode* SimpleTreeNode::getParent() const
@@ -121,19 +108,9 @@ namespace simplicity
 		return parent;
 	}
 
-	TransformationMatrix<>& SimpleTreeNode::getTransformation() const
-	{
-		return *transformation;
-	}
-
 	bool SimpleTreeNode::hasChildren() const
 	{
-		if (!children.empty())
-		{
-			return true;
-		}
-
-		return false;
+		return !children.empty();
 	}
 
 	bool SimpleTreeNode::isAncestor(const TreeNode& ancestor) const
@@ -170,41 +147,20 @@ namespace simplicity
 
 	SimpleTreeNode& SimpleTreeNode::operator=(const SimpleTreeNode& original)
 	{
-		setComponent(original.getComponent());
+		BaseNode::operator=(original);
 		children.clear();
-		setId(original.getId());
 		parent = NULL;
-		getTransformation().setData(original.getTransformation().getData());
 
 		return *this;
 	}
 
 	void SimpleTreeNode::removeChild(TreeNode& child)
 	{
-		for (vector<reference_wrapper<TreeNode> >::iterator iterator = children.begin(); iterator != children.end();
-			iterator++)
-			{
-			if (&(*iterator).get() == &child)
-			{
-				children.erase(iterator);
-				child.disconnectFrom(*child.getParent());
-				break;
-			}
-		}
+		children.erase(remove_if(children.begin(), children.end(), AddressEquals<TreeNode>(child)));
 	}
 
-	void SimpleTreeNode::setComponent(Component* component)
+	void SimpleTreeNode::setParent(TreeNode* parent)
 	{
-		this->component = component;
-	}
-
-	void SimpleTreeNode::setId(const int id)
-	{
-		this->id = id;
-	}
-
-	void SimpleTreeNode::setTransformation(unique_ptr<TransformationMatrix<> > transformation)
-	{
-		this->transformation = move(transformation);
+		this->parent = parent;
 	}
 }

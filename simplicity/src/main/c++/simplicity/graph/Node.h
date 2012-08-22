@@ -21,6 +21,7 @@
 
 #include "../Component.h"
 #include "../math/TransformationMatrix.h"
+#include "BoundingVolume.h"
 
 namespace simplicity
 {
@@ -45,6 +46,10 @@ namespace simplicity
 
 			virtual void disconnectFrom(Node& otherNode) = 0;
 
+			//virtual BoundingVolume* getBoundingVolume() = 0;
+
+			//virtual const BoundingVolume* getBoundingVolume() const = 0;
+
 			virtual Component* getComponent() const = 0;
 
 			virtual std::vector<std::reference_wrapper<Node> > getConnectedNodes() const = 0;
@@ -66,6 +71,8 @@ namespace simplicity
 			 * @return This <code>Node</code>'s relative position and orientation.
 			 */
 			virtual TransformationMatrix<>& getTransformation() const = 0;
+
+			//virtual void setBoundingVolume(shared_ptr<BoundingVolume> boundingVolume) = 0;
 
 			virtual void setComponent(Component* component) = 0;
 

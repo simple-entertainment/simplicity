@@ -40,7 +40,7 @@ namespace simplicity
 			MOCK_METHOD1(disconnectFrom, void(Node& parent));
 			MOCK_CONST_METHOD0(getComponent, Component*());
 			MOCK_CONST_METHOD0(getConnectedNodes, std::vector<std::reference_wrapper<Node> >());
-			MOCK_CONST_METHOD0(getChildren, const std::vector<std::reference_wrapper<TreeNode> >&());
+			MOCK_CONST_METHOD0(getChildren, std::vector<std::reference_wrapper<TreeNode> >());
 			MOCK_CONST_METHOD0(getId, int());
 			MOCK_CONST_METHOD0(getParent, TreeNode*());
 			MOCK_CONST_METHOD0(getTransformation, TransformationMatrix<>&());
@@ -50,6 +50,7 @@ namespace simplicity
 			MOCK_METHOD1(removeChild, void(TreeNode& child));
 			MOCK_METHOD1(setComponent, void(Component* id));
 			MOCK_METHOD1(setId, void(const int id));
+			MOCK_METHOD1(setParent, void(TreeNode* parent));
 			//MOCK_METHOD1(setTransformation, void(std::unique_ptr<TransformationMatrix<> > transformation));
 
 			// TODO Mock this properly when it is supported!

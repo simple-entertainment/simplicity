@@ -54,11 +54,11 @@ namespace simplicity
 		}
 
 		// If the current node has no children, backtrack to the next sibling.
-		const vector<reference_wrapper<TreeNode> >* siblings = &nextNode->getParent()->getChildren();
+		vector<reference_wrapper<TreeNode> > siblings = nextNode->getParent()->getChildren();
 
 		// While the current node has no more siblings, move to it's parent.
 		backtracksToNextNode++;
-		while (nextNode == &siblings->back().get())
+		while (nextNode == &siblings.back().get())
 		{
 			backtracksToNextNode++;
 			nextNode = nextNode->getParent();
@@ -69,11 +69,11 @@ namespace simplicity
 				return NULL;
 			}
 
-			siblings = &nextNode->getParent()->getChildren();
+			siblings = nextNode->getParent()->getChildren();
 		}
 
 		// If the next node has more siblings, move to it's next sibling.
-		vector<reference_wrapper<TreeNode> >::const_iterator iterator = find_if(siblings->begin(), siblings->end(),
+		vector<reference_wrapper<TreeNode> >::const_iterator iterator = find_if(siblings.begin(), siblings.end(),
 			AddressEquals<TreeNode>(*nextNode));
 		iterator++;
 

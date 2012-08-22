@@ -17,6 +17,8 @@
 #include <boost/math/constants/constants.hpp>
 
 #include <simplicity/common/AddressEquals.h>
+#include <simplicity/graph/NonTreeNodeException.h>
+#include <simplicity/graph/SimpleNode.h>
 #include <simplicity/math/SimpleTransformationMatrix.h>
 #include <simplicity/math/SimpleTranslationVector.h>
 #include <simplicity/model/shape/Sphere.h>
@@ -32,7 +34,7 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTreeNode#addChild(Node* const) addChild(Node* const)}.
+	 * Unit test the method {@link simplicity::SimpleTreeNode#addChild(TreeNode* const) addChild(TreeNode* const)}.
 	 * </p>
 	 */
 	TEST_F(SimpleTreeNodeTest, addChild)
@@ -46,6 +48,39 @@ namespace simplicity
 		// Verify test results.
 		ASSERT_EQ(&child, &objectUnderTest->getChildren().at(0).get());
 	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleTreeNode#connectTo(Node* const) connectTo(Node* const)}.
+	 * </p>
+	 */
+	TEST_F(SimpleTreeNodeTest, connectTo)
+	{
+		// Create dependencies.
+		SimpleTreeNode child;
+
+		// Perform test.
+		objectUnderTest->connectTo(child);
+
+		// Verify test results.
+		ASSERT_EQ(&child, &objectUnderTest->getChildren().at(0).get());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleTreeNode#connectTo(Node* const) connectTo(Node* const)} with the
+	 * special condition that the node being connected is not a TreeNode.
+	 * </p>
+	 */
+	TEST_F(SimpleTreeNodeTest, connectToNonTreeNode)
+	{
+		// Create dependencies.
+		SimpleNode child;
+
+		// Perform test - Verify test results.
+		ASSERT_THROW(objectUnderTest->connectTo(child), NonTreeNodeException);
+	}
+
 	/**
 	 * <p>
 	 * Unit test the method {@link simplicity::SimpleTreeNode#copy() copy()}.
@@ -152,6 +187,27 @@ namespace simplicity
 
 	/**
 	 * <p>
+	 * Unit test the method
+	 * {@link simplicity::SimpleTreeNode#disconnectFrom(Node* const) disconnectFrom(Node* const)}.
+	 * </p>
+	 */
+	TEST_F(SimpleTreeNodeTest, disconnectFrom)
+	{
+		SimpleTreeNode child;
+
+		objectUnderTest->addChild(child);
+
+		objectUnderTest->disconnectFrom(child);
+
+		vector<reference_wrapper<TreeNode> > children = objectUnderTest->getChildren();
+		vector<reference_wrapper<TreeNode> >::iterator iterator = find_if(children.begin(), children.end(),
+			AddressEquals<TreeNode>(child));
+		ASSERT_TRUE(iterator == children.end());
+		ASSERT_FALSE(child.getParent());
+	}
+
+	/**
+	 * <p>
 	 * Unit test the method {@link simplicity::SimpleTreeNode#getAbsoluteTransformation() getAbsoluteTransformation()}.
 	 * </p>
 	 */
@@ -180,7 +236,7 @@ namespace simplicity
 		ON_CALL(mockNode2, getParent()).WillByDefault(ReturnNull());
 
 		// Initialise test environment.
-		objectUnderTest->connectTo(mockNode1);
+		objectUnderTest->setParent(&mockNode1);
 
 		// Perform test - Verify test results.
 		bool equal = false;
@@ -214,17 +270,17 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTreeNode#isAncestor(Node* const) isAncestor(Node* const)}.
+	 * Unit test the method {@link simplicity::SimpleTreeNode#isAncestor(TreeNode* const) isAncestor(TreeNode* const)}.
 	 * </p>
 	 */
 	TEST_F(SimpleTreeNodeTest, isAncestor)
 	{
 		SimpleTreeNode child;
-		child.connectTo(*objectUnderTest);
+		child.setParent(objectUnderTest.get());
 		objectUnderTest->addChild(child);
 
 		SimpleTreeNode grandChild;
-		grandChild.connectTo(child);
+		grandChild.setParent(&child);
 		child.addChild(grandChild);
 
 		ASSERT_TRUE(child.isAncestor(*objectUnderTest));
@@ -236,17 +292,18 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTreeNode#isSuccessor(Node* const) isSuccessor(Node* const)}.
+	 * Unit test the method
+	 * {@link simplicity::SimpleTreeNode#isSuccessor(TreeNode* const) isSuccessor(TreeNode* const)}.
 	 * </p>
 	 */
 	TEST_F(SimpleTreeNodeTest, isSuccessor)
 	{
 		SimpleTreeNode child;
-		child.connectTo(*objectUnderTest);
+		child.setParent(objectUnderTest.get());
 		objectUnderTest->addChild(child);
 
 		SimpleTreeNode grandChild;
-		grandChild.connectTo(child);
+		grandChild.setParent(&child);
 		child.addChild(grandChild);
 
 		ASSERT_TRUE(child.isSuccessor(grandChild));
@@ -258,7 +315,8 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Unit test the method {@link simplicity::SimpleTreeNode#removeChild(Node* const) removeChild(Node* const)}.
+	 * Unit test the method
+	 * {@link simplicity::SimpleTreeNode#removeChild(TreeNode* const) removeChild(TreeNode* const)}.
 	 * </p>
 	 */
 	TEST_F(SimpleTreeNodeTest, removeChild)

@@ -74,7 +74,7 @@ namespace simplicity
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
-		EXPECT_CALL(*mockNode, connectTo(Ref(*root)));
+		EXPECT_CALL(*mockNode, setParent(root.get()));
 		EXPECT_CALL(*root, addChild(Ref(*mockNode)));
 
 		// Initialise the test environment.
@@ -108,9 +108,9 @@ namespace simplicity
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
 		EXPECT_CALL(*root, removeChild(Ref(*mockNode2)));
-		EXPECT_CALL(*mockNode2, disconnectFrom(Ref(*root)));
+		EXPECT_CALL(*mockNode2, setParent(NULL));
 		EXPECT_CALL(mockNode1, addChild(Ref(*mockNode2)));
-		EXPECT_CALL(*mockNode2, connectTo(Ref(mockNode1)));
+		EXPECT_CALL(*mockNode2, setParent(&mockNode1));
 
 		// Initialise the test environment.
 		// //////////////////////////////////////////////////
@@ -174,7 +174,7 @@ namespace simplicity
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
 		EXPECT_CALL(static_cast<MockTreeNode&>(objectUnderTest.getRoot()), removeChild(Ref(nodeRef)));
-		EXPECT_CALL(static_cast<MockTreeNode&>(nodeRef), disconnectFrom(Ref(objectUnderTest.getRoot())));
+		EXPECT_CALL(static_cast<MockTreeNode&>(nodeRef), setParent(NULL));
 
 		// Perform test.
 		// //////////////////////////////////////////////////
@@ -269,7 +269,7 @@ namespace simplicity
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockNode, getChildren()).WillByDefault(ReturnRef(children));
+		ON_CALL(*mockNode, getChildren()).WillByDefault(Return(children));
 		ON_CALL(*mockNode, getParent()).WillByDefault(Return(root.get()));
 
 		// Initialise the test environment.
