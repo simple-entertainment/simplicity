@@ -39,7 +39,7 @@ namespace simplicity
 	{
 		newEntities.push_back(entity);
 
-		Messages::send(ADD_ENTITY_EVENT, entity);
+		Messages::send(ADD_ENTITY_EVENT, cref(*entity));
 	}
 
 	void SimplicityEngine::addEntity(shared_ptr<Entity> entity, shared_ptr<TreeNode> node)
@@ -115,7 +115,7 @@ namespace simplicity
 
 	void SimplicityEngine::removeEntity(const Entity& entity)
 	{
-		Messages::send(REMOVE_ENTITY_EVENT, entity);
+		Messages::send(REMOVE_ENTITY_EVENT, cref(entity));
 
 		engine->removeEntity(entity);
 		entities.erase(entity.getName());
