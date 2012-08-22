@@ -23,13 +23,13 @@ namespace simplicity
 {
 	template<typename NodeType>
 	UndirectedGraph<NodeType>::UndirectedGraph() :
-		nextId(0)
+		nextId(0), nodes()
 	{
 	}
 
 	template<typename NodeType>
 	UndirectedGraph<NodeType>::UndirectedGraph(const UndirectedGraph<NodeType>& original) :
-		nextId(0)
+		nextId(0), nodes()
 	{
 		operator=(original);
 	}
@@ -117,6 +117,7 @@ namespace simplicity
 	UndirectedGraph<NodeType>& UndirectedGraph<NodeType>::operator=(const UndirectedGraph<NodeType>& original)
 	{
 		nextId = 0;
+		nodes.clear();
 
 		for (std::shared_ptr<NodeType> originalNode : original.getAll())
 		{
