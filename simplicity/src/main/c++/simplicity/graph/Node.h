@@ -36,6 +36,13 @@ namespace simplicity
 		public:
 			virtual void connectTo(Node& otherNode) = 0;
 
+			/**
+			 * <p>
+			 * Allows for polymorphic copying.
+			 * </p>
+			 */
+			virtual std::shared_ptr<Node> copy() const = 0;
+
 			virtual void disconnectFrom(Node& otherNode) = 0;
 
 			virtual Component* getComponent() const = 0;

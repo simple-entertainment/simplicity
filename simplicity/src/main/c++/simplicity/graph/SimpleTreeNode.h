@@ -26,11 +26,15 @@ namespace simplicity
 		public:
 			SimpleTreeNode();
 
+			SimpleTreeNode(const SimpleTreeNode& original);
+
 			virtual ~SimpleTreeNode();
 
 			void addChild(TreeNode& child);
 
 			void connectTo(Node& parent);
+
+			std::shared_ptr<Node> copy() const;
 
 			void disconnectFrom(Node& parent);
 
@@ -53,6 +57,8 @@ namespace simplicity
 			bool isAncestor(const TreeNode& ancestor) const;
 
 			bool isSuccessor(const TreeNode& successor) const;
+
+			SimpleTreeNode& operator=(const SimpleTreeNode& original);
 
 			void removeChild(TreeNode& child);
 

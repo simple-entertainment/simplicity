@@ -17,6 +17,7 @@
 #include <simplicity/math/SimpleTranslationVector.h>
 #include <simplicity/model/shape/Sphere.h>
 
+#include "MockNode.h"
 #include "SimpleNodeTest.h"
 
 using namespace std;
@@ -24,6 +25,59 @@ using namespace testing;
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleNode#connectTo(const SimpleNode&) connectTo(const SimpleNode&)}.
+	 * </p>
+	 */
+	TEST_F(SimpleNodeTest, connectTo)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		NiceMock<MockNode> mockNode;
+
+		// Perform test.
+		// //////////////////////////////////////////////////
+		objectUnderTest.connectTo(mockNode);
+
+		// Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_EQ(1u, objectUnderTest.getConnectedNodes().size());
+		ASSERT_EQ(&mockNode, &objectUnderTest.getConnectedNodes().at(0).get());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleNode#copy() copy()}.
+	 * </p>
+	 */
+	TEST_F(SimpleNodeTest, copy)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		Sphere component;
+		SimpleNode original;
+		original.setComponent(&component);
+		original.setId(1);
+
+		SimpleTranslationVector<> translation;
+		translation.setX(1.0f);
+		translation.setY(2.0f);
+		translation.setZ(3.0f);
+		original.getTransformation().translate(translation);
+
+		// Perform test.
+		// //////////////////////////////////////////////////
+		shared_ptr<Node> objectUnderTest = original.copy();
+
+		// Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_EQ(original.getComponent(), objectUnderTest->getComponent());
+		ASSERT_TRUE(objectUnderTest->getConnectedNodes().empty());
+		ASSERT_EQ(original.getId(), objectUnderTest->getId());
+		ASSERT_EQ(original.getTransformation(), objectUnderTest->getTransformation());
+	}
+
 	/**
 	 * <p>
 	 * Unit test the method {@link simplicity::SimpleNode#operator=(const SimpleNode&) operator=(const SimpleNode&)}.
@@ -51,6 +105,7 @@ namespace simplicity
 		// Verify test results.
 		// //////////////////////////////////////////////////
 		ASSERT_EQ(original.getComponent(), objectUnderTest.getComponent());
+		ASSERT_TRUE(objectUnderTest.getConnectedNodes().empty());
 		ASSERT_EQ(original.getId(), objectUnderTest.getId());
 		ASSERT_EQ(original.getTransformation(), objectUnderTest.getTransformation());
 	}
@@ -82,7 +137,33 @@ namespace simplicity
 		// Verify test results.
 		// //////////////////////////////////////////////////
 		ASSERT_EQ(original.getComponent(), objectUnderTest.getComponent());
+		ASSERT_TRUE(objectUnderTest.getConnectedNodes().empty());
 		ASSERT_EQ(original.getId(), objectUnderTest.getId());
 		ASSERT_EQ(original.getTransformation(), objectUnderTest.getTransformation());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method
+	 * {@link simplicity::SimpleNode#disconnectFrom(const SimpleNode&) disconnectFrom(const SimpleNode&)}.
+	 * </p>
+	 */
+	TEST_F(SimpleNodeTest, disconnectFrom)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		NiceMock<MockNode> mockNode;
+
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
+		objectUnderTest.connectTo(mockNode);
+
+		// Perform test.
+		// //////////////////////////////////////////////////
+		objectUnderTest.disconnectFrom(mockNode);
+
+		// Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_TRUE(objectUnderTest.getConnectedNodes().empty());
 	}
 }

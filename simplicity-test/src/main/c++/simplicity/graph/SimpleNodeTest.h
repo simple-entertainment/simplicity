@@ -25,6 +25,8 @@ namespace simplicity
 {
 	class SimpleNodeTest : public testing::Test
 	{
+		protected:
+			SimpleNode objectUnderTest;
 	};
 }
 

@@ -27,17 +27,25 @@ namespace simplicity
 		public:
 			UndirectedGraph();
 
+			UndirectedGraph(const UndirectedGraph<NodeType>& original);
+
 			NodeType& add(std::shared_ptr<NodeType> node);
 
 			void connect(NodeType& source, NodeType& destination);
 
 			void disconnect(NodeType& source, NodeType& destination);
 
+			bool exists(int id) const;
+
+			bool exists(NodeType& node) const;
+
 			NodeType& get(int id);
 
 			const NodeType& get(int id) const;
 
 			const std::vector<std::shared_ptr<NodeType> >& getAll() const;
+
+			UndirectedGraph<NodeType>& operator=(const UndirectedGraph<NodeType>& original);
 
 			void remove(NodeType& node);
 

@@ -28,6 +28,13 @@ namespace simplicity
 	}
 
 	template<typename NodeType>
+	UndirectedGraph<NodeType>::UndirectedGraph(const UndirectedGraph<NodeType>& original) :
+		nextId(0)
+	{
+		operator=(original);
+	}
+
+	template<typename NodeType>
 	NodeType& UndirectedGraph<NodeType>::add(std::shared_ptr<NodeType> node)
 	{
 		NodeType& nodeRef = *node;
@@ -50,6 +57,34 @@ namespace simplicity
 	{
 		source.disconnectFrom(destination);
 		destination.disconnectFrom(source);
+	}
+
+	template<typename NodeType>
+	bool UndirectedGraph<NodeType>::exists(int id) const
+	{
+		for (shared_ptr<NodeType> node : nodes)
+		{
+			if (node->getId() == id)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	template<typename NodeType>
+	bool UndirectedGraph<NodeType>::exists(NodeType& node) const
+	{
+		for (shared_ptr<NodeType> existingNode : nodes)
+		{
+			if (existingNode.get() == &node)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	template<typename NodeType>
@@ -76,6 +111,34 @@ namespace simplicity
 	const std::vector<std::shared_ptr<NodeType> >& UndirectedGraph<NodeType>::getAll() const
 	{
 		return nodes;
+	}
+
+	template<typename NodeType>
+	UndirectedGraph<NodeType>& UndirectedGraph<NodeType>::operator=(const UndirectedGraph<NodeType>& original)
+	{
+		nextId = 0;
+
+		for (std::shared_ptr<NodeType> originalNode : original.getAll())
+		{
+			std::shared_ptr<NodeType> node = originalNode->copy();
+
+			if (node->getId() >= nextId)
+			{
+				nextId = node->getId() + 1;
+			}
+
+			nodes.push_back(move(node));
+		}
+
+		for (std::shared_ptr<NodeType> originalNode : original.getAll())
+		{
+			for (std::reference_wrapper<NodeType> connectedNode : originalNode->getConnectedNodes())
+			{
+				get(originalNode->getId()).connectTo(get(connectedNode.get().getId()));
+			}
+		}
+
+		return *this;
 	}
 
 	template<typename NodeType>

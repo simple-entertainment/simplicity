@@ -34,6 +34,7 @@ namespace simplicity
 	{
 		public:
 			MOCK_METHOD1(connectTo, void(Node& otherNode));
+			MOCK_CONST_METHOD0(copy, std::shared_ptr<Node>());
 			MOCK_METHOD1(disconnectFrom, void(Node& otherNode));
 			MOCK_CONST_METHOD0(getComponent, Component*());
 			MOCK_CONST_METHOD0(getConnectedNodes, std::vector<std::reference_wrapper<Node> >());

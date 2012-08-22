@@ -84,6 +84,84 @@ namespace simplicity
 	/**
 	 * <p>
 	 * Unit test the method
+	 * {@link simplicity::UndirectedGraph::operator=(const UndirectedGraph<NodeType>&) copy(const UndirectedGraph<NodeType>&)}.
+	 * </p>
+	 */
+	TEST_F(UndirectedGraphTest, copyAssignment)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		UndirectedGraph<Node> original;
+		shared_ptr<Node> node1(new SimpleNode);
+		shared_ptr<Node> node2(new SimpleNode);
+		shared_ptr<Node> node3(new SimpleNode);
+
+		// Initialise test environment.
+		// //////////////////////////////////////////////////
+		original.add(node1);
+		original.add(node2);
+		original.add(node3);
+		original.connect(*node1, *node2);
+		original.connect(*node1, *node3);
+
+		// Perform test.
+		// //////////////////////////////////////////////////
+		UndirectedGraph<Node> objectUnderTest = original;
+
+		// Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_EQ(3u, objectUnderTest.getAll().size());
+		ASSERT_EQ(2u, objectUnderTest.getAll().at(0)->getConnectedNodes().size());
+		ASSERT_EQ(objectUnderTest.getAll().at(1).get(), &objectUnderTest.getAll().at(0)->getConnectedNodes().at(0).get());
+		ASSERT_EQ(objectUnderTest.getAll().at(2).get(), &objectUnderTest.getAll().at(0)->getConnectedNodes().at(1).get());
+		ASSERT_EQ(1u, objectUnderTest.getAll().at(1)->getConnectedNodes().size());
+		ASSERT_EQ(objectUnderTest.getAll().at(0).get(), &objectUnderTest.getAll().at(1)->getConnectedNodes().at(0).get());
+		ASSERT_EQ(1u, objectUnderTest.getAll().at(2)->getConnectedNodes().size());
+		ASSERT_EQ(objectUnderTest.getAll().at(0).get(), &objectUnderTest.getAll().at(2)->getConnectedNodes().at(0).get());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method
+	 * {@link simplicity::UndirectedGraph::UndirectedGraph(const UndirectedGraph<NodeType>&) copy(const UndirectedGraph<NodeType>&)}.
+	 * </p>
+	 */
+	TEST_F(UndirectedGraphTest, copyConstructor)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		UndirectedGraph<Node> original;
+		shared_ptr<Node> node1(new SimpleNode);
+		shared_ptr<Node> node2(new SimpleNode);
+		shared_ptr<Node> node3(new SimpleNode);
+
+		// Initialise test environment.
+		// //////////////////////////////////////////////////
+		original.add(node1);
+		original.add(node2);
+		original.add(node3);
+		original.connect(*node1, *node2);
+		original.connect(*node1, *node3);
+
+		// Perform test.
+		// //////////////////////////////////////////////////
+		UndirectedGraph<Node> objectUnderTest(original);
+
+		// Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_EQ(3u, objectUnderTest.getAll().size());
+		ASSERT_EQ(2u, objectUnderTest.getAll().at(0)->getConnectedNodes().size());
+		ASSERT_EQ(objectUnderTest.getAll().at(1).get(), &objectUnderTest.getAll().at(0)->getConnectedNodes().at(0).get());
+		ASSERT_EQ(objectUnderTest.getAll().at(2).get(), &objectUnderTest.getAll().at(0)->getConnectedNodes().at(1).get());
+		ASSERT_EQ(1u, objectUnderTest.getAll().at(1)->getConnectedNodes().size());
+		ASSERT_EQ(objectUnderTest.getAll().at(0).get(), &objectUnderTest.getAll().at(1)->getConnectedNodes().at(0).get());
+		ASSERT_EQ(1u, objectUnderTest.getAll().at(2)->getConnectedNodes().size());
+		ASSERT_EQ(objectUnderTest.getAll().at(0).get(), &objectUnderTest.getAll().at(2)->getConnectedNodes().at(0).get());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method
 	 * {@link simplicity::UndirectedGraph#disconnect(NodeType&, NodeType&) disconnect(NodeType&, NodeType&)}.
 	 * </p>
 	 */
@@ -108,6 +186,31 @@ namespace simplicity
 		// Perform test.
 		// //////////////////////////////////////////////////
 		objectUnderTest.disconnect(node1Ref, node2Ref);
+	}
+
+	/**
+	 * <p>
+	 * Unit test the methods {@link simplicity::UndirectedGraph#exists(NodeType&) exists(NodeType&)} and
+	 * {@link simplicity::UndirectedGraph#exists(int) exists(int)}.
+	 * </p>
+	 */
+	TEST_F(UndirectedGraphTest, exists)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		shared_ptr<Node> node1(new SimpleNode);
+		shared_ptr<Node> node2(new SimpleNode);
+
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
+		Node& node1Ref = objectUnderTest.add(move(node1));
+
+		// Perform test - Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_TRUE(objectUnderTest.exists(0));
+		ASSERT_FALSE(objectUnderTest.exists(1));
+		ASSERT_TRUE(objectUnderTest.exists(node1Ref));
+		ASSERT_FALSE(objectUnderTest.exists(*node2));
 	}
 
 	/**

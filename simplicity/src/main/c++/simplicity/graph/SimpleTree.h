@@ -33,6 +33,10 @@ namespace simplicity
 
 			void disconnect(NodeType& parent, NodeType& child);
 
+			bool exists(int id) const;
+
+			bool exists(NodeType& node) const;
+
 			NodeType& get(int id);
 
 			const NodeType& get(int id) const;

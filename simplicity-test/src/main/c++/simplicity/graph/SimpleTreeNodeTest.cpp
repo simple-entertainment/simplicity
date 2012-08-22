@@ -19,6 +19,7 @@
 #include <simplicity/common/AddressEquals.h>
 #include <simplicity/math/SimpleTransformationMatrix.h>
 #include <simplicity/math/SimpleTranslationVector.h>
+#include <simplicity/model/shape/Sphere.h>
 
 #include "MockTreeNode.h"
 #include "SimpleTreeNodeTest.h"
@@ -44,6 +45,109 @@ namespace simplicity
 
 		// Verify test results.
 		ASSERT_EQ(&child, &objectUnderTest->getChildren().at(0).get());
+	}
+	/**
+	 * <p>
+	 * Unit test the method {@link simplicity::SimpleTreeNode#copy() copy()}.
+	 * </p>
+	 */
+	TEST_F(SimpleTreeNodeTest, copy)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		Sphere component;
+		SimpleTreeNode original;
+		original.setComponent(&component);
+		original.setId(1);
+
+		SimpleTranslationVector<> translation;
+		translation.setX(1.0f);
+		translation.setY(2.0f);
+		translation.setZ(3.0f);
+		original.getTransformation().translate(translation);
+
+		// Perform test.
+		// //////////////////////////////////////////////////
+		shared_ptr<TreeNode> objectUnderTest = dynamic_pointer_cast<TreeNode>(original.copy());
+
+		// Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_TRUE(objectUnderTest->getChildren().empty());
+		ASSERT_EQ(original.getComponent(), objectUnderTest->getComponent());
+		ASSERT_TRUE(objectUnderTest->getConnectedNodes().empty());
+		ASSERT_EQ(original.getId(), objectUnderTest->getId());
+		ASSERT_EQ(NULL, objectUnderTest->getParent());
+		ASSERT_EQ(original.getTransformation(), objectUnderTest->getTransformation());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method
+	 * {@link simplicity::SimpleTreeNode#operator=(const SimpleNode&) operator=(const SimpleNode&)}.
+	 * </p>
+	 */
+	TEST_F(SimpleTreeNodeTest, copyAssignment)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		Sphere component;
+		SimpleTreeNode original;
+		original.setComponent(&component);
+		original.setId(1);
+
+		SimpleTranslationVector<> translation;
+		translation.setX(1.0f);
+		translation.setY(2.0f);
+		translation.setZ(3.0f);
+		original.getTransformation().translate(translation);
+
+		// Perform test.
+		// //////////////////////////////////////////////////
+		SimpleTreeNode objectUnderTest = original;
+
+		// Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_TRUE(objectUnderTest.getChildren().empty());
+		ASSERT_EQ(original.getComponent(), objectUnderTest.getComponent());
+		ASSERT_TRUE(objectUnderTest.getConnectedNodes().empty());
+		ASSERT_EQ(original.getId(), objectUnderTest.getId());
+		ASSERT_EQ(NULL, objectUnderTest.getParent());
+		ASSERT_EQ(original.getTransformation(), objectUnderTest.getTransformation());
+	}
+
+	/**
+	 * <p>
+	 * Unit test the method
+	 * {@link simplicity::SimpleTreeNode#SimpleNode(const SimpleNode&) SimpleNode(const SimpleNode&)}.
+	 * </p>
+	 */
+	TEST_F(SimpleTreeNodeTest, copyConstructor)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		Sphere component;
+		SimpleTreeNode original;
+		original.setComponent(&component);
+		original.setId(1);
+
+		SimpleTranslationVector<> translation;
+		translation.setX(1.0f);
+		translation.setY(2.0f);
+		translation.setZ(3.0f);
+		original.getTransformation().translate(translation);
+
+		// Perform test.
+		// //////////////////////////////////////////////////
+		SimpleTreeNode objectUnderTest(original);
+
+		// Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_TRUE(objectUnderTest.getChildren().empty());
+		ASSERT_EQ(original.getComponent(), objectUnderTest.getComponent());
+		ASSERT_TRUE(objectUnderTest.getConnectedNodes().empty());
+		ASSERT_EQ(original.getId(), objectUnderTest.getId());
+		ASSERT_EQ(NULL, objectUnderTest.getParent());
+		ASSERT_EQ(original.getTransformation(), objectUnderTest.getTransformation());
 	}
 
 	/**

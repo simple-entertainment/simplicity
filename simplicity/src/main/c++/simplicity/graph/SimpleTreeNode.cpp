@@ -30,6 +30,13 @@ namespace simplicity
 	{
 	}
 
+	SimpleTreeNode::SimpleTreeNode(const SimpleTreeNode& original) :
+		children(), component(NULL), parent(NULL), transformation(
+			MathFactory::getInstance().createTransformationMatrix())
+	{
+		operator=(original);
+	}
+
 	SimpleTreeNode::~SimpleTreeNode()
 	{
 	}
@@ -42,6 +49,12 @@ namespace simplicity
 	void SimpleTreeNode::connectTo(Node& parent)
 	{
 		this->parent = dynamic_cast<TreeNode*>(&parent);
+	}
+
+	std::shared_ptr<Node> SimpleTreeNode::copy() const
+	{
+		std::shared_ptr<Node> copy(new SimpleTreeNode(*this));
+		return copy;
 	}
 
 	void SimpleTreeNode::disconnectFrom(Node& parent)
@@ -153,6 +166,17 @@ namespace simplicity
 		}
 
 		return false;
+	}
+
+	SimpleTreeNode& SimpleTreeNode::operator=(const SimpleTreeNode& original)
+	{
+		setComponent(original.getComponent());
+		children.clear();
+		setId(original.getId());
+		parent = NULL;
+		getTransformation().setData(original.getTransformation().getData());
+
+		return *this;
 	}
 
 	void SimpleTreeNode::removeChild(TreeNode& child)

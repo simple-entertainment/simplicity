@@ -41,6 +41,8 @@ namespace simplicity
 
 			void connectTo(Node& otherNode);
 
+			std::shared_ptr<Node> copy() const;
+
 			void disconnectFrom(Node& otherNode);
 
 			Component* getComponent() const;

@@ -183,6 +183,31 @@ namespace simplicity
 
 	/**
 	 * <p>
+	 * Unit test the methods {@link simplicity::SimpleTree#exists(NodeType&) exists(NodeType&)} and
+	 * {@link simplicity::SimpleTree#exists(int) exists(int)}.
+	 * </p>
+	 */
+	TEST_F(SimpleTreeTest, exists)
+	{
+		// Create dependencies.
+		// //////////////////////////////////////////////////
+		shared_ptr<TreeNode> node1(new SimpleTreeNode);
+		shared_ptr<TreeNode> node2(new SimpleTreeNode);
+
+		// Initialise the test environment.
+		// //////////////////////////////////////////////////
+		SimpleTree<TreeNode> objectUnderTest(node1);
+
+		// Perform test - Verify test results.
+		// //////////////////////////////////////////////////
+		ASSERT_TRUE(objectUnderTest.exists(0));
+		ASSERT_FALSE(objectUnderTest.exists(1));
+		ASSERT_TRUE(objectUnderTest.exists(*node1));
+		ASSERT_FALSE(objectUnderTest.exists(*node2));
+	}
+
+	/**
+	 * <p>
 	 * Unit test the method {@link simplicity::SimpleTree#get(int) get(int)}.
 	 * </p>
 	 */

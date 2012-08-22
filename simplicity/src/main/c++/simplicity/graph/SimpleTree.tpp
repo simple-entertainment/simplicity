@@ -58,6 +58,34 @@ namespace simplicity
 	}
 
 	template<typename NodeType>
+	bool SimpleTree<NodeType>::exists(int id) const
+	{
+		for (shared_ptr<NodeType> node : nodes)
+		{
+			if (node->getId() == id)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	template<typename NodeType>
+	bool SimpleTree<NodeType>::exists(NodeType& node) const
+	{
+		for (shared_ptr<NodeType> existingNode : nodes)
+		{
+			if (existingNode.get() == &node)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	template<typename NodeType>
 	NodeType& SimpleTree<NodeType>::get(int id)
 	{
 		return const_cast<NodeType&>(static_cast<const SimpleTree<NodeType>&>(*this).get(id));

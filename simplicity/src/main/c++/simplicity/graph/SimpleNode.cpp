@@ -48,6 +48,12 @@ namespace simplicity
 		connectedNodes.push_back(otherNode);
 	}
 
+	std::shared_ptr<Node> SimpleNode::copy() const
+	{
+		std::shared_ptr<Node> copy(new SimpleNode(*this));
+		return copy;
+	}
+
 	void SimpleNode::disconnectFrom(Node& otherNode)
 	{
 		connectedNodes.erase(remove_if(connectedNodes.begin(), connectedNodes.end(), AddressEquals<Node>(otherNode)));
@@ -76,8 +82,9 @@ namespace simplicity
 	SimpleNode& SimpleNode::operator=(const SimpleNode& original)
 	{
 		setComponent(original.getComponent());
+		connectedNodes.clear();
 		setId(original.getId());
-		transformation->setData(original.getTransformation().getData());
+		getTransformation().setData(original.getTransformation().getData());
 
 		return *this;
 	}

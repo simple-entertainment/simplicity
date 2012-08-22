@@ -38,6 +38,8 @@ namespace simplicity
 			MOCK_METHOD1_T(add, NodeType&(std::shared_ptr<NodeType> node));
 			MOCK_METHOD2_T(connect, void(NodeType& parent, NodeType& child));
 			MOCK_METHOD2_T(disconnect, void(NodeType& parent, NodeType& child));
+			MOCK_CONST_METHOD1_T(exists, bool(int id));
+			MOCK_CONST_METHOD1_T(exists, bool(NodeType& node));
 			MOCK_METHOD1_T(get, NodeType&(int id));
 			MOCK_CONST_METHOD1_T(get, const NodeType&(int id));
 			MOCK_CONST_METHOD0_T(getAll, const std::vector<std::shared_ptr<NodeType> >&());

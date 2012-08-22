@@ -34,6 +34,10 @@ namespace simplicity
 
 			virtual void disconnect(NodeType& source, NodeType& destination) = 0;
 
+			virtual bool exists(int id) const = 0;
+
+			virtual bool exists(NodeType& node) const = 0;
+
 			virtual NodeType& get(int id) = 0;
 
 			virtual const NodeType& get(int id) const = 0;

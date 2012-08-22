@@ -36,6 +36,7 @@ namespace simplicity
 			MOCK_METHOD1(addChild, void(TreeNode& child));
 			//MOCK_CONST_METHOD0(getAbsoluteTransformation, std::unique_ptr<TransformationMatrix<> >());
 			MOCK_METHOD1(connectTo, void(Node& parent));
+			MOCK_CONST_METHOD0(copy, std::shared_ptr<Node>());
 			MOCK_METHOD1(disconnectFrom, void(Node& parent));
 			MOCK_CONST_METHOD0(getComponent, Component*());
 			MOCK_CONST_METHOD0(getConnectedNodes, std::vector<std::reference_wrapper<Node> >());
