@@ -15,11 +15,14 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include <simplicity/engine/EntityDoesNotExistException.h>
+#include <simplicity/Events.h>
+#include <simplicity/Messages.h>
 
 #include "../graph/MockTreeNode.h"
 #include "../graph/MockTree.h"
 #include "../MockComponent.h"
 #include "../scene/MockScene.h"
+#include "../Utilities.h"
 #include "MockEngine.h"
 #include "SimplicityEngineTest.h"
 
@@ -47,6 +50,8 @@ namespace simplicity
 
 		// Initialise test environment.
 		// //////////////////////////////////////////////////
+		Messages::registerRecipient(ADD_ENTITY_EVENT, Utilities::testRecipient);
+		Utilities::resetTestRecipient();
 		objectUnderTest.setEngine(mockEngine);
 
 		// Dictate expected behaviour.
@@ -61,6 +66,11 @@ namespace simplicity
 		// Verify test results.
 		// //////////////////////////////////////////////////
 		ASSERT_NO_THROW(objectUnderTest.getEntity("entity"));
+		ASSERT_TRUE(Utilities::hasTestRecipientBeenCalled());
+
+		// Cleanup test environment.
+		// //////////////////////////////////////////////////
+		Messages::deregisterRecipient(ADD_ENTITY_EVENT, Utilities::testRecipient);
 	}
 
 	/**
@@ -244,6 +254,8 @@ namespace simplicity
 
 		// Initialise test environment.
 		// //////////////////////////////////////////////////
+		Messages::registerRecipient(REMOVE_ENTITY_EVENT, Utilities::testRecipient);
+		Utilities::resetTestRecipient();
 		objectUnderTest.setEngine(mockEngine);
 		objectUnderTest.addEntity(entity);
 		objectUnderTest.advance(shared_ptr<EngineInput>());
@@ -259,6 +271,11 @@ namespace simplicity
 		// Verify test results.
 		// //////////////////////////////////////////////////
 		ASSERT_THROW(objectUnderTest.getEntity("entity"), EntityDoesNotExistException);
+		ASSERT_TRUE(Utilities::hasTestRecipientBeenCalled());
+
+		// Cleanup test environment.
+		// //////////////////////////////////////////////////
+		Messages::deregisterRecipient(ADD_ENTITY_EVENT, Utilities::testRecipient);
 	}
 
 	/**

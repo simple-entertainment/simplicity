@@ -15,18 +15,12 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include "MessagesTest.h"
+#include "Utilities.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	bool testRecipientCalled = false;
-
-	void testRecipient(boost::any message)
-	{
-		testRecipientCalled = true;
-	}
-
 	/**
 	 * <p>
 	 * Unit test the method
@@ -37,11 +31,11 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::function<Messages::Recipient> recipient(testRecipient);
+		std::function<Messages::Recipient> recipient(Utilities::testRecipient);
 
 		// Initialise test environment.
 		// //////////////////////////////////////////////////
-		testRecipientCalled = false;
+		Utilities::resetTestRecipient();
 		Messages::registerRecipient("test", recipient);
 
 		// Perform test.
@@ -51,7 +45,7 @@ namespace simplicity
 		// Verify test results.
 		// //////////////////////////////////////////////////
 		Messages::send("test", this);
-		ASSERT_FALSE(testRecipientCalled);
+		ASSERT_FALSE(Utilities::hasTestRecipientBeenCalled());
 	}
 
 	/**
@@ -64,11 +58,11 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::function<Messages::Recipient> recipient(testRecipient);
+		std::function<Messages::Recipient> recipient(Utilities::testRecipient);
 
 		// Initialise test environment.
 		// //////////////////////////////////////////////////
-		testRecipientCalled = false;
+		Utilities::resetTestRecipient();
 
 		// Perform test.
 		// //////////////////////////////////////////////////
@@ -77,7 +71,7 @@ namespace simplicity
 		// Verify test results.
 		// //////////////////////////////////////////////////
 		Messages::send("test", this);
-		ASSERT_TRUE(testRecipientCalled);
+		ASSERT_TRUE(Utilities::hasTestRecipientBeenCalled());
 	}
 
 	/**
@@ -89,11 +83,11 @@ namespace simplicity
 	{
 		// Create dependencies.
 		// //////////////////////////////////////////////////
-		std::function<Messages::Recipient> recipient(testRecipient);
+		std::function<Messages::Recipient> recipient(Utilities::testRecipient);
 
 		// Initialise test environment.
 		// //////////////////////////////////////////////////
-		testRecipientCalled = false;
+		Utilities::resetTestRecipient();
 		Messages::registerRecipient("test", recipient);
 
 		// Perform test.
@@ -102,6 +96,6 @@ namespace simplicity
 
 		// Verify test results.
 		// //////////////////////////////////////////////////
-		ASSERT_TRUE(testRecipientCalled);
+		ASSERT_TRUE(Utilities::hasTestRecipientBeenCalled());
 	}
 }

@@ -17,6 +17,8 @@
 #include <algorithm>
 
 #include "../common/AddressEquals.h"
+#include "../Events.h"
+#include "../Messages.h"
 #include "SimplicityEngine.h"
 #include "EntityDoesNotExistException.h"
 
@@ -36,6 +38,8 @@ namespace simplicity
 	void SimplicityEngine::addEntity(shared_ptr<Entity> entity)
 	{
 		newEntities.push_back(entity);
+
+		Messages::send(ADD_ENTITY_EVENT, entity);
 	}
 
 	void SimplicityEngine::addEntity(shared_ptr<Entity> entity, shared_ptr<TreeNode> node)
@@ -45,7 +49,8 @@ namespace simplicity
 
 	void SimplicityEngine::addEntity(shared_ptr<Entity> entity, shared_ptr<TreeNode> node, TreeNode& parent)
 	{
-		newEntities.push_back(entity);
+		addEntity(entity);
+
 		newNodes.insert(pair<shared_ptr<TreeNode>, reference_wrapper<TreeNode> >(node, parent));
 		nodes.insert(pair<Entity*, reference_wrapper<TreeNode> >(entity.get(), *node));
 	}
@@ -110,6 +115,8 @@ namespace simplicity
 
 	void SimplicityEngine::removeEntity(const Entity& entity)
 	{
+		Messages::send(REMOVE_ENTITY_EVENT, entity);
+
 		engine->removeEntity(entity);
 		entities.erase(entity.getName());
 

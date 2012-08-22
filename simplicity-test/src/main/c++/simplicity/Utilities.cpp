@@ -14,24 +14,27 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef EVENT_H_
-#define EVENT_H_
-
-#include <string>
+#include "Utilities.h"
 
 namespace simplicity
 {
-	const std::string ADD_ENTITY_EVENT = "Simplicity.entity.add";
+	namespace Utilities
+	{
+		int testRecipientCalled = false;
 
-	const std::string KEYBOARD_BUTTON_EVENT = "Simplicity.keyboard.button";
+		bool hasTestRecipientBeenCalled()
+		{
+			return testRecipientCalled;
+		}
 
-	const std::string MOUSE_BUTTON_EVENT = "Simplicity.mouse.button";
+		void resetTestRecipient()
+		{
+			testRecipientCalled = false;
+		}
 
-	const std::string MOUSE_MOVE_EVENT = "Simplicity.mouse.move";
-
-	const std::string PICK_EVENT = "Simplicity.pick";
-
-	const std::string REMOVE_ENTITY_EVENT = "Simplicity.entity.remove";
+		void testRecipient(boost::any message)
+		{
+			testRecipientCalled = true;
+		}
+	}
 }
-
-#endif /* EVENT_H_ */
