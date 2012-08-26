@@ -35,7 +35,7 @@ namespace simplicity
 		public:
 			MOCK_CONST_METHOD0(getEntity, const Entity&());
 			MOCK_METHOD1(setEntity, void(std::shared_ptr<Entity> entity));
-			MOCK_METHOD0(think, void());
+			MOCK_METHOD0(think, std::vector<std::shared_ptr<Action> >());
 	};
 }
 

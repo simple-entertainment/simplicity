@@ -14,38 +14,17 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLEANIMATIONENGINE_H_
-#define SIMPLEANIMATIONENGINE_H_
+#ifndef SIMPLEACTUATORENGINE_H_
+#define SIMPLEACTUATORENGINE_H_
 
 #include "../../engine/BaseEngine.h"
-#include "../Animator.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * An engine that manages {@link simplicity::Animator Animator}s. The managed <code>Animator</code>s will animate
-	 * during every advancement.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
-	class SimpleAnimationEngine : public BaseEngine
+	class SimpleActuatorEngine : public BaseEngine
 	{
 		public:
-			/**
-			 * <p>
-			 * Creates an instance of <code>SimpleAnimationEngine</code>.
-			 * </p>
-			 */
-			SimpleAnimationEngine();
-
-			/**
-			 * <p>
-			 * Disposes of an instance of <code>SimpleAnimationEngine</code>.
-			 * </p>
-			 */
-			virtual ~SimpleAnimationEngine();
+			SimpleActuatorEngine();
 
 			void addEntity(std::shared_ptr<Entity> entity);
 
@@ -53,29 +32,13 @@ namespace simplicity
 
 			void destroy();
 
-			/**
-			 * <p>
-			 * Retrieves the animators that are managed by this engine.
-			 * </p>
-			 *
-			 * @return The animators that are managed by this engine.
-			 */
-			const std::vector<std::shared_ptr<Animator> > getAnimators();
-
 			void removeEntity(const Entity& entity);
 
 		private:
-			/**
-			 * <p>
-			 * The animators that are managed by this engine.
-			 * </p>
-			 */
-			std::vector<std::shared_ptr<Animator> > animators;
-
 			void onInit();
 
 			void onReset();
 	};
 }
 
-#endif /* SIMPLEANIMATIONENGINE_H_ */
+#endif /* SIMPLEACTUATORENGINE_H_ */

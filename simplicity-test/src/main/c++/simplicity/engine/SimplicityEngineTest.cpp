@@ -46,7 +46,7 @@ namespace simplicity
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(shared_ptr<EngineInput>()));
+		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(vector<shared_ptr<Action> >()));
 
 		// Initialise test environment.
 		// //////////////////////////////////////////////////
@@ -61,7 +61,7 @@ namespace simplicity
 		// Perform test.
 		// //////////////////////////////////////////////////
 		objectUnderTest.addEntity(entity);
-		objectUnderTest.advance(shared_ptr<EngineInput>());
+		objectUnderTest.advance(vector<shared_ptr<Action> >());
 
 		// Verify test results.
 		// //////////////////////////////////////////////////
@@ -89,7 +89,7 @@ namespace simplicity
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(shared_ptr<EngineInput>()));
+		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(vector<shared_ptr<Action> >()));
 
 		// Initialise test environment.
 		// //////////////////////////////////////////////////
@@ -123,7 +123,7 @@ namespace simplicity
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(shared_ptr<EngineInput>()));
+		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(vector<shared_ptr<Action> >()));
 		ON_CALL(*mockScene, getTree()).WillByDefault(ReturnRef(mockTree));
 		ON_CALL(mockTree, getRoot()).WillByDefault(ReturnRef(mockRoot));
 
@@ -141,7 +141,7 @@ namespace simplicity
 		// Perform test.
 		// //////////////////////////////////////////////////
 		objectUnderTest.addEntity(entity, mockNode);
-		objectUnderTest.advance(shared_ptr<EngineInput>());
+		objectUnderTest.advance(vector<shared_ptr<Action> >());
 
 		// Verify test results.
 		// //////////////////////////////////////////////////
@@ -167,7 +167,7 @@ namespace simplicity
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(shared_ptr<EngineInput>()));
+		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(vector<shared_ptr<Action> >()));
 		ON_CALL(*mockScene, getTree()).WillByDefault(ReturnRef(mockTree));
 
 		// Initialise test environment.
@@ -184,7 +184,7 @@ namespace simplicity
 		// Perform test.
 		// //////////////////////////////////////////////////
 		objectUnderTest.addEntity(entity, mockNode, mockParent);
-		objectUnderTest.advance(shared_ptr<EngineInput>());
+		objectUnderTest.advance(vector<shared_ptr<Action> >());
 
 		// Verify test results.
 		// //////////////////////////////////////////////////
@@ -205,13 +205,13 @@ namespace simplicity
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(shared_ptr<EngineInput>()));
+		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(vector<shared_ptr<Action> >()));
 
 		// Initialise test environment.
 		// //////////////////////////////////////////////////
 		objectUnderTest.setEngine(mockEngine);
 		objectUnderTest.addEntity(entity);
-		objectUnderTest.advance(shared_ptr<EngineInput>());
+		objectUnderTest.advance(vector<shared_ptr<Action> >());
 
 		// Perform test.
 		// //////////////////////////////////////////////////
@@ -250,7 +250,7 @@ namespace simplicity
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(shared_ptr<EngineInput>()));
+		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(vector<shared_ptr<Action> >()));
 
 		// Initialise test environment.
 		// //////////////////////////////////////////////////
@@ -258,7 +258,7 @@ namespace simplicity
 		Utilities::resetTestRecipient();
 		objectUnderTest.setEngine(mockEngine);
 		objectUnderTest.addEntity(entity);
-		objectUnderTest.advance(shared_ptr<EngineInput>());
+		objectUnderTest.advance(vector<shared_ptr<Action> >());
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
@@ -297,7 +297,7 @@ namespace simplicity
 
 		// Provide stub behaviour.
 		// //////////////////////////////////////////////////
-		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(shared_ptr<EngineInput>()));
+		ON_CALL(*mockEngine, advance(_)).WillByDefault(Return(vector<shared_ptr<Action> >()));
 		ON_CALL(*mockScene, getTree()).WillByDefault(ReturnRef(mockTree));
 		ON_CALL(mockTree, add(mockNode)).WillByDefault(ReturnRef(*mockNode));
 		ON_CALL(mockTree, getRoot()).WillByDefault(ReturnRef(mockRoot));
@@ -307,7 +307,7 @@ namespace simplicity
 		objectUnderTest.setEngine(mockEngine);
 		objectUnderTest.setScene(mockScene);
 		objectUnderTest.addEntity(entity, mockNode);
-		objectUnderTest.advance(shared_ptr<EngineInput>());
+		objectUnderTest.advance(vector<shared_ptr<Action> >());
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////

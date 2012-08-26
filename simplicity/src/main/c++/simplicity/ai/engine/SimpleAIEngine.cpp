@@ -38,16 +38,17 @@ namespace simplicity
 		}
 	}
 
-	shared_ptr<EngineInput> SimpleAIEngine::advance(const shared_ptr<EngineInput> input)
+	vector<shared_ptr<Action> > SimpleAIEngine::advance(vector<shared_ptr<Action> > actions)
 	{
 		// Does not use C++11 for loop as elements could be added to the vector while iterating.
 		// Take care - this is a fragile 'solution'.
 		for (unsigned int index = 0; index < agents.size(); index++)
 		{
-			agents.at(index)->think();
+			vector<shared_ptr<Action> > agentActions = agents.at(index)->think();
+			actions.insert(actions.end(), agentActions.begin(), agentActions.end());
 		}
 
-		return shared_ptr<EngineInput>();
+		return actions;
 	}
 
 	void SimpleAIEngine::destroy()

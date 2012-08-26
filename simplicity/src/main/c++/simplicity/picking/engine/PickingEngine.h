@@ -38,13 +38,6 @@ namespace simplicity
 		public:
 			/**
 			 * <p>
-			 * Performs the outstanding picks against a {@link simplicity::Scene Scene}.
-			 * </p>
-			 */
-			virtual std::shared_ptr<EngineInput> advance(const std::shared_ptr<EngineInput> input) = 0;
-
-			/**
-			 * <p>
 			 * Retrieves the viewpoint that will be adapted to create the picking viewpoint.
 			 * </p>
 			 *

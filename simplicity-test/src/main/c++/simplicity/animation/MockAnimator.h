@@ -33,7 +33,7 @@ namespace simplicity
 	class MockAnimator : public Animator
 	{
 		public:
-			MOCK_METHOD0(animate, void());
+			MOCK_METHOD0(animate, std::vector<std::shared_ptr<Action> >());
 			MOCK_CONST_METHOD0(getEntity, const Entity&());
 			MOCK_METHOD1(setEntity, void(std::shared_ptr<Entity> entity));
 	};

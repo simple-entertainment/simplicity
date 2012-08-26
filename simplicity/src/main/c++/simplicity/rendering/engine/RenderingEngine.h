@@ -85,17 +85,6 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Renders the {@link simplicity::Scene Scene}.
-			 * </p>
-			 *
-			 * @param engineInput The {@link simplicity::EngineInput} to process during this advancement.
-			 *
-			 * @return The <code>EngineInput</code> for the next {@link simplicity::Engine Engine} in the chain.
-			 */
-			virtual std::shared_ptr<EngineInput> advance(const std::shared_ptr<EngineInput> engineInput) = 0;
-
-			/**
-			 * <p>
 			 * Retrieves the {@link simplicity::Camera Camera} through which the {@link simplicity::Scene Scene} will be
 			 * rendered.
 			 * </p>

@@ -16,7 +16,7 @@
  */
 #include <algorithm>
 
-#include "../SENotSupportedException.h"
+#include "../common/AddressEquals.h"
 #include "SimpleCompositeEngine.h"
 
 using namespace std;
@@ -24,7 +24,7 @@ using namespace std;
 namespace simplicity
 {
 	SimpleCompositeEngine::SimpleCompositeEngine() :
-		engines()
+		advanceIndex(0), compositeFrequency(1), engines()
 	{
 	}
 
@@ -39,29 +39,28 @@ namespace simplicity
 
 	void SimpleCompositeEngine::addEntity(shared_ptr<Entity> entity)
 	{
-		for (unsigned int index = 0; index < engines.size(); index++)
+		for (shared_ptr<Engine> engine : engines)
 		{
-			engines.at(index)->addEntity(entity);
+			engine->addEntity(entity);
 		}
 	}
 
-	shared_ptr<EngineInput> SimpleCompositeEngine::advance(const shared_ptr<EngineInput> input)
+	vector<shared_ptr<Action> > SimpleCompositeEngine::advance(vector<shared_ptr<Action> > actions)
 	{
 		advanceIndex++;
-		shared_ptr<EngineInput> currentInput = input;
+		vector<shared_ptr<Action> > currentActions = actions;
 
-		// For every sub-engine.
-		for (unsigned int index = 0; index < engines.size(); index++)
+		for (shared_ptr<Engine> engine : engines)
 		{
 			// If the sub-engine should be advanced at this time (if it's preferred frequency is a multiple of the
 			// composite frequency).
-			if (advanceIndex % (compositeFrequency / engines.at(index)->getPreferredFrequency()) == 0)
+			if (advanceIndex % (compositeFrequency / engine->getPreferredFrequency()) == 0)
 			{
-				currentInput = engines.at(index)->advance(currentInput);
+				currentActions = engine->advance(currentActions);
 			}
 		}
 
-		return (currentInput);
+		return currentActions;
 	}
 
 	int SimpleCompositeEngine::calculateLCD(int a, int b) const
@@ -86,83 +85,62 @@ namespace simplicity
 			return (a);
 		}
 
-		return (a * b / gcd);
+		return a * b / gcd;
 	}
 
 	void SimpleCompositeEngine::destroy()
 	{
-		for (unsigned int index = 0; index < engines.size(); index++)
+		for (shared_ptr<Engine> engine : engines)
 		{
-			engines.at(index)->destroy();
+			engine->destroy();
 		}
 	}
 
 	int SimpleCompositeEngine::getCompositeFrequency() const
 	{
-		int newCompositeFrequency = 1;
+		int compositeFrequency = 1;
 
-		if (!engines.empty())
+		for (shared_ptr<Engine> engine : engines)
 		{
-			newCompositeFrequency = engines.at(0)->getPreferredFrequency();
-
-			// For every sub-engine (except for the first one).
-			for (unsigned int index = 0; index < engines.size(); index++)
-			{
-				int preferredFrequency = engines.at(index)->getPreferredFrequency();
-
-				newCompositeFrequency = calculateLCD(newCompositeFrequency, preferredFrequency);
-			}
+			compositeFrequency = calculateLCD(compositeFrequency, engine->getPreferredFrequency());
 		}
 
-		return (newCompositeFrequency);
+		return compositeFrequency;
 	}
 
 	void SimpleCompositeEngine::onInit()
 	{
 		advanceIndex = 0;
 		compositeFrequency = getCompositeFrequency();
+		setPreferredFrequency(compositeFrequency);
 
-		BaseEngine::setPreferredFrequency(compositeFrequency);
-
-		for (unsigned int index = 0; index < engines.size(); index++)
+		for (shared_ptr<Engine> engine : engines)
 		{
-			engines.at(index)->init();
+			engine->init();
 		}
 	}
 
 	void SimpleCompositeEngine::onReset()
 	{
 		advanceIndex = 0;
-		compositeFrequency = getCompositeFrequency();
+		setPreferredFrequency(getCompositeFrequency());
 
-		BaseEngine::setPreferredFrequency(compositeFrequency);
-
-		for (unsigned int index = 0; index < engines.size(); index++)
+		for (shared_ptr<Engine> engine : engines)
 		{
-			engines.at(index)->reset();
+			engine->reset();
 		}
 	}
 
-	void SimpleCompositeEngine::removeEngine(const shared_ptr<Engine> engine)
+	void SimpleCompositeEngine::removeEngine(const Engine& engine)
 	{
-		vector<shared_ptr<Engine> >::iterator iterator = engines.begin();
-		for (unsigned int index = 0; index < engines.size(); index++)
-		{
-			if (engines.at(index) == engine)
-			{
-				engines.erase(iterator);
-				break;
-			}
-
-			iterator++;
-		}
+		engines.erase(remove_if(engines.begin(), engines.end(), AddressEquals<Engine>(engine)));
 	}
 
 	void SimpleCompositeEngine::removeEntity(const Entity& entity)
 	{
-		for (unsigned int index = 0; index < engines.size(); index++)
+		for (shared_ptr<Engine> engine : engines)
 		{
-			engines.at(index)->removeEntity(entity);
+			engine->removeEntity(entity);
 		}
 	}
 }

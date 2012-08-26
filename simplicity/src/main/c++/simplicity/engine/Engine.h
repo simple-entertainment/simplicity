@@ -17,8 +17,8 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
+#include "../action/Action.h"
 #include "../Entity.h"
-#include "EngineInput.h"
 
 namespace simplicity
 {
@@ -58,13 +58,13 @@ namespace simplicity
 			 * Advances this <code>Engine</code> by one cycle.
 			 * </p>
 			 *
-			 * @param input The {@link simplicity::EngineInput EngineInput} to process during this advancement.
+			 * @param actions The actions to process during this advancement.
 			 *
 			 * @throw SEEngineAdvancementException If this <code>Engine</code> fails to advance.
 			 *
 			 * @return The <code>EngineInput</code> for the next <code>Engine</code> in the chain.
 			 */
-			virtual std::shared_ptr<EngineInput> advance(const std::shared_ptr<EngineInput> input) = 0;
+			virtual std::vector<std::shared_ptr<Action> > advance(std::vector<std::shared_ptr<Action> > actions) = 0;
 
 			/**
 			 * <p>

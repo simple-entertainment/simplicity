@@ -35,7 +35,7 @@ namespace simplicity
 
 			void addEntity(std::shared_ptr<Entity> entity, std::shared_ptr<TreeNode> node, TreeNode& parent);
 
-			std::shared_ptr<EngineInput> advance(const std::shared_ptr<EngineInput> input);
+			std::vector<std::shared_ptr<Action> > advance(std::vector<std::shared_ptr<Action> > actions);
 
 			void destroy();
 

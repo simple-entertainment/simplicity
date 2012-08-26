@@ -86,12 +86,12 @@ namespace simplicity
 
 		// Dictate expected behaviour.
 		// //////////////////////////////////////////////////
-		EXPECT_CALL(*mockComponent0, animate());
-		EXPECT_CALL(*mockComponent1, animate());
-		EXPECT_CALL(*mockComponent2, animate());
+		EXPECT_CALL(*mockComponent0, animate()).WillOnce(Return(vector<shared_ptr<Action> >()));
+		EXPECT_CALL(*mockComponent1, animate()).WillOnce(Return(vector<shared_ptr<Action> >()));
+		EXPECT_CALL(*mockComponent2, animate()).WillOnce(Return(vector<shared_ptr<Action> >()));
 
 		// Perform test.
 		// //////////////////////////////////////////////////
-		objectUnderTest.advance(shared_ptr<EngineInput>());
+		objectUnderTest.advance(vector<shared_ptr<Action> >());
 	}
 }

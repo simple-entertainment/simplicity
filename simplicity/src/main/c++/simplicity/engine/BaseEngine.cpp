@@ -45,7 +45,7 @@ namespace simplicity
 
 	int BaseEngine::getPreferredFrequency() const
 	{
-		return (preferredFrequency);
+		return preferredFrequency;
 	}
 
 	void BaseEngine::init()
@@ -82,7 +82,7 @@ namespace simplicity
 
 			try
 			{
-				advance(std::shared_ptr<EngineInput>());
+				advance(vector<std::shared_ptr<Action> >());
 			}
 			catch (std::exception& e)
 			{

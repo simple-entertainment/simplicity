@@ -38,14 +38,15 @@ namespace simplicity
 		}
 	}
 
-	shared_ptr<EngineInput> SimpleAnimationEngine::advance(const shared_ptr<EngineInput> input)
+	vector<shared_ptr<Action> > SimpleAnimationEngine::advance(vector<shared_ptr<Action> > actions)
 	{
 		for (unsigned int index = 0; index < animators.size(); index++)
 		{
-			animators.at(index)->animate();
+			vector<shared_ptr<Action> > animatorActions = animators.at(index)->animate();
+			actions.insert(actions.end(), animatorActions.begin(), animatorActions.end());
 		}
 
-		return shared_ptr<EngineInput>();
+		return actions;
 	}
 
 	void SimpleAnimationEngine::destroy()

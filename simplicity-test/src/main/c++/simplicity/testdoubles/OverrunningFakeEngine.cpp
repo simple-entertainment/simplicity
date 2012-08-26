@@ -43,7 +43,7 @@ namespace simplicity
 	{
 	}
 
-	std::shared_ptr<EngineInput> OverrunningFakeEngine::advance(const std::shared_ptr<EngineInput> input)
+	vector<std::shared_ptr<Action> > OverrunningFakeEngine::advance(vector<std::shared_ptr<Action> > actions)
 	{
 		advanceCount++;
 
@@ -61,7 +61,7 @@ namespace simplicity
 			}
 		}
 
-		return std::shared_ptr<EngineInput>();
+		return actions;
 	}
 
 	void OverrunningFakeEngine::destroy()

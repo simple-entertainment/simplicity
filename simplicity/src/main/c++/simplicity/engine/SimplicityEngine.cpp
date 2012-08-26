@@ -55,7 +55,7 @@ namespace simplicity
 		nodes.insert(pair<Entity*, reference_wrapper<TreeNode> >(entity.get(), *node));
 	}
 
-	shared_ptr<EngineInput> SimplicityEngine::advance(const shared_ptr<EngineInput> input)
+	vector<shared_ptr<Action> > SimplicityEngine::advance(vector<shared_ptr<Action> > actions)
 	{
 		for (shared_ptr<Entity> newEntity : newEntities)
 		{
@@ -70,7 +70,7 @@ namespace simplicity
 		}
 		newNodes.clear();
 
-		return engine->advance(input);
+		return engine->advance(actions);
 	}
 
 	void SimplicityEngine::destroy()

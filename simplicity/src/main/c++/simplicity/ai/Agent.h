@@ -17,6 +17,7 @@
 #ifndef AGENT_H_
 #define AGENT_H_
 
+#include "../action/Action.h"
 #include "../Component.h"
 
 namespace simplicity
@@ -42,10 +43,12 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Make decisions and act upon them.
+			 * Make decisions.
 			 * </p>
+			 *
+			 * @return The actions that were decided.
 			 */
-			virtual void think() = 0;
+			virtual std::vector<std::shared_ptr<Action> > think() = 0;
 	};
 }
 

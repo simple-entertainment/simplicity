@@ -36,7 +36,7 @@ namespace simplicity
 			MOCK_METHOD1(addEntity, void(std::shared_ptr<Entity> entity));
 			MOCK_METHOD1(addRenderer, void(std::shared_ptr<Renderer> renderer));
 			MOCK_METHOD2(addRenderer, void(const int index, std::shared_ptr<Renderer> renderer));
-			MOCK_METHOD1(advance, std::shared_ptr<EngineInput>(const std::shared_ptr<EngineInput> input));
+			MOCK_METHOD1(advance, std::vector<std::shared_ptr<Action> >(std::vector<std::shared_ptr<Action> > actions));
 			MOCK_CONST_METHOD0(clearsBeforeRender, bool());MOCK_METHOD0(destroy, void());
 			MOCK_CONST_METHOD0(getCamera, std::shared_ptr<Camera>());
 			MOCK_CONST_METHOD0(getClearingColour, const ColourVector<>&());

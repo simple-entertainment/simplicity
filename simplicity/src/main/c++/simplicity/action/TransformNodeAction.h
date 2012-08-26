@@ -14,42 +14,34 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef ANIMATOR_H_
-#define ANIMATOR_H_
+#ifndef TRANSFORMNODEACTION_H_
+#define TRANSFORMNODEACTION_H_
 
-#include "../action/Action.h"
-#include "../Component.h"
+#include "Action.h"
+#include "../graph/Node.h"
+#include "../math/TransformationMatrix.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * An animator.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
-	class Animator : public virtual Component
+	class TransformNodeAction : public Action
 	{
 		public:
-			/**
-			 * <p>
-			 * Disposes of an instance of <code>Animator</code> (included to allow polymorphic deletion).
-			 * </p>
-			 */
-			virtual ~Animator()
-			{
-			}
+			TransformNodeAction(const Entity& entity, Node& node,
+				std::unique_ptr<TransformationMatrix<> > transformation);
 
-			/**
-			 * <p>
-			 * Advance the animation by one frame.
-			 * </p>
-			 *
-			 * @return The actions required to advance the animation by one frame.
-			 */
-			virtual std::vector<std::shared_ptr<Action> > animate() = 0;
+			const Entity& getEntity() const;
+
+			Node& getNode() const;
+
+			const TransformationMatrix<>& getTransformation() const;
+
+		private:
+			const Entity& entity;
+
+			Node& node;
+
+			std::unique_ptr<TransformationMatrix<> > transformation;
 	};
 }
 
-#endif /* ANIMATOR_H_ */
+#endif /* TRANSFORMNODEACTION_H_ */

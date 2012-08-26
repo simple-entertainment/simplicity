@@ -40,7 +40,7 @@ void nextDemo()
 {
 	if (demoIndex < demos.size() - 1)
 	{
-		engine->removeEngine(demos.at(demoIndex)->getEngine());
+		engine->removeEngine(*demos.at(demoIndex)->getEngine());
 		demos.at(demoIndex)->dispose();
 
 		demoIndex++;
@@ -54,7 +54,7 @@ void previousDemo()
 {
 	if (demoIndex > 0)
 	{
-		engine->removeEngine(demos.at(demoIndex)->getEngine());
+		engine->removeEngine(*demos.at(demoIndex)->getEngine());
 		demos.at(demoIndex)->dispose();
 
 		demoIndex--;
