@@ -14,32 +14,15 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../../math/MathFactory.h"
 #include "Capsule.h"
 
 namespace simplicity
 {
-	Capsule::Capsule() :
-		center(MathFactory::getInstance().createTranslationVector()), colour(
-			MathFactory::getInstance().createColourVector()), length(1.0f), radius(1.0f)
+	Capsule::Capsule(const Vector2& position, float length, float radius) :
+		Shape(position),
+		length(length),
+		radius(radius)
 	{
-		colour->setRed(1.0f);
-		colour->setGreen(1.0f);
-		colour->setBlue(1.0f);
-	}
-
-	Capsule::~Capsule()
-	{
-	}
-
-	const TranslationVector<>& Capsule::getCenter() const
-	{
-		return *center;
-	}
-
-	ColourVector<>& Capsule::getColour() const
-	{
-		return *colour;
 	}
 
 	float Capsule::getLength() const
@@ -52,9 +35,9 @@ namespace simplicity
 		return radius;
 	}
 
-	void Capsule::setColour(std::shared_ptr<ColourVector<> > colour)
+	void Capsule::render(Renderer& renderer) const
 	{
-		this->colour = colour;
+		renderer.render(*this);
 	}
 
 	void Capsule::setLength(const float length)

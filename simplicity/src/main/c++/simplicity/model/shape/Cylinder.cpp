@@ -14,32 +14,15 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../../math/MathFactory.h"
 #include "Cylinder.h"
 
 namespace simplicity
 {
-	Cylinder::Cylinder() :
-		center(MathFactory::getInstance().createTranslationVector()), colour(
-			MathFactory::getInstance().createColourVector()), length(1.0f), radius(1.0f)
+	Cylinder::Cylinder(const Vector2& position, float length, float radius) :
+		Shape(position),
+		length(length),
+		radius(radius)
 	{
-		colour->setRed(1.0f);
-		colour->setGreen(1.0f);
-		colour->setBlue(1.0f);
-	}
-
-	Cylinder::~Cylinder()
-	{
-	}
-
-	const TranslationVector<>& Cylinder::getCenter() const
-	{
-		return *center;
-	}
-
-	ColourVector<>& Cylinder::getColour() const
-	{
-		return *colour;
 	}
 
 	float Cylinder::getLength() const
@@ -52,9 +35,9 @@ namespace simplicity
 		return radius;
 	}
 
-	void Cylinder::setColour(std::shared_ptr<ColourVector<> > colour)
+	void Cylinder::render(Renderer& renderer) const
 	{
-		this->colour = colour;
+		renderer.render(*this);
 	}
 
 	void Cylinder::setLength(const float length)

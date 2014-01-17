@@ -12,121 +12,49 @@
 #ifndef RENDERER_H_
 #define RENDERER_H_
 
-#include "../model/Model.h"
-
 namespace simplicity
 {
-  /**
-   * <p>
-   * Renders {@link simplicity::Model Model}s.
-   * </p>
-   *
-   * <p>
-   * Any changes to settings made during the {@link simplicity::Renderer#init() init()} or
-   * {@link simplicity::Renderer#renderModel(Model) renderModel(Model)} methods should be reverted during the
-   * {@link simplicity::Renderer#dispose() dispose()} method. It is the responsibility of the <code>Renderer</code> to leave the rendering
-   * environment as it was found (except for contents of buffers) so that multiple <code>Renderer</code>s may be used together without effecting
-   * each other.
-   * </p>
-   *
-   * <p>
-   * When used within a {@link simplicity::RenderingEngine RenderingEngine}, the <code>Renderer</code> acts as a rendering pass.
-   * Adding multiple <code>Renderer</code>s to a <code>RenderingEngine</code> effectively creates a multi pass rendering environment. Since lighting
-   * settings may be changed by the <code>RenderingEngine</code>, they should be reverted to the state they were found in, not just the default state.
-   * </p>
-   *
-   * @author Gary Buyn
-   */
-  class Renderer
-  {
-    public:
-      /**
-       * <p>
-       * The drawing mode used to render a {@link simplicity::SceneGraph SceneGraph}. The modes are as follows:
-       * </p>
-       *
-       * @author Gary Buyn
-       */
-      enum DrawingMode
-      {
-        /**
-         * <p>
-         * Renders only the edges of the models.
-         * </p>
-         */
-        EDGES,
+	class Capsule;
+	class Circle;
+	class Cube;
+	class Cylinder;
+	template<unsigned int Dimensions>
+	class Line;
+	class Mesh;
+	class Model;
+	class Sphere;
+	class Text;
+	class Torus;
 
-        /**
-         * <p>
-         * Renders only the faces of the models.
-         * </p>
-         */
-        FACES,
+	class Renderer
+	{
+		public:
+			virtual ~Renderer()
+			{
+			}
 
-        /**
-         * <p>
-         * Renders only the vertices of the models.
-         * </p>
-         */
-        VERTICES
-      };
+			virtual void dispose() = 0;
 
-      /**
-       * <p>
-       * Disposes of an instance of <code>Renderer</code> (included to allow polymorphic deletion).
-       * </p>
-       */
-      virtual
-      ~Renderer()
-      {
-      }
+			virtual void init() = 0;
 
-      /**
-       * <p>
-       * Reverts the rendering environment.
-       * </p>
-       */
-      virtual void
-      dispose() = 0;
+			virtual void render(const Capsule& model) = 0;
 
-      /**
-       * <p>
-       * Receives the {@link simplicity::DrawingMode DrawingMode} used to render the {@link simplicity::Model Model}s.
-       * </p>
-       *
-       * @return The <code>DrawingMode</code> used to render the <code>Model</code>s.
-       */
-      virtual DrawingMode
-      getDrawingMode() const = 0;
+			virtual void render(const Circle& model) = 0;
 
-      /**
-       * <p>
-       * Initialises the rendering environment.
-       * </p>
-       */
-      virtual void
-      init() = 0;
+			virtual void render(const Cube& model) = 0;
 
-      /**
-       * <p>
-       * Renders the given {@link simplicity::Model Model}.
-       * </p>
-       *
-       * @param model The <code>Model</code> to render.
-       */
-      virtual void
-      renderModel(const Model& model) = 0;
+			virtual void render(const Cylinder& model) = 0;
 
-      /**
-       * <p>
-       * Sets the {@link simplicity::DrawingMode DrawingMode} used to render the {@link simplicity::Model Model} s.
-       * </p>
-       *
-       * @param mode The <code>DrawingMode</code> used to render the <code>Model</code>s.
-       */
-      virtual void
-      setDrawingMode(const DrawingMode mode) = 0;
-  };
+			virtual void render(const Line<2>& model) = 0;
+
+			virtual void render(const Mesh& model) = 0;
+
+			virtual void render(const Sphere& model) = 0;
+
+			virtual void render(const Text& model) = 0;
+
+			virtual void render(const Torus& model) = 0;
+	};
 }
 
 #endif /* RENDERER_H_ */

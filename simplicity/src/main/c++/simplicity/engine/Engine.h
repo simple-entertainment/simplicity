@@ -17,110 +17,26 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
-#include "../action/Action.h"
 #include "../Entity.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * A system that repeats a cycle of functionality. The cycles of functionality are atomic in the context of the
-	 * <code>Engine</code>. In environments where two or more <code>Engine</code>s are 'chained' together, the
-	 * {@link simplicity::EngineInput EngineInput} can be used to pass information from one <code>Engine</code> to the
-	 * next.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
 	class Engine
 	{
 		public:
-			/**
-			 * <p>
-			 * Disposes of an instance of <code>Engine</code> (included to allow polymorphic deletion).
-			 * </p>
-			 */
 			virtual ~Engine()
 			{
 			}
 
-			/**
-			 * <p>
-			 * Adds the given {@link simplicity::Entity Entity} to this <code>Engine</code>.
-			 * </p>
-			 *
-			 * @param entity The <code>Entity</code> to be added to this <code>Engine</code>.
-			 */
-			virtual void addEntity(std::shared_ptr<Entity> entity) = 0;
+			virtual void addEntity(Entity& entity) = 0;
 
-			/**
-			 * <p>
-			 * Advances this <code>Engine</code> by one cycle.
-			 * </p>
-			 *
-			 * @param actions The actions to process during this advancement.
-			 *
-			 * @throw SEEngineAdvancementException If this <code>Engine</code> fails to advance.
-			 *
-			 * @return The <code>EngineInput</code> for the next <code>Engine</code> in the chain.
-			 */
-			virtual std::vector<std::shared_ptr<Action> > advance(std::vector<std::shared_ptr<Action> > actions) = 0;
+			virtual void advance() = 0;
 
-			/**
-			 * <p>
-			 * Destroys this <code>Engine</code>.
-			 * </p>
-			 */
 			virtual void destroy() = 0;
 
-			/**
-			 * <p>
-			 * Retrieves the preferred frequency (advancements per second) of this <code>Engine</code>.
-			 * </p>
-			 *
-			 * @return The preferred frequency (advancements per second) of this <code>Engine</code>.
-			 */
-			virtual int getPreferredFrequency() const = 0;
-
-			/**
-			 * <p>
-			 * Initialises this <code>Engine</code>.
-			 * </p>
-			 */
 			virtual void init() = 0;
 
-			/**
-			 * <p>
-			 * Removes the given {@link simplicity::Entity Entity} from this <code>Engine</code>.
-			 * </p>
-			 *
-			 * @param entity The <code>Entity</code> to be removed from this <code>Engine</code>.
-			 */
 			virtual void removeEntity(const Entity& entity) = 0;
-
-			/**
-			 * <p>
-			 * Resets this <code>Engine</code> to it's initial properties.
-			 * </p>
-			 */
-			virtual void reset() = 0;
-
-			/**
-			 * <p>
-			 * Runs the <code>RunnableEngine</code> at the preferred frequency. To stop the <code>RunnableEngine</code>
-			 * interrupt the Boost thread it is running on.
-			 * </p>
-			 */
-			virtual void run() = 0;
-
-			/**
-			 * <p>
-			 * Sets the preferred frequency (advancements per second) of this <code>Engine</code>.
-			 * </p>
-			 *
-			 * @param preferredFrequency The preferred frequency (advancements per second) of this <code>Engine</code>.
-			 */
-			virtual void setPreferredFrequency(const int preferredFrequency) = 0;
 	};
 }
 

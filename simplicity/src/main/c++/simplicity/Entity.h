@@ -21,42 +21,48 @@
 #include <string>
 #include <vector>
 
+#include "math/Matrix.h"
+
 namespace simplicity
 {
 	class Component;
 
-	/**
-	 * <p>
-	 * An entity.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
 	class Entity
 	{
 		public:
-			/**
-			 * <p>
-			 * Creates an instance of <code>Entity</code>.
-			 * </p>
-			 */
-			Entity(const std::string& name);
+			static const unsigned short UNCATEGORIZED = 0;
+
+			Entity(unsigned short category = UNCATEGORIZED, const std::string& name = std::string());
 
 			/**
 			 * <p>
-			 * Disposes of an instance of <code>Entity</code>.
-			 * </p>
-			 */
-			virtual ~Entity();
-
-			/**
-			 * <p>
-			 * Adds a component.
+			 * Adds a shared component.
 			 * </p>
 			 *
 			 * @param component The component to add.
 			 */
-			void addComponent(std::shared_ptr<Component> component);
+			void addSharedComponent(std::shared_ptr<Component> component);
+
+			/**
+			 * <p>
+			 * Adds a unique component.
+			 * </p>
+			 *
+			 * @param component The component to add.
+			 */
+			void addUniqueComponent(std::unique_ptr<Component> component);
+
+			unsigned short getCategory() const;
+
+			/**
+			 * <p>
+			 * Retrieves a single component.
+			 * </p>
+			 *
+			 * @return The single component.
+			 */
+			template<typename ComponentType>
+			ComponentType* getComponent() const;
 
 			/**
 			 * <p>
@@ -65,8 +71,10 @@ namespace simplicity
 			 *
 			 * @return The components.
 			 */
-			template<typename ComponentType = Component>
-			std::vector<std::shared_ptr<ComponentType> > getComponents() const;
+			template<typename ComponentType>
+			std::vector<ComponentType*> getComponents() const;
+
+			unsigned int getId() const;
 
 			/**
 			 * <p>
@@ -77,15 +85,9 @@ namespace simplicity
 			 */
 			const std::string& getName() const;
 
-			/**
-			 * <p>
-			 * Retrieves a single component.
-			 * </p>
-			 *
-			 * @return The single component.
-			 */
-			template<typename ComponentType = Component>
-			std::shared_ptr<ComponentType> getSingleComponent() const;
+			Matrix44& getTransformation();
+
+			const Matrix44& getTransformation() const;
 
 			/**
 			 * <p>
@@ -94,15 +96,14 @@ namespace simplicity
 			 *
 			 * @param component The component to remove.
 			 */
-			void removeComponent(const Component& component);
+			void removeComponent(Component* component);
+
+			void setTransformation(Matrix44& transformation);
 
 		private:
-			/**
-			 * <p>
-			 * The components.
-			 * </p>
-			 */
-			std::vector<std::shared_ptr<Component> > components;
+			unsigned short category;
+
+			unsigned int id;
 
 			/**
 			 * <p>
@@ -110,6 +111,24 @@ namespace simplicity
 			 * </p>
 			 */
 			std::string name;
+
+			static unsigned int nextId;
+
+			/**
+			 * <p>
+			 * The shared components.
+			 * </p>
+			 */
+			std::vector<std::shared_ptr<Component>> sharedComponents;
+
+			Matrix44 transformation;
+
+			/**
+			 * <p>
+			 * The unique components.
+			 * </p>
+			 */
+			std::vector<std::unique_ptr<Component>> uniqueComponents;
 	};
 }
 

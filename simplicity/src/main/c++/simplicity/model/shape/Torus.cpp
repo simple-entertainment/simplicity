@@ -14,32 +14,15 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../../math/MathFactory.h"
 #include "Torus.h"
 
 namespace simplicity
 {
-	Torus::Torus() :
-		center(MathFactory::getInstance().createTranslationVector()), colour(
-			MathFactory::getInstance().createColourVector()), innerRadius(1.0f), outerRadius(2.0f)
+	Torus::Torus(const Vector2& position, float innerRadius, float outerRadius) :
+		Shape(position),
+		innerRadius(innerRadius),
+		outerRadius(outerRadius)
 	{
-		colour->setRed(1.0f);
-		colour->setGreen(1.0f);
-		colour->setBlue(1.0f);
-	}
-
-	Torus::~Torus()
-	{
-	}
-
-	const TranslationVector<>& Torus::getCenter() const
-	{
-		return *center;
-	}
-
-	ColourVector<>& Torus::getColour() const
-	{
-		return *colour;
 	}
 
 	float Torus::getInnerRadius() const
@@ -52,9 +35,9 @@ namespace simplicity
 		return outerRadius;
 	}
 
-	void Torus::setColour(std::shared_ptr<ColourVector<> > colour)
+	void Torus::render(Renderer& renderer) const
 	{
-		this->colour = colour;
+		renderer.render(*this);
 	}
 
 	void Torus::setInnerRadius(const float innerRadius)

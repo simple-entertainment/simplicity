@@ -21,34 +21,52 @@ using namespace std;
 namespace simplicity
 {
 	template<typename ComponentType>
-	vector<shared_ptr<ComponentType> > Entity::getComponents() const
+	ComponentType* Entity::getComponent() const
 	{
-		vector<shared_ptr<ComponentType> > typedComponents;
-
-		for (unsigned int index = 0; index < components.size(); index++)
+		for (unsigned int index = 0; index < uniqueComponents.size(); index++)
 		{
-			shared_ptr<ComponentType> component(dynamic_pointer_cast<ComponentType>(components.at(index)));
-			if (component.get() != NULL)
+			ComponentType* component = dynamic_cast<ComponentType*>(uniqueComponents[index].get());
+			if (component != NULL)
+			{
+				return component;
+			}
+		}
+
+		for (unsigned int index = 0; index < sharedComponents.size(); index++)
+		{
+			ComponentType* component = dynamic_cast<ComponentType*>(sharedComponents[index].get());
+			if (component != NULL)
+			{
+				return component;
+			}
+		}
+
+		return NULL;
+	}
+
+	template<typename ComponentType>
+	std::vector<ComponentType*> Entity::getComponents() const
+	{
+		std::vector<ComponentType*> typedComponents;
+
+		for (unsigned int index = 0; index < uniqueComponents.size(); index++)
+		{
+			ComponentType* component = dynamic_cast<ComponentType*>(uniqueComponents[index].get());
+			if (component != NULL)
+			{
+				typedComponents.push_back(component);
+			}
+		}
+
+		for (unsigned int index = 0; index < sharedComponents.size(); index++)
+		{
+			ComponentType* component = dynamic_cast<ComponentType*>(sharedComponents[index].get());
+			if (component != NULL)
 			{
 				typedComponents.push_back(component);
 			}
 		}
 
 		return typedComponents;
-	}
-
-	template<typename ComponentType>
-	std::shared_ptr<ComponentType> Entity::getSingleComponent() const
-	{
-		for (unsigned int index = 0; index < components.size(); index++)
-		{
-			shared_ptr<ComponentType> component(dynamic_pointer_cast<ComponentType>(components.at(index)));
-			if (component.get() != NULL)
-			{
-				return component;
-			}
-		}
-
-		return std::shared_ptr<ComponentType>();
 	}
 }

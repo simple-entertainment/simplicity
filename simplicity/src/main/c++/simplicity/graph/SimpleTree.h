@@ -17,47 +17,69 @@
 #ifndef SIMPLETREE_H_
 #define SIMPLETREE_H_
 
-#include "Tree.h"
+#include <vector>
+
+#include "../math/Matrix.h"
+#include "Graph.h"
 
 namespace simplicity
 {
-	template<typename NodeType>
-	class SimpleTree : public Tree<NodeType>
+	class SimpleTree : public Graph
 	{
 		public:
-			SimpleTree(std::shared_ptr<NodeType> root);
+			SimpleTree();
 
-			NodeType& add(std::shared_ptr<NodeType> node);
+			void addChild(std::unique_ptr<Graph> child);
 
-			void connect(NodeType& parent, NodeType& child);
+			void connectTo(Graph& graph);
 
-			void disconnect(NodeType& parent, NodeType& child);
+			void disconnectFrom(Graph& graph);
 
-			bool exists(int id) const;
+			Matrix44 getAbsoluteTransformation() const;
 
-			bool exists(NodeType& node) const;
+			const AABB2& getBoundary() const;
 
-			NodeType& get(int id);
+			std::vector<Graph*> getChildren() const;
 
-			const NodeType& get(int id) const;
+			std::vector<Entity*>& getEntities();
 
-			const std::vector<std::shared_ptr<NodeType> >& getAll() const;
+			const std::vector<Entity*>& getEntities() const;
 
-			NodeType& getRoot();
+			Graph* getParent();
 
-			const NodeType& getRoot() const;
+			const Graph* getParent() const;
 
-			void remove(NodeType& node);
+			Matrix44& getTransformation();
+
+			const Matrix44& getTransformation() const;
+
+			bool insert(Entity& entity);
+
+			std::vector<Entity*> queryRange(const AABB2& range) const;
+
+			bool remove(const Entity& entity);
+
+			std::unique_ptr<Graph> removeChild(Graph& child);
+
+			void setParent(Graph* parent);
+
+			void setTransformation(const Matrix44& transformation);
+
+			void update(Entity& entity);
 
 		private:
-			int nextId;
+			AABB2 boundary;
 
-			std::vector<std::shared_ptr<NodeType> > nodes;
+			std::vector<std::unique_ptr<Graph>> children;
 
-			NodeType& root;
+			std::vector<Graph*> connections;
+
+			std::vector<Entity*> entities;
+
+			Graph* parent;
+
+			Matrix44 transformation;
 	};
 }
-
-#include "SimpleTree.tpp"
 
 #endif /* SIMPLETREE_H_ */

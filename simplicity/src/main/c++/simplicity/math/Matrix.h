@@ -18,125 +18,74 @@
 #define MATRIX_H_
 
 #include <array>
-#include <memory>
+#include <ostream>
 
 namespace simplicity
 {
-	template<typename Data, unsigned int Size>
-	class Vector;
-
 	/**
 	 * <p>
 	 * A matrix.
 	 * </p>
-	 *
-	 * @author Gary Buyn
 	 */
-	template<typename Data = float, unsigned int Columns = 4, unsigned int Rows = 4>
+	template<typename Data, unsigned int Columns, unsigned int Rows>
 	class Matrix
 	{
 		public:
-			/**
-			 * <p>
-			 * Disposes of an instance of <code>Matrix</code> (included to allow polymorphic deletion).
-			 * </p>
-			 */
-			virtual ~Matrix()
-			{
-			}
+			Matrix();
 
-			/**
-			 * <p>
-			 * Retrieves the data for this <code>Matrix</code>.
-			 * </p>
-			 *
-			 * @return The data for this <code>Matrix</code>.
-			 */
-			virtual std::array<Data, Columns * Rows>& getData() = 0;
+			Matrix(const Matrix<Data, Columns, Rows>& original);
 
-			/**
-			 * <p>
-			 * Retrieves the data for this <code>Matrix</code>.
-			 * </p>
-			 *
-			 * @return The data for this <code>Matrix</code>.
-			 */
-			virtual const std::array<Data, Columns * Rows>& getData() const = 0;
+			Matrix(const std::array<Data, Columns * Rows>& data);
 
-			/**
-			 * <p>
-			 * Retrieves the determinant of this <code>Matrix</code>.
-			 * </p>
-			 *
-			 * @return The determinant of this <code>Matrix</code>.
-			 */
-			virtual Data getDeterminant() const = 0;
+			Matrix(Data* data);
 
-			/**
-			 * <p>
-			 * Attempts to set this <code>Matrix</code> to the inverse of this <code>Matrix</code>.
-			 * </p>
-			 *
-			 * @throw SEInvalidOperationException If this <code>SimpleMatrix</code> has a determinant of 0.
-			 */
-			virtual void invert() = 0;
+			~Matrix();
 
-			/**
-			 * <p>
-			 * Multiplies this <code>Matrix</code> with the <code>Matrix</code> given. The <code>Matrix</code> given is
-			 * placed on the right hand side of the equation.
-			 * </p>
-			 *
-			 * @param rhs The <code>Matrix</code> to be placed on the right hand side of the multiplication with
-			 * this <code>Matrix</code>.
-			 */
-			virtual void multiply(const Matrix<Data, Rows, Columns>& rhs) = 0;
+			Data* getData();
 
-			friend bool operator!=(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Rows, Columns>& rhs)
-			{
-				// Allows polymorphic equality checking.
-				return (!lhs.equals(rhs));
-			}
+			const Data* getData() const;
 
-			friend bool operator==(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Columns, Rows>& rhs)
-			{
-				// Allows polymorphic equality checking.
-				return (lhs.equals(rhs));
-			}
+			Data getDeterminant() const;
 
-			/**
-			 * <p>
-			 * Sets the data for this <code>Matrix</code>.
-			 * </p>
-			 *
-			 * @param data The data for this <code>Matrix</code>.
-			 */
-			virtual void setData(const std::array<Data, Columns * Rows>& data) = 0;
+			void invert();
 
-			/**
-			 * <p>
-			 * Sets this <code>Matrix</code> to the identity matrix.
-			 * </p>
-			 */
-			virtual void setIdentity() = 0;
+			Data& operator[](unsigned int index);
 
-			/**
-			 * <p>
-			 * Sets this <code>Matrix</code> to the transpose of this <code>Matrix</code>.
-			 * </p>
-			 */
-			virtual void transpose() = 0;
+			const Data& operator[](unsigned int index) const;
+
+			Matrix<Data, Columns, Rows>& operator*=(const Matrix<Data, Rows, Columns>& rhs);
+
+			Matrix<Data, Columns, Rows>& operator=(const Matrix<Data, Columns, Rows>& original);
+
+			void setData(const std::array<Data, Columns * Rows>& data);
+
+			void setData(Data* data);
+
+			void setIdentity();
+
+			void transpose();
 
 		private:
-			/**
-			 * <p>
-			 * Called by the == operator to allow polymorphic equality checking.
-			 * </p>
-			 *
-			 * @param otherMatrix The <code>Matrix</code> to compare with this <code>Matrix</code>.
-			 */
-			virtual bool equals(const Matrix<Data, Columns, Rows>& otherMatrix) const = 0;
+			Data* data;
 	};
+
+	typedef Matrix<float, 3, 3> Matrix33;
+
+	typedef Matrix<float, 4, 4> Matrix44;
+
+	template<typename Data, unsigned int Columns, unsigned int Rows>
+	Matrix<Data, Columns, Rows> operator*(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Rows, Columns>& rhs);
+
+	template<typename Data, unsigned int Columns, unsigned int Rows>
+	bool operator!=(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Columns, Rows>& rhs);
+
+	template<typename Data, unsigned int Columns, unsigned int Rows>
+	std::ostream& operator<<(std::ostream& stream, const Matrix<Data, Columns, Rows>& matrix);
+
+	template<typename Data, unsigned int Columns, unsigned int Rows>
+	bool operator==(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Columns, Rows>& rhs);
 }
+
+#include "Matrix.tpp"
 
 #endif /* MATRIX_H_ */

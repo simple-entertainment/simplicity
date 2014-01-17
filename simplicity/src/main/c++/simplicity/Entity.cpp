@@ -17,25 +17,43 @@
 #include <algorithm>
 
 #include "common/AddressEquals.h"
-
+#include "Component.h"
 #include "Entity.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	Entity::Entity(const string& name) :
-		components(), name(name)
+	unsigned int Entity::nextId = 0;
+
+	Entity::Entity(unsigned short category, const std::string& name) :
+		category(category),
+		id(nextId++),
+		name(name),
+		sharedComponents(),
+		transformation(),
+		uniqueComponents()
 	{
 	}
 
-	Entity::~Entity()
+	void Entity::addSharedComponent(shared_ptr<Component> component)
 	{
+		sharedComponents.push_back(component);
 	}
 
-	void Entity::addComponent(shared_ptr<Component> component)
+	void Entity::addUniqueComponent(unique_ptr<Component> component)
 	{
-		components.push_back(component);
+		uniqueComponents.push_back(move(component));
+	}
+
+	unsigned short Entity::getCategory() const
+	{
+		return category;
+	}
+
+	unsigned int Entity::getId() const
+	{
+		return id;
 	}
 
 	const string& Entity::getName() const
@@ -43,11 +61,38 @@ namespace simplicity
 		return name;
 	}
 
-	void Entity::removeComponent(const Component& component)
+	Matrix44& Entity::getTransformation()
 	{
-		vector<shared_ptr<Component> >::iterator sharedComponent(
-			find_if(components.begin(), components.end(), AddressEquals<Component>(component)));
+		return transformation;
+	}
 
-		components.erase(sharedComponent);
+	const Matrix44& Entity::getTransformation() const
+	{
+		return transformation;
+	}
+
+	void Entity::removeComponent(Component* component)
+	{
+		vector<unique_ptr<Component>>::iterator uniqueResult =
+				find_if(uniqueComponents.begin(), uniqueComponents.end(), AddressEquals<Component>(*component));
+		if (uniqueResult != uniqueComponents.end())
+		{
+			uniqueComponents.erase(uniqueResult);
+			component = NULL;
+			return;
+		}
+
+		vector<shared_ptr<Component>>::iterator sharedResult =
+				find_if(sharedComponents.begin(), sharedComponents.end(), AddressEquals<Component>(*component));
+		if (sharedResult != sharedComponents.end())
+		{
+			sharedComponents.erase(sharedResult);
+			component = NULL;
+		}
+	}
+
+	void Entity::setTransformation(Matrix44& transformation)
+	{
+		this->transformation = transformation;
 	}
 }

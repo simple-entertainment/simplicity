@@ -17,241 +17,140 @@
 #ifndef VECTOR_H_
 #define VECTOR_H_
 
-#include "Matrix.h"
+#include <array>
+#include <ostream>
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * A vector.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
-	template<typename Data = float, unsigned int Size = 4>
+	template<typename Data, unsigned int Size>
 	class Vector
 	{
 		public:
-			/**
-			 * <p>
-			 * Disposes of an instance of <code>Vector</code> (included to allow polymorphic deletion).
-			 * </p>
-			 */
-			virtual ~Vector()
-			{
-			}
+			Vector();
 
-			/**
-			 * <p>
-			 * Adds the <code>Vector</code> given to this <code>Vector</code>.
-			 * <p>
-			 *
-			 * <p>
-			 * This method assumes both <code>Vector</code>s to be homogenised.
-			 * </p>
-			 *
-			 * @param rhs The <code>Vector</code> to add to this <code>Vector</code>.
-			 */
-			virtual void add(const Vector<Data, Size>& rhs) = 0;
+			Vector(const Vector<Data, Size>& original);
 
-			/**
-			 * <p>
-			 * Performs a cross product of this <code>Vector</code> and the <code>Vector</code> given. The
-			 * <code>Vector</code> given is placed on the right hand side of the equation.
-			 * </p>
-			 *
-			 * <p>
-			 * This method assumes both <code>Vector</code>s to be homogenised.
-			 * </p>
-			 *
-			 * @param rhs The <code>Vector</code> to be placed on the right hand side of the equation.
-			 *
-			 * @return A new <code>Vector</code> that is the result of the cross product of this <code>Vector</code> and
-			 * the <code>Vector</code> given.
-			 */
-			virtual std::unique_ptr<Vector<Data, Size> > crossProduct(const Vector<Data, Size>& rhs) const = 0;
+			Vector(const std::array<Data, Size>& data);
 
-			/**
-			 * <p>
-			 * Performs a dot product of this <code>Vector</code> and the <code>Vector</code> given
-			 * </p>
-			 *
-			 * <p>
-			 * This method assumes both <code>Vector</code>s to be homogenised.
-			 * </p>
-			 *
-			 * @param otherVector The <code>Vector</code> to perform the dot product with.
-			 *
-			 * @return The dot product of this <code>Vector</code> and the <code>Vector</code> given.
-			 */
-			virtual float dotProduct(const Vector<Data, Size>& otherVector) = 0;
+			Vector(Data* data, bool takeOwnership);
 
-			/**
-			 * <p>
-			 * Retrieves the data for this <code>Vector</code>.
-			 * </p>
-			 *
-			 * @return The data for this <code>Vector</code>.
-			 */
-			virtual std::array<Data, Size>& getData() = 0;
+			Vector(Data d0, Data d1);
 
-			/**
-			 * <p>
-			 * Retrieves the data for this <code>Vector</code>.
-			 * </p>
-			 *
-			 * @return The data for this <code>Vector</code>.
-			 */
-			virtual const std::array<Data, Size>& getData() const = 0;
+			Vector(Data d0, Data d1, Data d2);
 
-			/**
-			 * <p>
-			 * Retrieves the length of this <code>Vector</code>.
-			 * </p>
-			 *
-			 * @return The length of this <code>Vector</code>.
-			 */
-			virtual Data getLength() const = 0;
+			Vector(Data d0, Data d1, Data d2, Data d3);
 
-			/**
-			 * <p>
-			 * Retrieves the length of this <code>Vector</code> squared.
-			 * </p>
-			 *
-			 * @return The length of this <code>Vector</code> squared.
-			 */
-			virtual Data getLengthSquared() const = 0;
+			~Vector();
 
-			/**
-			 * <p>
-			 * Homogenises this <code>Vector</code>.
-			 * </p>
-			 *
-			 * <p>
-			 * Scales all values equally so that the <code>w</code> value of this <code>Vector</code> is
-			 * <code>1.0f</code>.
-			 * </p>
-			 */
-			virtual void homogenize() = 0;
+			Data& A();
 
-			/**
-			 * <p>
-			 * Negates this <code>Vector</code>.
-			 * </p>
-			 */
-			virtual void negate() = 0;
+			const Data& A() const;
 
-			/**
-			 * <p>
-			 * Scales this <code>Vector</code> to a unit length vector.
-			 * </p>
-			 */
-			virtual void normalize() = 0;
+			Data& B();
 
-			friend bool operator!=(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
-			{
-				// Allows polymorphic equality checking.
-				return (!lhs.equals(rhs));
-			}
+			const Data& B() const;
 
-			/**
-			 * <p>
-			 * Multiplies this <code>Vector</code> with the {@link simplicity::Matrix Matrix} given. If the given
-			 * <code>Matrix</code> is placed on the right hand side of the equation (the default), this
-			 * <code>Vector</code> is treated as a row vector and multiplied as follows:
-			 * </p>
-			 *
-			 * <pre>
-			 * -----------------     -----------------
-			 * | x | x | x | x |  *  | x | x | x | x |
-			 * -----------------     -----------------
-			 *                       | x | x | x | x |
-			 *                       -----------------
-			 *                       | x | x | x | x |
-			 *                       -----------------
-			 *                       | x | x | x | x |
-			 *                       -----------------
-			 * </pre>
-			 *
-			 * <p>
-			 * If the given <code>Matrix</code> is placed on the left hand side of the equation, this
-			 * <code>Vector</code> is treated as a column vector and multiplied as follows:
-			 * </p>
-			 *
-			 * <pre>
-			 * ----------------     -----
-			 *  x | x | x | x |  *  | x |
-			 * ----------------     -----
-			 *  x | x | x | x |     | x |
-			 * ----------------     -----
-			 *  x | x | x | x |     | x |
-			 * ----------------     -----
-			 *  x | x | x | x |     | x |
-			 * ----------------     -----
-			 * </pre>
-			 *
-			 * @param matrix The <code>Matrix</code> to multiply this vector by.
-			 * @param rhs Determines if the given <code>Matrix</code> should be placed on the right hand side of the
-			 * equation.
-			 */
-			virtual void multiply(const Matrix<Data, Size, Size>& matrix, const bool rhs = true) = 0;
+			Data& G();
 
-			/**
-			 * <p>
-			 * Multiplies this <code>Vector</code> with the given <code>Vector</code>.
-			 * </p>
-			 *
-			 * @param rhs The <code>Vector</code> to be placed on the right hand side of the equation.
-			 */
-			virtual void multiply(const Vector<Data, Size>& rhs) = 0;
+			const Data& G() const;
 
-			friend bool operator==(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
-			{
-				// Allows polymorphic equality checking.
-				return (lhs.equals(rhs));
-			}
+			Data* getData();
 
-			/**
-			 * <p>
-			 * Scales this <code>Vector</code> by the scalar given.
-			 * </p>
-			 *
-			 * @param scalar The factor to scale by.
-			 */
-			virtual void scale(const Data scalar) = 0;
+			const Data* getData() const;
 
-			/**
-			 * <p>
-			 * Sets the data for this <code>Vector</code>.
-			 * </p>
-			 *
-			 * @param data The data for this <code>Vector</code>.
-			 */
-			virtual void setData(const std::array<Data, Size>& data) = 0;
+			Data getMagnitude() const;
 
-			/**
-			 * <p>
-			 * Subtracts the <code>Vector</code> given from this <code>Vector</code>.
-			 * <p>
-			 *
-			 * <p>
-			 * This method assumes both <code>Vector</code>s to be homogenised.
-			 * </p>
-			 *
-			 * @param rhs The <code>Vector</code> to subtract from this <code>Vector</code>.
-			 */
-			virtual void subtract(const Vector<Data, Size>& rhs) = 0;
+			Data getMagnitudeSquared() const;
+
+			void negate();
+
+			void normalize();
+
+			Vector<Data, Size>& operator/=(const Vector<Data, Size>& rhs);
+
+			Vector<Data, Size>& operator/=(const Data scalar);
+
+			Data& operator[](unsigned int index);
+
+			const Data& operator[](unsigned int index) const;
+
+			Vector<Data, Size>& operator*=(const Vector<Data, Size>& rhs);
+
+			Vector<Data, Size>& operator*=(const Data scalar);
+
+			Vector<Data, Size>& operator+=(const Vector<Data, Size>& rhs);
+
+			Vector<Data, Size>& operator=(const Vector<Data, Size>& original);
+
+			Vector<Data, Size>& operator-=(const Vector<Data, Size>& rhs);
+
+			Data& R();
+
+			const Data& R() const;
+
+			void setData(const std::array<Data, Size>& data);
+
+			void setData(Data* data, bool takeOwnership);
+
+			Data& W();
+
+			Data& X();
+
+			Data& Y();
+
+			Data& Z();
+
+			const Data& W() const;
+
+			const Data& X() const;
+
+			const Data& Y() const;
+
+			const Data& Z() const;
 
 		private:
-			/**
-			 * <p>
-			 * Called by the == operator to allow polymorphic equality checking.
-			 * </p>
-			 *
-			 * @param otherVector The <code>Vector</code> to compare with this <code>Vector</code>.
-			 */
-			virtual bool equals(const Vector<Data, Size>& otherVector) const = 0;
+			Data* data;
+
+			bool dataOwner;
 	};
+
+	typedef Vector<float, 2> Vector2;
+
+	typedef Vector<float, 3> Vector3;
+
+	typedef Vector<float, 4> Vector4;
+
+	template<typename Data, unsigned int Size>
+	Data dotProduct(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
+
+	template<typename Data, unsigned int Size>
+	bool operator!=(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
+
+	template<typename Data, unsigned int Size>
+	Vector<Data, Size> operator/(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
+
+	template<typename Data, unsigned int Size>
+	Vector<Data, Size> operator/(const Vector<Data, Size>& lhs, Data scalar);
+
+	template<typename Data, unsigned int Size>
+	Vector<Data, Size> operator*(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
+
+	template<typename Data, unsigned int Size>
+	Vector<Data, Size> operator*(const Vector<Data, Size>& lhs, Data scalar);
+
+	template<typename Data, unsigned int Size>
+	Vector<Data, Size> operator+(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
+
+	template<typename Data, unsigned int Size>
+	Vector<Data, Size> operator-(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
+
+	template<typename Data, unsigned int Size>
+	std::ostream& operator<<(std::ostream& stream, const Vector<Data, Size>& vector);
+
+	template<typename Data, unsigned int Size>
+	bool operator==(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
 }
+
+#include "Vector.tpp"
 
 #endif /* VECTOR_H_ */

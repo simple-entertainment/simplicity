@@ -18,46 +18,50 @@
 #define MODEL_H_
 
 #include "../Component.h"
-#include "../graph/TreeNode.h"
+#include "../math/Vector.h"
+#include "../rendering/Renderer.h"
+#include "../rendering/Texture.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * A visible element in a virtual universe.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
-	class Model : public virtual Component
+	class Model : public Component
 	{
 		public:
-			/**
-			 * <p>
-			 * Retrieves the point at the center of this <code>Model</code>.
-			 * </p>
-			 *
-			 * @return The point at the center of this <code>Model</code>.
-			 */
-			virtual const TranslationVector<>& getCenter() const = 0;
+			enum PrimitiveType
+			{
+				LINE_LIST,
+				LINE_STRIP,
+				NA,
+				POINTS,
+				TRIANGLE_LIST,
+				TRIANGLE_STRIP
+			};
 
-			/**
-			 * <p>
-			 * Retrieves the location of this <code>Model</code> within the scene.
-			 * </p>
-			 *
-			 * @return The location of this <code>Model</code> within the scene.
-			 */
-			virtual TreeNode* getNode() const = 0;
+			virtual ~Model()
+			{
+			}
 
-			/**
-			 * <p>
-			 * Sets the location of this <code>Model</code> within the scene.
-			 * </p>
-			 *
-			 * @param node The location of this <code>Model</code> within the scene.
-			 */
-			virtual void setNode(TreeNode* node) = 0;
+			virtual const Vector4& getColour() const = 0;
+
+			virtual Texture* getNormalMap() const = 0;
+
+			virtual PrimitiveType getPrimitiveType() const = 0;
+
+			virtual Texture* getTexture() const = 0;
+
+			virtual bool isVisible() const = 0;
+
+			virtual void render(Renderer& renderer) const = 0;
+
+			virtual void setColour(const Vector4& color) = 0;
+
+			virtual void setNormalMap(Texture* texture) = 0;
+
+			virtual void setPrimitiveType(PrimitiveType primitiveType) = 0;
+
+			virtual void setTexture(Texture* texture) = 0;
+
+			virtual void setVisible(bool visible) = 0;
 	};
 }
 

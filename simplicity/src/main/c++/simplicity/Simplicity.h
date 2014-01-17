@@ -17,124 +17,35 @@
 #ifndef SIMPLICITY_H_
 #define SIMPLICITY_H_
 
-#include <map>
-
 #include "engine/Engine.h"
-#include "scene/Scene.h"
+#include "graph/Graph.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * The interface to The Simplicity Engine.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
 	namespace Simplicity
 	{
-		/**
-		 * <p>
-		 * Adds the given {@link simplicity::Entity Entity}s to the <code>Entity</code>s managed by simplicity.
-		 * </p>
-		 *
-		 * @param entities The <code>Entity</code>s to be managed by simplicity.
-		 */
-		void addEntities(std::vector<std::shared_ptr<Entity> > entities);
+		void addEngine(std::unique_ptr<Engine> engine);
 
-		/**
-		 * <p>
-		 * Adds the given {@link simplicity::Entity Entity} to the <code>Entity</code>s managed by simplicity.
-		 * </p>
-		 *
-		 * @param entity The <code>Entity</code> to be managed by simplicity.
-		 */
-		void addEntity(std::shared_ptr<Entity> entity);
+		void addEntity(std::unique_ptr<Entity> entity);
 
-		/**
-		 * <p>
-		 * Adds the given {@link simplicity::Entity Entity} to the <code>Entity</code>s managed by simplicity.
-		 * </p>
-		 *
-		 * @param entity The <code>Entity</code> to be managed by simplicity.
-		 * @param node The <code>TreeNode</code> to add to the scene (will be removed when the <code>Entity</code> is
-		 * removed).
-		 */
-		void addEntity(shared_ptr<Entity> entity, shared_ptr<TreeNode> node);
+        void addWorldRepresentation(std::unique_ptr<Graph> graph);
 
-		/**
-		 * <p>
-		 * Adds the given {@link simplicity::Entity Entity} to the <code>Entity</code>s managed by simplicity.
-		 * </p>
-		 *
-		 * @param entity The <code>Entity</code> to be managed by simplicity.
-		 * @param node The <code>TreeNode</code> to add to the scene (will be removed when the <code>Entity</code> is
-		 * removed).
-		 * @param parent The parent to add the <code>TreeNode</code> to.
-		 */
-		void addEntity(shared_ptr<Entity> entity, shared_ptr<TreeNode> node, TreeNode& parent);
+		float getDeltaTime();
 
-		/**
-		 * <p>
-		 * Retrieves the {@link simplicity::Entity Entity} with the given name from the <code>Entity</code>s managed
-		 * by simplicity.
-		 * </p>
-		 *
-		 * @param name The name of the <code>Entity</code> to retrieve.
-		 *
-		 * @return The <code>Entity</code> with the given name.
-		 */
-		Entity& getEntity(const std::string name);
+		unsigned short getMaxFrameRate();
 
-		Scene* getScene();
+		float getTotalTime();
 
-		/**
-		 * <p>
-		 * Removes the {@link simplicity::Entity Entity} with the given name from the <code>Entity</code>s managed
-		 * by simplicity.
-		 * </p>
-		 *
-		 * @param name The name of the <code>Entity</code> to be removed from simplicity.
-		 */
-		void removeEntity(const std::string name);
+		void pause();
 
-		/**
-		 * <p>
-		 * Resets simplicity so that it may be started again.
-		 * </p>
-		 */
-		void reset();
+		void play();
 
-		/**
-		 * <p>
-		 * Initialises simplicity with the given {@link simplicity::Engine Engine}.
-		 * </p>
-		 *
-		 * @param engine The <code>Engine</code> to initialise simplicity with.
-		 */
-		void setEngine(std::shared_ptr<Engine> engine);
+		void removeEngine(const Engine& engine);
 
-		/**
-		 * <p>
-		 * Initialises simplicity with the given {@link simplicity::Scene Scene}.
-		 * </p>
-		 *
-		 * @param scene The <code>Scene</code> to initialise simplicity with.
-		 */
-		void setScene(std::shared_ptr<Scene> scene);
+		void removeEntity(const Entity& entity);
 
-		/**
-		 * <p>
-		 * Starts simplicity.
-		 * </p>
-		 */
-		void start();
+		void setMaxFrameRate(unsigned short maxFrameRate);
 
-		/**
-		 * <p>
-		 * Stops simplicity.
-		 * </p>
-		 */
 		void stop();
 	}
 }

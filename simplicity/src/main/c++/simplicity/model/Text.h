@@ -17,44 +17,53 @@
 #ifndef TEXT_H_
 #define TEXT_H_
 
-#include "../math/ColourVector.h"
-#include "BaseModel.h"
+#include "Model.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * A {@link simplicity::Model Model} for displaying text.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
-	class Text : public BaseModel
+	class Text : public Model
 	{
 		public:
-			Text();
+			Text(const Vector2& position, const std::string& text);
 
-			const TranslationVector<>& getCenter() const;
+			const Vector4& getColour() const;
 
-			const ColourVector<>& getColour() const;
+			Texture* getNormalMap() const;
+
+			const Vector2& getPosition() const;
+
+			PrimitiveType getPrimitiveType() const;
 
 			const std::string& getText() const;
 
-			void setColour(std::unique_ptr<ColourVector<> > colour);
+			Texture* getTexture() const;
+
+			bool isVisible() const;
+
+			void render(Renderer& renderer) const;
+
+			void setColour(const Vector4& colour);
+
+			void setNormalMap(Texture* texture);
+
+			void setPosition(const Vector2& position);
+
+			void setPrimitiveType(PrimitiveType primitiveType);
 
 			void setText(const std::string& text);
 
-		private:
-			/**
-			 * <p>
-			 * The point at the center of this <code>Text</code>.
-			 * </p>
-			 */
-			std::unique_ptr<TranslationVector<> > center;
+			void setTexture(Texture* texture);
 
-			std::unique_ptr<ColourVector<> > colour;
+			void setVisible(bool visible);
+
+		private:
+			Vector4 colour;
+
+			Vector2 position;
 
 			std::string text;
+
+			bool visible;
 	};
 }
 

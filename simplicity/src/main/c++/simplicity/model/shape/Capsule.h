@@ -17,104 +17,28 @@
 #ifndef CAPSULE_H_
 #define CAPSULE_H_
 
-#include "../BaseModel.h"
 #include "Shape.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * A capsule-shaped {@link simplicity::Model Model}.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
-	class Capsule : public BaseModel, public virtual Shape
+	class Capsule : public Shape
 	{
 		public:
-			/**
-			 * <p>
-			 * Creates an instance of <code>Capsule</code>.
-			 * </p>
-			 */
-			Capsule();
+			Capsule(const Vector2& position, float length, float radius);
 
-			/**
-			 * <p>
-			 * Disposes of an instance of <code>Capsule</code>.
-			 * </p>
-			 */
-			~Capsule();
-
-			const TranslationVector<>& getCenter() const;
-
-			ColourVector<>& getColour() const;
-
-			/**
-			 * <p>
-			 * Retrieves the length. The default is 1.0.
-			 * </p>
-			 *
-			 * @return The length.
-			 */
 			float getLength() const;
 
-			/**
-			 * <p>
-			 * Retrieves the radius. The default is 1.0.
-			 * </p>
-			 *
-			 * @return The radius.
-			 */
 			float getRadius() const;
 
-			void setColour(std::shared_ptr<ColourVector<> > colour);
+			void render(Renderer& renderer) const;
 
-			/**
-			 * <p>
-			 * Sets the length. The default is 1.0.
-			 * </p>
-			 *
-			 * @param length The length.
-			 */
 			void setLength(const float length);
 
-			/**
-			 * <p>
-			 * Sets the radius. The default is 1.0.
-			 * </p>
-			 *
-			 * @param radius The radius.
-			 */
 			void setRadius(const float radius);
 
 		private:
-			/**
-			 * <p>
-			 * The point at the center of this <code>Capsule</code>.
-			 * </p>
-			 */
-			std::shared_ptr<TranslationVector<> > center;
-
-			/**
-			 * <p>
-			 * The colour to render this <code>Capsule</code> as.
-			 * </p>
-			 */
-			std::shared_ptr<ColourVector<> > colour;
-
-			/**
-			 * <p>
-			 * The length.
-			 * </p>
-			 */
 			float length;
 
-			/**
-			 * <p>
-			 * The radius.
-			 * </p>
-			 */
 			float radius;
 	};
 }

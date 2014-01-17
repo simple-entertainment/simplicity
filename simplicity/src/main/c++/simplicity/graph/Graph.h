@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Simple Entertainment Limited
+ * Copyright © 2013 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -20,31 +20,56 @@
 #include <memory>
 #include <vector>
 
-#include "Node.h"
+#include "../Entity.h"
+#include "../math/Matrix.h"
+#include "AABB2.h"
 
 namespace simplicity
 {
-	template<typename NodeType>
 	class Graph
 	{
 		public:
-			virtual NodeType& add(std::shared_ptr<NodeType> node) = 0;
+			virtual ~Graph()
+			{
+			}
 
-			virtual void connect(NodeType& source, NodeType& destination) = 0;
+			virtual void addChild(std::unique_ptr<Graph> child) = 0;
 
-			virtual void disconnect(NodeType& source, NodeType& destination) = 0;
+			virtual void connectTo(Graph& graph) = 0;
 
-			virtual bool exists(int id) const = 0;
+			virtual void disconnectFrom(Graph& graph) = 0;
 
-			virtual bool exists(NodeType& node) const = 0;
+			virtual Matrix44 getAbsoluteTransformation() const = 0;
 
-			virtual NodeType& get(int id) = 0;
+			virtual const AABB2& getBoundary() const = 0;
 
-			virtual const NodeType& get(int id) const = 0;
+			virtual std::vector<Graph*> getChildren() const = 0;
 
-			virtual const std::vector<std::shared_ptr<NodeType> >& getAll() const = 0;
+			virtual std::vector<Entity*>& getEntities() = 0;
 
-			virtual void remove(NodeType& node) = 0;
+			virtual const std::vector<Entity*>& getEntities() const = 0;
+
+			virtual Graph* getParent() = 0;
+
+			virtual const Graph* getParent() const = 0;
+
+			virtual Matrix44& getTransformation() = 0;
+
+			virtual const Matrix44& getTransformation() const = 0;
+
+			virtual bool insert(Entity& entity) = 0;
+
+			virtual std::vector<Entity*> queryRange(const AABB2& range) const = 0;
+
+			virtual bool remove(const Entity& entity) = 0;
+
+			virtual std::unique_ptr<Graph> removeChild(Graph& child) = 0;
+
+			virtual void setParent(Graph* parent) = 0;
+
+			virtual void setTransformation(const Matrix44& transformation) = 0;
+
+			virtual void update(Entity& entity) = 0;
 	};
 }
 

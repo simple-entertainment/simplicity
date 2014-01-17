@@ -24,9 +24,9 @@ namespace simplicity
 {
 	namespace Messages
 	{
-		map<const string, vector<function<Recipient> > > recipients;
+		map<unsigned short, vector<function<Recipient> > > recipients;
 
-		void deregisterRecipient(const string subject, function<Recipient> recipient)
+		void deregisterRecipient(unsigned short subject, function<Recipient> recipient)
 		{
 			vector<function<Recipient> >& registeredRecipients = recipients.find(subject)->second;
 
@@ -41,18 +41,18 @@ namespace simplicity
 			}
 		}
 
-		void registerRecipient(const string subject, function<Recipient> recipient)
+		void registerRecipient(unsigned short subject, function<Recipient> recipient)
 		{
 			if (recipients.find(subject) == recipients.end())
 			{
 				recipients.insert(
-					pair<const string, vector<function<Recipient> > >(subject, vector<function<Recipient> >()));
+					pair<unsigned short, vector<function<Recipient> > >(subject, vector<function<Recipient> >()));
 			}
 
 			recipients.find(subject)->second.push_back(recipient);
 		}
 
-		void send(const string subject, const boost::any message)
+		void send(unsigned short subject, const boost::any message)
 		{
 			if (recipients.find(subject) == recipients.end())
 			{

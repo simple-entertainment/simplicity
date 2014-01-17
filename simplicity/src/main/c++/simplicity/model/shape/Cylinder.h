@@ -17,104 +17,28 @@
 #ifndef CYLINDER_H_
 #define CYLINDER_H_
 
-#include "../BaseModel.h"
 #include "Shape.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * A cylindrical {@link simplicity::Model Model}.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
-	class Cylinder : public BaseModel, public virtual Shape
+	class Cylinder : public Shape
 	{
 		public:
-			/**
-			 * <p>
-			 * Creates an instance of <code>Cylinder</code>.
-			 * </p>
-			 */
-			Cylinder();
+			Cylinder(const Vector2& position, float length, float radius);
 
-			/**
-			 * <p>
-			 * Disposes of an instance of <code>Cylinder</code>.
-			 * </p>
-			 */
-			~Cylinder();
-
-			const TranslationVector<>& getCenter() const;
-
-			ColourVector<>& getColour() const;
-
-			/**
-			 * <p>
-			 * Retrieves the length. The default is 1.0.
-			 * </p>
-			 *
-			 * @return The length.
-			 */
 			float getLength() const;
 
-			/**
-			 * <p>
-			 * Retrieves the radius. The default is 1.0.
-			 * </p>
-			 *
-			 * @return The radius.
-			 */
 			float getRadius() const;
 
-			void setColour(std::shared_ptr<ColourVector<> > colour);
+			void render(Renderer& renderer) const;
 
-			/**
-			 * <p>
-			 * Sets the length. The default is 1.0.
-			 * </p>
-			 *
-			 * @param length The length.
-			 */
 			void setLength(const float length);
 
-			/**
-			 * <p>
-			 * Sets the radius. The default is 1.0.
-			 * </p>
-			 *
-			 * @param radius The radius.
-			 */
 			void setRadius(const float radius);
 
 		private:
-			/**
-			 * <p>
-			 * The point at the center of this <code>Cylinder</code>.
-			 * </p>
-			 */
-			std::shared_ptr<TranslationVector<> > center;
-
-			/**
-			 * <p>
-			 * The colour to render this <code>Cylinder</code> as.
-			 * </p>
-			 */
-			std::shared_ptr<ColourVector<> > colour;
-
-			/**
-			 * <p>
-			 * The length.
-			 * </p>
-			 */
 			float length;
 
-			/**
-			 * <p>
-			 * The radius.
-			 * </p>
-			 */
 			float radius;
 	};
 }

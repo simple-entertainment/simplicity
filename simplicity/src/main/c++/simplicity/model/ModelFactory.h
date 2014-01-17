@@ -17,38 +17,54 @@
 #ifndef MODELFACTORY_H_
 #define MODELFACTORY_H_
 
-#include "shape/Capsule.h"
-#include "shape/Cylinder.h"
-#include "shape/Sphere.h"
-#include "shape/Torus.h"
-#include "IndexedVertexGroup.h"
-#include "Text.h"
-#include "VertexGroup.h"
+#include <memory>
+#include <vector>
+
+#include "Mesh.h"
+#include "Vertex.h"
 
 namespace simplicity
 {
 	class ModelFactory
 	{
 		public:
-			static const ModelFactory& getInstance();
+			virtual ~ModelFactory()
+			{
+			}
+
+			static void addRectangleIndexList(std::vector<int>& indices, unsigned int index, unsigned int vertexIndex,
+				bool reverse = false);
+
+			static void addRectangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector4& colour,
+				const Vector3& topLeft, const Vector3& toTopRight, const Vector3& toBottomLeft);
+
+			static void addTriangleIndexList(std::vector<int>& indices, unsigned int index, unsigned int vertexIndex,
+				bool reverse = false);
+
+			static void addTriangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector4& colour,
+				const Vector3& top, const Vector3& toBottomLeft, const Vector3& toBottomRight);
+
+			void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color);
+
+			Mesh* createBoxMesh(const Vector3& halfExtents, const Vector4& color, bool doubleSided = false);
+
+			Mesh* createCubeMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
+
+			virtual Mesh* createMesh(const std::vector<Vertex>& vertices) = 0;
+
+			virtual Mesh* createMesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices) = 0;
+
+			Mesh* createPrismMesh(const Vector3& halfExtents, const Vector4& color);
+
+			Mesh* createPyramidMesh(float halfBaseExtent, float height, const Vector4& color);
+
+			Mesh* createSquareMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
+
+			static ModelFactory& getInstance();
+
+			void scaleVertices(std::vector<Vertex>& vertices, float scale);
 
 			static void setInstance(std::unique_ptr<ModelFactory> instance);
-
-			virtual ~ModelFactory();
-
-			virtual std::unique_ptr<Capsule> createCapsule() const = 0;
-
-			virtual std::unique_ptr<Cylinder> createCylinder() const = 0;
-
-			virtual std::unique_ptr<Sphere> createSphere() const = 0;
-
-			virtual std::unique_ptr<Torus> createTorus() const = 0;
-
-			virtual std::unique_ptr<IndexedVertexGroup> createIndexedVertexGroup() const = 0;
-
-			virtual std::unique_ptr<Text> createText() const = 0;
-
-			virtual std::unique_ptr<VertexGroup> createVertexGroup() const = 0;
 
 		private:
 			static std::unique_ptr<ModelFactory> instance;

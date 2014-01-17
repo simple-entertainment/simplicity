@@ -17,81 +17,24 @@
 #ifndef SPHERE_H_
 #define SPHERE_H_
 
-#include "../BaseModel.h"
 #include "Shape.h"
 
 namespace simplicity
 {
-  /**
-   * <p>
-   * A spherical {@link simplicity::Model Model}.
-   * </p>
-   *
-   * @author Gary Buyn
-   */
-  class Sphere : public BaseModel, public virtual Shape
-  {
-    public:
-      /**
-       * <p>
-       * Creates an instance of <code>Sphere</code>.
-       * </p>
-       */
-      Sphere();
+	class Sphere : public Shape
+	{
+		public:
+			Sphere(const Vector2& position, float radius);
 
-      /**
-       * <p>
-       * Disposes of an instance of <code>Sphere</code>.
-       * </p>
-       */
-      ~Sphere();
+			float getRadius() const;
 
-      const TranslationVector<>& getCenter() const;
+			void render(Renderer& renderer) const;
 
-      ColourVector<>& getColour() const;
+			void setRadius(const float radius);
 
-      /**
-       * <p>
-       * Retrieves the radius. The default is 1.0.
-       * </p>
-       *
-       * @return The radius.
-       */
-      float getRadius() const;
-
-      void setColour(std::shared_ptr<ColourVector<> > colour);
-
-      /**
-       * <p>
-       * Sets the radius. The default is 1.0.
-       * </p>
-       *
-       * @param radius The radius.
-       */
-      void setRadius(const float radius);
-
-    private:
-      /**
-       * <p>
-       * The point at the center of this <code>Sphere</code>.
-       * </p>
-       */
-      std::shared_ptr<TranslationVector<> > center;
-
-      /**
-       * <p>
-       * The colour to render this <code>Sphere</code> as.
-       * </p>
-       */
-      std::shared_ptr<ColourVector<> > colour;
-
-      /**
-       * <p>
-       * The radius.
-       * </p>
-       */
-      float radius;
-  };
+		private:
+			float radius;
+	};
 }
 
 #endif /* SPHERE_H_ */

@@ -14,32 +14,14 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../../math/MathFactory.h"
 #include "Sphere.h"
 
 namespace simplicity
 {
-	Sphere::Sphere() :
-		center(MathFactory::getInstance().createTranslationVector()), colour(
-			MathFactory::getInstance().createColourVector()), radius(1.0f)
+	Sphere::Sphere(const Vector2& position, float radius) :
+		Shape(position),
+		radius(radius)
 	{
-		colour->setRed(1.0f);
-		colour->setGreen(1.0f);
-		colour->setBlue(1.0f);
-	}
-
-	Sphere::~Sphere()
-	{
-	}
-
-	const TranslationVector<>& Sphere::getCenter() const
-	{
-		return *center;
-	}
-
-	ColourVector<>& Sphere::getColour() const
-	{
-		return *colour;
 	}
 
 	float Sphere::getRadius() const
@@ -47,9 +29,9 @@ namespace simplicity
 		return radius;
 	}
 
-	void Sphere::setColour(std::shared_ptr<ColourVector<> > colour)
+	void Sphere::render(Renderer& renderer) const
 	{
-		this->colour = colour;
+		renderer.render(*this);
 	}
 
 	void Sphere::setRadius(const float radius)

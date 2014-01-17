@@ -17,27 +17,25 @@
 #ifndef COMPONENT_H_
 #define COMPONENT_H_
 
-#include "Entity.h"
-
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * A component to be processed by an engine.
-	 * </p>
-	 *
-	 * @author Gary Buyn
-	 */
+	class Entity;
+
 	class Component
 	{
 		public:
-			virtual ~Component()
-			{
-			}
+			Component();
 
-			virtual const Entity& getEntity() const = 0;
+			virtual ~Component();
 
-			virtual void setEntity(std::shared_ptr<Entity> entity) = 0;
+			Entity* getEntity();
+
+			const Entity* getEntity() const;
+
+			void setEntity(Entity* entity);
+
+		private:
+			Entity* entity;
 	};
 }
 

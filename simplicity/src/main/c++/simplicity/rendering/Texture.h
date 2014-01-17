@@ -19,20 +19,8 @@
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * A texture that can be applied to a model.
-	 * </p>
-	 */
 	class Texture
 	{
-		public:
-			/**
-			 * Defined in a separate implementation file to ensure proper linking.
-			 */
-			virtual ~Texture();
-
-			virtual void select() = 0;
 	};
 }
 

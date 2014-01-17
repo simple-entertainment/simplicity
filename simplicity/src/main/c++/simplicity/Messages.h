@@ -17,8 +17,6 @@
 #ifndef MESSAGES_H_
 #define MESSAGES_H_
 
-#include <string>
-
 #include <boost/any.hpp>
 
 namespace simplicity
@@ -35,7 +33,7 @@ namespace simplicity
 		 * @param subject The subject to deregister the recipient from.
 		 * @param recipient The recipient to deregister.
 		 */
-		void deregisterRecipient(const std::string subject, std::function<Recipient> recipient);
+		void deregisterRecipient(unsigned short subject, std::function<Recipient> recipient);
 
 		/**
 		 * <p>
@@ -45,7 +43,7 @@ namespace simplicity
 		 * @param subject The subject to register the recipient with.
 		 * @param recipient The recipient to send messages of the given subject to.
 		 */
-		void registerRecipient(const std::string subject, std::function<Recipient> recipient);
+		void registerRecipient(unsigned short subject, std::function<Recipient> recipient);
 
 		/**
 		 * <p>
@@ -55,7 +53,7 @@ namespace simplicity
 		 * @param subject The subject of the message.
 		 * @param message The message to send.
 		 */
-		void send(const std::string subject, const boost::any message);
+		void send(unsigned short subject, const boost::any message);
 	}
 }
 
