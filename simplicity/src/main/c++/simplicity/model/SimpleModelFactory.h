@@ -24,9 +24,9 @@ namespace simplicity
 	class SimpleModelFactory : public ModelFactory
 	{
 		public:
-			Mesh* createMesh(const std::vector<Vertex>& vertices);
+			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices);
 
-			Mesh* createMesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices);
+			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices);
 	};
 }
 

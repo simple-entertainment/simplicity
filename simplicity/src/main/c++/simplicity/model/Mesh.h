@@ -31,6 +31,8 @@ namespace simplicity
 			{
 			}
 
+			virtual unsigned int getID() const = 0;
+
 			virtual std::vector<int>& getIndices() = 0;
 
 			virtual const std::vector<int>& getIndices() const = 0;

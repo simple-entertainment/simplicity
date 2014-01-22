@@ -140,7 +140,7 @@ namespace simplicity
 		}
 	}
 
-	Mesh* ModelFactory::createBoxMesh(const Vector3& halfExtents, const Vector4& color, bool doubleSided)
+	unique_ptr<Mesh> ModelFactory::createBoxMesh(const Vector3& halfExtents, const Vector4& color, bool doubleSided)
 	{
 		// Vertices
 		vector<Vertex> vertices(24);
@@ -200,12 +200,12 @@ namespace simplicity
 		return createMesh(vertices, indices);
 	}
 
-	Mesh* ModelFactory::createCubeMesh(float halfExtent, const Vector4& color, bool doubleSided)
+	unique_ptr<Mesh> ModelFactory::createCubeMesh(float halfExtent, const Vector4& color, bool doubleSided)
 	{
 		return createBoxMesh(Vector3(halfExtent, halfExtent, halfExtent), color, doubleSided);
 	}
 
-	Mesh* ModelFactory::createPrismMesh(const Vector3& halfExtents, const Vector4& color)
+	unique_ptr<Mesh> ModelFactory::createPrismMesh(const Vector3& halfExtents, const Vector4& color)
 	{
 		// Vertices
 		vector<Vertex> vertices(18);
@@ -243,7 +243,7 @@ namespace simplicity
 		return createMesh(vertices, indices);
 	}
 
-	Mesh* ModelFactory::createPyramidMesh(float halfBaseExtent, float height, const Vector4& color)
+	unique_ptr<Mesh> ModelFactory::createPyramidMesh(float halfBaseExtent, float height, const Vector4& color)
 	{
 		// Vertices
 		vector<Vertex> vertices(16);
@@ -280,7 +280,7 @@ namespace simplicity
 		return createMesh(vertices, indices);
 	}
 
-	Mesh* ModelFactory::createSquareMesh(float halfExtent, const Vector4& color, bool doubleSided)
+	unique_ptr<Mesh> ModelFactory::createSquareMesh(float halfExtent, const Vector4& color, bool doubleSided)
 	{
 		// Vertices
 		vector<Vertex> vertices(4);

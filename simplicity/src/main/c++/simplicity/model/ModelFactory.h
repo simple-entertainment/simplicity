@@ -46,19 +46,19 @@ namespace simplicity
 
 			void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color);
 
-			Mesh* createBoxMesh(const Vector3& halfExtents, const Vector4& color, bool doubleSided = false);
+			std::unique_ptr<Mesh> createBoxMesh(const Vector3& halfExtents, const Vector4& color, bool doubleSided = false);
 
-			Mesh* createCubeMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
+			std::unique_ptr<Mesh> createCubeMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
 
-			virtual Mesh* createMesh(const std::vector<Vertex>& vertices) = 0;
+			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices) = 0;
 
-			virtual Mesh* createMesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices) = 0;
+			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices) = 0;
 
-			Mesh* createPrismMesh(const Vector3& halfExtents, const Vector4& color);
+			std::unique_ptr<Mesh> createPrismMesh(const Vector3& halfExtents, const Vector4& color);
 
-			Mesh* createPyramidMesh(float halfBaseExtent, float height, const Vector4& color);
+			std::unique_ptr<Mesh> createPyramidMesh(float halfBaseExtent, float height, const Vector4& color);
 
-			Mesh* createSquareMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
+			std::unique_ptr<Mesh> createSquareMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
 
 			static ModelFactory& getInstance();
 

@@ -33,6 +33,8 @@ namespace simplicity
 
 			const Vector4& getColour() const;
 
+			unsigned int getID() const;
+
 			std::vector<int>& getIndices();
 
 			const std::vector<int>& getIndices() const;
@@ -68,7 +70,11 @@ namespace simplicity
 		private:
 			Vector4 colour;
 
+			unsigned int id;
+
 			std::vector<int> indices;
+
+			static unsigned int nextID;
 
 			Vector2 position;
 

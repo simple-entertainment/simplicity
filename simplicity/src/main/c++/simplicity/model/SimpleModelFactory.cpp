@@ -21,7 +21,7 @@ using namespace std;
 
 namespace simplicity
 {
-	Mesh* SimpleModelFactory::createMesh(const vector<Vertex>& vertices)
+	unique_ptr<Mesh> SimpleModelFactory::createMesh(const vector<Vertex>& vertices)
 	{
 		vector<int> indices;
 		indices.reserve(vertices.size());
@@ -33,8 +33,8 @@ namespace simplicity
 		return createMesh(vertices, indices);
 	}
 
-	Mesh* SimpleModelFactory::createMesh(const vector<Vertex>& vertices, const vector<int>& indices)
+	unique_ptr<Mesh> SimpleModelFactory::createMesh(const vector<Vertex>& vertices, const vector<int>& indices)
 	{
-		return new SimpleMesh(indices, vertices);
+		return unique_ptr<Mesh>(new SimpleMesh(indices, vertices));
 	}
 }
