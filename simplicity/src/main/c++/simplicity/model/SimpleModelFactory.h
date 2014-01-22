@@ -26,7 +26,8 @@ namespace simplicity
 		public:
 			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices);
 
-			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices);
+			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices,
+				const std::vector<unsigned int>& indices);
 	};
 }
 

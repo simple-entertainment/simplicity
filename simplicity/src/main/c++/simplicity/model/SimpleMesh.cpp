@@ -20,11 +20,8 @@ using namespace std;
 
 namespace simplicity
 {
-	unsigned int SimpleMesh::nextID = 1;
-
 	SimpleMesh::SimpleMesh() :
 		colour(0.0f, 0.0f, 0.0f, 1.0f),
-		id(nextID++),
 		indices(),
 		position(0.0f, 0.0f),
 		primitiveType(TRIANGLE_LIST),
@@ -33,9 +30,8 @@ namespace simplicity
 	{
 	}
 
-	SimpleMesh::SimpleMesh(const vector<int>& indices, const vector<Vertex>& vertices) :
+	SimpleMesh::SimpleMesh(const vector<unsigned int>& indices, const vector<Vertex>& vertices) :
 		colour(0.0f, 0.0f, 0.0f, 1.0f),
-		id(nextID++),
 		indices(indices),
 		position(0.0f, 0.0f),
 		primitiveType(TRIANGLE_LIST),
@@ -49,17 +45,12 @@ namespace simplicity
 		return colour;
 	}
 
-	unsigned int SimpleMesh::getID() const
-	{
-		return id;
-	}
-
-	vector<int>& SimpleMesh::getIndices()
+	vector<unsigned int>& SimpleMesh::getIndices()
 	{
 		return indices;
 	}
 
-	const vector<int>& SimpleMesh::getIndices() const
+	const vector<unsigned int>& SimpleMesh::getIndices() const
 	{
 		return indices;
 	}

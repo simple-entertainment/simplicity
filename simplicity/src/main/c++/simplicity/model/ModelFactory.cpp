@@ -23,8 +23,8 @@ namespace simplicity
 {
 	unique_ptr<ModelFactory> ModelFactory::instance = unique_ptr<ModelFactory>();
 
-	void ModelFactory::addRectangleIndexList(vector<int>& indices, unsigned int index, unsigned int vertexIndex,
-		bool reverse)
+	void ModelFactory::addRectangleIndexList(vector<unsigned int>& indices, unsigned int index,
+		unsigned int vertexIndex, bool reverse)
 	{
 		if (reverse)
 		{
@@ -86,8 +86,8 @@ namespace simplicity
 		vertices[index + 3].texCoord = Vector2(texWidth, texHeight);
 	}
 
-	void ModelFactory::addTriangleIndexList(std::vector<int>& indices, unsigned int index, unsigned int vertexIndex,
-		bool reverse)
+	void ModelFactory::addTriangleIndexList(std::vector<unsigned int>& indices, unsigned int index,
+		unsigned int vertexIndex, bool reverse)
 	{
 		if (reverse)
 		{
@@ -170,7 +170,7 @@ namespace simplicity
 			Vector3(0.0f, 0.0f, halfExtents.Z() * -2.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f));
 
 		// Indices
-		vector<int> indices;
+		vector<unsigned int> indices;
 		if (doubleSided)
 		{
 			indices.resize(72);
@@ -232,7 +232,7 @@ namespace simplicity
 			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f));
 
 		// Indices
-		vector<int> indices(24);
+		vector<unsigned int> indices(24);
 
 		addRectangleIndexList(indices, 0, 0);
 		addRectangleIndexList(indices, 6, 4);
@@ -269,7 +269,7 @@ namespace simplicity
 			Vector3(-halfBaseExtent, -height, halfBaseExtent), Vector3(-halfBaseExtent, -height, -halfBaseExtent));
 
 		// Indices
-		vector<int> indices(18);
+		vector<unsigned int> indices(18);
 
 		addRectangleIndexList(indices, 0, 0);
 		addTriangleIndexList(indices, 6, 4);
@@ -289,7 +289,7 @@ namespace simplicity
 			Vector3(halfExtent * 2.0f, 0.0f, 0.0f), Vector3(0.0f, -halfExtent * 2.0f, 0.0f));
 
 		// Indices
-		vector<int> indices;
+		vector<unsigned int> indices;
 		if (doubleSided)
 		{
 			indices.resize(12);

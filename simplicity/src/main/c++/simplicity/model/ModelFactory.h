@@ -32,27 +32,29 @@ namespace simplicity
 			{
 			}
 
-			static void addRectangleIndexList(std::vector<int>& indices, unsigned int index, unsigned int vertexIndex,
-				bool reverse = false);
+			static void addRectangleIndexList(std::vector<unsigned int>& indices, unsigned int index,
+				unsigned int vertexIndex, bool reverse = false);
 
 			static void addRectangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector4& colour,
 				const Vector3& topLeft, const Vector3& toTopRight, const Vector3& toBottomLeft);
 
-			static void addTriangleIndexList(std::vector<int>& indices, unsigned int index, unsigned int vertexIndex,
-				bool reverse = false);
+			static void addTriangleIndexList(std::vector<unsigned int>& indices, unsigned int index,
+				unsigned int vertexIndex, bool reverse = false);
 
 			static void addTriangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector4& colour,
 				const Vector3& top, const Vector3& toBottomLeft, const Vector3& toBottomRight);
 
 			void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color);
 
-			std::unique_ptr<Mesh> createBoxMesh(const Vector3& halfExtents, const Vector4& color, bool doubleSided = false);
+			std::unique_ptr<Mesh> createBoxMesh(const Vector3& halfExtents, const Vector4& color,
+				bool doubleSided = false);
 
 			std::unique_ptr<Mesh> createCubeMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
 
 			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices) = 0;
 
-			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices) = 0;
+			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices,
+				const std::vector<unsigned int>& indices) = 0;
 
 			std::unique_ptr<Mesh> createPrismMesh(const Vector3& halfExtents, const Vector4& color);
 

@@ -29,15 +29,13 @@ namespace simplicity
 		public:
 			SimpleMesh();
 
-			SimpleMesh(const std::vector<int>& indices, const std::vector<Vertex>& vertices);
+			SimpleMesh(const std::vector<unsigned int>& indices, const std::vector<Vertex>& vertices);
 
 			const Vector4& getColour() const;
 
-			unsigned int getID() const;
+			std::vector<unsigned int>& getIndices();
 
-			std::vector<int>& getIndices();
-
-			const std::vector<int>& getIndices() const;
+			const std::vector<unsigned int>& getIndices() const;
 
 			Texture* getNormalMap() const;
 
@@ -70,9 +68,7 @@ namespace simplicity
 		private:
 			Vector4 colour;
 
-			unsigned int id;
-
-			std::vector<int> indices;
+			std::vector<unsigned int> indices;
 
 			static unsigned int nextID;
 

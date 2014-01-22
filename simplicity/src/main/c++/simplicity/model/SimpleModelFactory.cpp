@@ -23,7 +23,7 @@ namespace simplicity
 {
 	unique_ptr<Mesh> SimpleModelFactory::createMesh(const vector<Vertex>& vertices)
 	{
-		vector<int> indices;
+		vector<unsigned int> indices;
 		indices.reserve(vertices.size());
 		for (unsigned int index = 0; index < vertices.size(); index++)
 		{
@@ -33,7 +33,8 @@ namespace simplicity
 		return createMesh(vertices, indices);
 	}
 
-	unique_ptr<Mesh> SimpleModelFactory::createMesh(const vector<Vertex>& vertices, const vector<int>& indices)
+	unique_ptr<Mesh> SimpleModelFactory::createMesh(const vector<Vertex>& vertices,
+		const vector<unsigned int>& indices)
 	{
 		return unique_ptr<Mesh>(new SimpleMesh(indices, vertices));
 	}
