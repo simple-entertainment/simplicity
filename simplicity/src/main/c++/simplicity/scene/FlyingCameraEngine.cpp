@@ -28,9 +28,9 @@ using namespace std;
 
 namespace simplicity
 {
-	FlyingCameraEngine::FlyingCameraEngine(Graph& cameraNode) :
+	FlyingCameraEngine::FlyingCameraEngine(Entity& camera) :
 		buttonStates(),
-		cameraNode(cameraNode),
+		camera(camera),
 		x(-1),
 		y(-1)
 	{
@@ -44,19 +44,19 @@ namespace simplicity
 	{
 		if (buttonStates[Keyboard::Button::W] == Button::State::DOWN)
 		{
-			MathFunctions::translate(cameraNode.getTransformation(), Vector4(0.0f, 0.0f, -1.0f, 1.0f));
+			MathFunctions::translate(camera.getTransformation(), Vector4(0.0f, 0.0f, -0.1f, 1.0f));
 		}
 		else if (buttonStates[Keyboard::Button::A] == Button::State::DOWN)
 		{
-			MathFunctions::translate(cameraNode.getTransformation(), Vector4(-1.0f, 0.0f, 0.0f, 1.0f));
+			MathFunctions::translate(camera.getTransformation(), Vector4(-0.1f, 0.0f, 0.0f, 1.0f));
 		}
 		else if (buttonStates[Keyboard::Button::S] == Button::State::DOWN)
 		{
-			MathFunctions::translate(cameraNode.getTransformation(), Vector4(0.0f, 0.0f, 1.0f, 1.0f));
+			MathFunctions::translate(camera.getTransformation(), Vector4(0.0f, 0.0f, 0.1f, 1.0f));
 		}
 		else if (buttonStates[Keyboard::Button::D] == Button::State::DOWN)
 		{
-			MathFunctions::translate(cameraNode.getTransformation(), Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+			MathFunctions::translate(camera.getTransformation(), Vector4(0.1f, 0.0f, 0.0f, 1.0f));
 		}
 	}
 
@@ -97,8 +97,8 @@ namespace simplicity
 		{
 			int deltaX = event->x - x;
 			int deltaY = event->y - y;
-			MathFunctions::rotate(cameraNode.getTransformation(), deltaX * -0.1f, Vector4(0.0f, 1.0f, 0.0f, 1.0f));
-			MathFunctions::rotate(cameraNode.getTransformation(), deltaY * -0.1f, Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+			MathFunctions::rotate(camera.getTransformation(), deltaX * -0.01f, Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+			MathFunctions::rotate(camera.getTransformation(), deltaY * -0.01f, Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 		}
 
 		x = event->x;

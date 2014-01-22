@@ -22,7 +22,6 @@
 #include <boost/any.hpp>
 
 #include "../engine/Engine.h"
-#include "../graph/Graph.h"
 #include "../input/Button.h"
 #include "../input/Keyboard.h"
 
@@ -31,7 +30,7 @@ namespace simplicity
 	class FlyingCameraEngine : public Engine
 	{
 		public:
-			FlyingCameraEngine(Graph& cameraNode);
+			FlyingCameraEngine(Entity& camera);
 
 			void addEntity(Entity& entity);
 
@@ -50,7 +49,7 @@ namespace simplicity
 		private:
 			std::map<Keyboard::Button, Button::State> buttonStates;
 
-			Graph& cameraNode;
+			Entity& camera;
 
 			int x;
 

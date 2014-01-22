@@ -17,13 +17,14 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
+#include "../Component.h"
 #include "../graph/SimpleTree.h"
 #include "../math/Matrix.h"
 #include "../math/Vector.h"
 
 namespace simplicity
 {
-	class Camera
+	class Camera : public Component
 	{
 		public:
 			virtual ~Camera()
@@ -39,6 +40,8 @@ namespace simplicity
 			virtual float getNearClippingDistance() const = 0;
 
 			virtual SimpleTree* getNode() = 0;
+
+			virtual const Matrix44& getProjection() const = 0;
 
 			virtual Vector3 getTranslation() const = 0;
 

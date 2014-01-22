@@ -20,9 +20,9 @@
 #include <memory>
 
 #include "../engine/Engine.h"
+#include "../Entity.h"
 #include "../graph/Graph.h"
 #include "../model/Model.h"
-#include "../scene/Camera.h"
 #include "../scene/Light.h"
 #include "Renderer.h"
 
@@ -35,7 +35,7 @@ namespace simplicity
 
 			virtual void addRenderer(std::unique_ptr<Renderer> renderer) = 0;
 
-			virtual const Camera* getCamera() const = 0;
+			virtual const Entity* getCamera() const = 0;
 
 			virtual const Vector4& getClearingColour() const = 0;
 
@@ -45,7 +45,7 @@ namespace simplicity
 
 			virtual void removeRenderer(const Renderer& renderer) = 0;
 
-			virtual void setCamera(std::unique_ptr<Camera> camera) = 0;
+			virtual void setCamera(std::unique_ptr<Entity> camera) = 0;
 
 			virtual void setClearingColour(const Vector4& clearingColour) = 0;
 
