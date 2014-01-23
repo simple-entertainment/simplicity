@@ -46,15 +46,18 @@ namespace simplicity
 		{
 			MathFunctions::translate(camera.getTransformation(), Vector4(0.0f, 0.0f, -0.1f, 1.0f));
 		}
-		else if (buttonStates[Keyboard::Button::A] == Button::State::DOWN)
+
+		if (buttonStates[Keyboard::Button::A] == Button::State::DOWN)
 		{
 			MathFunctions::translate(camera.getTransformation(), Vector4(-0.1f, 0.0f, 0.0f, 1.0f));
 		}
-		else if (buttonStates[Keyboard::Button::S] == Button::State::DOWN)
+
+		if (buttonStates[Keyboard::Button::S] == Button::State::DOWN)
 		{
 			MathFunctions::translate(camera.getTransformation(), Vector4(0.0f, 0.0f, 0.1f, 1.0f));
 		}
-		else if (buttonStates[Keyboard::Button::D] == Button::State::DOWN)
+
+		if (buttonStates[Keyboard::Button::D] == Button::State::DOWN)
 		{
 			MathFunctions::translate(camera.getTransformation(), Vector4(0.1f, 0.0f, 0.0f, 1.0f));
 		}
