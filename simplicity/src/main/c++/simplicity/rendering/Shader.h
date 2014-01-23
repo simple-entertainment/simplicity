@@ -33,8 +33,6 @@ namespace simplicity
 
 			virtual void apply() = 0;
 
-			virtual void init() = 0;
-
 			virtual void setVar(const std::string& name, const Matrix44& value) = 0;
 
 			virtual void setVar(const std::string& name, float value) = 0;

@@ -20,6 +20,7 @@
 #include <string>
 
 #include "../math/Vector.h"
+#include "../rendering/Shader.h"
 
 namespace simplicity
 {
@@ -32,7 +33,7 @@ namespace simplicity
 
 			virtual void activate() = 0;
 
-			virtual void apply() = 0;
+			virtual void apply(Shader& shader) = 0;
 
 			virtual void deactivate() = 0;
 

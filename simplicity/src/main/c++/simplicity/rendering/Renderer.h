@@ -12,6 +12,10 @@
 #ifndef RENDERER_H_
 #define RENDERER_H_
 
+#include <memory>
+
+#include "Shader.h"
+
 namespace simplicity
 {
 	class Capsule;
@@ -35,6 +39,8 @@ namespace simplicity
 
 			virtual void dispose() = 0;
 
+			virtual Shader* getShader() = 0;
+
 			virtual void init() = 0;
 
 			virtual void render(const Capsule& model) = 0;
@@ -54,6 +60,8 @@ namespace simplicity
 			virtual void render(const Text& model) = 0;
 
 			virtual void render(const Torus& model) = 0;
+
+			virtual void setShader(std::unique_ptr<Shader> shader) = 0;
 	};
 }
 
