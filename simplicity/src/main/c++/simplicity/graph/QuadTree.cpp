@@ -34,6 +34,7 @@ namespace simplicity
 		transformation()
 	{
 		children.reserve(4);
+		transformation.setIdentity();
 	}
 
 	void QuadTree::addChild(std::unique_ptr<Graph>)

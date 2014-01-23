@@ -146,25 +146,25 @@ namespace simplicity
 		template<typename Data>
 		Vector<Data, 3> getTranslation3(Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 3>(&matrix[12], false);
+			return Vector<Data, 3>(&matrix[12]);
 		}
 
 		template<typename Data>
 		const Vector<Data, 3> getTranslation3(const Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 3>(const_cast<Data*>(&matrix[12]), false);
+			return Vector<Data, 3>(const_cast<Data*>(&matrix[12]));
 		}
 
 		template<typename Data>
 		Vector<Data, 4> getTranslation4(Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 4>(&matrix[12], false);
+			return Vector<Data, 4>(&matrix[12]);
 		}
 
 		template<typename Data>
 		const Vector<Data, 4> getTranslation4(const Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 4>(const_cast<Data*>(&matrix[12]), false);
+			return Vector<Data, 4>(const_cast<Data*>(&matrix[12]));
 		}
 
 		template<typename Data>

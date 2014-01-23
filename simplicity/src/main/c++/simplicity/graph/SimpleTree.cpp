@@ -32,6 +32,7 @@ namespace simplicity
 		parent(NULL),
 		transformation()
 	{
+		transformation.setIdentity();
 	}
 
 	void SimpleTree::addChild(unique_ptr<Graph> child)

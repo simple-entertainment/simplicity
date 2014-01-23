@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include <algorithm>
 #include <cstring>
 
 #include "Matrix.h"
@@ -26,36 +27,29 @@ namespace simplicity
 
 	template<typename Data, unsigned int Columns, unsigned int Rows>
 	Matrix<Data, Columns, Rows>::Matrix() :
-		data(new Data[Columns * Rows])
+		data()
 	{
-		setIdentity();
 	}
 
 	template<typename Data, unsigned int Columns, unsigned int Rows>
 	Matrix<Data, Columns, Rows>::Matrix(const Matrix<Data, Columns, Rows>& original) :
-		data(new Data[Columns * Rows])
+		data()
 	{
 		operator=(original);
 	}
 
 	template<typename Data, unsigned int Columns, unsigned int Rows>
 	Matrix<Data, Columns, Rows>::Matrix(const std::array<Data, Columns * Rows>& data) :
-		data(new Data[Columns * Rows])
+		data()
 	{
 		setData(data);
 	}
 
 	template<typename Data, unsigned int Columns, unsigned int Rows>
 	Matrix<Data, Columns, Rows>::Matrix(Data* data) :
-		data(new Data[Columns * Rows])
+		data()
 	{
 		setData(data);
-	}
-
-	template<typename Data, unsigned int Columns, unsigned int Rows>
-	Matrix<Data, Columns, Rows>::~Matrix()
-	{
-		delete[] data;
 	}
 
 	template<typename Data, unsigned int Columns, unsigned int Rows>
@@ -220,19 +214,13 @@ namespace simplicity
 	template<typename Data, unsigned int Columns, unsigned int Rows>
 	void Matrix<Data, Columns, Rows>::setData(const std::array<Data, Columns * Rows>& data)
 	{
-		for (unsigned int index = 0; index < Columns * Rows; index++)
-		{
-			this->data[index] = data[index];
-		}
+		copy(begin(data.data()), end(data.data()), begin(this->data));
 	}
 
 	template<typename Data, unsigned int Columns, unsigned int Rows>
 	void Matrix<Data, Columns, Rows>::setData(Data* data)
 	{
-		for (unsigned int index = 0; index < Columns * Rows; index++)
-		{
-			this->data[index] = data[index];
-		}
+		copy(data, data + Columns * Rows, begin(this->data));
 	}
 
 	template<typename Data, unsigned int Columns, unsigned int Rows>

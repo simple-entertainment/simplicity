@@ -39,8 +39,6 @@ namespace simplicity
 
 			Matrix(Data* data);
 
-			~Matrix();
-
 			Data* getData();
 
 			const Data* getData() const;
@@ -66,7 +64,7 @@ namespace simplicity
 			void transpose();
 
 		private:
-			Data* data;
+			Data data[Columns * Rows];
 	};
 
 	typedef Matrix<float, 3, 3> Matrix33;

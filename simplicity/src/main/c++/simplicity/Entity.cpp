@@ -34,6 +34,7 @@ namespace simplicity
 		transformation(),
 		uniqueComponents()
 	{
+		transformation.setIdentity();
 	}
 
 	void Entity::addSharedComponent(shared_ptr<Component> component)

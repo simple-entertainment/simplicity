@@ -32,15 +32,13 @@ namespace simplicity
 
 			Vector(const std::array<Data, Size>& data);
 
-			Vector(Data* data, bool takeOwnership);
+			Vector(Data* data);
 
 			Vector(Data d0, Data d1);
 
 			Vector(Data d0, Data d1, Data d2);
 
 			Vector(Data d0, Data d1, Data d2, Data d3);
-
-			~Vector();
 
 			Data& A();
 
@@ -90,7 +88,7 @@ namespace simplicity
 
 			void setData(const std::array<Data, Size>& data);
 
-			void setData(Data* data, bool takeOwnership);
+			void setData(Data* data);
 
 			Data& W();
 
@@ -109,9 +107,7 @@ namespace simplicity
 			const Data& Z() const;
 
 		private:
-			Data* data;
-
-			bool dataOwner;
+			Data data[Size];
 	};
 
 	typedef Vector<float, 2> Vector2;

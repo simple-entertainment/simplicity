@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include <algorithm>
 #include <cmath>
 
 #include "Vector.h"
@@ -24,39 +25,34 @@ namespace simplicity
 {
 	template<typename Data, unsigned int Size>
 	Vector<Data, Size>::Vector() :
-		data(new Data[Size]),
-		dataOwner(true)
+		data()
 	{
 	}
 
 	template<typename Data, unsigned int Size>
 	Vector<Data, Size>::Vector(const Vector<Data, Size>& original) :
-		data(new Data[Size]),
-		dataOwner(true)
+		data()
 	{
 		operator=(original);
 	}
 
 	template<typename Data, unsigned int Size>
 	Vector<Data, Size>::Vector(const array<Data, Size>& data) :
-		data(NULL),
-		dataOwner(false)
+		data()
 	{
 		setData(data);
 	}
 
 	template<typename Data, unsigned int Size>
-	Vector<Data, Size>::Vector(Data* data, bool takeOwnership) :
-		data(NULL),
-		dataOwner(false)
+	Vector<Data, Size>::Vector(Data* data) :
+		data()
 	{
-		setData(data, takeOwnership);
+		setData(data);
 	}
 
 	template<typename Data, unsigned int Size>
 	Vector<Data, Size>::Vector(Data d0, Data d1) :
-		data(new Data[Size]),
-		dataOwner(true)
+		data()
 	{
 		data[0] = d0;
 		data[1] = d1;
@@ -64,8 +60,7 @@ namespace simplicity
 
 	template<typename Data, unsigned int Size>
 	Vector<Data, Size>::Vector(Data d0, Data d1, Data d2) :
-		data(new Data[Size]),
-		dataOwner(true)
+		data()
 	{
 		data[0] = d0;
 		data[1] = d1;
@@ -74,22 +69,12 @@ namespace simplicity
 
 	template<typename Data, unsigned int Size>
 	Vector<Data, Size>::Vector(Data d0, Data d1, Data d2, Data d3) :
-		data(new Data[Size]),
-		dataOwner(true)
+		data()
 	{
 		data[0] = d0;
 		data[1] = d1;
 		data[2] = d2;
 		data[3] = d3;
-	}
-
-	template<typename Data, unsigned int Size>
-	Vector<Data, Size>::~Vector()
-	{
-		if (dataOwner)
-		{
-			delete[] data;
-		}
 	}
 
 	template<typename Data, unsigned int Size>
@@ -275,43 +260,13 @@ namespace simplicity
 	template<typename Data, unsigned int Size>
 	void Vector<Data, Size>::setData(const array<Data, Size>& data)
 	{
-		if (!dataOwner)
-		{
-			data = new Data[Size];
-			dataOwner = true;
-		}
-
-		for (unsigned int index = 0; index < Size; index++)
-		{
-			this->data[index] = data[index];
-		}
+		copy(begin(data.data()), end(data.data()), begin(this->data));
 	}
 
 	template<typename Data, unsigned int Size>
-	void Vector<Data, Size>::setData(Data* data, bool takeOwnership)
+	void Vector<Data, Size>::setData(Data* data)
 	{
-		if (dataOwner && !takeOwnership)
-		{
-			delete[] this->data;
-			dataOwner = false;
-		}
-		else if (!dataOwner && takeOwnership)
-		{
-			this->data = new Data[Size];
-			dataOwner = true;
-		}
-
-		if (takeOwnership)
-		{
-			for (unsigned int index = 0; index < Size; index++)
-			{
-				this->data[index] = data[index];
-			}
-		}
-		else
-		{
-			this->data = data;
-		}
+		copy(data, data + Size, begin(this->data));
 	}
 
 	template<typename Data, unsigned int Size>
