@@ -44,12 +44,15 @@ namespace simplicity
 			static void addTriangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector4& colour,
 				const Vector3& top, const Vector3& toBottomLeft, const Vector3& toBottomRight);
 
-			void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color);
+			static void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color);
 
 			std::unique_ptr<Mesh> createBoxMesh(const Vector3& halfExtents, const Vector4& color,
 				bool doubleSided = false);
 
 			std::unique_ptr<Mesh> createCubeMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
+
+			std::unique_ptr<Mesh> createHeightMapMesh(const std::vector<std::vector<float>>& heightMap,
+					const Vector4& color);
 
 			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices) = 0;
 

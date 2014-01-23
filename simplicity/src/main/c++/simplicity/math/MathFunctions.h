@@ -63,6 +63,10 @@ namespace simplicity
 		template<typename Data>
 		Data getProximity(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs);
 
+		bool getRandomBool();
+
+		bool getRandomBool(float trueChance);
+
 		float getRandomFloat(float min, float max);
 
 		int getRandomInt(int min, int max);

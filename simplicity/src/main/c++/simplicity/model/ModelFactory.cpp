@@ -205,6 +205,74 @@ namespace simplicity
 		return createBoxMesh(Vector3(halfExtent, halfExtent, halfExtent), color, doubleSided);
 	}
 
+	unique_ptr<Mesh> ModelFactory::createHeightMapMesh(const vector<vector<float>>& heightMap, const Vector4& color)
+	{
+		unsigned int edgeLength = heightMap[0].size();
+		unsigned int halfEdgeLength = edgeLength / 2;
+
+		// Vertices
+		vector<Vertex> vertices(pow(edgeLength - 1, 2) * 6);
+
+		for (unsigned int x = 0; x < edgeLength - 1; x++)
+		{
+			for (unsigned int z = 0; z < edgeLength - 1; z++)
+			{
+				Vector3 position0((float) x - halfEdgeLength, heightMap[x][z],
+						(float) z - halfEdgeLength);
+				Vector3 position1((float) x - halfEdgeLength, heightMap[x][z + 1],
+						(float) z - halfEdgeLength + 1.0f);
+				Vector3 position2((float) x - halfEdgeLength + 1.0f, heightMap[x + 1][z + 1],
+						(float) z - halfEdgeLength + 1.0f);
+				Vector3 position3((float) x - halfEdgeLength + 1.0f, heightMap[x + 1][z],
+						(float) z - halfEdgeLength);
+
+				Vector3 edge0 = position1 - position0;
+				edge0.normalize();
+				Vector3 edge1 = position2 - position0;
+				edge1.normalize();
+				Vector3 normal = MathFunctions::crossProduct(edge0, edge1);
+
+				Vertex vertex0;
+				vertex0.color = color;
+				vertex0.normal = normal;
+				vertex0.position = position0;
+				vertices.push_back(vertex0);
+
+				Vertex vertex1;
+				vertex1.color = color;
+				vertex1.normal = normal;
+				vertex1.position = position1;
+				vertices.push_back(vertex1);
+
+				Vertex vertex2;
+				vertex2.color = color;
+				vertex2.normal = normal;
+				vertex2.position = position2;
+				vertices.push_back(vertex2);
+
+				Vertex vertex3;
+				vertex3.color = color;
+				vertex3.normal = normal;
+				vertex3.position = position0;
+				vertices.push_back(vertex3);
+
+				Vertex vertex4;
+				vertex4.color = color;
+				vertex4.normal = normal;
+				vertex4.position = position2;
+				vertices.push_back(vertex4);
+
+				Vertex vertex5;
+				vertex5.color = color;
+				vertex5.normal = normal;
+				vertex5.position = position3;
+				vertices.push_back(vertex5);
+			}
+		}
+
+		return createMesh(vertices);
+	}
+
 	unique_ptr<Mesh> ModelFactory::createPrismMesh(const Vector3& halfExtents, const Vector4& color)
 	{
 		// Vertices

@@ -22,6 +22,16 @@ namespace simplicity
 	{
 		bool randomIsSeeded = false;
 
+		bool getRandomBool()
+		{
+			return getRandomInt(0, 1) == 1;
+		}
+
+		bool getRandomBool(float trueChance)
+		{
+			return getRandomFloat(0.0f, 1.0f) < trueChance;
+		}
+
 		float getRandomFloat(float min, float max)
 		{
 			if (!randomIsSeeded)
