@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include "../math/MathConstants.h"
 #include "../math/MathFunctions.h"
 #include "ModelFactory.h"
 
@@ -344,6 +345,48 @@ namespace simplicity
 		addTriangleIndexList(indices, 9, 7);
 		addTriangleIndexList(indices, 12, 10);
 		addTriangleIndexList(indices, 15, 13);
+
+		return createMesh(vertices, indices);
+	}
+
+	unique_ptr<Mesh> ModelFactory::createSphereMesh(float radius, unsigned int divisions, const Vector4& color)
+	{
+		vector<Vertex> vertices;
+
+		for (unsigned int latitude = 0; latitude <= divisions; latitude++)
+		{
+			for (unsigned int longitude = 0; longitude <= divisions; longitude++)
+			{
+				float a = MathConstants::PI * latitude / divisions;
+				float b = 2 * MathConstants::PI * longitude / divisions;
+
+				Vertex vertex;
+				vertex.color = color;
+				vertex.position.X() = sin(a) * cos(b) * radius;
+				vertex.position.Y() = sin(a) * sin(b) * radius;
+				vertex.position.Z() = cos(a) * radius;
+				Vector3 normal = vertex.position;
+				normal.normalize();
+				vertex.normal = normal;
+				vertices.push_back(vertex);
+			}
+		}
+
+		vector<unsigned int> indices;
+
+		for (unsigned int latitude = 0; latitude <= divisions; latitude++)
+		{
+			for (unsigned int longitude = 0; longitude < divisions; longitude++)
+			{
+				indices.push_back(latitude * divisions + longitude);
+				indices.push_back((latitude + 1) * divisions + longitude + 1);
+				indices.push_back(latitude * divisions + longitude + 1);
+
+				indices.push_back(latitude * divisions + longitude);
+				indices.push_back((latitude + 1) * divisions + longitude);
+				indices.push_back((latitude + 1) * divisions + longitude + 1);
+			}
+		}
 
 		return createMesh(vertices, indices);
 	}

@@ -161,7 +161,13 @@ namespace simplicity
 		void rotate(Vector<Data, 2>& vector, const Data angle);
 
 		template<typename Data>
+		void setTranslation(Matrix<Data, 4, 4>& matrix, const Vector<Data, 3>& translation);
+
+		template<typename Data>
 		void setTranslation(Matrix<Data, 4, 4>& matrix, const Vector<Data, 4>& translation);
+
+		template<typename Data>
+		void translate(Matrix<Data, 4, 4>& matrix, const Vector<Data, 3>& translation);
 
 		template<typename Data>
 		void translate(Matrix<Data, 4, 4>& matrix, const Vector<Data, 4>& translation);

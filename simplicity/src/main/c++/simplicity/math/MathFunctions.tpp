@@ -357,12 +357,29 @@ namespace simplicity
 		}
 
 		template<typename Data>
+		void setTranslation(Matrix<Data, 4, 4>& matrix, const Vector<Data, 3>& translation)
+		{
+			matrix[12] = translation.X();
+			matrix[13] = translation.Y();
+			matrix[14] = translation.Z();
+			matrix[15] = 1.0f;
+		}
+
+		template<typename Data>
 		void setTranslation(Matrix<Data, 4, 4>& matrix, const Vector<Data, 4>& translation)
 		{
 			matrix[12] = translation.X();
 			matrix[13] = translation.Y();
 			matrix[14] = translation.Z();
 			matrix[15] = translation.W();
+		}
+
+		template<typename Data>
+		void translate(Matrix<Data, 4, 4>& matrix, const Vector<Data, 3>& translation)
+		{
+			matrix[12] += matrix[0] * translation.X() + matrix[4] * translation.Y() + matrix[8] * translation.Z();
+			matrix[13] += matrix[1] * translation.X() + matrix[5] * translation.Y() + matrix[9] * translation.Z();
+			matrix[14] += matrix[2] * translation.X() + matrix[6] * translation.Y() + matrix[10] * translation.Z();
 		}
 
 		template<typename Data>
