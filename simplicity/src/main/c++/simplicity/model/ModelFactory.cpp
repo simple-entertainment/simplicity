@@ -24,6 +24,58 @@ namespace simplicity
 {
 	unique_ptr<ModelFactory> ModelFactory::instance = unique_ptr<ModelFactory>();
 
+	void ModelFactory::addCircleIndexList(std::vector<unsigned int>& indices, unsigned int index,
+			unsigned int vertexIndex, unsigned int divisions, bool reverse)
+	{
+		for (unsigned int division = 0; division < divisions; division++)
+		{
+			unsigned int index1 = division + 1;
+			unsigned int index2 = 0;
+			if (division == divisions - 1)
+			{
+				index2 = 1;
+			}
+			else
+			{
+				index2 = division + 2;
+			}
+
+			if (reverse)
+			{
+				indices[index + division * 3] = vertexIndex;
+				indices[index + division * 3 + 1] = vertexIndex + index1;
+				indices[index + division * 3 + 2] = vertexIndex + index2;
+			}
+			else
+			{
+				indices[index + division * 3] = vertexIndex;
+				indices[index + division * 3 + 1] = vertexIndex + index2;
+				indices[index + division * 3 + 2] = vertexIndex + index1;
+			}
+		}
+	}
+
+	void ModelFactory::addCircleVertexList(std::vector<Vertex>& vertices, unsigned int index, float radius,
+			unsigned int divisions, const Vector3& center, const Vector4& colour)
+	{
+		Vector3 normal(0.0f, 0.0f, 1.0f);
+
+		vertices[index].color = colour;
+		vertices[index].normal = normal;
+		vertices[index].position = center;
+
+		for (unsigned int division = 0; division < divisions; division++)
+		{
+			float toPosition = 2 * MathConstants::PI * division / divisions;
+			Vector3 position(sin(toPosition), cos(toPosition), 0.0f);
+			position *= radius;
+
+			vertices[index + division + 1].color = colour;
+			vertices[index + division + 1].normal = normal;
+			vertices[index + division + 1].position = center + position;
+		}
+	}
+
 	void ModelFactory::addRectangleIndexList(vector<unsigned int>& indices, unsigned int index,
 		unsigned int vertexIndex, bool reverse)
 	{
@@ -133,6 +185,72 @@ namespace simplicity
 		vertices[index + 2].texCoord = Vector2(0.0f, texHeightAtBottom);
 	}
 
+	void ModelFactory::addTunnelIndexList(std::vector<unsigned int>& indices, unsigned int index,
+			unsigned int vertexIndex, unsigned int divisions, bool reverse)
+	{
+		for (unsigned int division = 0; division < divisions; division++)
+		{
+			unsigned int indexOffset = index + division * 6;
+			unsigned int vertexIndexOffset = vertexIndex + division * 4;
+
+			if (reverse)
+			{
+				indices[indexOffset] = vertexIndexOffset + 1;
+				indices[indexOffset + 1] = vertexIndexOffset + 2;
+				indices[indexOffset + 2] = vertexIndexOffset;
+
+				indices[indexOffset + 3] = vertexIndexOffset + 2;
+				indices[indexOffset + 4] = vertexIndexOffset + 1;
+				indices[indexOffset + 5] = vertexIndexOffset + 3;
+			}
+			else
+			{
+				indices[indexOffset] = vertexIndexOffset;
+				indices[indexOffset + 1] = vertexIndexOffset + 2;
+				indices[indexOffset + 2] = vertexIndexOffset + 1;
+
+				indices[indexOffset + 3] = vertexIndexOffset + 3;
+				indices[indexOffset + 4] = vertexIndexOffset + 1;
+				indices[indexOffset + 5] = vertexIndexOffset + 2;
+			}
+		}
+	}
+
+	void ModelFactory::addTunnelVertexList(std::vector<Vertex>& vertices, unsigned int index, float radius,
+			float length, unsigned int divisions, const Vector3& center, const Vector4& colour)
+	{
+		Vector3 toEnd(0.0f, 0.0f, -length);
+
+		for (unsigned int division = 0; division < divisions; division++)
+		{
+			float radiansToPositionA = 2 * MathConstants::PI * division / divisions;
+			float radiansToPositionB = 2 * MathConstants::PI * (division + 1) / divisions;
+			Vector3 positionA(sin(radiansToPositionA), cos(radiansToPositionA), 0.0f);
+			Vector3 positionB(sin(radiansToPositionB), cos(radiansToPositionB), 0.0f);
+			positionA *= radius;
+			positionB *= radius;
+
+			Vector3 edge0 = positionB - positionA;
+			Vector3 edge1 = toEnd;
+			Vector3 normal = MathFunctions::crossProduct(edge0, edge1);
+
+			unsigned int indexOffset = index + division * 4;
+
+			vertices[indexOffset].color = colour;
+			vertices[indexOffset].normal = normal;
+			vertices[indexOffset].position = center + positionA;
+			vertices[indexOffset + 1].color = colour;
+			vertices[indexOffset + 1].normal = normal;
+			vertices[indexOffset + 1].position = center + positionA + toEnd;
+			vertices[indexOffset + 2].color = colour;
+			vertices[indexOffset + 2].normal = normal;
+			vertices[indexOffset + 2].position = center + positionB;
+			vertices[indexOffset + 3].color = colour;
+			vertices[indexOffset + 3].normal = normal;
+			vertices[indexOffset + 3].position = center + positionB + toEnd;
+		}
+	}
+
 	void ModelFactory::colorizeVertices(vector<Vertex>& vertices, const Vector4& color)
 	{
 		for (unsigned int index = 0; index < vertices.size(); index++)
@@ -201,9 +319,63 @@ namespace simplicity
 		return createMesh(vertices, indices);
 	}
 
+	unique_ptr<Mesh> ModelFactory::createCircleMesh(float radius, unsigned int divisions, const Vector4& color)
+	{
+		// Vertices
+		vector<Vertex> vertices(divisions + 1);
+		addCircleVertexList(vertices, 0, radius, divisions, Vector3(0.0f, 0.0f, 0.0f), color);
+
+		// Indices
+		vector<unsigned int> indices(divisions * 3);
+		addCircleIndexList(indices, 0, 0, divisions);
+
+		return createMesh(vertices, indices);
+	}
+
 	unique_ptr<Mesh> ModelFactory::createCubeMesh(float halfExtent, const Vector4& color, bool doubleSided)
 	{
 		return createBoxMesh(Vector3(halfExtent, halfExtent, halfExtent), color, doubleSided);
+	}
+
+	unique_ptr<Mesh> ModelFactory::createCylinderMesh(float radius, float length, unsigned int divisions,
+			const Vector4& color)
+	{
+		Vector3 center(0.0f, 0.0f, 0.0f);
+		Vector3 toBack(0.0f, 0.0f, -length);
+
+		// Vertices
+		unsigned int verticesInEnd = divisions + 1;
+		unsigned int verticesInEnds = verticesInEnd * 2;
+		unsigned int verticesInSide = 4;
+		unsigned int verticesInSides = verticesInSide * divisions;
+		vector<Vertex> vertices(verticesInEnds + verticesInSides);
+
+		// Front
+		addCircleVertexList(vertices, 0, radius, divisions, center, color);
+
+		// Back
+		addCircleVertexList(vertices, verticesInEnd, radius, divisions, toBack, color);
+
+		// Sides
+		addTunnelVertexList(vertices, verticesInEnds, radius, length, divisions, center, color);
+
+		// Indices
+		unsigned int indicesInEnd = divisions * 3;
+		unsigned int indicesInEnds = indicesInEnd * 2;
+		unsigned int indicesInSide = 3 * 2;
+		unsigned int indicesInSides = indicesInSide * divisions;
+		vector<unsigned int> indices(indicesInEnds + indicesInSides);
+
+		// Front
+		addCircleIndexList(indices, 0, 0, divisions);
+
+		// Back
+		addCircleIndexList(indices, indicesInEnd, verticesInEnd, divisions, true);
+
+		//Sides
+		addTunnelIndexList(indices, indicesInEnds, verticesInEnds, divisions);
+
+		return createMesh(vertices, indices);
 	}
 
 	unique_ptr<Mesh> ModelFactory::createHeightMapMesh(const vector<vector<float>>& heightMap, const Vector4& color)
