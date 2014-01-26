@@ -54,7 +54,8 @@ namespace simplicity
 				unsigned int vertexIndex, unsigned int divisions, bool reverse = false);
 
 			static void addTunnelVertexList(std::vector<Vertex>& vertices, unsigned int index, float radius,
-					float length, unsigned int divisions, const Vector3& center, const Vector4& colour);
+					float length, unsigned int divisions, const Vector3& center, const Vector4& colour,
+					bool smooth = false);
 
 			static void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color);
 

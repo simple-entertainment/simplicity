@@ -217,7 +217,7 @@ namespace simplicity
 	}
 
 	void ModelFactory::addTunnelVertexList(std::vector<Vertex>& vertices, unsigned int index, float radius,
-			float length, unsigned int divisions, const Vector3& center, const Vector4& colour)
+			float length, unsigned int divisions, const Vector3& center, const Vector4& colour, bool smooth)
 	{
 		Vector3 toEnd(0.0f, 0.0f, -length);
 
@@ -230,24 +230,39 @@ namespace simplicity
 			positionA *= radius;
 			positionB *= radius;
 
-			Vector3 edge0 = positionB - positionA;
-			Vector3 edge1 = toEnd;
-			Vector3 normal = MathFunctions::crossProduct(edge0, edge1);
-
 			unsigned int indexOffset = index + division * 4;
 
 			vertices[indexOffset].color = colour;
-			vertices[indexOffset].normal = normal;
 			vertices[indexOffset].position = center + positionA;
 			vertices[indexOffset + 1].color = colour;
-			vertices[indexOffset + 1].normal = normal;
 			vertices[indexOffset + 1].position = center + positionA + toEnd;
 			vertices[indexOffset + 2].color = colour;
-			vertices[indexOffset + 2].normal = normal;
 			vertices[indexOffset + 2].position = center + positionB;
 			vertices[indexOffset + 3].color = colour;
-			vertices[indexOffset + 3].normal = normal;
 			vertices[indexOffset + 3].position = center + positionB + toEnd;
+
+			if (smooth)
+			{
+				vertices[indexOffset].normal = positionA;
+				vertices[indexOffset].normal.normalize();
+				vertices[indexOffset + 1].normal = positionA;
+				vertices[indexOffset + 1].normal.normalize();
+				vertices[indexOffset + 2].normal = positionB;
+				vertices[indexOffset + 2].normal.normalize();
+				vertices[indexOffset + 3].normal = positionB;
+				vertices[indexOffset + 3].normal.normalize();
+			}
+			else
+			{
+				Vector3 edge0 = positionB - positionA;
+				Vector3 edge1 = toEnd;
+				Vector3 normal = MathFunctions::crossProduct(edge0, edge1);
+
+				vertices[indexOffset].normal = normal;
+				vertices[indexOffset + 1].normal = normal;
+				vertices[indexOffset + 2].normal = normal;
+				vertices[indexOffset + 3].normal = normal;
+			}
 		}
 	}
 
