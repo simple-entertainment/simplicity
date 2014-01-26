@@ -390,6 +390,8 @@ namespace simplicity
 		{
 			for (unsigned int z = 0; z < edgeLength - 1; z++)
 			{
+				unsigned int vertexIndex = (x * (edgeLength - 1) + z) * 6;
+
 				Vector3 position0((float) x - halfEdgeLength, heightMap[x][z],
 						(float) z - halfEdgeLength);
 				Vector3 position1((float) x - halfEdgeLength, heightMap[x][z + 1],
@@ -405,41 +407,35 @@ namespace simplicity
 				edge1.normalize();
 				Vector3 normal = MathFunctions::crossProduct(edge0, edge1);
 
-				Vertex vertex0;
-				vertex0.color = color;
-				vertex0.normal = normal;
-				vertex0.position = position0;
-				vertices.push_back(vertex0);
+				vertices[vertexIndex].color = color;
+				vertices[vertexIndex].normal = normal;
+				vertices[vertexIndex].position = position0;
 
-				Vertex vertex1;
-				vertex1.color = color;
-				vertex1.normal = normal;
-				vertex1.position = position1;
-				vertices.push_back(vertex1);
+				vertices[vertexIndex + 1].color = color;
+				vertices[vertexIndex + 1].normal = normal;
+				vertices[vertexIndex + 1].position = position1;
 
-				Vertex vertex2;
-				vertex2.color = color;
-				vertex2.normal = normal;
-				vertex2.position = position2;
-				vertices.push_back(vertex2);
+				vertices[vertexIndex + 2].color = color;
+				vertices[vertexIndex + 2].normal = normal;
+				vertices[vertexIndex + 2].position = position2;
 
-				Vertex vertex3;
-				vertex3.color = color;
-				vertex3.normal = normal;
-				vertex3.position = position0;
-				vertices.push_back(vertex3);
+				Vector3 edge2 = position2 - position0;
+				edge2.normalize();
+				Vector3 edge3 = position3 - position0;
+				edge3.normalize();
+				normal = MathFunctions::crossProduct(edge2, edge3);
 
-				Vertex vertex4;
-				vertex4.color = color;
-				vertex4.normal = normal;
-				vertex4.position = position2;
-				vertices.push_back(vertex4);
+				vertices[vertexIndex + 3].color = color;
+				vertices[vertexIndex + 3].normal = normal;
+				vertices[vertexIndex + 3].position = position0;
 
-				Vertex vertex5;
-				vertex5.color = color;
-				vertex5.normal = normal;
-				vertex5.position = position3;
-				vertices.push_back(vertex5);
+				vertices[vertexIndex + 4].color = color;
+				vertices[vertexIndex + 4].normal = normal;
+				vertices[vertexIndex + 4].position = position2;
+
+				vertices[vertexIndex + 5].color = color;
+				vertices[vertexIndex + 5].normal = normal;
+				vertices[vertexIndex + 5].position = position3;
 			}
 		}
 
