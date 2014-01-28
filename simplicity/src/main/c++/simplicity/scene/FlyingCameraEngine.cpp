@@ -82,8 +82,6 @@ namespace simplicity
 				placeholders::_1));
 		Messages::registerRecipient(Events::MOUSE_MOVE, bind(&FlyingCameraEngine::onMouseMove, this,
 				placeholders::_1));
-
-
 	}
 
 	void FlyingCameraEngine::onKeyboardButton(any message)
