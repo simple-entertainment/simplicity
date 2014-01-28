@@ -92,7 +92,7 @@ namespace simplicity
 		}
 	}
 
-	void Entity::setTransformation(Matrix44& transformation)
+	void Entity::setTransformation(const Matrix44& transformation)
 	{
 		this->transformation = transformation;
 	}

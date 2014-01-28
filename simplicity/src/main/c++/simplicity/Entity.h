@@ -98,7 +98,7 @@ namespace simplicity
 			 */
 			void removeComponent(Component* component);
 
-			void setTransformation(Matrix44& transformation);
+			void setTransformation(const Matrix44& transformation);
 
 		private:
 			unsigned short category;
