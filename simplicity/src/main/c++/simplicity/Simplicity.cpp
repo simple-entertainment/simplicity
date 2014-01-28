@@ -122,7 +122,6 @@ namespace simplicity
 			{
 				totalTimer.start();
 
-				addPendingEntities();
 				for (unsigned int index = 0; index < engines.size(); index++)
 				{
 					engines[index]->init();
