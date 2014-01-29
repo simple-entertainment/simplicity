@@ -266,14 +266,6 @@ namespace simplicity
 		}
 	}
 
-	void ModelFactory::colorizeVertices(vector<Vertex>& vertices, const Vector4& color)
-	{
-		for (unsigned int index = 0; index < vertices.size(); index++)
-		{
-			vertices[index].color = color;
-		}
-	}
-
 	unique_ptr<Mesh> ModelFactory::createBoxMesh(const Vector3& halfExtents, const Vector4& color, bool doubleSided)
 	{
 		// Vertices
@@ -602,14 +594,6 @@ namespace simplicity
 	ModelFactory& ModelFactory::getInstance()
 	{
 		return *instance;
-	}
-
-	void ModelFactory::scaleVertices(vector<Vertex>& vertices, float scale)
-	{
-		for (unsigned int index = 0; index < vertices.size(); index++)
-		{
-			vertices[index].position *= scale;
-		}
 	}
 
 	void ModelFactory::setInstance(unique_ptr<ModelFactory> instance)

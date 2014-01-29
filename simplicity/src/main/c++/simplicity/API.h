@@ -54,6 +54,8 @@
 #include "model/Line.h"
 #include "model/Mesh.h"
 #include "model/Model.h"
+#include "model/ModelFactory.h"
+#include "model/ModelFunctions.h"
 #include "model/Plane.h"
 #include "model/shape/Capsule.h"
 #include "model/shape/Circle.h"

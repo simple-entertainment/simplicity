@@ -57,8 +57,6 @@ namespace simplicity
 					float length, unsigned int divisions, const Vector3& center, const Vector4& colour,
 					bool smooth = false);
 
-			static void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color);
-
 			std::unique_ptr<Mesh> createBoxMesh(const Vector3& halfExtents, const Vector4& color,
 				bool doubleSided = false);
 
@@ -86,8 +84,6 @@ namespace simplicity
 			std::unique_ptr<Mesh> createSquareMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
 
 			static ModelFactory& getInstance();
-
-			void scaleVertices(std::vector<Vertex>& vertices, float scale);
 
 			static void setInstance(std::unique_ptr<ModelFactory> instance);
 
