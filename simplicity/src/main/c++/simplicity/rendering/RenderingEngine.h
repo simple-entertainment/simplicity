@@ -45,7 +45,7 @@ namespace simplicity
 
 			virtual void removeRenderer(const Renderer& renderer) = 0;
 
-			virtual void setCamera(std::unique_ptr<Entity> camera) = 0;
+			virtual void setCamera(Entity* camera) = 0;
 
 			virtual void setClearingColour(const Vector4& clearingColour) = 0;
 
