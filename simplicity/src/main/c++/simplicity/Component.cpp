@@ -20,8 +20,10 @@
 namespace simplicity
 {
 	Component::Component() :
-		entity(NULL)
+		entity(NULL),
+		transformation()
 	{
+		transformation.setIdentity();
 	}
 
 	Component::~Component()
@@ -41,5 +43,20 @@ namespace simplicity
 	void Component::setEntity(Entity* entity)
 	{
 		this->entity = entity;
+	}
+
+	Matrix44& Component::getTransformation()
+	{
+		return transformation;
+	}
+
+	const Matrix44& Component::getTransformation() const
+	{
+		return transformation;
+	}
+
+	void Component::setTransformation(const Matrix44& transformation)
+	{
+		this->transformation = transformation;
 	}
 }

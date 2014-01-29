@@ -17,6 +17,8 @@
 #ifndef COMPONENT_H_
 #define COMPONENT_H_
 
+#include "math/Matrix.h"
+
 namespace simplicity
 {
 	class Entity;
@@ -34,8 +36,16 @@ namespace simplicity
 
 			void setEntity(Entity* entity);
 
+			Matrix44& getTransformation();
+
+			const Matrix44& getTransformation() const;
+
+			void setTransformation(const Matrix44& transformation);
+
 		private:
 			Entity* entity;
+
+			Matrix44 transformation; // TODO review! Is this a good idea?
 	};
 }
 
