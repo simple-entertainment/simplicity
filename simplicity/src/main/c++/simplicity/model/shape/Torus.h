@@ -24,7 +24,7 @@ namespace simplicity
 	class Torus : public Shape
 	{
 		public:
-			Torus(const Vector2& position, float innerRadius, float outerRadius);
+			Torus(float innerRadius, float outerRadius);
 
 			float getInnerRadius() const;
 

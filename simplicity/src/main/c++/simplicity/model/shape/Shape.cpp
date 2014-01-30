@@ -18,10 +18,9 @@
 
 namespace simplicity
 {
-	Shape::Shape(const Vector2& position) :
+	Shape::Shape() :
 		colour(0.0f, 0.0f, 0.0f, 1.0f),
 		levelOfDetail(1),
-		position(position),
 		primitiveType(TRIANGLE_LIST),
 		visible(true)
 	{
@@ -44,11 +43,6 @@ namespace simplicity
 	Texture* Shape::getNormalMap() const
 	{
 		return NULL;
-	}
-
-	const Vector2& Shape::getPosition() const
-	{
-		return position;
 	}
 
 	Model::PrimitiveType Shape::getPrimitiveType() const
@@ -78,11 +72,6 @@ namespace simplicity
 
 	void Shape::setNormalMap(Texture*)
 	{
-	}
-
-	void Shape::setPosition(const Vector2& position)
-	{
-		this->position = position;
 	}
 
 	void Shape::setPrimitiveType(PrimitiveType primitiveType)

@@ -24,7 +24,7 @@ namespace simplicity
 	class Cube : public Shape
 	{
 		public:
-			Cube(const Vector2& position, float halfEdgeLength);
+			Cube(float halfEdgeLength);
 
 			float getHalfEdgeLength() const;
 

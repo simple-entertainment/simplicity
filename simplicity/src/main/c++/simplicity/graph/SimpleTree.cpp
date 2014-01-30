@@ -18,6 +18,7 @@
 
 #include "../common/AddressEquals.h"
 #include "../math/Intersection.h"
+#include "../math/MathFunctions.h"
 #include "SimpleTree.h"
 
 using namespace std;
@@ -137,7 +138,10 @@ namespace simplicity
 				Circle* circle = dynamic_cast<Circle*>(models[index]);
 				if (circle != NULL)
 				{
-					if (Intersection::intersect(range, *circle))
+					Vector3 circlePosition3 = MathFunctions::getTranslation3(entities[entityIndex]->getTransformation() *
+									circle->getTransformation());
+					Vector2 circlePosition2(circlePosition3.X(), circlePosition3.Y());
+					if (Intersection::intersect(range, *circle, circlePosition2))
 					{
 						queryResult.push_back(entities[entityIndex]);
 					}

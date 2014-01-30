@@ -14,84 +14,86 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "Plane.h"
+#include "Line.h"
 
 namespace simplicity
 {
-	Plane::Plane(const Vector3& normal, const Vector3& positionOnPlane) :
-		colour(),
-		normal(normal),
-		positionOnPlane(positionOnPlane)
+	Line::Line(const Vector3& pointA, const Vector3& pointB) :
+		colour(0.0f, 0.0f, 0.0f),
+		pointA(pointA),
+		pointB(pointB),
+		visible(true)
 	{
 	}
 
-	const Vector4& Plane::getColour() const
+	const Vector4& Line::getColour() const
 	{
 		return colour;
 	}
 
-	const Vector3& Plane::getNormal() const
-	{
-		return normal;
-	}
-
-	Texture* Plane::getNormalMap() const
+	Texture* Line::getNormalMap() const
 	{
 		return NULL;
 	}
 
-	const Vector3& Plane::getPositionOnPlane() const
+	const Vector3& Line::getPointA() const
 	{
-		return positionOnPlane;
+		return pointA;
 	}
 
-	Model::PrimitiveType Plane::getPrimitiveType() const
+	const Vector3& Line::getPointB() const
 	{
-		return NA;
+		return pointB;
 	}
 
-	Texture* Plane::getTexture() const
+	Model::PrimitiveType Line::getPrimitiveType() const
+	{
+		return Model::NA;
+	}
+
+	Texture* Line::getTexture() const
 	{
 		return NULL;
 	}
 
-	bool Plane::isVisible() const
+	bool Line::isVisible() const
 	{
 		return visible;
 	}
 
-	void Plane::render(Renderer&) const
+	void Line::render(Renderer& renderer) const
 	{
+		renderer.render(*this);
 	}
 
-	void Plane::setColour(const Vector4& colour)
+	void Line::setColour(const Vector4& colour)
 	{
 		this->colour = colour;
 	}
 
-	void Plane::setNormal(const Vector3& normal)
-	{
-		this->normal = normal;
-	}
-
-	void Plane::setNormalMap(Texture*)
+	void Line::setNormalMap(Texture*)
 	{
 	}
 
-	void Plane::setPositionOnPlane(const Vector3& positionOnPlane)
+	void Line::setPointA(const Vector3& pointA)
 	{
-		this->positionOnPlane = positionOnPlane;
+		this->pointA = pointA;
 	}
 
-	void Plane::setPrimitiveType(PrimitiveType)
+	void Line::setPointB(const Vector3& pointB)
+	{
+		this->pointB = pointB;
+	}
+
+	void Line::setPrimitiveType(PrimitiveType)
 	{
 	}
 
-	void Plane::setTexture(Texture*)
+	void Line::setTexture(Texture*)
 	{
 	}
 
-	void Plane::setVisible(bool visible)
+	void Line::setVisible(bool visible)
 	{
 		this->visible = visible;
 	}

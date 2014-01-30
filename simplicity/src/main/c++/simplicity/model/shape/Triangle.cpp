@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,38 +14,50 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "Torus.h"
+#include "Triangle.h"
 
 namespace simplicity
 {
-	Torus::Torus(float innerRadius, float outerRadius) :
-		innerRadius(innerRadius),
-		outerRadius(outerRadius)
+	Triangle::Triangle(const Vector3& pointA, const Vector3& pointB, const Vector3& pointC) :
+		pointA(pointA),
+		pointB(pointB),
+		pointC(pointC)
 	{
 	}
 
-	float Torus::getInnerRadius() const
+	const Vector3& Triangle::getPointA() const
 	{
-		return innerRadius;
+		return pointA;
 	}
 
-	float Torus::getOuterRadius() const
+	const Vector3& Triangle::getPointB() const
 	{
-		return outerRadius;
+		return pointB;
 	}
 
-	void Torus::render(Renderer& renderer) const
+	const Vector3& Triangle::getPointC() const
+	{
+		return pointC;
+	}
+
+	void Triangle::render(Renderer& renderer) const
 	{
 		renderer.render(*this);
 	}
 
-	void Torus::setInnerRadius(const float innerRadius)
+	void Triangle::setPointA(const Vector3& pointA)
 	{
-		this->innerRadius = innerRadius;
+		this->pointA = pointA;
 	}
 
-	void Torus::setOuterRadius(const float outerRadius)
+	void Triangle::setPointB(const Vector3& pointB)
 	{
-		this->outerRadius = outerRadius;
+		this->pointB = pointB;
+	}
+
+	void Triangle::setPointC(const Vector3& pointC)
+	{
+		this->pointC = pointC;
 	}
 }
+

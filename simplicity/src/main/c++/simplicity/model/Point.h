@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,25 +14,23 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SHAPE_H_
-#define SHAPE_H_
+#ifndef POINT_H_
+#define POINT_H_
 
-#include "../Model.h"
+#include "Model.h"
 
 namespace simplicity
 {
-	class Shape : public Model
+	class Point : public Model
 	{
 		public:
-			Shape();
-
-			virtual ~Shape();
+			Point(const Vector3& point);
 
 			const Vector4& getColour() const;
 
-			unsigned int getLevelOfDetail() const;
-
 			Texture* getNormalMap() const;
+
+			const Vector3& getPoint() const;
 
 			PrimitiveType getPrimitiveType() const;
 
@@ -40,11 +38,13 @@ namespace simplicity
 
 			bool isVisible() const;
 
-			void setColour(const Vector4& colour);
+			void render(Renderer& renderer) const;
 
-			void setLevelOfDetail(unsigned int levelOfDetail);
+			void setColour(const Vector4& color);
 
 			void setNormalMap(Texture* texture);
+
+			void setPoint(const Vector3& point);
 
 			void setPrimitiveType(PrimitiveType primitiveType);
 
@@ -55,12 +55,10 @@ namespace simplicity
 		private:
 			Vector4 colour;
 
-			unsigned int levelOfDetail;
-
-			PrimitiveType primitiveType;
+			Vector3 point;
 
 			bool visible;
 	};
 }
 
-#endif /* SHAPE_H_ */
+#endif /* POINT_H_ */

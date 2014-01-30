@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,53 +14,40 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SHAPE_H_
-#define SHAPE_H_
+#ifndef TRIANGLE_H_
+#define TRIANGLE_H_
 
-#include "../Model.h"
+#include "Shape.h"
 
 namespace simplicity
 {
-	class Shape : public Model
+	class Triangle : public Shape
 	{
 		public:
-			Shape();
+			Triangle(const Vector3& pointA, const Vector3& pointB, const Vector3& pointC);
 
-			virtual ~Shape();
+			const Vector3& getPointA() const;
 
-			const Vector4& getColour() const;
+			const Vector3& getPointB() const;
 
-			unsigned int getLevelOfDetail() const;
+			const Vector3& getPointC() const;
 
-			Texture* getNormalMap() const;
+			void render(Renderer& renderer) const;
 
-			PrimitiveType getPrimitiveType() const;
+			void setPointA(const Vector3& pointA);
 
-			Texture* getTexture() const;
+			void setPointB(const Vector3& pointB);
 
-			bool isVisible() const;
-
-			void setColour(const Vector4& colour);
-
-			void setLevelOfDetail(unsigned int levelOfDetail);
-
-			void setNormalMap(Texture* texture);
-
-			void setPrimitiveType(PrimitiveType primitiveType);
-
-			void setTexture(Texture* texture);
-
-			void setVisible(bool visible);
+			void setPointC(const Vector3& pointC);
 
 		private:
-			Vector4 colour;
+			Vector3 pointA;
 
-			unsigned int levelOfDetail;
+			Vector3 pointB;
 
-			PrimitiveType primitiveType;
-
-			bool visible;
+			Vector3 pointC;
 	};
 }
 
-#endif /* SHAPE_H_ */
+#endif /* TRIANGLE_H_ */
+

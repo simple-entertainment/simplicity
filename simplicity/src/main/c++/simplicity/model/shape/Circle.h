@@ -24,7 +24,7 @@ namespace simplicity
 	class Circle : public Shape
 	{
 		public:
-			Circle(const Vector2& position, float radius);
+			Circle(float radius);
 
 			float getRadius() const;
 

@@ -18,8 +18,7 @@
 
 namespace simplicity
 {
-	Cube::Cube(const Vector2& position, float halfEdgeLength) :
-		Shape(position),
+	Cube::Cube(float halfEdgeLength) :
 		halfEdgeLength(halfEdgeLength)
 	{
 	}

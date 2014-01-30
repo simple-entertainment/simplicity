@@ -64,6 +64,7 @@
 #include "model/shape/Shape.h"
 #include "model/shape/Sphere.h"
 #include "model/shape/Torus.h"
+#include "model/shape/Triangle.h"
 #include "model/SimpleMesh.h"
 #include "model/SimpleModelFactory.h"
 #include "model/Text.h"

@@ -14,84 +14,75 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "Plane.h"
+#include "Point.h"
 
 namespace simplicity
 {
-	Plane::Plane(const Vector3& normal, const Vector3& positionOnPlane) :
-		colour(),
-		normal(normal),
-		positionOnPlane(positionOnPlane)
+	Point::Point(const Vector3& point) :
+		colour(0.0f, 0.0f, 0.0f),
+		point(point),
+		visible(true)
 	{
 	}
 
-	const Vector4& Plane::getColour() const
+	const Vector4& Point::getColour() const
 	{
 		return colour;
 	}
 
-	const Vector3& Plane::getNormal() const
-	{
-		return normal;
-	}
-
-	Texture* Plane::getNormalMap() const
+	Texture* Point::getNormalMap() const
 	{
 		return NULL;
 	}
 
-	const Vector3& Plane::getPositionOnPlane() const
+	const Vector3& Point::getPoint() const
 	{
-		return positionOnPlane;
+		return point;
 	}
 
-	Model::PrimitiveType Plane::getPrimitiveType() const
+	Model::PrimitiveType Point::getPrimitiveType() const
 	{
-		return NA;
+		return Model::NA;
 	}
 
-	Texture* Plane::getTexture() const
+	Texture* Point::getTexture() const
 	{
 		return NULL;
 	}
 
-	bool Plane::isVisible() const
+	bool Point::isVisible() const
 	{
 		return visible;
 	}
 
-	void Plane::render(Renderer&) const
+	void Point::render(Renderer& renderer) const
 	{
+		renderer.render(*this);
 	}
 
-	void Plane::setColour(const Vector4& colour)
+	void Point::setColour(const Vector4& colour)
 	{
 		this->colour = colour;
 	}
 
-	void Plane::setNormal(const Vector3& normal)
-	{
-		this->normal = normal;
-	}
-
-	void Plane::setNormalMap(Texture*)
+	void Point::setNormalMap(Texture*)
 	{
 	}
 
-	void Plane::setPositionOnPlane(const Vector3& positionOnPlane)
+	void Point::setPoint(const Vector3& point)
 	{
-		this->positionOnPlane = positionOnPlane;
+		this->point = point;
 	}
 
-	void Plane::setPrimitiveType(PrimitiveType)
-	{
-	}
-
-	void Plane::setTexture(Texture*)
+	void Point::setPrimitiveType(PrimitiveType)
 	{
 	}
 
-	void Plane::setVisible(bool visible)
+	void Point::setTexture(Texture*)
+	{
+	}
+
+	void Point::setVisible(bool visible)
 	{
 		this->visible = visible;
 	}

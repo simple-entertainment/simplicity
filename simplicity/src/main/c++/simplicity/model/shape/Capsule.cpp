@@ -18,8 +18,7 @@
 
 namespace simplicity
 {
-	Capsule::Capsule(const Vector2& position, float length, float radius) :
-		Shape(position),
+	Capsule::Capsule(float length, float radius) :
 		length(length),
 		radius(radius)
 	{

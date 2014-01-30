@@ -22,13 +22,13 @@ namespace simplicity
 	class Circle;
 	class Cube;
 	class Cylinder;
-	template<unsigned int Dimensions>
 	class Line;
 	class Mesh;
-	class Model;
+	class Point;
 	class Sphere;
 	class Text;
 	class Torus;
+	class Triangle;
 
 	class Renderer
 	{
@@ -51,15 +51,19 @@ namespace simplicity
 
 			virtual void render(const Cylinder& model) = 0;
 
-			virtual void render(const Line<2>& model) = 0;
+			virtual void render(const Line& model) = 0;
 
 			virtual void render(const Mesh& model) = 0;
+
+			virtual void render(const Point& model) = 0;
 
 			virtual void render(const Sphere& model) = 0;
 
 			virtual void render(const Text& model) = 0;
 
 			virtual void render(const Torus& model) = 0;
+
+			virtual void render(const Triangle& model) = 0;
 
 			virtual void setShader(std::unique_ptr<Shader> shader) = 0;
 	};

@@ -24,7 +24,7 @@ namespace simplicity
 	class Cylinder : public Shape
 	{
 		public:
-			Cylinder(const Vector2& position, float length, float radius);
+			Cylinder(float length, float radius);
 
 			float getLength() const;
 

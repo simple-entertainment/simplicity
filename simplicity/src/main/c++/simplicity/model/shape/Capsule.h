@@ -24,7 +24,7 @@ namespace simplicity
 	class Capsule : public Shape
 	{
 		public:
-			Capsule(const Vector2& position, float length, float radius);
+			Capsule(float length, float radius);
 
 			float getLength() const;
 

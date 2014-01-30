@@ -24,7 +24,7 @@ namespace simplicity
 	class Sphere : public Shape
 	{
 		public:
-			Sphere(const Vector2& position, float radius);
+			Sphere(float radius);
 
 			float getRadius() const;
 

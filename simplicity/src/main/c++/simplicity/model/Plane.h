@@ -26,6 +26,8 @@ namespace simplicity
 		public:
 			Plane(const Vector3& normal, const Vector3& positionOnPlane);
 
+			const Vector4& getColour() const;
+
 			const Vector3& getNormal() const;
 
 			Texture* getNormalMap() const;
@@ -40,17 +42,23 @@ namespace simplicity
 
 			void render(Renderer& renderer) const;
 
+			void setColour(const Vector4& color);
+
 			void setNormal(const Vector3& normal);
 
 			void setNormalMap(Texture* texture);
 
 			void setPositionOnPlane(const Vector3& positionOnPlane);
 
+			void setPrimitiveType(PrimitiveType primitiveType);
+
 			void setTexture(Texture* texture);
 
 			void setVisible(bool visible);
 
 		private:
+			Vector4 colour;
+
 			Vector3 normal;
 
 			Vector3 positionOnPlane;

@@ -23,17 +23,20 @@ namespace simplicity
 {
 	namespace Intersection
 	{
-		bool contains(const AABB2& aabb, const Circle& circle)
+		RelativePosition intersect(const Plane& plane, const Vector3& point);
+		bool sameSide(const Vector3& lineA, const Vector3& lineB, const Vector3& pointA, const Vector3& pointB);
+
+		bool contains(const AABB2& aabb, const Circle& circle, const Vector2& circlePosition)
 		{
 			float aabbMaxX = aabb.center.X() + aabb.halfDimension;
 			float aabbMinX = aabb.center.X() - aabb.halfDimension;
 			float aabbMaxY = aabb.center.Y() + aabb.halfDimension;
 			float aabbMinY = aabb.center.Y() - aabb.halfDimension;
 
-			float circleMaxX = circle.getPosition().X() + circle.getRadius();
-			float circleMinX = circle.getPosition().X() - circle.getRadius();
-			float circleMaxY = circle.getPosition().Y() + circle.getRadius();
-			float circleMinY = circle.getPosition().Y() - circle.getRadius();
+			float circleMaxX = circlePosition.X() + circle.getRadius();
+			float circleMinX = circlePosition.X() - circle.getRadius();
+			float circleMaxY = circlePosition.Y() + circle.getRadius();
+			float circleMinY = circlePosition.Y() - circle.getRadius();
 
 			if (circleMaxX <= aabbMaxX && circleMinX >= aabbMinX &&
 				circleMaxY <= aabbMaxY && circleMinY >= aabbMinY)
@@ -44,7 +47,22 @@ namespace simplicity
 			return false;
 		}
 
-		float getIntersectionTime(const Line3& lineSegment, const Plane& plane)
+		bool contains(const Triangle& triangle, const Point& point)
+		{
+			if (!sameSide(triangle.getPointA(), triangle.getPointB(), point.getPoint(), triangle.getPointC()))
+			{
+				return false;
+			}
+
+			if (!sameSide(triangle.getPointB(), triangle.getPointC(), point.getPoint(), triangle.getPointA()))
+			{
+				return false;
+			}
+
+			return sameSide(triangle.getPointC(), triangle.getPointA(), point.getPoint(), triangle.getPointB());
+		}
+
+		float getIntersectionTime(const Line& lineSegment, const Plane& plane)
 		{
 			return dotProduct(plane.getNormal(), plane.getPositionOnPlane() - lineSegment.getPointA()) /
 				dotProduct(plane.getNormal(), lineSegment.getPointB() - lineSegment.getPointA());
@@ -70,17 +88,17 @@ namespace simplicity
 			return true;
 		}
 
-		bool intersect(const AABB2& aabb, const Circle& circle)
+		bool intersect(const AABB2& aabb, const Circle& circle, const Vector2& circlePosition)
 		{
 			float aabbMaxX = aabb.center.X() + aabb.halfDimension;
 			float aabbMinX = aabb.center.X() - aabb.halfDimension;
 			float aabbMaxY = aabb.center.Y() + aabb.halfDimension;
 			float aabbMinY = aabb.center.Y() - aabb.halfDimension;
 
-			float circleMaxX = circle.getPosition().X() + circle.getRadius();
-			float circleMinX = circle.getPosition().X() - circle.getRadius();
-			float circleMaxY = circle.getPosition().Y() + circle.getRadius();
-			float circleMinY = circle.getPosition().Y() - circle.getRadius();
+			float circleMaxX = circlePosition.X() + circle.getRadius();
+			float circleMinX = circlePosition.X() - circle.getRadius();
+			float circleMaxY = circlePosition.Y() + circle.getRadius();
+			float circleMinY = circlePosition.Y() - circle.getRadius();
 
 			if ((circleMaxX <= aabbMaxX && circleMaxX >= aabbMinX) ||
 				(circleMinX <= aabbMaxX && circleMinX >= aabbMinX))
@@ -95,15 +113,15 @@ namespace simplicity
 			return false;
 		}
 
-		bool intersect(const Circle& a, const Circle& b)
+		bool intersect(const Circle& a, const Vector2& positionA, const Circle& b, const Vector2& positionB)
 		{
-			return (a.getPosition() - b.getPosition()).getMagnitude() < a.getRadius() + b.getRadius();
+			return (positionA - positionB).getMagnitude() < a.getRadius() + b.getRadius();
 		}
 
-		bool intersect(const Line3& lineSegment, const Plane& plane)
+		bool intersect(const Line& lineSegment, const Plane& plane)
 		{
-			int startPosition = intersect(plane, lineSegment.getPointA());
-			int finishPosition = intersect(plane, lineSegment.getPointB());
+			RelativePosition startPosition = intersect(plane, lineSegment.getPointA());
+			RelativePosition finishPosition = intersect(plane, lineSegment.getPointB());
 
 			if ((startPosition == BEHIND && finishPosition == INFRONT) ||
 				(startPosition == INFRONT && finishPosition == BEHIND) ||
@@ -131,7 +149,7 @@ namespace simplicity
 			return false;
 		}
 
-		bool intersect(const Plane& plane, const std::vector<Vector3>& triangle)
+		bool intersect(const Plane& plane, const Triangle& triangle)
 		{
 			/*if (intersect(plane, triangle[0], triangle[1]))
 			{
@@ -151,16 +169,21 @@ namespace simplicity
 			return false;
 		}
 
+		RelativePosition intersect(const Plane& plane, const Point& point)
+		{
+			return intersect(plane, point.getPoint());
+		}
+
 		RelativePosition intersect(const Plane& plane, const Vector3& point)
 		{
 			float referenceDistance = dotProduct(plane.getNormal(), plane.getPositionOnPlane());
-			float result = dotProduct(plane.getNormal(), point) - referenceDistance;
+			float distance = dotProduct(plane.getNormal(), point) - referenceDistance;
 
-			if (result < 0.0f)
+			if (distance < 0.0f)
 			{
 				return BEHIND;
 			}
-			else if (result > 0.0f)
+			else if (distance > 0.0f)
 			{
 				return INFRONT;
 			}
@@ -168,6 +191,14 @@ namespace simplicity
 			{
 				return ON_PLANE;
 			}
+		}
+
+		bool sameSide(const Vector3& lineA, const Vector3& lineB, const Vector3& pointA, const Vector3& pointB)
+		{
+			Vector3 crossProduct0 = MathFunctions::crossProduct(lineB - lineA, pointA - lineA);
+			Vector3 crossProduct1 = MathFunctions::crossProduct(lineB - lineA, pointB - lineA);
+
+			return dotProduct(crossProduct0, crossProduct1) >= 0;
 		}
 	}
 }

@@ -21,19 +21,18 @@
 
 namespace simplicity
 {
-	template<unsigned int Dimensions>
 	class Line : public Model
 	{
 		public:
-			Line(const Vector<float, Dimensions>& pointA, const Vector<float, Dimensions>& pointB);
+			Line(const Vector3& pointA, const Vector3& pointB);
 
 			const Vector4& getColour() const;
 
 			Texture* getNormalMap() const;
 
-			const Vector<float, Dimensions>& getPointA() const;
+			const Vector3& getPointA() const;
 
-			const Vector<float, Dimensions>& getPointB() const;
+			const Vector3& getPointB() const;
 
 			PrimitiveType getPrimitiveType() const;
 
@@ -47,9 +46,9 @@ namespace simplicity
 
 			void setNormalMap(Texture* texture);
 
-			void setPointA(const Vector<float, Dimensions>& pointA);
+			void setPointA(const Vector3& pointA);
 
-			void setPointB(const Vector<float, Dimensions>& pointB);
+			void setPointB(const Vector3& pointB);
 
 			void setPrimitiveType(PrimitiveType primitiveType);
 
@@ -60,18 +59,12 @@ namespace simplicity
 		private:
 			Vector4 colour;
 
-			Vector<float, Dimensions> pointA;
+			Vector3 pointA;
 
-			Vector<float, Dimensions> pointB;
+			Vector3 pointB;
 
 			bool visible;
 	};
-
-	typedef Line<2> Line2;
-
-	typedef Line<3> Line3;
 }
-
-#include "Line.tpp"
 
 #endif /* LINE_H_ */

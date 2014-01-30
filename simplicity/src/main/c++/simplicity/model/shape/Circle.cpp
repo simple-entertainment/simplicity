@@ -18,8 +18,7 @@
 
 namespace simplicity
 {
-	Circle::Circle(const Vector2& position, float radius) :
-		Shape(position),
+	Circle::Circle(float radius) :
 		radius(radius)
 	{
 	}

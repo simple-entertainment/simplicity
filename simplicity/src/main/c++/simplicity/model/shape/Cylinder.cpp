@@ -18,8 +18,7 @@
 
 namespace simplicity
 {
-	Cylinder::Cylinder(const Vector2& position, float length, float radius) :
-		Shape(position),
+	Cylinder::Cylinder(float length, float radius) :
 		length(length),
 		radius(radius)
 	{

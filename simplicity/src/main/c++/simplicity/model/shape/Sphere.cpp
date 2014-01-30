@@ -18,8 +18,7 @@
 
 namespace simplicity
 {
-	Sphere::Sphere(const Vector2& position, float radius) :
-		Shape(position),
+	Sphere::Sphere(float radius) :
 		radius(radius)
 	{
 	}
