@@ -385,19 +385,22 @@ namespace simplicity
 		return createMesh(vertices, indices);
 	}
 
-	unique_ptr<Mesh> ModelFactory::createHeightMapMesh(const vector<vector<float>>& heightMap, const Vector4& color)
+	unique_ptr<Mesh> ModelFactory::createHeightMapMesh(const vector<vector<float>>& heightMap, unsigned int minX,
+			unsigned int maxX, unsigned int minZ, unsigned int maxZ, const Vector4& color)
 	{
 		unsigned int edgeLength = heightMap[0].size();
-		unsigned int halfEdgeLength = edgeLength / 2;
+		unsigned int halfEdgeLength = floor(edgeLength / 2.0f);
+		unsigned int width = maxX - minX;
+		unsigned int depth = maxZ - minZ;
 
 		// Vertices
-		vector<Vertex> vertices(pow(edgeLength - 1, 2) * 6);
+		vector<Vertex> vertices(width * depth * 6);
 
-		for (unsigned int x = 0; x < edgeLength - 1; x++)
+		for (unsigned int x = minX; x < maxX; x++)
 		{
-			for (unsigned int z = 0; z < edgeLength - 1; z++)
+			for (unsigned int z = minZ; z < maxZ; z++)
 			{
-				unsigned int vertexIndex = (x * (edgeLength - 1) + z) * 6;
+				unsigned int vertexIndex = ((x - minX) * width + (z - minZ)) * 6;
 
 				Vector3 position0((float) x - halfEdgeLength, heightMap[x][z],
 						(float) z - halfEdgeLength);
@@ -408,41 +411,14 @@ namespace simplicity
 				Vector3 position3((float) x - halfEdgeLength + 1.0f, heightMap[x + 1][z],
 						(float) z - halfEdgeLength);
 
-				Vector3 edge0 = position1 - position0;
-				edge0.normalize();
-				Vector3 edge1 = position2 - position0;
-				edge1.normalize();
-				Vector3 normal = MathFunctions::crossProduct(edge0, edge1);
+				Vector3 toPosition1 = position1 - position0;
+				Vector3 toPosition2 = position2 - position0;
 
-				vertices[vertexIndex].color = color;
-				vertices[vertexIndex].normal = normal;
-				vertices[vertexIndex].position = position0;
+				addTriangleVertexList(vertices, vertexIndex, color, position0, toPosition1, toPosition2);
 
-				vertices[vertexIndex + 1].color = color;
-				vertices[vertexIndex + 1].normal = normal;
-				vertices[vertexIndex + 1].position = position1;
+				Vector3 toPosition3 = position3 - position0;
 
-				vertices[vertexIndex + 2].color = color;
-				vertices[vertexIndex + 2].normal = normal;
-				vertices[vertexIndex + 2].position = position2;
-
-				Vector3 edge2 = position2 - position0;
-				edge2.normalize();
-				Vector3 edge3 = position3 - position0;
-				edge3.normalize();
-				normal = MathFunctions::crossProduct(edge2, edge3);
-
-				vertices[vertexIndex + 3].color = color;
-				vertices[vertexIndex + 3].normal = normal;
-				vertices[vertexIndex + 3].position = position0;
-
-				vertices[vertexIndex + 4].color = color;
-				vertices[vertexIndex + 4].normal = normal;
-				vertices[vertexIndex + 4].position = position2;
-
-				vertices[vertexIndex + 5].color = color;
-				vertices[vertexIndex + 5].normal = normal;
-				vertices[vertexIndex + 5].position = position3;
+				addTriangleVertexList(vertices, vertexIndex + 3, color, position0, toPosition2, toPosition3);
 			}
 		}
 

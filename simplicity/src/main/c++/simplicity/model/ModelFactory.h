@@ -68,7 +68,7 @@ namespace simplicity
 					const Vector4& color);
 
 			std::unique_ptr<Mesh> createHeightMapMesh(const std::vector<std::vector<float>>& heightMap,
-					const Vector4& color);
+					unsigned int minX, unsigned int maxX, unsigned int minZ, unsigned int maxZ, const Vector4& color);
 
 			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices) = 0;
 
