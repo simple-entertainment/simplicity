@@ -32,6 +32,8 @@ namespace simplicity
 
 		float getDeltaTime();
 
+        std::vector<Entity*> getEntities(unsigned short category = Categories::ALL_CATEGORIES);
+
 		unsigned short getMaxFrameRate();
 
 		float getTotalTime();
