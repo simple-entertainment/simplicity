@@ -86,10 +86,26 @@ namespace simplicity
 			return Vector<Data, 4>(const_cast<Data*>(&matrix[8]), false);
 		}
 
+		template<typename Data>
+		Vector<Data, 3> getProjection(const Vector<Data, 3>& lhs, const Plane& rhs)
+		{
+			// TODO Test! Not sure if this works!
+
+			Vector<Data, 3> lhsNormalized = lhs;
+			lhsNormalized.normalize();
+
+			return crossProduct(crossProduct(lhsNormalized, rhs.getNormal()), rhs.getNormal()) * lhs.getMagnitude();
+
+			//Vector<Data, 3> acrossPlane = crossProduct(lhsNormalized, rhs.getNormal());
+			//Vector<Data, 3> projectionVector = crossProduct(rhs.getNormal(), acrossPlane);
+
+			//return getProjection<Data, 3>(lhs, projectionVector);
+		}
+
 		template<typename Data, unsigned int Size>
 		Vector<Data, Size> getProjection(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
 		{
-			Vector<Data, Size>& rhsNormalized = rhs;
+			Vector<Data, Size> rhsNormalized = rhs;
 			rhsNormalized.normalize();
 
 			return rhsNormalized * getScalarProjection(lhs, rhs);

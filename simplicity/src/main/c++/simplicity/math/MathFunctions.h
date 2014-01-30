@@ -17,6 +17,7 @@
 #ifndef MATHFUNCTIONS_H_
 #define MATHFUNCTIONS_H_
 
+#include "../model/Plane.h"
 #include "Matrix.h"
 #include "Vector.h"
 
@@ -53,6 +54,9 @@ namespace simplicity
 
 		template<typename Data>
 		const Vector<Data, 4> getOut4(const Matrix<Data, 4, 4>& matrix);
+
+		template<typename Data>
+		Vector<Data, 3> getProjection(const Vector<Data, 3>& lhs, const Plane& rhs);
 
 		template<typename Data, unsigned int Size>
 		Vector<Data, Size> getProjection(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
