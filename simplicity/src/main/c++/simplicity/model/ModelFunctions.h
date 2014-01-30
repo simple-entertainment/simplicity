@@ -17,7 +17,11 @@
 #ifndef MODELFUNCTIONS_H_
 #define MODELFUNCTIONS_H_
 
+#include <memory>
+
 #include "../math/Vector.h"
+#include "../model/shape/Circle.h"
+#include "../model/shape/Square.h"
 #include "Vertex.h"
 
 namespace simplicity
@@ -25,6 +29,10 @@ namespace simplicity
 	namespace ModelFunctions
 	{
 		void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color);
+
+		std::unique_ptr<Circle> getCircleBoundsXZ(const std::vector<Vertex>& vertices);
+
+		std::unique_ptr<Square> getSquareBoundsXZ(const std::vector<Vertex>& vertices);
 
 		void scaleVertices(std::vector<Vertex>& vertices, float scale);
 
