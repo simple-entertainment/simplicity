@@ -20,9 +20,8 @@ using namespace std;
 
 namespace simplicity
 {
-	Text::Text(const Vector2& position, const std::string& text) :
+	Text::Text(const std::string& text) :
 		colour(0.0f, 0.0f, 0.0f, 1.0f),
-		position(position),
 		text(text),
 		visible(true)
 	{
@@ -36,11 +35,6 @@ namespace simplicity
 	Texture* Text::getNormalMap() const
 	{
 		return NULL;
-	}
-
-	const Vector2& Text::getPosition() const
-	{
-		return position;
 	}
 
 	Model::PrimitiveType Text::getPrimitiveType() const
@@ -75,11 +69,6 @@ namespace simplicity
 
 	void Text::setNormalMap(Texture*)
 	{
-	}
-
-	void Text::setPosition(const Vector2& position)
-	{
-		this->position = position;
 	}
 
 	void Text::setPrimitiveType(PrimitiveType)

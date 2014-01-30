@@ -24,13 +24,11 @@ namespace simplicity
 	class Text : public Model
 	{
 		public:
-			Text(const Vector2& position, const std::string& text);
+			Text(const std::string& text);
 
 			const Vector4& getColour() const;
 
 			Texture* getNormalMap() const;
-
-			const Vector2& getPosition() const;
 
 			PrimitiveType getPrimitiveType() const;
 
@@ -46,8 +44,6 @@ namespace simplicity
 
 			void setNormalMap(Texture* texture);
 
-			void setPosition(const Vector2& position);
-
 			void setPrimitiveType(PrimitiveType primitiveType);
 
 			void setText(const std::string& text);
@@ -58,8 +54,6 @@ namespace simplicity
 
 		private:
 			Vector4 colour;
-
-			Vector2 position;
 
 			std::string text;
 
