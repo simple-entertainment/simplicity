@@ -22,7 +22,6 @@
 #include "../engine/Engine.h"
 #include "../Entity.h"
 #include "../graph/Graph.h"
-#include "../model/Model.h"
 #include "../scene/Light.h"
 #include "Renderer.h"
 
@@ -39,6 +38,8 @@ namespace simplicity
 
 			virtual const Vector4& getClearingColour() const = 0;
 
+			virtual const Graph* getGraph() const = 0;
+
 			virtual int getHeight() const = 0;
 
 			virtual int getWidth() const = 0;
@@ -48,6 +49,8 @@ namespace simplicity
 			virtual void setCamera(Entity* camera) = 0;
 
 			virtual void setClearingColour(const Vector4& clearingColour) = 0;
+
+			virtual void setGraph(Graph* graph) = 0;
 
 			virtual void setHeight(int height) = 0;
 

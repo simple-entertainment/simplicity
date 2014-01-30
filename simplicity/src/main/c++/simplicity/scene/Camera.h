@@ -18,7 +18,6 @@
 #define CAMERA_H_
 
 #include "../Component.h"
-#include "../graph/SimpleTree.h"
 #include "../math/Matrix.h"
 #include "../math/Vector.h"
 
@@ -39,8 +38,6 @@ namespace simplicity
 
 			virtual float getNearClippingDistance() const = 0;
 
-			virtual SimpleTree* getNode() = 0;
-
 			virtual const Matrix44& getProjection() const = 0;
 
 			virtual Vector3 getTranslation() const = 0;
@@ -50,8 +47,6 @@ namespace simplicity
 			virtual void setFarClippingDistance(float farClippingDistance) = 0;
 
 			virtual void setNearClippingDistance(float nearClippingDistance) = 0;
-
-			virtual void setNode(SimpleTree* node) = 0;
 
 			virtual void setOrthogonal(float width, float height) = 0;
 
