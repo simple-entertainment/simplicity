@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,20 +14,28 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef AABB2_H_
-#define AABB2_H_
-
-#include "../Component.h"
-#include "../math/Vector.h"
+#include "Square.h"
 
 namespace simplicity
 {
-	struct AABB2 : public Component
+	Square::Square(float halfEdgeLength) :
+		halfEdgeLength(halfEdgeLength)
 	{
-		Vector2 center;
+	}
 
-		float halfDimension;
-	};
+	float Square::getHalfEdgeLength() const
+	{
+		return halfEdgeLength;
+	}
+
+	void Square::render(Renderer& renderer) const
+	{
+		renderer.render(*this);
+	}
+
+	void Square::setHalfEdgeLength(float halfEdgeLength)
+	{
+		this->halfEdgeLength = halfEdgeLength;
+	}
 }
 
-#endif /* AABB2_H_ */

@@ -19,14 +19,14 @@
 #include "../common/AddressEquals.h"
 #include "../math/Intersection.h"
 #include "../math/MathFunctions.h"
-#include "SimpleTree.h"
+#include "SimpleGraph.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	SimpleTree::SimpleTree() :
-		boundary(),
+	SimpleGraph::SimpleGraph() :
+		boundary(0.0f),
 		children(),
 		connections(),
 		entities(),
@@ -36,18 +36,18 @@ namespace simplicity
 		transformation.setIdentity();
 	}
 
-	void SimpleTree::addChild(unique_ptr<Graph> child)
+	void SimpleGraph::addChild(unique_ptr<Graph> child)
 	{
 		child->setParent(this);
 		children.push_back(move(child));
 	}
 
-	void SimpleTree::connectTo(Graph& graph)
+	void SimpleGraph::connectTo(Graph& graph)
 	{
 		connections.push_back(&graph);
 	}
 
-	void SimpleTree::disconnectFrom(Graph& graph)
+	void SimpleGraph::disconnectFrom(Graph& graph)
 	{
 		if (find(connections.begin(), connections.end(), &graph) == connections.end())
 		{
@@ -55,7 +55,7 @@ namespace simplicity
 		}
 	}
 
-	Matrix44 SimpleTree::getAbsoluteTransformation() const
+	Matrix44 SimpleGraph::getAbsoluteTransformation() const
 	{
 		Matrix44 absoluteMatrix;
 		absoluteMatrix.setIdentity();
@@ -69,12 +69,12 @@ namespace simplicity
 		return absoluteMatrix;
 	}
 
-	const AABB2& SimpleTree::getBoundary() const
+	const Model& SimpleGraph::getBoundary() const
 	{
 		return boundary;
 	}
 
-	vector<Graph*> SimpleTree::getChildren() const
+	vector<Graph*> SimpleGraph::getChildren() const
 	{
 		vector<Graph*> rawChildren;
 		for (unsigned int index = 0; index < children.size(); index++)
@@ -85,80 +85,72 @@ namespace simplicity
 		return rawChildren;
 	}
 
-	vector<Entity*>& SimpleTree::getEntities()
+	vector<Entity*>& SimpleGraph::getEntities()
 	{
 		return entities;
 	}
 
-	const vector<Entity*>& SimpleTree::getEntities() const
+	const vector<Entity*>& SimpleGraph::getEntities() const
 	{
 		return entities;
 	}
 
-	Graph* SimpleTree::getParent()
+	vector<Entity*> SimpleGraph::getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const
 	{
-		return parent;
-	}
+		vector<Entity*> entitiesWithinBounds;
 
-	const Graph* SimpleTree::getParent() const
-	{
-		return parent;
-	}
-
-	Matrix44& SimpleTree::getTransformation()
-	{
-		return transformation;
-	}
-
-	const Matrix44& SimpleTree::getTransformation() const
-	{
-		return transformation;
-	}
-
-	bool SimpleTree::insert(Entity& entity)
-	{
-		entities.push_back(&entity);
-		return true;
-	}
-
-	vector<Entity*> SimpleTree::queryRange(const AABB2& range) const
-	{
-		vector<Entity*> queryResult;
-
-		if (!Intersection::intersect(boundary, range))
+		for (Entity* entity : entities)
 		{
-			return queryResult;
-		}
-
-		for (unsigned int entityIndex = 0; entityIndex < entities.size(); entityIndex++)
-		{
-			vector<Model*> models = entities[entityIndex]->getComponents<Model>();
-			for (unsigned int index = 0; index < models.size(); index++)
+			Model* entityBounds = entity->getComponent<Model>(Categories::BOUNDS);
+			if (entityBounds == NULL)
 			{
-				Circle* circle = dynamic_cast<Circle*>(models[index]);
-				if (circle != NULL)
-				{
-					Vector3 circlePosition3 = MathFunctions::getTranslation3(entities[entityIndex]->getTransformation() *
-									circle->getTransformation());
-					Vector2 circlePosition2(circlePosition3.X(), circlePosition3.Y());
-					if (Intersection::intersect(range, *circle, circlePosition2))
-					{
-						queryResult.push_back(entities[entityIndex]);
-					}
-				}
+				continue;
+			}
+
+			Vector3 modelBoundsPosition = MathFunctions::getTranslation3(entity->getTransformation() *
+					entityBounds->getTransformation());
+			if (Intersection::intersect(*entityBounds, bounds, position - modelBoundsPosition))
+			{
+				entitiesWithinBounds.push_back(entity);
 			}
 		}
 
 		for (unsigned int index = 0; index < children.size(); index++)
 		{
-			vector<Entity*> childResult = children[index]->queryRange(range);
-			queryResult.insert(queryResult.end(), childResult.begin(), childResult.end());
+			vector<Entity*> childResult = children[index]->getEntitiesWithinBounds(bounds, position);
+			entitiesWithinBounds.insert(entitiesWithinBounds.end(), childResult.begin(), childResult.end());
 		}
 
-		return queryResult;
+		return entitiesWithinBounds;
 	}
 
-	bool SimpleTree::remove(const Entity& entity)
+	Graph* SimpleGraph::getParent()
+	{
+		return parent;
+	}
+
+	const Graph* SimpleGraph::getParent() const
+	{
+		return parent;
+	}
+
+	Matrix44& SimpleGraph::getTransformation()
+	{
+		return transformation;
+	}
+
+	const Matrix44& SimpleGraph::getTransformation() const
+	{
+		return transformation;
+	}
+
+	bool SimpleGraph::insert(Entity& entity)
+	{
+		entities.push_back(&entity);
+		return true;
+	}
+
+	bool SimpleGraph::remove(const Entity& entity)
 	{
 		if (find(entities.begin(), entities.end(), &entity) == entities.end())
 		{
@@ -177,7 +169,7 @@ namespace simplicity
 		return true;
 	}
 
-	unique_ptr<Graph> SimpleTree::removeChild(Graph& child)
+	unique_ptr<Graph> SimpleGraph::removeChild(Graph& child)
 	{
 		unique_ptr<Graph> uniqueChild;
 
@@ -193,17 +185,17 @@ namespace simplicity
 		return uniqueChild;
 	}
 
-	void SimpleTree::setParent(Graph* parent)
+	void SimpleGraph::setParent(Graph* parent)
 	{
 		this->parent = parent;
 	}
 
-	void SimpleTree::setTransformation(const Matrix44& transformation)
+	void SimpleGraph::setTransformation(const Matrix44& transformation)
 	{
 		this->transformation = transformation;
 	}
 
-	void SimpleTree::update(Entity& entity)
+	void SimpleGraph::update(Entity& entity)
 	{
 		remove(entity);
 		insert(entity);

@@ -26,6 +26,7 @@ namespace simplicity
 	class Mesh;
 	class Point;
 	class Sphere;
+	class Square;
 	class Text;
 	class Torus;
 	class Triangle;
@@ -58,6 +59,8 @@ namespace simplicity
 			virtual void render(const Point& model) = 0;
 
 			virtual void render(const Sphere& model) = 0;
+
+			virtual void render(const Square& model) = 0;
 
 			virtual void render(const Text& model) = 0;
 

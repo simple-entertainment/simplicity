@@ -91,6 +91,12 @@ namespace simplicity
         float getScalarProjection(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
 
 		template<typename Data>
+		Vector<Data, 2> getTranslation2(Matrix<Data, 4, 4>& matrix);
+
+		template<typename Data>
+		const Vector<Data, 2> getTranslation2(const Matrix<Data, 4, 4>& matrix);
+
+		template<typename Data>
 		Vector<Data, 3> getTranslation3(Matrix<Data, 4, 4>& matrix);
 
 		template<typename Data>

@@ -26,20 +26,100 @@ namespace simplicity
 		RelativePosition intersect(const Plane& plane, const Vector3& point);
 		bool sameSide(const Vector3& lineA, const Vector3& lineB, const Vector3& pointA, const Vector3& pointB);
 
-		bool contains(const AABB2& aabb, const Circle& circle, const Vector2& circlePosition)
+		bool contains(const Cube& a, const Cube& b, const Vector3& relativePosition)
 		{
-			float aabbMaxX = aabb.center.X() + aabb.halfDimension;
-			float aabbMinX = aabb.center.X() - aabb.halfDimension;
-			float aabbMaxY = aabb.center.Y() + aabb.halfDimension;
-			float aabbMinY = aabb.center.Y() - aabb.halfDimension;
+			float aMaxX = a.getHalfEdgeLength();
+			float aMinX = -a.getHalfEdgeLength();
+			float aMaxY = a.getHalfEdgeLength();
+			float aMinY = -a.getHalfEdgeLength();
+			float aMaxZ = a.getHalfEdgeLength();
+			float aMinZ = -a.getHalfEdgeLength();
 
-			float circleMaxX = circlePosition.X() + circle.getRadius();
-			float circleMinX = circlePosition.X() - circle.getRadius();
-			float circleMaxY = circlePosition.Y() + circle.getRadius();
-			float circleMinY = circlePosition.Y() - circle.getRadius();
+			float bMaxX = relativePosition.X() + b.getHalfEdgeLength();
+			float bMinX = relativePosition.X() - b.getHalfEdgeLength();
+			float bMaxY = relativePosition.Y() + b.getHalfEdgeLength();
+			float bMinY = relativePosition.Y() - b.getHalfEdgeLength();
+			float bMaxZ = relativePosition.Z() + b.getHalfEdgeLength();
+			float bMinZ = relativePosition.Z() - b.getHalfEdgeLength();
 
-			if (circleMaxX <= aabbMaxX && circleMinX >= aabbMinX &&
-				circleMaxY <= aabbMaxY && circleMinY >= aabbMinY)
+			if (bMaxX <= aMaxX && bMinX >= aMinX &&
+				bMaxY <= aMaxY && bMinY >= aMinY &&
+				bMaxZ <= aMaxZ && bMinZ >= aMinZ)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		bool contains(const Model& a, const Model& b, const Vector3& relativePosition)
+		{
+			const Cube* cubeA = dynamic_cast<const Cube*>(&a);
+			if (cubeA != NULL)
+			{
+				const Cube* cubeB = dynamic_cast<const Cube*>(&b);
+				if (cubeB != NULL)
+				{
+					return contains(*cubeA, *cubeB, relativePosition);
+				}
+			}
+
+			const Square* squareA = dynamic_cast<const Square*>(&a);
+			if (squareA != NULL)
+			{
+				const Circle* circleB = dynamic_cast<const Circle*>(&b);
+				if (circleB != NULL)
+				{
+					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
+					return contains(*squareA, *circleB, relativePosition2);
+				}
+
+				const Square* squareB = dynamic_cast<const Square*>(&b);
+				if (squareB != NULL)
+				{
+					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
+					return contains(*squareA, *squareB, relativePosition2);
+				}
+			}
+
+			return false;
+		}
+
+		bool contains(const Square& square, const Circle& circle, const Vector2& relativePosition)
+		{
+			float squareMaxX = square.getHalfEdgeLength();
+			float squareMinX = -square.getHalfEdgeLength();
+			float squareMaxY = square.getHalfEdgeLength();
+			float squareMinY = -square.getHalfEdgeLength();
+
+			float circleMaxX = relativePosition.X() + circle.getRadius();
+			float circleMinX = relativePosition.X() - circle.getRadius();
+			float circleMaxY = relativePosition.Y() + circle.getRadius();
+			float circleMinY = relativePosition.Y() - circle.getRadius();
+
+			if (circleMaxX <= squareMaxX && circleMinX >= squareMinX &&
+				circleMaxY <= squareMaxY && circleMinY >= squareMinY)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		bool contains(const Square& a, const Square& b, const Vector2& relativePosition)
+		{
+			float aMaxX = a.getHalfEdgeLength();
+			float aMinX = -a.getHalfEdgeLength();
+			float aMaxY = a.getHalfEdgeLength();
+			float aMinY = -a.getHalfEdgeLength();
+
+			float bMaxX = relativePosition.X() + b.getHalfEdgeLength();
+			float bMinX = relativePosition.X() - b.getHalfEdgeLength();
+			float bMaxY = relativePosition.Y() + b.getHalfEdgeLength();
+			float bMinY = relativePosition.Y() - b.getHalfEdgeLength();
+
+			if (bMaxX <= aMaxX && bMinX >= aMinX &&
+				bMaxY <= aMaxY && bMinY >= aMinY)
 			{
 				return true;
 			}
@@ -68,43 +148,28 @@ namespace simplicity
 				dotProduct(plane.getNormal(), lineSegment.getPointB() - lineSegment.getPointA());
 		}
 
-		bool intersect(const AABB2& a, const AABB2& b)
+		bool intersect(const Circle& a, const Circle& b, const Vector2& relativePosition)
 		{
-			float aMaxX = a.center.X() + a.halfDimension;
-			float aMinX = a.center.X() - a.halfDimension;
-			float aMaxY = a.center.Y() + a.halfDimension;
-			float aMinY = a.center.Y() - a.halfDimension;
-
-			float bMaxX = b.center.X() + b.halfDimension;
-			float bMinX = b.center.X() - b.halfDimension;
-			float bMaxY = b.center.Y() + b.halfDimension;
-			float bMinY = b.center.Y() - b.halfDimension;
-
-			if (aMinX > bMaxX || bMinX > aMaxX || aMinY > bMaxY || bMinY > aMaxY)
-			{
-				return false;
-			}
-		
-			return true;
+			return relativePosition.getMagnitude() < a.getRadius() + b.getRadius();
 		}
 
-		bool intersect(const AABB2& aabb, const Circle& circle, const Vector2& circlePosition)
+		bool intersect(const Circle& circle, const Square& square, const Vector2& relativePosition)
 		{
-			float aabbMaxX = aabb.center.X() + aabb.halfDimension;
-			float aabbMinX = aabb.center.X() - aabb.halfDimension;
-			float aabbMaxY = aabb.center.Y() + aabb.halfDimension;
-			float aabbMinY = aabb.center.Y() - aabb.halfDimension;
+			float circleMaxX = relativePosition.X() + circle.getRadius();
+			float circleMinX = relativePosition.X() - circle.getRadius();
+			float circleMaxY = relativePosition.Y() + circle.getRadius();
+			float circleMinY = relativePosition.Y() - circle.getRadius();
 
-			float circleMaxX = circlePosition.X() + circle.getRadius();
-			float circleMinX = circlePosition.X() - circle.getRadius();
-			float circleMaxY = circlePosition.Y() + circle.getRadius();
-			float circleMinY = circlePosition.Y() - circle.getRadius();
+			float squareMaxX = square.getHalfEdgeLength();
+			float squareMinX = -square.getHalfEdgeLength();
+			float squareMaxY = square.getHalfEdgeLength();
+			float squareMinY = -square.getHalfEdgeLength();
 
-			if ((circleMaxX <= aabbMaxX && circleMaxX >= aabbMinX) ||
-				(circleMinX <= aabbMaxX && circleMinX >= aabbMinX))
+			if ((circleMaxX <= squareMaxX && circleMaxX >= squareMinX) ||
+				(circleMinX <= squareMaxX && circleMinX >= squareMinX))
 			{
-				if ((circleMaxY <= aabbMaxY && circleMaxY >= aabbMinY) ||
-					(circleMinY <= aabbMaxY && circleMinY >= aabbMinY))
+				if ((circleMaxY <= squareMaxY && circleMaxY >= squareMinY) ||
+					(circleMinY <= squareMaxY && circleMinY >= squareMinY))
 				{
 					return true;
 				}
@@ -113,9 +178,28 @@ namespace simplicity
 			return false;
 		}
 
-		bool intersect(const Circle& a, const Vector2& positionA, const Circle& b, const Vector2& positionB)
+		bool intersect(const Cube& a, const Cube& b, const Vector3& relativePosition)
 		{
-			return (positionA - positionB).getMagnitude() < a.getRadius() + b.getRadius();
+			float aMaxX = a.getHalfEdgeLength();
+			float aMinX = -a.getHalfEdgeLength();
+			float aMaxY = a.getHalfEdgeLength();
+			float aMinY = -a.getHalfEdgeLength();
+			float aMaxZ = a.getHalfEdgeLength();
+			float aMinZ = -a.getHalfEdgeLength();
+
+			float bMaxX = relativePosition.X() + b.getHalfEdgeLength();
+			float bMinX = relativePosition.X() - b.getHalfEdgeLength();
+			float bMaxY = relativePosition.Y() + b.getHalfEdgeLength();
+			float bMinY = relativePosition.Y() - b.getHalfEdgeLength();
+			float bMaxZ = relativePosition.Z() + b.getHalfEdgeLength();
+			float bMinZ = relativePosition.Z() - b.getHalfEdgeLength();
+
+			if (aMinX > bMaxX || bMinX > aMaxX || aMinY > bMaxY || bMinY > aMaxY || aMinZ > bMaxZ || bMinZ > aMaxZ)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		bool intersect(const Line& lineSegment, const Plane& plane)
@@ -134,7 +218,7 @@ namespace simplicity
 			return false;
 		}
 
-		bool intersect(const Model& a, const Model& b)
+		bool intersect(const Model& a, const Model& b, const Vector3& relativePosition)
 		{
 			const Circle* circleA = dynamic_cast<const Circle*>(&a);
 			if (circleA != NULL)
@@ -142,7 +226,43 @@ namespace simplicity
 				const Circle* circleB = dynamic_cast<const Circle*>(&b);
 				if (circleB != NULL)
 				{
-					return intersect(*circleA, *circleB);
+					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
+					return intersect(*circleA, *circleB, relativePosition2);
+				}
+
+				const Square* squareB = dynamic_cast<const Square*>(&b);
+				if (squareB != NULL)
+				{
+					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
+					return intersect(*circleA, *squareB, relativePosition2);
+				}
+			}
+
+			const Cube* cubeA = dynamic_cast<const Cube*>(&a);
+			if (cubeA != NULL)
+			{
+				const Cube* cubeB = dynamic_cast<const Cube*>(&b);
+				if (cubeB != NULL)
+				{
+					return intersect(*cubeA, *cubeB, relativePosition);
+				}
+			}
+
+			const Square* squareA = dynamic_cast<const Square*>(&a);
+			if (squareA != NULL)
+			{
+				const Circle* circleB = dynamic_cast<const Circle*>(&b);
+				if (circleB != NULL)
+				{
+					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
+					return intersect(*circleB, *squareA, relativePosition2);
+				}
+
+				const Square* squareB = dynamic_cast<const Square*>(&b);
+				if (squareB != NULL)
+				{
+					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
+					return intersect(*squareA, *squareB, relativePosition2);
 				}
 			}
 
@@ -191,6 +311,26 @@ namespace simplicity
 			{
 				return ON_PLANE;
 			}
+		}
+
+		bool intersect(const Square& a, const Square& b, const Vector2& relativePosition)
+		{
+			float aMaxX = a.getHalfEdgeLength();
+			float aMinX = -a.getHalfEdgeLength();
+			float aMaxY = a.getHalfEdgeLength();
+			float aMinY = -a.getHalfEdgeLength();
+
+			float bMaxX = relativePosition.X() + b.getHalfEdgeLength();
+			float bMinX = relativePosition.X() - b.getHalfEdgeLength();
+			float bMaxY = relativePosition.Y() + b.getHalfEdgeLength();
+			float bMinY = relativePosition.Y() - b.getHalfEdgeLength();
+
+			if (aMinX > bMaxX || bMinX > aMaxX || aMinY > bMaxY || bMinY > aMaxY)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		bool sameSide(const Vector3& lineA, const Vector3& lineB, const Vector3& pointA, const Vector3& pointB)

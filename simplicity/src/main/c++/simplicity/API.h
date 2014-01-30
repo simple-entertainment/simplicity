@@ -16,6 +16,7 @@
  */
 
 // Core
+#include "Categories.h"
 #include "Component.h"
 #include "Componentizer.h"
 #include "Entity.h"
@@ -31,8 +32,9 @@
 
 // Graph
 #include "graph/Graph.h"
+#include "graph/OctTree.h"
 #include "graph/QuadTree.h"
-#include "graph/SimpleTree.h"
+#include "graph/SimpleGraph.h"
 
 // Input
 #include "input/Button.h"
@@ -63,6 +65,7 @@
 #include "model/shape/Cylinder.h"
 #include "model/shape/Shape.h"
 #include "model/shape/Sphere.h"
+#include "model/shape/Square.h"
 #include "model/shape/Torus.h"
 #include "model/shape/Triangle.h"
 #include "model/SimpleMesh.h"

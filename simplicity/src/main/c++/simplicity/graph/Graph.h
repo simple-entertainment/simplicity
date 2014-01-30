@@ -22,7 +22,7 @@
 
 #include "../Entity.h"
 #include "../math/Matrix.h"
-#include "AABB2.h"
+#include "../model/Model.h"
 
 namespace simplicity
 {
@@ -41,13 +41,15 @@ namespace simplicity
 
 			virtual Matrix44 getAbsoluteTransformation() const = 0;
 
-			virtual const AABB2& getBoundary() const = 0;
+			virtual const Model& getBoundary() const = 0;
 
 			virtual std::vector<Graph*> getChildren() const = 0;
 
 			virtual std::vector<Entity*>& getEntities() = 0;
 
 			virtual const std::vector<Entity*>& getEntities() const = 0;
+
+			virtual std::vector<Entity*> getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const = 0;
 
 			virtual Graph* getParent() = 0;
 
@@ -58,8 +60,6 @@ namespace simplicity
 			virtual const Matrix44& getTransformation() const = 0;
 
 			virtual bool insert(Entity& entity) = 0;
-
-			virtual std::vector<Entity*> queryRange(const AABB2& range) const = 0;
 
 			virtual bool remove(const Entity& entity) = 0;
 

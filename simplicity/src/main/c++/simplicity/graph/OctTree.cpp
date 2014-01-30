@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -19,30 +19,29 @@
 #include "../math/Intersection.h"
 #include "../math/MathFunctions.h"
 #include "../model/shape/Circle.h"
-#include "QuadTree.h"
+#include "OctTree.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	QuadTree::QuadTree(unsigned int subdivideThreshold, const Square& boundary, Plane plane) :
+	OctTree::OctTree(unsigned int subdivideThreshold, const Cube& boundary) :
 		boundary(boundary),
 		children(),
 		connections(),
 		entities(),
 		parent(NULL),
-		plane(plane),
 		subdivideThreshold(subdivideThreshold),
 		transformation()
 	{
 		transformation.setIdentity();
 	}
 
-	void QuadTree::addChild(std::unique_ptr<Graph>)
+	void OctTree::addChild(std::unique_ptr<Graph>)
 	{
 	}
 
-	void QuadTree::addEntityFromChild()
+	void OctTree::addEntityFromChild()
 	{
 		for (unsigned int index = 0; index < children.size(); index++)
 		{
@@ -56,12 +55,12 @@ namespace simplicity
 		}
 	}
 
-	void QuadTree::connectTo(Graph& graph)
+	void OctTree::connectTo(Graph& graph)
 	{
 		connections.push_back(&graph);
 	}
 
-	void QuadTree::disconnectFrom(Graph& graph)
+	void OctTree::disconnectFrom(Graph& graph)
 	{
 		if (find(connections.begin(), connections.end(), &graph) == connections.end())
 		{
@@ -69,7 +68,7 @@ namespace simplicity
 		}
 	}
 
-	Matrix44 QuadTree::getAbsoluteTransformation() const
+	Matrix44 OctTree::getAbsoluteTransformation() const
 	{
 		Matrix44 absoluteMatrix;
 		absoluteMatrix.setIdentity();
@@ -83,12 +82,12 @@ namespace simplicity
 		return absoluteMatrix;
 	}
 
-	const Model& QuadTree::getBoundary() const
+	const Model& OctTree::getBoundary() const
 	{
 		return boundary;
 	}
 
-	vector<Graph*> QuadTree::getChildren() const
+	vector<Graph*> OctTree::getChildren() const
 	{
 		vector<Graph*> rawChildren;
 		for (unsigned int index = 0; index < children.size(); index++)
@@ -99,17 +98,17 @@ namespace simplicity
 		return rawChildren;
 	}
 
-	vector<Entity*>& QuadTree::getEntities()
+	vector<Entity*>& OctTree::getEntities()
 	{
 		return entities;
 	}
 
-	const vector<Entity*>& QuadTree::getEntities() const
+	const vector<Entity*>& OctTree::getEntities() const
 	{
 		return entities;
 	}
 
-	vector<Entity*> QuadTree::getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const
+	vector<Entity*> OctTree::getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const
 	{
 		vector<Entity*> entitiesWithinBounds;
 
@@ -123,7 +122,7 @@ namespace simplicity
 
 			Vector3 modelBoundsPosition = MathFunctions::getTranslation3(entity->getTransformation() *
 					entityBounds->getTransformation());
-			if (Intersection::intersect(*entityBounds, bounds, projectOntoPlane(position - modelBoundsPosition)))
+			if (Intersection::intersect(*entityBounds, bounds, position - modelBoundsPosition))
 			{
 				entitiesWithinBounds.push_back(entity);
 			}
@@ -138,27 +137,27 @@ namespace simplicity
 		return entitiesWithinBounds;
 	}
 
-	Graph* QuadTree::getParent()
+	Graph* OctTree::getParent()
 	{
 		return parent;
 	}
 
-	const Graph* QuadTree::getParent() const
+	const Graph* OctTree::getParent() const
 	{
 		return parent;
 	}
 
-	Matrix44& QuadTree::getTransformation()
+	Matrix44& OctTree::getTransformation()
 	{
 		return transformation;
 	}
 
-	const Matrix44& QuadTree::getTransformation() const
+	const Matrix44& OctTree::getTransformation() const
 	{
 		return transformation;
 	}
 
-	bool QuadTree::insert(Entity& entity)
+	bool OctTree::insert(Entity& entity)
 	{
 		if (!withinBounds(entity))
 		{
@@ -183,17 +182,7 @@ namespace simplicity
 		return true;
 	}
 
-	Vector3 QuadTree::projectOntoPlane(const Vector3& position) const
-	{
-		if (plane == Plane::XY)
-		{
-			return Vector3(position.X(), position.Y(), 0.0f);
-		}
-
-		return Vector3(position.X(), position.Z(), 0.0f);
-	}
-
-	bool QuadTree::remove(const Entity& entity)
+	bool OctTree::remove(const Entity& entity)
 	{
 		if (find(entities.begin(), entities.end(), &entity) == entities.end())
 		{
@@ -224,65 +213,83 @@ namespace simplicity
 		return true;
 	}
 
-	unique_ptr<Graph> QuadTree::removeChild(Graph&)
+	unique_ptr<Graph> OctTree::removeChild(Graph&)
 	{
 		return unique_ptr<Graph>();
 	}
 
-	void QuadTree::setParent(Graph* parent)
+	void OctTree::setParent(Graph* parent)
 	{
 		this->parent = parent;
 	}
 
-	void QuadTree::setTransformation(const Matrix44& transformation)
+	void OctTree::setTransformation(const Matrix44& transformation)
 	{
 		this->transformation = transformation;
 	}
 
-	void QuadTree::subdivide()
+	void OctTree::subdivide()
 	{
-		children.reserve(4);
+		children.reserve(8);
 
 		float childHalfDimension = boundary.getHalfEdgeLength() / 2.0f;
-		float y = 0.0f;
-		float z = 0.0f;
-		if (plane == Plane::XY)
-		{
-			y = childHalfDimension;
-		}
-		else
-		{
-			z = childHalfDimension;
-		}
 
-		unique_ptr<Graph> child0(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
-		MathFunctions::setTranslation(child0->getTransformation(), Vector3(childHalfDimension, y, z));
+		unique_ptr<Graph> child0(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
+		MathFunctions::setTranslation(child0->getTransformation(), Vector3(-childHalfDimension, childHalfDimension,
+				childHalfDimension));
 		child0->setParent(this);
 		children.push_back(move(child0));
 
-		unique_ptr<Graph> child1(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
-		MathFunctions::setTranslation(child1->getTransformation(), Vector3(childHalfDimension, -y, -z));
+		unique_ptr<Graph> child1(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
+		MathFunctions::setTranslation(child1->getTransformation(), Vector3(childHalfDimension, childHalfDimension,
+				childHalfDimension));
 		child1->setParent(this);
 		children.push_back(move(child1));
 
-		unique_ptr<Graph> child2(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
-		MathFunctions::setTranslation(child2->getTransformation(), Vector3(-childHalfDimension, y, z));
+		unique_ptr<Graph> child2(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
+		MathFunctions::setTranslation(child2->getTransformation(), Vector3(-childHalfDimension, -childHalfDimension,
+				childHalfDimension));
 		child2->setParent(this);
 		children.push_back(move(child2));
 
-		unique_ptr<Graph> child3(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
-		MathFunctions::setTranslation(child3->getTransformation(), Vector3(-childHalfDimension, -y, -z));
+		unique_ptr<Graph> child3(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
+		MathFunctions::setTranslation(child3->getTransformation(), Vector3(childHalfDimension, -childHalfDimension,
+				childHalfDimension));
 		child3->setParent(this);
 		children.push_back(move(child3));
+
+		unique_ptr<Graph> child4(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
+		MathFunctions::setTranslation(child4->getTransformation(), Vector3(-childHalfDimension, childHalfDimension,
+				-childHalfDimension));
+		child4->setParent(this);
+		children.push_back(move(child4));
+
+		unique_ptr<Graph> child5(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
+		MathFunctions::setTranslation(child5->getTransformation(), Vector3(childHalfDimension, childHalfDimension,
+				-childHalfDimension));
+		child5->setParent(this);
+		children.push_back(move(child5));
+
+		unique_ptr<Graph> child6(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
+		MathFunctions::setTranslation(child6->getTransformation(), Vector3(-childHalfDimension, -childHalfDimension,
+				-childHalfDimension));
+		child6->setParent(this);
+		children.push_back(move(child6));
+
+		unique_ptr<Graph> child7(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
+		MathFunctions::setTranslation(child7->getTransformation(), Vector3(childHalfDimension, -childHalfDimension,
+				-childHalfDimension));
+		child7->setParent(this);
+		children.push_back(move(child7));
 	}
 
-	void QuadTree::update(Entity& entity)
+	void OctTree::update(Entity& entity)
 	{
 		remove(entity);
 		insert(entity);
 	}
 
-	bool QuadTree::withinBounds(const Entity& entity) const
+	bool OctTree::withinBounds(const Entity& entity) const
 	{
 		Model* bounds = entity.getComponent<Model>(Categories::BOUNDS);
 		if (bounds == NULL)
@@ -295,6 +302,6 @@ namespace simplicity
 				bounds->getTransformation());
 
 		Vector3 relativePosition = boundsPosition - graphPosition;
-		return Intersection::contains(boundary, *bounds, projectOntoPlane(relativePosition));
+		return Intersection::contains(boundary, *bounds, relativePosition);
 	}
 }

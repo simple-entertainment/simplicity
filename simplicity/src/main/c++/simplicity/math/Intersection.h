@@ -17,13 +17,13 @@
 #ifndef INTERSECTION_H_
 #define INTERSECTION_H_
 
-#include <vector>
-
-#include "../graph/AABB2.h"
 #include "../model/Line.h"
+#include "../model/Model.h"
 #include "../model/Plane.h"
 #include "../model/Point.h"
 #include "../model/shape/Circle.h"
+#include "../model/shape/Cube.h"
+#include "../model/shape/Square.h"
 #include "../model/shape/Triangle.h"
 
 namespace simplicity
@@ -37,23 +37,31 @@ namespace simplicity
 			ON_PLANE
 		};
 
-		bool contains(const AABB2& aabb, const Circle& circle, const Vector2& circlePosition);
+		bool contains(const Cube& a, const Cube& b, const Vector3& relativePosition);
+
+		bool contains(const Model& a, const Model& b, const Vector3& relativePosition);
+
+		bool contains(const Square& square, const Circle& circle, const Vector2& relativePosition);
+
+		bool contains(const Square& a, const Square& b, const Vector2& relativePosition);
 
 		bool contains(const Triangle& triangle, const Point& point);
 
 		float getIntersectionTime(const Line& lineSegment, const Plane& plane);
 
-		bool intersect(const AABB2& a, const AABB2& b);
+		bool intersect(const Circle& a, const Circle& b, const Vector2& relativePosition);
 
-		bool intersect(const AABB2& aabb, const Circle& circle, const Vector2& circlePosition);
+		bool intersect(const Circle& circle, const Square& square, const Vector2& relativePosition);
 
-		bool intersect(const Circle& a, const Vector2& positionA, const Circle& b, const Vector2& positionB);
+		bool intersect(const Cube& a, const Cube& b, const Vector3& relativePosition);
 
 		bool intersect(const Line& lineSegment, const Plane& plane);
 
-		bool intersect(const Model& a, const Model& b);
+		bool intersect(const Model& a, const Model& b, const Vector3& relativePosition);
 
 		bool intersect(const Plane& plane, const Triangle& triangle);
+
+		bool intersect(const Square& a, const Square& b, const Vector2& relativePosition);
 
 		RelativePosition intersect(const Plane& plane, const Point& point);
 	}

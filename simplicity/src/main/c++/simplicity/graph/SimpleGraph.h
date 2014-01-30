@@ -14,20 +14,21 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLETREE_H_
-#define SIMPLETREE_H_
+#ifndef SIMPLEGRAPH_H_
+#define SIMPLEGRAPH_H_
 
 #include <vector>
 
 #include "../math/Matrix.h"
+#include "../model/shape/Cube.h"
 #include "Graph.h"
 
 namespace simplicity
 {
-	class SimpleTree : public Graph
+	class SimpleGraph : public Graph
 	{
 		public:
-			SimpleTree();
+			SimpleGraph();
 
 			void addChild(std::unique_ptr<Graph> child);
 
@@ -37,13 +38,15 @@ namespace simplicity
 
 			Matrix44 getAbsoluteTransformation() const;
 
-			const AABB2& getBoundary() const;
+			const Model& getBoundary() const;
 
 			std::vector<Graph*> getChildren() const;
 
 			std::vector<Entity*>& getEntities();
 
 			const std::vector<Entity*>& getEntities() const;
+
+			std::vector<Entity*> getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const;
 
 			Graph* getParent();
 
@@ -54,8 +57,6 @@ namespace simplicity
 			const Matrix44& getTransformation() const;
 
 			bool insert(Entity& entity);
-
-			std::vector<Entity*> queryRange(const AABB2& range) const;
 
 			bool remove(const Entity& entity);
 
@@ -68,7 +69,7 @@ namespace simplicity
 			void update(Entity& entity);
 
 		private:
-			AABB2 boundary;
+			Cube boundary;
 
 			std::vector<std::unique_ptr<Graph>> children;
 
@@ -82,4 +83,4 @@ namespace simplicity
 	};
 }
 
-#endif /* SIMPLETREE_H_ */
+#endif /* SIMPLEGRAPH_H_ */

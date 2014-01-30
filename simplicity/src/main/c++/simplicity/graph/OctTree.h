@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,27 +14,21 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef QUADTREE_H_
-#define QUADTREE_H_
+#ifndef OCTTREE_H_
+#define OCTTREE_H_
 
 #include <vector>
 
 #include "../model/Model.h"
-#include "../model/shape/Square.h"
+#include "../model/shape/Cube.h"
 #include "Graph.h"
 
 namespace simplicity
 {
-	class QuadTree : public Graph
+	class OctTree : public Graph
 	{
 		public:
-			enum Plane
-			{
-				XY,
-				XZ
-			};
-
-			QuadTree(unsigned int subdivideThreshold, const Square& boundary, Plane plane = Plane::XY);
+			OctTree(unsigned int subdivideThreshold, const Cube& boundary);
 
 			void addChild(std::unique_ptr<Graph> child);
 
@@ -75,7 +69,7 @@ namespace simplicity
 			void update(Entity& entity);
 
 		private:
-			Square boundary;
+			Cube boundary;
 
 			std::vector<std::unique_ptr<Graph>> children;
 
@@ -85,15 +79,11 @@ namespace simplicity
 
 			Graph* parent;
 
-			Plane plane;
-
 			unsigned int subdivideThreshold;
 
 			Matrix44 transformation;
 
 			void addEntityFromChild();
-
-			Vector3 projectOntoPlane(const Vector3& position) const;
 
 			void shiftEntitiesUpward();
 
@@ -103,4 +93,4 @@ namespace simplicity
 	};
 }
 
-#endif /* QUADTREE_H_ */
+#endif /* OCTTREE_H_ */
