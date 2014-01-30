@@ -37,6 +37,8 @@ namespace simplicity
 				TRIANGLE_STRIP
 			};
 
+			Model();
+
 			virtual ~Model()
 			{
 			}

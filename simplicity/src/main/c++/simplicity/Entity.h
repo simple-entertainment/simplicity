@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 
+#include "Categories.h"
 #include "math/Matrix.h"
 
 namespace simplicity
@@ -30,9 +31,7 @@ namespace simplicity
 	class Entity
 	{
 		public:
-			static const unsigned short UNCATEGORIZED = 0;
-
-			Entity(unsigned short category = UNCATEGORIZED, const std::string& name = std::string());
+			Entity(unsigned short category = Categories::UNCATEGORIZED, const std::string& name = std::string());
 
 			/**
 			 * <p>
@@ -62,7 +61,7 @@ namespace simplicity
 			 * @return The single component.
 			 */
 			template<typename ComponentType>
-			ComponentType* getComponent() const;
+			ComponentType* getComponent(unsigned short category = Categories::ALL_CATEGORIES) const;
 
 			/**
 			 * <p>
@@ -72,7 +71,7 @@ namespace simplicity
 			 * @return The components.
 			 */
 			template<typename ComponentType>
-			std::vector<ComponentType*> getComponents() const;
+			std::vector<ComponentType*> getComponents(unsigned short category = Categories::ALL_CATEGORIES) const;
 
 			unsigned int getId() const;
 

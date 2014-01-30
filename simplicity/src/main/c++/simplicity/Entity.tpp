@@ -15,29 +15,36 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include "Entity.h"
+#include "Component.h" // Must be after Entity.h
 
 using namespace std;
 
 namespace simplicity
 {
 	template<typename ComponentType>
-	ComponentType* Entity::getComponent() const
+	ComponentType* Entity::getComponent(unsigned short category) const
 	{
 		for (unsigned int index = 0; index < uniqueComponents.size(); index++)
 		{
-			ComponentType* component = dynamic_cast<ComponentType*>(uniqueComponents[index].get());
-			if (component != NULL)
+			if (category == Categories::ALL_CATEGORIES || uniqueComponents[index]->getCategory() == category)
 			{
-				return component;
+				ComponentType* component = dynamic_cast<ComponentType*>(uniqueComponents[index].get());
+				if (component != NULL)
+				{
+					return component;
+				}
 			}
 		}
 
 		for (unsigned int index = 0; index < sharedComponents.size(); index++)
 		{
-			ComponentType* component = dynamic_cast<ComponentType*>(sharedComponents[index].get());
-			if (component != NULL)
+			if (category == Categories::ALL_CATEGORIES || sharedComponents[index]->getCategory() == category)
 			{
-				return component;
+				ComponentType* component = dynamic_cast<ComponentType*>(sharedComponents[index].get());
+				if (component != NULL)
+				{
+					return component;
+				}
 			}
 		}
 
@@ -45,25 +52,31 @@ namespace simplicity
 	}
 
 	template<typename ComponentType>
-	std::vector<ComponentType*> Entity::getComponents() const
+	std::vector<ComponentType*> Entity::getComponents(unsigned short category) const
 	{
 		std::vector<ComponentType*> typedComponents;
 
 		for (unsigned int index = 0; index < uniqueComponents.size(); index++)
 		{
-			ComponentType* component = dynamic_cast<ComponentType*>(uniqueComponents[index].get());
-			if (component != NULL)
+			if (category == Categories::ALL_CATEGORIES || uniqueComponents[index]->getCategory() == category)
 			{
-				typedComponents.push_back(component);
+				ComponentType* component = dynamic_cast<ComponentType*>(uniqueComponents[index].get());
+				if (component != NULL)
+				{
+					typedComponents.push_back(component);
+				}
 			}
 		}
 
 		for (unsigned int index = 0; index < sharedComponents.size(); index++)
 		{
-			ComponentType* component = dynamic_cast<ComponentType*>(sharedComponents[index].get());
-			if (component != NULL)
+			if (category == Categories::ALL_CATEGORIES || sharedComponents[index]->getCategory() == category)
 			{
-				typedComponents.push_back(component);
+				ComponentType* component = dynamic_cast<ComponentType*>(sharedComponents[index].get());
+				if (component != NULL)
+				{
+					typedComponents.push_back(component);
+				}
 			}
 		}
 

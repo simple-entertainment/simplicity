@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,45 +14,13 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef COMPONENT_H_
-#define COMPONENT_H_
-
-#include "math/Matrix.h"
+#include "../Categories.h"
+#include "Model.h"
 
 namespace simplicity
 {
-	class Entity;
-
-	class Component
+	Model::Model()
 	{
-		public:
-			Component();
-
-			virtual ~Component();
-
-			unsigned short getCategory() const;
-
-			Entity* getEntity();
-
-			const Entity* getEntity() const;
-
-			Matrix44& getTransformation();
-
-			const Matrix44& getTransformation() const;
-
-			void setCategory(unsigned short category);
-
-			void setEntity(Entity* entity);
-
-			void setTransformation(const Matrix44& transformation);
-
-		private:
-			unsigned short category;
-
-			Entity* entity;
-
-			Matrix44 transformation; // TODO review! Is this a good idea?
-	};
+		setCategory(Categories::RENDER);
+	}
 }
-
-#endif /* COMPONENT_H_ */

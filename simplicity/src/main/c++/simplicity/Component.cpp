@@ -14,12 +14,14 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include "Categories.h"
 #include "Component.h"
 #include "Entity.h"
 
 namespace simplicity
 {
 	Component::Component() :
+		category(Categories::UNCATEGORIZED),
 		entity(NULL),
 		transformation()
 	{
@@ -30,6 +32,11 @@ namespace simplicity
 	{
 	}
 
+	unsigned short Component::getCategory() const
+	{
+		return category;
+	}
+
 	Entity* Component::getEntity()
 	{
 		return entity;
@@ -38,6 +45,11 @@ namespace simplicity
 	const Entity* Component::getEntity() const
 	{
 		return entity;
+	}
+
+	void Component::setCategory(unsigned short category)
+	{
+		this->category = category;
 	}
 
 	void Component::setEntity(Entity* entity)

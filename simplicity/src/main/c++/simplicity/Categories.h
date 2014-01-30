@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,45 +14,23 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef COMPONENT_H_
-#define COMPONENT_H_
-
-#include "math/Matrix.h"
+#ifndef CATEGORIES_H_
+#define CATEGORIES_H_
 
 namespace simplicity
 {
-	class Entity;
-
-	class Component
+	namespace Categories
 	{
-		public:
-			Component();
+		const unsigned short UNCATEGORIZED = 0;
 
-			virtual ~Component();
+		const unsigned short ALL_CATEGORIES = 1;
 
-			unsigned short getCategory() const;
+		const unsigned short BOUNDS = 2;
 
-			Entity* getEntity();
+		const unsigned short RENDER = 3;
 
-			const Entity* getEntity() const;
-
-			Matrix44& getTransformation();
-
-			const Matrix44& getTransformation() const;
-
-			void setCategory(unsigned short category);
-
-			void setEntity(Entity* entity);
-
-			void setTransformation(const Matrix44& transformation);
-
-		private:
-			unsigned short category;
-
-			Entity* entity;
-
-			Matrix44 transformation; // TODO review! Is this a good idea?
-	};
+		const unsigned short USER_ID_0 = 128;
+	}
 }
 
-#endif /* COMPONENT_H_ */
+#endif /* CATEGORIES_H_ */
