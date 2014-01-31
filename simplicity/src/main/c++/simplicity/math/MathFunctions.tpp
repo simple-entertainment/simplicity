@@ -65,25 +65,25 @@ namespace simplicity
 		template<typename Data>
 		Vector<Data, 3> getOut3(Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 3>(&matrix[8], false);
+			return Vector<Data, 3>(&matrix[8]);
 		}
 
 		template<typename Data>
 		const Vector<Data, 3> getOut3(const Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 3>(const_cast<Data*>(&matrix[8]), false);
+			return Vector<Data, 3>(const_cast<Data*>(&matrix[8]));
 		}
 
 		template<typename Data>
 		Vector<Data, 4> getOut4(Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 4>(&matrix[8], false);
+			return Vector<Data, 4>(&matrix[8]);
 		}
 
 		template<typename Data>
 		const Vector<Data, 4> getOut4(const Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 4>(const_cast<Data*>(&matrix[8]), false);
+			return Vector<Data, 4>(const_cast<Data*>(&matrix[8]));
 		}
 
 		template<typename Data>
@@ -132,25 +132,25 @@ namespace simplicity
 		template<typename Data>
 		Vector<Data, 3> getRight3(Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 3>(&matrix[0], false);
+			return Vector<Data, 3>(&matrix[0]);
 		}
 
 		template<typename Data>
 		const Vector<Data, 3> getRight3(const Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 3>(const_cast<Data*>(&matrix[0]), false);
+			return Vector<Data, 3>(const_cast<Data*>(&matrix[0]));
 		}
 
 		template<typename Data>
 		Vector<Data, 4> getRight4(Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 4>(&matrix[0], false);
+			return Vector<Data, 4>(&matrix[0]);
 		}
 
 		template<typename Data>
 		const Vector<Data, 4> getRight4(const Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 4>(const_cast<Data*>(&matrix[0]), false);
+			return Vector<Data, 4>(const_cast<Data*>(&matrix[0]));
 		}
 
 		template<typename Data, unsigned int Size>
@@ -198,25 +198,25 @@ namespace simplicity
 		template<typename Data>
 		Vector<Data, 3> getUp3(Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 3>(&matrix[4], false);
+			return Vector<Data, 3>(&matrix[4]);
 		}
 
 		template<typename Data>
 		const Vector<Data, 3> getUp3(const Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 3>(const_cast<Data*>(&matrix[4]), false);
+			return Vector<Data, 3>(const_cast<Data*>(&matrix[4]));
 		}
 
 		template<typename Data>
 		Vector<Data, 4> getUp4(Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 4>(&matrix[4], false);
+			return Vector<Data, 4>(&matrix[4]);
 		}
 
 		template<typename Data>
 		const Vector<Data, 4> getUp4(const Matrix<Data, 4, 4>& matrix)
 		{
-			return Vector<Data, 4>(const_cast<Data*>(&matrix[4]), false);
+			return Vector<Data, 4>(const_cast<Data*>(&matrix[4]));
 		}
 
 		template<typename Data>

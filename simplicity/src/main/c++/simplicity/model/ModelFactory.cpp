@@ -345,7 +345,7 @@ namespace simplicity
 	}
 
 	unique_ptr<Mesh> ModelFactory::createCylinderMesh(float radius, float length, unsigned int divisions,
-			const Vector4& color)
+			const Vector4& color, bool smooth)
 	{
 		Vector3 center(0.0f, 0.0f, 0.0f);
 		Vector3 toBack(0.0f, 0.0f, -length);
@@ -364,7 +364,7 @@ namespace simplicity
 		addCircleVertexList(vertices, verticesInEnd, radius, divisions, toBack, color);
 
 		// Sides
-		addTunnelVertexList(vertices, verticesInEnds, radius, length, divisions, center, color);
+		addTunnelVertexList(vertices, verticesInEnds, radius, length, divisions, center, color, smooth);
 
 		// Indices
 		unsigned int indicesInEnd = divisions * 3;
@@ -469,23 +469,23 @@ namespace simplicity
 		vector<Vertex> vertices(16);
 
 		// Bottom
-		addRectangleVertexList(vertices, 0, color, Vector3(-halfBaseExtent, 0.0f, -halfBaseExtent),
+		addRectangleVertexList(vertices, 0, color, Vector3(-halfBaseExtent, -height * 0.5f, -halfBaseExtent),
 			Vector3(halfBaseExtent * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfBaseExtent * 2.0f));
 
 		// North
-		addTriangleVertexList(vertices, 4, color, Vector3(0.0f, height, 0.0f),
+		addTriangleVertexList(vertices, 4, color, Vector3(0.0f, height * 0.5f, 0.0f),
 			Vector3(halfBaseExtent, -height, halfBaseExtent), Vector3(-halfBaseExtent, -height, halfBaseExtent));
 
 		// East
-		addTriangleVertexList(vertices, 7, color, Vector3(0.0f, height, 0.0f),
+		addTriangleVertexList(vertices, 7, color, Vector3(0.0f, height * 0.5f, 0.0f),
 			Vector3(halfBaseExtent, -height, -halfBaseExtent), Vector3(halfBaseExtent, -height, halfBaseExtent));
 
 		// South
-		addTriangleVertexList(vertices, 10, color, Vector3(0.0f, height, 0.0f),
+		addTriangleVertexList(vertices, 10, color, Vector3(0.0f, height * 0.5f, 0.0f),
 			Vector3(-halfBaseExtent, -height, -halfBaseExtent), Vector3(halfBaseExtent, -height, -halfBaseExtent));
 
 		// West
-		addTriangleVertexList(vertices, 13, color, Vector3(0.0f, height, 0.0f),
+		addTriangleVertexList(vertices, 13, color, Vector3(0.0f, height * 0.5f, 0.0f),
 			Vector3(-halfBaseExtent, -height, halfBaseExtent), Vector3(-halfBaseExtent, -height, -halfBaseExtent));
 
 		// Indices

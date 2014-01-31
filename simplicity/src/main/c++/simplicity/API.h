@@ -59,6 +59,7 @@
 #include "model/ModelFactory.h"
 #include "model/ModelFunctions.h"
 #include "model/Plane.h"
+#include "model/shape/Box.h"
 #include "model/shape/Capsule.h"
 #include "model/shape/Circle.h"
 #include "model/shape/Cube.h"

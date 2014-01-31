@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,27 +14,49 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "Cube.h"
+#include "Box.h"
 
 namespace simplicity
 {
-	Cube::Cube(float halfEdgeLength) :
-		halfEdgeLength(halfEdgeLength)
+	Box::Box(float halfXLength, float halfYLength, float halfZLength) :
+		halfXLength(halfXLength),
+		halfYLength(halfYLength),
+		halfZLength(halfZLength)
 	{
 	}
 
-	float Cube::getHalfEdgeLength() const
+	float Box::getHalfXLength() const
 	{
-		return halfEdgeLength;
+		return halfXLength;
 	}
 
-	void Cube::render(Renderer& renderer) const
+	float Box::getHalfYLength() const
+	{
+		return halfYLength;
+	}
+
+	float Box::getHalfZLength() const
+	{
+		return halfZLength;
+	}
+
+	void Box::render(Renderer& renderer) const
 	{
 		renderer.render(*this);
 	}
 
-	void Cube::setHalfEdgeLength(float halfEdgeLength)
+	void Box::setHalfXLength(float halfXLength)
 	{
-		this->halfEdgeLength = halfEdgeLength;
+		this->halfXLength = halfXLength;
+	}
+
+	void Box::setHalfYLength(float halfYLength)
+	{
+		this->halfYLength = halfYLength;
+	}
+
+	void Box::setHalfZLength(float halfZLength)
+	{
+		this->halfZLength = halfZLength;
 	}
 }

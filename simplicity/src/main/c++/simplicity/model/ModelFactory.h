@@ -55,7 +55,7 @@ namespace simplicity
 
 			static void addTunnelVertexList(std::vector<Vertex>& vertices, unsigned int index, float radius,
 					float length, unsigned int divisions, const Vector3& center, const Vector4& colour,
-					bool smooth = false);
+					bool smooth = true);
 
 			std::unique_ptr<Mesh> createBoxMesh(const Vector3& halfExtents, const Vector4& color,
 				bool doubleSided = false);
@@ -65,7 +65,7 @@ namespace simplicity
 			std::unique_ptr<Mesh> createCubeMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
 
 			std::unique_ptr<Mesh> createCylinderMesh(float radius, float length, unsigned int divisions,
-					const Vector4& color);
+					const Vector4& color, bool smooth = true);
 
 			std::unique_ptr<Mesh> createHeightMapMesh(const std::vector<std::vector<float>>& heightMap,
 					unsigned int minX, unsigned int maxX, unsigned int minZ, unsigned int maxZ, const Vector4& color);

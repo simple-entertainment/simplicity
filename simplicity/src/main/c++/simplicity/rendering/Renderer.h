@@ -18,6 +18,7 @@
 
 namespace simplicity
 {
+	class Box;
 	class Capsule;
 	class Circle;
 	class Cube;
@@ -43,6 +44,8 @@ namespace simplicity
 			virtual Shader* getShader() = 0;
 
 			virtual void init() = 0;
+
+			virtual void render(const Box& model) = 0;
 
 			virtual void render(const Capsule& model) = 0;
 
