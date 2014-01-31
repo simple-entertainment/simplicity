@@ -15,6 +15,8 @@ namespace simplicity
 
 				float friction;
 
+				float mass;
+
 				float restitution;
 			};
 

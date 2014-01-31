@@ -31,7 +31,7 @@ namespace simplicity
 			}
 
 			virtual std::unique_ptr<Body> createBody(const Body::Material& material, Model* model,
-					const Matrix44& transformation, bool dynamic) = 0;
+					const Matrix44& transformation, bool dynamic = true) = 0;
 
 			static PhysicsFactory& getInstance();
 
