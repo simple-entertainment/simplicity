@@ -72,24 +72,36 @@ namespace simplicity
 		return transformation;
 	}
 
-	void Entity::removeComponent(Component* component)
+	shared_ptr<Component> Entity::removeSharedComponent(Component* component)
 	{
-		vector<unique_ptr<Component>>::iterator uniqueResult =
-				find_if(uniqueComponents.begin(), uniqueComponents.end(), AddressEquals<Component>(*component));
-		if (uniqueResult != uniqueComponents.end())
+		shared_ptr<Component> removedComponent;
+		vector<shared_ptr<Component>>::iterator result =
+				find_if(sharedComponents.begin(), sharedComponents.end(), AddressEquals<Component>(*component));
+
+		if (result != sharedComponents.end())
 		{
-			uniqueComponents.erase(uniqueResult);
+			removedComponent.swap(*result);
+			sharedComponents.erase(result);
 			component = NULL;
-			return;
 		}
 
-		vector<shared_ptr<Component>>::iterator sharedResult =
-				find_if(sharedComponents.begin(), sharedComponents.end(), AddressEquals<Component>(*component));
-		if (sharedResult != sharedComponents.end())
+		return removedComponent;
+	}
+
+	unique_ptr<Component> Entity::removeUniqueComponent(Component* component)
+	{
+		unique_ptr<Component> removedComponent;
+		vector<unique_ptr<Component>>::iterator result =
+				find_if(uniqueComponents.begin(), uniqueComponents.end(), AddressEquals<Component>(*component));
+
+		if (result != uniqueComponents.end())
 		{
-			sharedComponents.erase(sharedResult);
+			removedComponent.swap(*result);
+			uniqueComponents.erase(result);
 			component = NULL;
 		}
+
+		return move(removedComponent);
 	}
 
 	void Entity::setTransformation(const Matrix44& transformation)

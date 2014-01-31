@@ -90,12 +90,21 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Removes a component.
+			 * Removes a shared component.
 			 * </p>
 			 *
 			 * @param component The component to remove.
 			 */
-			void removeComponent(Component* component);
+			std::shared_ptr<Component> removeSharedComponent(Component* component);
+
+			/**
+			 * <p>
+			 * Removes a unique component.
+			 * </p>
+			 *
+			 * @param component The component to remove.
+			 */
+			std::unique_ptr<Component> removeUniqueComponent(Component* component);
 
 			void setTransformation(const Matrix44& transformation);
 
