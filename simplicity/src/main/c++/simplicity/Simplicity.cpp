@@ -172,26 +172,36 @@ namespace simplicity
 			}
 		}
 
-		void removeEngine(const Engine& engine)
+		unique_ptr<Engine> removeEngine(Engine* engine)
 		{
+			unique_ptr<Engine> removedEngine;
 			vector<unique_ptr<Engine>>::iterator result =
-					find_if(engines.begin(), engines.end(), AddressEquals<Engine>(engine));
+					find_if(engines.begin(), engines.end(), AddressEquals<Engine>(*engine));
 
 			if (result != engines.end())
 			{
+				removedEngine.swap(*result);
 				engines.erase(result);
+				engine = NULL;
 			}
+
+			return move(removedEngine);
 		}
 
-		void removeEntity(const Entity& entity)
+		unique_ptr<Entity> removeEntity(Entity* entity)
 		{
+			unique_ptr<Entity> removedEntity;
 			vector<unique_ptr<Entity>>::iterator result =
-					find_if(entities.begin(), entities.end(), AddressEquals<Entity>(entity));
+					find_if(entities.begin(), entities.end(), AddressEquals<Entity>(*entity));
 
 			if (result != entities.end())
 			{
+				removedEntity.swap(*result);
 				entitiesToBeRemoved.push_back(result->get());
+				entity = NULL;
 			}
+
+			return move(removedEntity);
 		}
 
 		void removePendingEntities()

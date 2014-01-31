@@ -42,9 +42,9 @@ namespace simplicity
 
 		void play();
 
-		void removeEngine(const Engine& engine);
+		std::unique_ptr<Engine> removeEngine(Engine* engine);
 
-		void removeEntity(const Entity& entity);
+		std::unique_ptr<Entity> removeEntity(Entity* entity);
 
 		void setMaxFrameRate(unsigned short maxFrameRate);
 
