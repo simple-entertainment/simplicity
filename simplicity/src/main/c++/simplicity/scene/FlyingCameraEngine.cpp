@@ -44,22 +44,22 @@ namespace simplicity
 	{
 		if (buttonStates[Keyboard::Button::W] == Button::State::DOWN)
 		{
-			MathFunctions::translate(camera.getTransformation(), Vector4(0.0f, 0.0f, -0.1f, 1.0f));
+			translate(camera.getTransform(), Vector4(0.0f, 0.0f, -0.1f, 1.0f));
 		}
 
 		if (buttonStates[Keyboard::Button::A] == Button::State::DOWN)
 		{
-			MathFunctions::translate(camera.getTransformation(), Vector4(-0.1f, 0.0f, 0.0f, 1.0f));
+			translate(camera.getTransform(), Vector4(-0.1f, 0.0f, 0.0f, 1.0f));
 		}
 
 		if (buttonStates[Keyboard::Button::S] == Button::State::DOWN)
 		{
-			MathFunctions::translate(camera.getTransformation(), Vector4(0.0f, 0.0f, 0.1f, 1.0f));
+			translate(camera.getTransform(), Vector4(0.0f, 0.0f, 0.1f, 1.0f));
 		}
 
 		if (buttonStates[Keyboard::Button::D] == Button::State::DOWN)
 		{
-			MathFunctions::translate(camera.getTransformation(), Vector4(0.1f, 0.0f, 0.0f, 1.0f));
+			translate(camera.getTransform(), Vector4(0.1f, 0.0f, 0.0f, 1.0f));
 		}
 	}
 
@@ -98,8 +98,8 @@ namespace simplicity
 		{
 			int deltaX = event->x - x;
 			int deltaY = event->y - y;
-			MathFunctions::rotate(camera.getTransformation(), deltaX * -0.01f, Vector4(0.0f, 1.0f, 0.0f, 1.0f));
-			MathFunctions::rotate(camera.getTransformation(), deltaY * -0.01f, Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+			rotate(camera.getTransform(), deltaX * -0.01f, Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+			rotate(camera.getTransform(), deltaY * -0.01f, Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 		}
 
 		x = event->x;

@@ -40,8 +40,6 @@ namespace simplicity
 
 			virtual const Matrix44& getProjection() const = 0;
 
-			virtual Vector3 getTranslation() const = 0;
-
 			virtual void lookAt(const Vector3& target, const Vector3& up) = 0;
 
 			virtual void setFarClippingDistance(float farClippingDistance) = 0;
@@ -51,8 +49,6 @@ namespace simplicity
 			virtual void setOrthogonal(float width, float height) = 0;
 
 			virtual void setPerspective(float yAxisFieldOfView, float aspectRatio) = 0;
-
-			virtual void setTranslation(const Vector3& translation) = 0;
 	};
 }
 

@@ -335,8 +335,8 @@ namespace simplicity
 
 		bool sameSide(const Vector3& lineA, const Vector3& lineB, const Vector3& pointA, const Vector3& pointB)
 		{
-			Vector3 crossProduct0 = MathFunctions::crossProduct(lineB - lineA, pointA - lineA);
-			Vector3 crossProduct1 = MathFunctions::crossProduct(lineB - lineA, pointB - lineA);
+			Vector3 crossProduct0 = crossProduct(lineB - lineA, pointA - lineA);
+			Vector3 crossProduct1 = crossProduct(lineB - lineA, pointB - lineA);
 
 			return dotProduct(crossProduct0, crossProduct1) >= 0;
 		}

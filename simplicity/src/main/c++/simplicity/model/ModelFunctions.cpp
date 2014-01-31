@@ -52,7 +52,7 @@ namespace simplicity
 
 			unique_ptr<Circle> bounds(new Circle(sqrt(maxMagnitudeSquared)));
 			bounds->setCategory(Categories::BOUNDS);
-			MathFunctions::setTranslation(bounds->getTransformation(), Vector3(center.X(), 0.0f, center.Z()));
+			setPosition(bounds->getTransform(), Vector3(center.X(), 0.0f, center.Z()));
 
 			return move(bounds);
 		}
@@ -91,7 +91,7 @@ namespace simplicity
 
 			unique_ptr<Square> bounds(new Square(max(halfRangeX, halfRangeZ)));
 			bounds->setCategory(Categories::BOUNDS);
-			MathFunctions::setTranslation(bounds->getTransformation(), Vector3(centerX, 0.0f, centerZ));
+			setPosition(bounds->getTransform(), Vector3(centerX, 0.0f, centerZ));
 
 			return move(bounds);
 		}

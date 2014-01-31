@@ -102,7 +102,7 @@ namespace simplicity
 	void ModelFactory::addRectangleVertexList(vector<Vertex>& vertices, unsigned int index, const Vector4& colour,
 		const Vector3& topLeft, const Vector3& toTopRight, const Vector3& toBottomLeft)
 	{
-		Vector3 normal = MathFunctions::crossProduct(toTopRight, toBottomLeft);
+		Vector3 normal = crossProduct(toTopRight, toBottomLeft);
 		normal.normalize();
 
 		float height = toBottomLeft.getMagnitude();
@@ -159,11 +159,11 @@ namespace simplicity
 	void ModelFactory::addTriangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector4& colour,
 		const Vector3& top, const Vector3& toBottomLeft, const Vector3& toBottomRight)
 	{
-		Vector3 normal = MathFunctions::crossProduct(toBottomRight, toBottomLeft);
+		Vector3 normal = crossProduct(toBottomRight, toBottomLeft);
 		normal.normalize();
 
 		Vector3 across = (top + toBottomRight) - (top + toBottomLeft);
-		float scalarProjection = MathFunctions::getScalarProjection(toBottomRight, across);
+		float scalarProjection = getScalarProjection(toBottomRight, across);
 		float texWidthAtTop = scalarProjection / across.getMagnitude();
 		Vector3 projection = across;
 		projection.normalize();
@@ -256,7 +256,7 @@ namespace simplicity
 			{
 				Vector3 edge0 = positionB - positionA;
 				Vector3 edge1 = toEnd;
-				Vector3 normal = MathFunctions::crossProduct(edge0, edge1);
+				Vector3 normal = crossProduct(edge0, edge1);
 
 				vertices[indexOffset].normal = normal;
 				vertices[indexOffset + 1].normal = normal;

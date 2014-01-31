@@ -39,7 +39,7 @@ namespace simplicity
 
 			virtual void disconnectFrom(Graph& graph) = 0;
 
-			virtual Matrix44 getAbsoluteTransformation() const = 0;
+			virtual Matrix44 getAbsoluteTransform() const = 0;
 
 			virtual const Model& getBoundary() const = 0;
 
@@ -55,9 +55,9 @@ namespace simplicity
 
 			virtual const Graph* getParent() const = 0;
 
-			virtual Matrix44& getTransformation() = 0;
+			virtual Matrix44& getTransform() = 0;
 
-			virtual const Matrix44& getTransformation() const = 0;
+			virtual const Matrix44& getTransform() const = 0;
 
 			virtual bool insert(Entity& entity) = 0;
 
@@ -67,7 +67,7 @@ namespace simplicity
 
 			virtual void setParent(Graph* parent) = 0;
 
-			virtual void setTransformation(const Matrix44& transformation) = 0;
+			virtual void setTransform(const Matrix44& transform) = 0;
 
 			virtual void update(Entity& entity) = 0;
 	};

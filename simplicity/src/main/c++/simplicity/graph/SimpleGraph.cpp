@@ -31,9 +31,9 @@ namespace simplicity
 		connections(),
 		entities(),
 		parent(NULL),
-		transformation()
+		transform()
 	{
-		transformation.setIdentity();
+		transform.setIdentity();
 	}
 
 	void SimpleGraph::addChild(unique_ptr<Graph> child)
@@ -55,14 +55,14 @@ namespace simplicity
 		}
 	}
 
-	Matrix44 SimpleGraph::getAbsoluteTransformation() const
+	Matrix44 SimpleGraph::getAbsoluteTransform() const
 	{
 		Matrix44 absoluteMatrix;
 		absoluteMatrix.setIdentity();
 		const Graph* currentGraph = this;
 		while (currentGraph != NULL)
 		{
-			absoluteMatrix *= currentGraph->getTransformation();
+			absoluteMatrix *= currentGraph->getTransform();
 			currentGraph = currentGraph->getParent();
 		}
 
@@ -107,8 +107,7 @@ namespace simplicity
 				continue;
 			}
 
-			Vector3 modelBoundsPosition = MathFunctions::getTranslation3(entity->getTransformation() *
-					entityBounds->getTransformation());
+			Vector3 modelBoundsPosition = getPosition3(entity->getTransform() * entityBounds->getTransform());
 			if (Intersection::intersect(*entityBounds, bounds, position - modelBoundsPosition))
 			{
 				entitiesWithinBounds.push_back(entity);
@@ -134,14 +133,14 @@ namespace simplicity
 		return parent;
 	}
 
-	Matrix44& SimpleGraph::getTransformation()
+	Matrix44& SimpleGraph::getTransform()
 	{
-		return transformation;
+		return transform;
 	}
 
-	const Matrix44& SimpleGraph::getTransformation() const
+	const Matrix44& SimpleGraph::getTransform() const
 	{
-		return transformation;
+		return transform;
 	}
 
 	bool SimpleGraph::insert(Entity& entity)
@@ -190,9 +189,9 @@ namespace simplicity
 		this->parent = parent;
 	}
 
-	void SimpleGraph::setTransformation(const Matrix44& transformation)
+	void SimpleGraph::setTransform(const Matrix44& transform)
 	{
-		this->transformation = transformation;
+		this->transform = transform;
 	}
 
 	void SimpleGraph::update(Entity& entity)

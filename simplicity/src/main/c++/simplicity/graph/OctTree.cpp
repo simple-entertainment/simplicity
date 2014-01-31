@@ -32,9 +32,9 @@ namespace simplicity
 		entities(),
 		parent(NULL),
 		subdivideThreshold(subdivideThreshold),
-		transformation()
+		transform()
 	{
-		transformation.setIdentity();
+		transform.setIdentity();
 	}
 
 	void OctTree::addChild(std::unique_ptr<Graph>)
@@ -68,14 +68,14 @@ namespace simplicity
 		}
 	}
 
-	Matrix44 OctTree::getAbsoluteTransformation() const
+	Matrix44 OctTree::getAbsoluteTransform() const
 	{
 		Matrix44 absoluteMatrix;
 		absoluteMatrix.setIdentity();
 		const Graph* currentGraph = this;
 		while (currentGraph != NULL)
 		{
-			absoluteMatrix *= currentGraph->getTransformation();
+			absoluteMatrix *= currentGraph->getTransform();
 			currentGraph = currentGraph->getParent();
 		}
 
@@ -120,8 +120,7 @@ namespace simplicity
 				continue;
 			}
 
-			Vector3 modelBoundsPosition = MathFunctions::getTranslation3(entity->getTransformation() *
-					entityBounds->getTransformation());
+			Vector3 modelBoundsPosition = getPosition3(entity->getTransform() * entityBounds->getTransform());
 			if (Intersection::intersect(*entityBounds, bounds, position - modelBoundsPosition))
 			{
 				entitiesWithinBounds.push_back(entity);
@@ -147,14 +146,14 @@ namespace simplicity
 		return parent;
 	}
 
-	Matrix44& OctTree::getTransformation()
+	Matrix44& OctTree::getTransform()
 	{
-		return transformation;
+		return transform;
 	}
 
-	const Matrix44& OctTree::getTransformation() const
+	const Matrix44& OctTree::getTransform() const
 	{
-		return transformation;
+		return transform;
 	}
 
 	bool OctTree::insert(Entity& entity)
@@ -223,9 +222,9 @@ namespace simplicity
 		this->parent = parent;
 	}
 
-	void OctTree::setTransformation(const Matrix44& transformation)
+	void OctTree::setTransform(const Matrix44& transform)
 	{
-		this->transformation = transformation;
+		this->transform = transform;
 	}
 
 	void OctTree::subdivide()
@@ -235,50 +234,42 @@ namespace simplicity
 		float childHalfDimension = boundary.getHalfEdgeLength() / 2.0f;
 
 		unique_ptr<Graph> child0(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
-		MathFunctions::setTranslation(child0->getTransformation(), Vector3(-childHalfDimension, childHalfDimension,
-				childHalfDimension));
+		setPosition(child0->getTransform(), Vector3(-childHalfDimension, childHalfDimension, childHalfDimension));
 		child0->setParent(this);
 		children.push_back(move(child0));
 
 		unique_ptr<Graph> child1(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
-		MathFunctions::setTranslation(child1->getTransformation(), Vector3(childHalfDimension, childHalfDimension,
-				childHalfDimension));
+		setPosition(child1->getTransform(), Vector3(childHalfDimension, childHalfDimension, childHalfDimension));
 		child1->setParent(this);
 		children.push_back(move(child1));
 
 		unique_ptr<Graph> child2(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
-		MathFunctions::setTranslation(child2->getTransformation(), Vector3(-childHalfDimension, -childHalfDimension,
-				childHalfDimension));
+		setPosition(child2->getTransform(), Vector3(-childHalfDimension, -childHalfDimension, childHalfDimension));
 		child2->setParent(this);
 		children.push_back(move(child2));
 
 		unique_ptr<Graph> child3(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
-		MathFunctions::setTranslation(child3->getTransformation(), Vector3(childHalfDimension, -childHalfDimension,
-				childHalfDimension));
+		setPosition(child3->getTransform(), Vector3(childHalfDimension, -childHalfDimension, childHalfDimension));
 		child3->setParent(this);
 		children.push_back(move(child3));
 
 		unique_ptr<Graph> child4(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
-		MathFunctions::setTranslation(child4->getTransformation(), Vector3(-childHalfDimension, childHalfDimension,
-				-childHalfDimension));
+		setPosition(child4->getTransform(), Vector3(-childHalfDimension, childHalfDimension, -childHalfDimension));
 		child4->setParent(this);
 		children.push_back(move(child4));
 
 		unique_ptr<Graph> child5(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
-		MathFunctions::setTranslation(child5->getTransformation(), Vector3(childHalfDimension, childHalfDimension,
-				-childHalfDimension));
+		setPosition(child5->getTransform(), Vector3(childHalfDimension, childHalfDimension, -childHalfDimension));
 		child5->setParent(this);
 		children.push_back(move(child5));
 
 		unique_ptr<Graph> child6(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
-		MathFunctions::setTranslation(child6->getTransformation(), Vector3(-childHalfDimension, -childHalfDimension,
-				-childHalfDimension));
+		setPosition(child6->getTransform(), Vector3(-childHalfDimension, -childHalfDimension, -childHalfDimension));
 		child6->setParent(this);
 		children.push_back(move(child6));
 
 		unique_ptr<Graph> child7(new OctTree(subdivideThreshold, Cube(childHalfDimension)));
-		MathFunctions::setTranslation(child7->getTransformation(), Vector3(childHalfDimension, -childHalfDimension,
-				-childHalfDimension));
+		setPosition(child7->getTransform(), Vector3(childHalfDimension, -childHalfDimension, -childHalfDimension));
 		child7->setParent(this);
 		children.push_back(move(child7));
 	}
@@ -297,9 +288,8 @@ namespace simplicity
 			return false;
 		}
 
-		Vector3 graphPosition = MathFunctions::getTranslation3(getAbsoluteTransformation());
-		Vector3 boundsPosition = MathFunctions::getTranslation3(entity.getTransformation() *
-				bounds->getTransformation());
+		Vector3 graphPosition = getPosition3(getAbsoluteTransform());
+		Vector3 boundsPosition = getPosition3(entity.getTransform() * bounds->getTransform());
 
 		Vector3 relativePosition = boundsPosition - graphPosition;
 		return Intersection::contains(boundary, *bounds, relativePosition);

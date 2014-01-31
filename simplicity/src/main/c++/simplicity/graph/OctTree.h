@@ -36,7 +36,7 @@ namespace simplicity
 
 			void disconnectFrom(Graph& graph);
 
-			Matrix44 getAbsoluteTransformation() const;
+			Matrix44 getAbsoluteTransform() const;
 
 			const Model& getBoundary() const;
 
@@ -52,9 +52,9 @@ namespace simplicity
 
 			const Graph* getParent() const;
 
-			Matrix44& getTransformation();
+			Matrix44& getTransform();
 
-			const Matrix44& getTransformation() const;
+			const Matrix44& getTransform() const;
 
 			bool insert(Entity& entity);
 
@@ -64,7 +64,7 @@ namespace simplicity
 
 			void setParent(Graph* parent);
 
-			void setTransformation(const Matrix44& transformation);
+			void setTransform(const Matrix44& transform);
 
 			void update(Entity& entity);
 
@@ -81,7 +81,7 @@ namespace simplicity
 
 			unsigned int subdivideThreshold;
 
-			Matrix44 transformation;
+			Matrix44 transform;
 
 			void addEntityFromChild();
 

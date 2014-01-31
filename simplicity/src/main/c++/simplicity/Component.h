@@ -36,22 +36,22 @@ namespace simplicity
 
 			const Entity* getEntity() const;
 
-			Matrix44& getTransformation();
+			Matrix44& getTransform();
 
-			const Matrix44& getTransformation() const;
+			const Matrix44& getTransform() const;
 
 			void setCategory(unsigned short category);
 
 			void setEntity(Entity* entity);
 
-			void setTransformation(const Matrix44& transformation);
+			void setTransform(const Matrix44& transform);
 
 		private:
 			unsigned short category;
 
 			Entity* entity;
 
-			Matrix44 transformation; // TODO review! Is this a good idea?
+			Matrix44 transform; // TODO review! Is this a good idea?
 	};
 }
 

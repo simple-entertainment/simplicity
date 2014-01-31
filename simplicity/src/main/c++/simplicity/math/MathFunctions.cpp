@@ -18,40 +18,37 @@
 
 namespace simplicity
 {
-	namespace MathFunctions
+	bool randomIsSeeded = false;
+
+	bool getRandomBool()
 	{
-		bool randomIsSeeded = false;
+		return getRandomInt(0, 1) == 1;
+	}
 
-		bool getRandomBool()
+	bool getRandomBool(float trueChance)
+	{
+		return getRandomFloat(0.0f, 1.0f) < trueChance;
+	}
+
+	float getRandomFloat(float min, float max)
+	{
+		if (!randomIsSeeded)
 		{
-			return getRandomInt(0, 1) == 1;
+			srand((unsigned) time(NULL));
+			randomIsSeeded = true;
 		}
 
-		bool getRandomBool(float trueChance)
+		return min + (float) rand() / ((float) RAND_MAX / (max - min));
+	}
+
+	int getRandomInt(int min, int max)
+	{
+		if (!randomIsSeeded)
 		{
-			return getRandomFloat(0.0f, 1.0f) < trueChance;
+			srand((unsigned) time(NULL));
+			randomIsSeeded = true;
 		}
 
-		float getRandomFloat(float min, float max)
-		{
-			if (!randomIsSeeded)
-			{
-				srand((unsigned) time(NULL));
-				randomIsSeeded = true;
-			}
-
-			return min + (float) rand() / ((float) RAND_MAX / (max - min));
-		}
-
-		int getRandomInt(int min, int max)
-		{
-			if (!randomIsSeeded)
-			{
-				srand((unsigned) time(NULL));
-				randomIsSeeded = true;
-			}
-
-			return rand() % (max - min + 1) + min;
-		}
+		return rand() % (max - min + 1) + min;
 	}
 }

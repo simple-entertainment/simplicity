@@ -84,9 +84,9 @@ namespace simplicity
 			 */
 			const std::string& getName() const;
 
-			Matrix44& getTransformation();
+			Matrix44& getTransform();
 
-			const Matrix44& getTransformation() const;
+			const Matrix44& getTransform() const;
 
 			/**
 			 * <p>
@@ -106,7 +106,7 @@ namespace simplicity
 			 */
 			std::unique_ptr<Component> removeUniqueComponent(Component* component);
 
-			void setTransformation(const Matrix44& transformation);
+			void setTransform(const Matrix44& transform);
 
 		private:
 			unsigned short category;
@@ -129,7 +129,7 @@ namespace simplicity
 			 */
 			std::vector<std::shared_ptr<Component>> sharedComponents;
 
-			Matrix44 transformation;
+			Matrix44 transform;
 
 			/**
 			 * <p>

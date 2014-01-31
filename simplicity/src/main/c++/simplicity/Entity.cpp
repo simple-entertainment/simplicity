@@ -31,10 +31,10 @@ namespace simplicity
 		id(nextId++),
 		name(name),
 		sharedComponents(),
-		transformation(),
+		transform(),
 		uniqueComponents()
 	{
-		transformation.setIdentity();
+		transform.setIdentity();
 	}
 
 	void Entity::addSharedComponent(shared_ptr<Component> component)
@@ -62,14 +62,14 @@ namespace simplicity
 		return name;
 	}
 
-	Matrix44& Entity::getTransformation()
+	Matrix44& Entity::getTransform()
 	{
-		return transformation;
+		return transform;
 	}
 
-	const Matrix44& Entity::getTransformation() const
+	const Matrix44& Entity::getTransform() const
 	{
-		return transformation;
+		return transform;
 	}
 
 	shared_ptr<Component> Entity::removeSharedComponent(Component* component)
@@ -104,8 +104,8 @@ namespace simplicity
 		return move(removedComponent);
 	}
 
-	void Entity::setTransformation(const Matrix44& transformation)
+	void Entity::setTransform(const Matrix44& transform)
 	{
-		this->transformation = transformation;
+		this->transform = transform;
 	}
 }
