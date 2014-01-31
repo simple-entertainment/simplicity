@@ -49,6 +49,8 @@ namespace simplicity
 		void setMaxFrameRate(unsigned short maxFrameRate);
 
 		void stop();
+
+        void updateWorldRepresentations(Entity& entity);
 	}
 }
 

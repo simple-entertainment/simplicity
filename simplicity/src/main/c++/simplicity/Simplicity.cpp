@@ -238,5 +238,13 @@ namespace simplicity
 		{
 			stopped = true;
 		}
+
+        void updateWorldRepresentations(Entity& entity)
+        {
+        	for (unsigned int index = 0; index < worldRepresentations.size(); index++)
+        	{
+        		worldRepresentations[index]->update(entity);
+        	}
+        }
 	}
 }
