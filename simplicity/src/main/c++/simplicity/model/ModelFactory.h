@@ -80,7 +80,8 @@ namespace simplicity
 
 			std::unique_ptr<Mesh> createPyramidMesh(float halfBaseExtent, float height, const Vector4& color);
 
-			std::unique_ptr<Mesh> createSphereMesh(float radius, unsigned int divisions, const Vector4& color);
+			std::unique_ptr<Mesh> createSphereMesh(float radius, unsigned int divisions, const Vector4& color,
+					bool smooth = true);
 
 			std::unique_ptr<Mesh> createSquareMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
 
@@ -93,6 +94,9 @@ namespace simplicity
 
 		private:
 			static std::unique_ptr<ModelFactory> instance;
+
+			Vector3 getPointOnSphere(float radius, unsigned int divisions, unsigned int latitude,
+					unsigned int longitude);
 	};
 }
 

@@ -507,7 +507,8 @@ namespace simplicity
 		return createMesh(vertices, indices);
 	}
 
-	unique_ptr<Mesh> ModelFactory::createSphereMesh(float radius, unsigned int divisions, const Vector4& color)
+	unique_ptr<Mesh> ModelFactory::createSphereMesh(float radius, unsigned int divisions, const Vector4& color,
+			bool smooth)
 	{
 		vector<Vertex> vertices;
 
@@ -515,18 +516,46 @@ namespace simplicity
 		{
 			for (unsigned int longitude = 0; longitude <= divisions; longitude++)
 			{
-				float a = MathConstants::PI * latitude / divisions;
-				float b = 2 * MathConstants::PI * longitude / divisions;
+				if (smooth)
+				{
+					Vertex vertex;
+					vertex.color = color;
+					vertex.position = getPointOnSphere(radius, divisions, latitude, longitude);
+					Vector3 normal = vertex.position;
+					normal.normalize();
+					vertex.normal = normal;
+					vertices.push_back(vertex);
+				}
+				else if (latitude != divisions && longitude != divisions)
+				{
+					Vertex vertex0;
+					vertex0.color = color;
+					vertex0.position = getPointOnSphere(radius, divisions, latitude, longitude);
+					Vertex vertex1;
+					vertex1.color = color;
+					vertex1.position = getPointOnSphere(radius, divisions, latitude + 1, longitude);
+					Vertex vertex2;
+					vertex2.color = color;
+					vertex2.position = getPointOnSphere(radius, divisions, latitude + 1, longitude + 1);
+					Vertex vertex3;
+					vertex3.color = color;
+					vertex3.position = getPointOnSphere(radius, divisions, latitude, longitude + 1);
 
-				Vertex vertex;
-				vertex.color = color;
-				vertex.position.X() = sin(a) * cos(b) * radius;
-				vertex.position.Y() = sin(a) * sin(b) * radius;
-				vertex.position.Z() = cos(a) * radius;
-				Vector3 normal = vertex.position;
-				normal.normalize();
-				vertex.normal = normal;
-				vertices.push_back(vertex);
+					Vector3 edge0 = vertex1.position - vertex0.position;
+					Vector3 edge1 = vertex2.position - vertex0.position;
+					Vector3 normal = crossProduct(edge0, edge1);
+					normal.normalize();
+
+					vertex0.normal = normal;
+					vertex1.normal = normal;
+					vertex2.normal = normal;
+					vertex3.normal = normal;
+
+					vertices.push_back(vertex0);
+					vertices.push_back(vertex1);
+					vertices.push_back(vertex2);
+					vertices.push_back(vertex3);
+				}
 			}
 		}
 
@@ -536,13 +565,28 @@ namespace simplicity
 		{
 			for (unsigned int longitude = 0; longitude < divisions; longitude++)
 			{
-				indices.push_back(latitude * divisions + longitude);
-				indices.push_back((latitude + 1) * divisions + longitude + 1);
-				indices.push_back(latitude * divisions + longitude + 1);
+				if (smooth)
+				{
+					indices.push_back(latitude * divisions + longitude);
+					indices.push_back((latitude + 1) * divisions + longitude);
+					indices.push_back((latitude + 1) * divisions + longitude + 1);
 
-				indices.push_back(latitude * divisions + longitude);
-				indices.push_back((latitude + 1) * divisions + longitude);
-				indices.push_back((latitude + 1) * divisions + longitude + 1);
+					indices.push_back(latitude * divisions + longitude);
+					indices.push_back((latitude + 1) * divisions + longitude + 1);
+					indices.push_back(latitude * divisions + longitude + 1);
+				}
+				else if (latitude != divisions)
+				{
+					unsigned int segmentIndex = (latitude * divisions + longitude) * 4;
+
+					indices.push_back(segmentIndex);
+					indices.push_back(segmentIndex + 1);
+					indices.push_back(segmentIndex + 2);
+
+					indices.push_back(segmentIndex);
+					indices.push_back(segmentIndex + 2);
+					indices.push_back(segmentIndex + 3);
+				}
 			}
 		}
 
@@ -607,5 +651,14 @@ namespace simplicity
 	void ModelFactory::setInstance(unique_ptr<ModelFactory> instance)
 	{
 		ModelFactory::instance = move(instance);
+	}
+
+	Vector3 ModelFactory::getPointOnSphere(float radius, unsigned int divisions, unsigned int latitude,
+			unsigned int longitude)
+	{
+		float a = MathConstants::PI * latitude / divisions;
+		float b = 2 * MathConstants::PI * longitude / divisions;
+
+		return Vector3(sin(a) * cos(b) * radius, sin(a) * sin(b) * radius, cos(a) * radius);
 	}
 }
