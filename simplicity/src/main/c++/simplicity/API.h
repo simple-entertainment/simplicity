@@ -18,7 +18,6 @@
 // Core
 #include "Categories.h"
 #include "Component.h"
-#include "Componentizer.h"
 #include "Entity.h"
 #include "Events.h"
 #include "Messages.h"
