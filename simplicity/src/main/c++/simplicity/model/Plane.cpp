@@ -21,7 +21,8 @@ namespace simplicity
 	Plane::Plane(const Vector3& normal, const Vector3& positionOnPlane) :
 		color(),
 		normal(normal),
-		positionOnPlane(positionOnPlane)
+		positionOnPlane(positionOnPlane),
+		visible(true)
 	{
 	}
 
