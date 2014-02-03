@@ -18,6 +18,7 @@
 #define INTERSECTION_H_
 
 #include "../model/Line.h"
+#include "../model/Mesh.h"
 #include "../model/Model.h"
 #include "../model/Plane.h"
 #include "../model/Point.h"
@@ -39,6 +40,10 @@ namespace simplicity
 
 		bool contains(const Cube& a, const Cube& b, const Vector3& relativePosition);
 
+		bool contains(const Mesh& mesh, const Point& point, const Matrix44& relativeTransform);
+
+		bool contains(const Mesh& mesh, const Triangle& triangle, const Matrix44& relativeTransform);
+
 		bool contains(const Model& a, const Model& b, const Vector3& relativePosition);
 
 		bool contains(const Square& square, const Circle& circle, const Vector2& relativePosition);
@@ -46,6 +51,13 @@ namespace simplicity
 		bool contains(const Square& a, const Square& b, const Vector2& relativePosition);
 
 		bool contains(const Triangle& triangle, const Point& point);
+
+		Vector3 getIntersection(const Line& lineSegment, const Plane& plane);
+
+		Line getIntersection(const Triangle& a, const Triangle& b, const Matrix44& relativeTransform);
+
+		Line getIntersection(const Triangle& a, const Triangle& relativeB, const Vector3& normalA,
+				const Vector3& normalB);
 
 		float getIntersectionTime(const Line& lineSegment, const Plane& plane);
 
@@ -57,13 +69,19 @@ namespace simplicity
 
 		bool intersect(const Line& lineSegment, const Plane& plane);
 
+		bool intersect(const Line& lineSegment, const Triangle& triangle);
+
 		bool intersect(const Model& a, const Model& b, const Vector3& relativePosition);
+
+		RelativePosition intersect(const Plane& plane, const Point& point);
 
 		bool intersect(const Plane& plane, const Triangle& triangle);
 
 		bool intersect(const Square& a, const Square& b, const Vector2& relativePosition);
 
-		RelativePosition intersect(const Plane& plane, const Point& point);
+		bool intersect(const Triangle& a, const Triangle& b, const Matrix44& relativeTransform);
+
+		bool intersect(const Triangle& a, const Triangle& relativeB, const Vector3& normalA, const Vector3& normalB);
 	}
 }
 

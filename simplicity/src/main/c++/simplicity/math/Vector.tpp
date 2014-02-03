@@ -30,13 +30,6 @@ namespace simplicity
 	}
 
 	template<typename Data, unsigned int Size>
-	Vector<Data, Size>::Vector(const Vector<Data, Size>& original) :
-		data()
-	{
-		operator=(original);
-	}
-
-	template<typename Data, unsigned int Size>
 	Vector<Data, Size>::Vector(const array<Data, Size>& data) :
 		data()
 	{
@@ -75,6 +68,25 @@ namespace simplicity
 		data[1] = d1;
 		data[2] = d2;
 		data[3] = d3;
+	}
+
+	template<typename Data, unsigned int Size>
+	Vector<Data, Size>::Vector(const Vector<Data, Size>& original) :
+		data()
+	{
+		operator=(original);
+	}
+
+	template<typename Data, unsigned int Size>
+	Vector<Data, Size>::Vector(const Vector<Data, Size - 1>& original, Data d) :
+		data()
+	{
+		for (unsigned int index = 0; index < Size - 1; index++)
+		{
+			data[index] = original.getData()[index];
+		}
+		
+		data[Size - 1] = d;
 	}
 
 	template<typename Data, unsigned int Size>

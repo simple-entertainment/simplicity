@@ -28,8 +28,6 @@ namespace simplicity
 		public:
 			Vector();
 
-			Vector(const Vector<Data, Size>& original);
-
 			Vector(const std::array<Data, Size>& data);
 
 			Vector(Data* data);
@@ -39,6 +37,10 @@ namespace simplicity
 			Vector(Data d0, Data d1, Data d2);
 
 			Vector(Data d0, Data d1, Data d2, Data d3);
+
+			Vector(const Vector<Data, Size>& original);
+
+			Vector(const Vector<Data, Size - 1>& original, Data d);
 
 			Data& A();
 

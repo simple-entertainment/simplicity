@@ -99,8 +99,8 @@ namespace simplicity
 		}
 	}
 
-	void ModelFactory::addRectangleVertexList(vector<Vertex>& vertices, unsigned int index, const Vector4& colour,
-		const Vector3& topLeft, const Vector3& toTopRight, const Vector3& toBottomLeft)
+	void ModelFactory::addRectangleVertexList(vector<Vertex>& vertices, unsigned int index, const Vector3& topLeft,
+			const Vector3& toTopRight, const Vector3& toBottomLeft, const Vector4& colour)
 	{
 		Vector3 normal = crossProduct(toTopRight, toBottomLeft);
 		normal.normalize();
@@ -145,19 +145,19 @@ namespace simplicity
 		if (reverse)
 		{
 			indices[index] = vertexIndex;
-			indices[index + 1] = vertexIndex + 1;
-			indices[index + 2] = vertexIndex + 2;
+			indices[index + 1] = vertexIndex + 2;
+			indices[index + 2] = vertexIndex + 1;
 		}
 		else
 		{
-			indices[index] = vertexIndex + 2;
+			indices[index] = vertexIndex;
 			indices[index + 1] = vertexIndex + 1;
-			indices[index + 2] = vertexIndex;
+			indices[index + 2] = vertexIndex + 2;
 		}
 	}
 
-	void ModelFactory::addTriangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector4& colour,
-		const Vector3& top, const Vector3& toBottomLeft, const Vector3& toBottomRight)
+	void ModelFactory::addTriangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector3& top,
+			const Vector3& toBottomLeft, const Vector3& toBottomRight, const Vector4& colour)
 	{
 		Vector3 normal = crossProduct(toBottomRight, toBottomLeft);
 		normal.normalize();
@@ -272,28 +272,28 @@ namespace simplicity
 		vector<Vertex> vertices(24);
 
 		// Top
-		addRectangleVertexList(vertices, 0, color, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * -2.0f));
+		addRectangleVertexList(vertices, 0, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * -2.0f), color);
 
 		// Bottom
-		addRectangleVertexList(vertices, 4, color, Vector3(-halfExtents.X(), -halfExtents.Y(), -halfExtents.Z()),
-			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f));
+		addRectangleVertexList(vertices, 4, Vector3(-halfExtents.X(), -halfExtents.Y(), -halfExtents.Z()),
+			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f), color);
 
 		// North
-		addRectangleVertexList(vertices, 8, color, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(halfExtents.X() * -2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f));
+		addRectangleVertexList(vertices, 8, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+			Vector3(halfExtents.X() * -2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// East
-		addRectangleVertexList(vertices, 12, color, Vector3(halfExtents.X(), halfExtents.Y(), -halfExtents.Z()),
-			Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f));
+		addRectangleVertexList(vertices, 12, Vector3(halfExtents.X(), halfExtents.Y(), -halfExtents.Z()),
+			Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// South
-		addRectangleVertexList(vertices, 16, color, Vector3(-halfExtents.X(), halfExtents.Y(), -halfExtents.Z()),
-			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f));
+		addRectangleVertexList(vertices, 16, Vector3(-halfExtents.X(), halfExtents.Y(), -halfExtents.Z()),
+			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// West
-		addRectangleVertexList(vertices, 20, color, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(0.0f, 0.0f, halfExtents.Z() * -2.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f));
+		addRectangleVertexList(vertices, 20, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+			Vector3(0.0f, 0.0f, halfExtents.Z() * -2.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// Indices
 		vector<unsigned int> indices;
@@ -414,11 +414,11 @@ namespace simplicity
 				Vector3 toPosition1 = position1 - position0;
 				Vector3 toPosition2 = position2 - position0;
 
-				addTriangleVertexList(vertices, vertexIndex, color, position0, toPosition1, toPosition2);
+				addTriangleVertexList(vertices, vertexIndex, position0, toPosition1, toPosition2, color);
 
 				Vector3 toPosition3 = position3 - position0;
 
-				addTriangleVertexList(vertices, vertexIndex + 3, color, position0, toPosition2, toPosition3);
+				addTriangleVertexList(vertices, vertexIndex + 3, position0, toPosition2, toPosition3, color);
 			}
 		}
 
@@ -432,24 +432,27 @@ namespace simplicity
 		Vector3 normal;
 
 		// Bottom
-		addRectangleVertexList(vertices, 0, color, Vector3(-halfExtents.X(), -halfExtents.Y(), -halfExtents.Z()),
-			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f));
+		addRectangleVertexList(vertices, 0, Vector3(-halfExtents.X(), -halfExtents.Y(), -halfExtents.Z()),
+			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f), color);
 
 		// North
-		addRectangleVertexList(vertices, 4, color, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(halfExtents.X() * -2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f));
+		addRectangleVertexList(vertices, 4, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+			Vector3(halfExtents.X() * -2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// East
-		addTriangleVertexList(vertices, 8, color, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f));
+		addTriangleVertexList(vertices, 8, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f),
+			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// South (slope)
-		addRectangleVertexList(vertices, 11, color, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f));
+		addRectangleVertexList(vertices, 11, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f),
+			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f), color);
 
 		// West
-		addTriangleVertexList(vertices, 15, color, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f));
+		addTriangleVertexList(vertices, 15, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f),
+			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f), color);
 
 		// Indices
 		vector<unsigned int> indices(24);
@@ -469,24 +472,28 @@ namespace simplicity
 		vector<Vertex> vertices(16);
 
 		// Bottom
-		addRectangleVertexList(vertices, 0, color, Vector3(-halfBaseExtent, -height * 0.5f, -halfBaseExtent),
-			Vector3(halfBaseExtent * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfBaseExtent * 2.0f));
+		addRectangleVertexList(vertices, 0, Vector3(-halfBaseExtent, -height * 0.5f, -halfBaseExtent),
+			Vector3(halfBaseExtent * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfBaseExtent * 2.0f), color);
 
 		// North
-		addTriangleVertexList(vertices, 4, color, Vector3(0.0f, height * 0.5f, 0.0f),
-			Vector3(halfBaseExtent, -height, halfBaseExtent), Vector3(-halfBaseExtent, -height, halfBaseExtent));
+		addTriangleVertexList(vertices, 4, Vector3(0.0f, height * 0.5f, 0.0f),
+				Vector3(halfBaseExtent, -height, halfBaseExtent), Vector3(-halfBaseExtent, -height, halfBaseExtent),
+				color);
 
 		// East
-		addTriangleVertexList(vertices, 7, color, Vector3(0.0f, height * 0.5f, 0.0f),
-			Vector3(halfBaseExtent, -height, -halfBaseExtent), Vector3(halfBaseExtent, -height, halfBaseExtent));
+		addTriangleVertexList(vertices, 7, Vector3(0.0f, height * 0.5f, 0.0f),
+			Vector3(halfBaseExtent, -height, -halfBaseExtent), Vector3(halfBaseExtent, -height, halfBaseExtent),
+			color);
 
 		// South
-		addTriangleVertexList(vertices, 10, color, Vector3(0.0f, height * 0.5f, 0.0f),
-			Vector3(-halfBaseExtent, -height, -halfBaseExtent), Vector3(halfBaseExtent, -height, -halfBaseExtent));
+		addTriangleVertexList(vertices, 10, Vector3(0.0f, height * 0.5f, 0.0f),
+			Vector3(-halfBaseExtent, -height, -halfBaseExtent), Vector3(halfBaseExtent, -height, -halfBaseExtent),
+			color);
 
 		// West
-		addTriangleVertexList(vertices, 13, color, Vector3(0.0f, height * 0.5f, 0.0f),
-			Vector3(-halfBaseExtent, -height, halfBaseExtent), Vector3(-halfBaseExtent, -height, -halfBaseExtent));
+		addTriangleVertexList(vertices, 13, Vector3(0.0f, height * 0.5f, 0.0f),
+			Vector3(-halfBaseExtent, -height, halfBaseExtent), Vector3(-halfBaseExtent, -height, -halfBaseExtent),
+			color);
 
 		// Indices
 		vector<unsigned int> indices(18);
@@ -547,8 +554,8 @@ namespace simplicity
 		// Vertices
 		vector<Vertex> vertices(4);
 
-		addRectangleVertexList(vertices, 0, color, Vector3(-halfExtent, halfExtent, 0.0f),
-			Vector3(halfExtent * 2.0f, 0.0f, 0.0f), Vector3(0.0f, -halfExtent * 2.0f, 0.0f));
+		addRectangleVertexList(vertices, 0, Vector3(-halfExtent, halfExtent, 0.0f),
+			Vector3(halfExtent * 2.0f, 0.0f, 0.0f), Vector3(0.0f, -halfExtent * 2.0f, 0.0f), color);
 
 		// Indices
 		vector<unsigned int> indices;
@@ -562,6 +569,31 @@ namespace simplicity
 		{
 			indices.resize(6);
 			addRectangleIndexList(indices, 0, 0);
+		}
+
+		return createMesh(vertices, indices);
+	}
+
+	unique_ptr<Mesh> ModelFactory::createTriangleMesh(const Vector3& top, const Vector3& toBottomLeft,
+			const Vector3& toBottomRight, const Vector4& color, bool doubleSided)
+	{
+		// Vertices
+		vector<Vertex> vertices(3);
+
+		addTriangleVertexList(vertices, 0, top, toBottomLeft, toBottomRight, color);
+
+		// Indices
+		vector<unsigned int> indices;
+		if (doubleSided)
+		{
+			indices.resize(6);
+			addTriangleIndexList(indices, 0, 0);
+			addTriangleIndexList(indices, 3, 0, true);
+		}
+		else
+		{
+			indices.resize(3);
+			addTriangleIndexList(indices, 0, 0);
 		}
 
 		return createMesh(vertices, indices);

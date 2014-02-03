@@ -41,14 +41,15 @@ namespace simplicity
 			static void addRectangleIndexList(std::vector<unsigned int>& indices, unsigned int index,
 				unsigned int vertexIndex, bool reverse = false);
 
-			static void addRectangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector4& colour,
-				const Vector3& topLeft, const Vector3& toTopRight, const Vector3& toBottomLeft);
+			static void addRectangleVertexList(std::vector<Vertex>& vertices, unsigned int index,
+					const Vector3& topLeft, const Vector3& toTopRight, const Vector3& toBottomLeft,
+					const Vector4& colour);
 
 			static void addTriangleIndexList(std::vector<unsigned int>& indices, unsigned int index,
 				unsigned int vertexIndex, bool reverse = false);
 
-			static void addTriangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector4& colour,
-				const Vector3& top, const Vector3& toBottomLeft, const Vector3& toBottomRight);
+			static void addTriangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector3& top,
+					const Vector3& toBottomLeft, const Vector3& toBottomRight, const Vector4& colour);
 
 			static void addTunnelIndexList(std::vector<unsigned int>& indices, unsigned int index,
 				unsigned int vertexIndex, unsigned int divisions, bool reverse = false);
@@ -82,6 +83,9 @@ namespace simplicity
 			std::unique_ptr<Mesh> createSphereMesh(float radius, unsigned int divisions, const Vector4& color);
 
 			std::unique_ptr<Mesh> createSquareMesh(float halfExtent, const Vector4& color, bool doubleSided = false);
+
+			std::unique_ptr<Mesh> createTriangleMesh(const Vector3& top, const Vector3& toBottomLeft,
+					const Vector3& toBottomRight, const Vector4& color, bool doubleSided = false);
 
 			static ModelFactory& getInstance();
 
