@@ -383,6 +383,14 @@ namespace simplicity
 	}
 
 	template<typename Data>
+	void scale(Matrix<Data, 4, 4>& matrix, const Vector<Data, 3>& scale)
+	{
+		matrix[0] *= scale.X();
+		matrix[5] *= scale.Y();
+		matrix[10] *= scale.Z();
+	}
+
+	template<typename Data>
 	void setPosition(Matrix<Data, 4, 4>& matrix, const Vector<Data, 3>& position)
 	{
 		matrix[12] = position.X();
@@ -398,6 +406,14 @@ namespace simplicity
 		matrix[13] = position.Y();
 		matrix[14] = position.Z();
 		matrix[15] = position.W();
+	}
+
+	template<typename Data>
+	void setScale(Matrix<Data, 4, 4>& matrix, const Vector<Data, 3>& scale)
+	{
+		matrix[0] = scale.X();
+		matrix[5] = scale.Y();
+		matrix[10] = scale.Z();
 	}
 
 	template<typename Data>
