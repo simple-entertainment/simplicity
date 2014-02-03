@@ -477,22 +477,22 @@ namespace simplicity
 
 		// North
 		addTriangleVertexList(vertices, 4, Vector3(0.0f, height * 0.5f, 0.0f),
-				Vector3(halfBaseExtent, -height, halfBaseExtent), Vector3(-halfBaseExtent, -height, halfBaseExtent),
+				Vector3(-halfBaseExtent, -height, halfBaseExtent), Vector3(halfBaseExtent, -height, halfBaseExtent),
 				color);
 
 		// East
 		addTriangleVertexList(vertices, 7, Vector3(0.0f, height * 0.5f, 0.0f),
-			Vector3(halfBaseExtent, -height, -halfBaseExtent), Vector3(halfBaseExtent, -height, halfBaseExtent),
+				Vector3(halfBaseExtent, -height, halfBaseExtent), Vector3(halfBaseExtent, -height, -halfBaseExtent),
 			color);
 
 		// South
 		addTriangleVertexList(vertices, 10, Vector3(0.0f, height * 0.5f, 0.0f),
-			Vector3(-halfBaseExtent, -height, -halfBaseExtent), Vector3(halfBaseExtent, -height, -halfBaseExtent),
+				Vector3(halfBaseExtent, -height, -halfBaseExtent), Vector3(-halfBaseExtent, -height, -halfBaseExtent),
 			color);
 
 		// West
 		addTriangleVertexList(vertices, 13, Vector3(0.0f, height * 0.5f, 0.0f),
-			Vector3(-halfBaseExtent, -height, halfBaseExtent), Vector3(-halfBaseExtent, -height, -halfBaseExtent),
+				Vector3(-halfBaseExtent, -height, -halfBaseExtent), Vector3(-halfBaseExtent, -height, halfBaseExtent),
 			color);
 
 		// Indices
