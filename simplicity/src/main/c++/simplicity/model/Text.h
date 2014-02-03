@@ -26,7 +26,7 @@ namespace simplicity
 		public:
 			Text(const std::string& text);
 
-			const Vector4& getColour() const;
+			const Vector4& getColor() const;
 
 			Texture* getNormalMap() const;
 
@@ -40,7 +40,7 @@ namespace simplicity
 
 			void render(Renderer& renderer) const;
 
-			void setColour(const Vector4& colour);
+			void setColor(const Vector4& color);
 
 			void setNormalMap(Texture* texture);
 
@@ -53,7 +53,7 @@ namespace simplicity
 			void setVisible(bool visible);
 
 		private:
-			Vector4 colour;
+			Vector4 color;
 
 			std::string text;
 

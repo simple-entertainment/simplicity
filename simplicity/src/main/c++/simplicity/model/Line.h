@@ -26,7 +26,7 @@ namespace simplicity
 		public:
 			Line(const Vector3& pointA, const Vector3& pointB);
 
-			const Vector4& getColour() const;
+			const Vector4& getColor() const;
 
 			Texture* getNormalMap() const;
 
@@ -42,7 +42,7 @@ namespace simplicity
 
 			void render(Renderer& renderer) const;
 
-			void setColour(const Vector4& color);
+			void setColor(const Vector4& color);
 
 			void setNormalMap(Texture* texture);
 
@@ -57,7 +57,7 @@ namespace simplicity
 			void setVisible(bool visible);
 
 		private:
-			Vector4 colour;
+			Vector4 color;
 
 			Vector3 pointA;
 

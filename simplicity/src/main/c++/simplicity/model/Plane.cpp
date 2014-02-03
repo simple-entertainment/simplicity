@@ -19,15 +19,15 @@
 namespace simplicity
 {
 	Plane::Plane(const Vector3& normal, const Vector3& positionOnPlane) :
-		colour(),
+		color(),
 		normal(normal),
 		positionOnPlane(positionOnPlane)
 	{
 	}
 
-	const Vector4& Plane::getColour() const
+	const Vector4& Plane::getColor() const
 	{
-		return colour;
+		return color;
 	}
 
 	const Vector3& Plane::getNormal() const
@@ -64,9 +64,9 @@ namespace simplicity
 	{
 	}
 
-	void Plane::setColour(const Vector4& colour)
+	void Plane::setColor(const Vector4& color)
 	{
-		this->colour = colour;
+		this->color = color;
 	}
 
 	void Plane::setNormal(const Vector3& normal)

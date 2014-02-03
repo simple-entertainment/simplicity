@@ -43,7 +43,7 @@ namespace simplicity
 			{
 			}
 
-			virtual const Vector4& getColour() const = 0;
+			virtual const Vector4& getColor() const = 0;
 
 			virtual Texture* getNormalMap() const = 0;
 
@@ -55,7 +55,7 @@ namespace simplicity
 
 			virtual void render(Renderer& renderer) const = 0;
 
-			virtual void setColour(const Vector4& color) = 0;
+			virtual void setColor(const Vector4& color) = 0;
 
 			virtual void setNormalMap(Texture* texture) = 0;
 

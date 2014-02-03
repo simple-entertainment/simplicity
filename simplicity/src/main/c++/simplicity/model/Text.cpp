@@ -21,15 +21,15 @@ using namespace std;
 namespace simplicity
 {
 	Text::Text(const std::string& text) :
-		colour(0.0f, 0.0f, 0.0f, 1.0f),
+		color(0.0f, 0.0f, 0.0f, 1.0f),
 		text(text),
 		visible(true)
 	{
 	}
 
-	const Vector4& Text::getColour() const
+	const Vector4& Text::getColor() const
 	{
-		return colour;
+		return color;
 	}
 
 	Texture* Text::getNormalMap() const
@@ -62,9 +62,9 @@ namespace simplicity
 		renderer.render(*this);
 	}
 
-	void Text::setColour(const Vector4& colour)
+	void Text::setColor(const Vector4& color)
 	{
-		this->colour = colour;
+		this->color = color;
 	}
 
 	void Text::setNormalMap(Texture*)

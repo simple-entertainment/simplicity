@@ -26,7 +26,7 @@ namespace simplicity
 		public:
 			Plane(const Vector3& normal, const Vector3& positionOnPlane);
 
-			const Vector4& getColour() const;
+			const Vector4& getColor() const;
 
 			const Vector3& getNormal() const;
 
@@ -42,7 +42,7 @@ namespace simplicity
 
 			void render(Renderer& renderer) const;
 
-			void setColour(const Vector4& color);
+			void setColor(const Vector4& color);
 
 			void setNormal(const Vector3& normal);
 
@@ -57,7 +57,7 @@ namespace simplicity
 			void setVisible(bool visible);
 
 		private:
-			Vector4 colour;
+			Vector4 color;
 
 			Vector3 normal;
 

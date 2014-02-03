@@ -28,7 +28,7 @@ namespace simplicity
 
 			virtual ~Shape();
 
-			const Vector4& getColour() const;
+			const Vector4& getColor() const;
 
 			unsigned int getLevelOfDetail() const;
 
@@ -40,7 +40,7 @@ namespace simplicity
 
 			bool isVisible() const;
 
-			void setColour(const Vector4& colour);
+			void setColor(const Vector4& color);
 
 			void setLevelOfDetail(unsigned int levelOfDetail);
 
@@ -53,7 +53,7 @@ namespace simplicity
 			void setVisible(bool visible);
 
 		private:
-			Vector4 colour;
+			Vector4 color;
 
 			unsigned int levelOfDetail;
 

@@ -21,7 +21,7 @@ using namespace std;
 namespace simplicity
 {
 	SimpleMesh::SimpleMesh() :
-		colour(0.0f, 0.0f, 0.0f, 1.0f),
+		color(0.0f, 0.0f, 0.0f, 1.0f),
 		indices(),
 		position(0.0f, 0.0f),
 		primitiveType(TRIANGLE_LIST),
@@ -31,7 +31,7 @@ namespace simplicity
 	}
 
 	SimpleMesh::SimpleMesh(const vector<unsigned int>& indices, const vector<Vertex>& vertices) :
-		colour(0.0f, 0.0f, 0.0f, 1.0f),
+		color(0.0f, 0.0f, 0.0f, 1.0f),
 		indices(indices),
 		position(0.0f, 0.0f),
 		primitiveType(TRIANGLE_LIST),
@@ -40,9 +40,9 @@ namespace simplicity
 	{
 	}
 
-	const Vector4& SimpleMesh::getColour() const
+	const Vector4& SimpleMesh::getColor() const
 	{
-		return colour;
+		return color;
 	}
 
 	vector<unsigned int>& SimpleMesh::getIndices()
@@ -95,9 +95,9 @@ namespace simplicity
 		renderer.render(*this);
 	}
 
-	void SimpleMesh::setColour(const Vector4& colour)
+	void SimpleMesh::setColor(const Vector4& color)
 	{
-		this->colour = colour;
+		this->color = color;
 	}
 
 	void SimpleMesh::setNormalMap(Texture*)

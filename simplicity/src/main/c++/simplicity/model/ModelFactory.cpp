@@ -56,11 +56,11 @@ namespace simplicity
 	}
 
 	void ModelFactory::addCircleVertexList(std::vector<Vertex>& vertices, unsigned int index, float radius,
-			unsigned int divisions, const Vector3& center, const Vector4& colour)
+			unsigned int divisions, const Vector3& center, const Vector4& color)
 	{
 		Vector3 normal(0.0f, 0.0f, 1.0f);
 
-		vertices[index].color = colour;
+		vertices[index].color = color;
 		vertices[index].normal = normal;
 		vertices[index].position = center;
 
@@ -70,7 +70,7 @@ namespace simplicity
 			Vector3 position(sin(toPosition), cos(toPosition), 0.0f);
 			position *= radius;
 
-			vertices[index + division + 1].color = colour;
+			vertices[index + division + 1].color = color;
 			vertices[index + division + 1].normal = normal;
 			vertices[index + division + 1].position = center + position;
 		}
@@ -100,7 +100,7 @@ namespace simplicity
 	}
 
 	void ModelFactory::addRectangleVertexList(vector<Vertex>& vertices, unsigned int index, const Vector3& topLeft,
-			const Vector3& toTopRight, const Vector3& toBottomLeft, const Vector4& colour)
+			const Vector3& toTopRight, const Vector3& toBottomLeft, const Vector4& color)
 	{
 		Vector3 normal = crossProduct(toTopRight, toBottomLeft);
 		normal.normalize();
@@ -121,19 +121,19 @@ namespace simplicity
 			texWidth = width / height;
 		}
 
-		vertices[index].color = colour;
+		vertices[index].color = color;
 		vertices[index].normal = normal;
 		vertices[index].position = topLeft;
 		vertices[index].texCoord = Vector2(texWidth, 0.0f);
-		vertices[index + 1].color = colour;
+		vertices[index + 1].color = color;
 		vertices[index + 1].normal = normal;
 		vertices[index + 1].position = topLeft + toTopRight;
 		vertices[index + 1].texCoord = Vector2(0.0f, 0.0f);
-		vertices[index + 2].color = colour;
+		vertices[index + 2].color = color;
 		vertices[index + 2].normal = normal;
 		vertices[index + 2].position = topLeft + toTopRight + toBottomLeft;
 		vertices[index + 2].texCoord = Vector2(0.0f, texHeight);
-		vertices[index + 3].color = colour;
+		vertices[index + 3].color = color;
 		vertices[index + 3].normal = normal;
 		vertices[index + 3].position = topLeft + toBottomLeft;
 		vertices[index + 3].texCoord = Vector2(texWidth, texHeight);
@@ -157,7 +157,7 @@ namespace simplicity
 	}
 
 	void ModelFactory::addTriangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector3& top,
-			const Vector3& toBottomLeft, const Vector3& toBottomRight, const Vector4& colour)
+			const Vector3& toBottomLeft, const Vector3& toBottomRight, const Vector4& color)
 	{
 		Vector3 normal = crossProduct(toBottomRight, toBottomLeft);
 		normal.normalize();
@@ -171,15 +171,15 @@ namespace simplicity
 		Vector3 down = toBottomRight - projection;
 		float texHeightAtBottom = down.getMagnitude() / across.getMagnitude();
 
-		vertices[index].color = colour;
+		vertices[index].color = color;
 		vertices[index].normal = normal;
 		vertices[index].position = top;
 		vertices[index].texCoord = Vector2(texWidthAtTop, 0.0f);
-		vertices[index + 1].color = colour;
+		vertices[index + 1].color = color;
 		vertices[index + 1].normal = normal;
 		vertices[index + 1].position = top + toBottomLeft;
 		vertices[index + 1].texCoord = Vector2(1.0f, texHeightAtBottom);
-		vertices[index + 2].color = colour;
+		vertices[index + 2].color = color;
 		vertices[index + 2].normal = normal;
 		vertices[index + 2].position = top + toBottomRight;
 		vertices[index + 2].texCoord = Vector2(0.0f, texHeightAtBottom);
@@ -217,7 +217,7 @@ namespace simplicity
 	}
 
 	void ModelFactory::addTunnelVertexList(std::vector<Vertex>& vertices, unsigned int index, float radius,
-			float length, unsigned int divisions, const Vector3& center, const Vector4& colour, bool smooth)
+			float length, unsigned int divisions, const Vector3& center, const Vector4& color, bool smooth)
 	{
 		Vector3 toEnd(0.0f, 0.0f, -length);
 
@@ -232,13 +232,13 @@ namespace simplicity
 
 			unsigned int indexOffset = index + division * 4;
 
-			vertices[indexOffset].color = colour;
+			vertices[indexOffset].color = color;
 			vertices[indexOffset].position = center + positionA;
-			vertices[indexOffset + 1].color = colour;
+			vertices[indexOffset + 1].color = color;
 			vertices[indexOffset + 1].position = center + positionA + toEnd;
-			vertices[indexOffset + 2].color = colour;
+			vertices[indexOffset + 2].color = color;
 			vertices[indexOffset + 2].position = center + positionB;
-			vertices[indexOffset + 3].color = colour;
+			vertices[indexOffset + 3].color = color;
 			vertices[indexOffset + 3].position = center + positionB + toEnd;
 
 			if (smooth)

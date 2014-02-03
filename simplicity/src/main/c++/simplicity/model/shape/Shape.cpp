@@ -19,7 +19,7 @@
 namespace simplicity
 {
 	Shape::Shape() :
-		colour(0.0f, 0.0f, 0.0f, 1.0f),
+		color(0.0f, 0.0f, 0.0f, 1.0f),
 		levelOfDetail(1),
 		primitiveType(TRIANGLE_LIST),
 		visible(true)
@@ -30,9 +30,9 @@ namespace simplicity
 	{
 	}
 
-	const Vector4& Shape::getColour() const
+	const Vector4& Shape::getColor() const
 	{
-		return colour;
+		return color;
 	}
 
 	unsigned int Shape::getLevelOfDetail() const
@@ -60,9 +60,9 @@ namespace simplicity
 		return visible;
 	}
 
-	void Shape::setColour(const Vector4& colour)
+	void Shape::setColor(const Vector4& color)
 	{
-		this->colour = colour;
+		this->color = color;
 	}
 
 	void Shape::setLevelOfDetail(unsigned int levelOfDetail)

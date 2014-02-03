@@ -36,7 +36,7 @@ namespace simplicity
 
 			virtual const Entity* getCamera() const = 0;
 
-			virtual const Vector4& getClearingColour() const = 0;
+			virtual const Vector4& getClearingColor() const = 0;
 
 			virtual const Graph* getGraph() const = 0;
 
@@ -48,7 +48,7 @@ namespace simplicity
 
 			virtual void setCamera(Entity* camera) = 0;
 
-			virtual void setClearingColour(const Vector4& clearingColour) = 0;
+			virtual void setClearingColor(const Vector4& clearingColor) = 0;
 
 			virtual void setGraph(Graph* graph) = 0;
 

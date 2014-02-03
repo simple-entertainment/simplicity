@@ -19,16 +19,16 @@
 namespace simplicity
 {
 	Line::Line(const Vector3& pointA, const Vector3& pointB) :
-		colour(0.0f, 0.0f, 0.0f),
+		color(0.0f, 0.0f, 0.0f),
 		pointA(pointA),
 		pointB(pointB),
 		visible(true)
 	{
 	}
 
-	const Vector4& Line::getColour() const
+	const Vector4& Line::getColor() const
 	{
-		return colour;
+		return color;
 	}
 
 	Texture* Line::getNormalMap() const
@@ -66,9 +66,9 @@ namespace simplicity
 		renderer.render(*this);
 	}
 
-	void Line::setColour(const Vector4& colour)
+	void Line::setColor(const Vector4& color)
 	{
-		this->colour = colour;
+		this->color = color;
 	}
 
 	void Line::setNormalMap(Texture*)

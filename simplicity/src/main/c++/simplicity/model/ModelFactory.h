@@ -36,26 +36,26 @@ namespace simplicity
 				unsigned int vertexIndex, unsigned int divisions, bool reverse = false);
 
 			static void addCircleVertexList(std::vector<Vertex>& vertices, unsigned int index, float radius,
-					unsigned int divisions, const Vector3& center, const Vector4& colour);
+					unsigned int divisions, const Vector3& center, const Vector4& color);
 
 			static void addRectangleIndexList(std::vector<unsigned int>& indices, unsigned int index,
 				unsigned int vertexIndex, bool reverse = false);
 
 			static void addRectangleVertexList(std::vector<Vertex>& vertices, unsigned int index,
 					const Vector3& topLeft, const Vector3& toTopRight, const Vector3& toBottomLeft,
-					const Vector4& colour);
+					const Vector4& color);
 
 			static void addTriangleIndexList(std::vector<unsigned int>& indices, unsigned int index,
 				unsigned int vertexIndex, bool reverse = false);
 
 			static void addTriangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector3& top,
-					const Vector3& toBottomLeft, const Vector3& toBottomRight, const Vector4& colour);
+					const Vector3& toBottomLeft, const Vector3& toBottomRight, const Vector4& color);
 
 			static void addTunnelIndexList(std::vector<unsigned int>& indices, unsigned int index,
 				unsigned int vertexIndex, unsigned int divisions, bool reverse = false);
 
 			static void addTunnelVertexList(std::vector<Vertex>& vertices, unsigned int index, float radius,
-					float length, unsigned int divisions, const Vector3& center, const Vector4& colour,
+					float length, unsigned int divisions, const Vector3& center, const Vector4& color,
 					bool smooth = true);
 
 			std::unique_ptr<Mesh> createBoxMesh(const Vector3& halfExtents, const Vector4& color,
