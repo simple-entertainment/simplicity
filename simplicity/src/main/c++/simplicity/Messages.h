@@ -17,13 +17,13 @@
 #ifndef MESSAGES_H_
 #define MESSAGES_H_
 
-#include <boost/any.hpp>
+#include <functional>
 
 namespace simplicity
 {
 	namespace Messages
 	{
-		typedef void(Recipient)(const boost::any);
+		typedef void(Recipient)(const void*);
 
 		/**
 		 * <p>
@@ -53,7 +53,7 @@ namespace simplicity
 		 * @param subject The subject of the message.
 		 * @param message The message to send.
 		 */
-		void send(unsigned short subject, const boost::any message);
+		void send(unsigned short subject, const void* message);
 	}
 }
 

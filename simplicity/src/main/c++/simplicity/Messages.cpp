@@ -15,6 +15,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include <map>
+#include <vector>
 
 #include "Messages.h"
 
@@ -52,7 +53,7 @@ namespace simplicity
 			recipients.find(subject)->second.push_back(recipient);
 		}
 
-		void send(unsigned short subject, const boost::any message)
+		void send(unsigned short subject, const void* message)
 		{
 			if (recipients.find(subject) == recipients.end())
 			{
