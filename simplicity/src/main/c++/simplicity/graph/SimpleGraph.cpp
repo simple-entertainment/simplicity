@@ -149,6 +149,31 @@ namespace simplicity
 		return true;
 	}
 
+	bool SimpleGraph::insert(Entity& entity, const Entity& parent)
+	{
+		for (Entity* myEntity : entities)
+		{
+			if (myEntity == &parent)
+			{
+				unique_ptr<Graph> newChild(new SimpleGraph);
+				bool result = newChild->insert(entity);
+				addChild(move(newChild));
+
+				return result;
+			}
+		}
+
+		for (unsigned int index = 0; index < children.size(); index++)
+		{
+			if (children[index]->insert(entity, parent))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	bool SimpleGraph::remove(const Entity& entity)
 	{
 		if (find(entities.begin(), entities.end(), &entity) == entities.end())
@@ -196,7 +221,43 @@ namespace simplicity
 
 	void SimpleGraph::update(Entity& entity)
 	{
-		remove(entity);
-		insert(entity);
+		bool entityFound = false;
+		for (Entity* myEntity : entities)
+		{
+			if (myEntity == &entity)
+			{
+				entityFound = true;
+				break;
+			}
+		}
+
+		Matrix44 absoluteTransform;
+		if (entityFound)
+		{
+			/*
+			 * Find the transform for this graph (Gr) relative to the absolute parent transform (Pa) that matches the
+			 * entity's absolute transform (Ea) i.e. such that: Ea = Pa * Gr
+			 */
+			Matrix44 inverseParentAbsoluteTransform = parent->getAbsoluteTransform();
+			inverseParentAbsoluteTransform.invert();
+
+			transform = entity.getTransform() * inverseParentAbsoluteTransform;
+			absoluteTransform = entity.getTransform();
+		}
+		else
+		{
+			absoluteTransform = getAbsoluteTransform();
+		}
+
+		// Update the entities to match the updated graph.
+		for (Entity* myEntity : entities)
+		{
+			myEntity->setTransform(absoluteTransform);
+		}
+
+		for (unsigned int index = 0; index < children.size(); index++)
+		{
+			children[index]->update(entity);
+		}
 	}
 }

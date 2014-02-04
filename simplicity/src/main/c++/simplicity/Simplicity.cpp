@@ -39,6 +39,7 @@ namespace simplicity
 		vector<unique_ptr<Engine>> engines;
 		vector<unique_ptr<Entity>> entities;
 		vector<unique_ptr<Entity>> entitiesToBeAdded;
+		map<Entity*, const Entity*> entitiesToBeAddedParents;
 		vector<const Entity*> entitiesToBeRemoved;
 		float frameTime = 0.0f;
 		cpu_timer frameTimer;
@@ -65,6 +66,12 @@ namespace simplicity
 			entitiesToBeAdded.push_back(move(entity));
 		}
 
+		void addEntity(unique_ptr<Entity> entity, const Entity& parent)
+		{
+			entitiesToBeAddedParents[entity.get()] = &parent;
+			entitiesToBeAdded.push_back(move(entity));
+		}
+
 		void addPendingEntities()
 		{
 			for (unsigned int entityIndex = 0; entityIndex < entitiesToBeAdded.size(); entityIndex++)
@@ -76,7 +83,15 @@ namespace simplicity
 
                 for (unsigned int worldIndex = 0; worldIndex < worldRepresentations.size(); worldIndex++)
                 {
-                    worldRepresentations[worldIndex]->insert(*entitiesToBeAdded[entityIndex]);
+                	const Entity* parent = entitiesToBeAddedParents[entitiesToBeAdded[entityIndex].get()];
+                	if (parent == NULL)
+                	{
+                		worldRepresentations[worldIndex]->insert(*entitiesToBeAdded[entityIndex]);
+                	}
+                	else
+                	{
+                		worldRepresentations[worldIndex]->insert(*entitiesToBeAdded[entityIndex], *parent);
+                	}
                 }
 
 				entities.push_back(move(entitiesToBeAdded[entityIndex]));

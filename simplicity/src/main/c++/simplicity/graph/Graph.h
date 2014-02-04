@@ -61,6 +61,8 @@ namespace simplicity
 
 			virtual bool insert(Entity& entity) = 0;
 
+			virtual bool insert(Entity& entity, const Entity& parent) = 0;
+
 			virtual bool remove(const Entity& entity) = 0;
 
 			virtual std::unique_ptr<Graph> removeChild(Graph& child) = 0;

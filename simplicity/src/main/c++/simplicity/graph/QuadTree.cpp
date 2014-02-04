@@ -113,6 +113,12 @@ namespace simplicity
 	{
 		vector<Entity*> entitiesWithinBounds;
 
+		if (!Intersection::intersect(boundary, bounds,
+				projectOntoPlane(position - getPosition3(getAbsoluteTransform()))))
+		{
+			return entitiesWithinBounds;
+		}
+
 		for (Entity* entity : entities)
 		{
 			Model* entityBounds = entity->getComponent<Model>(Categories::BOUNDS);
@@ -180,6 +186,11 @@ namespace simplicity
 
 		entities.push_back(&entity);
 		return true;
+	}
+
+	bool QuadTree::insert(Entity& entity, const Entity& /*parent*/)
+	{
+		return insert(entity);
 	}
 
 	Vector3 QuadTree::projectOntoPlane(const Vector3& position) const

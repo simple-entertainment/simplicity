@@ -28,6 +28,8 @@ namespace simplicity
 
 		void addEntity(std::unique_ptr<Entity> entity);
 
+		void addEntity(std::unique_ptr<Entity> entity, const Entity& parent);
+
         void addWorldRepresentation(std::unique_ptr<Graph> graph);
 
 		float getDeltaTime();

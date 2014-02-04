@@ -58,6 +58,8 @@ namespace simplicity
 
 			bool insert(Entity& entity);
 
+			bool insert(Entity& entity, const Entity& parent);
+
 			bool remove(const Entity& entity);
 
 			std::unique_ptr<Graph> removeChild(Graph& child);
