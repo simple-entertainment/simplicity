@@ -226,25 +226,20 @@ namespace simplicity
 	template<typename Data, unsigned int Columns, unsigned int Rows>
 	void Matrix<Data, Columns, Rows>::setIdentity()
 	{
-		data[0] = 1;
-		data[1] = 0;
-		data[2] = 0;
-		data[3] = 0;
-
-		data[4] = 0;
-		data[5] = 1;
-		data[6] = 0;
-		data[7] = 0;
-
-		data[8] = 0;
-		data[9] = 0;
-		data[10] = 1;
-		data[11] = 0;
-
-		data[12] = 0;
-		data[13] = 0;
-		data[14] = 0;
-		data[15] = 1;
+		for (unsigned int row = 0; row < Rows; row++)
+		{
+			for (unsigned int column = 0; column < Columns; column++)
+			{
+				if (column == row)
+				{
+					data[row * Columns + column] = 1;
+				}
+				else
+				{
+					data[row * Columns + column] = 0;
+				}
+			}
+		}
 	}
 
 	template<typename Data, unsigned int Columns, unsigned int Rows>

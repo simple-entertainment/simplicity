@@ -100,6 +100,18 @@ namespace simplicity
 			return move(bounds);
 		}
 
+		void rotateVertices(vector<Vertex>& vertices, float angle, const Vector3& axis)
+		{
+			Matrix33 rotationMatrix;
+			rotationMatrix.setIdentity();
+			rotate(rotationMatrix, angle, axis);
+
+			for (Vertex& vertex : vertices)
+			{
+				vertex.position = rotationMatrix * vertex.position;
+			}
+		}
+
 		void scaleVertices(vector<Vertex>& vertices, float scale)
 		{
 			for (Vertex& vertex : vertices)

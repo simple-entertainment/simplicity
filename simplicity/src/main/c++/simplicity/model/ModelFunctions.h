@@ -35,6 +35,8 @@ namespace simplicity
 
 		std::unique_ptr<Square> getSquareBoundsXZ(const std::vector<Vertex>& vertices);
 
+		void rotateVertices(std::vector<Vertex>& vertices, float angle, const Vector3& axis);
+
 		void scaleVertices(std::vector<Vertex>& vertices, float scale);
 
 		std::unique_ptr<Mesh> subtract(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform);
