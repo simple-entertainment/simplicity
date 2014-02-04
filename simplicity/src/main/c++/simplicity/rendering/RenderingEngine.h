@@ -30,7 +30,7 @@ namespace simplicity
 	class RenderingEngine : public Engine
 	{
 		public:
-			virtual void addLight(std::unique_ptr<Light> light) = 0;
+			virtual void addLight(Entity& light) = 0;
 
 			virtual void addRenderer(std::unique_ptr<Renderer> renderer) = 0;
 

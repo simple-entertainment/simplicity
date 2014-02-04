@@ -19,12 +19,13 @@
 
 #include <string>
 
+#include "../Component.h"
 #include "../math/Vector.h"
 #include "../rendering/Shader.h"
 
 namespace simplicity
 {
-	class Light
+	class Light : public Component
 	{
 		public:
 			virtual ~Light()
@@ -33,7 +34,7 @@ namespace simplicity
 
 			virtual void activate() = 0;
 
-			virtual void apply(Shader& shader) = 0;
+			virtual void apply(Shader& shader, const Vector3& position) = 0;
 
 			virtual void deactivate() = 0;
 
