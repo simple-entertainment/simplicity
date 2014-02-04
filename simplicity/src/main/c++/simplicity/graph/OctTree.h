@@ -30,8 +30,6 @@ namespace simplicity
 		public:
 			OctTree(unsigned int subdivideThreshold, const Cube& boundary);
 
-			void addChild(std::unique_ptr<Graph> child);
-
 			void connectTo(Graph& graph);
 
 			void disconnectFrom(Graph& graph);
@@ -61,8 +59,6 @@ namespace simplicity
 			bool insert(Entity& entity, const Entity& parent);
 
 			bool remove(const Entity& entity);
-
-			std::unique_ptr<Graph> removeChild(Graph& child);
 
 			void setParent(Graph* parent);
 

@@ -36,8 +36,6 @@ namespace simplicity
 
 			QuadTree(unsigned int subdivideThreshold, const Square& boundary, Plane plane = Plane::XY);
 
-			void addChild(std::unique_ptr<Graph> child);
-
 			void connectTo(Graph& graph);
 
 			void disconnectFrom(Graph& graph);
@@ -67,8 +65,6 @@ namespace simplicity
 			bool insert(Entity& entity, const Entity& parent);
 
 			bool remove(const Entity& entity);
-
-			std::unique_ptr<Graph> removeChild(Graph& child);
 
 			void setParent(Graph* parent);
 

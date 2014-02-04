@@ -33,8 +33,6 @@ namespace simplicity
 			{
 			}
 
-			virtual void addChild(std::unique_ptr<Graph> child) = 0;
-
 			virtual void connectTo(Graph& graph) = 0;
 
 			virtual void disconnectFrom(Graph& graph) = 0;
@@ -64,8 +62,6 @@ namespace simplicity
 			virtual bool insert(Entity& entity, const Entity& parent) = 0;
 
 			virtual bool remove(const Entity& entity) = 0;
-
-			virtual std::unique_ptr<Graph> removeChild(Graph& child) = 0;
 
 			virtual void setParent(Graph* parent) = 0;
 

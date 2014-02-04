@@ -37,10 +37,6 @@ namespace simplicity
 		transform.setIdentity();
 	}
 
-	void OctTree::addChild(std::unique_ptr<Graph>)
-	{
-	}
-
 	void OctTree::addEntityFromChild()
 	{
 		for (unsigned int index = 0; index < children.size(); index++)
@@ -232,11 +228,6 @@ namespace simplicity
 		}
 
 		return true;
-	}
-
-	unique_ptr<Graph> OctTree::removeChild(Graph&)
-	{
-		return unique_ptr<Graph>();
 	}
 
 	void OctTree::setParent(Graph* parent)

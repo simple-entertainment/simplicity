@@ -36,10 +36,27 @@ namespace simplicity
 		transform.setIdentity();
 	}
 
-	void SimpleGraph::addChild(unique_ptr<Graph> child)
+	void SimpleGraph::addChild(unique_ptr<SimpleGraph> child)
 	{
 		child->setParent(this);
 		children.push_back(move(child));
+	}
+
+	Matrix44 SimpleGraph::calculateRelativeTransform(const Matrix44& absoluteTransform) const
+	{
+		if (parent == NULL)
+		{
+			return absoluteTransform;
+		}
+
+		/*
+		 * Find the transform for this graph (Gr) relative to the absolute parent transform (Pa) that matches the
+		 * absolute transform (Ga) i.e. such that: Ga = Pa * Gr or Gr = Ga * Pa-1
+		 */
+		Matrix44 inverseParentAbsoluteTransform = parent->getAbsoluteTransform();
+		inverseParentAbsoluteTransform.invert();
+
+		return absoluteTransform * inverseParentAbsoluteTransform;
 	}
 
 	void SimpleGraph::connectTo(Graph& graph)
@@ -145,8 +162,13 @@ namespace simplicity
 
 	bool SimpleGraph::insert(Entity& entity)
 	{
-		entities.push_back(&entity);
-		return true;
+		unique_ptr<SimpleGraph> newChild(new SimpleGraph);
+		bool result = newChild->insertDirect(entity);
+
+		newChild->setParent(this);
+		children.push_back(move(newChild));
+
+		return result;
 	}
 
 	bool SimpleGraph::insert(Entity& entity, const Entity& parent)
@@ -155,11 +177,7 @@ namespace simplicity
 		{
 			if (myEntity == &parent)
 			{
-				unique_ptr<Graph> newChild(new SimpleGraph);
-				bool result = newChild->insert(entity);
-				addChild(move(newChild));
-
-				return result;
+				return insert(entity);
 			}
 		}
 
@@ -174,6 +192,12 @@ namespace simplicity
 		return false;
 	}
 
+	bool SimpleGraph::insertDirect(Entity& entity)
+	{
+		entities.push_back(&entity);
+		return true;
+	}
+
 	bool SimpleGraph::remove(const Entity& entity)
 	{
 		if (find(entities.begin(), entities.end(), &entity) == entities.end())
@@ -182,6 +206,7 @@ namespace simplicity
 			{
 				if (children[index]->remove(entity))
 				{
+					removeChild(*children[index]);
 					return true;
 				}
 			}
@@ -193,12 +218,12 @@ namespace simplicity
 		return true;
 	}
 
-	unique_ptr<Graph> SimpleGraph::removeChild(Graph& child)
+	unique_ptr<SimpleGraph> SimpleGraph::removeChild(SimpleGraph& child)
 	{
-		unique_ptr<Graph> uniqueChild;
+		unique_ptr<SimpleGraph> uniqueChild;
 
-		vector<unique_ptr<Graph>>::iterator result =
-				find_if(children.begin(), children.end(), AddressEquals<Graph>(child));
+		vector<unique_ptr<SimpleGraph>>::iterator result =
+				find_if(children.begin(), children.end(), AddressEquals<SimpleGraph>(child));
 
 		if (result != children.end())
 		{
@@ -231,25 +256,34 @@ namespace simplicity
 			}
 		}
 
-		Matrix44 absoluteTransform;
 		if (entityFound)
 		{
-			/*
-			 * Find the transform for this graph (Gr) relative to the absolute parent transform (Pa) that matches the
-			 * entity's absolute transform (Ea) i.e. such that: Ea = Pa * Gr
-			 */
-			Matrix44 inverseParentAbsoluteTransform = parent->getAbsoluteTransform();
-			inverseParentAbsoluteTransform.invert();
+			transform = calculateRelativeTransform(entity.getTransform());
 
-			transform = entity.getTransform() * inverseParentAbsoluteTransform;
-			absoluteTransform = entity.getTransform();
+			// Update the entities to match the updated graph.
+			for (Entity* myEntity : entities)
+			{
+				myEntity->setTransform(entity.getTransform());
+			}
+
+			for (unsigned int index = 0; index < children.size(); index++)
+			{
+				children[index]->updateSuccessor(entity);
+			}
 		}
 		else
 		{
-			absoluteTransform = getAbsoluteTransform();
+			for (unsigned int index = 0; index < children.size(); index++)
+			{
+				children[index]->update(entity);
+			}
 		}
+	}
 
+	void SimpleGraph::updateSuccessor(Entity& entity)
+	{
 		// Update the entities to match the updated graph.
+		Matrix44 absoluteTransform = getAbsoluteTransform();
 		for (Entity* myEntity : entities)
 		{
 			myEntity->setTransform(absoluteTransform);
@@ -257,7 +291,7 @@ namespace simplicity
 
 		for (unsigned int index = 0; index < children.size(); index++)
 		{
-			children[index]->update(entity);
+			children[index]->updateSuccessor(entity);
 		}
 	}
 }

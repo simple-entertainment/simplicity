@@ -38,10 +38,6 @@ namespace simplicity
 		transform.setIdentity();
 	}
 
-	void QuadTree::addChild(std::unique_ptr<Graph>)
-	{
-	}
-
 	void QuadTree::addEntityFromChild()
 	{
 		for (unsigned int index = 0; index < children.size(); index++)
@@ -244,11 +240,6 @@ namespace simplicity
 		}
 
 		return true;
-	}
-
-	unique_ptr<Graph> QuadTree::removeChild(Graph&)
-	{
-		return unique_ptr<Graph>();
 	}
 
 	void QuadTree::setParent(Graph* parent)

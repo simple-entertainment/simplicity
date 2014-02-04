@@ -30,8 +30,6 @@ namespace simplicity
 		public:
 			SimpleGraph();
 
-			void addChild(std::unique_ptr<Graph> child);
-
 			void connectTo(Graph& graph);
 
 			void disconnectFrom(Graph& graph);
@@ -62,8 +60,6 @@ namespace simplicity
 
 			bool remove(const Entity& entity);
 
-			std::unique_ptr<Graph> removeChild(Graph& child);
-
 			void setParent(Graph* parent);
 
 			void setTransform(const Matrix44& transform);
@@ -73,7 +69,7 @@ namespace simplicity
 		private:
 			Cube boundary;
 
-			std::vector<std::unique_ptr<Graph>> children;
+			std::vector<std::unique_ptr<SimpleGraph>> children;
 
 			std::vector<Graph*> connections;
 
@@ -82,6 +78,16 @@ namespace simplicity
 			Graph* parent;
 
 			Matrix44 transform;
+
+			void addChild(std::unique_ptr<SimpleGraph> child);
+
+			Matrix44 calculateRelativeTransform(const Matrix44& absoluteTransform) const;
+
+			bool insertDirect(Entity& entity);
+
+			std::unique_ptr<SimpleGraph> removeChild(SimpleGraph& child);
+
+			void updateSuccessor(Entity& entity);
 	};
 }
 
