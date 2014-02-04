@@ -71,6 +71,9 @@ namespace simplicity
 			std::unique_ptr<Mesh> createHeightMapMesh(const std::vector<std::vector<float>>& heightMap,
 					unsigned int minX, unsigned int maxX, unsigned int minZ, unsigned int maxZ, const Vector4& color);
 
+			std::unique_ptr<Mesh> createHemisphereMesh(float radius, unsigned int divisions, const Vector4& color,
+					bool doubleSided = false);
+
 			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices) = 0;
 
 			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices,

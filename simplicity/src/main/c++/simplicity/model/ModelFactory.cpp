@@ -20,6 +20,7 @@
 
 using namespace std;
 
+// TODO All the doubleSided meshes have incorrect normals on the back side... they need to be reversed.
 namespace simplicity
 {
 	unique_ptr<ModelFactory> ModelFactory::instance = unique_ptr<ModelFactory>();
@@ -446,6 +447,55 @@ namespace simplicity
 		return createMesh(vertices);
 	}
 
+	unique_ptr<Mesh> ModelFactory::createHemisphereMesh(float radius, unsigned int divisions, const Vector4& color,
+			bool doubleSided)
+	{
+		vector<Vertex> vertices;
+
+		for (unsigned int latitude = 0; latitude <= divisions / 2; latitude++)
+		{
+			for (unsigned int longitude = 0; longitude <= divisions; longitude++)
+			{
+				Vertex vertex;
+				vertex.color = color;
+				vertex.position = getPointOnSphere(radius, divisions, latitude, longitude);
+				Vector3 normal = vertex.position;
+				normal.normalize();
+				vertex.normal = normal;
+				vertices.push_back(vertex);
+			}
+		}
+
+		vector<unsigned int> indices;
+
+		for (unsigned int latitude = 0; latitude < divisions / 2; latitude++)
+		{
+			for (unsigned int longitude = 0; longitude < divisions; longitude++)
+			{
+				indices.push_back(latitude * (divisions + 1) + longitude);
+				indices.push_back((latitude + 1) * (divisions + 1) + longitude);
+				indices.push_back((latitude + 1) * (divisions + 1) + longitude + 1);
+
+				indices.push_back(latitude * (divisions + 1) + longitude);
+				indices.push_back((latitude + 1) * (divisions + 1) + longitude + 1);
+				indices.push_back(latitude * (divisions + 1) + longitude + 1);
+
+				if (doubleSided)
+				{
+					indices.push_back(latitude * (divisions + 1) + longitude);
+					indices.push_back((latitude + 1) * (divisions + 1) + longitude + 1);
+					indices.push_back((latitude + 1) * (divisions + 1) + longitude);
+
+					indices.push_back(latitude * (divisions + 1) + longitude);
+					indices.push_back(latitude * (divisions + 1) + longitude + 1);
+					indices.push_back((latitude + 1) * (divisions + 1) + longitude + 1);
+				}
+			}
+		}
+
+		return createMesh(vertices, indices);
+	}
+
 	unique_ptr<Mesh> ModelFactory::createPrismMesh(const Vector3& halfExtents, const Vector4& color)
 	{
 		// Vertices
@@ -564,6 +614,10 @@ namespace simplicity
 
 					Vector3 edge0 = vertex1.position - vertex0.position;
 					Vector3 edge1 = vertex2.position - vertex0.position;
+					if (latitude == divisions - 1)
+					{
+						edge1 = vertex3.position - vertex0.position;
+					}
 					Vector3 normal = crossProduct(edge0, edge1);
 					normal.normalize();
 
@@ -582,21 +636,21 @@ namespace simplicity
 
 		vector<unsigned int> indices;
 
-		for (unsigned int latitude = 0; latitude <= divisions; latitude++)
+		for (unsigned int latitude = 0; latitude < divisions; latitude++)
 		{
 			for (unsigned int longitude = 0; longitude < divisions; longitude++)
 			{
 				if (smooth)
 				{
-					indices.push_back(latitude * divisions + longitude);
-					indices.push_back((latitude + 1) * divisions + longitude);
-					indices.push_back((latitude + 1) * divisions + longitude + 1);
+					indices.push_back(latitude * (divisions + 1) + longitude);
+					indices.push_back((latitude + 1) * (divisions + 1) + longitude);
+					indices.push_back((latitude + 1) * (divisions + 1) + longitude + 1);
 
-					indices.push_back(latitude * divisions + longitude);
-					indices.push_back((latitude + 1) * divisions + longitude + 1);
-					indices.push_back(latitude * divisions + longitude + 1);
+					indices.push_back(latitude * (divisions + 1) + longitude);
+					indices.push_back((latitude + 1) * (divisions + 1) + longitude + 1);
+					indices.push_back(latitude * (divisions + 1) + longitude + 1);
 				}
-				else if (latitude != divisions)
+				else
 				{
 					unsigned int segmentIndex = (latitude * divisions + longitude) * 4;
 
