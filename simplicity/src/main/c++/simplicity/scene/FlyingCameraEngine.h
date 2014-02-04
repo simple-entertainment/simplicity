@@ -19,8 +19,6 @@
 
 #include <map>
 
-#include <boost/any.hpp>
-
 #include "../engine/Engine.h"
 #include "../input/Button.h"
 #include "../input/Keyboard.h"
@@ -40,10 +38,6 @@ namespace simplicity
 
 			void init();
 
-			void onKeyboardButton(boost::any message);
-
-			void onMouseMove(boost::any message);
-
 			void removeEntity(const Entity& entity);
 
 		private:
@@ -54,6 +48,10 @@ namespace simplicity
 			int x;
 
 			int y;
+
+			void onKeyboardButton(const void* message);
+
+			void onMouseMove(const void* message);
 	};
 }
 

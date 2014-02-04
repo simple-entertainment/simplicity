@@ -23,7 +23,6 @@
 #include "../Messages.h"
 #include "FlyingCameraEngine.h"
 
-using namespace boost;
 using namespace std;
 
 namespace simplicity
@@ -84,15 +83,15 @@ namespace simplicity
 				placeholders::_1));
 	}
 
-	void FlyingCameraEngine::onKeyboardButton(any message)
+	void FlyingCameraEngine::onKeyboardButton(const void* message)
 	{
-		KeyboardButtonEvent* event = any_cast<KeyboardButtonEvent*>(message);
+		const KeyboardButtonEvent* event = static_cast<const KeyboardButtonEvent*>(message);
 		buttonStates[event->button] = event->buttonState;
 	}
 
-	void FlyingCameraEngine::onMouseMove(any message)
+	void FlyingCameraEngine::onMouseMove(const void* message)
 	{
-		MouseMoveEvent* event = any_cast<MouseMoveEvent*>(message);
+		const MouseMoveEvent* event = static_cast<const MouseMoveEvent*>(message);
 
 		if (x != -1)
 		{
