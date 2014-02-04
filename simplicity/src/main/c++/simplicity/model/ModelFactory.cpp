@@ -345,7 +345,7 @@ namespace simplicity
 	}
 
 	unique_ptr<Mesh> ModelFactory::createCylinderMesh(float radius, float length, unsigned int divisions,
-			const Vector4& color, bool smooth)
+			const Vector4& color, bool doubleSided, bool smooth)
 	{
 		Vector3 center(0.0f, 0.0f, 0.0f);
 		Vector3 toBack(0.0f, 0.0f, -length);
@@ -371,7 +371,15 @@ namespace simplicity
 		unsigned int indicesInEnds = indicesInEnd * 2;
 		unsigned int indicesInSide = 3 * 2;
 		unsigned int indicesInSides = indicesInSide * divisions;
-		vector<unsigned int> indices(indicesInEnds + indicesInSides);
+		vector<unsigned int> indices;
+		if (doubleSided)
+		{
+			indices.resize((indicesInEnds + indicesInSides) * 2);
+		}
+		else
+		{
+			indices.resize(indicesInEnds + indicesInSides);
+		}
 
 		// Front
 		addCircleIndexList(indices, 0, 0, divisions);
@@ -381,6 +389,19 @@ namespace simplicity
 
 		//Sides
 		addTunnelIndexList(indices, indicesInEnds, verticesInEnds, divisions);
+
+		if (doubleSided)
+		{
+			// Front
+			addCircleIndexList(indices, indicesInEnds + indicesInSides, 0, divisions, true);
+
+			// Back
+			addCircleIndexList(indices, indicesInEnds + indicesInSides + indicesInEnd, verticesInEnd, divisions);
+
+			//Sides
+			addTunnelIndexList(indices, indicesInEnds + indicesInSides + indicesInEnds, verticesInEnds, divisions,
+					true);
+		}
 
 		return createMesh(vertices, indices);
 	}

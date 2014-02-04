@@ -163,6 +163,9 @@ namespace simplicity
 	void rotate(Matrix<Data, 3, 3>& matrix, const Data angle, const Vector<Data, 3>& axis);
 
 	template<typename Data>
+	void rotate(Matrix<Data, 4, 4>& matrix, const Data angle, const Vector<Data, 3>& axis);
+
+	template<typename Data>
 	void rotate(Matrix<Data, 4, 4>& matrix, const Data angle, const Vector<Data, 4>& axis);
 
 	template<typename Data>
