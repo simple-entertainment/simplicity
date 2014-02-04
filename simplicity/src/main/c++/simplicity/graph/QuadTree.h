@@ -100,8 +100,6 @@ namespace simplicity
 			void shiftEntitiesUpward();
 
 			void subdivide();
-
-			bool withinBounds(const Entity& entity) const;
 	};
 }
 

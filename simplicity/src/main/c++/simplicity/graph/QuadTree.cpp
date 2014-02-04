@@ -124,6 +124,7 @@ namespace simplicity
 			Model* entityBounds = entity->getComponent<Model>(Categories::BOUNDS);
 			if (entityBounds == NULL)
 			{
+				entitiesWithinBounds.push_back(entity);
 				continue;
 			}
 
@@ -165,7 +166,18 @@ namespace simplicity
 
 	bool QuadTree::insert(Entity& entity)
 	{
-		if (!withinBounds(entity))
+		Model* bounds = entity.getComponent<Model>(Categories::BOUNDS);
+		if (bounds == NULL)
+		{
+			entities.push_back(&entity);
+			return true;
+		}
+
+		Vector3 graphPosition = getPosition3(getAbsoluteTransform());
+		Vector3 boundsPosition = getPosition3(entity.getTransform() * bounds->getTransform());
+
+		Vector3 relativePosition = boundsPosition - graphPosition;
+		if (!Intersection::contains(boundary, *bounds, projectOntoPlane(relativePosition)))
 		{
 			return false;
 		}
@@ -290,20 +302,5 @@ namespace simplicity
 	{
 		remove(entity);
 		insert(entity);
-	}
-
-	bool QuadTree::withinBounds(const Entity& entity) const
-	{
-		Model* bounds = entity.getComponent<Model>(Categories::BOUNDS);
-		if (bounds == NULL)
-		{
-			return false;
-		}
-
-		Vector3 graphPosition = getPosition3(getAbsoluteTransform());
-		Vector3 boundsPosition = getPosition3(entity.getTransform() * bounds->getTransform());
-
-		Vector3 relativePosition = boundsPosition - graphPosition;
-		return Intersection::contains(boundary, *bounds, projectOntoPlane(relativePosition));
 	}
 }
