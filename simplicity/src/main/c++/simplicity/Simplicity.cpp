@@ -20,14 +20,12 @@
 #include <thread>
 #include <vector>
 
-#include <boost/timer/timer.hpp>
-
 #include "Events.h"
 #include "common/AddressEquals.h"
 #include "Simplicity.h"
 
-using namespace boost::timer;
 using namespace std;
+using namespace std::chrono;
 
 namespace simplicity
 {
@@ -42,12 +40,11 @@ namespace simplicity
 		map<Entity*, const Entity*> entitiesToBeAddedParents;
 		vector<const Entity*> entitiesToBeRemoved;
 		float frameTime = 0.0f;
-		cpu_timer frameTimer;
 		float totalTime = 0.0f;
-		cpu_timer totalTimer;
 		bool initialised = false;
 		unsigned short maxFrameRate = 0;
 		bool paused = false;
+		time_point<high_resolution_clock> playTime;
 		bool stopped = false;
         vector<unique_ptr<Graph>> worldRepresentations;
 
@@ -83,7 +80,7 @@ namespace simplicity
 
                 for (unsigned int worldIndex = 0; worldIndex < worldRepresentations.size(); worldIndex++)
                 {
-                	const Entity* parent = entitiesToBeAddedParents[entitiesToBeAdded[entityIndex].get()];
+                	const Entity* parent = NULL;//entitiesToBeAddedParents[entitiesToBeAdded[entityIndex].get()];
                 	if (parent == NULL)
                 	{
                 		worldRepresentations[worldIndex]->insert(*entitiesToBeAdded[entityIndex]);
@@ -150,19 +147,18 @@ namespace simplicity
 
 			if (!initialised)
 			{
-				totalTimer.start();
-
 				for (unsigned int index = 0; index < engines.size(); index++)
 				{
 					engines[index]->init();
 				}
 
 				initialised = true;
+				playTime = high_resolution_clock::now();
 			}
 
 			while (!paused && !stopped)
 			{
-				frameTimer.start();
+				time_point<high_resolution_clock> frameStartTime = high_resolution_clock::now();
 
 				addPendingEntities();
 				for (unsigned int index = 0; index < engines.size(); index++)
@@ -171,9 +167,9 @@ namespace simplicity
 				}
 				removePendingEntities();
 
-				frameTimer.stop();
-				frameTime = frameTimer.elapsed().wall / 1000000000.0f;
-				totalTime = totalTimer.elapsed().wall / 1000000000.0f;
+				time_point<high_resolution_clock> frameEndTime = high_resolution_clock::now();
+				frameTime = duration_cast<nanoseconds>(frameEndTime - frameStartTime).count() / 1000000000.0f;
+				totalTime = duration_cast<nanoseconds>(frameEndTime - playTime).count() / 1000000000.0f;
 
 				if (maxFrameRate != 0)
 				{
