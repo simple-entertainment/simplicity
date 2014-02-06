@@ -121,6 +121,8 @@ namespace simplicity
 	template<typename Data>
 	void homogenize(Vector<Data, 2>& vector);
 
+	bool near(float a, float b);
+
 	/**
 	 * <p>
 	 * Multiplies the given Vector with the given Matrix. The Vector is placed on the right hand side of the

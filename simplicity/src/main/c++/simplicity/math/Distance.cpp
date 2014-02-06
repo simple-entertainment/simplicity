@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -15,45 +15,31 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include "MathFunctions.h"
+#include "Distance.h"
+
+using namespace std;
 
 namespace simplicity
 {
-	bool randomIsSeeded = false;
-
-	bool getRandomBool()
+	namespace Distance
 	{
-		return getRandomInt(0, 1) == 1;
-	}
-
-	bool getRandomBool(float trueChance)
-	{
-		return getRandomFloat(0.0f, 1.0f) < trueChance;
-	}
-
-	float getRandomFloat(float min, float max)
-	{
-		if (!randomIsSeeded)
+		/*
+		 * The equation for the distance from a point to a line:
+		 *     distance = ||(a - p) - ((a - p).n)n||
+		 * Where:
+		 *     a is any point on the line.
+		 *     p is an arbitrary point.
+		 *     n is a unit vector in the direction vector of the line.
+		 * Reference:
+		 *     http://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+		 */
+		float distanceBetween(const Line& lineSegment, const Point& point)
 		{
-			srand((unsigned) time(NULL));
-			randomIsSeeded = true;
+			Vector3 aMinusP = lineSegment.getPointA() - point.getPoint();
+			Vector3 n = lineSegment.getPointB() - lineSegment.getPointA();
+			n.normalize();
+
+			return (aMinusP - n * dotProduct(aMinusP, n)).getMagnitude();
 		}
-
-		return min + (float) rand() / ((float) RAND_MAX / (max - min));
-	}
-
-	int getRandomInt(int min, int max)
-	{
-		if (!randomIsSeeded)
-		{
-			srand((unsigned) time(NULL));
-			randomIsSeeded = true;
-		}
-
-		return rand() % (max - min + 1) + min;
-	}
-
-	bool near(float a, float b)
-	{
-		return abs(a - b) < 0.0001f;
 	}
 }

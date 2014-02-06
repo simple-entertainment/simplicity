@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,46 +14,18 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "MathFunctions.h"
+#ifndef DISTANCE_H_
+#define DISTANCE_H_
+
+#include "../model/Line.h"
+#include "../model/Point.h"
 
 namespace simplicity
 {
-	bool randomIsSeeded = false;
-
-	bool getRandomBool()
+	namespace Distance
 	{
-		return getRandomInt(0, 1) == 1;
-	}
-
-	bool getRandomBool(float trueChance)
-	{
-		return getRandomFloat(0.0f, 1.0f) < trueChance;
-	}
-
-	float getRandomFloat(float min, float max)
-	{
-		if (!randomIsSeeded)
-		{
-			srand((unsigned) time(NULL));
-			randomIsSeeded = true;
-		}
-
-		return min + (float) rand() / ((float) RAND_MAX / (max - min));
-	}
-
-	int getRandomInt(int min, int max)
-	{
-		if (!randomIsSeeded)
-		{
-			srand((unsigned) time(NULL));
-			randomIsSeeded = true;
-		}
-
-		return rand() % (max - min + 1) + min;
-	}
-
-	bool near(float a, float b)
-	{
-		return abs(a - b) < 0.0001f;
+		float distanceBetween(const Line& lineSegment, const Point& point);
 	}
 }
+
+#endif /* DISTANCE_H_ */
