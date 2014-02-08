@@ -17,10 +17,24 @@
 #ifndef TEXTURE_H_
 #define TEXTURE_H_
 
+#include "Shader.h"
+
 namespace simplicity
 {
 	class Texture
 	{
+		public:
+			virtual ~Texture()
+			{
+			}
+
+			virtual void apply(Shader& shader) = 0;
+
+			virtual unsigned int getHeight() = 0;
+
+			virtual unsigned int getWidth() = 0;
+
+			virtual void init() = 0;
 	};
 }
 

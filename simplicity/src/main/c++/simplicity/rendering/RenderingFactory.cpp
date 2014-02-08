@@ -16,17 +16,19 @@
  */
 #include "RenderingFactory.h"
 
+using namespace std;
+
 namespace simplicity
 {
-	RenderingFactory* RenderingFactory::instance = NULL;
+	unique_ptr<RenderingFactory> RenderingFactory::instance;
 
-	RenderingFactory* RenderingFactory::getInstance()
+	RenderingFactory& RenderingFactory::getInstance()
 	{
-		return instance;
+		return *instance;
 	}
 
-	void RenderingFactory::setInstance(RenderingFactory* instance)
+	void RenderingFactory::setInstance(unique_ptr<RenderingFactory> instance)
 	{
-		RenderingFactory::instance = instance;
+		RenderingFactory::instance = move(instance);
 	}
 }

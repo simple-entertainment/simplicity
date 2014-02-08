@@ -17,6 +17,7 @@
 #ifndef RENDERINGFACTORY_H_
 #define RENDERINGFACTORY_H_
 
+#include <memory>
 #include <string>
 
 #include "Texture.h"
@@ -30,14 +31,17 @@ namespace simplicity
 			{
 			}
 
-			virtual Texture* createTexture(const std::string& fileName) = 0;
+			virtual std::unique_ptr<Texture> createTexture(const unsigned char* data, unsigned int width,
+					unsigned int height) = 0;
 
-			static RenderingFactory* getInstance();
+			virtual std::unique_ptr<Texture> createTexture(const std::string& fileName) = 0;
 
-			static void setInstance(RenderingFactory* instance);
+			static RenderingFactory& getInstance();
+
+			static void setInstance(std::unique_ptr<RenderingFactory> instance);
 
 		private:
-			static RenderingFactory* instance;
+			static std::unique_ptr<RenderingFactory> instance;
 	};
 }
 

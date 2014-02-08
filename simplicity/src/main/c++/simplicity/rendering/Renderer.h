@@ -39,7 +39,15 @@ namespace simplicity
 			{
 			}
 
+			virtual bool clearsColorBuffer() = 0;
+
+			virtual bool clearsDepthBuffer() = 0;
+
+			virtual bool clearsStencilBuffer() = 0;
+
 			virtual void dispose() = 0;
+
+			virtual const Vector4& getClearingColor() const = 0;
 
 			virtual Shader* getShader() = 0;
 
@@ -70,6 +78,14 @@ namespace simplicity
 			virtual void render(const Torus& model) = 0;
 
 			virtual void render(const Triangle& model) = 0;
+
+			virtual void setClearColorBuffer(bool clearColorBuffer) = 0;
+
+			virtual void setClearDepthBuffer(bool clearDepthBuffer) = 0;
+
+			virtual void setClearingColor(const Vector4& clearingColor) = 0;
+
+			virtual void setClearStencilBuffer(bool clearStencilBuffer) = 0;
 
 			virtual void setShader(std::unique_ptr<Shader> shader) = 0;
 	};
