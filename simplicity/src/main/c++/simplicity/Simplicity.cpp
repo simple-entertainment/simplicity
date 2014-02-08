@@ -20,8 +20,9 @@
 #include <thread>
 #include <vector>
 
-#include "Events.h"
 #include "common/AddressEquals.h"
+#include "engine/SerialCompositeEngine.h"
+#include "Events.h"
 #include "Simplicity.h"
 
 using namespace std;
@@ -34,7 +35,7 @@ namespace simplicity
 		void addPendingEntities();
 		void removePendingEntities();
 
-		vector<unique_ptr<Engine>> engines;
+		unique_ptr<CompositeEngine> compositeEngine(new SerialCompositeEngine);
 		vector<unique_ptr<Entity>> entities;
 		vector<unique_ptr<Entity>> entitiesToBeAdded;
 		map<Entity*, const Entity*> entitiesToBeAddedParents;
@@ -50,12 +51,12 @@ namespace simplicity
 
 		void addEngine(unique_ptr<Engine> engine)
 		{
-			engines.push_back(move(engine));
-
 			if (initialised)
 			{
 				engine->init();
 			}
+
+			compositeEngine->addEngine(move(engine));
 		}
 
 		void addEntity(unique_ptr<Entity> entity)
@@ -73,10 +74,7 @@ namespace simplicity
 		{
 			for (unsigned int entityIndex = 0; entityIndex < entitiesToBeAdded.size(); entityIndex++)
 			{
-				for (unsigned int engineIndex = 0; engineIndex < engines.size(); engineIndex++)
-				{
-					engines[engineIndex]->addEntity(*entitiesToBeAdded[entityIndex]);
-				}
+				compositeEngine->addEntity(*entitiesToBeAdded[entityIndex]);
 
                 for (unsigned int worldIndex = 0; worldIndex < worldRepresentations.size(); worldIndex++)
                 {
@@ -147,10 +145,7 @@ namespace simplicity
 
 			if (!initialised)
 			{
-				for (unsigned int index = 0; index < engines.size(); index++)
-				{
-					engines[index]->init();
-				}
+				compositeEngine->init();
 
 				initialised = true;
 				playTime = high_resolution_clock::now();
@@ -161,10 +156,7 @@ namespace simplicity
 				time_point<high_resolution_clock> frameStartTime = high_resolution_clock::now();
 
 				addPendingEntities();
-				for (unsigned int index = 0; index < engines.size(); index++)
-				{
-					engines[index]->advance();
-				}
+				compositeEngine->advance();
 				removePendingEntities();
 
 				time_point<high_resolution_clock> frameEndTime = high_resolution_clock::now();
@@ -177,7 +169,7 @@ namespace simplicity
 					sleepTime *= 1000.0f;
 					if (sleepTime > 0.0f)
 					{
-						this_thread::sleep_for(chrono::milliseconds((long) sleepTime));
+						this_thread::sleep_for(milliseconds((long) sleepTime));
 					}
 				}
 			}
@@ -185,34 +177,12 @@ namespace simplicity
 
 		unique_ptr<Engine> removeEngine(Engine* engine)
 		{
-			unique_ptr<Engine> removedEngine;
-			vector<unique_ptr<Engine>>::iterator result =
-					find_if(engines.begin(), engines.end(), AddressEquals<Engine>(*engine));
-
-			if (result != engines.end())
-			{
-				removedEngine.swap(*result);
-				engines.erase(result);
-				engine = NULL;
-			}
-
-			return move(removedEngine);
+			return compositeEngine->removeEngine(engine);
 		}
 
-		unique_ptr<Entity> removeEntity(Entity* entity)
+		void removeEntity(Entity* entity)
 		{
-			unique_ptr<Entity> removedEntity;
-			vector<unique_ptr<Entity>>::iterator result =
-					find_if(entities.begin(), entities.end(), AddressEquals<Entity>(*entity));
-
-			if (result != entities.end())
-			{
-				removedEntity.swap(*result);
-				entitiesToBeRemoved.push_back(result->get());
-				entity = NULL;
-			}
-
-			return move(removedEntity);
+			entitiesToBeRemoved.push_back(entity);
 		}
 
 		void removePendingEntities()
@@ -224,10 +194,7 @@ namespace simplicity
 
 				if (result != entities.end())
 				{
-					for (unsigned int engineIndex = 0; engineIndex < engines.size(); engineIndex++)
-					{
-						engines[engineIndex]->removeEntity(**result);
-					}
+					compositeEngine->removeEntity(**result);
 
 					for (unsigned int worldIndex = 0; worldIndex < worldRepresentations.size(); worldIndex++)
 					{
@@ -238,6 +205,12 @@ namespace simplicity
 				}
 			}
 			entitiesToBeRemoved.clear();
+		}
+
+		void setCompositeEngine(unique_ptr<CompositeEngine> compositeEngine)
+		{
+			Simplicity::compositeEngine.release();
+			Simplicity::compositeEngine.swap(compositeEngine);
 		}
 
 		void setMaxFrameRate(unsigned short maxFrameRate)

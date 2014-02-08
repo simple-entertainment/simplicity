@@ -17,6 +17,7 @@
 #ifndef SIMPLICITY_H_
 #define SIMPLICITY_H_
 
+#include "engine/CompositeEngine.h"
 #include "engine/Engine.h"
 #include "graph/Graph.h"
 
@@ -46,7 +47,9 @@ namespace simplicity
 
 		std::unique_ptr<Engine> removeEngine(Engine* engine);
 
-		std::unique_ptr<Entity> removeEntity(Entity* entity);
+		void removeEntity(Entity* entity);
+
+		void setCompositeEngine(std::unique_ptr<CompositeEngine> compositeEngine);
 
 		void setMaxFrameRate(unsigned short maxFrameRate);
 

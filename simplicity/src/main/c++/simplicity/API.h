@@ -27,7 +27,10 @@
 #include "common/AddressEquals.h"
 
 // Engine
+#include "engine/CompositeEngine.h"
+#include "engine/DebugSerialCompositeEngine.h"
 #include "engine/Engine.h"
+#include "engine/SerialCompositeEngine.h"
 
 // Graph
 #include "graph/Graph.h"

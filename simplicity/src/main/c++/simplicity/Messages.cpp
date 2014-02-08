@@ -25,13 +25,13 @@ namespace simplicity
 {
 	namespace Messages
 	{
-		map<unsigned short, vector<function<Recipient> > > recipients;
+		map<unsigned short, vector<function<Recipient>>> recipients;
 
 		void deregisterRecipient(unsigned short subject, function<Recipient> recipient)
 		{
-			vector<function<Recipient> >& registeredRecipients = recipients.find(subject)->second;
+			vector<function<Recipient>>& registeredRecipients = recipients.find(subject)->second;
 
-			for (vector<function<Recipient> >::iterator registeredRecipient = registeredRecipients.begin();
+			for (vector<function<Recipient>>::iterator registeredRecipient = registeredRecipients.begin();
 				registeredRecipient != registeredRecipients.end(); registeredRecipient++)
 			{
 				if (registeredRecipient->target_type() == recipient.target_type())
@@ -47,7 +47,7 @@ namespace simplicity
 			if (recipients.find(subject) == recipients.end())
 			{
 				recipients.insert(
-					pair<unsigned short, vector<function<Recipient> > >(subject, vector<function<Recipient> >()));
+					pair<unsigned short, vector<function<Recipient>>>(subject, vector<function<Recipient>>()));
 			}
 
 			recipients.find(subject)->second.push_back(recipient);
@@ -60,7 +60,7 @@ namespace simplicity
 				return;
 			}
 
-			vector<function<Recipient> >& registeredRecipients = recipients.find(subject)->second;
+			vector<function<Recipient>>& registeredRecipients = recipients.find(subject)->second;
 
 			// Does not use C++11 for loop as elements could be added to the vector while iterating.
 			// Take care - this is a fragile 'solution'.
