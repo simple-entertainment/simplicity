@@ -38,6 +38,8 @@ namespace simplicity
 
 			const std::vector<float>& getEngineFrameTimes() const;
 
+			const std::vector<std::unique_ptr<Engine>>& getEngines() const;
+
 			unsigned int getFramesPerSecond() const;
 
 			float getFrameTime() const;

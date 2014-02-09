@@ -26,6 +26,8 @@ namespace simplicity
 		public:
 			virtual void addEngine(std::unique_ptr<Engine> entity) = 0;
 
+			virtual const std::vector<std::unique_ptr<Engine>>& getEngines() const = 0;
+
 			virtual std::unique_ptr<Engine> removeEngine(Engine* entity) = 0;
 	};
 }

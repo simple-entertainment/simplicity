@@ -17,6 +17,8 @@
 #include "../common/AddressEquals.h"
 #include "SerialCompositeEngine.h"
 
+using namespace std;
+
 namespace simplicity
 {
 	SerialCompositeEngine::SerialCompositeEngine() :
@@ -51,6 +53,11 @@ namespace simplicity
 		{
 			engines[index]->destroy();
 		}
+	}
+
+	const vector<unique_ptr<Engine>>& SerialCompositeEngine::getEngines() const
+	{
+		return engines;
 	}
 
 	void SerialCompositeEngine::init()

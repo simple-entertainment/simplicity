@@ -17,6 +17,7 @@
 #include "../common/AddressEquals.h"
 #include "DebugSerialCompositeEngine.h"
 
+using namespace std;
 using namespace std::chrono;
 
 namespace simplicity
@@ -82,6 +83,11 @@ namespace simplicity
 	const vector<float>& DebugSerialCompositeEngine::getEngineFrameTimes() const
 	{
 		return engineFrameTimes;
+	}
+
+	const vector<unique_ptr<Engine>>& DebugSerialCompositeEngine::getEngines() const
+	{
+		return engines;
 	}
 
 	unsigned int DebugSerialCompositeEngine::getFramesPerSecond() const

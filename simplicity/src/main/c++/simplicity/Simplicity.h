@@ -35,11 +35,23 @@ namespace simplicity
 
 		float getDeltaTime();
 
+		template<typename EngineType>
+		EngineType* getEngine();
+
+		template<typename EngineType>
+		std::vector<EngineType*> getEngines();
+
         std::vector<Entity*> getEntities(unsigned short category = Categories::ALL_CATEGORIES);
 
 		unsigned short getMaxFrameRate();
 
 		float getTotalTime();
+
+		template<typename GraphType>
+		GraphType* getWorldRepresentation();
+
+		template<typename GraphType>
+		std::vector<GraphType*> getWorldRepresentations();
 
 		void pause();
 
@@ -58,5 +70,7 @@ namespace simplicity
         void updateWorldRepresentations(Entity& entity);
 	}
 }
+
+#include "Simplicity.tpp"
 
 #endif /* SIMPLICITY_H_ */

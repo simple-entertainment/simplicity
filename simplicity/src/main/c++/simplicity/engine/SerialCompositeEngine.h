@@ -34,6 +34,8 @@ namespace simplicity
 
 			void destroy();
 
+			const std::vector<std::unique_ptr<Engine>>& getEngines() const;
+
 			void init();
 
 			std::unique_ptr<Engine> removeEngine(Engine* engine);
