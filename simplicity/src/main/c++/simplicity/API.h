@@ -95,3 +95,6 @@
 // Scripting
 #include "scripting/Script.h"
 #include "scripting/ScriptingEngine.h"
+
+// Windowing
+#include "windowing/WindowEngine.h"
