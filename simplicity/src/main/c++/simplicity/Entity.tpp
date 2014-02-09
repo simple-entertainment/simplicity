@@ -17,8 +17,6 @@
 #include "Entity.h"
 #include "Component.h" // Must be after Entity.h
 
-using namespace std;
-
 namespace simplicity
 {
 	template<typename ComponentType>

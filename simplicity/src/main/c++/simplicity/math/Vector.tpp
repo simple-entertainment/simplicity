@@ -19,8 +19,6 @@
 
 #include "Vector.h"
 
-using namespace std;
-
 namespace simplicity
 {
 	template<typename Data, unsigned int Size>
@@ -30,7 +28,7 @@ namespace simplicity
 	}
 
 	template<typename Data, unsigned int Size>
-	Vector<Data, Size>::Vector(const array<Data, Size>& data) :
+	Vector<Data, Size>::Vector(const std::array<Data, Size>& data) :
 		data()
 	{
 		setData(data);
@@ -270,15 +268,15 @@ namespace simplicity
 	}
 
 	template<typename Data, unsigned int Size>
-	void Vector<Data, Size>::setData(const array<Data, Size>& data)
+	void Vector<Data, Size>::setData(const std::array<Data, Size>& data)
 	{
-		copy(begin(data.data()), end(data.data()), begin(this->data));
+		std::copy(std::begin(data.data()), std::end(data.data()), std::begin(this->data));
 	}
 
 	template<typename Data, unsigned int Size>
 	void Vector<Data, Size>::setData(Data* data)
 	{
-		copy(data, data + Size, begin(this->data));
+		std::copy(data, data + Size, std::begin(this->data));
 	}
 
 	template<typename Data, unsigned int Size>
@@ -403,7 +401,7 @@ namespace simplicity
 	}
 
 	template<typename Data, unsigned int Size>
-	ostream& operator<<(ostream& stream, const Vector<Data, Size>& vector)
+	std::ostream& operator<<(std::ostream& stream, const Vector<Data, Size>& vector)
 	{
 		stream << "[";
 

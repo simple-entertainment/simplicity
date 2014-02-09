@@ -23,6 +23,8 @@
 #include "ModelFactory.h"
 #include "ModelFunctions.h"
 
+using namespace std;
+
 namespace simplicity
 {
 	namespace ModelFunctions
