@@ -39,11 +39,11 @@ namespace simplicity
 			{
 			}
 
-			virtual bool clearsColorBuffer() = 0;
+			virtual bool clearsColorBuffer() const = 0;
 
-			virtual bool clearsDepthBuffer() = 0;
+			virtual bool clearsDepthBuffer() const = 0;
 
-			virtual bool clearsStencilBuffer() = 0;
+			virtual bool clearsStencilBuffer() const = 0;
 
 			virtual void dispose() = 0;
 
@@ -52,6 +52,8 @@ namespace simplicity
 			virtual Shader* getShader() = 0;
 
 			virtual void init() = 0;
+
+			virtual bool isScissorEnabled() const = 0;
 
 			virtual void render(const Box& model) = 0;
 
@@ -79,6 +81,8 @@ namespace simplicity
 
 			virtual void render(const Triangle& model) = 0;
 
+			virtual void setClearBuffers(bool clearBuffers) = 0;
+
 			virtual void setClearColorBuffer(bool clearColorBuffer) = 0;
 
 			virtual void setClearDepthBuffer(bool clearDepthBuffer) = 0;
@@ -86,6 +90,11 @@ namespace simplicity
 			virtual void setClearingColor(const Vector4& clearingColor) = 0;
 
 			virtual void setClearStencilBuffer(bool clearStencilBuffer) = 0;
+
+			virtual void setScissor(const Vector<unsigned int, 2>& topLeft,
+					const Vector<unsigned int, 2>& bottomRight) = 0;
+
+			virtual void setScissorEnabled(bool scissorEnabled) = 0;
 
 			virtual void setShader(std::unique_ptr<Shader> shader) = 0;
 	};
