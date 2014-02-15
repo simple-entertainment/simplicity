@@ -536,12 +536,12 @@ namespace simplicity
 			float bMaxY = relativePosition.Y() + b.getHalfEdgeLength();
 			float bMinY = relativePosition.Y() - b.getHalfEdgeLength();
 
-			if (aMinX > bMaxX || bMinX > aMaxX || aMinY > bMaxY || bMinY > aMaxY)
+			if (aMinX < bMaxX && bMinX < aMaxX && aMinY < bMaxY && bMinY < aMaxY)
 			{
-				return false;
+				return true;
 			}
 
-			return true;
+			return false;
 		}
 
 		bool intersect(const Triangle& lhs, const Triangle& rhs, const Vector3& normalLhs)

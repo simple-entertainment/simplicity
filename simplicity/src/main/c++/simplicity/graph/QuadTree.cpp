@@ -26,6 +26,7 @@ using namespace std;
 namespace simplicity
 {
 	QuadTree::QuadTree(unsigned int subdivideThreshold, const Square& boundary, Plane plane) :
+		absoluteTransform(),
 		boundary(boundary),
 		children(),
 		connections(),
@@ -35,6 +36,7 @@ namespace simplicity
 		subdivideThreshold(subdivideThreshold),
 		transform()
 	{
+		absoluteTransform.setIdentity();
 		transform.setIdentity();
 	}
 
@@ -67,16 +69,7 @@ namespace simplicity
 
 	Matrix44 QuadTree::getAbsoluteTransform() const
 	{
-		Matrix44 absoluteMatrix;
-		absoluteMatrix.setIdentity();
-		const Graph* currentGraph = this;
-		while (currentGraph != NULL)
-		{
-			absoluteMatrix *= currentGraph->getTransform();
-			currentGraph = currentGraph->getParent();
-		}
-
-		return absoluteMatrix;
+		return absoluteTransform;
 	}
 
 	const Model& QuadTree::getBoundary() const
@@ -108,11 +101,19 @@ namespace simplicity
 	vector<Entity*> QuadTree::getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const
 	{
 		vector<Entity*> entitiesWithinBounds;
+		entitiesWithinBounds.reserve(128);
 
-		if (!Intersection::intersect(boundary, bounds,
-				projectOntoPlane(position - getPosition3(getAbsoluteTransform()))))
+		getEntitiesWithinBounds(bounds, position, entitiesWithinBounds);
+
+		return entitiesWithinBounds;
+	}
+
+	void QuadTree::getEntitiesWithinBounds(const Model& bounds, const Vector3& position,
+			vector<Entity*>& entitiesWithinBounds) const
+	{
+		if (!Intersection::intersect(boundary, bounds, projectOntoPlane(position - getPosition3(absoluteTransform))))
 		{
-			return entitiesWithinBounds;
+			return;
 		}
 
 		for (Entity* entity : entities)
@@ -133,11 +134,8 @@ namespace simplicity
 
 		for (unsigned int index = 0; index < children.size(); index++)
 		{
-			vector<Entity*> childResult = children[index]->getEntitiesWithinBounds(bounds, position);
-			entitiesWithinBounds.insert(entitiesWithinBounds.end(), childResult.begin(), childResult.end());
+			children[index]->getEntitiesWithinBounds(bounds, position, entitiesWithinBounds);
 		}
-
-		return entitiesWithinBounds;
 	}
 
 	Graph* QuadTree::getParent()
@@ -169,7 +167,7 @@ namespace simplicity
 			return true;
 		}
 
-		Vector3 graphPosition = getPosition3(getAbsoluteTransform());
+		Vector3 graphPosition = getPosition3(absoluteTransform);
 		Vector3 boundsPosition = getPosition3(entity.getTransform() * bounds->getTransform());
 
 		Vector3 relativePosition = boundsPosition - graphPosition;
@@ -245,6 +243,15 @@ namespace simplicity
 	void QuadTree::setParent(Graph* parent)
 	{
 		this->parent = parent;
+
+		if (parent == NULL)
+		{
+			absoluteTransform = transform;
+		}
+		else
+		{
+			absoluteTransform = transform * parent->getAbsoluteTransform();
+		}
 	}
 
 	void QuadTree::setTransform(const Matrix44& transform)
@@ -268,22 +275,22 @@ namespace simplicity
 			z = childHalfDimension;
 		}
 
-		unique_ptr<Graph> child0(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
+		unique_ptr<QuadTree> child0(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
 		setPosition(child0->getTransform(), Vector3(childHalfDimension, y, z));
 		child0->setParent(this);
 		children.push_back(move(child0));
 
-		unique_ptr<Graph> child1(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
+		unique_ptr<QuadTree> child1(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
 		setPosition(child1->getTransform(), Vector3(childHalfDimension, -y, -z));
 		child1->setParent(this);
 		children.push_back(move(child1));
 
-		unique_ptr<Graph> child2(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
+		unique_ptr<QuadTree> child2(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
 		setPosition(child2->getTransform(), Vector3(-childHalfDimension, y, z));
 		child2->setParent(this);
 		children.push_back(move(child2));
 
-		unique_ptr<Graph> child3(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
+		unique_ptr<QuadTree> child3(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
 		setPosition(child3->getTransform(), Vector3(-childHalfDimension, -y, -z));
 		child3->setParent(this);
 		children.push_back(move(child3));

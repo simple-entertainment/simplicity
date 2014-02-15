@@ -16,6 +16,7 @@
  */
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 
 #include "Vector.h"
 
@@ -83,7 +84,7 @@ namespace simplicity
 		{
 			data[index] = original.getData()[index];
 		}
-		
+
 		data[Size - 1] = d;
 	}
 
@@ -238,7 +239,7 @@ namespace simplicity
 	{
 		for (unsigned int index = 0; index < Size; index++)
 		{
-			data[index] = original.data[index];
+			data[index] = original.getData()[index];
 		}
 
 		return *this;

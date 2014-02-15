@@ -74,6 +74,9 @@ namespace simplicity
 	template<typename Data, unsigned int Columns, unsigned int Rows>
 	Matrix<Data, Columns, Rows> operator*(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Rows, Columns>& rhs);
 
+	template<>
+	Matrix<float, 4, 4>& Matrix<float, 4, 4>::operator*=(const Matrix<float, 4, 4>& rhs);
+
 	template<typename Data, unsigned int Columns, unsigned int Rows>
 	bool operator!=(const Matrix<Data, Columns, Rows>& lhs, const Matrix<Data, Columns, Rows>& rhs);
 

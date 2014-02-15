@@ -188,7 +188,7 @@ namespace simplicity
 				for (unsigned int element = 0; element < Columns; element++)
 				{
 					// Add the product of the two to the value for the new matrix.
-					sum += data[row + (element * Rows)] * rhs.getData()[column * Columns + element];
+					sum += data[row + (element * Rows)] * rhs.data[column * Columns + element];
 				}
 
 				productData[column * Columns + row] = sum;
@@ -203,10 +203,7 @@ namespace simplicity
 	template<typename Data, unsigned int Columns, unsigned int Rows>
 	Matrix<Data, Columns, Rows>& Matrix<Data, Columns, Rows>::operator=(const Matrix<Data, Columns, Rows>& original)
 	{
-		for (unsigned int index = 0; index < Columns * Rows; index++)
-		{
-			data[index] = original.data[index];
-		}
+		memcpy(data, original.data, Columns * Rows * sizeof(Data));
 
 		return *this;
 	}

@@ -182,6 +182,8 @@ namespace simplicity
 	template<typename Data>
 	void setPosition(Matrix<Data, 4, 4>& matrix, const Vector<Data, 4>& position);
 
+	void setRandomSeed(unsigned int seed);
+
 	template<typename Data>
 	void setScale(Matrix<Data, 4, 4>& matrix, const Vector<Data, 3>& scale);
 

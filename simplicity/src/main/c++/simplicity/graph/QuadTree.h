@@ -73,9 +73,11 @@ namespace simplicity
 			void update(Entity& entity);
 
 		private:
+			Matrix44 absoluteTransform;
+
 			Square boundary;
 
-			std::vector<std::unique_ptr<Graph>> children;
+			std::vector<std::unique_ptr<QuadTree>> children;
 
 			std::vector<Graph*> connections;
 
@@ -90,6 +92,9 @@ namespace simplicity
 			Matrix44 transform;
 
 			void addEntityFromChild();
+
+			void getEntitiesWithinBounds(const Model& bounds, const Vector3& position,
+					std::vector<Entity*>& entitiesWithinBounds) const;
 
 			Vector3 projectOntoPlane(const Vector3& position) const;
 

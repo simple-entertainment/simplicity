@@ -34,8 +34,7 @@ namespace simplicity
 	{
 		if (!randomIsSeeded)
 		{
-			srand((unsigned) time(NULL));
-			randomIsSeeded = true;
+			setRandomSeed((unsigned) time(NULL));
 		}
 
 		return min + (float) rand() / ((float) RAND_MAX / (max - min));
@@ -45,8 +44,7 @@ namespace simplicity
 	{
 		if (!randomIsSeeded)
 		{
-			srand((unsigned) time(NULL));
-			randomIsSeeded = true;
+			setRandomSeed((unsigned) time(NULL));
 		}
 
 		return rand() % (max - min + 1) + min;
@@ -55,5 +53,11 @@ namespace simplicity
 	bool near(float a, float b)
 	{
 		return abs(a - b) < 0.0001f;
+	}
+
+	void setRandomSeed(unsigned int seed)
+	{
+		srand(seed);
+		randomIsSeeded = true;
 	}
 }
