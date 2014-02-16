@@ -512,8 +512,8 @@ namespace simplicity
 
 		// East
 		addTriangleVertexList(vertices, 8, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f),
-			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
+			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f),
+			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f), color);
 
 		// South (slope)
 		addRectangleVertexList(vertices, 11, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
@@ -522,8 +522,8 @@ namespace simplicity
 
 		// West
 		addTriangleVertexList(vertices, 15, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f),
-			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f), color);
+			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f),
+			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// Indices
 		vector<unsigned int> indices(24);

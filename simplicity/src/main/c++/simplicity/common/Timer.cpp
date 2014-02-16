@@ -14,20 +14,21 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef DISTANCE_H_
-#define DISTANCE_H_
+#include "Timer.h"
 
-#include "../model/Line.h"
-#include "../model/Point.h"
+using namespace std::chrono;
 
 namespace simplicity
 {
-	namespace Distance
+	Timer::Timer() :
+		startTime(high_resolution_clock::now())
 	{
-		float distanceBetween(const Line& lineSegment, const Point& point);
+	}
 
-		float distanceBetween(const Line& lineSegment, const Vector3& point);
+	float Timer::getElapsedTime()
+	{
+		time_point<high_resolution_clock> now = high_resolution_clock::now();
+
+		return duration_cast<nanoseconds>(now - startTime).count() / 1000000000.0f;
 	}
 }
-
-#endif /* DISTANCE_H_ */

@@ -35,11 +35,27 @@ namespace simplicity
 		 */
 		float distanceBetween(const Line& lineSegment, const Point& point)
 		{
-			Vector3 aMinusP = lineSegment.getPointA() - point.getPoint();
-			Vector3 n = lineSegment.getPointB() - lineSegment.getPointA();
-			n.normalize();
+			return distanceBetween(lineSegment, point.getPoint());
+		}
 
-			return (aMinusP - n * dotProduct(aMinusP, n)).getMagnitude();
+		float distanceBetween(const Line& lineSegment, const Vector3& point)
+		{
+			Vector3 n = lineSegment.getPointB() - lineSegment.getPointA();
+			Vector3 aMinusP = lineSegment.getPointA() - point;
+
+			// If the point is past either end of the line segment take the distance from the respective end.
+			float lDotP = dotProduct(n, aMinusP);
+			if (lDotP > 0.0f)
+			{
+				return aMinusP.getMagnitude();
+			}
+			else if (lDotP < -1.0f)
+			{
+				return (lineSegment.getPointB() - point).getMagnitude();
+			}
+
+			n.normalize();
+			return (aMinusP - dotProduct(aMinusP, n) * n).getMagnitude();
 		}
 	}
 }

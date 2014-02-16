@@ -16,6 +16,8 @@
  */
 #include "MathFunctions.h"
 
+using namespace std;
+
 namespace simplicity
 {
 	template<typename Data>
@@ -39,25 +41,37 @@ namespace simplicity
 	template<typename Data>
 	float getAngleBetween(const Vector<Data, 2>& lhs, const Vector<Data, 2>& rhs)
 	{
-		return acos(dotProduct(lhs, rhs) / (lhs.getMagnitude() * rhs.getMagnitude()));
+		float dotProductNormalized = dotProduct(lhs, rhs) / (lhs.getMagnitude() * rhs.getMagnitude());
+		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
+		float clampedDotProductNormalized = max(min(dotProductNormalized, 1.0f), -1.0f);
+		return acos(clampedDotProductNormalized);
 	}
 
 	template<typename Data>
 	float getAngleBetween(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs)
 	{
-		return acos(dotProduct(lhs, rhs) / (lhs.getMagnitude() * rhs.getMagnitude()));
+		float dotProductNormalized = dotProduct(lhs, rhs) / (lhs.getMagnitude() * rhs.getMagnitude());
+		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
+		float clampedDotProductNormalized = max(min(dotProductNormalized, 1.0f), -1.0f);
+		return acos(clampedDotProductNormalized);
 	}
 
 	template<typename Data>
 	float getAngleBetweenNormalized(const Vector<Data, 2>& lhs, const Vector<Data, 2>& rhs)
 	{
-		return acos(dotProduct(lhs, rhs));
+		float dotProduct = dotProduct(lhs, rhs);
+		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
+		float clampedDotProduct = max(min(dotProduct, 1.0f), -1.0f);
+		return acos(clampedDotProduct);
 	}
 
 	template<typename Data>
 	float getAngleBetweenNormalized(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs)
 	{
-		return acos(dotProduct(lhs, rhs));
+		float dotProduct = dotProduct(lhs, rhs);
+		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
+		float clampedDotProduct = max(min(dotProduct, 1.0f), -1.0f);
+		return acos(clampedDotProduct);
 	}
 
 	template<typename Data>
@@ -82,6 +96,42 @@ namespace simplicity
 	const Vector<Data, 4> getOut4(const Matrix<Data, 4, 4>& matrix)
 	{
 		return Vector<Data, 4>(const_cast<Data*>(&matrix[8]));
+	}
+
+	template<typename Data>
+	Vector<Data, 2> getPosition2(Matrix<Data, 4, 4>& matrix)
+	{
+		return Vector<Data, 2>(&matrix[12]);
+	}
+
+	template<typename Data>
+	const Vector<Data, 2> getPosition2(const Matrix<Data, 4, 4>& matrix)
+	{
+		return Vector<Data, 2>(const_cast<Data*>(&matrix[12]));
+	}
+
+	template<typename Data>
+	Vector<Data, 3> getPosition3(Matrix<Data, 4, 4>& matrix)
+	{
+		return Vector<Data, 3>(&matrix[12]);
+	}
+
+	template<typename Data>
+	const Vector<Data, 3> getPosition3(const Matrix<Data, 4, 4>& matrix)
+	{
+		return Vector<Data, 3>(const_cast<Data*>(&matrix[12]));
+	}
+
+	template<typename Data>
+	Vector<Data, 4> getPosition4(Matrix<Data, 4, 4>& matrix)
+	{
+		return Vector<Data, 4>(&matrix[12]);
+	}
+
+	template<typename Data>
+	const Vector<Data, 4> getPosition4(const Matrix<Data, 4, 4>& matrix)
+	{
+		return Vector<Data, 4>(const_cast<Data*>(&matrix[12]));
 	}
 
 	template<typename Data>
@@ -154,43 +204,7 @@ namespace simplicity
 	template<typename Data, unsigned int Size>
 	float getScalarProjection(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
 	{
-	        return lhs.getMagnitude() * cos(getAngleBetween(lhs, rhs));
-	}
-
-	template<typename Data>
-	Vector<Data, 2> getPosition2(Matrix<Data, 4, 4>& matrix)
-	{
-		return Vector<Data, 2>(&matrix[12]);
-	}
-
-	template<typename Data>
-	const Vector<Data, 2> getPosition2(const Matrix<Data, 4, 4>& matrix)
-	{
-		return Vector<Data, 2>(const_cast<Data*>(&matrix[12]));
-	}
-
-	template<typename Data>
-	Vector<Data, 3> getPosition3(Matrix<Data, 4, 4>& matrix)
-	{
-		return Vector<Data, 3>(&matrix[12]);
-	}
-
-	template<typename Data>
-	const Vector<Data, 3> getPosition3(const Matrix<Data, 4, 4>& matrix)
-	{
-		return Vector<Data, 3>(const_cast<Data*>(&matrix[12]));
-	}
-
-	template<typename Data>
-	Vector<Data, 4> getPosition4(Matrix<Data, 4, 4>& matrix)
-	{
-		return Vector<Data, 4>(&matrix[12]);
-	}
-
-	template<typename Data>
-	const Vector<Data, 4> getPosition4(const Matrix<Data, 4, 4>& matrix)
-	{
-		return Vector<Data, 4>(const_cast<Data*>(&matrix[12]));
+	    return lhs.getMagnitude() * cos(getAngleBetween(lhs, rhs));
 	}
 
 	template<typename Data>
@@ -221,6 +235,20 @@ namespace simplicity
 	void homogenize(Vector<Data, 4>& vector)
 	{
 		vector /= vector.W();
+	}
+
+	template<typename Data, unsigned int Size>
+	bool near(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
+	{
+		for (unsigned int index = 0; index < Size; index++)
+		{
+			if (!near(lhs[index], rhs[index]))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	template<typename Data, unsigned int Columns, unsigned int Rows>

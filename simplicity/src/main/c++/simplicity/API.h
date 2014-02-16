@@ -21,10 +21,12 @@
 #include "Entity.h"
 #include "Events.h"
 #include "Messages.h"
+#include "OpenCL.h"
 #include "Simplicity.h"
 
 // Common
 #include "common/AddressEquals.h"
+#include "common/Timer.h"
 
 // Engine
 #include "engine/CompositeEngine.h"
@@ -47,6 +49,7 @@
 #include "input/MouseMoveEvent.h"
 
 // Math
+#include "math/Distance.h"
 #include "math/Interpolation.h"
 #include "math/Intersection.h"
 #include "math/MathConstants.h"

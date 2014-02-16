@@ -54,6 +54,24 @@ namespace simplicity
 	const Vector<Data, 4> getOut4(const Matrix<Data, 4, 4>& matrix);
 
 	template<typename Data>
+	Vector<Data, 2> getPosition2(Matrix<Data, 4, 4>& matrix);
+
+	template<typename Data>
+	const Vector<Data, 2> getPosition2(const Matrix<Data, 4, 4>& matrix);
+
+	template<typename Data>
+	Vector<Data, 3> getPosition3(Matrix<Data, 4, 4>& matrix);
+
+	template<typename Data>
+	const Vector<Data, 3> getPosition3(const Matrix<Data, 4, 4>& matrix);
+
+	template<typename Data>
+	Vector<Data, 4> getPosition4(Matrix<Data, 4, 4>& matrix);
+
+	template<typename Data>
+	const Vector<Data, 4> getPosition4(const Matrix<Data, 4, 4>& matrix);
+
+	template<typename Data>
 	Vector<Data, 3> getProjection(const Vector<Data, 3>& lhs, const Plane& rhs);
 
 	template<typename Data, unsigned int Size>
@@ -89,24 +107,6 @@ namespace simplicity
 	float getScalarProjection(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
 
 	template<typename Data>
-	Vector<Data, 2> getPosition2(Matrix<Data, 4, 4>& matrix);
-
-	template<typename Data>
-	const Vector<Data, 2> getPosition2(const Matrix<Data, 4, 4>& matrix);
-
-	template<typename Data>
-	Vector<Data, 3> getPosition3(Matrix<Data, 4, 4>& matrix);
-
-	template<typename Data>
-	const Vector<Data, 3> getPosition3(const Matrix<Data, 4, 4>& matrix);
-
-	template<typename Data>
-	Vector<Data, 4> getPosition4(Matrix<Data, 4, 4>& matrix);
-
-	template<typename Data>
-	const Vector<Data, 4> getPosition4(const Matrix<Data, 4, 4>& matrix);
-
-	template<typename Data>
 	Vector<Data, 3> getUp3(Matrix<Data, 4, 4>& matrix);
 
 	template<typename Data>
@@ -122,6 +122,9 @@ namespace simplicity
 	void homogenize(Vector<Data, 2>& vector);
 
 	bool near(float a, float b);
+
+	template<typename Data, unsigned int Size>
+	bool near(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
 
 	/**
 	 * <p>

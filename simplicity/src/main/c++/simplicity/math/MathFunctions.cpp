@@ -52,7 +52,7 @@ namespace simplicity
 
 	bool near(float a, float b)
 	{
-		return abs(a - b) < 0.0001f;
+		return fabs(a - b) < 0.0001f;
 	}
 
 	void setRandomSeed(unsigned int seed)

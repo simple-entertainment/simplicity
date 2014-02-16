@@ -131,10 +131,13 @@ namespace simplicity
 	Vector<Data, Size> operator/(const Vector<Data, Size>& lhs, Data scalar);
 
 	template<typename Data, unsigned int Size>
-	Vector<Data, Size> operator*(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
+	Vector<Data, Size> operator*(Data scalar, const Vector<Data, Size>& lhs);
 
 	template<typename Data, unsigned int Size>
 	Vector<Data, Size> operator*(const Vector<Data, Size>& lhs, Data scalar);
+
+	template<typename Data, unsigned int Size>
+	Vector<Data, Size> operator*(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
 
 	template<typename Data, unsigned int Size>
 	Vector<Data, Size> operator+(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);

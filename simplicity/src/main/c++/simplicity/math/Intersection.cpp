@@ -286,6 +286,8 @@ namespace simplicity
 			 * Where:
 			 *     P0 is any point on the line.
 			 *     D is the direction vector of the line.
+			 * Reference:
+			 *     http://en.wikipedia.org/wiki/Linear_equation#Parametric_form
 			 *
 			 * Rearrange to solve for t:
 			 *     t = (P - P0) / D
@@ -295,18 +297,26 @@ namespace simplicity
 			 */
 			Vector3 D = intersectionPoints[1] - intersectionPoints[0];
 			D.normalize();
+			// Avoid a divide by zero :)
+			unsigned int axis = 0;
+			if (D.X() != 0.0f)
+			{
+				axis = 0;
+			}
+			else if (D.Y() != 0.0f)
+			{
+				axis = 1;
+			}
+			else
+			{
+				axis = 2;
+			}
 			float maxT;
 			float minT;
 			float t[4];
 			for (pointIndex = 0; pointIndex < 4; pointIndex++)
 			{
-				unsigned int P0Index = 0;
-				if (pointIndex == 0)
-				{
-					P0Index = 1;
-				}
-
-				t[pointIndex] = (intersectionPoints[pointIndex].X() - intersectionPoints[P0Index].X()) / D.X();
+				t[pointIndex] = (intersectionPoints[pointIndex][axis] - intersectionPoints[0][axis]) / D[axis];
 
 				if (pointIndex == 0 || t[pointIndex] > maxT)
 				{
@@ -324,12 +334,23 @@ namespace simplicity
 			 */
 			Vector3 linePoints[2];
 			unsigned int linePointIndex = 0;
+			bool maxTSkipped = false;
+			bool minTSkipped = false;
 			for (pointIndex = 0; pointIndex < 4; pointIndex++)
 			{
-				if (t[pointIndex] != maxT && t[pointIndex] != minT)
+				if (!maxTSkipped && t[pointIndex] == maxT)
 				{
-					linePoints[linePointIndex++] = intersectionPoints[pointIndex];
+					maxTSkipped = true;
+					continue;
 				}
+
+				if (!minTSkipped && t[pointIndex] == minT)
+				{
+					minTSkipped = true;
+					continue;
+				}
+
+				linePoints[linePointIndex++] = intersectionPoints[pointIndex];
 			}
 
 			return Line(linePoints[0], linePoints[1]);

@@ -375,10 +375,10 @@ namespace simplicity
 	}
 
 	template<typename Data, unsigned int Size>
-	Vector<Data, Size> operator*(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
+	Vector<Data, Size> operator*(Data scalar, const Vector<Data, Size>& lhs)
 	{
 		Vector<Data, Size> product = lhs;
-		product *= rhs;
+		product *= scalar;
 
 		return product;
 	}
@@ -388,6 +388,15 @@ namespace simplicity
 	{
 		Vector<Data, Size> product = lhs;
 		product *= scalar;
+
+		return product;
+	}
+
+	template<typename Data, unsigned int Size>
+	Vector<Data, Size> operator*(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
+	{
+		Vector<Data, Size> product = lhs;
+		product *= rhs;
 
 		return product;
 	}
