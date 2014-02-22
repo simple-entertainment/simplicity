@@ -29,13 +29,76 @@ namespace simplicity
 {
 	namespace ModelFunctions
 	{
-		void getSortedPoints(const vector<Line>& intersections, const Line& lhsEdge,
+		struct MeshIntersection
+		{
+			MeshIntersection(Line intersection, Vector3 lhsNormal, Triangle lhsTriangle, unsigned int lhsTriangleIndex,
+					Vector3 rhsNormal, Triangle rhsTriangle, unsigned int rhsTriangleIndex) :
+				intersection(intersection),
+				lhsNormal(lhsNormal),
+				lhsTriangle(lhsTriangle),
+				lhsTriangleIndex(lhsTriangleIndex),
+				rhsNormal(rhsNormal),
+				rhsTriangle(rhsTriangle),
+				rhsTriangleIndex(rhsTriangleIndex)
+			{
+			}
+
+			Line intersection;
+
+			Vector3 lhsNormal;
+
+			Triangle lhsTriangle;
+
+			unsigned int lhsTriangleIndex;
+
+			Vector3 rhsNormal;
+
+			Triangle rhsTriangle;
+
+			unsigned int rhsTriangleIndex;
+
+			bool isPointIntersection()
+			{
+				return near(intersection.getPointA(), intersection.getPointB());
+			}
+		};
+
+		vector<MeshIntersection> getIntersections(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform);
+
+		void getSortedPoints(const vector<MeshIntersection>& intersections, const Line& lhsEdge,
 				map<float, Vector3>& sortedIntersectionPoints, map<float, Vector3>& sortedEdgePoints);
 
-		void subtract(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices, vector<unsigned int>& newIndices,
-						unsigned int newIndicesOffset, const Matrix44& relativeTransform, bool invert);
-		void subtract(vector<Vertex>& vertices, vector<unsigned int>& indices, const vector<Line>& intersections,
-				const Line& lhsEdge, const Vertex& templateVertex, bool intersectionAtEdge);
+		void removeIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+				vector<unsigned int>& newIndices, const Matrix44& relativeTransform);
+
+		void removeIntersection(const Mesh& lhs, vector<Vertex>& newVertices, vector<unsigned int>& newIndices,
+				const Triangle& lhsTriangle, unsigned int lhsTriangleIndex, unsigned int nextLhsTriangleIndex,
+				const vector<MeshIntersection>* currentIntersections, bool* currentIntersectionsAtEdge,
+				const Vertex& templateVertex);
+
+		/*
+		 * TODO Instead of using a 'template' vertex we should really be interpolating the normal, color and texture
+		 * coordinates from the original vertices of the lhs triangle.
+		 */
+		void removeIntersection(vector<Vertex>& vertices, vector<unsigned int>& indices,
+				const vector<MeshIntersection>& intersections, const Line& lhsEdge, const Vertex& templateVertex,
+				bool intersectionAtEdge);
+
+		void retainIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+				vector<unsigned int>& newIndices, const Matrix44& relativeTransform);
+
+		void retainIntersection(const Mesh& lhs, vector<Vertex>& newVertices, vector<unsigned int>& newIndices,
+				const Triangle& lhsTriangle, unsigned int lhsTriangleIndex, unsigned int nextLhsTriangleIndex,
+				const vector<MeshIntersection>* currentIntersections, bool* currentIntersectionsAtEdge,
+				const Vertex& templateVertex);
+
+		/*
+		 * TODO Instead of using a 'template' vertex we should really be interpolating the normal, color and texture
+		 * coordinates from the original vertices of the lhs triangle.
+		 */
+		void retainIntersection(vector<Vertex>& vertices, vector<unsigned int>& indices,
+				const vector<MeshIntersection>& intersections, const Line& lhsEdge, const Vertex& templateVertex,
+				bool intersectionAtEdge);
 
 		void colorizeVertices(vector<Vertex>& vertices, const Vector4& color)
 		{
@@ -72,12 +135,74 @@ namespace simplicity
 			return move(bounds);
 		}
 
+		vector<MeshIntersection> getIntersections(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform)
+		{
+			vector<MeshIntersection> intersections;
+
+			Matrix44 inverseRelativeTransform = relativeTransform;
+			inverseRelativeTransform.invert();
+
+			for (unsigned int lhsIndex = 0; lhsIndex < lhs.getIndices().size(); lhsIndex += 3)
+			{
+				Triangle lhsTriangle(lhs.getVertices()[lhs.getIndices()[lhsIndex]].position,
+						lhs.getVertices()[lhs.getIndices()[lhsIndex + 1]].position,
+						lhs.getVertices()[lhs.getIndices()[lhsIndex + 2]].position);
+
+				// If the lhs triangle is contained within the rhs mesh, no intersections!
+				if (Intersection::contains(rhs, Point(lhsTriangle.getPointA()), inverseRelativeTransform))
+				{
+					if (Intersection::contains(rhs, Point(lhsTriangle.getPointB()), inverseRelativeTransform))
+					{
+						if (Intersection::contains(rhs, Point(lhsTriangle.getPointC()), inverseRelativeTransform))
+						{
+							continue;
+						}
+					}
+				}
+
+				Vector3 lhsEdge0 = lhsTriangle.getPointB() - lhsTriangle.getPointA();
+				Vector3 lhsEdge1 = lhsTriangle.getPointC() - lhsTriangle.getPointA();
+				Vector3 lhsNormal = crossProduct(lhsEdge0, lhsEdge1);
+				lhsNormal.normalize();
+
+				for (unsigned int rhsIndex = 0; rhsIndex < rhs.getIndices().size(); rhsIndex += 3)
+				{
+					Vector3 rhsPointA((relativeTransform *
+							Vector4(rhs.getVertices()[rhs.getIndices()[rhsIndex]].position, 1.0f)).getData());
+					Vector3 rhsPointB((relativeTransform *
+							Vector4(rhs.getVertices()[rhs.getIndices()[rhsIndex + 1]].position, 1.0f)).getData());
+					Vector3 rhsPointC((relativeTransform *
+							Vector4(rhs.getVertices()[rhs.getIndices()[rhsIndex + 2]].position, 1.0f)).getData());
+					Triangle rhsTriangle(rhsPointA, rhsPointB, rhsPointC);
+
+					Vector3 rhsEdge0 = rhsPointB - rhsPointA;
+					Vector3 rhsEdge1 = rhsPointC - rhsPointA;
+					Vector3 rhsNormal = crossProduct(rhsEdge0, rhsEdge1);
+					rhsNormal.normalize();
+
+					if (Intersection::intersect(lhsTriangle, rhsTriangle, lhsNormal, rhsNormal))
+					{
+						intersections.push_back(MeshIntersection(
+								Intersection::getIntersection(lhsTriangle, rhsTriangle, lhsNormal, rhsNormal),
+								lhsNormal,
+								lhsTriangle,
+								lhsIndex / 3,
+								rhsNormal,
+								rhsTriangle,
+								rhsIndex / 3));
+					}
+				}
+			}
+
+			return intersections;
+		}
+
 		/*
 		 * Project the intersection points onto the corresponding edge and sort them based on how far along the
 		 * edge they are. Also, find the points on the edge half way between the projected points and sort them
 		 * based on how far along the edge they are.
 		 */
-		void getSortedPoints(const vector<Line>& intersections, const Line& lhsEdge,
+		void getSortedPoints(const vector<MeshIntersection>& intersections, const Line& lhsEdge,
 				map<float, Vector3>& sortedIntersectionPoints, map<float, Vector3>& sortedEdgePoints)
 		{
 			Vector3 lhsEdgeVector = lhsEdge.getPointB() - lhsEdge.getPointA();
@@ -85,8 +210,8 @@ namespace simplicity
 
 			for (unsigned int index = 0; index < intersections.size(); index++)
 			{
-				Vector3 intersectionA = intersections[index].getPointA();
-				Vector3 intersectionB = intersections[index].getPointB();
+				Vector3 intersectionA = intersections[index].intersection.getPointA();
+				Vector3 intersectionB = intersections[index].intersection.getPointB();
 				Vector3 projectionA = getProjection(intersectionA - lhsEdge.getPointA(), lhsEdgeVector);
 				Vector3 projectionB = getProjection(intersectionB - lhsEdge.getPointA(), lhsEdgeVector);
 				Vector3 toProjectionB = projectionB - projectionA;
@@ -163,193 +288,179 @@ namespace simplicity
 			return move(bounds);
 		}
 
-		void rotateVertices(vector<Vertex>& vertices, float angle, const Vector3& axis)
+		void removeIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+				vector<unsigned int>& newIndices, const Matrix44& relativeTransform)
 		{
-			Matrix33 rotationMatrix;
-			rotationMatrix.setIdentity();
-			rotate(rotationMatrix, angle, axis);
+			vector<MeshIntersection> intersections = getIntersections(lhs, rhs, relativeTransform);
+			Triangle lhsTriangle = intersections[0].lhsTriangle;
+			unsigned int lhsTriangleIndex = 0;
 
-			for (Vertex& vertex : vertices)
+			// Populate the lhs triangle data.
+			Vector3 lhsEdge0Vector = lhsTriangle.getPointB() - lhsTriangle.getPointA();
+			Vector3 lhsEdge1Vector = lhsTriangle.getPointC() - lhsTriangle.getPointB();
+			Vector3 lhsEdge2Vector = lhsTriangle.getPointA() - lhsTriangle.getPointC();
+			/*
+			 * These 'out' vectors are vectors on the lhs triangle's plane perpendicular to the edges of the triangle
+			 * and in the direction that is 'outward' from the triangle.
+			 */
+			Vector3 lhsEdge0Out = crossProduct(lhsEdge0Vector, intersections[0].lhsNormal);
+			lhsEdge0Out.normalize();
+			Vector3 lhsEdge1Out = crossProduct(lhsEdge1Vector, intersections[0].lhsNormal);
+			lhsEdge1Out.normalize();
+			Vector3 lhsEdge2Out = crossProduct(lhsEdge2Vector, intersections[0].lhsNormal);
+			lhsEdge2Out.normalize();
+
+			// The intersections with the current lhs triangle, separated according to which edge they are most aligned.
+			vector<MeshIntersection> currentIntersections[3];
+
+			// Determines whether the intersections with the current lhs triangle end on the edge of the triangle.
+			bool currentIntersectionsAtEdge[3] = {false, false, false};
+
+			for (MeshIntersection& intersection : intersections)
 			{
-				//vertex.normal = rotationMatrix * vertex.normal;
-				vertex.position = rotationMatrix * vertex.position;
-			}
-		}
-
-		void scaleVertices(vector<Vertex>& vertices, float scale)
-		{
-			for (Vertex& vertex : vertices)
-			{
-				vertex.position *= scale;
-			}
-		}
-
-		unique_ptr<Mesh> subtract(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform)
-		{
-			vector<Vertex> newVertices;
-			newVertices.insert(newVertices.end(), lhs.getVertices().begin(), lhs.getVertices().end());
-			newVertices.insert(newVertices.end(), rhs.getVertices().begin(), rhs.getVertices().end());
-			vector<unsigned int> newIndices;
-			newIndices.reserve(lhs.getIndices().size() + rhs.getIndices().size());
-
-			subtract(lhs, rhs, newVertices, newIndices, 0, relativeTransform, false);
-
-			Matrix44 inverseRelativeTransform = relativeTransform;
-			inverseRelativeTransform.invert();
-			//subtract(rhs, lhs, newVertices, newIndices, lhs.getVertices().size(), inverseRelativeTransform, true);
-
-			return ModelFactory::getInstance().createMesh(newVertices, newIndices);
-		}
-
-		void subtract(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices, vector<unsigned int>& newIndices,
-				unsigned int newIndicesOffset, const Matrix44& relativeTransform, bool invert)
-		{
-			const vector<Vertex>& lhsVertices = lhs.getVertices();
-			const vector<unsigned int>& lhsIndices = lhs.getIndices();
-			const vector<Vertex>& rhsVertices = rhs.getVertices();
-			const vector<unsigned int>& rhsIndices = rhs.getIndices();
-
-			Matrix44 inverseRelativeTransform = relativeTransform;
-			inverseRelativeTransform.invert();
-
-			for (unsigned int lhsIndex = 0; lhsIndex < lhsIndices.size(); lhsIndex += 3)
-			{
-				Triangle lhsTriangle(lhsVertices[lhsIndices[lhsIndex]].position,
-						lhsVertices[lhsIndices[lhsIndex + 1]].position,
-						lhsVertices[lhsIndices[lhsIndex + 2]].position);
-
-				// If the lhs triangle is contained within the rhs mesh, remove it.
-				if (Intersection::contains(rhs, Point(lhsTriangle.getPointA()), inverseRelativeTransform))
+				// Disregard point intersections.
+				if (intersection.isPointIntersection())
 				{
-					if (Intersection::contains(rhs, Point(lhsTriangle.getPointB()), inverseRelativeTransform))
-					{
-						if (Intersection::contains(rhs, Point(lhsTriangle.getPointC()), inverseRelativeTransform))
-						{
-							// Not adding any indices...
-							continue;
-						}
-					}
-				}
-
-				Vector3 lhsEdge0 = lhsTriangle.getPointB() - lhsTriangle.getPointA();
-				Vector3 lhsEdge1 = lhsTriangle.getPointC() - lhsTriangle.getPointB();
-				Vector3 lhsEdge2 = lhsTriangle.getPointA() - lhsTriangle.getPointC();
-				Vector3 lhsNormal = crossProduct(lhsEdge0, lhsEdge1);
-				lhsNormal.normalize();
-
-				/*
-				 * These 'out' vectors are vectors on the triangle's plane perpendicular to the edges of the triangle
-				 * and in the direction that is 'outward' from the triangle.
-				 */
-				Vector3 lhsEdge0Out = crossProduct(lhsEdge0, lhsNormal);
-				lhsEdge0Out.normalize();
-				Vector3 lhsEdge1Out = crossProduct(lhsEdge1, lhsNormal);
-				lhsEdge1Out.normalize();
-				Vector3 lhsEdge2Out = crossProduct(lhsEdge2, lhsNormal);
-				lhsEdge2Out.normalize();
-
-				// Retrieve the lines of intersection with the lhs triangle.
-				vector<Line> intersections[3];
-				bool intersectionsAtEdge[3] = {false, false, false};
-				for (unsigned int rhsIndex = 0; rhsIndex < rhsIndices.size(); rhsIndex += 3)
-				{
-					Vector3 rhsPointA((relativeTransform * Vector4(rhsVertices[rhsIndices[rhsIndex]].position, 1.0f)).getData());
-					Vector3 rhsPointB((relativeTransform * Vector4(rhsVertices[rhsIndices[rhsIndex + 1]].position, 1.0f)).getData());
-					Vector3 rhsPointC((relativeTransform * Vector4(rhsVertices[rhsIndices[rhsIndex + 2]].position, 1.0f)).getData());
-					Triangle rhsTriangle(rhsPointA, rhsPointB, rhsPointC);
-
-					Vector3 rhsEdge0 = rhsTriangle.getPointB() - rhsTriangle.getPointA();
-					Vector3 rhsEdge1 = rhsTriangle.getPointC() - rhsTriangle.getPointA();
-					Vector3 rhsNormal = crossProduct(rhsEdge0, rhsEdge1);
-					rhsNormal.normalize();
-
-					if (Intersection::intersect(lhsTriangle, rhsTriangle, lhsNormal, rhsNormal))
-					{
-						Line intersection = Intersection::getIntersection(lhsTriangle, rhsTriangle, lhsNormal, rhsNormal);
-
-						// Disregard point intersections.
-						if (near(intersection.getPointA(), intersection.getPointB()))
-						{
-							continue;
-						}
-
-						float dotEdge0Out = dotProduct(rhsNormal, lhsEdge0Out);
-						float dotEdge1Out = dotProduct(rhsNormal, lhsEdge1Out);
-						float dotEdge2Out = dotProduct(rhsNormal, lhsEdge2Out);
-
-						/*
-						 * Add the intersection to the vector for the edge of the lhs triangle to which it is most
-						 * closely aligned. Since we're talking about convex shapes the intersection should be on that
-						 * edge's side of the rhs mesh.
-						 */
-						if (dotEdge0Out > dotEdge1Out && dotEdge0Out > dotEdge2Out)
-						{
-							intersections[0].push_back(intersection);
-							Line edge(lhsTriangle.getPointA(), lhsTriangle.getPointB());
-							if (near(Distance::distanceBetween(edge, rhsPointA), 0.0f) ||
-									near(Distance::distanceBetween(edge, rhsPointB), 0.0f) ||
-									near(Distance::distanceBetween(edge, rhsPointC), 0.0f))
-							{
-								intersectionsAtEdge[0] = true;
-							}
-						}
-						else if (dotEdge1Out > dotEdge0Out && dotEdge1Out > dotEdge2Out)
-						{
-							intersections[1].push_back(intersection);
-							Line edge(lhsTriangle.getPointB(), lhsTriangle.getPointC());
-							if (near(Distance::distanceBetween(edge, rhsPointA), 0.0f) ||
-									near(Distance::distanceBetween(edge, rhsPointB), 0.0f) ||
-									near(Distance::distanceBetween(edge, rhsPointC), 0.0f))
-							{
-								intersectionsAtEdge[1] = true;
-							}
-						}
-						else
-						{
-							intersections[2].push_back(intersection);
-							Line edge(lhsTriangle.getPointC(), lhsTriangle.getPointA());
-							if (near(Distance::distanceBetween(edge, rhsPointA), 0.0f) ||
-									near(Distance::distanceBetween(edge, rhsPointB), 0.0f) ||
-									near(Distance::distanceBetween(edge, rhsPointC), 0.0f))
-							{
-								intersectionsAtEdge[2] = true;
-							}
-						}
-					}
-				}
-
-				// If the lhs triangle does not intersect with the rhs mesh, preserve it.
-				if (intersections[0].empty() && intersections[1].empty() && intersections[2].empty())
-				{
-					newIndices.push_back(lhsIndices[lhsIndex] + newIndicesOffset);
-					newIndices.push_back(lhsIndices[lhsIndex + 1] + newIndicesOffset);
-					newIndices.push_back(lhsIndices[lhsIndex + 2] + newIndicesOffset);
 					continue;
 				}
 
-				if (!intersections[0].empty())
+				// If we've finished processing an lhs triangle.
+				if (intersection.lhsTriangleIndex != lhsTriangleIndex)
 				{
-					subtract(newVertices, newIndices, intersections[0],
-							Line(lhsTriangle.getPointA(), lhsTriangle.getPointB()), lhsVertices[lhsIndices[lhsIndex]],
-							intersectionsAtEdge[0]);
+					Vertex templateVertex = lhs.getVertices()[lhs.getIndices()[lhsTriangleIndex * 3]];
+					removeIntersection(lhs, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
+							intersection.lhsTriangleIndex, currentIntersections, currentIntersectionsAtEdge,
+							templateVertex);
+
+					lhsTriangle = intersection.lhsTriangle;
+					lhsTriangleIndex = intersection.lhsTriangleIndex;
+
+					// Re-populate the lhs triangle data.
+					Vector3 lhsEdge0Vector = lhsTriangle.getPointB() - lhsTriangle.getPointA();
+					Vector3 lhsEdge1Vector = lhsTriangle.getPointC() - lhsTriangle.getPointB();
+					Vector3 lhsEdge2Vector = lhsTriangle.getPointA() - lhsTriangle.getPointC();
+					lhsEdge0Out = crossProduct(lhsEdge0Vector, intersection.lhsNormal);
+					lhsEdge0Out.normalize();
+					lhsEdge1Out = crossProduct(lhsEdge1Vector, intersection.lhsNormal);
+					lhsEdge1Out.normalize();
+					lhsEdge2Out = crossProduct(lhsEdge2Vector, intersection.lhsNormal);
+					lhsEdge2Out.normalize();
+
+					// Reset the intersection data.
+					currentIntersections[0].clear();
+					currentIntersections[1].clear();
+					currentIntersections[2].clear();
+					currentIntersectionsAtEdge[0] = false;
+					currentIntersectionsAtEdge[1] = false;
+					currentIntersectionsAtEdge[2] = false;
 				}
-				if (!intersections[1].empty())
+
+				float dotEdge0Out = dotProduct(intersection.rhsNormal, lhsEdge0Out);
+				float dotEdge1Out = dotProduct(intersection.rhsNormal, lhsEdge1Out);
+				float dotEdge2Out = dotProduct(intersection.rhsNormal, lhsEdge2Out);
+
+				/*
+				 * Add the intersection to the vector for the edge of the lhs triangle to which it is most
+				 * closely aligned. Since we're talking about convex shapes the intersection should be on that
+				 * edge's side of the rhs mesh.
+				 */
+				if (dotEdge0Out > dotEdge1Out && dotEdge0Out > dotEdge2Out)
 				{
-					subtract(newVertices, newIndices, intersections[1],
-							Line(lhsTriangle.getPointB(), lhsTriangle.getPointC()), lhsVertices[lhsIndices[lhsIndex]],
-							intersectionsAtEdge[1]);
+					currentIntersections[0].push_back(intersection);
+					Line edge(intersection.lhsTriangle.getPointA(), intersection.lhsTriangle.getPointB());
+					if (near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointA()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointB()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointC()), 0.0f))
+					{
+						currentIntersectionsAtEdge[0] = true;
+					}
 				}
-				if (!intersections[2].empty())
+				else if (dotEdge1Out > dotEdge0Out && dotEdge1Out > dotEdge2Out)
 				{
-					subtract(newVertices, newIndices, intersections[2],
-							Line(lhsTriangle.getPointC(), lhsTriangle.getPointA()), lhsVertices[lhsIndices[lhsIndex]],
-							intersectionsAtEdge[2]);
+					currentIntersections[1].push_back(intersection);
+					Line edge(intersection.lhsTriangle.getPointB(), intersection.lhsTriangle.getPointC());
+					if (near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointA()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointB()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointC()), 0.0f))
+					{
+						currentIntersectionsAtEdge[1] = true;
+					}
 				}
+				else
+				{
+					currentIntersections[2].push_back(intersection);
+					Line edge(intersection.lhsTriangle.getPointC(), intersection.lhsTriangle.getPointA());
+					if (near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointA()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointB()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointC()), 0.0f))
+					{
+						currentIntersectionsAtEdge[2] = true;
+					}
+				}
+			}
+
+			Vertex templateVertex = lhs.getVertices()[lhs.getIndices()[lhsTriangleIndex * 3]];
+			removeIntersection(lhs, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
+					lhs.getIndices().size() / 3, currentIntersections, currentIntersectionsAtEdge, templateVertex);
+		}
+
+		void removeIntersection(const Mesh& lhs, vector<Vertex>& newVertices, vector<unsigned int>& newIndices,
+				const Triangle& lhsTriangle, unsigned int lhsTriangleIndex, unsigned int nextLhsTriangleIndex,
+				const vector<MeshIntersection>* currentIntersections, bool* currentIntersectionsAtEdge,
+				const Vertex& templateVertex)
+		{
+			Line lhsEdge0(lhsTriangle.getPointA(), lhsTriangle.getPointB());
+			Line lhsEdge1(lhsTriangle.getPointB(), lhsTriangle.getPointC());
+			Line lhsEdge2(lhsTriangle.getPointC(), lhsTriangle.getPointA());
+
+			if (!currentIntersections[0].empty())
+			{
+				removeIntersection(newVertices, newIndices, currentIntersections[0], lhsEdge0, templateVertex,
+						currentIntersectionsAtEdge[0]);
+			}
+			if (!currentIntersections[1].empty())
+			{
+				removeIntersection(newVertices, newIndices, currentIntersections[1], lhsEdge1, templateVertex,
+						currentIntersectionsAtEdge[1]);
+			}
+			if (!currentIntersections[2].empty())
+			{
+				removeIntersection(newVertices, newIndices, currentIntersections[2], lhsEdge2, templateVertex,
+						currentIntersectionsAtEdge[2]);
+			}
+
+			/*
+			 * If the current lhs triangle was intersected, move to the next lhs triangle. This implicitly
+			 * handles the case where the first lhs triangle was not intersected (by not moving to the next lhs
+			 * triangle).
+			 */
+			if (!currentIntersections[0].empty() ||
+					!currentIntersections[1].empty() ||
+					!currentIntersections[2].empty())
+			{
+				lhsTriangleIndex++;
+			}
+
+			// Preserve any lhs triangles that did not have any intersections.
+			while(lhsTriangleIndex < nextLhsTriangleIndex)
+			{
+				unsigned int vertexIndex = lhsTriangleIndex * 3;
+
+				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex]]);
+				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex + 1]]);
+				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex + 2]]);
+
+				newIndices.push_back(newVertices.size() - 3);
+				newIndices.push_back(newVertices.size() - 2);
+				newIndices.push_back(newVertices.size() - 1);
+
+				lhsTriangleIndex++;
 			}
 		}
 
-		void subtract(vector<Vertex>& vertices, vector<unsigned int>& indices, const vector<Line>& intersections,
-				const Line& lhsEdge, const Vertex& templateVertex, bool intersectionAtEdge)
+		void removeIntersection(vector<Vertex>& vertices, vector<unsigned int>& indices,
+				const vector<MeshIntersection>& intersections, const Line& lhsEdge, const Vertex& templateVertex,
+				bool intersectionAtEdge)
 		{
 			map<float, Vector3> sortedEdgePoints;
 			map<float, Vector3> sortedIntersectionPoints;
@@ -446,6 +557,316 @@ namespace simplicity
 				indices.push_back(vertices.size() - 2);
 				indices.push_back(vertices.size() - 1);
 			}
+		}
+
+		void retainIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+				vector<unsigned int>& newIndices, const Matrix44& relativeTransform)
+		{
+			vector<MeshIntersection> intersections = getIntersections(lhs, rhs, relativeTransform);
+			Triangle lhsTriangle = intersections[0].lhsTriangle;
+			unsigned int lhsTriangleIndex = 0;
+
+			// Populate the lhs triangle data.
+			Vector3 lhsEdge0Vector = lhsTriangle.getPointB() - lhsTriangle.getPointA();
+			Vector3 lhsEdge1Vector = lhsTriangle.getPointC() - lhsTriangle.getPointB();
+			Vector3 lhsEdge2Vector = lhsTriangle.getPointA() - lhsTriangle.getPointC();
+			/*
+			 * These 'out' vectors are vectors on the lhs triangle's plane perpendicular to the edges of the triangle
+			 * and in the direction that is 'outward' from the triangle.
+			 */
+			Vector3 lhsEdge0Out = crossProduct(lhsEdge0Vector, intersections[0].lhsNormal);
+			lhsEdge0Out.normalize();
+			Vector3 lhsEdge1Out = crossProduct(lhsEdge1Vector, intersections[0].lhsNormal);
+			lhsEdge1Out.normalize();
+			Vector3 lhsEdge2Out = crossProduct(lhsEdge2Vector, intersections[0].lhsNormal);
+			lhsEdge2Out.normalize();
+
+			// The intersections with the current lhs triangle, separated according to which edge they are most aligned.
+			vector<MeshIntersection> currentIntersections[3];
+
+			// Determines whether the intersections with the current lhs triangle end on the edge of the triangle.
+			bool currentIntersectionsAtEdge[3] = {false, false, false};
+
+			for (MeshIntersection& intersection : intersections)
+			{
+				// Disregard point intersections.
+				if (intersection.isPointIntersection())
+				{
+					continue;
+				}
+
+				// If we've finished processing an lhs triangle.
+				if (intersection.lhsTriangleIndex != lhsTriangleIndex)
+				{
+					Vertex templateVertex = lhs.getVertices()[lhs.getIndices()[lhsTriangleIndex * 3]];
+					retainIntersection(lhs, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
+							intersection.lhsTriangleIndex, currentIntersections, currentIntersectionsAtEdge,
+							templateVertex);
+
+					lhsTriangle = intersection.lhsTriangle;
+					lhsTriangleIndex = intersection.lhsTriangleIndex;
+
+					// Re-populate the lhs triangle data.
+					Vector3 lhsEdge0Vector = lhsTriangle.getPointB() - lhsTriangle.getPointA();
+					Vector3 lhsEdge1Vector = lhsTriangle.getPointC() - lhsTriangle.getPointB();
+					Vector3 lhsEdge2Vector = lhsTriangle.getPointA() - lhsTriangle.getPointC();
+					lhsEdge0Out = crossProduct(lhsEdge0Vector, intersection.lhsNormal);
+					lhsEdge0Out.normalize();
+					lhsEdge1Out = crossProduct(lhsEdge1Vector, intersection.lhsNormal);
+					lhsEdge1Out.normalize();
+					lhsEdge2Out = crossProduct(lhsEdge2Vector, intersection.lhsNormal);
+					lhsEdge2Out.normalize();
+
+					// Reset the intersection data.
+					currentIntersections[0].clear();
+					currentIntersections[1].clear();
+					currentIntersections[2].clear();
+					currentIntersectionsAtEdge[0] = false;
+					currentIntersectionsAtEdge[1] = false;
+					currentIntersectionsAtEdge[2] = false;
+				}
+
+				float dotEdge0Out = dotProduct(intersection.rhsNormal, lhsEdge0Out);
+				float dotEdge1Out = dotProduct(intersection.rhsNormal, lhsEdge1Out);
+				float dotEdge2Out = dotProduct(intersection.rhsNormal, lhsEdge2Out);
+
+				/*
+				 * Add the intersection to the vector for the edge of the lhs triangle to which it is most
+				 * closely aligned. Since we're talking about convex shapes the intersection should be on that
+				 * edge's side of the rhs mesh.
+				 */
+				if (dotEdge0Out > dotEdge1Out && dotEdge0Out > dotEdge2Out)
+				{
+					currentIntersections[0].push_back(intersection);
+					Line edge(intersection.lhsTriangle.getPointA(), intersection.lhsTriangle.getPointB());
+					if (near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointA()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointB()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointC()), 0.0f))
+					{
+						currentIntersectionsAtEdge[0] = true;
+					}
+				}
+				else if (dotEdge1Out > dotEdge0Out && dotEdge1Out > dotEdge2Out)
+				{
+					currentIntersections[1].push_back(intersection);
+					Line edge(intersection.lhsTriangle.getPointB(), intersection.lhsTriangle.getPointC());
+					if (near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointA()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointB()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointC()), 0.0f))
+					{
+						currentIntersectionsAtEdge[1] = true;
+					}
+				}
+				else
+				{
+					currentIntersections[2].push_back(intersection);
+					Line edge(intersection.lhsTriangle.getPointC(), intersection.lhsTriangle.getPointA());
+					if (near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointA()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointB()), 0.0f) ||
+							near(Distance::distanceBetween(edge, intersection.rhsTriangle.getPointC()), 0.0f))
+					{
+						currentIntersectionsAtEdge[2] = true;
+					}
+				}
+			}
+
+			Vertex templateVertex = lhs.getVertices()[lhs.getIndices()[lhsTriangleIndex * 3]];
+			retainIntersection(lhs, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
+					lhs.getIndices().size() / 3, currentIntersections, currentIntersectionsAtEdge, templateVertex);
+		}
+
+		void retainIntersection(const Mesh& lhs, vector<Vertex>& newVertices, vector<unsigned int>& newIndices,
+				const Triangle& lhsTriangle, unsigned int lhsTriangleIndex, unsigned int nextLhsTriangleIndex,
+				const vector<MeshIntersection>* currentIntersections, bool* currentIntersectionsAtEdge,
+				const Vertex& templateVertex)
+		{
+			Line lhsEdge0(lhsTriangle.getPointA(), lhsTriangle.getPointB());
+			Line lhsEdge1(lhsTriangle.getPointB(), lhsTriangle.getPointC());
+			Line lhsEdge2(lhsTriangle.getPointC(), lhsTriangle.getPointA());
+
+			if (!currentIntersections[0].empty())
+			{
+				retainIntersection(newVertices, newIndices, currentIntersections[0], lhsEdge0, templateVertex,
+						currentIntersectionsAtEdge[0]);
+			}
+			if (!currentIntersections[1].empty())
+			{
+				retainIntersection(newVertices, newIndices, currentIntersections[1], lhsEdge1, templateVertex,
+						currentIntersectionsAtEdge[1]);
+			}
+			if (!currentIntersections[2].empty())
+			{
+				retainIntersection(newVertices, newIndices, currentIntersections[2], lhsEdge2, templateVertex,
+						currentIntersectionsAtEdge[2]);
+			}
+
+			/*
+			 * If the current lhs triangle was intersected, move to the next lhs triangle. This implicitly
+			 * handles the case where the first lhs triangle was not intersected (by not moving to the next lhs
+			 * triangle).
+			 */
+			if (!currentIntersections[0].empty() ||
+					!currentIntersections[1].empty() ||
+					!currentIntersections[2].empty())
+			{
+				lhsTriangleIndex++;
+			}
+
+			// Preserve any lhs triangles that did not have any intersections.
+			while(lhsTriangleIndex < nextLhsTriangleIndex)
+			{
+				unsigned int vertexIndex = lhsTriangleIndex * 3;
+
+				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex]]);
+				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex + 1]]);
+				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex + 2]]);
+
+				newIndices.push_back(newVertices.size() - 3);
+				newIndices.push_back(newVertices.size() - 2);
+				newIndices.push_back(newVertices.size() - 1);
+
+				lhsTriangleIndex++;
+			}
+		}
+
+		void retainIntersection(vector<Vertex>& vertices, vector<unsigned int>& indices,
+				const vector<MeshIntersection>& intersections, const Line& lhsEdge, const Vertex& templateVertex,
+				bool intersectionAtEdge)
+		{
+			map<float, Vector3> sortedEdgePoints;
+			map<float, Vector3> sortedIntersectionPoints;
+			getSortedPoints(intersections, lhsEdge, sortedIntersectionPoints, sortedEdgePoints);
+
+			// Connect the dots!
+			bool gap = false;
+			map<float, Vector3>::iterator intersectionPointIter = sortedIntersectionPoints.begin();
+			map<float, Vector3>::iterator edgePointIter = sortedEdgePoints.begin();
+			while (intersectionPointIter != sortedIntersectionPoints.end())
+			{
+				if (gap)
+				{
+					gap = false;
+				}
+				else
+				{
+					// Create a triangle between two edge points and an intersection point.
+					Vertex vertexAA = templateVertex;
+					vertexAA.position = intersectionPointIter->second;
+					vertices.push_back(vertexAA);
+
+					Vertex vertexAB = templateVertex;
+					vertexAB.position = edgePointIter->second;
+					vertices.push_back(vertexAB);
+
+					edgePointIter++;
+					if (edgePointIter == sortedEdgePoints.end())
+					{
+						// Oops... we've reached the end of the edge points which means this triangle isn't needed.
+						// This happens if a gap was created in the lhs edge by the intersections.
+						vertices.pop_back();
+						vertices.pop_back();
+					}
+					else
+					{
+						Vertex vertexAC = templateVertex;
+						vertexAC.position = edgePointIter->second;
+						vertices.push_back(vertexAC);
+					}
+				}
+
+				Vertex templateVertex2 = templateVertex;
+				templateVertex2.color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+
+				// Create a triangle between two intersection points and an edge point.
+				Vertex vertexBA = templateVertex2;
+				vertexBA.position = intersectionPointIter->second;
+				vertices.push_back(vertexBA);
+
+				intersectionPointIter++;
+				if (intersectionPointIter == sortedIntersectionPoints.end())
+				{
+					// Oops... we've reached the end of the intersection points which means this triangle isn't needed.
+					vertices.pop_back();
+				}
+				else
+				{
+					Vertex vertexBB = templateVertex2;
+					vertexBB.position = edgePointIter->second;
+					vertices.push_back(vertexBB);
+
+					Vertex vertexBC = templateVertex2;
+					vertexBC.position = intersectionPointIter->second;
+					vertices.push_back(vertexBC);
+				}
+
+				if (intersectionPointIter != sortedIntersectionPoints.end())
+				{
+					indices.push_back(vertices.size() - 6);
+					indices.push_back(vertices.size() - 5);
+					indices.push_back(vertices.size() - 4);
+
+					// If an intersection point is on the line then a gap in the edge has been created!
+					if (near(Distance::distanceBetween(lhsEdge, Point(intersectionPointIter->second)),  0.0f))
+					{
+						edgePointIter++;
+
+						/*
+						 * Although... just maybe... the intersection ended exactly on the edge in which case there is
+						 * no gap... If that's true we should stick with the same intersection point.
+						 */
+						if (!intersectionAtEdge)
+						{
+							intersectionPointIter++;
+						}
+
+						edgePointIter++;
+						gap = true;
+					}
+				}
+
+				indices.push_back(vertices.size() - 3);
+				indices.push_back(vertices.size() - 2);
+				indices.push_back(vertices.size() - 1);
+			}
+		}
+
+		void rotateVertices(vector<Vertex>& vertices, float angle, const Vector3& axis)
+		{
+			Matrix33 rotationMatrix;
+			rotationMatrix.setIdentity();
+			rotate(rotationMatrix, angle, axis);
+
+			for (Vertex& vertex : vertices)
+			{
+				//vertex.normal = rotationMatrix * vertex.normal;
+				vertex.position = rotationMatrix * vertex.position;
+			}
+		}
+
+		void scaleVertices(vector<Vertex>& vertices, float scale)
+		{
+			for (Vertex& vertex : vertices)
+			{
+				vertex.position *= scale;
+			}
+		}
+
+		unique_ptr<Mesh> subtract(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform)
+		{
+			vector<Vertex> newVertices;
+			vector<unsigned int> newIndices;
+
+			// Guesstimate to avoid too much allocations.
+			newVertices.reserve(lhs.getVertices().size() + rhs.getVertices().size());
+			newIndices.reserve(lhs.getIndices().size() + rhs.getIndices().size());
+
+			removeIntersection(lhs, rhs, newVertices, newIndices, relativeTransform);
+
+			Matrix44 inverseRelativeTransform = relativeTransform;
+			inverseRelativeTransform.invert();
+			//retainIntersection(rhs, lhs, newVertices, newIndices, inverseRelativeTransform);
+
+			return ModelFactory::getInstance().createMesh(newVertices, newIndices);
 		}
 
 		void translateVertices(vector<Vertex>& vertices, const Vector3& translation)
