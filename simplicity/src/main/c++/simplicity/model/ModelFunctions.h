@@ -29,19 +29,28 @@ namespace simplicity
 {
 	namespace ModelFunctions
 	{
-		void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color);
+		void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color, unsigned int begin = 0,
+				unsigned int end = 0);
+
+		void flipTriangles(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, unsigned int begin = 0,
+				unsigned int end = 0);
 
 		std::unique_ptr<Circle> getCircleBoundsXZ(const std::vector<Vertex>& vertices);
 
 		std::unique_ptr<Square> getSquareBoundsXZ(const std::vector<Vertex>& vertices);
 
-		void rotateVertices(std::vector<Vertex>& vertices, float angle, const Vector3& axis);
+		void rotateVertices(std::vector<Vertex>& vertices, float angle, const Vector3& axis, unsigned int begin = 0,
+				unsigned int end = 0);
 
-		void scaleVertices(std::vector<Vertex>& vertices, float scale);
+		void scaleVertices(std::vector<Vertex>& vertices, float scale, unsigned int begin = 0, unsigned int end = 0);
 
 		std::unique_ptr<Mesh> subtract(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform);
 
-		void translateVertices(std::vector<Vertex>& vertices, const Vector3& translation);
+		void transformVertices(std::vector<Vertex>& vertices, const Matrix44& transformation, unsigned int begin = 0,
+				unsigned int end = 0);
+
+		void translateVertices(std::vector<Vertex>& vertices, const Vector3& translation, unsigned int begin = 0,
+				unsigned int end = 0);
 	}
 }
 

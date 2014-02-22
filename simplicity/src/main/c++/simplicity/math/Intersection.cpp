@@ -117,6 +117,7 @@ namespace simplicity
 			{
 				Vector3 edge0 = vertices[indices[index + 1]].position - vertices[indices[index]].position;
 				Vector3 edge1 = vertices[indices[index + 2]].position - vertices[indices[index]].position;
+
 				Vector3 normal = crossProduct(edge0, edge1);
 				Plane plane(normal, vertices[indices[index]].position);
 
