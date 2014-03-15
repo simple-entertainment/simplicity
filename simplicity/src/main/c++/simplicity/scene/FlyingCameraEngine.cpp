@@ -16,11 +16,11 @@
  */
 #include <functional>
 
-#include "../Events.h"
 #include "../input/KeyboardButtonEvent.h"
 #include "../input/MouseMoveEvent.h"
 #include "../math/MathFunctions.h"
-#include "../Messages.h"
+#include "../messaging/Events.h"
+#include "../messaging/Messages.h"
 #include "FlyingCameraEngine.h"
 
 using namespace std;

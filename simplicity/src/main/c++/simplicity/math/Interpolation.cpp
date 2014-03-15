@@ -71,5 +71,31 @@ namespace simplicity
 
 			return p0;
 		}
+
+		Vertex interpolateLinear(const vector<Vertex>& vertices, const Vector3& position)
+		{
+			/*float distanceFromA = (position - vertexA.position).getMagnitude();
+			float distanceFromB = (position - vertexB.position).getMagnitude();
+			float distanceFromC = (position - vertexC.position).getMagnitude();
+			float distanceSum = distanceFromA + distanceFromB + distanceFromC;
+			float influenceA = 1.0f - (distanceFromA / distanceSum);
+			float influenceB = 1.0f - (distanceFromB / distanceSum);
+			float influenceC = 1.0f - (distanceFromC / distanceSum);
+
+			Vertex vertex;
+			vertex.color = vertexA.color * influenceA +
+					vertexB.color * influenceB +
+					vertexC.color * influenceC;
+			vertex.normal = vertexA.normal * influenceA +
+					vertexB.normal * influenceB +
+					vertexC.normal * influenceC;
+			vertex.position = position;
+			vertex.texCoord = vertexA.texCoord * influenceA +
+					vertexB.texCoord * influenceB +
+					vertexC.texCoord * influenceC;
+
+			return vertex;*/
+			return Vertex();
+		}
 	}
 }

@@ -19,8 +19,13 @@
 
 namespace simplicity
 {
-	struct Mouse
+	namespace Mouse
 	{
+		/**
+		 * <p>
+		 * The buttons on a mouse.
+		 * </p>
+		 */
 		enum Button
 		{
 			MIDDLE,

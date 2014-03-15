@@ -16,12 +16,6 @@
  */
 
 // Core
-#include "Categories.h"
-#include "Component.h"
-#include "Entity.h"
-#include "Events.h"
-#include "Messages.h"
-#include "OpenCL.h"
 #include "Simplicity.h"
 
 // Common
@@ -34,9 +28,14 @@
 #include "engine/Engine.h"
 #include "engine/SerialCompositeEngine.h"
 
+// Entity
+#include "entity/Categories.h"
+#include "entity/Component.h"
+#include "entity/Entity.h"
+
 // Graph
 #include "graph/Graph.h"
-#include "graph/OctTree.h"
+#include "graph/OcTree.h"
 #include "graph/QuadTree.h"
 #include "graph/SimpleGraph.h"
 
@@ -56,6 +55,10 @@
 #include "math/MathFunctions.h"
 #include "math/Matrix.h"
 #include "math/Vector.h"
+
+// Messaging
+#include "messaging/Events.h"
+#include "messaging/Messages.h"
 
 // Model
 #include "model/Line.h"
@@ -78,6 +81,9 @@
 #include "model/SimpleModelFactory.h"
 #include "model/Text.h"
 #include "model/Vertex.h"
+
+// Parallel
+#include "parallel/OpenCL.h"
 
 // Physics
 #include "physics/Body.h"

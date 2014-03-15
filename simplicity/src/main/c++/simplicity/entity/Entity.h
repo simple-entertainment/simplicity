@@ -22,15 +22,25 @@
 #include <vector>
 
 #include "Categories.h"
-#include "math/Matrix.h"
+#include "../math/Matrix.h"
 
 namespace simplicity
 {
 	class Component;
 
+	/**
+	 * <p>
+	 * An object that can be added to a scene. It is a container for components which describe the way the entity looks
+	 * and behaves.
+	 * </p>
+	 */
 	class Entity
 	{
 		public:
+			/**
+			 * @param category The category this entity will belong to (Categories::UNCATEGORIZED is the default).
+			 * @param name The name of this entity (an empty name is the default).
+			 */
 			Entity(unsigned short category = Categories::UNCATEGORIZED, const std::string& name = std::string());
 
 			/**
@@ -51,12 +61,23 @@ namespace simplicity
 			 */
 			void addUniqueComponent(std::unique_ptr<Component> component);
 
+			/**
+			 * <p>
+			 * Retrieves the category this entity belongs to.
+			 * </p>
+			 *
+			 * @return The category this entity belongs to.
+			 */
 			unsigned short getCategory() const;
 
 			/**
 			 * <p>
-			 * Retrieves a single component.
+			 * Retrieves a single component. If more than one component of the specified type and category exist, the
+			 * first one found will be returned.
 			 * </p>
+			 *
+			 * @param category The category of the component to retrieve. If Categories::ALL_CATEGORIES is specified
+			 * (the default), a component of any category (including Categories::UNCATEGORIZED) will be accepted.
 			 *
 			 * @return The single component.
 			 */
@@ -68,24 +89,48 @@ namespace simplicity
 			 * Retrieves the components.
 			 * </p>
 			 *
+			 * @param category The category of the components to retrieve. If Categories::ALL_CATEGORIES is specified
+			 * (the default), components of any category (including Categories::UNCATEGORIZED) will be accepted.
+			 *
 			 * @return The components.
 			 */
 			template<typename ComponentType>
 			std::vector<ComponentType*> getComponents(unsigned short category = Categories::ALL_CATEGORIES) const;
 
+			/**
+			 * <p>
+			 * Retrieves the unique identifier of this entity.
+			 * </p>
+			 *
+			 * @return The unique identifier of this entity.
+			 */
 			unsigned int getId() const;
 
 			/**
 			 * <p>
-			 * Retrieves the name of this <code>Entity</code>.
+			 * Retrieves the name of this entity.
 			 * </p>
 			 *
-			 * @return The name of this <code>Entity</code>.
+			 * @return The name of this entity.
 			 */
 			const std::string& getName() const;
 
+			/**
+			 * <p>
+			 * Retrieves the position and orientation of this entity.
+			 * </p>
+			 *
+			 * @return The position and orientation of this entity.
+			 */
 			Matrix44& getTransform();
 
+			/**
+			 * <p>
+			 * Retrieves the position and orientation of this entity.
+			 * </p>
+			 *
+			 * @return The position and orientation of this entity.
+			 */
 			const Matrix44& getTransform() const;
 
 			/**
@@ -106,6 +151,13 @@ namespace simplicity
 			 */
 			std::unique_ptr<Component> removeUniqueComponent(Component* component);
 
+			/**
+			 * <p>
+			 * Sets the position and orientation of this entity.
+			 * </p>
+			 *
+			 * @param transform The position and orientation of this entity.
+			 */
 			void setTransform(const Matrix44& transform);
 
 		private:
@@ -113,29 +165,14 @@ namespace simplicity
 
 			unsigned int id;
 
-			/**
-			 * <p>
-			 * The name of this <code>Entity</code>.
-			 * </p>
-			 */
 			std::string name;
 
 			static unsigned int nextId;
 
-			/**
-			 * <p>
-			 * The shared components.
-			 * </p>
-			 */
 			std::vector<std::shared_ptr<Component>> sharedComponents;
 
 			Matrix44 transform;
 
-			/**
-			 * <p>
-			 * The unique components.
-			 * </p>
-			 */
 			std::vector<std::unique_ptr<Component>> uniqueComponents;
 	};
 }

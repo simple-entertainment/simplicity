@@ -19,16 +19,37 @@
 
 namespace simplicity
 {
-	struct Button
+	namespace Button
 	{
+		/**
+		 * <p>
+		 * The different states a physical button can be in.
+		 * </p>
+		 */
 		enum State
 		{
+			/**
+			 * <p>
+			 * The button is down (pressed).
+			 * </p>
+			 */
 			DOWN,
+
+			/**
+			 * <p>
+			 * The button is up (not pressed).
+			 * </p>
+			 */
 			UP,
 
+			/**
+			 * <p>
+			 * The state of the button is unknown.
+			 * </p>
+			 */
 			UNKNOWN_STATE
 		};
-	};
+	}
 }
 
 #endif /* BUTTON_H_ */

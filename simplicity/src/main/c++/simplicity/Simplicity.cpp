@@ -22,7 +22,7 @@
 
 #include "common/AddressEquals.h"
 #include "engine/SerialCompositeEngine.h"
-#include "Events.h"
+#include "messaging/Events.h"
 #include "Simplicity.h"
 
 using namespace std;

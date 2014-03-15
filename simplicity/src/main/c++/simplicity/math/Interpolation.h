@@ -20,15 +20,42 @@
 #include <vector>
 
 #include "../math/Vector.h"
+#include "../model/Vertex.h"
 
 namespace simplicity
 {
 	namespace Interpolation
 	{
+		/**
+		 * <p>
+		 * Interpolates a set of points at regular intervals on a bezier curve.
+		 * </p>
+		 *
+		 * @param points The points that make up the bezier curve.
+		 * @param interpolationCount The number of points to interpolate.
+		 *
+		 * @return The interpolated points.
+		 */
 		std::vector<Vector3> interpolateBezier(const std::vector<Vector3>& points, unsigned int interpolationCount);
 
+		/**
+		 * <p>
+		 * Interpolates a point on a bezier curve.
+		 * </p>
+		 *
+		 * @param begin The first point on the bezier curve.
+		 * @param end The end point on the bezier curve (non-inclusive).
+		 * @param time A value in the range [0-1] that denotes how far along the curve to interpolate.
+		 *
+		 * @return The interpolated point.
+		 */
 		Vector3 interpolateBezier(const std::vector<Vector3>::const_iterator& begin,
 			const std::vector<Vector3>::const_iterator& end, float time);
+
+		/**
+		 * UNDER CONSTRUCTION
+		 */
+		Vertex interpolateLinear(const std::vector<Vertex>& vertices, const Vector3& position);
 	}
 }
 

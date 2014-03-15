@@ -17,7 +17,7 @@
 #ifndef SCRIPT_H_
 #define SCRIPT_H_
 
-#include "../Component.h"
+#include "../entity/Component.h"
 
 namespace simplicity
 {

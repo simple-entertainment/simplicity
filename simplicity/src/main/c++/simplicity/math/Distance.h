@@ -24,8 +24,28 @@ namespace simplicity
 {
 	namespace Distance
 	{
+		/**
+		 * <p>
+		 * Determines the distance between a line segment and a point.
+		 * </p>
+		 *
+		 * @param lineSegment The line segment.
+		 * @param point The point.
+		 *
+		 * @return The distance.
+		 */
 		float distanceBetween(const Line& lineSegment, const Point& point);
 
+		/**
+		 * <p>
+		 * Determines the distance between a line segment and a point.
+		 * </p>
+		 *
+		 * @param lineSegment The line segment.
+		 * @param point The point.
+		 *
+		 * @return The distance.
+		 */
 		float distanceBetween(const Line& lineSegment, const Vector3& point);
 	}
 }

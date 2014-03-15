@@ -3,7 +3,7 @@
 
 #include <CL/opencl.h>
 
-#include "common/Timer.h"
+#include "../common/Timer.h"
 
 using namespace std;
 

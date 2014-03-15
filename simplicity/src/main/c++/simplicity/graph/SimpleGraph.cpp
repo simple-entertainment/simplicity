@@ -66,7 +66,7 @@ namespace simplicity
 
 	void SimpleGraph::disconnectFrom(Graph& graph)
 	{
-		if (find(connections.begin(), connections.end(), &graph) == connections.end())
+		if (find(connections.begin(), connections.end(), &graph) != connections.end())
 		{
 			connections.erase(std::remove(connections.begin(), connections.end(), &graph));
 		}

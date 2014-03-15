@@ -17,7 +17,7 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#include "../Component.h"
+#include "../entity/Component.h"
 #include "../math/Matrix.h"
 #include "../math/Vector.h"
 

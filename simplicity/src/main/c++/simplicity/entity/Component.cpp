@@ -28,10 +28,6 @@ namespace simplicity
 		transform.setIdentity();
 	}
 
-	Component::~Component()
-	{
-	}
-
 	unsigned short Component::getCategory() const
 	{
 		return category;

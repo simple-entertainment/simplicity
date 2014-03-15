@@ -16,7 +16,7 @@
  */
 #include <algorithm>
 
-#include "common/AddressEquals.h"
+#include "../common/AddressEquals.h"
 #include "Component.h"
 #include "Entity.h"
 
@@ -80,7 +80,7 @@ namespace simplicity
 
 		if (result != sharedComponents.end())
 		{
-			removedComponent.swap(*result);
+			removedComponent = *result;
 			sharedComponents.erase(result);
 			component = NULL;
 		}
@@ -96,7 +96,7 @@ namespace simplicity
 
 		if (result != uniqueComponents.end())
 		{
-			removedComponent.swap(*result);
+			removedComponent = move(*result);
 			uniqueComponents.erase(result);
 			component = NULL;
 		}

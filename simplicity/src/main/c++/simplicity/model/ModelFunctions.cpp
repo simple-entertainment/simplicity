@@ -16,7 +16,7 @@
  */
 #include <map>
 
-#include "../Categories.h"
+#include "../entity/Categories.h"
 #include "../math/Distance.h"
 #include "../math/Intersection.h"
 #include "../math/MathFunctions.h"

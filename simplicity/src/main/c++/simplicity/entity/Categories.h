@@ -21,14 +21,48 @@ namespace simplicity
 {
 	namespace Categories
 	{
+		/**
+		 * <p>
+		 * Denotes that no category is assigned.
+		 * </p>
+		 */
 		const unsigned short UNCATEGORIZED = 0;
 
+		/**
+		 * <p>
+		 * Includes all categories, even UNCATEGORIZED.
+		 * </p>
+		 */
 		const unsigned short ALL_CATEGORIES = 1;
 
+		/**
+		 * <p>
+		 * A bounding volume model.
+		 * </p>
+		 */
 		const unsigned short BOUNDS = 2;
 
+		/**
+		 * <p>
+		 * A rendered model.
+		 * </p>
+		 */
 		const unsigned short RENDER = 3;
 
+		/**
+		 * <p>
+		 * User defined categories should start with this ID.
+		 * </p>
+		 *
+		 * <p>
+		 * For example:
+		 * </p>
+		 *
+		 * <pre><code>
+		 * const unsigned short MY_CATEGORY_1 = USER_ID_0;
+		 * const unsigned short MY_CATEGORY_2 = USER_ID_0 + 1;
+		 * </code></pre>
+		 */
 		const unsigned short USER_ID_0 = 128;
 	}
 }

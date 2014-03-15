@@ -21,6 +21,11 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A composite engine that advances its contained engines in serial.
+	 * </p>
+	 */
 	class SerialCompositeEngine : public CompositeEngine
 	{
 		public:

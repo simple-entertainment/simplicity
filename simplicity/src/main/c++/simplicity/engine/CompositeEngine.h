@@ -21,14 +21,43 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * An engine that is composed of several other engines i.e. the composite design pattern. The member functions from
+	 * Engine are delegated to the contained engines.
+	 * </p>
+	 */
 	class CompositeEngine : public Engine
 	{
 		public:
-			virtual void addEngine(std::unique_ptr<Engine> entity) = 0;
+			/**
+			 * <p>
+			 * Adds an engine.
+			 * </p>
+			 *
+			 * @param engine The engine to be added.
+			 */
+			virtual void addEngine(std::unique_ptr<Engine> engine) = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the engines contained in this engine.
+			 * </p>
+			 *
+			 * @return The engines contained in this engine.
+			 */
 			virtual const std::vector<std::unique_ptr<Engine>>& getEngines() const = 0;
 
-			virtual std::unique_ptr<Engine> removeEngine(Engine* entity) = 0;
+			/**
+			 * <p>
+			 * Removes an engine.
+			 * </p>
+			 *
+			 * @param engine The engine to be removed. This parameter will be set to NULL if the engine is found.
+			 *
+			 * @return The removed engine.
+			 */
+			virtual std::unique_ptr<Engine> removeEngine(Engine* engine) = 0;
 	};
 }
 

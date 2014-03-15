@@ -23,6 +23,15 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A composite engine that advances its contained engines in serial.
+	 * </p>
+	 *
+	 * <p>
+	 * Provides debug information about the running times of the contained engines.
+	 * </p>
+	 */
 	class DebugSerialCompositeEngine : public CompositeEngine
 	{
 		public:
@@ -36,12 +45,33 @@ namespace simplicity
 
 			void destroy();
 
+			/**
+			 * <p>
+			 * Retrieves the times spent by the individual contained engines during the previous frame.
+			 * </p>
+			 *
+			 * @return The times spent by the individual contained engines during the previous frame.
+			 */
 			const std::vector<float>& getEngineFrameTimes() const;
 
 			const std::vector<std::unique_ptr<Engine>>& getEngines() const;
 
+			/**
+			 * <p>
+			 * Retrieves the number of advances by this engine in the last full second.
+			 * </p>
+			 *
+			 * @return The number of advances by this engine in the last full second.
+			 */
 			unsigned int getFramesPerSecond() const;
 
+			/**
+			 * <p>
+			 * Retrieves the times spent by this engine during the previous frame.
+			 * </p>
+			 *
+			 * @return The times spent by this engine during the previous frame.
+			 */
 			float getFrameTime() const;
 
 			void init();

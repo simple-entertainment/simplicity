@@ -20,7 +20,7 @@
 #include <memory>
 
 #include "../engine/Engine.h"
-#include "../Entity.h"
+#include "../entity/Entity.h"
 #include "../graph/Graph.h"
 #include "../scene/Light.h"
 #include "Renderer.h"

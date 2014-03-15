@@ -17,25 +17,76 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
-#include "../Entity.h"
+#include "../entity/Entity.h"
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * Performs tasks every frame.
+	 * </p>
+	 */
 	class Engine
 	{
 		public:
+			/**
+			 * <p>
+			 * Allows polymorphism.
+			 * </p>
+			 */
 			virtual ~Engine()
 			{
 			}
 
+			/**
+			 * <p>
+			 *	Called when an entity is added to the scene.
+			 * </p>
+			 *
+			 * @param entity The entity being added.
+			 */
 			virtual void addEntity(Entity& entity) = 0;
 
+			/**
+			 * <p>
+			 * Advances the engine, performing any tasks required for the current frame.
+			 * </p>
+			 *
+			 * <p>
+			 * Called once every frame.
+			 * </p>
+			 */
 			virtual void advance() = 0;
 
+			/**
+			 * <p>
+			 * Destroys the engine.
+			 * </p>
+			 *
+			 * <p>
+			 * Called after the last call to advance().
+			 * </p>
+			 */
 			virtual void destroy() = 0;
 
+			/**
+			 * <p>
+			 * Initializes the engine.
+			 * </p>
+			 *
+			 * <p>
+			 * Called before the first call to advance().
+			 * </p>
+			 */
 			virtual void init() = 0;
 
+			/**
+			 * <p>
+			 *	Called when an entity is removed from the scene.
+			 * </p>
+			 *
+			 * @param entity The entity being removed.
+			 */
 			virtual void removeEntity(const Entity& entity) = 0;
 	};
 }

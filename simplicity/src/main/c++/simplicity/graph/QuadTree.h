@@ -25,15 +25,41 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A tree that uses a square bounding volume. Once the subdivision threshold has been reached, it will create 4
+	 * children, each with a bounding volume one-fourth the size of this one and any entities that can fit within them
+	 * will be inserted into them instead of this node. This insertion works recursively until either the child nodes
+	 * have a bounding volume too small to contain the entity or a node is found that has not yet reached its
+	 * subdivision threshold.
+	 * </p>
+	 *
+	 * <p>
+	 * When using this tree in a 3d scene, the bounding volume can be placed on any of the planes of the three major
+	 * axis i.e. XY, XZ or YZ.
+	 * </p>
+	 */
 	class QuadTree : public Graph
 	{
 		public:
+			/**
+			 * <p>
+			 * THe plane that the bounding volume is placed on.
+			 * </p>
+			 */
 			enum Plane
 			{
 				XY,
-				XZ
+				XZ//,
+				//YZ TODO
 			};
 
+			/**
+			 * @param subdivideThreshold The number of entities that can be inserted into this graph before it creates
+			 * children.
+			 * @param boundary The bounding volume of this graph.
+			 * @param plane The plane that the bounding volume will be placed on.
+			 */
 			QuadTree(unsigned int subdivideThreshold, const Square& boundary, Plane plane = Plane::XY);
 
 			void connectTo(Graph& graph);
@@ -62,6 +88,17 @@ namespace simplicity
 
 			bool insert(Entity& entity);
 
+			/**
+			 * <p>
+			 * This tree will ignore the request to be added to a particular parent as the placing of the entity is
+			 * determined by the bounding volumes of the nodes and the number of entities already in the nodes.
+			 * </p>
+			 *
+			 * @param entity The entity to insert.
+			 * @param parent IGNORED!
+			 *
+			 * @return True if the insertion was successful, false otherwise.
+			 */
 			bool insert(Entity& entity, const Entity& parent);
 
 			bool remove(const Entity& entity);

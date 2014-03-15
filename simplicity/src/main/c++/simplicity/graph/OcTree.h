@@ -25,10 +25,24 @@
 
 namespace simplicity
 {
-	class OctTree : public Graph
+	/**
+	 * <p>
+	 * A tree that uses a cube bounding volume. Once the subdivision threshold has been reached, it will create 8
+	 * children, each with a bounding volume one-eighth the size of this one and any entities that can fit within them
+	 * will be inserted into them instead of this node. This insertion works recursively until either the child nodes
+	 * have a bounding volume too small to contain the entity or a node is found that has not yet reached its
+	 * subdivision threshold.
+	 * </p>
+	 */
+	class OcTree : public Graph
 	{
 		public:
-			OctTree(unsigned int subdivideThreshold, const Cube& boundary);
+			/**
+			 * @param subdivideThreshold The number of entities that can be inserted into this graph before it creates
+			 * children.
+			 * @param boundary The bounding volume of this graph.
+			 */
+			OcTree(unsigned int subdivideThreshold, const Cube& boundary);
 
 			void connectTo(Graph& graph);
 
@@ -56,6 +70,17 @@ namespace simplicity
 
 			bool insert(Entity& entity);
 
+			/**
+			 * <p>
+			 * This tree will ignore the request to be added to a particular parent as the placing of the entity is
+			 * determined by the bounding volumes of the nodes and the number of entities already in the nodes.
+			 * </p>
+			 *
+			 * @param entity The entity to insert.
+			 * @param parent IGNORED!
+			 *
+			 * @return True if the insertion was successful, false otherwise.
+			 */
 			bool insert(Entity& entity, const Entity& parent);
 
 			bool remove(const Entity& entity);
@@ -69,7 +94,7 @@ namespace simplicity
 		private:
 			Cube boundary;
 
-			std::vector<std::unique_ptr<Graph>> children;
+			std::vector<std::unique_ptr<OcTree>> children;
 
 			std::vector<Graph*> connections;
 
@@ -82,6 +107,9 @@ namespace simplicity
 			Matrix44 transform;
 
 			void addEntityFromChild();
+
+			void getEntitiesWithinBounds(const Model& bounds, const Vector3& position,
+					std::vector<Entity*>& entitiesWithinBounds) const;
 
 			void shiftEntitiesUpward();
 

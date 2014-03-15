@@ -21,6 +21,11 @@ namespace simplicity
 {
 	namespace MathConstants
 	{
+		/**
+		 * <p>
+		 * The ratio of a circle's circumference to its diameter.
+		 * </p>
+		 */
 		const float PI = 3.14159265358979323f;
 	}
 }

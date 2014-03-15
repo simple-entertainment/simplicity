@@ -15,6 +15,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include "../common/AddressEquals.h"
+#include "../common/Timer.h"
 #include "DebugSerialCompositeEngine.h"
 
 using namespace std;
@@ -47,23 +48,23 @@ namespace simplicity
 
 	void DebugSerialCompositeEngine::advance()
 	{
-		time_point<high_resolution_clock> frameStartTime = high_resolution_clock::now();
+		Timer frameTimer;
 
 		for (unsigned int index = 0; index < engines.size(); index++)
 		{
-			time_point<high_resolution_clock> engineFrameStartTime = high_resolution_clock::now();
+			Timer engineFrameTimer;
 
 			engines[index]->advance();
 
-			time_point<high_resolution_clock> engineFrameEndTime = high_resolution_clock::now();
-			engineFrameTimes[index] =
-					duration_cast<nanoseconds>(engineFrameEndTime - engineFrameStartTime).count() / 1000000000.0f;
+			engineFrameTimes[index] = engineFrameTimer.getElapsedTime();
 		}
 
-		time_point<high_resolution_clock> frameEndTime = high_resolution_clock::now();
-		frameTime = duration_cast<nanoseconds>(frameEndTime - frameStartTime).count() / 1000000000.0f;
+		frameTime = frameTimer.getElapsedTime();
 
 		frameCount++;
+
+		// If at least one second has passed since the last FPS was recorded.
+		time_point<high_resolution_clock> frameEndTime = high_resolution_clock::now();
 		if (duration_cast<seconds>(frameEndTime - lastFrameCountTime).count() >= 1)
 		{
 			lastFrameCountTime = frameEndTime;
@@ -118,7 +119,7 @@ namespace simplicity
 
 		if (result != engines.end())
 		{
-			removedEngine.swap(*result);
+			removedEngine = move(*result);
 			engines.erase(result);
 			engine = NULL;
 		}

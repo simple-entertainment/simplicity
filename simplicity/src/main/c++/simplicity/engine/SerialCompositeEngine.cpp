@@ -76,7 +76,7 @@ namespace simplicity
 
 		if (result != engines.end())
 		{
-			removedEngine.swap(*result);
+			removedEngine = move(*result);
 			engines.erase(result);
 			engine = NULL;
 		}

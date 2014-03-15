@@ -1,7 +1,7 @@
 #ifndef BODY_H_
 #define BODY_H_
 
-#include "../Component.h"
+#include "../entity/Component.h"
 #include "../model/Model.h"
 
 namespace simplicity

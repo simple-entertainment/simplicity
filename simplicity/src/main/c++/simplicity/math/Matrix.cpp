@@ -15,7 +15,6 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include "../common/Timer.h"
-#include "../OpenCL.h"
 #include "Matrix.h"
 
 namespace simplicity

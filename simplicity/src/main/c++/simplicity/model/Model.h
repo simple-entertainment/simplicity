@@ -17,7 +17,7 @@
 #ifndef MODEL_H_
 #define MODEL_H_
 
-#include "../Component.h"
+#include "../entity/Component.h"
 #include "../math/Vector.h"
 #include "../rendering/Renderer.h"
 #include "../rendering/Texture.h"

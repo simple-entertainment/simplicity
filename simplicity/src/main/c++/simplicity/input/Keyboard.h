@@ -21,8 +21,13 @@
 
 namespace simplicity
 {
-	struct Keyboard
+	namespace Keyboard
 	{
+		/**
+		 * <p>
+		 * The buttons on a keyboard.
+		 * </p>
+		 */
 		enum Button
 		{
 			ZERO,
@@ -115,8 +120,15 @@ namespace simplicity
 
 			UNKNOWN_BUTTON
 		};
-	};
+	}
 
+	/**
+	 * <p>
+	 * Creates a map from ASCII characters to Keyboard::Button enum values.
+	 * </p>
+	 *
+	 * @return A map from ASCII characters to Keyboard::Button enum values.
+	 */
 	std::map<unsigned char, Keyboard::Button> createAsciiKeyboardButtonMap();
 }
 

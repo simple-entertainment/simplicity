@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../Categories.h"
+#include "../entity/Categories.h"
 #include "Model.h"
 
 namespace simplicity

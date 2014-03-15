@@ -19,7 +19,7 @@
 
 #include <string>
 
-#include "../Component.h"
+#include "../entity/Component.h"
 #include "../math/Vector.h"
 #include "../rendering/Shader.h"
 

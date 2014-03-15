@@ -22,6 +22,17 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A predicate used to compare the addresses of two variables. It is capable of comparing a variable against a
+	 * reference, reference_wrapper, shared_ptr or unique_ptr.
+	 * </p>
+	 *
+	 * <p>
+	 * This is handy when a variable with a certain address needs to be found in a container like a vector. In that
+	 * case this predicate can be used with std::find_if.
+	 * </p>
+	 */
 	template<class T>
 	class AddressEquals
 	{

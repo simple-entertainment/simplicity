@@ -21,11 +21,23 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A high precision timer.
+	 * </p>
+	 */
 	class Timer
 	{
 		public:
 			Timer();
 
+			/**
+			 * <p>
+			 * Retrieves the time that has elapsed since the construction of this timer in seconds.
+			 * </p>
+			 *
+			 * @return The time that has elapsed since the construction of this timer (in seconds).
+			 */
 			float getElapsedTime();
 
 		private:
