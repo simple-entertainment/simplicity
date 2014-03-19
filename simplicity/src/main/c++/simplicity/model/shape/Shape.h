@@ -21,15 +21,26 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A basic geometric shape that is not constructed from primitives like a mesh is. It has a level of detail which
+	 * is a hint used by renderers etc. when they convert them to meshes.
+	 * </p>
+	 */
 	class Shape : public Model
 	{
 		public:
 			Shape();
 
-			virtual ~Shape();
-
 			const Vector4& getColor() const;
 
+			/**
+			 * <p>
+			 * Retrieves the level of detail applied to this shape.
+			 * </p>
+			 *
+			 * @return The level of detail applied to this shape.
+			 */
 			unsigned int getLevelOfDetail() const;
 
 			Texture* getNormalMap() const;
@@ -42,6 +53,13 @@ namespace simplicity
 
 			void setColor(const Vector4& color);
 
+			/**
+			 * <p>
+			 * Applies a level of detail to this shape.
+			 * </p>
+			 *
+			 * @return The level of detail applied to this shape.
+			 */
 			void setLevelOfDetail(unsigned int levelOfDetail);
 
 			void setNormalMap(Texture* texture);
@@ -56,8 +74,6 @@ namespace simplicity
 			Vector4 color;
 
 			unsigned int levelOfDetail;
-
-			PrimitiveType primitiveType;
 
 			bool visible;
 	};

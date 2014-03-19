@@ -24,20 +24,64 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A factory that creates textures.
+	 * </p>
+	 */
 	class RenderingFactory
 	{
 		public:
+			/**
+			 * <p>
+			 * Allows polymorphism.
+			 * </p>
+			 */
 			virtual ~RenderingFactory()
 			{
 			}
 
+			/**
+			 * <p>
+			 * Creates a texture from in-memory data.
+			 * </p>
+			 *
+			 * @param data The texture data.
+			 * @param width The width of the texture.
+			 * @param height The height of the texture.
+			 *
+			 * @return The texture.
+			 */
 			virtual std::unique_ptr<Texture> createTexture(const unsigned char* data, unsigned int width,
 					unsigned int height) = 0;
 
+			/**
+			 * <p>
+			 * Creates a texture from a file.
+			 * </p>
+			 *
+			 * @param fileName The name of the file.
+			 *
+			 * @return The texture.
+			 */
 			virtual std::unique_ptr<Texture> createTexture(const std::string& fileName) = 0;
 
-			static RenderingFactory& getInstance();
+			/**
+			 * <p>
+			 * Retrieves the concrete factory instance used to create the textures.
+			 * </p>
+			 *
+			 * @return The concrete factory instance.
+			 */
+			static RenderingFactory* getInstance();
 
+			/**
+			 * <p>
+			 * Sets the concrete factory instance used to create the textures.
+			 * </p>
+			 *
+			 * @param instance The concrete factory instance.
+			 */
 			static void setInstance(std::unique_ptr<RenderingFactory> instance);
 
 		private:

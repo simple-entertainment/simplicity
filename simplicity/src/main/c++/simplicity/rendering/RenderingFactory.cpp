@@ -22,9 +22,9 @@ namespace simplicity
 {
 	unique_ptr<RenderingFactory> RenderingFactory::instance;
 
-	RenderingFactory& RenderingFactory::getInstance()
+	RenderingFactory* RenderingFactory::getInstance()
 	{
-		return *instance;
+		return instance.get();
 	}
 
 	void RenderingFactory::setInstance(unique_ptr<RenderingFactory> instance)

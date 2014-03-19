@@ -21,9 +21,17 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * Some text. TODO Is this really a model?
+	 * </p>
+	 */
 	class Text : public Model
 	{
 		public:
+			/**
+			 * @param text The text.
+			 */
 			Text(const std::string& text);
 
 			const Vector4& getColor() const;
@@ -32,6 +40,13 @@ namespace simplicity
 
 			PrimitiveType getPrimitiveType() const;
 
+			/**
+			 * <p>
+			 * Retrieves the text.
+			 * </p>
+			 *
+			 * @return The text.
+			 */
 			const std::string& getText() const;
 
 			Texture* getTexture() const;
@@ -46,6 +61,13 @@ namespace simplicity
 
 			void setPrimitiveType(PrimitiveType primitiveType);
 
+			/**
+			 * <p>
+			 * Sets the text.
+			 * </p>
+			 *
+			 * @param text The text.
+			 */
 			void setText(const std::string& text);
 
 			void setTexture(Texture* texture);

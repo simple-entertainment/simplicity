@@ -24,9 +24,9 @@ namespace simplicity
 {
 	unique_ptr<PhysicsFactory> PhysicsFactory::instance = unique_ptr<PhysicsFactory>();
 
-	PhysicsFactory& PhysicsFactory::getInstance()
+	PhysicsFactory* PhysicsFactory::getInstance()
 	{
-		return *instance;
+		return instance.get();
 	}
 
 	void PhysicsFactory::setInstance(unique_ptr<PhysicsFactory> instance)

@@ -23,7 +23,6 @@ namespace simplicity
 	SimpleMesh::SimpleMesh() :
 		color(0.0f, 0.0f, 0.0f, 1.0f),
 		indices(),
-		position(0.0f, 0.0f),
 		primitiveType(TRIANGLE_LIST),
 		vertices(),
 		visible(true)
@@ -33,7 +32,6 @@ namespace simplicity
 	SimpleMesh::SimpleMesh(const vector<unsigned int>& indices, const vector<Vertex>& vertices) :
 		color(0.0f, 0.0f, 0.0f, 1.0f),
 		indices(indices),
-		position(0.0f, 0.0f),
 		primitiveType(TRIANGLE_LIST),
 		vertices(vertices),
 		visible(true)
@@ -58,11 +56,6 @@ namespace simplicity
 	Texture* SimpleMesh::getNormalMap() const
 	{
 		return NULL;
-	}
-
-	const Vector2& SimpleMesh::getPosition() const
-	{
-		return position;
 	}
 
 	Model::PrimitiveType SimpleMesh::getPrimitiveType() const
@@ -102,11 +95,6 @@ namespace simplicity
 
 	void SimpleMesh::setNormalMap(Texture*)
 	{
-	}
-
-	void SimpleMesh::setPosition(const Vector2& position)
-	{
-		this->position = position;
 	}
 
 	void SimpleMesh::setPrimitiveType(PrimitiveType)

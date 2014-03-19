@@ -23,6 +23,13 @@ namespace simplicity
 {
 	namespace Messages
 	{
+		/**
+		 * <p>
+		 * The function signature required to receive messages.
+		 * </p>
+		 *
+		 * @param The message being received.
+		 */
 		typedef void(Recipient)(const void*);
 
 		/**

@@ -22,36 +22,130 @@
 #include "../engine/Engine.h"
 #include "../entity/Entity.h"
 #include "../graph/Graph.h"
-#include "../scene/Light.h"
 #include "Renderer.h"
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * An engine that renders a scene.
+	 * </p>
+	 */
 	class RenderingEngine : public Engine
 	{
 		public:
+			/**
+			 * <p>
+			 * Adds a light, allowing it to affect the rendering of the scene.
+			 * </p>
+			 *
+			 * @param light An entity containg a light component.
+			 */
 			virtual void addLight(Entity& light) = 0;
 
+			/**
+			 * <p>
+			 * Adss a renderer. Every renderer added acts as a rendering pass.
+			 * </p>
+			 *
+			 * @param renderer The renderer.
+			 */
 			virtual void addRenderer(std::unique_ptr<Renderer> renderer) = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the camera through which the scene will be rendered.
+			 * </p>
+			 *
+			 * @return The entity containing the camera component.
+			 */
 			virtual const Entity* getCamera() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the graph that will be searched to determine which models to render and in which order.
+			 * </p>
+			 *
+			 * @return The graph.
+			 */
 			virtual const Graph* getGraph() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the height of the viewport.
+			 * </p>
+			 *
+			 * @return The height of the viewport.
+			 */
 			virtual int getHeight() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the width of the viewport.
+			 * </p>
+			 *
+			 * @return The width of the viewport.
+			 */
 			virtual int getWidth() const = 0;
 
-			virtual void removeRenderer(const Renderer& renderer) = 0;
+			/**
+			 * <p>
+			 * Removes the specified renderer.
+			 * </p>
+			 *
+			 * @param renderer The renderer.
+			 *
+			 * @return The removed renderer.
+			 */
+			virtual std::unique_ptr<Renderer> removeRenderer(Renderer* renderer) = 0;
 
+			/**
+			 * <p>
+			 * Sets the camera through which the scene will be rendered.
+			 * </p>
+			 *
+			 * @param camera The entity containing the camera component.
+			 */
 			virtual void setCamera(Entity* camera) = 0;
 
+			/**
+			 * <p>
+			 * Sets the graph that will be searched to determine which models to render and in which order. Using the
+			 * right graph for your scene can have a dramatic effect on performance. If no graph is specified, all the
+			 * models in the scene will be sent to the GPU.
+			 * </p>
+			 *
+			 * @return The graph.
+			 */
 			virtual void setGraph(Graph* graph) = 0;
 
+			/**
+			 * <p>
+			 * Sets the height of the viewport.
+			 * </p>
+			 *
+			 * @param height The height of the viewport.
+			 */
 			virtual void setHeight(int height) = 0;
 
+			/**
+			 * <p>
+			 * Sets the graph that will be searched when rendering using a particular render. If this is not called for
+			 * a particular renderer it will use the graph provided in setGraph(Graph*).
+			 * </p>
+			 *
+			 * @param renderer
+			 * @param root
+			 */
 			virtual void setRendererRoot(const Renderer& renderer, const Graph& root) = 0;
 
+			/**
+			 * <p>
+			 * Sets the width of the viewport.
+			 * </p>
+			 *
+			 * @param height The width of the viewport.
+			 */
 			virtual void setWidth(int width) = 0;
 	};
 }

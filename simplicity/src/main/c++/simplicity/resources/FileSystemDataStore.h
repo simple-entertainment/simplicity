@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,26 +14,36 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLEMODELFACTORY_H_
-#define SIMPLEMODELFACTORY_H_
+#ifndef FILESYSTEMDATASTORE_H_
+#define FILESYSTEMDATASTORE_H_
 
-#include "ModelFactory.h"
+#include <map>
+#include <memory>
+
+#include "DataStore.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * An ModelFactory implementation that uses the SimpleMesh.
-	 * </p>
-	 */
-	class SimpleModelFactory : public ModelFactory
+	class FileSystemDataStore : public DataStore
 	{
 		public:
-			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices);
+			FileSystemDataStore(const std::string& directory);
 
-			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices,
-				const std::vector<unsigned int>& indices);
+			Resource* create(const std::string& name, unsigned short category, bool binary);
+
+			bool exists(const std::string& name);
+
+			Resource* get(const std::string& name, unsigned short category, bool binary);
+
+			bool remove(Resource* resource);
+
+		private:
+			std::string directory;
+
+			std::map<std::string, std::unique_ptr<Resource>> resources;
+
+			std::string getUri(const std::string& name);
 	};
 }
 
-#endif /* SIMPLEMODELFACTORY_H_ */
+#endif /* FILESYSTEMDATASTORE_H_ */

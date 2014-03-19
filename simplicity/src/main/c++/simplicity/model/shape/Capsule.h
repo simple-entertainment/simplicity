@@ -21,19 +21,56 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A capsule.
+	 * </p>
+	 */
 	class Capsule : public Shape
 	{
 		public:
+			/**
+			 * @param length The length of the capsule.
+			 * @param radius The radius of the capsule.
+			 */
 			Capsule(float length, float radius);
 
+			/**
+			 * <p>
+			 * Retrieves the length of the capsule.
+			 * </p>
+			 *
+			 * @return The length of the capsule.
+			 */
 			float getLength() const;
 
+			/**
+			 * <p>
+			 * Retrieves the radius of the capsule.
+			 * </p>
+			 *
+			 * @return The radius of the capsule.
+			 */
 			float getRadius() const;
 
 			void render(Renderer& renderer) const;
 
+			/**
+			 * <p>
+			 * Sets the length of the capsule.
+			 * </p>
+			 *
+			 * @param length The length of the capsule.
+			 */
 			void setLength(const float length);
 
+			/**
+			 * <p>
+			 * Sets the radius of the capsule.
+			 * </p>
+			 *
+			 * @param radius The radius of the capsule.
+			 */
 			void setRadius(const float radius);
 
 		private:

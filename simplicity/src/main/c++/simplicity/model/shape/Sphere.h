@@ -21,15 +21,37 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A sphere.
+	 * </p>
+	 */
 	class Sphere : public Shape
 	{
 		public:
+			/**
+			 * @param radius The radius of this sphere.
+			 */
 			Sphere(float radius);
 
+			/**
+			 * <p>
+			 * Retrieves the radius of this sphere.
+			 * </p>
+			 *
+			 * @return The radius of this sphere.
+			 */
 			float getRadius() const;
 
 			void render(Renderer& renderer) const;
 
+			/**
+			 * <p>
+			 * Sets the radius of this sphere.
+			 * </p>
+			 *
+			 * @param radius The radius of this sphere.
+			 */
 			void setRadius(const float radius);
 
 		private:

@@ -21,17 +21,40 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A line between two points, A and B.
+	 * </p>
+	 */
 	class Line : public Model
 	{
 		public:
+			/**
+			 * @param pointA The point the line begins at.
+			 * @param pointB The point the line ends at.
+			 */
 			Line(const Vector3& pointA, const Vector3& pointB);
 
 			const Vector4& getColor() const;
 
 			Texture* getNormalMap() const;
 
+			/**
+			 * <p>
+			 * Retrieves the point the line begins at.
+			 * </p>
+			 *
+			 * @return The point the line begins at.
+			 */
 			const Vector3& getPointA() const;
 
+			/**
+			 * <p>
+			 * Retrieves the point the line ends at.
+			 * </p>
+			 *
+			 * @return The point the line ends at.
+			 */
 			const Vector3& getPointB() const;
 
 			PrimitiveType getPrimitiveType() const;
@@ -46,8 +69,22 @@ namespace simplicity
 
 			void setNormalMap(Texture* texture);
 
+			/**
+			 * <p>
+			 * Sets the point the line begins at.
+			 * </p>
+			 *
+			 * @param pointA The point the line begins at.
+			 */
 			void setPointA(const Vector3& pointA);
 
+			/**
+			 * <p>
+			 * Sets the point the line ends at.
+			 * </p>
+			 *
+			 * @param pointB The point the line ends at.
+			 */
 			void setPointB(const Vector3& pointB);
 
 			void setPrimitiveType(PrimitiveType primitiveType);

@@ -24,37 +24,154 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A rendering pipeline.
+	 * </p>
+	 */
 	class Shader
 	{
 		public:
+			/**
+			 * <p>
+			 * Allows polymorphism.
+			 * </p>
+			 */
 			virtual ~Shader()
 			{
 			}
 
+			/**
+			 * <p>
+			 * Applies this shader to the rendering environment.
+			 * </p>
+			 */
 			virtual void apply() = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& name, float value) = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& name, int value) = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& name, const Matrix44& value) = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& name, const Vector2& value) = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& name, const Vector3& value) = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& name, const Vector4& value) = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param structName The name of the struct the variable belongs to.
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& structName, const std::string& name, float value) = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param structName The name of the struct the variable belongs to.
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& structName, const std::string& name, int value) = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param structName The name of the struct the variable belongs to.
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& structName, const std::string& name, const Matrix44& value) = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param structName The name of the struct the variable belongs to.
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& structName, const std::string& name, const Vector2& value) = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param structName The name of the struct the variable belongs to.
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& structName, const std::string& name, const Vector3& value) = 0;
 
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param structName The name of the struct the variable belongs to.
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
 			virtual void setVar(const std::string& structName, const std::string& name, const Vector4& value) = 0;
 	};
 }

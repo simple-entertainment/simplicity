@@ -19,24 +19,51 @@
 
 namespace simplicity
 {
+	// TODO Move to messages API and rename to Subjects.
 	namespace Events
 	{
-		const unsigned short ADD_ENTITY = 0;
+		/**
+		 * <p>
+		 * Raised when a shader is being applied.
+		 * </p>
+		 */
+		const unsigned short APPLY_SHADER = 0;
 
-		const unsigned short APPLY_SHADER = 1;
+		/**
+		 * <p>
+		 * Raised when a keyboard button changes state.
+		 * </p>
+		 */
+		const unsigned short KEYBOARD_BUTTON = 1;
 
-		const unsigned short KEYBOARD_BUTTON = 2;
+		/**
+		 * <p>
+		 * Raised when a mouse button changes state.
+		 * </p>
+		 */
+		const unsigned short MOUSE_BUTTON = 2;
 
-		const unsigned short MOUSE_BUTTON = 3;
+		/**
+		 * <p>
+		 * Raised when a mouse is move.
+		 * </p>
+		 */
+		const unsigned short MOUSE_MOVE = 3;
 
-		const unsigned short MOUSE_MOVE = 4;
-
-		const unsigned short PICK = 5;
-
-		const unsigned short QUIT = 6;
-
-		const unsigned short REMOVE_ENTITY = 7;
-
+		/**
+		 * <p>
+		 * User defined subjects should start with this ID.
+		 * </p>
+		 *
+		 * <p>
+		 * For example:
+		 * </p>
+		 *
+		 * <pre><code>
+		 * const unsigned short MY_SUBJECT_1 = USER_ID_0;
+		 * const unsigned short MY_SUBJECT_2 = USER_ID_0 + 1;
+		 * </code></pre>
+		 */
 		const unsigned short USER_ID_0 = 128;
 	}
 }

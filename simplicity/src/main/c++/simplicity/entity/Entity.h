@@ -139,6 +139,8 @@ namespace simplicity
 			 * </p>
 			 *
 			 * @param component The component to remove.
+			 *
+			 * @return The removed component.
 			 */
 			std::shared_ptr<Component> removeSharedComponent(Component* component);
 
@@ -148,6 +150,8 @@ namespace simplicity
 			 * </p>
 			 *
 			 * @param component The component to remove.
+			 *
+			 * @return The removed component.
 			 */
 			std::unique_ptr<Component> removeUniqueComponent(Component* component);
 

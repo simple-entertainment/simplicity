@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,26 +14,45 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLEMODELFACTORY_H_
-#define SIMPLEMODELFACTORY_H_
+#ifndef FILESYSTEMRESOURCE_H_
+#define FILESYSTEMRESOURCE_H_
 
-#include "ModelFactory.h"
+#include <memory>
+
+#include "Resource.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * An ModelFactory implementation that uses the SimpleMesh.
-	 * </p>
-	 */
-	class SimpleModelFactory : public ModelFactory
+	class FileSystemResource : public Resource
 	{
 		public:
-			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices);
+			FileSystemResource(unsigned short category, const std::string& name, const std::string& uri, bool binary);
 
-			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices,
-				const std::vector<unsigned int>& indices);
+			unsigned short getCategory() const;
+
+			std::istream& getInputStream();
+
+			const std::string& getName() const;
+
+			std::ostream& getOutputStream(bool append = true);
+
+			const std::string& getUri() const;
+
+			bool isBinary() const;
+
+		private:
+			bool binary;
+
+			unsigned short category;
+
+			std::unique_ptr<std::istream> inputStream;
+
+			std::string name;
+
+			std::unique_ptr<std::ostream> outputStream;
+
+			std::string uri;
 	};
 }
 
-#endif /* SIMPLEMODELFACTORY_H_ */
+#endif /* FILESYSTEMRESOURCE_H_ */

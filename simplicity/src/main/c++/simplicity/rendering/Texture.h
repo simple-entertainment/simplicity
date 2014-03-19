@@ -21,19 +21,55 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A texture.
+	 * </p>
+	 */
 	class Texture
 	{
 		public:
+			/**
+			 * <p>
+			 * Allows polymorphism.
+			 * </p>
+			 */
 			virtual ~Texture()
 			{
 			}
 
+			/**
+			 * <p>
+			 * Applies this texture to a shader.
+			 * </p>
+			 *
+			 * @param shader The shader to apply this texture to.
+			 */
 			virtual void apply(Shader& shader) = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the height of this texture.
+			 * </p>
+			 *
+			 * @return The height of this texture.
+			 */
 			virtual unsigned int getHeight() = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the width of this texture.
+			 * </p>
+			 *
+			 * @return The width of this texture.
+			 */
 			virtual unsigned int getWidth() = 0;
 
+			/**
+			 * <p>
+			 * Initializes this texture.
+			 * </p>
+			 */
 			virtual void init() = 0;
 	};
 }

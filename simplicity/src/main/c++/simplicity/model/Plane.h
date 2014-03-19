@@ -21,17 +21,40 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A plane. Not the flying kind, the mathematical kind.
+	 * </p>
+	 */
 	class Plane : public Model
 	{
 		public:
+			/**
+			 * @param normal The normal of the plane.
+			 * @param positionOnPlane A position on the plane.
+			 */
 			Plane(const Vector3& normal, const Vector3& positionOnPlane);
 
 			const Vector4& getColor() const;
 
+			/**
+			 * <p>
+			 * Retrieves the normal of the plane.
+			 * </p>
+			 *
+			 * @return The normal of the plane.
+			 */
 			const Vector3& getNormal() const;
 
 			Texture* getNormalMap() const;
 
+			/**
+			 * <p>
+			 * Retrieves a position on the plane.
+			 * </p>
+			 *
+			 * @return A position on the plane.
+			 */
 			const Vector3& getPositionOnPlane() const;
 
 			PrimitiveType getPrimitiveType() const;
@@ -44,10 +67,24 @@ namespace simplicity
 
 			void setColor(const Vector4& color);
 
+			/**
+			 * <p>
+			 * Sets the normal of the plane.
+			 * </p>
+			 *
+			 * @param normal The normal of the plane.
+			 */
 			void setNormal(const Vector3& normal);
 
 			void setNormalMap(Texture* texture);
 
+			/**
+			 * <p>
+			 * Sets a position on the plane.
+			 * </p>
+			 *
+			 * @param positionOnPlane A position on the plane.
+			 */
 			void setPositionOnPlane(const Vector3& positionOnPlane);
 
 			void setPrimitiveType(PrimitiveType primitiveType);

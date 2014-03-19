@@ -24,45 +24,173 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A representation of 2D or 3D geometry.
+	 * </p>
+	 */
 	class Model : public Component
 	{
 		public:
+			/**
+			 * <p>
+			 * The type of primitive a model is constructed from.
+			 * </p>
+			 */
 			enum PrimitiveType
 			{
+				/**
+				 * <p>
+				 * A list of lines.
+				 * </p>
+				 */
 				LINE_LIST,
+
+				/**
+				 * <p>
+				 * A strip of lines.
+				 * </p>
+				 */
 				LINE_STRIP,
+
+				/**
+				 * <p>
+				 * The model is not constructed from primitives.
+				 * </p>
+				 */
 				NA,
+
+				/**
+				 * <p>
+				 * A list of points.
+				 * </p>
+				 */
 				POINTS,
+
+				/**
+				 * <p>
+				 * A list of triangles.
+				 * </p>
+				 */
 				TRIANGLE_LIST,
+
+				/**
+				 * <p>
+				 * A strip of triangles.
+				 * </p>
+				 */
 				TRIANGLE_STRIP
 			};
 
 			Model();
 
+			/**
+			 * <p>
+			 * Allows polymorphism.
+			 * </p>
+			 */
 			virtual ~Model()
 			{
 			}
 
+			/**
+			 * <p>
+			 * Retrieves the color of this model.
+			 * </p>
+			 *
+			 * @return The color of this model.
+			 */
 			virtual const Vector4& getColor() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the normal map applied to this model.
+			 * </p>
+			 *
+			 * @return The normal map applied to this model.
+			 */
 			virtual Texture* getNormalMap() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the type of primitive this model is constructed from.
+			 * </p>
+			 *
+			 * @return The type of primitive this model is constructed from.
+			 */
 			virtual PrimitiveType getPrimitiveType() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the texture applied to this model.
+			 * </p>
+			 *
+			 * @return The texture applied to this model.
+			 */
 			virtual Texture* getTexture() const = 0;
 
+			/**
+			 * <p>
+			 * Determines if this model is visible.
+			 * </p>
+			 *
+			 * @return True if this model is visible, false otherwise.
+			 */
 			virtual bool isVisible() const = 0;
 
+			/**
+			 * <p>
+			 * Renders this model using the specified renderer. This is provided to allow double-dispatch so that the
+			 * type of the model is known to the renderer.
+			 * </p>
+			 *
+			 * @param renderer The renderer.
+			 */
 			virtual void render(Renderer& renderer) const = 0;
 
+			/**
+			 * <p>
+			 * Sets the color of this model.
+			 * </p>
+			 *
+			 * @param color The color of this model.
+			 */
 			virtual void setColor(const Vector4& color) = 0;
 
-			virtual void setNormalMap(Texture* texture) = 0;
+			/**
+			 * <p>
+			 * Sets the normal map applied to this model.
+			 * </p>
+			 *
+			 * @param normalMap The normal map applied to this model.
+			 */
+			virtual void setNormalMap(Texture* normalMap) = 0;
 
+			/**
+			 * <p>
+			 * Sets the type of primitive this model is constructed from.
+			 * </p>
+			 *
+			 * @param primitiveType The type of primitive this model is constructed from.
+			 */
 			virtual void setPrimitiveType(PrimitiveType primitiveType) = 0;
 
+			/**
+			 * <p>
+			 * Sets the texture applied to this model.
+			 * </p>
+			 *
+			 * @param texture The texture applied to this model.
+			 */
 			virtual void setTexture(Texture* texture) = 0;
 
+			/**
+			 * <p>
+			 * Sets if this model is visible.
+			 * </p>
+			 *
+			 * @param visible The visibility of the model.
+			 */
 			virtual void setVisible(bool visible) = 0;
 	};
 }

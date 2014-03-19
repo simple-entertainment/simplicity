@@ -24,11 +24,20 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A simple implementation of a mesh. No fancy GPU stuff here.
+	 * </p>
+	 */
 	class SimpleMesh : public Mesh
 	{
 		public:
 			SimpleMesh();
 
+			/**
+			 * @param indices The indices into the collection of vertices.
+			 * @param vertices The collection of vertices.
+			 */
 			SimpleMesh(const std::vector<unsigned int>& indices, const std::vector<Vertex>& vertices);
 
 			const Vector4& getColor() const;
@@ -38,8 +47,6 @@ namespace simplicity
 			const std::vector<unsigned int>& getIndices() const;
 
 			Texture* getNormalMap() const;
-
-			const Vector2& getPosition() const;
 
 			PrimitiveType getPrimitiveType() const;
 
@@ -57,8 +64,6 @@ namespace simplicity
 
 			void setNormalMap(Texture* texture);
 
-			void setPosition(const Vector2& position);
-
 			void setPrimitiveType(PrimitiveType primitiveType);
 
 			void setTexture(Texture* texture);
@@ -71,8 +76,6 @@ namespace simplicity
 			std::vector<unsigned int> indices;
 
 			static unsigned int nextID;
-
-			Vector2 position;
 
 			PrimitiveType primitiveType;
 

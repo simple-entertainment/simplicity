@@ -21,19 +21,56 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A torus.
+	 * </p>
+	 */
 	class Torus : public Shape
 	{
 		public:
+			/**
+			 * @param innerRadius The radius of the inner edge of the torus.
+			 * @param outerRadius The radius of the outer edge of the torus.
+			 */
 			Torus(float innerRadius, float outerRadius);
 
+			/**
+			 * <p>
+			 * Retrieves the radius of the inner edge of the torus.
+			 * </p>
+			 *
+			 * @return The radius of the inner edge of the torus.
+			 */
 			float getInnerRadius() const;
 
+			/**
+			 * <p>
+			 * Retrieves the radius of the outer edge of the torus.
+			 * </p>
+			 *
+			 * @return The radius of the outer edge of the torus.
+			 */
 			float getOuterRadius() const;
 
 			void render(Renderer& renderer) const;
 
+			/**
+			 * <p>
+			 * Sets the radius of the inner edge of the torus.
+			 * </p>
+			 *
+			 * @param innerRadius The radius of the inner edge of the torus.
+			 */
 			void setInnerRadius(const float innerRadius);
 
+			/**
+			 * <p>
+			 * Sets the radius of the outer edge of the torus.
+			 * </p>
+			 *
+			 * @param outerRadius The radius of the outer edge of the torus.
+			 */
 			void setOuterRadius(const float outerRadius);
 
 		private:

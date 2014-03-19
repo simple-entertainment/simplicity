@@ -21,15 +21,30 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A lonesome point in space... just used as a container so that a point can be used polymorphically as a model.
+	 * </p>
+	 */
 	class Point : public Model
 	{
 		public:
+			/**
+			 * @param point The point.
+			 */
 			Point(const Vector3& point);
 
 			const Vector4& getColor() const;
 
 			Texture* getNormalMap() const;
 
+			/**
+			 * <p>
+			 * Retrieves the point.
+			 * </p>
+			 *
+			 * @return The point.
+			 */
 			const Vector3& getPoint() const;
 
 			PrimitiveType getPrimitiveType() const;
@@ -44,6 +59,13 @@ namespace simplicity
 
 			void setNormalMap(Texture* texture);
 
+			/**
+			 * <p>
+			 * Sets the point.
+			 * </p>
+			 *
+			 * @param point The point.
+			 */
 			void setPoint(const Vector3& point);
 
 			void setPrimitiveType(PrimitiveType primitiveType);

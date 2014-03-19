@@ -21,15 +21,37 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A square.
+	 * </p>
+	 */
 	class Square : public Shape
 	{
 		public:
+			/**
+			 * @param halfEdgeLength Half the length of both dimensions of the cube.
+			 */
 			Square(float halfEdgeLength);
 
+			/**
+			 * <p>
+			 * Retrieves half the length of both dimensions of the cube.
+			 * </p>
+			 *
+			 * @return Half the length of both dimensions of the cube.
+			 */
 			float getHalfEdgeLength() const;
 
 			void render(Renderer& renderer) const;
 
+			/**
+			 * <p>
+			 * Sets half the length of both dimensions of the cube.
+			 * </p>
+			 *
+			 * @param halfEdgeLength Half the length of both dimensions of the cube.
+			 */
 			void setHalfEdgeLength(float halfEdgeLength);
 
 		private:

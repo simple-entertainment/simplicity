@@ -90,16 +90,23 @@
 #include "physics/PhysicsFactory.h"
 
 // Rendering
+#include "rendering/Camera.h"
+#include "rendering/Light.h"
 #include "rendering/Renderer.h"
 #include "rendering/RenderingEngine.h"
 #include "rendering/RenderingFactory.h"
 #include "rendering/Shader.h"
 #include "rendering/Texture.h"
 
+// Resources
+#include "resources/DataStore.h"
+#include "resources/FileSystemDataStore.h"
+#include "resources/FileSystemResource.h"
+#include "resources/Resource.h"
+#include "resources/Resources.h"
+
 // Scene
-#include "scene/Camera.h"
 #include "scene/FlyingCameraEngine.h"
-#include "scene/Light.h"
 
 // Scripting
 #include "scripting/Script.h"

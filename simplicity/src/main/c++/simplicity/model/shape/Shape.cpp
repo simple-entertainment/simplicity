@@ -21,12 +21,7 @@ namespace simplicity
 	Shape::Shape() :
 		color(0.0f, 0.0f, 0.0f, 1.0f),
 		levelOfDetail(1),
-		primitiveType(TRIANGLE_LIST),
 		visible(true)
-	{
-	}
-
-	Shape::~Shape()
 	{
 	}
 
@@ -47,7 +42,7 @@ namespace simplicity
 
 	Model::PrimitiveType Shape::getPrimitiveType() const
 	{
-		return primitiveType;
+		return PrimitiveType::NA;
 	}
 
 	Texture* Shape::getTexture() const
@@ -74,9 +69,8 @@ namespace simplicity
 	{
 	}
 
-	void Shape::setPrimitiveType(PrimitiveType primitiveType)
+	void Shape::setPrimitiveType(PrimitiveType /* primitiveType */)
 	{
-		this->primitiveType = primitiveType;
 	}
 
 	void Shape::setTexture(Texture*)

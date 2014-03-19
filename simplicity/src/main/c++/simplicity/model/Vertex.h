@@ -21,11 +21,39 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A vertex in a mesh.
+	 * </p>
+	 */
 	struct Vertex
 	{
+		/**
+		 * <p>
+		 * The color of the vertex.
+		 * </p>
+		 */
 		Vector4 color;
+
+		/**
+		 * <p>
+		 * The normal of the vertex.
+		 * </p>
+		 */
 		Vector3 normal;
+
+		/**
+		 * <p>
+		 * The position of the vertex.
+		 * </p>
+		 */
 		Vector3 position;
+
+		/**
+		 * <p>
+		 * The texture coordinate of the vertex.
+		 * </p>
+		 */
 		Vector2 texCoord;
 	};
 }

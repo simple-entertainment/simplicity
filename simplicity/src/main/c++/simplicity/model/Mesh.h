@@ -24,19 +24,48 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A collection of indexed vertices.
+	 * </p>
+	 */
 	class Mesh : public Model
 	{
 		public:
-			virtual ~Mesh()
-			{
-			}
-
+			/**
+			 * <p>
+			 * Retrieves the indices into the collection of vertices.
+			 * </p>
+			 *
+			 * @return The indices into the collection of vertices.
+			 */
 			virtual std::vector<unsigned int>& getIndices() = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the indices into the collection of vertices.
+			 * </p>
+			 *
+			 * @return The indices into the collection of vertices.
+			 */
 			virtual const std::vector<unsigned int>& getIndices() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the collection of vertices.
+			 * </p>
+			 *
+			 * @return The collection of vertices.
+			 */
 			virtual std::vector<Vertex>& getVertices() = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the collection of vertices.
+			 * </p>
+			 *
+			 * @return The collection of vertices.
+			 */
 			virtual const std::vector<Vertex>& getVertices() const = 0;
 	};
 }

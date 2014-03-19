@@ -23,18 +23,54 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A factory that creates physical bodies.
+	 * </p>
+	 */
 	class PhysicsFactory
 	{
 		public:
+			/**
+			 * <p>
+			 * Allows polymorphism.
+			 * </p>
+			 */
 			virtual ~PhysicsFactory()
 			{
 			}
 
+			/**
+			 * <p>
+			 * Creates a physical body.
+			 * </p>
+			 *
+			 * @param material The material to construct the body from.
+			 * @param model The geometry of the body.
+			 * @param transform The position and orientation of the body.
+			 * @param dynamic Dynamic or static?
+			 *
+			 * @return A physical body.
+			 */
 			virtual std::unique_ptr<Body> createBody(const Body::Material& material, Model* model,
 					const Matrix44& transform, bool dynamic = true) = 0;
 
-			static PhysicsFactory& getInstance();
+			/**
+			 * <p>
+			 * Retrieves the concrete factory instance used to create the physical bodies.
+			 * </p>
+			 *
+			 * @return The concrete factory instance.
+			 */
+			static PhysicsFactory* getInstance();
 
+			/**
+			 * <p>
+			 * Sets the concrete factory instance used to create the physical bodies.
+			 * </p>
+			 *
+			 * @param instance The concrete factory instance.
+			 */
 			static void setInstance(std::unique_ptr<PhysicsFactory> instance);
 
 		private:

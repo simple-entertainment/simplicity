@@ -21,15 +21,37 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A circle.
+	 * </p>
+	 */
 	class Circle : public Shape
 	{
 		public:
+			/**
+			 * @param radius The radius of the circle.
+			 */
 			Circle(float radius);
 
+			/**
+			 * <p>
+			 * Retrieves the radius of the circle.
+			 * </p>
+			 *
+			 * @return The radius of the circle.
+			 */
 			float getRadius() const;
 
 			void render(Renderer& renderer) const;
 
+			/**
+			 * <p>
+			 * Sets the radius of the circle.
+			 * </p>
+			 *
+			 * @param radius The radius of the circle.
+			 */
 			void setRadius(float radius);
 
 		private:

@@ -25,275 +25,33 @@ namespace simplicity
 {
 	unique_ptr<ModelFactory> ModelFactory::instance = unique_ptr<ModelFactory>();
 
-	void ModelFactory::addCircleIndexList(std::vector<unsigned int>& indices, unsigned int index,
-			unsigned int vertexIndex, unsigned int divisions, bool reverse)
-	{
-		for (unsigned int division = 0; division < divisions; division++)
-		{
-			unsigned int index1 = division + 1;
-			unsigned int index2 = 0;
-			if (division == divisions - 1)
-			{
-				index2 = 1;
-			}
-			else
-			{
-				index2 = division + 2;
-			}
-
-			if (reverse)
-			{
-				indices[index + division * 3] = vertexIndex;
-				indices[index + division * 3 + 1] = vertexIndex + index1;
-				indices[index + division * 3 + 2] = vertexIndex + index2;
-			}
-			else
-			{
-				indices[index + division * 3] = vertexIndex;
-				indices[index + division * 3 + 1] = vertexIndex + index2;
-				indices[index + division * 3 + 2] = vertexIndex + index1;
-			}
-		}
-	}
-
-	void ModelFactory::addCircleVertexList(std::vector<Vertex>& vertices, unsigned int index, float radius,
-			unsigned int divisions, const Vector3& center, const Vector4& color)
-	{
-		Vector3 normal(0.0f, 0.0f, 1.0f);
-
-		vertices[index].color = color;
-		vertices[index].normal = normal;
-		vertices[index].position = center;
-
-		for (unsigned int division = 0; division < divisions; division++)
-		{
-			float toPosition = 2 * MathConstants::PI * division / divisions;
-			Vector3 position(sin(toPosition), cos(toPosition), 0.0f);
-			position *= radius;
-
-			vertices[index + division + 1].color = color;
-			vertices[index + division + 1].normal = normal;
-			vertices[index + division + 1].position = center + position;
-		}
-	}
-
-	void ModelFactory::addRectangleIndexList(vector<unsigned int>& indices, unsigned int index,
-		unsigned int vertexIndex, bool reverse)
-	{
-		if (reverse)
-		{
-			indices[index] = vertexIndex + 2;
-			indices[index + 1] = vertexIndex + 1;
-			indices[index + 2] = vertexIndex;
-			indices[index + 3] = vertexIndex;
-			indices[index + 4] = vertexIndex + 3;
-			indices[index + 5] = vertexIndex + 2;
-		}
-		else
-		{
-			indices[index] = vertexIndex;
-			indices[index + 1] = vertexIndex + 1;
-			indices[index + 2] = vertexIndex + 2;
-			indices[index + 3] = vertexIndex + 2;
-			indices[index + 4] = vertexIndex + 3;
-			indices[index + 5] = vertexIndex;
-		}
-	}
-
-	void ModelFactory::addRectangleVertexList(vector<Vertex>& vertices, unsigned int index, const Vector3& topLeft,
-			const Vector3& toTopRight, const Vector3& toBottomLeft, const Vector4& color)
-	{
-		Vector3 normal = crossProduct(toTopRight, toBottomLeft);
-		normal.normalize();
-
-		float height = toBottomLeft.getMagnitude();
-		float width = toTopRight.getMagnitude();
-
-		float texHeight;
-		float texWidth;
-		if (height > width)
-		{
-			texHeight = height / width;
-			texWidth = 1.0f;
-		}
-		else
-		{
-			texHeight = 1.0f;
-			texWidth = width / height;
-		}
-
-		vertices[index].color = color;
-		vertices[index].normal = normal;
-		vertices[index].position = topLeft;
-		vertices[index].texCoord = Vector2(texWidth, 0.0f);
-		vertices[index + 1].color = color;
-		vertices[index + 1].normal = normal;
-		vertices[index + 1].position = topLeft + toTopRight;
-		vertices[index + 1].texCoord = Vector2(0.0f, 0.0f);
-		vertices[index + 2].color = color;
-		vertices[index + 2].normal = normal;
-		vertices[index + 2].position = topLeft + toTopRight + toBottomLeft;
-		vertices[index + 2].texCoord = Vector2(0.0f, texHeight);
-		vertices[index + 3].color = color;
-		vertices[index + 3].normal = normal;
-		vertices[index + 3].position = topLeft + toBottomLeft;
-		vertices[index + 3].texCoord = Vector2(texWidth, texHeight);
-	}
-
-	void ModelFactory::addTriangleIndexList(std::vector<unsigned int>& indices, unsigned int index,
-		unsigned int vertexIndex, bool reverse)
-	{
-		if (reverse)
-		{
-			indices[index] = vertexIndex;
-			indices[index + 1] = vertexIndex + 2;
-			indices[index + 2] = vertexIndex + 1;
-		}
-		else
-		{
-			indices[index] = vertexIndex;
-			indices[index + 1] = vertexIndex + 1;
-			indices[index + 2] = vertexIndex + 2;
-		}
-	}
-
-	void ModelFactory::addTriangleVertexList(std::vector<Vertex>& vertices, unsigned int index, const Vector3& top,
-			const Vector3& toBottomLeft, const Vector3& toBottomRight, const Vector4& color)
-	{
-		Vector3 normal = crossProduct(toBottomRight, toBottomLeft);
-		normal.normalize();
-
-		Vector3 across = (top + toBottomRight) - (top + toBottomLeft);
-		float scalarProjection = getScalarProjection(toBottomRight, across);
-		float texWidthAtTop = scalarProjection / across.getMagnitude();
-		Vector3 projection = across;
-		projection.normalize();
-		projection *= scalarProjection;
-		Vector3 down = toBottomRight - projection;
-		float texHeightAtBottom = down.getMagnitude() / across.getMagnitude();
-
-		vertices[index].color = color;
-		vertices[index].normal = normal;
-		vertices[index].position = top;
-		vertices[index].texCoord = Vector2(texWidthAtTop, 0.0f);
-		vertices[index + 1].color = color;
-		vertices[index + 1].normal = normal;
-		vertices[index + 1].position = top + toBottomLeft;
-		vertices[index + 1].texCoord = Vector2(1.0f, texHeightAtBottom);
-		vertices[index + 2].color = color;
-		vertices[index + 2].normal = normal;
-		vertices[index + 2].position = top + toBottomRight;
-		vertices[index + 2].texCoord = Vector2(0.0f, texHeightAtBottom);
-	}
-
-	void ModelFactory::addTunnelIndexList(std::vector<unsigned int>& indices, unsigned int index,
-			unsigned int vertexIndex, unsigned int divisions, bool reverse)
-	{
-		for (unsigned int division = 0; division < divisions; division++)
-		{
-			unsigned int indexOffset = index + division * 6;
-			unsigned int vertexIndexOffset = vertexIndex + division * 4;
-
-			if (reverse)
-			{
-				indices[indexOffset] = vertexIndexOffset + 1;
-				indices[indexOffset + 1] = vertexIndexOffset + 2;
-				indices[indexOffset + 2] = vertexIndexOffset;
-
-				indices[indexOffset + 3] = vertexIndexOffset + 2;
-				indices[indexOffset + 4] = vertexIndexOffset + 1;
-				indices[indexOffset + 5] = vertexIndexOffset + 3;
-			}
-			else
-			{
-				indices[indexOffset] = vertexIndexOffset;
-				indices[indexOffset + 1] = vertexIndexOffset + 2;
-				indices[indexOffset + 2] = vertexIndexOffset + 1;
-
-				indices[indexOffset + 3] = vertexIndexOffset + 3;
-				indices[indexOffset + 4] = vertexIndexOffset + 1;
-				indices[indexOffset + 5] = vertexIndexOffset + 2;
-			}
-		}
-	}
-
-	void ModelFactory::addTunnelVertexList(std::vector<Vertex>& vertices, unsigned int index, float radius,
-			float length, unsigned int divisions, const Vector3& center, const Vector4& color, bool smooth)
-	{
-		Vector3 toEnd(0.0f, 0.0f, -length);
-
-		for (unsigned int division = 0; division < divisions; division++)
-		{
-			float radiansToPositionA = 2 * MathConstants::PI * division / divisions;
-			float radiansToPositionB = 2 * MathConstants::PI * (division + 1) / divisions;
-			Vector3 positionA(sin(radiansToPositionA), cos(radiansToPositionA), 0.0f);
-			Vector3 positionB(sin(radiansToPositionB), cos(radiansToPositionB), 0.0f);
-			positionA *= radius;
-			positionB *= radius;
-
-			unsigned int indexOffset = index + division * 4;
-
-			vertices[indexOffset].color = color;
-			vertices[indexOffset].position = center + positionA;
-			vertices[indexOffset + 1].color = color;
-			vertices[indexOffset + 1].position = center + positionA + toEnd;
-			vertices[indexOffset + 2].color = color;
-			vertices[indexOffset + 2].position = center + positionB;
-			vertices[indexOffset + 3].color = color;
-			vertices[indexOffset + 3].position = center + positionB + toEnd;
-
-			if (smooth)
-			{
-				vertices[indexOffset].normal = positionA;
-				vertices[indexOffset].normal.normalize();
-				vertices[indexOffset + 1].normal = positionA;
-				vertices[indexOffset + 1].normal.normalize();
-				vertices[indexOffset + 2].normal = positionB;
-				vertices[indexOffset + 2].normal.normalize();
-				vertices[indexOffset + 3].normal = positionB;
-				vertices[indexOffset + 3].normal.normalize();
-			}
-			else
-			{
-				Vector3 edge0 = positionB - positionA;
-				Vector3 edge1 = toEnd;
-				Vector3 normal = crossProduct(edge0, edge1);
-
-				vertices[indexOffset].normal = normal;
-				vertices[indexOffset + 1].normal = normal;
-				vertices[indexOffset + 2].normal = normal;
-				vertices[indexOffset + 3].normal = normal;
-			}
-		}
-	}
-
 	unique_ptr<Mesh> ModelFactory::createBoxMesh(const Vector3& halfExtents, const Vector4& color, bool doubleSided)
 	{
 		// Vertices
 		vector<Vertex> vertices(24);
 
 		// Top
-		addRectangleVertexList(vertices, 0, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+		insertRectangleVertices(vertices, 0, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
 			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * -2.0f), color);
 
 		// Bottom
-		addRectangleVertexList(vertices, 4, Vector3(-halfExtents.X(), -halfExtents.Y(), -halfExtents.Z()),
+		insertRectangleVertices(vertices, 4, Vector3(-halfExtents.X(), -halfExtents.Y(), -halfExtents.Z()),
 			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f), color);
 
 		// North
-		addRectangleVertexList(vertices, 8, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+		insertRectangleVertices(vertices, 8, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
 			Vector3(halfExtents.X() * -2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// East
-		addRectangleVertexList(vertices, 12, Vector3(halfExtents.X(), halfExtents.Y(), -halfExtents.Z()),
+		insertRectangleVertices(vertices, 12, Vector3(halfExtents.X(), halfExtents.Y(), -halfExtents.Z()),
 			Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// South
-		addRectangleVertexList(vertices, 16, Vector3(-halfExtents.X(), halfExtents.Y(), -halfExtents.Z()),
+		insertRectangleVertices(vertices, 16, Vector3(-halfExtents.X(), halfExtents.Y(), -halfExtents.Z()),
 			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// West
-		addRectangleVertexList(vertices, 20, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+		insertRectangleVertices(vertices, 20, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
 			Vector3(0.0f, 0.0f, halfExtents.Z() * -2.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// Indices
@@ -307,21 +65,21 @@ namespace simplicity
 			indices.resize(36);
 		}
 
-		addRectangleIndexList(indices, 0, 0);
-		addRectangleIndexList(indices, 6, 4);
-		addRectangleIndexList(indices, 12, 8);
-		addRectangleIndexList(indices, 18, 12);
-		addRectangleIndexList(indices, 24, 16);
-		addRectangleIndexList(indices, 30, 20);
+		insertRectangleIndices(indices, 0, 0);
+		insertRectangleIndices(indices, 6, 4);
+		insertRectangleIndices(indices, 12, 8);
+		insertRectangleIndices(indices, 18, 12);
+		insertRectangleIndices(indices, 24, 16);
+		insertRectangleIndices(indices, 30, 20);
 
 		if (doubleSided)
 		{
-			addRectangleIndexList(indices, 36, 0, true);
-			addRectangleIndexList(indices, 42, 4, true);
-			addRectangleIndexList(indices, 48, 8, true);
-			addRectangleIndexList(indices, 54, 12, true);
-			addRectangleIndexList(indices, 60, 16, true);
-			addRectangleIndexList(indices, 66, 20, true);
+			insertRectangleIndices(indices, 36, 0, true);
+			insertRectangleIndices(indices, 42, 4, true);
+			insertRectangleIndices(indices, 48, 8, true);
+			insertRectangleIndices(indices, 54, 12, true);
+			insertRectangleIndices(indices, 60, 16, true);
+			insertRectangleIndices(indices, 66, 20, true);
 		}
 
 		return createMesh(vertices, indices);
@@ -331,11 +89,11 @@ namespace simplicity
 	{
 		// Vertices
 		vector<Vertex> vertices(divisions + 1);
-		addCircleVertexList(vertices, 0, radius, divisions, Vector3(0.0f, 0.0f, 0.0f), color);
+		insertCircleVertices(vertices, 0, radius, divisions, Vector3(0.0f, 0.0f, 0.0f), color);
 
 		// Indices
 		vector<unsigned int> indices(divisions * 3);
-		addCircleIndexList(indices, 0, 0, divisions);
+		insertCircleIndices(indices, 0, 0, divisions);
 
 		return createMesh(vertices, indices);
 	}
@@ -359,13 +117,13 @@ namespace simplicity
 		vector<Vertex> vertices(verticesInEnds + verticesInSides);
 
 		// Front
-		addCircleVertexList(vertices, 0, radius, divisions, center, color);
+		insertCircleVertices(vertices, 0, radius, divisions, center, color);
 
 		// Back
-		addCircleVertexList(vertices, verticesInEnd, radius, divisions, toBack, color);
+		insertCircleVertices(vertices, verticesInEnd, radius, divisions, toBack, color);
 
 		// Sides
-		addTunnelVertexList(vertices, verticesInEnds, radius, length, divisions, center, color, smooth);
+		insertTunnelVertices(vertices, verticesInEnds, radius, length, divisions, center, color, smooth);
 
 		// Indices
 		unsigned int indicesInEnd = divisions * 3;
@@ -383,24 +141,24 @@ namespace simplicity
 		}
 
 		// Front
-		addCircleIndexList(indices, 0, 0, divisions);
+		insertCircleIndices(indices, 0, 0, divisions);
 
 		// Back
-		addCircleIndexList(indices, indicesInEnd, verticesInEnd, divisions, true);
+		insertCircleIndices(indices, indicesInEnd, verticesInEnd, divisions, true);
 
 		//Sides
-		addTunnelIndexList(indices, indicesInEnds, verticesInEnds, divisions);
+		insertTunnelIndices(indices, indicesInEnds, verticesInEnds, divisions);
 
 		if (doubleSided)
 		{
 			// Front
-			addCircleIndexList(indices, indicesInEnds + indicesInSides, 0, divisions, true);
+			insertCircleIndices(indices, indicesInEnds + indicesInSides, 0, divisions, true);
 
 			// Back
-			addCircleIndexList(indices, indicesInEnds + indicesInSides + indicesInEnd, verticesInEnd, divisions);
+			insertCircleIndices(indices, indicesInEnds + indicesInSides + indicesInEnd, verticesInEnd, divisions);
 
 			//Sides
-			addTunnelIndexList(indices, indicesInEnds + indicesInSides + indicesInEnds, verticesInEnds, divisions,
+			insertTunnelIndices(indices, indicesInEnds + indicesInSides + indicesInEnds, verticesInEnds, divisions,
 					true);
 		}
 
@@ -436,11 +194,11 @@ namespace simplicity
 				Vector3 toPosition1 = position1 - position0;
 				Vector3 toPosition2 = position2 - position0;
 
-				addTriangleVertexList(vertices, vertexIndex, position0, toPosition1, toPosition2, color);
+				insertTriangleVertices(vertices, vertexIndex, position0, toPosition1, toPosition2, color);
 
 				Vector3 toPosition3 = position3 - position0;
 
-				addTriangleVertexList(vertices, vertexIndex + 3, position0, toPosition2, toPosition3, color);
+				insertTriangleVertices(vertices, vertexIndex + 3, position0, toPosition2, toPosition3, color);
 			}
 		}
 
@@ -503,36 +261,36 @@ namespace simplicity
 		Vector3 normal;
 
 		// Bottom
-		addRectangleVertexList(vertices, 0, Vector3(-halfExtents.X(), -halfExtents.Y(), -halfExtents.Z()),
+		insertRectangleVertices(vertices, 0, Vector3(-halfExtents.X(), -halfExtents.Y(), -halfExtents.Z()),
 			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f), color);
 
 		// North
-		addRectangleVertexList(vertices, 4, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+		insertRectangleVertices(vertices, 4, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
 			Vector3(halfExtents.X() * -2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// East
-		addTriangleVertexList(vertices, 8, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+		insertTriangleVertices(vertices, 8, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
 			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f),
 			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f), color);
 
 		// South (slope)
-		addRectangleVertexList(vertices, 11, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+		insertRectangleVertices(vertices, 11, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
 			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f),
 			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f), color);
 
 		// West
-		addTriangleVertexList(vertices, 15, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
+		insertTriangleVertices(vertices, 15, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
 			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f),
 			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
 
 		// Indices
 		vector<unsigned int> indices(24);
 
-		addRectangleIndexList(indices, 0, 0);
-		addRectangleIndexList(indices, 6, 4);
-		addTriangleIndexList(indices, 12, 8);
-		addRectangleIndexList(indices, 15, 11);
-		addTriangleIndexList(indices, 21, 15);
+		insertRectangleIndices(indices, 0, 0);
+		insertRectangleIndices(indices, 6, 4);
+		insertTriangleIndices(indices, 12, 8);
+		insertRectangleIndices(indices, 15, 11);
+		insertTriangleIndices(indices, 21, 15);
 
 		return createMesh(vertices, indices);
 	}
@@ -543,37 +301,37 @@ namespace simplicity
 		vector<Vertex> vertices(16);
 
 		// Bottom
-		addRectangleVertexList(vertices, 0, Vector3(-halfBaseExtent, -height * 0.5f, -halfBaseExtent),
+		insertRectangleVertices(vertices, 0, Vector3(-halfBaseExtent, -height * 0.5f, -halfBaseExtent),
 			Vector3(halfBaseExtent * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfBaseExtent * 2.0f), color);
 
 		// North
-		addTriangleVertexList(vertices, 4, Vector3(0.0f, height * 0.5f, 0.0f),
+		insertTriangleVertices(vertices, 4, Vector3(0.0f, height * 0.5f, 0.0f),
 				Vector3(-halfBaseExtent, -height, halfBaseExtent), Vector3(halfBaseExtent, -height, halfBaseExtent),
 				color);
 
 		// East
-		addTriangleVertexList(vertices, 7, Vector3(0.0f, height * 0.5f, 0.0f),
+		insertTriangleVertices(vertices, 7, Vector3(0.0f, height * 0.5f, 0.0f),
 				Vector3(halfBaseExtent, -height, halfBaseExtent), Vector3(halfBaseExtent, -height, -halfBaseExtent),
 			color);
 
 		// South
-		addTriangleVertexList(vertices, 10, Vector3(0.0f, height * 0.5f, 0.0f),
+		insertTriangleVertices(vertices, 10, Vector3(0.0f, height * 0.5f, 0.0f),
 				Vector3(halfBaseExtent, -height, -halfBaseExtent), Vector3(-halfBaseExtent, -height, -halfBaseExtent),
 			color);
 
 		// West
-		addTriangleVertexList(vertices, 13, Vector3(0.0f, height * 0.5f, 0.0f),
+		insertTriangleVertices(vertices, 13, Vector3(0.0f, height * 0.5f, 0.0f),
 				Vector3(-halfBaseExtent, -height, -halfBaseExtent), Vector3(-halfBaseExtent, -height, halfBaseExtent),
 			color);
 
 		// Indices
 		vector<unsigned int> indices(18);
 
-		addRectangleIndexList(indices, 0, 0);
-		addTriangleIndexList(indices, 6, 4);
-		addTriangleIndexList(indices, 9, 7);
-		addTriangleIndexList(indices, 12, 10);
-		addTriangleIndexList(indices, 15, 13);
+		insertRectangleIndices(indices, 0, 0);
+		insertTriangleIndices(indices, 6, 4);
+		insertTriangleIndices(indices, 9, 7);
+		insertTriangleIndices(indices, 12, 10);
+		insertTriangleIndices(indices, 15, 13);
 
 		return createMesh(vertices, indices);
 	}
@@ -673,7 +431,7 @@ namespace simplicity
 		// Vertices
 		vector<Vertex> vertices(4);
 
-		addRectangleVertexList(vertices, 0, Vector3(-halfExtent, halfExtent, 0.0f),
+		insertRectangleVertices(vertices, 0, Vector3(-halfExtent, halfExtent, 0.0f),
 			Vector3(halfExtent * 2.0f, 0.0f, 0.0f), Vector3(0.0f, -halfExtent * 2.0f, 0.0f), color);
 
 		// Indices
@@ -681,13 +439,13 @@ namespace simplicity
 		if (doubleSided)
 		{
 			indices.resize(12);
-			addRectangleIndexList(indices, 0, 0);
-			addRectangleIndexList(indices, 6, 0, true);
+			insertRectangleIndices(indices, 0, 0);
+			insertRectangleIndices(indices, 6, 0, true);
 		}
 		else
 		{
 			indices.resize(6);
-			addRectangleIndexList(indices, 0, 0);
+			insertRectangleIndices(indices, 0, 0);
 		}
 
 		return createMesh(vertices, indices);
@@ -699,20 +457,20 @@ namespace simplicity
 		// Vertices
 		vector<Vertex> vertices(3);
 
-		addTriangleVertexList(vertices, 0, top, toBottomLeft, toBottomRight, color);
+		insertTriangleVertices(vertices, 0, top, toBottomLeft, toBottomRight, color);
 
 		// Indices
 		vector<unsigned int> indices;
 		if (doubleSided)
 		{
 			indices.resize(6);
-			addTriangleIndexList(indices, 0, 0);
-			addTriangleIndexList(indices, 3, 0, true);
+			insertTriangleIndices(indices, 0, 0);
+			insertTriangleIndices(indices, 3, 0, true);
 		}
 		else
 		{
 			indices.resize(3);
-			addTriangleIndexList(indices, 0, 0);
+			insertTriangleIndices(indices, 0, 0);
 		}
 
 		return createMesh(vertices, indices);
@@ -723,11 +481,6 @@ namespace simplicity
 		return *instance;
 	}
 
-	void ModelFactory::setInstance(unique_ptr<ModelFactory> instance)
-	{
-		ModelFactory::instance = move(instance);
-	}
-
 	Vector3 ModelFactory::getPointOnSphere(float radius, unsigned int divisions, unsigned int latitude,
 			unsigned int longitude)
 	{
@@ -735,5 +488,252 @@ namespace simplicity
 		float b = 2 * MathConstants::PI * longitude / divisions;
 
 		return Vector3(sin(a) * cos(b) * radius, sin(a) * sin(b) * radius, cos(a) * radius);
+	}
+
+	void ModelFactory::insertCircleIndices(std::vector<unsigned int>& indices, unsigned int index,
+			unsigned int vertexIndex, unsigned int divisions, bool reverse)
+	{
+		for (unsigned int division = 0; division < divisions; division++)
+		{
+			unsigned int index1 = division + 1;
+			unsigned int index2 = 0;
+			if (division == divisions - 1)
+			{
+				index2 = 1;
+			}
+			else
+			{
+				index2 = division + 2;
+			}
+
+			if (reverse)
+			{
+				indices[index + division * 3] = vertexIndex;
+				indices[index + division * 3 + 1] = vertexIndex + index1;
+				indices[index + division * 3 + 2] = vertexIndex + index2;
+			}
+			else
+			{
+				indices[index + division * 3] = vertexIndex;
+				indices[index + division * 3 + 1] = vertexIndex + index2;
+				indices[index + division * 3 + 2] = vertexIndex + index1;
+			}
+		}
+	}
+
+	void ModelFactory::insertCircleVertices(std::vector<Vertex>& vertices, unsigned int index, float radius,
+			unsigned int divisions, const Vector3& center, const Vector4& color)
+	{
+		Vector3 normal(0.0f, 0.0f, 1.0f);
+
+		vertices[index].color = color;
+		vertices[index].normal = normal;
+		vertices[index].position = center;
+
+		for (unsigned int division = 0; division < divisions; division++)
+		{
+			float toPosition = 2 * MathConstants::PI * division / divisions;
+			Vector3 position(sin(toPosition), cos(toPosition), 0.0f);
+			position *= radius;
+
+			vertices[index + division + 1].color = color;
+			vertices[index + division + 1].normal = normal;
+			vertices[index + division + 1].position = center + position;
+		}
+	}
+
+	void ModelFactory::insertRectangleIndices(vector<unsigned int>& indices, unsigned int index,
+		unsigned int vertexIndex, bool reverse)
+	{
+		if (reverse)
+		{
+			indices[index] = vertexIndex + 2;
+			indices[index + 1] = vertexIndex + 1;
+			indices[index + 2] = vertexIndex;
+			indices[index + 3] = vertexIndex;
+			indices[index + 4] = vertexIndex + 3;
+			indices[index + 5] = vertexIndex + 2;
+		}
+		else
+		{
+			indices[index] = vertexIndex;
+			indices[index + 1] = vertexIndex + 1;
+			indices[index + 2] = vertexIndex + 2;
+			indices[index + 3] = vertexIndex + 2;
+			indices[index + 4] = vertexIndex + 3;
+			indices[index + 5] = vertexIndex;
+		}
+	}
+
+	void ModelFactory::insertRectangleVertices(vector<Vertex>& vertices, unsigned int index, const Vector3& topLeft,
+			const Vector3& toTopRight, const Vector3& toBottomLeft, const Vector4& color)
+	{
+		Vector3 normal = crossProduct(toTopRight, toBottomLeft);
+		normal.normalize();
+
+		float height = toBottomLeft.getMagnitude();
+		float width = toTopRight.getMagnitude();
+
+		float texHeight;
+		float texWidth;
+		if (height > width)
+		{
+			texHeight = height / width;
+			texWidth = 1.0f;
+		}
+		else
+		{
+			texHeight = 1.0f;
+			texWidth = width / height;
+		}
+
+		vertices[index].color = color;
+		vertices[index].normal = normal;
+		vertices[index].position = topLeft;
+		vertices[index].texCoord = Vector2(texWidth, 0.0f);
+		vertices[index + 1].color = color;
+		vertices[index + 1].normal = normal;
+		vertices[index + 1].position = topLeft + toTopRight;
+		vertices[index + 1].texCoord = Vector2(0.0f, 0.0f);
+		vertices[index + 2].color = color;
+		vertices[index + 2].normal = normal;
+		vertices[index + 2].position = topLeft + toTopRight + toBottomLeft;
+		vertices[index + 2].texCoord = Vector2(0.0f, texHeight);
+		vertices[index + 3].color = color;
+		vertices[index + 3].normal = normal;
+		vertices[index + 3].position = topLeft + toBottomLeft;
+		vertices[index + 3].texCoord = Vector2(texWidth, texHeight);
+	}
+
+	void ModelFactory::insertTriangleIndices(std::vector<unsigned int>& indices, unsigned int index,
+		unsigned int vertexIndex, bool reverse)
+	{
+		if (reverse)
+		{
+			indices[index] = vertexIndex;
+			indices[index + 1] = vertexIndex + 2;
+			indices[index + 2] = vertexIndex + 1;
+		}
+		else
+		{
+			indices[index] = vertexIndex;
+			indices[index + 1] = vertexIndex + 1;
+			indices[index + 2] = vertexIndex + 2;
+		}
+	}
+
+	void ModelFactory::insertTriangleVertices(std::vector<Vertex>& vertices, unsigned int index, const Vector3& top,
+			const Vector3& toBottomLeft, const Vector3& toBottomRight, const Vector4& color)
+	{
+		Vector3 normal = crossProduct(toBottomRight, toBottomLeft);
+		normal.normalize();
+
+		Vector3 across = (top + toBottomRight) - (top + toBottomLeft);
+		float scalarProjection = getScalarProjection(toBottomRight, across);
+		float texWidthAtTop = scalarProjection / across.getMagnitude();
+		Vector3 projection = across;
+		projection.normalize();
+		projection *= scalarProjection;
+		Vector3 down = toBottomRight - projection;
+		float texHeightAtBottom = down.getMagnitude() / across.getMagnitude();
+
+		vertices[index].color = color;
+		vertices[index].normal = normal;
+		vertices[index].position = top;
+		vertices[index].texCoord = Vector2(texWidthAtTop, 0.0f);
+		vertices[index + 1].color = color;
+		vertices[index + 1].normal = normal;
+		vertices[index + 1].position = top + toBottomLeft;
+		vertices[index + 1].texCoord = Vector2(1.0f, texHeightAtBottom);
+		vertices[index + 2].color = color;
+		vertices[index + 2].normal = normal;
+		vertices[index + 2].position = top + toBottomRight;
+		vertices[index + 2].texCoord = Vector2(0.0f, texHeightAtBottom);
+	}
+
+	void ModelFactory::insertTunnelIndices(std::vector<unsigned int>& indices, unsigned int index,
+			unsigned int vertexIndex, unsigned int divisions, bool reverse)
+	{
+		for (unsigned int division = 0; division < divisions; division++)
+		{
+			unsigned int indexOffset = index + division * 6;
+			unsigned int vertexIndexOffset = vertexIndex + division * 4;
+
+			if (reverse)
+			{
+				indices[indexOffset] = vertexIndexOffset + 1;
+				indices[indexOffset + 1] = vertexIndexOffset + 2;
+				indices[indexOffset + 2] = vertexIndexOffset;
+
+				indices[indexOffset + 3] = vertexIndexOffset + 2;
+				indices[indexOffset + 4] = vertexIndexOffset + 1;
+				indices[indexOffset + 5] = vertexIndexOffset + 3;
+			}
+			else
+			{
+				indices[indexOffset] = vertexIndexOffset;
+				indices[indexOffset + 1] = vertexIndexOffset + 2;
+				indices[indexOffset + 2] = vertexIndexOffset + 1;
+
+				indices[indexOffset + 3] = vertexIndexOffset + 3;
+				indices[indexOffset + 4] = vertexIndexOffset + 1;
+				indices[indexOffset + 5] = vertexIndexOffset + 2;
+			}
+		}
+	}
+
+	void ModelFactory::insertTunnelVertices(std::vector<Vertex>& vertices, unsigned int index, float radius,
+			float length, unsigned int divisions, const Vector3& center, const Vector4& color, bool smooth)
+	{
+		Vector3 toEnd(0.0f, 0.0f, -length);
+
+		for (unsigned int division = 0; division < divisions; division++)
+		{
+			float radiansToPositionA = 2 * MathConstants::PI * division / divisions;
+			float radiansToPositionB = 2 * MathConstants::PI * (division + 1) / divisions;
+			Vector3 positionA(sin(radiansToPositionA), cos(radiansToPositionA), 0.0f);
+			Vector3 positionB(sin(radiansToPositionB), cos(radiansToPositionB), 0.0f);
+			positionA *= radius;
+			positionB *= radius;
+
+			unsigned int indexOffset = index + division * 4;
+
+			vertices[indexOffset].color = color;
+			vertices[indexOffset].position = center + positionA;
+			vertices[indexOffset + 1].color = color;
+			vertices[indexOffset + 1].position = center + positionA + toEnd;
+			vertices[indexOffset + 2].color = color;
+			vertices[indexOffset + 2].position = center + positionB;
+			vertices[indexOffset + 3].color = color;
+			vertices[indexOffset + 3].position = center + positionB + toEnd;
+
+			if (smooth)
+			{
+				vertices[indexOffset].normal = positionA;
+				vertices[indexOffset].normal.normalize();
+				vertices[indexOffset + 1].normal = positionA;
+				vertices[indexOffset + 1].normal.normalize();
+				vertices[indexOffset + 2].normal = positionB;
+				vertices[indexOffset + 2].normal.normalize();
+				vertices[indexOffset + 3].normal = positionB;
+				vertices[indexOffset + 3].normal.normalize();
+			}
+			else
+			{
+				Vector3 edge0 = positionB - positionA;
+				Vector3 edge1 = toEnd;
+				Vector3 normal = crossProduct(edge0, edge1);
+
+				vertices[indexOffset].normal = normal;
+				vertices[indexOffset + 1].normal = normal;
+				vertices[indexOffset + 2].normal = normal;
+				vertices[indexOffset + 3].normal = normal;
+			}
+		}
+	}
+
+	void ModelFactory::setInstance(unique_ptr<ModelFactory> instance)
+	{
+		ModelFactory::instance = move(instance);
 	}
 }

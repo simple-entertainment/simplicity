@@ -21,23 +21,75 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A triangle.
+	 * </p>
+	 */
 	class Triangle : public Shape
 	{
 		public:
+			/**
+			 * @param pointA The position of the first corner of the triangle.
+			 * @param pointB The position of the second corner of the triangle.
+			 * @param pointC The position of the third corner of the triangle.
+			 */
 			Triangle(const Vector3& pointA, const Vector3& pointB, const Vector3& pointC);
 
+			/**
+			 * <p>
+			 * Retrieves the position of the first corner of the triangle.
+			 * </p>
+			 *
+			 * @return The position of the first corner of the triangle.
+			 */
 			const Vector3& getPointA() const;
 
+			/**
+			 * <p>
+			 * Retrieves the position of the second corner of the triangle.
+			 * </p>
+			 *
+			 * @return The position of the second corner of the triangle.
+			 */
 			const Vector3& getPointB() const;
 
+			/**
+			 * <p>
+			 * Retrieves the position of the third corner of the triangle.
+			 * </p>
+			 *
+			 * @return The position of the third corner of the triangle.
+			 */
 			const Vector3& getPointC() const;
 
 			void render(Renderer& renderer) const;
 
+			/**
+			 * <p>
+			 * Sets the position of the first corner of the triangle.
+			 * </p>
+			 *
+			 * @param pointA The position of the first corner of the triangle.
+			 */
 			void setPointA(const Vector3& pointA);
 
+			/**
+			 * <p>
+			 * Sets the position of the second corner of the triangle.
+			 * </p>
+			 *
+			 * @param pointB The position of the second corner of the triangle.
+			 */
 			void setPointB(const Vector3& pointB);
 
+			/**
+			 * <p>
+			 * Sets the position of the third corner of the triangle.
+			 * </p>
+			 *
+			 * @param pointC The position of the third corner of the triangle.
+			 */
 			void setPointC(const Vector3& pointC);
 
 		private:

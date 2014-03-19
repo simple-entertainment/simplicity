@@ -21,19 +21,56 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A cylinder.
+	 * </p>
+	 */
 	class Cylinder : public Shape
 	{
 		public:
+			/**
+			 * @param length The length of the cylinder.
+			 * @param radius The radius of the cylinder.
+			 */
 			Cylinder(float length, float radius);
 
+			/**
+			 * <p>
+			 * Retrieves the length of the cylinder.
+			 * </p>
+			 *
+			 * @return The length of the cylinder.
+			 */
 			float getLength() const;
 
+			/**
+			 * <p>
+			 * Retrieves the radius of the cylinder.
+			 * </p>
+			 *
+			 * @return The radius of the cylinder.
+			 */
 			float getRadius() const;
 
 			void render(Renderer& renderer) const;
 
+			/**
+			 * <p>
+			 * Sets the length of the cylinder.
+			 * </p>
+			 *
+			 * @param length The length of the cylinder.
+			 */
 			void setLength(const float length);
 
+			/**
+			 * <p>
+			 * Sets the radius of the cylinder.
+			 * </p>
+			 *
+			 * @param radius The radius of the cylinder.
+			 */
 			void setRadius(const float radius);
 
 		private:
