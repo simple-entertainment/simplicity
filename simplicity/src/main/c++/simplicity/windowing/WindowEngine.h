@@ -21,19 +21,66 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * An engine that provides the window in which the game will run.
+	 * </p>
+	 */
 	class WindowEngine : public Engine
 	{
 		public:
+			/**
+			 * <p>
+			 * Retrieves the height of the window.
+			 * </p>
+			 *
+			 * @return The height of the window.
+			 */
 			virtual int getHeight() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the width of the window.
+			 * </p>
+			 *
+			 * @return The width of the window.
+			 */
 			virtual int getWidth() const = 0;
 
+			/**
+			 * <p>
+			 * Determines if the window is in fullscreen mode.
+			 * </p>
+			 *
+			 * @return True if the window is in fullscreen mode, false otherwise.
+			 */
 			virtual bool isFullscreen() const = 0;
 
+			/**
+			 * <p>
+			 * Sets the fullscreen mode of the window.
+			 * </p>
+			 *
+			 * @param fullscreen Fullscreen?
+			 */
 			virtual void setFullscreen(bool fullscreen) = 0;
 
+			/**
+			 * <p>
+			 * Sets the height of the window.
+			 * </p>
+			 *
+			 * @param height The height of the window.
+			 */
 			virtual void setHeight(int height) = 0;
 
+			/**
+			 * <p>
+			 * Sets the width of the window.
+			 * </p>
+			 *
+			 * @param width The width of the window.
+			 */
 			virtual void setWidth(int width) = 0;
 	};
 }

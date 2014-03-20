@@ -21,17 +21,42 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * Custom functionality that can be attached to an entity.
+	 * </p>
+	 */
 	class Script : public Component
 	{
 		public:
+			/**
+			 * <p>
+			 * Allows polymorphism.
+			 * </p>
+			 */
 			virtual ~Script()
 			{
 			}
 
+			/**
+			 * <p>
+			 * Disposes of this script.
+			 * </p>
+			 */
 			virtual void destroy() = 0;
 
+			/**
+			 * <p>
+			 * Executes this script. Called once per frame.
+			 * </p>
+			 */
 			virtual void execute() = 0;
 
+			/**
+			 * <p>
+			 * Initializes this script.
+			 * </p>
+			 */
 			virtual void init() = 0;
 	};
 }

@@ -22,6 +22,11 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * An engine that executes scripts every frame.
+	 * </p>
+	 */
 	class ScriptingEngine : public Engine
 	{
 		public:
