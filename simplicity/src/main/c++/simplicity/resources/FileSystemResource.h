@@ -28,28 +28,34 @@ namespace simplicity
 		public:
 			FileSystemResource(unsigned short category, const std::string& name, const std::string& uri, bool binary);
 
+			void appendData(const char* data, unsigned int length);
+
+			void appendData(const std::string& data);
+
 			unsigned short getCategory() const;
 
-			std::istream& getInputStream();
+			std::string getData();
+
+			std::unique_ptr<std::istream> getInputStream();
 
 			const std::string& getName() const;
 
-			std::ostream& getOutputStream(bool append = true);
+			std::unique_ptr<std::ostream> getOutputStream(bool append = true);
 
 			const std::string& getUri() const;
 
 			bool isBinary() const;
+
+			void setData(const char* data, unsigned int length);
+
+			void setData(const std::string& data);
 
 		private:
 			bool binary;
 
 			unsigned short category;
 
-			std::unique_ptr<std::istream> inputStream;
-
 			std::string name;
-
-			std::unique_ptr<std::ostream> outputStream;
 
 			std::string uri;
 	};

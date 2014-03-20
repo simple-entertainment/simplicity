@@ -75,7 +75,8 @@ namespace simplicity
 
 	string FileSystemDataStore::getUri(const string& name)
 	{
-		return "file:///" + directory + "/" + name;
+		// TODO Absolute path with protocol i.e. "file:///" + cwd + ...
+		return directory + "/" + name;
 	}
 
 	bool FileSystemDataStore::remove(Resource* resource)

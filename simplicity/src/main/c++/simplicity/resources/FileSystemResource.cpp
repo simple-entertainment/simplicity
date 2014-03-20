@@ -25,11 +25,21 @@ namespace simplicity
 	FileSystemResource::FileSystemResource(unsigned short category, const string& name, const string& uri, bool binary) :
 		binary(binary),
 		category(category),
-		inputStream(),
 		name(name),
-		outputStream(),
 		uri(uri)
 	{
+	}
+
+	void FileSystemResource::appendData(const char* data, unsigned int length)
+	{
+		unique_ptr<ostream> outputStream = getOutputStream();
+
+		outputStream->write(data, length);
+	}
+
+	void FileSystemResource::appendData(const string& data)
+	{
+		appendData(&data[0], data.size());
 	}
 
 	unsigned short FileSystemResource::getCategory() const
@@ -37,7 +47,17 @@ namespace simplicity
 		return category;
 	}
 
-	istream& FileSystemResource::getInputStream()
+	string FileSystemResource::getData()
+	{
+		unique_ptr<istream> inputStream = getInputStream();
+
+		istreambuf_iterator<char> begin(*inputStream);
+		istreambuf_iterator<char> end;
+
+		return string(begin, end);
+	}
+
+	unique_ptr<istream> FileSystemResource::getInputStream()
 	{
 		ios_base::openmode mode = ios_base::in;
 		if (binary)
@@ -45,9 +65,7 @@ namespace simplicity
 			mode |= ios_base::binary;
 		}
 
-		inputStream.reset(new ifstream(uri, mode));
-
-		return *inputStream;
+		return unique_ptr<istream>(new ifstream(uri, mode));
 	}
 
 	const string& FileSystemResource::getName() const
@@ -55,7 +73,7 @@ namespace simplicity
 		return name;
 	}
 
-	ostream& FileSystemResource::getOutputStream(bool append)
+	unique_ptr<ostream> FileSystemResource::getOutputStream(bool append)
 	{
 		ios_base::openmode mode = ios_base::out;
 		if (append)
@@ -67,9 +85,7 @@ namespace simplicity
 			mode |= ios_base::binary;
 		}
 
-		outputStream.reset(new ofstream(uri, mode));
-
-		return *outputStream;
+		return unique_ptr<ostream>(new ofstream(uri, mode));
 	}
 
 	const string& FileSystemResource::getUri() const
@@ -80,5 +96,23 @@ namespace simplicity
 	bool FileSystemResource::isBinary() const
 	{
 		return binary;
+	}
+
+	void FileSystemResource::setData(const char* data, unsigned int length)
+	{
+		ios_base::openmode mode = ios_base::out | ios_base::trunc;
+		if (binary)
+		{
+			mode |= ios_base::binary;
+		}
+
+		ofstream stream(uri, mode);
+
+		stream.write(data, length);
+	}
+
+	void FileSystemResource::setData(const string& data)
+	{
+		setData(&data[0], data.size());
 	}
 }

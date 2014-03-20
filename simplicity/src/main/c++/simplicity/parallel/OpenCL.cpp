@@ -1,4 +1,3 @@
-#include <iostream>
 #include <map>
 
 #include <CL/opencl.h>
@@ -18,15 +17,9 @@ namespace simplicity
 		map<string, cl_program> programs;
 		cl_command_queue queue;
 
-		bool addProgram(istream& source, const string& name)
+		bool addProgram(Resource& source, const string& name)
 		{
-			string sourceString;
-			while (!source.eof())
-			{
-				char next;
-				source.get(next);
-				sourceString += next;
-			}
+			string sourceString = source.getData();
 
 			cl_int error = 0;
 			const char* cSourceString = sourceString.c_str();
