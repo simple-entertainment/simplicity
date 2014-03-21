@@ -3,6 +3,8 @@
 #include <CL/opencl.h>
 
 #include "../common/Timer.h"
+#include "../entity/Categories.h"
+#include "../logging/Logs.h"
 
 using namespace std;
 
@@ -27,15 +29,15 @@ namespace simplicity
 
 			cl_program program = clCreateProgramWithSource(context, 1, &cSourceString, &sourceStringSize, &error);
 			if (error != CL_SUCCESS) {
-			   cout << "Error creating program: " << error << endl;
-			   return false;
+				Logs::log(Categories::ERROR, "Error creating program: " + error);
+				return false;
 			}
 
 			// Builds the program
 			error = clBuildProgram(program, 1, &device, NULL, NULL, NULL);
 			if (error != CL_SUCCESS) {
-			   cout << "Error building program: " << error << endl;
-			   return false;
+				Logs::log(Categories::ERROR, "Error building program: " + error);
+				return false;
 			}
 
 			// First call to know the proper size
@@ -45,7 +47,7 @@ namespace simplicity
 			// Second call to get the log
 			string log(logSize, 'a');
 			clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, logSize, &log[0], NULL);
-			cout << log << endl;
+			Logs::log(Categories::INFO, log);
 
 			programs[name] = program;
 
@@ -60,8 +62,8 @@ namespace simplicity
 			// Extracting the kernel
 			cl_kernel kernel = clCreateKernel(programs[programName], kernelName.c_str(), &error);
 			if (error != CL_SUCCESS) {
-			   cout << "Error creating kernel: " << error << endl;
-			   return false;
+				Logs::log(Categories::ERROR, "Error creating kernel: " + error);
+				return false;
 			}
 
 			float timer0 = timer.getElapsedTime();
@@ -82,8 +84,8 @@ namespace simplicity
 			error |= clSetKernelArg(kernel, 1, sizeof(cl_mem), &clRhs);
 			error |= clSetKernelArg(kernel, 2, sizeof(cl_mem), &clProduct);
 			if (error != CL_SUCCESS) {
-			   cout << "Error setting kernel arg: " << error << endl;
-			   return false;
+				Logs::log(Categories::ERROR, "Error setting kernel arg: " + error);
+				return false;
 			}
 
 			float timer2 = timer.getElapsedTime();
@@ -93,8 +95,8 @@ namespace simplicity
 			size_t workItems = 16;
 			error = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &workItems, &one, 0, NULL, NULL);
 			if (error != CL_SUCCESS) {
-			   cout << "Error executing kernel: " << error << endl;
-			   return false;
+				Logs::log(Categories::ERROR, "Error executing kernel: " + error);
+				return false;
 			}
 
 			float timer3 = timer.getElapsedTime();
@@ -124,26 +126,26 @@ namespace simplicity
 			// Platform
 			error = clGetPlatformIDs(1, &platform, NULL);
 			if (error != CL_SUCCESS) {
-			   cout << "Error getting platform id: " << error << endl;
-			   exit(error);
+				Logs::log(Categories::ERROR, "Error getting platform id: " + error);
+			    exit(error);
 			}
 			// Device
 			error = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL);
 			if (error != CL_SUCCESS) {
-			   cout << "Error getting device ids: " << error << endl;
-			   exit(error);
+				Logs::log(Categories::ERROR, "Error getting device ids: " + error);
+			    exit(error);
 			}
 			// Context
 			context = clCreateContext(0, 1, &device, NULL, NULL, &error);
 			if (error != CL_SUCCESS) {
-			   cout << "Error creating context: " << error << endl;
-			   exit(error);
+				Logs::log(Categories::ERROR, "Error creating context: " + error);
+			    exit(error);
 			}
 			// Command-queue
 			queue = clCreateCommandQueue(context, device, 0, &error);
 			if (error != CL_SUCCESS) {
-			   cout << "Error creating command queue: " << error << endl;
-			   exit(error);
+				Logs::log(Categories::ERROR, "Error creating command queue: " + error);
+			    exit(error);
 			}
 		}
 	}

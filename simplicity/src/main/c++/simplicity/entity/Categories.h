@@ -51,6 +51,48 @@ namespace simplicity
 
 		/**
 		 * <p>
+		 * The debug log.
+		 * </p>
+		 */
+		const unsigned short DEBUG = 4;
+
+		/**
+		 * <p>
+		 * The error log.
+		 * </p>
+		 */
+		const unsigned short ERROR = 5;
+
+		/**
+		 * <p>
+		 * The fatal log.
+		 * </p>
+		 */
+		const unsigned short FATAL = 6;
+
+		/**
+		 * <p>
+		 * The info log.
+		 * </p>
+		 */
+		const unsigned short INFO = 7;
+
+		/**
+		 * <p>
+		 * The fatal log.
+		 * </p>
+		 */
+		const unsigned short TRACE = 8;
+
+		/**
+		 * <p>
+		 * The console resource category.
+		 * </p>
+		 */
+		const unsigned short CONSOLE = 9;
+
+		/**
+		 * <p>
 		 * User defined categories should start with this ID.
 		 * </p>
 		 *

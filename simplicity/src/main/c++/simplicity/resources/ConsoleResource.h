@@ -14,44 +14,47 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef FILESYSTEMDATASTORE_H_
-#define FILESYSTEMDATASTORE_H_
+#ifndef CONSOLERESOURCE_H_
+#define CONSOLERESOURCE_H_
 
-#include <map>
 #include <memory>
 
-#include "DataStore.h"
+#include "Resource.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * A data store that represents a directory in the local filesystem.
-	 * </p>
-	 */
-	class FileSystemDataStore : public DataStore
+	class ConsoleResource : public Resource
 	{
 		public:
-			/**
-			 * @param directory The directory this data store represents.
-			 */
-			FileSystemDataStore(const std::string& directory);
+			ConsoleResource(unsigned short category, const std::string& name);
 
-			Resource* create(const std::string& name, unsigned short category, bool binary);
+			void appendData(const char* data, unsigned int length);
 
-			bool exists(const std::string& name);
+			void appendData(const std::string& data);
 
-			Resource* get(const std::string& name, unsigned short category, bool binary);
+			unsigned short getCategory() const;
 
-			bool remove(Resource* resource);
+			std::string getData();
+
+			std::unique_ptr<std::istream> getInputStream();
+
+			const std::string& getName() const;
+
+			std::unique_ptr<std::ostream> getOutputStream(bool append = true);
+
+			const std::string& getUri() const;
+
+			bool isBinary() const;
+
+			void setData(const char* data, unsigned int length);
+
+			void setData(const std::string& data);
 
 		private:
-			std::string directory;
+			unsigned short category;
 
-			std::map<std::string, std::unique_ptr<Resource>> resources;
-
-			std::string getUri(const std::string& name);
+			std::string name;
 	};
 }
 
-#endif /* FILESYSTEMDATASTORE_H_ */
+#endif /* CONSOLERESOURCE_H_ */

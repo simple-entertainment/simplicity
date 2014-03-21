@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef FILESYSTEMDATASTORE_H_
-#define FILESYSTEMDATASTORE_H_
+#ifndef CONSOLEDATASTORE_H_
+#define CONSOLEDATASTORE_H_
 
 #include <map>
 #include <memory>
@@ -26,16 +26,24 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * A data store that represents a directory in the local filesystem.
+	 * A data store that represents the console. It contains three resources:
+	 * </p>
+	 *
+	 * <ul>
+	 * <li>cerr - Standard error.</li>
+	 * <li>cin - Standard in.</li>
+	 * <li>cout - Standard out.</li>
+	 * </ul>
+	 *
+	 * <p>
+	 * This resources in this data store do not support the getInputStream() or getOutputStream(bool) functions and
+	 * will return NULL.
 	 * </p>
 	 */
-	class FileSystemDataStore : public DataStore
+	class ConsoleDataStore : public DataStore
 	{
 		public:
-			/**
-			 * @param directory The directory this data store represents.
-			 */
-			FileSystemDataStore(const std::string& directory);
+			ConsoleDataStore();
 
 			Resource* create(const std::string& name, unsigned short category, bool binary);
 
@@ -46,12 +54,8 @@ namespace simplicity
 			bool remove(Resource* resource);
 
 		private:
-			std::string directory;
-
 			std::map<std::string, std::unique_ptr<Resource>> resources;
-
-			std::string getUri(const std::string& name);
 	};
 }
 
-#endif /* FILESYSTEMDATASTORE_H_ */
+#endif /* CONSOLEDATASTORE_H_ */

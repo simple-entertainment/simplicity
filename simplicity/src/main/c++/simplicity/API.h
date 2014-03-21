@@ -47,6 +47,9 @@
 #include "input/MouseButtonEvent.h"
 #include "input/MouseMoveEvent.h"
 
+// Logging
+#include "logging/Logs.h"
+
 // Math
 #include "math/Distance.h"
 #include "math/Interpolation.h"
@@ -99,9 +102,9 @@
 #include "rendering/Texture.h"
 
 // Resources
+#include "resources/ConsoleDataStore.h"
 #include "resources/DataStore.h"
 #include "resources/FileSystemDataStore.h"
-#include "resources/FileSystemResource.h"
 #include "resources/Resource.h"
 #include "resources/Resources.h"
 

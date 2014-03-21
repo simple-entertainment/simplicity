@@ -18,6 +18,7 @@
 #define RESOURCE_H_
 
 #include <istream>
+#include <memory>
 #include <ostream>
 
 namespace simplicity
@@ -92,6 +93,10 @@ namespace simplicity
 			 * stream is created.
 			 * </p>
 			 *
+			 * <p>
+			 * Some resources may not support this function and will return NULL.
+			 * </p>
+			 *
 			 * @return An input stream for this resource.
 			 */
 			virtual std::unique_ptr<std::istream> getInputStream() = 0;
@@ -109,6 +114,10 @@ namespace simplicity
 			 * <p>
 			 * Retrieves an output stream for writing data to this resource. Each time this function is called a new
 			 * stream is created.
+			 * </p>
+			 *
+			 * <p>
+			 * Some resources may not support this function and will return NULL.
 			 * </p>
 			 *
 			 * @return An output stream for this resource.

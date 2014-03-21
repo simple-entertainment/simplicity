@@ -39,7 +39,7 @@ namespace simplicity
 
 	void FileSystemResource::appendData(const string& data)
 	{
-		appendData(&data[0], data.size());
+		appendData(data.data(), data.size());
 	}
 
 	unsigned short FileSystemResource::getCategory() const
