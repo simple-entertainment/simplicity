@@ -43,7 +43,12 @@ namespace simplicity
 
 		void log(unsigned short category, const string& message)
 		{
-			getResource(category)->appendData(message + '\n');
+			Resource* resource = getResource(category);
+
+			if (resource != NULL)
+			{
+				resource->appendData(message + '\n');
+			}
 		}
 
 		void setResource(Resource* resource, unsigned short category)
