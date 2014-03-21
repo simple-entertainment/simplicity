@@ -1,3 +1,19 @@
+/*
+ * Copyright © 2014 Simple Entertainment Limited
+ *
+ * This file is part of The Simplicity Engine.
+ *
+ * The Simplicity Engine is free software: you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * The Simplicity Engine is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
 #ifndef BODY_H_
 #define BODY_H_
 
@@ -17,6 +33,11 @@ namespace simplicity
 			/**
 			 * <p>
 			 * A physical material.
+			 * </p>
+			 *
+			 * <p>
+			 * Physics implementations typically only use either density or mass but not both e.g. Bullet Physics uses
+			 * mass and PhysX uses density.
 			 * </p>
 			 */
 			struct Material
@@ -73,7 +94,14 @@ namespace simplicity
 
 			//virtual void applyLinearImpulse(const Vector3& impulse, const Vector3& position) = 0;
 
-			//virtual void applyTorque(float torque) = 0;
+			/**
+			 * <p>
+			 * Applies torque to the body.
+			 * </p>
+			 *
+			 * @param force The torque to apply.
+			 */
+			virtual void applyTorque(const Vector3& torque) = 0;
 
 			/**
 			 * <p>
@@ -89,16 +117,7 @@ namespace simplicity
 			 *
 			 * @return The linear velocity of the body.
 			 */
-			virtual const Vector3& getLinearVelocity() const = 0;
-
-			/**
-			 * <p>
-			 * Retrieves the mass of the body.
-			 * </p>
-			 *
-			 * @return The mass of the body.
-			 */
-			virtual float getMass() const = 0;
+			virtual Vector3 getLinearVelocity() const = 0;
 
 			/**
 			 * <p>
@@ -144,15 +163,6 @@ namespace simplicity
 			 * @param linearVelocity The linear velocity of the body.
 			 */
 			virtual void setLinearVelocity(const Vector3& linearVelocity) = 0;
-
-			/**
-			 * <p>
-			 * Sets the mass of the body.
-			 * </p>
-			 *
-			 * @param mass The mass of the body.
-			 */
-			virtual void setMass(float mass) = 0;
 
 			/**
 			 * <p>
