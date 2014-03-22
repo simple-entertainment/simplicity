@@ -20,6 +20,7 @@
 #include "engine/CompositeEngine.h"
 #include "engine/Engine.h"
 #include "graph/Graph.h"
+#include "scene/Scene.h"
 
 namespace simplicity
 {
@@ -36,31 +37,22 @@ namespace simplicity
 
 		/**
 		 * <p>
-		 * Adds an entity to simplicity.
+		 * Adds a scene to simplicity. The first scene added will be the initial scene.
 		 * </p>
 		 *
-		 * @param entity The entity.
+		 * @param name The name of the scene.
+		 * @param scene The scene.
 		 */
-		void addEntity(std::unique_ptr<Entity> entity);
+		void addScene(const std::string& name, std::unique_ptr<Scene> scene);
 
 		/**
 		 * <p>
-		 * Adds an entity to simplicity.
+		 * Retrieves the composite engine to which all other engines will be added.
 		 * </p>
 		 *
-		 * @param entity The entity.
-		 * @param parent The parent under which to add the entity.
+		 * @return The composite engine.
 		 */
-		void addEntity(std::unique_ptr<Entity> entity, const Entity& parent);
-
-		/**
-		 * <p>
-		 * Adds a world representation to simplicity.
-		 * </p>
-		 *
-		 * @param graph The world representation.
-		 */
-        void addWorldRepresentation(std::unique_ptr<Graph> graph);
+		CompositeEngine* getCompositeEngine();
 
         /**
          * <p>
@@ -92,15 +84,6 @@ namespace simplicity
 		template<typename EngineType>
 		std::vector<EngineType*> getEngines();
 
-		/**
-		 * <p>
-		 * Retrieves the entities.
-		 * </p>
-		 *
-		 * @return The entities.
-		 */
-        std::vector<Entity*> getEntities(unsigned short category = Categories::ALL_CATEGORIES);
-
         /**
          * <p>
          * Retrieves the maximum frame rate allowed by simplicity. A value of 0 signifies that there is no maximum
@@ -110,6 +93,15 @@ namespace simplicity
          * @return The maximum frame rate allowed by simplicity.
          */
 		unsigned short getMaxFrameRate();
+
+		/**
+		 * <p>
+		 * Retrieves the current scene.
+		 * </p>
+		 *
+		 * @return The current scene.
+		 */
+		Scene* getScene();
 
         /**
          * <p>
@@ -122,24 +114,12 @@ namespace simplicity
 
 		/**
 		 * <p>
-		 * Retrieves a single world representation. If more than one world representation of the specified type exist,
-		 * the first one found will be returned.
+		 * Opens a scene.
 		 * </p>
 		 *
-		 * @return The world representation.
+		 * @param name The name of the scene to open.
 		 */
-		template<typename GraphType>
-		GraphType* getWorldRepresentation();
-
-		/**
-		 * <p>
-		 * Retrieves the world representations.
-		 * </p>
-		 *
-		 * @return The world representations.
-		 */
-		template<typename GraphType>
-		std::vector<GraphType*> getWorldRepresentations();
+		void openScene(const std::string& name);
 
 		/**
 		 * <p>
@@ -168,15 +148,6 @@ namespace simplicity
 
 		/**
 		 * <p>
-		 * Removes an entity from simplicity.
-		 * </p>
-		 *
-		 * @param entity The entity to remove.
-		 */
-		void removeEntity(Entity* entity);
-
-		/**
-		 * <p>
 		 * Sets the composite engine to which all other engines will be added.
 		 * </p>
 		 *
@@ -200,15 +171,6 @@ namespace simplicity
 		 * </p>
 		 */
 		void stop();
-
-		/**
-		 * <p>
-		 * Updates the world representations to reflect any updates to teh specified entity.
-		 * </p>
-		 *
-		 * @param entity The entity whose changes are to be reflected.
-		 */
-        void updateWorldRepresentations(Entity& entity);
 	}
 }
 

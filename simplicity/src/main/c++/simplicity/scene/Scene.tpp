@@ -14,44 +14,39 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "Simplicity.h"
+#include "Scene.h"
 
 namespace simplicity
 {
-	namespace Simplicity
+	template<typename GraphType>
+	GraphType* Scene::getGraph()
 	{
-		extern std::unique_ptr<CompositeEngine> compositeEngine;
-
-		template<typename EngineType>
-		EngineType* getEngine()
+		for (unsigned int index = 0; index < graphs.size(); index++)
 		{
-			for (unsigned int index = 0; index < compositeEngine->getEngines().size(); index++)
+			GraphType* graph = dynamic_cast<GraphType*>(graphs[index].get());
+			if (graph != NULL)
 			{
-				EngineType* engine = dynamic_cast<EngineType*>(compositeEngine->getEngines()[index].get());
-				if (engine != NULL)
-				{
-					return engine;
-				}
+				return graph;
 			}
-
-			return NULL;
 		}
 
-		template<typename EngineType>
-		std::vector<EngineType*> getEngines()
+		return NULL;
+	}
+
+	template<typename GraphType>
+	std::vector<GraphType*> Scene::getGraphs()
+	{
+		std::vector<GraphType*> typedGraphs;
+
+		for (unsigned int index = 0; index < graphs.size(); index++)
 		{
-			std::vector<EngineType*> typedEngines;
-
-			for (unsigned int index = 0; index < compositeEngine->getEngines().size(); index++)
+			GraphType* graph = dynamic_cast<GraphType*>(graphs[index].get());
+			if (graph != NULL)
 			{
-				EngineType* engine = dynamic_cast<EngineType*>(compositeEngine->getEngines()[index].get());
-				if (engine != NULL)
-				{
-					typedEngines.push_back(engine);
-				}
+				typedGraphs.push_back(graph);
 			}
-
-			return typedEngines;
 		}
+
+		return typedGraphs;
 	}
 }

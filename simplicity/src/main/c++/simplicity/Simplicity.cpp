@@ -14,13 +14,11 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include <algorithm>
 #include <chrono>
 #include <map>
 #include <thread>
 #include <vector>
 
-#include "common/AddressEquals.h"
 #include "engine/SerialCompositeEngine.h"
 #include "messaging/Events.h"
 #include "Simplicity.h"
@@ -32,22 +30,16 @@ namespace simplicity
 {
 	namespace Simplicity
 	{
-		void addPendingEntities();
-		void removePendingEntities();
-
 		unique_ptr<CompositeEngine> compositeEngine(new SerialCompositeEngine);
-		vector<unique_ptr<Entity>> entities;
-		vector<unique_ptr<Entity>> entitiesToBeAdded;
-		map<Entity*, const Entity*> entitiesToBeAddedParents;
-		vector<const Entity*> entitiesToBeRemoved;
+		Scene* currentScene = NULL;
 		float frameTime = 0.0f;
 		float totalTime = 0.0f;
 		bool initialised = false;
 		unsigned short maxFrameRate = 0;
 		bool paused = false;
 		time_point<high_resolution_clock> playTime;
+		map<string, unique_ptr<Scene>> scenes;
 		bool stopped = false;
-        vector<unique_ptr<Graph>> worldRepresentations;
 
 		void addEngine(unique_ptr<Engine> engine)
 		{
@@ -59,64 +51,24 @@ namespace simplicity
 			compositeEngine->addEngine(move(engine));
 		}
 
-		void addEntity(unique_ptr<Entity> entity)
+		void addScene(const string& name, unique_ptr<Scene> scene)
 		{
-			entitiesToBeAdded.push_back(move(entity));
-		}
-
-		void addEntity(unique_ptr<Entity> entity, const Entity& parent)
-		{
-			entitiesToBeAddedParents[entity.get()] = &parent;
-			entitiesToBeAdded.push_back(move(entity));
-		}
-
-		void addPendingEntities()
-		{
-			for (unsigned int entityIndex = 0; entityIndex < entitiesToBeAdded.size(); entityIndex++)
+			if (currentScene == NULL)
 			{
-				compositeEngine->addEntity(*entitiesToBeAdded[entityIndex]);
-
-                for (unsigned int worldIndex = 0; worldIndex < worldRepresentations.size(); worldIndex++)
-                {
-                	const Entity* parent = NULL;//entitiesToBeAddedParents[entitiesToBeAdded[entityIndex].get()];
-                	if (parent == NULL)
-                	{
-                		worldRepresentations[worldIndex]->insert(*entitiesToBeAdded[entityIndex]);
-                	}
-                	else
-                	{
-                		worldRepresentations[worldIndex]->insert(*entitiesToBeAdded[entityIndex], *parent);
-                	}
-                }
-
-				entities.push_back(move(entitiesToBeAdded[entityIndex]));
+				currentScene = scene.get();
 			}
-			entitiesToBeAdded.clear();
+
+			scenes[name] = move(scene);
 		}
 
-        void addWorldRepresentation(unique_ptr<Graph> graph)
-        {
-        	worldRepresentations.push_back(move(graph));
-        }
+		CompositeEngine* getCompositeEngine()
+		{
+			return compositeEngine.get();
+		}
 
 		float getDeltaTime()
 		{
 			return frameTime;
-		}
-
-        vector<Entity*> getEntities(unsigned short category)
-		{
-        	vector<Entity*> rawEntities;
-
-        	for (unsigned int index = 0; index < entities.size(); index++)
-        	{
-        		if (category == Categories::ALL_CATEGORIES || entities[index]->getCategory() == category)
-        		{
-        			rawEntities.push_back(entities[index].get());
-        		}
-        	}
-
-        	return rawEntities;
 		}
 
 		unsigned short getMaxFrameRate()
@@ -124,9 +76,19 @@ namespace simplicity
 			return maxFrameRate;
 		}
 
+		Scene* getScene()
+		{
+			return currentScene;
+		}
+
 		float getTotalTime()
 		{
 			return totalTime;
+		}
+
+		void openScene(const string& name)
+		{
+			currentScene = scenes[name].get();
 		}
 
 		void pause()
@@ -155,9 +117,9 @@ namespace simplicity
 			{
 				time_point<high_resolution_clock> frameStartTime = high_resolution_clock::now();
 
-				addPendingEntities();
+				currentScene->addPendingEntities();
 				compositeEngine->advance();
-				removePendingEntities();
+				currentScene->removePendingEntities();
 
 				time_point<high_resolution_clock> frameEndTime = high_resolution_clock::now();
 				frameTime = duration_cast<nanoseconds>(frameEndTime - frameStartTime).count() / 1000000000.0f;
@@ -180,37 +142,9 @@ namespace simplicity
 			return compositeEngine->removeEngine(engine);
 		}
 
-		void removeEntity(Entity* entity)
-		{
-			entitiesToBeRemoved.push_back(entity);
-		}
-
-		void removePendingEntities()
-		{
-			for (unsigned int entityIndex = 0; entityIndex < entitiesToBeRemoved.size(); entityIndex++)
-			{
-				vector<unique_ptr<Entity>>::iterator result =
-						find_if(entities.begin(), entities.end(), AddressEquals<Entity>(*entitiesToBeRemoved[entityIndex]));
-
-				if (result != entities.end())
-				{
-					compositeEngine->removeEntity(**result);
-
-					for (unsigned int worldIndex = 0; worldIndex < worldRepresentations.size(); worldIndex++)
-					{
-						worldRepresentations[worldIndex]->remove(**result);
-					}
-
-					entities.erase(result);
-				}
-			}
-			entitiesToBeRemoved.clear();
-		}
-
 		void setCompositeEngine(unique_ptr<CompositeEngine> compositeEngine)
 		{
-			Simplicity::compositeEngine.release();
-			Simplicity::compositeEngine.swap(compositeEngine);
+			Simplicity::compositeEngine = move(compositeEngine);
 		}
 
 		void setMaxFrameRate(unsigned short maxFrameRate)
@@ -222,13 +156,5 @@ namespace simplicity
 		{
 			stopped = true;
 		}
-
-        void updateWorldRepresentations(Entity& entity)
-        {
-        	for (unsigned int index = 0; index < worldRepresentations.size(); index++)
-        	{
-        		worldRepresentations[index]->update(entity);
-        	}
-        }
 	}
 }
