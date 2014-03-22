@@ -20,6 +20,7 @@
 #include <memory>
 #include <string>
 
+#include "../resources/Resource.h"
 #include "Texture.h"
 
 namespace simplicity
@@ -47,6 +48,18 @@ namespace simplicity
 			 * </p>
 			 *
 			 * @param data The texture data.
+			 * @param length The length of the data.
+			 *
+			 * @return The texture.
+			 */
+			virtual std::unique_ptr<Texture> createTexture(const char* data, unsigned int length) = 0;
+
+			/**
+			 * <p>
+			 * Creates a texture from in-memory data.
+			 * </p>
+			 *
+			 * @param data The texture data.
 			 * @param width The width of the texture.
 			 * @param height The height of the texture.
 			 *
@@ -57,14 +70,14 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Creates a texture from a file.
+			 * Creates a texture from a resource.
 			 * </p>
 			 *
-			 * @param fileName The name of the file.
+			 * @param image The image resource.
 			 *
 			 * @return The texture.
 			 */
-			virtual std::unique_ptr<Texture> createTexture(const std::string& fileName) = 0;
+			virtual std::unique_ptr<Texture> createTexture(Resource& image) = 0;
 
 			/**
 			 * <p>
