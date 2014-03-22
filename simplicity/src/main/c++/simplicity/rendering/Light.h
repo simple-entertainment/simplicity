@@ -25,49 +25,194 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A light source. All of the properties of this light source are passed to the shader and it is the shader which
+	 * will determine which properties are used and how to use them.
+	 * </p>
+	 */
 	class Light : public Component
 	{
 		public:
+			/**
+			 * <p>
+			 * Allows polymorphism.
+			 * </p>
+			 */
 			virtual ~Light()
 			{
 			}
 
+			/**
+			 * <p>
+			 * Activates this light source. Models will be illuminated by it.
+			 * </p>
+			 */
 			virtual void activate() = 0;
 
+			/**
+			 * <p>
+			 * Applies this light source to a shader.
+			 * </p>
+			 *
+			 * @param shader The shader to apply this light source to.
+			 * @param position The position of this light source.
+			 */
 			virtual void apply(Shader& shader, const Vector3& position) = 0;
 
+			/**
+			 * <p>
+			 * Deactivates this light source. Models will not be illuminated by it.
+			 * </p>
+			 */
 			virtual void deactivate() = 0;
 
-			virtual const Vector4& getAmbientComponent() const = 0;
+			/**
+			 * <p>
+			 * Retrieves the ambient light provided by this light source.
+			 * </p>
+			 *
+			 * @return The ambient light provided by this light source.
+			 */
+			virtual const Vector4& getAmbient() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the rate at which the intensity of the light provided by this light source will decrease at
+			 * longer range. The first element of the vector is the linear dropoff, the second is the square dropoff
+			 * and the third is the cubic dropoff.
+			 * </p>
+			 *
+			 * @return The rate at which the intensity of the light provided by this light source will decrease at
+			 * longer range.
+			 */
 			virtual const Vector3& getAttenuation() const = 0;
 
-			virtual const Vector4& getDiffuseComponent() const = 0;
+			/**
+			 * <p>
+			 * Retrieves the diffuse light provided by this light source.
+			 * </p>
+			 *
+			 * @return The diffuse light provided by this light source.
+			 */
+			virtual const Vector4& getDiffuse() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the direction in which this light source is pointed.
+			 * </p>
+			 *
+			 * @return The direction in which this light source is pointed.
+			 */
 			virtual const Vector3& getDirection() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the name of the light source. This name will be used to identify it in the shader code.
+			 * </p>
+			 *
+			 * @return The name of the light source.
+			 */
 			virtual const std::string& getName() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the distance that the light from this light source will reach.
+			 * </p>
+			 *
+			 * @return The distance that the light from this light source will reach.
+			 */
 			virtual float getRange() const = 0;
 
-			virtual const Vector4& getSpecularComponent() const = 0;
+			/**
+			 * <p>
+			 * Retrieves the specular light provided by this light source.
+			 * </p>
+			 *
+			 * @return The specular light provided by this light source.
+			 */
+			virtual const Vector4& getSpecular() const = 0;
 
+			/**
+			 * <p>
+			 * Retrieves the strength of this light source.
+			 * </p>
+			 *
+			 * @return The strength of this light source.
+			 */
 			virtual float getStrength() const = 0;
 
+			/**
+			 * <p>
+			 * Determines if this light source is active. Models will only be illuminated by an active light source.
+			 * </p>
+			 */
 			virtual bool isActive() const = 0;
 
-			virtual void setAmbientComponent(const Vector4& ambient) = 0;
+			/**
+			 * <p>
+			 * Sets the ambient light provided by this light source.
+			 * </p>
+			 *
+			 * @param ambient The ambient light provided by this light source.
+			 */
+			virtual void setAmbient(const Vector4& ambient) = 0;
 
+			/**
+			 * <p>
+			 * Sets the rate at which the intensity of the light provided by this light source will decrease at longer
+			 * range. The first element of the vector is the linear dropoff, the second is the square dropoff and the
+			 * third is the cubic dropoff.
+			 * </p>
+			 *
+			 * @param attenuation The rate at which the intensity of the light provided by this light source will
+			 * decrease at longer range.
+			 */
 			virtual void setAttenuation(const Vector3& attenuation) = 0;
 
-			virtual void setDiffuseComponent(const Vector4& diffuse) = 0;
+			/**
+			 * <p>
+			 * Sets the diffuse light provided by this light source.
+			 * </p>
+			 *
+			 * @param diffuse The diffuse light provided by this light source.
+			 */
+			virtual void setDiffuse(const Vector4& diffuse) = 0;
 
+			/**
+			 * <p>
+			 * Sets the direction in which this light source is pointed.
+			 * </p>
+			 *
+			 * @param direction The direction in which this light source is pointed.
+			 */
 			virtual void setDirection(const Vector3& direction) = 0;
 
+			/**
+			 * <p>
+			 * Sets the distance that the light from this light source will reach.
+			 * </p>
+			 *
+			 * @param range The distance that the light from this light source will reach.
+			 */
 			virtual void setRange(float range) = 0;
 
-			virtual void setSpecularComponent(const Vector4& specular) = 0;
+			/**
+			 * <p>
+			 * Sets the specular light provided by this light source.
+			 * </p>
+			 *
+			 * @param specular The specular light provided by this light source.
+			 */
+			virtual void setSpecular(const Vector4& specular) = 0;
 
+			/**
+			 * <p>
+			 * Sets the strength of this light source.
+			 * </p>
+			 *
+			 * @param strength The strength of this light source.
+			 */
 			virtual void setStrength(float strength) = 0;
 	};
 }
