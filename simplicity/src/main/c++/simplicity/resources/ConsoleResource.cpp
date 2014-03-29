@@ -58,7 +58,7 @@ namespace simplicity
 
 		if (name == "in")
 		{
-			unsigned int begin = cin.tellg();
+			int begin = static_cast<int>(cin.tellg());
 			cin.seekg(0, ios_base::end);
 			unsigned int end = cin.tellg();
 			cin.seekg(-begin, ios_base::end);

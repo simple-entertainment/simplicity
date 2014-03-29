@@ -1,8 +1,15 @@
-# Eclipse project management
+# Eclipse
+#########################
 *.metadata
 *.settings
-simplicity/Debug (Linux)
-simplicity/Debug (Windows)
-simplicity/Release (Linux)
-simplicity/Release (Windows)
+
+# Visual Studio
+#########################
+*.filters
+*.user
+
+# Output
+#########################
+Debug*/
+Release*/
 

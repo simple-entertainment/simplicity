@@ -27,28 +27,28 @@ namespace simplicity
 		 * Raised when a shader is being applied.
 		 * </p>
 		 */
-		const unsigned short APPLY_SHADER = 0;
+		static const unsigned short APPLY_SHADER = 0;
 
 		/**
 		 * <p>
 		 * Raised when a keyboard button changes state.
 		 * </p>
 		 */
-		const unsigned short KEYBOARD_BUTTON = 1;
+		static const unsigned short KEYBOARD_BUTTON = 1;
 
 		/**
 		 * <p>
 		 * Raised when a mouse button changes state.
 		 * </p>
 		 */
-		const unsigned short MOUSE_BUTTON = 2;
+		static const unsigned short MOUSE_BUTTON = 2;
 
 		/**
 		 * <p>
 		 * Raised when a mouse is move.
 		 * </p>
 		 */
-		const unsigned short MOUSE_MOVE = 3;
+		static const unsigned short MOUSE_MOVE = 3;
 
 		/**
 		 * <p>
@@ -64,7 +64,7 @@ namespace simplicity
 		 * const unsigned short MY_SUBJECT_2 = USER_ID_0 + 1;
 		 * </code></pre>
 		 */
-		const unsigned short USER_ID_0 = 128;
+		static const unsigned short USER_ID_0 = 128;
 	}
 }
 

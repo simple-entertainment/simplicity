@@ -26,70 +26,70 @@ namespace simplicity
 		 * Denotes that no category is assigned.
 		 * </p>
 		 */
-		const unsigned short UNCATEGORIZED = 0;
+		static const unsigned short UNCATEGORIZED = 0;
 
 		/**
 		 * <p>
 		 * Includes all categories, even UNCATEGORIZED.
 		 * </p>
 		 */
-		const unsigned short ALL_CATEGORIES = 1;
+		static const unsigned short ALL_CATEGORIES = 1;
 
 		/**
 		 * <p>
 		 * A bounding volume model.
 		 * </p>
 		 */
-		const unsigned short BOUNDS = 2;
+		static const unsigned short BOUNDS = 2;
 
 		/**
 		 * <p>
 		 * A rendered model.
 		 * </p>
 		 */
-		const unsigned short RENDER = 3;
+		static const unsigned short RENDER = 3;
 
 		/**
 		 * <p>
 		 * The debug log.
 		 * </p>
 		 */
-		const unsigned short DEBUG = 4;
+		static const unsigned short DEBUG = 4;
 
 		/**
 		 * <p>
 		 * The error log.
 		 * </p>
 		 */
-		const unsigned short ERROR = 5;
+		static const unsigned short ERR = 5;
 
 		/**
 		 * <p>
 		 * The fatal log.
 		 * </p>
 		 */
-		const unsigned short FATAL = 6;
+		static const unsigned short FATAL = 6;
 
 		/**
 		 * <p>
 		 * The info log.
 		 * </p>
 		 */
-		const unsigned short INFO = 7;
+		static const unsigned short INFO = 7;
 
 		/**
 		 * <p>
 		 * The fatal log.
 		 * </p>
 		 */
-		const unsigned short TRACE = 8;
+		static const unsigned short TRACE = 8;
 
 		/**
 		 * <p>
 		 * The console resource category.
 		 * </p>
 		 */
-		const unsigned short CONSOLE = 9;
+		static const unsigned short CONSOLE = 9;
 
 		/**
 		 * <p>
@@ -105,7 +105,7 @@ namespace simplicity
 		 * const unsigned short MY_CATEGORY_2 = USER_ID_0 + 1;
 		 * </code></pre>
 		 */
-		const unsigned short USER_ID_0 = 128;
+		static const unsigned short USER_ID_0 = 128;
 	}
 }
 

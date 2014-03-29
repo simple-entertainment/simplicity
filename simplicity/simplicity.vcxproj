@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{19EB601F-A765-4E02-A16A-6222BDA83439}</ProjectGuid>
+    <RootNamespace>simplicity</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4351</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4351</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="src\main\c++\simplicity\entity\Entity.tpp" />
+    <None Include="src\main\c++\simplicity\math\MathFunctions.tpp" />
+    <None Include="src\main\c++\simplicity\math\Matrix.tpp" />
+    <None Include="src\main\c++\simplicity\math\Vector.tpp" />
+    <None Include="src\main\c++\simplicity\scene\Scene.tpp" />
+    <None Include="src\main\c++\simplicity\Simplicity.tpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\main\c++\simplicity\API.h" />
+    <ClInclude Include="src\main\c++\simplicity\common\AddressEquals.h" />
+    <ClInclude Include="src\main\c++\simplicity\common\Defines.h" />
+    <ClInclude Include="src\main\c++\simplicity\common\NonCopyable.h" />
+    <ClInclude Include="src\main\c++\simplicity\common\Timer.h" />
+    <ClInclude Include="src\main\c++\simplicity\engine\CompositeEngine.h" />
+    <ClInclude Include="src\main\c++\simplicity\engine\DebugSerialCompositeEngine.h" />
+    <ClInclude Include="src\main\c++\simplicity\engine\Engine.h" />
+    <ClInclude Include="src\main\c++\simplicity\engine\SerialCompositeEngine.h" />
+    <ClInclude Include="src\main\c++\simplicity\entity\Categories.h" />
+    <ClInclude Include="src\main\c++\simplicity\entity\Component.h" />
+    <ClInclude Include="src\main\c++\simplicity\entity\Entity.h" />
+    <ClInclude Include="src\main\c++\simplicity\graph\Graph.h" />
+    <ClInclude Include="src\main\c++\simplicity\graph\OcTree.h" />
+    <ClInclude Include="src\main\c++\simplicity\graph\QuadTree.h" />
+    <ClInclude Include="src\main\c++\simplicity\graph\SimpleGraph.h" />
+    <ClInclude Include="src\main\c++\simplicity\input\Button.h" />
+    <ClInclude Include="src\main\c++\simplicity\input\Keyboard.h" />
+    <ClInclude Include="src\main\c++\simplicity\input\KeyboardButtonEvent.h" />
+    <ClInclude Include="src\main\c++\simplicity\input\Mouse.h" />
+    <ClInclude Include="src\main\c++\simplicity\input\MouseButtonEvent.h" />
+    <ClInclude Include="src\main\c++\simplicity\input\MouseMoveEvent.h" />
+    <ClInclude Include="src\main\c++\simplicity\logging\Logs.h" />
+    <ClInclude Include="src\main\c++\simplicity\math\Distance.h" />
+    <ClInclude Include="src\main\c++\simplicity\math\Interpolation.h" />
+    <ClInclude Include="src\main\c++\simplicity\math\Intersection.h" />
+    <ClInclude Include="src\main\c++\simplicity\math\MathConstants.h" />
+    <ClInclude Include="src\main\c++\simplicity\math\MathFunctions.h" />
+    <ClInclude Include="src\main\c++\simplicity\math\Matrix.h" />
+    <ClInclude Include="src\main\c++\simplicity\math\Vector.h" />
+    <ClInclude Include="src\main\c++\simplicity\messaging\Events.h" />
+    <ClInclude Include="src\main\c++\simplicity\messaging\Messages.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\Line.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\Mesh.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\Model.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\ModelFactory.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\ModelFunctions.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\Plane.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\Point.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\shape\Box.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\shape\Capsule.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\shape\Circle.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\shape\Cube.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\shape\Cylinder.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\shape\Shape.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\shape\Sphere.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\shape\Square.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\shape\Torus.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\shape\Triangle.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\SimpleMesh.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\SimpleModelFactory.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\Text.h" />
+    <ClInclude Include="src\main\c++\simplicity\model\Vertex.h" />
+    <ClInclude Include="src\main\c++\simplicity\parallel\OpenCL.h" />
+    <ClInclude Include="src\main\c++\simplicity\physics\Body.h" />
+    <ClInclude Include="src\main\c++\simplicity\physics\PhysicsFactory.h" />
+    <ClInclude Include="src\main\c++\simplicity\rendering\Camera.h" />
+    <ClInclude Include="src\main\c++\simplicity\rendering\Light.h" />
+    <ClInclude Include="src\main\c++\simplicity\rendering\Renderer.h" />
+    <ClInclude Include="src\main\c++\simplicity\rendering\RenderingEngine.h" />
+    <ClInclude Include="src\main\c++\simplicity\rendering\RenderingFactory.h" />
+    <ClInclude Include="src\main\c++\simplicity\rendering\Shader.h" />
+    <ClInclude Include="src\main\c++\simplicity\rendering\Texture.h" />
+    <ClInclude Include="src\main\c++\simplicity\resources\ConsoleDataStore.h" />
+    <ClInclude Include="src\main\c++\simplicity\resources\ConsoleResource.h" />
+    <ClInclude Include="src\main\c++\simplicity\resources\DataStore.h" />
+    <ClInclude Include="src\main\c++\simplicity\resources\FileSystemDataStore.h" />
+    <ClInclude Include="src\main\c++\simplicity\resources\FileSystemResource.h" />
+    <ClInclude Include="src\main\c++\simplicity\resources\Resource.h" />
+    <ClInclude Include="src\main\c++\simplicity\resources\Resources.h" />
+    <ClInclude Include="src\main\c++\simplicity\scene\FlyingCameraEngine.h" />
+    <ClInclude Include="src\main\c++\simplicity\scene\Scene.h" />
+    <ClInclude Include="src\main\c++\simplicity\scripting\Script.h" />
+    <ClInclude Include="src\main\c++\simplicity\scripting\ScriptingEngine.h" />
+    <ClInclude Include="src\main\c++\simplicity\Simplicity.h" />
+    <ClInclude Include="src\main\c++\simplicity\windowing\WindowEngine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main\c++\simplicity\common\Timer.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\engine\DebugSerialCompositeEngine.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\engine\SerialCompositeEngine.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\entity\Component.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\entity\Entity.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\graph\OcTree.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\graph\QuadTree.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\graph\SimpleGraph.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\input\Keyboard.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\logging\Logs.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\math\Distance.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\math\Interpolation.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\math\Intersection.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\math\MathFunctions.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\math\Matrix.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\messaging\Messages.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\Line.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\Model.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\ModelFactory.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\ModelFunctions.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\Plane.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\Point.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\shape\Box.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\shape\Capsule.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\shape\Circle.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\shape\Cube.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\shape\Cylinder.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\shape\Shape.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\shape\Sphere.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\shape\Square.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\shape\Torus.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\shape\Triangle.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\SimpleMesh.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\SimpleModelFactory.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\model\Text.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\parallel\OpenCL.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\physics\PhysicsFactory.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\rendering\RenderingFactory.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\resources\ConsoleDataStore.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\resources\ConsoleResource.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\resources\FileSystemDataStore.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\resources\FileSystemResource.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\resources\Resources.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\scene\FlyingCameraEngine.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\scene\Scene.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\scripting\ScriptingEngine.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\Simplicity.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

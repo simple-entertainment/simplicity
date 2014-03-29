@@ -95,8 +95,10 @@ namespace simplicity
 		asciiButtonMap.insert(pair<unsigned char, Keyboard::Button>('\b', Keyboard::Button::BACKSPACE));
 		asciiButtonMap.insert(pair<unsigned char, Keyboard::Button>(':', Keyboard::Button::COLON));
 		asciiButtonMap.insert(pair<unsigned char, Keyboard::Button>(',', Keyboard::Button::COMMA));
-		asciiButtonMap.insert(pair<unsigned char, Keyboard::Button>(127, Keyboard::Button::DELETE));
-		asciiButtonMap.insert(pair<unsigned char, Keyboard::Button>('\e', Keyboard::Button::ESCAPE));
+		// Delete key ASCII value: 127.
+		asciiButtonMap.insert(pair<unsigned char, Keyboard::Button>(127, Keyboard::Button::DEL));
+		// Escape key ASCII value: 27. Cannot use '\e' because it is not recognised by Windows.
+		asciiButtonMap.insert(pair<unsigned char, Keyboard::Button>(27, Keyboard::Button::ESCAPE));
 		asciiButtonMap.insert(pair<unsigned char, Keyboard::Button>('=', Keyboard::Button::EQUALS));
 		asciiButtonMap.insert(pair<unsigned char, Keyboard::Button>('`', Keyboard::Button::GRAVE));
 		asciiButtonMap.insert(pair<unsigned char, Keyboard::Button>('(', Keyboard::Button::LEFT_BRACKET));

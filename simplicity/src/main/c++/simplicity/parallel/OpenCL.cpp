@@ -1,6 +1,6 @@
 #include <map>
 
-#include <CL/opencl.h>
+//#include <CL/opencl.h>
 
 #include "../common/Timer.h"
 #include "../entity/Categories.h"
@@ -12,16 +12,16 @@ namespace simplicity
 {
 	namespace OpenCL
 	{
-		cl_context context;
+		/*cl_context context;
 		cl_device_id device;
 		map<string, cl_kernel> kernels;
 		cl_platform_id platform;
 		map<string, cl_program> programs;
-		cl_command_queue queue;
+		cl_command_queue queue;*/
 
 		bool addProgram(Resource& source, const string& name)
 		{
-			string sourceString = source.getData();
+			/*string sourceString = source.getData();
 
 			cl_int error = 0;
 			const char* cSourceString = sourceString.c_str();
@@ -49,14 +49,14 @@ namespace simplicity
 			clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, logSize, &log[0], NULL);
 			Logs::log(Categories::INFO, log);
 
-			programs[name] = program;
+			programs[name] = program;*/
 
 			return true;
 		}
 
 		bool executeKernel(const string& programName, const string& kernelName, float* lhs, float* rhs, float* product)
 		{
-			Timer timer;
+			/*Timer timer;
 			cl_int error = 0;
 
 			// Extracting the kernel
@@ -114,14 +114,14 @@ namespace simplicity
 			clReleaseMemObject(clRhs);
 			clReleaseMemObject(clProduct);
 
-			float timer5 = timer.getElapsedTime();
+			float timer5 = timer.getElapsedTime();*/
 
 			return true;
 		}
 
 		void init()
 		{
-			cl_int error = 0;
+			/*cl_int error = 0;
 
 			// Platform
 			error = clGetPlatformIDs(1, &platform, NULL);
@@ -146,7 +146,7 @@ namespace simplicity
 			if (error != CL_SUCCESS) {
 				Logs::log(Categories::ERROR, "Error creating command queue: " + error);
 			    exit(error);
-			}
+			}*/
 		}
 	}
 }
