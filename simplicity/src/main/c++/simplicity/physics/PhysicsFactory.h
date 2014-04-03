@@ -28,7 +28,7 @@ namespace simplicity
 	 * A factory that creates physical bodies.
 	 * </p>
 	 */
-	class PhysicsFactory
+	class SIMPLE_API PhysicsFactory
 	{
 		public:
 			/**

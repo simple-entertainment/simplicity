@@ -284,7 +284,7 @@ namespace simplicity
 	 *
 	 * @return A random boolean value.
 	 */
-	bool getRandomBool();
+	SIMPLE_API bool getRandomBool();
 
 	/**
 	 * <p>
@@ -296,7 +296,7 @@ namespace simplicity
 	 *
 	 * @return A random boolean value.
 	 */
-	bool getRandomBool(float trueChance);
+	SIMPLE_API bool getRandomBool(float trueChance);
 
 	/**
 	 * <p>
@@ -308,7 +308,7 @@ namespace simplicity
 	 *
 	 * @return A random floating point value.
 	 */
-	float getRandomFloat(float min, float max);
+	SIMPLE_API float getRandomFloat(float min, float max);
 
 	/**
 	 * <p>
@@ -320,7 +320,7 @@ namespace simplicity
 	 *
 	 * @return A random integer value.
 	 */
-	int getRandomInt(int min, int max);
+	SIMPLE_API int getRandomInt(int min, int max);
 
 	/**
 	 * <p>
@@ -453,7 +453,7 @@ namespace simplicity
 	 *
 	 * @return True if the floating point values are within 4dp of each-other, false otherwise.
 	 */
-	bool near(float a, float b);
+	SIMPLE_API bool near(float a, float b);
 
 	/**
 	 * <p>
@@ -605,7 +605,7 @@ namespace simplicity
 	 *
 	 * @param seed The random number generator seed.
 	 */
-	void setRandomSeed(unsigned int seed);
+	SIMPLE_API void setRandomSeed(unsigned int seed);
 
 	/**
 	 * <p>

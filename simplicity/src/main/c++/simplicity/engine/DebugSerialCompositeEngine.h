@@ -32,7 +32,7 @@ namespace simplicity
 	 * Provides debug information about the running times of the contained engines.
 	 * </p>
 	 */
-	class DebugSerialCompositeEngine : public CompositeEngine
+	class SIMPLE_API DebugSerialCompositeEngine : public CompositeEngine
 	{
 		public:
 			DebugSerialCompositeEngine();

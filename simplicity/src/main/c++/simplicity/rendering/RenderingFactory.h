@@ -30,7 +30,7 @@ namespace simplicity
 	 * A factory that creates textures.
 	 * </p>
 	 */
-	class RenderingFactory
+	class SIMPLE_API RenderingFactory
 	{
 		public:
 			/**

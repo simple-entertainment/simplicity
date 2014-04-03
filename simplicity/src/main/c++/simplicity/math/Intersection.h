@@ -75,7 +75,7 @@ namespace simplicity
 		 *
 		 * @return True if cube a contains cube b, false otherwise.
 		 */
-		bool contains(const Cube& a, const Cube& b, const Vector3& relativePosition);
+		SIMPLE_API bool contains(const Cube& a, const Cube& b, const Vector3& relativePosition);
 
 		/**
 		 * <p>
@@ -88,7 +88,7 @@ namespace simplicity
 		 *
 		 * @return True if the mesh contains the point, false otherwise.
 		 */
-		bool contains(const Mesh& mesh, const Point& point, const Matrix44& relativeTransform);
+		SIMPLE_API bool contains(const Mesh& mesh, const Point& point, const Matrix44& relativeTransform);
 
 		/**
 		 * <p>
@@ -101,7 +101,7 @@ namespace simplicity
 		 *
 		 * @return True if the mesh contains the triangle, false otherwise.
 		 */
-		bool contains(const Mesh& mesh, const Triangle& triangle, const Matrix44& relativeTransform);
+		SIMPLE_API bool contains(const Mesh& mesh, const Triangle& triangle, const Matrix44& relativeTransform);
 
 		/**
 		 * <p>
@@ -119,7 +119,7 @@ namespace simplicity
 		 *
 		 * @return True if model a contains model b, false otherwise.
 		 */
-		bool contains(const Model& a, const Model& b, const Vector3& relativePosition);
+		SIMPLE_API bool contains(const Model& a, const Model& b, const Vector3& relativePosition);
 
 		/**
 		 * <p>
@@ -136,7 +136,7 @@ namespace simplicity
 		 *
 		 * @return True if the square contains model the circle, false otherwise.
 		 */
-		bool contains(const Square& square, const Circle& circle, const Vector2& relativePosition);
+		SIMPLE_API bool contains(const Square& square, const Circle& circle, const Vector2& relativePosition);
 
 		/**
 		 * <p>
@@ -153,7 +153,7 @@ namespace simplicity
 		 *
 		 * @return True if square a contains square b, false otherwise.
 		 */
-		bool contains(const Square& a, const Square& b, const Vector2& relativePosition);
+		SIMPLE_API bool contains(const Square& a, const Square& b, const Vector2& relativePosition);
 
 		/**
 		 * <p>
@@ -169,7 +169,7 @@ namespace simplicity
 		 *
 		 * @return True if the triangle contains the point, false otherwise.
 		 */
-		bool contains(const Triangle& triangle, const Point& point);
+		SIMPLE_API bool contains(const Triangle& triangle, const Point& point);
 
 		/**
 		 * <p>
@@ -181,7 +181,7 @@ namespace simplicity
 		 *
 		 * @return The point of intersection.
 		 */
-		Vector3 getIntersection(const Line& lineSegment, const Plane& plane);
+		SIMPLE_API Vector3 getIntersection(const Line& lineSegment, const Plane& plane);
 
 		/**
 		 * <p>
@@ -203,7 +203,7 @@ namespace simplicity
 		 *
 		 * @return The line of intersection.
 		 */
-		Line getIntersection(const Triangle& a, const Triangle& b, const Matrix44& relativeTransform);
+		SIMPLE_API Line getIntersection(const Triangle& a, const Triangle& b, const Matrix44& relativeTransform);
 
 		/**
 		 * <p>
@@ -228,7 +228,7 @@ namespace simplicity
 		 *
 		 * @return The line of intersection.
 		 */
-		Line getIntersection(const Triangle& a, const Triangle& relativeB, const Vector3& normalA,
+		SIMPLE_API Line getIntersection(const Triangle& a, const Triangle& relativeB, const Vector3& normalA,
 				const Vector3& normalB);
 
 		/**
@@ -241,7 +241,7 @@ namespace simplicity
 		 *
 		 * @return The distance along the line segment where the intersection occurs (value is in the range [0,1]).
 		 */
-		float getIntersectionTime(const Line& lineSegment, const Plane& plane);
+		SIMPLE_API float getIntersectionTime(const Line& lineSegment, const Plane& plane);
 
 		/**
 		 * <p>
@@ -258,7 +258,7 @@ namespace simplicity
 		 *
 		 * @return True if circle a and circle b intersect, false otherwise.
 		 */
-		bool intersect(const Circle& a, const Circle& b, const Vector2& relativePosition);
+		SIMPLE_API bool intersect(const Circle& a, const Circle& b, const Vector2& relativePosition);
 
 		/**
 		 * <p>
@@ -275,7 +275,7 @@ namespace simplicity
 		 *
 		 * @return True if the circle and the square intersect, false otherwise.
 		 */
-		bool intersect(const Circle& circle, const Square& square, const Vector2& relativePosition);
+		SIMPLE_API bool intersect(const Circle& circle, const Square& square, const Vector2& relativePosition);
 
 		/**
 		 * <p>
@@ -292,7 +292,7 @@ namespace simplicity
 		 *
 		 * @return True if cube a and cube b intersect, false otherwise.
 		 */
-		bool intersect(const Cube& a, const Cube& b, const Vector3& relativePosition);
+		SIMPLE_API bool intersect(const Cube& a, const Cube& b, const Vector3& relativePosition);
 
 		/**
 		 * <p>
@@ -308,7 +308,7 @@ namespace simplicity
 		 *
 		 * @return True if the line segment and the plane intersect, false otherwise.
 		 */
-		bool intersect(const Line& lineSegment, const Plane& plane);
+		SIMPLE_API bool intersect(const Line& lineSegment, const Plane& plane);
 
 		/**
 		 * <p>
@@ -324,7 +324,7 @@ namespace simplicity
 		 *
 		 * @return True if the line segment and the triangle intersect, false otherwise.
 		 */
-		bool intersect(const Line& lineSegment, const Triangle& triangle);
+		SIMPLE_API bool intersect(const Line& lineSegment, const Triangle& triangle);
 
 		/**
 		 * <p>
@@ -342,7 +342,7 @@ namespace simplicity
 		 *
 		 * @return True if model a and model b intersect, false otherwise.
 		 */
-		bool intersect(const Model& a, const Model& b, const Vector3& relativePosition);
+		SIMPLE_API bool intersect(const Model& a, const Model& b, const Vector3& relativePosition);
 
 		/**
 		 * <p>
@@ -358,7 +358,7 @@ namespace simplicity
 		 *
 		 * @return The position of the point relative to the plane.
 		 */
-		RelativePosition intersect(const Plane& plane, const Point& point);
+		SIMPLE_API RelativePosition intersect(const Plane& plane, const Point& point);
 
 		/**
 		 * <p>
@@ -374,7 +374,7 @@ namespace simplicity
 		 *
 		 * @return True if the plane and the triangle intersect, false otherwise.
 		 */
-		bool intersect(const Plane& plane, const Triangle& triangle);
+		SIMPLE_API bool intersect(const Plane& plane, const Triangle& triangle);
 
 		/**
 		 * <p>
@@ -391,7 +391,7 @@ namespace simplicity
 		 *
 		 * @return True if square a and square b intersect, false otherwise.
 		 */
-		bool intersect(const Square& a, const Square& b, const Vector2& relativePosition);
+		SIMPLE_API bool intersect(const Square& a, const Square& b, const Vector2& relativePosition);
 
 		/**
 		 * <p>
@@ -404,7 +404,7 @@ namespace simplicity
 		 *
 		 * @return True if triangle a and triangle b intersect, false otherwise.
 		 */
-		bool intersect(const Triangle& a, const Triangle& b, const Matrix44& relativeTransform);
+		SIMPLE_API bool intersect(const Triangle& a, const Triangle& b, const Matrix44& relativeTransform);
 
 		/**
 		 * <p>
@@ -418,7 +418,8 @@ namespace simplicity
 		 *
 		 * @return True if triangle a and triangle relativeB intersect, false otherwise.
 		 */
-		bool intersect(const Triangle& a, const Triangle& relativeB, const Vector3& normalA, const Vector3& normalB);
+		SIMPLE_API bool intersect(const Triangle& a, const Triangle& relativeB, const Vector3& normalA,
+				const Vector3& normalB);
 	}
 }
 

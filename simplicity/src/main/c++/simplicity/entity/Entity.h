@@ -21,20 +21,25 @@
 #include <string>
 #include <vector>
 
-#include "Categories.h"
+#include "../common/NonCopyable.h"
 #include "../math/Matrix.h"
+#include "Categories.h"
+#include "Component.h"
+
+// STL Instantiations for Export/Import
+#if defined(SIMPLE_WINDOWS) && (defined(SIMPLE_SHARED) || defined(SIMPLE_SHARED_EXE))
+	SIMPLE_API_TEMPLATE template class SIMPLE_API std::basic_string<char>;
+#endif
 
 namespace simplicity
 {
-	class Component;
-
 	/**
 	 * <p>
 	 * An object that can be added to a scene. It is a container for components which describe the way the entity looks
 	 * and behaves.
 	 * </p>
 	 */
-	class Entity
+	class SIMPLE_API Entity : private NonCopyable
 	{
 		public:
 			/**

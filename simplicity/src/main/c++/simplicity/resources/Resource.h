@@ -21,6 +21,8 @@
 #include <memory>
 #include <ostream>
 
+#include "../common/Defines.h"
+
 namespace simplicity
 {
 	/**
@@ -28,7 +30,7 @@ namespace simplicity
 	 * A data resource.
 	 * </p>
 	 */
-	class Resource
+	class SIMPLE_API Resource
 	{
 		public:
 			/**

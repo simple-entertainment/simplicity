@@ -26,7 +26,7 @@ namespace simplicity
 	 * An ModelFactory implementation that uses the SimpleMesh.
 	 * </p>
 	 */
-	class SimpleModelFactory : public ModelFactory
+	class SIMPLE_API SimpleModelFactory : public ModelFactory
 	{
 		public:
 			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices);

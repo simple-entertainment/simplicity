@@ -17,6 +17,7 @@
 #ifndef VERTEX_H_
 #define VERTEX_H_
 
+#include "../common/Defines.h"
 #include "../math/Vector.h"
 
 namespace simplicity
@@ -26,7 +27,7 @@ namespace simplicity
 	 * A vertex in a mesh.
 	 * </p>
 	 */
-	struct Vertex
+	struct SIMPLE_API Vertex
 	{
 		/**
 		 * <p>

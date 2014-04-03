@@ -27,7 +27,7 @@ namespace simplicity
 	 * A physical body.
 	 * </p>
 	 */
-	class Body : public Component
+	class SIMPLE_API Body : public Component
 	{
 		public:
 			/**

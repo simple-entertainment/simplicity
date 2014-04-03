@@ -23,7 +23,7 @@
 
 namespace simplicity
 {
-	class FileSystemResource : public Resource
+	class SIMPLE_API FileSystemResource : public Resource
 	{
 		public:
 			FileSystemResource(unsigned short category, const std::string& name, const std::string& uri, bool binary);

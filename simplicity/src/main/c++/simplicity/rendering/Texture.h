@@ -26,7 +26,7 @@ namespace simplicity
 	 * A texture.
 	 * </p>
 	 */
-	class Texture
+	class SIMPLE_API Texture
 	{
 		public:
 			/**

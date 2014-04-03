@@ -26,7 +26,7 @@ namespace simplicity
 	 * A lonesome point in space... just used as a container so that a point can be used polymorphically as a model.
 	 * </p>
 	 */
-	class Point : public Model
+	class SIMPLE_API Point : public Model
 	{
 		public:
 			/**

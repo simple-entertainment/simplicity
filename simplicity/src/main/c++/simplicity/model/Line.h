@@ -26,7 +26,7 @@ namespace simplicity
 	 * A line between two points, A and B.
 	 * </p>
 	 */
-	class Line : public Model
+	class SIMPLE_API Line : public Model
 	{
 		public:
 			/**

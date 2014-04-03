@@ -23,7 +23,7 @@
 
 namespace simplicity
 {
-	class ConsoleResource : public Resource
+	class SIMPLE_API ConsoleResource : public Resource
 	{
 		public:
 			ConsoleResource(unsigned short category, const std::string& name);

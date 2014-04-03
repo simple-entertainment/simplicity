@@ -25,7 +25,7 @@
 
 namespace simplicity
 {
-	class FlyingCameraEngine : public Engine
+	class SIMPLE_API FlyingCameraEngine : public Engine
 	{
 		public:
 			FlyingCameraEngine(Entity& camera);

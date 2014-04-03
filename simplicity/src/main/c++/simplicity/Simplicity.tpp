@@ -20,14 +20,12 @@ namespace simplicity
 {
 	namespace Simplicity
 	{
-		extern std::unique_ptr<CompositeEngine> compositeEngine;
-
 		template<typename EngineType>
 		EngineType* getEngine()
 		{
-			for (unsigned int index = 0; index < compositeEngine->getEngines().size(); index++)
+			for (unsigned int index = 0; index < Simplicity::getCompositeEngine()->getEngines().size(); index++)
 			{
-				EngineType* engine = dynamic_cast<EngineType*>(compositeEngine->getEngines()[index].get());
+				EngineType* engine = dynamic_cast<EngineType*>(Simplicity::getCompositeEngine()->getEngines()[index].get());
 				if (engine != NULL)
 				{
 					return engine;
@@ -42,9 +40,9 @@ namespace simplicity
 		{
 			std::vector<EngineType*> typedEngines;
 
-			for (unsigned int index = 0; index < compositeEngine->getEngines().size(); index++)
+			for (unsigned int index = 0; index < Simplicity::getCompositeEngine()->getEngines().size(); index++)
 			{
-				EngineType* engine = dynamic_cast<EngineType*>(compositeEngine->getEngines()[index].get());
+				EngineType* engine = dynamic_cast<EngineType*>(Simplicity::getCompositeEngine()->getEngines()[index].get());
 				if (engine != NULL)
 				{
 					typedEngines.push_back(engine);

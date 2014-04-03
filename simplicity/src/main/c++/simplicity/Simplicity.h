@@ -33,7 +33,7 @@ namespace simplicity
 		 *
 		 * @param engine The engine.
 		 */
-		void addEngine(std::unique_ptr<Engine> engine);
+		SIMPLE_API void addEngine(std::unique_ptr<Engine> engine);
 
 		/**
 		 * <p>
@@ -43,7 +43,7 @@ namespace simplicity
 		 * @param name The name of the scene.
 		 * @param scene The scene.
 		 */
-		void addScene(const std::string& name, std::unique_ptr<Scene> scene);
+		SIMPLE_API void addScene(const std::string& name, std::unique_ptr<Scene> scene);
 
 		/**
 		 * <p>
@@ -52,7 +52,7 @@ namespace simplicity
 		 *
 		 * @return The composite engine.
 		 */
-		CompositeEngine* getCompositeEngine();
+		SIMPLE_API CompositeEngine* getCompositeEngine();
 
         /**
          * <p>
@@ -61,7 +61,7 @@ namespace simplicity
          *
          * @return The elapsed time since the last frame.
          */
-		float getDeltaTime();
+		SIMPLE_API float getDeltaTime();
 
 		/**
 		 * <p>
@@ -92,7 +92,7 @@ namespace simplicity
          *
          * @return The maximum frame rate allowed by simplicity.
          */
-		unsigned short getMaxFrameRate();
+		SIMPLE_API unsigned short getMaxFrameRate();
 
 		/**
 		 * <p>
@@ -101,7 +101,7 @@ namespace simplicity
 		 *
 		 * @return The current scene.
 		 */
-		Scene* getScene();
+		SIMPLE_API Scene* getScene();
 
         /**
          * <p>
@@ -110,7 +110,16 @@ namespace simplicity
          *
          * @return The elapsed time since simplicity started playing.
          */
-		float getTotalTime();
+		SIMPLE_API float getTotalTime();
+
+		/**
+		 * <p>
+         * Determines if simplicity is currently playing.
+         * </p>
+         *
+         * @return True if simplicity is currently playing, false otherwise.
+		 */
+		SIMPLE_API bool isPlaying();
 
 		/**
 		 * <p>
@@ -119,21 +128,21 @@ namespace simplicity
 		 *
 		 * @param name The name of the scene to open.
 		 */
-		void openScene(const std::string& name);
+		SIMPLE_API void openScene(const std::string& name);
 
 		/**
 		 * <p>
 		 * Pauses all engines (after the completion of the current frame).
 		 * </p>
 		 */
-		void pause();
+		SIMPLE_API void pause();
 
 		/**
 		 * <p>
 		 * Starts/resumes all engines.
 		 * </p>
 		 */
-		void play();
+		SIMPLE_API void play();
 
 		/**
 		 * <p>
@@ -144,7 +153,7 @@ namespace simplicity
 		 *
 		 * @return The removed engine.
 		 */
-		std::unique_ptr<Engine> removeEngine(Engine* engine);
+		SIMPLE_API std::unique_ptr<Engine> removeEngine(Engine* engine);
 
 		/**
 		 * <p>
@@ -153,7 +162,7 @@ namespace simplicity
 		 *
 		 * @param compositeEngine The composite engine.
 		 */
-		void setCompositeEngine(std::unique_ptr<CompositeEngine> compositeEngine);
+		SIMPLE_API void setCompositeEngine(std::unique_ptr<CompositeEngine> compositeEngine);
 
         /**
          * <p>
@@ -163,14 +172,14 @@ namespace simplicity
          *
          * @param maxFrameRate The maximum frame rate allowed by simplicity.
          */
-		void setMaxFrameRate(unsigned short maxFrameRate);
+		SIMPLE_API void setMaxFrameRate(unsigned short maxFrameRate);
 
 		/**
 		 * <p>
 		 * Stops all engines (after the completion of the current frame).
 		 * </p>
 		 */
-		void stop();
+		SIMPLE_API void stop();
 	}
 }
 

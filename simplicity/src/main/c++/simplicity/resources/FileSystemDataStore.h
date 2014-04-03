@@ -20,6 +20,7 @@
 #include <map>
 #include <memory>
 
+#include "../common/NonCopyable.h"
 #include "DataStore.h"
 
 namespace simplicity
@@ -29,7 +30,7 @@ namespace simplicity
 	 * A data store that represents a directory in the local filesystem.
 	 * </p>
 	 */
-	class FileSystemDataStore : public DataStore
+	class SIMPLE_API FileSystemDataStore : public DataStore, private NonCopyable
 	{
 		public:
 			/**

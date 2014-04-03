@@ -26,7 +26,7 @@ namespace simplicity
 	 * A cube.
 	 * </p>
 	 */
-	class Cube : public Shape
+	class SIMPLE_API Cube : public Shape
 	{
 		public:
 			/**

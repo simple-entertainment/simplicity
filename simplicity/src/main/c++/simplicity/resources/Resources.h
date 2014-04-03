@@ -36,7 +36,7 @@ namespace simplicity
 		 *
 		 * @return The resource if it was created, NULL otherwise.
 		 */
-		Resource* create(const std::string& name, unsigned short category);
+		SIMPLE_API Resource* create(const std::string& name, unsigned short category);
 
 		/**
 		 * <p>
@@ -48,7 +48,7 @@ namespace simplicity
 		 *
 		 * @return True if the resource exists, false otherwise.
 		 */
-		bool exists(const std::string& name, unsigned short category);
+		SIMPLE_API bool exists(const std::string& name, unsigned short category);
 
 		/**
 		 * <p>
@@ -60,7 +60,7 @@ namespace simplicity
 		 *
 		 * @return The resource if it exists, NULL otherwise.
 		 */
-		Resource* get(const std::string& name, unsigned short category);
+		SIMPLE_API Resource* get(const std::string& name, unsigned short category);
 
 		/**
 		 * <p>
@@ -71,7 +71,7 @@ namespace simplicity
 		 *
 		 * @return True if the resource was deleted, false otherwise.
 		 */
-		bool remove(Resource* resource);
+		SIMPLE_API bool remove(Resource* resource);
 
 		/**
 		 * <p>
@@ -83,7 +83,7 @@ namespace simplicity
 		 * @param dataStore The data store.
 		 * @param category The category the data store will be used for.
 		 */
-		void setDataStore(std::unique_ptr<DataStore> dataStore, unsigned short category);
+		SIMPLE_API void setDataStore(std::unique_ptr<DataStore> dataStore, unsigned short category);
 	}
 }
 

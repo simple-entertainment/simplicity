@@ -17,16 +17,20 @@
 #ifndef DEFINES_H_
 #define DEFINES_H_
 
+// Platforms
 #if defined(_WIN32)
 	#define SIMPLE_WINDOWS
 #elif defined(__linux__)
 	#define SIMPLE_LINUX
 #endif
 
+// Export/Import
 #if defined(SIMPLE_WINDOWS) && defined(SIMPLE_SHARED)
 	#define SIMPLE_API __declspec(dllexport)
+	#define SIMPLE_API_TEMPLATE
 #elif defined(SIMPLE_WINDOWS) && defined(SIMPLE_SHARED_EXE)
 	#define SIMPLE_API __declspec(dllimport)
+	#define SIMPLE_API_TEMPLATE extern
 #else
 	#define SIMPLE_API
 #endif

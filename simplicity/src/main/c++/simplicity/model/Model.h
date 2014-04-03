@@ -29,7 +29,7 @@ namespace simplicity
 	 * A representation of 2D or 3D geometry.
 	 * </p>
 	 */
-	class Model : public Component
+	class SIMPLE_API Model : public Component
 	{
 		public:
 			/**

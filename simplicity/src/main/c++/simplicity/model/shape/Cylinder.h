@@ -26,7 +26,7 @@ namespace simplicity
 	 * A cylinder.
 	 * </p>
 	 */
-	class Cylinder : public Shape
+	class SIMPLE_API Cylinder : public Shape
 	{
 		public:
 			/**

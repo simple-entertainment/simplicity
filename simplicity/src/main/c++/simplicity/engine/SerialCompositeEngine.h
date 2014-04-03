@@ -26,7 +26,7 @@ namespace simplicity
 	 * A composite engine that advances its contained engines in serial.
 	 * </p>
 	 */
-	class SerialCompositeEngine : public CompositeEngine
+	class SIMPLE_API SerialCompositeEngine : public CompositeEngine
 	{
 		public:
 			SerialCompositeEngine();

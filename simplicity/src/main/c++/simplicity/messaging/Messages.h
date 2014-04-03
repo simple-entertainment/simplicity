@@ -19,6 +19,8 @@
 
 #include <functional>
 
+#include "../common/Defines.h"
+
 namespace simplicity
 {
 	namespace Messages
@@ -40,7 +42,7 @@ namespace simplicity
 		 * @param subject The subject to deregister the recipient from.
 		 * @param recipient The recipient to deregister.
 		 */
-		void deregisterRecipient(unsigned short subject, std::function<Recipient> recipient);
+		SIMPLE_API void deregisterRecipient(unsigned short subject, std::function<Recipient> recipient);
 
 		/**
 		 * <p>
@@ -50,7 +52,7 @@ namespace simplicity
 		 * @param subject The subject to register the recipient with.
 		 * @param recipient The recipient to send messages of the given subject to.
 		 */
-		void registerRecipient(unsigned short subject, std::function<Recipient> recipient);
+		SIMPLE_API void registerRecipient(unsigned short subject, std::function<Recipient> recipient);
 
 		/**
 		 * <p>
@@ -60,7 +62,7 @@ namespace simplicity
 		 * @param subject The subject of the message.
 		 * @param message The message to send.
 		 */
-		void send(unsigned short subject, const void* message);
+		SIMPLE_API void send(unsigned short subject, const void* message);
 	}
 }
 

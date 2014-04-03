@@ -21,14 +21,49 @@ using namespace std::chrono;
 namespace simplicity
 {
 	Timer::Timer() :
+		paused(false),
+		pauseDuration(0.0f),
+		pauseTime(),
 		startTime(high_resolution_clock::now())
 	{
 	}
 
 	float Timer::getElapsedTime()
 	{
+		return getElapsedTime(startTime) - pauseDuration;
+	}
+
+	float Timer::getElapsedTime(time_point<high_resolution_clock> beginTime)
+	{
 		time_point<high_resolution_clock> now = high_resolution_clock::now();
 
-		return duration_cast<nanoseconds>(now - startTime).count() / 1000000000.0f;
+		return duration_cast<nanoseconds>(now - beginTime).count() / 1000000000.0f;
+	}
+
+	bool Timer::isPaused()
+	{
+		return paused;
+	}
+
+	void Timer::pause()
+	{
+		pauseTime = high_resolution_clock::now();
+		paused = true;
+	}
+
+	void Timer::reset()
+	{
+		startTime = high_resolution_clock::now();
+		pauseDuration = 0.0f;
+		paused = false;
+	}
+
+	void Timer::resume()
+	{
+		if (paused)
+		{
+			pauseDuration += getElapsedTime(pauseTime);
+			paused = false;
+		}
 	}
 }

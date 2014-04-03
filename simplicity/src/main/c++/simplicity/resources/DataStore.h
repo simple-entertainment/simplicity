@@ -27,7 +27,7 @@ namespace simplicity
 	 * A data storage facility.
 	 * </p>
 	 */
-	class DataStore
+	class SIMPLE_API DataStore
 	{
 		public:
 			/**

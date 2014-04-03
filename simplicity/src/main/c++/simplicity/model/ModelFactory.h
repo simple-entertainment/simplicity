@@ -30,7 +30,7 @@ namespace simplicity
 	 * A factory that creates meshes of various pre-defined shapes or using specified vertices and indices.
 	 * </p>
 	 */
-	class ModelFactory
+	class SIMPLE_API ModelFactory
 	{
 		public:
 			/**

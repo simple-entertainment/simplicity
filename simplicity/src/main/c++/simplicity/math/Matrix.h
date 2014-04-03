@@ -20,6 +20,8 @@
 #include <array>
 #include <ostream>
 
+#include "../common/Defines.h"
+
 namespace simplicity
 {
 	/**
@@ -202,7 +204,7 @@ namespace simplicity
 	 */
 	// Specialized for speed!
 	template<>
-	Matrix<float, 4, 4>& Matrix<float, 4, 4>::operator*=(const Matrix<float, 4, 4>& rhs);
+	SIMPLE_API Matrix<float, 4, 4>& Matrix<float, 4, 4>::operator*=(const Matrix<float, 4, 4>& rhs);
 
 	/**
 	 * <p>

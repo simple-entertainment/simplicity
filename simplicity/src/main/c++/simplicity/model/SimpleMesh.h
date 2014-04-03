@@ -29,7 +29,7 @@ namespace simplicity
 	 * A simple implementation of a mesh. No fancy GPU stuff here.
 	 * </p>
 	 */
-	class SimpleMesh : public Mesh
+	class SIMPLE_API SimpleMesh : public Mesh
 	{
 		public:
 			SimpleMesh();

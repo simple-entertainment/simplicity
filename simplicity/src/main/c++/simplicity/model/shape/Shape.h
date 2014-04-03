@@ -27,7 +27,7 @@ namespace simplicity
 	 * is a hint used by renderers etc. when they convert them to meshes.
 	 * </p>
 	 */
-	class Shape : public Model
+	class SIMPLE_API Shape : public Model
 	{
 		public:
 			Shape();

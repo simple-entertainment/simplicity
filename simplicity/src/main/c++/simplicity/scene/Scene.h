@@ -19,6 +19,7 @@
 
 #include <map>
 
+#include "../common/NonCopyable.h"
 #include "../entity/Entity.h"
 #include "../graph/Graph.h"
 
@@ -29,7 +30,7 @@ namespace simplicity
 	 * A scene.
 	 * </p>
 	 */
-	class Scene
+	class SIMPLE_API Scene : private NonCopyable
 	{
 		public:
 			/**

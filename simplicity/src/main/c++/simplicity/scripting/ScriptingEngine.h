@@ -27,7 +27,7 @@ namespace simplicity
 	 * An engine that executes scripts every frame.
 	 * </p>
 	 */
-	class ScriptingEngine : public Engine
+	class SIMPLE_API ScriptingEngine : public Engine
 	{
 		public:
 			ScriptingEngine();

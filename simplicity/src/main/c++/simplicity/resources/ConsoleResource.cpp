@@ -60,7 +60,7 @@ namespace simplicity
 		{
 			int begin = static_cast<int>(cin.tellg());
 			cin.seekg(0, ios_base::end);
-			unsigned int end = cin.tellg();
+			int end = static_cast<int>(cin.tellg());
 			cin.seekg(-begin, ios_base::end);
 
 			data.resize(end - begin);
@@ -80,7 +80,7 @@ namespace simplicity
 		return name;
 	}
 
-	unique_ptr<ostream> ConsoleResource::getOutputStream(bool append)
+	unique_ptr<ostream> ConsoleResource::getOutputStream(bool /* append */)
 	{
 		return unique_ptr<ostream>();
 	}

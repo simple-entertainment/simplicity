@@ -28,7 +28,7 @@ namespace simplicity
 	 * A viewpoint through which a scene can be rendered.
 	 * </p>
 	 */
-	class Camera : public Component
+	class SIMPLE_API Camera : public Component
 	{
 		public:
 			/**

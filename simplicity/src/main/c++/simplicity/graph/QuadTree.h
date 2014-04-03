@@ -19,6 +19,7 @@
 
 #include <vector>
 
+#include "../common/NonCopyable.h"
 #include "../model/Model.h"
 #include "../model/shape/Square.h"
 #include "Graph.h"
@@ -39,7 +40,7 @@ namespace simplicity
 	 * axis i.e. XY, XZ or YZ.
 	 * </p>
 	 */
-	class QuadTree : public Graph
+	class SIMPLE_API QuadTree : public Graph, private NonCopyable
 	{
 		public:
 			/**

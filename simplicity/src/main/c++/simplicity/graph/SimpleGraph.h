@@ -19,13 +19,14 @@
 
 #include <vector>
 
+#include "../common/NonCopyable.h"
 #include "../math/Matrix.h"
 #include "../model/shape/Cube.h"
 #include "Graph.h"
 
 namespace simplicity
 {
-	class SimpleGraph : public Graph
+	class SIMPLE_API SimpleGraph : public Graph, private NonCopyable
 	{
 		public:
 			SimpleGraph();

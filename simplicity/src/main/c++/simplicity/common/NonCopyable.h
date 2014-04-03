@@ -17,9 +17,11 @@
 #ifndef NONCOPYABLE_H_
 #define NONCOPYABLE_H_
 
+#include "Defines.h"
+
 namespace simplicity
 {
-	class NonCopyable
+	class SIMPLE_API NonCopyable
 	{
 		public:
 			NonCopyable()

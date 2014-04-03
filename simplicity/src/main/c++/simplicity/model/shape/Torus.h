@@ -26,7 +26,7 @@ namespace simplicity
 	 * A torus.
 	 * </p>
 	 */
-	class Torus : public Shape
+	class SIMPLE_API Torus : public Shape
 	{
 		public:
 			/**

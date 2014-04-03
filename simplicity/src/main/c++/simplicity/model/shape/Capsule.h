@@ -26,7 +26,7 @@ namespace simplicity
 	 * A capsule.
 	 * </p>
 	 */
-	class Capsule : public Shape
+	class SIMPLE_API Capsule : public Shape
 	{
 		public:
 			/**

@@ -26,7 +26,7 @@ namespace simplicity
 	 * Custom functionality that can be attached to an entity.
 	 * </p>
 	 */
-	class Script : public Component
+	class SIMPLE_API Script : public Component
 	{
 		public:
 			/**

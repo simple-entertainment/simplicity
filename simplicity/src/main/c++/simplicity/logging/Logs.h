@@ -33,7 +33,7 @@ namespace simplicity
 		 * @param category The category to log the message in.
 		 * @param message The message to log.
 		 */
-		void log(unsigned short category, const std::string& message);
+		SIMPLE_API void log(unsigned short category, const std::string& message);
 
 		/**
 		 * <p>
@@ -45,7 +45,7 @@ namespace simplicity
 		 * @param resource The resource.
 		 * @param category The category the resource will be used for.
 		 */
-		void setResource(Resource* resource, unsigned short category);
+		SIMPLE_API void setResource(Resource* resource, unsigned short category);
 	}
 }
 

@@ -27,7 +27,7 @@ namespace simplicity
 	 * Engine are delegated to the contained engines.
 	 * </p>
 	 */
-	class CompositeEngine : public Engine
+	class SIMPLE_API CompositeEngine : public Engine
 	{
 		public:
 			/**

@@ -33,7 +33,7 @@ namespace simplicity
 	 * etc. using this interface. Each node can contain multiple entities.
 	 * </p>
 	 */
-	class Graph
+	class SIMPLE_API Graph
 	{
 		public:
 			/**

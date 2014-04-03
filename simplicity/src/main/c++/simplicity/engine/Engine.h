@@ -17,6 +17,7 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
+#include "../common/NonCopyable.h"
 #include "../entity/Entity.h"
 
 namespace simplicity
@@ -26,7 +27,7 @@ namespace simplicity
 	 * Performs tasks every frame.
 	 * </p>
 	 */
-	class Engine
+	class SIMPLE_API Engine : private NonCopyable
 	{
 		public:
 			/**

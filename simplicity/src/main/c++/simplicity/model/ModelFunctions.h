@@ -40,8 +40,8 @@ namespace simplicity
 		 * @param end The index of the last vertex to colorize (exclusive, default is 0 which is used to signify the
 		 * end of the vertices).
 		 */
-		void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color, unsigned int begin = 0,
-				unsigned int end = 0);
+		SIMPLE_API void colorizeVertices(std::vector<Vertex>& vertices, const Vector4& color,
+				unsigned int begin = 0, unsigned int end = 0);
 
 		/**
 		 * <p>
@@ -54,8 +54,8 @@ namespace simplicity
 		 * @param end The index of the last face to flip (exclusive, default is 0 which is used to signify the end of
 		 * the faces).
 		 */
-		void flipTriangles(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, unsigned int begin = 0,
-				unsigned int end = 0);
+		SIMPLE_API void flipTriangles(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices,
+				unsigned int begin = 0, unsigned int end = 0);
 
 		/**
 		 * <p>
@@ -66,7 +66,7 @@ namespace simplicity
 		 *
 		 * @return A circular bounding volume on the XZ plane.
 		 */
-		std::unique_ptr<Circle> getCircleBoundsXZ(const std::vector<Vertex>& vertices);
+		SIMPLE_API std::unique_ptr<Circle> getCircleBoundsXZ(const std::vector<Vertex>& vertices);
 
 		/**
 		 * <p>
@@ -77,7 +77,7 @@ namespace simplicity
 		 *
 		 * @return A square bounding volume on the XZ plane.
 		 */
-		std::unique_ptr<Square> getSquareBoundsXZ(const std::vector<Vertex>& vertices);
+		SIMPLE_API std::unique_ptr<Square> getSquareBoundsXZ(const std::vector<Vertex>& vertices);
 
 		/**
 		 * <p>
@@ -91,8 +91,8 @@ namespace simplicity
 		 * @param end The index of the last vertex to rotate (exclusive, default is 0 which is used to signify the end
 		 * of the vertices).
 		 */
-		void rotateVertices(std::vector<Vertex>& vertices, float angle, const Vector3& axis, unsigned int begin = 0,
-				unsigned int end = 0);
+		SIMPLE_API void rotateVertices(std::vector<Vertex>& vertices, float angle, const Vector3& axis,
+				unsigned int begin = 0, unsigned int end = 0);
 
 		/**
 		 * <p>
@@ -105,7 +105,8 @@ namespace simplicity
 		 * @param end The index of the last vertex to scale (exclusive, default is 0 which is used to signify the end
 		 * of the vertices).
 		 */
-		void scaleVertices(std::vector<Vertex>& vertices, float scale, unsigned int begin = 0, unsigned int end = 0);
+		SIMPLE_API void scaleVertices(std::vector<Vertex>& vertices, float scale, unsigned int begin = 0,
+				unsigned int end = 0);
 
 		/**
 		 * <p>
@@ -122,7 +123,8 @@ namespace simplicity
 		 *
 		 * @return The result of the subtraction.
 		 */
-		std::unique_ptr<Mesh> subtract(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform);
+		SIMPLE_API std::unique_ptr<Mesh> subtract(const Mesh& lhs, const Mesh& rhs,
+				const Matrix44& relativeTransform);
 
 		/**
 		 * <p>
@@ -135,8 +137,8 @@ namespace simplicity
 		 * @param end The index of the last vertex to transform (exclusive, default is 0 which is used to signify the
 		 * end of the vertices).
 		 */
-		void transformVertices(std::vector<Vertex>& vertices, const Matrix44& transformation, unsigned int begin = 0,
-				unsigned int end = 0);
+		SIMPLE_API void transformVertices(std::vector<Vertex>& vertices, const Matrix44& transformation,
+				unsigned int begin = 0, unsigned int end = 0);
 
 		/**
 		 * <p>
@@ -149,8 +151,8 @@ namespace simplicity
 		 * @param end The index of the last vertex to translate (exclusive, default is 0 which is used to signify the
 		 * end of the vertices).
 		 */
-		void translateVertices(std::vector<Vertex>& vertices, const Vector3& translation, unsigned int begin = 0,
-				unsigned int end = 0);
+		SIMPLE_API void translateVertices(std::vector<Vertex>& vertices, const Vector3& translation,
+				unsigned int begin = 0, unsigned int end = 0);
 	}
 }
 

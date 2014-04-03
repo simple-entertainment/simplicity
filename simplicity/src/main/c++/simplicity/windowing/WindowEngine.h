@@ -26,7 +26,7 @@ namespace simplicity
 	 * An engine that provides the window in which the game will run.
 	 * </p>
 	 */
-	class WindowEngine : public Engine
+	class SIMPLE_API WindowEngine : public Engine
 	{
 		public:
 			/**

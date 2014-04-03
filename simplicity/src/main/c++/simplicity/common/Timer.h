@@ -19,6 +19,8 @@
 
 #include <chrono>
 
+#include "Defines.h"
+
 namespace simplicity
 {
 	/**
@@ -26,7 +28,7 @@ namespace simplicity
 	 * A high precision timer.
 	 * </p>
 	 */
-	class Timer
+	class SIMPLE_API Timer
 	{
 		public:
 			Timer();
@@ -40,8 +42,24 @@ namespace simplicity
 			 */
 			float getElapsedTime();
 
+			bool isPaused();
+
+			void pause();
+
+			void reset();
+
+			void resume();
+
 		private:
+			bool paused;
+
+			float pauseDuration;
+
+			std::chrono::time_point<std::chrono::high_resolution_clock> pauseTime;
+
 			std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
+
+			float getElapsedTime(std::chrono::time_point<std::chrono::high_resolution_clock> beginTime);
 	};
 }
 

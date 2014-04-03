@@ -29,7 +29,7 @@ namespace simplicity
 	 * A collection of indexed vertices.
 	 * </p>
 	 */
-	class Mesh : public Model
+	class SIMPLE_API Mesh : public Model
 	{
 		public:
 			/**

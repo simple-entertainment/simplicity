@@ -26,7 +26,7 @@ namespace simplicity
 	 * Some text. TODO Is this really a model?
 	 * </p>
 	 */
-	class Text : public Model
+	class SIMPLE_API Text : public Model
 	{
 		public:
 			/**

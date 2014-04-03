@@ -31,7 +31,7 @@ namespace simplicity
 	 * will determine which properties are used and how to use them.
 	 * </p>
 	 */
-	class Light : public Component
+	class SIMPLE_API Light : public Component
 	{
 		public:
 			/**

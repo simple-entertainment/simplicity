@@ -36,7 +36,7 @@ namespace simplicity
 		 *
 		 * @return The interpolated points.
 		 */
-		std::vector<Vector3> interpolateBezier(const std::vector<Vector3>& points, unsigned int interpolationCount);
+		SIMPLE_API std::vector<Vector3> interpolateBezier(const std::vector<Vector3>& points, unsigned int interpolationCount);
 
 		/**
 		 * <p>
@@ -49,7 +49,7 @@ namespace simplicity
 		 *
 		 * @return The interpolated point.
 		 */
-		Vector3 interpolateBezier(const std::vector<Vector3>::const_iterator& begin,
+		SIMPLE_API Vector3 interpolateBezier(const std::vector<Vector3>::const_iterator& begin,
 			const std::vector<Vector3>::const_iterator& end, float time);
 
 		/**

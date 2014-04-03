@@ -20,6 +20,7 @@
 #include <map>
 #include <memory>
 
+#include "../common/NonCopyable.h"
 #include "DataStore.h"
 
 namespace simplicity
@@ -40,7 +41,7 @@ namespace simplicity
 	 * will return NULL.
 	 * </p>
 	 */
-	class ConsoleDataStore : public DataStore
+	class SIMPLE_API ConsoleDataStore : public DataStore, private NonCopyable
 	{
 		public:
 			ConsoleDataStore();

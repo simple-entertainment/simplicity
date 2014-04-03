@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include <chrono>
 #include <map>
 #include <thread>
 #include <vector>
 
+#include "common/Timer.h"
 #include "engine/SerialCompositeEngine.h"
 #include "messaging/Events.h"
 #include "Simplicity.h"
@@ -33,17 +33,16 @@ namespace simplicity
 		unique_ptr<CompositeEngine> compositeEngine(new SerialCompositeEngine);
 		Scene* currentScene = NULL;
 		float frameTime = 0.0f;
-		float totalTime = 0.0f;
-		bool initialised = false;
 		unsigned short maxFrameRate = 0;
 		bool paused = false;
-		time_point<high_resolution_clock> playTime;
 		map<string, unique_ptr<Scene>> scenes;
-		bool stopped = false;
+		bool stopped = true;
+		float totalTime = 0.0f;
+		Timer totalTimer;
 
 		void addEngine(unique_ptr<Engine> engine)
 		{
-			if (initialised)
+			if (!stopped)
 			{
 				engine->init();
 			}
@@ -86,6 +85,11 @@ namespace simplicity
 			return totalTime;
 		}
 
+		bool isPlaying()
+		{
+			return !paused && !stopped;
+		}
+
 		void openScene(const string& name)
 		{
 			currentScene = scenes[name].get();
@@ -98,42 +102,51 @@ namespace simplicity
 
 		void play()
 		{
-			if (stopped)
+			if (paused)
 			{
-				return;
+				paused = false;
+				totalTimer.resume();
 			}
 
-			paused = false;
-
-			if (!initialised)
+			if (stopped)
 			{
 				compositeEngine->init();
 
-				initialised = true;
-				playTime = high_resolution_clock::now();
+				stopped = false;
+				totalTimer.reset();
 			}
 
 			while (!paused && !stopped)
 			{
-				time_point<high_resolution_clock> frameStartTime = high_resolution_clock::now();
+				Timer frameTimer;
 
 				currentScene->addPendingEntities();
 				compositeEngine->advance();
 				currentScene->removePendingEntities();
 
-				time_point<high_resolution_clock> frameEndTime = high_resolution_clock::now();
-				frameTime = duration_cast<nanoseconds>(frameEndTime - frameStartTime).count() / 1000000000.0f;
-				totalTime = duration_cast<nanoseconds>(frameEndTime - playTime).count() / 1000000000.0f;
+				frameTime = frameTimer.getElapsedTime();
+				totalTime = totalTimer.getElapsedTime();
 
 				if (maxFrameRate != 0)
 				{
+					// Limit the frame rate.
 					float sleepTime = 1.0f / maxFrameRate - frameTime;
 					sleepTime *= 1000.0f;
 					if (sleepTime > 0.0f)
 					{
-						this_thread::sleep_for(milliseconds((long) sleepTime));
+						this_thread::sleep_for(milliseconds(static_cast<long>(sleepTime)));
 					}
 				}
+			}
+
+			if (paused)
+			{
+				totalTimer.pause();
+			}
+
+			if (stopped)
+			{
+				compositeEngine->destroy();
 			}
 		}
 

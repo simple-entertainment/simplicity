@@ -20,6 +20,7 @@
 
 // Common
 #include "common/AddressEquals.h"
+#include "common/Defines.h"
 #include "common/Timer.h"
 
 // Engine

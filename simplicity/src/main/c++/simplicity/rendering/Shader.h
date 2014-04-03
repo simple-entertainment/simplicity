@@ -29,7 +29,7 @@ namespace simplicity
 	 * A rendering pipeline.
 	 * </p>
 	 */
-	class Shader
+	class SIMPLE_API Shader
 	{
 		public:
 			/**

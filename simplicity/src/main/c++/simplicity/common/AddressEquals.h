@@ -20,6 +20,8 @@
 #include <functional>
 #include <memory>
 
+#include "Defines.h"
+
 namespace simplicity
 {
 	/**
@@ -34,12 +36,24 @@ namespace simplicity
 	 * </p>
 	 */
 	template<class T>
-	class AddressEquals
+	class SIMPLE_API AddressEquals
 	{
 		public:
+			AddressEquals(const AddressEquals& original) :
+				lhs(original.lhs)
+			{
+			}
+
 			AddressEquals(const T& lhs) :
 				lhs(lhs)
 			{
+			}
+
+			AddressEquals& operator=(const AddressEquals& original)
+			{
+				lhs = original.lhs;
+
+				return *this;
 			}
 
 			bool operator()(const T& rhs) const

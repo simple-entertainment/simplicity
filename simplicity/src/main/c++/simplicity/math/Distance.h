@@ -34,7 +34,7 @@ namespace simplicity
 		 *
 		 * @return The distance.
 		 */
-		float distanceBetween(const Line& lineSegment, const Point& point);
+		SIMPLE_API float distanceBetween(const Line& lineSegment, const Point& point);
 
 		/**
 		 * <p>
@@ -46,7 +46,7 @@ namespace simplicity
 		 *
 		 * @return The distance.
 		 */
-		float distanceBetween(const Line& lineSegment, const Vector3& point);
+		SIMPLE_API float distanceBetween(const Line& lineSegment, const Vector3& point);
 	}
 }
 

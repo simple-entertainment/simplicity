@@ -26,7 +26,7 @@ namespace simplicity
 	 * A box! Not like those boxes in box2d nooo... this is a bonified 3D box.
 	 * </p>
 	 */
-	class Box : public Shape
+	class SIMPLE_API Box : public Shape
 	{
 		public:
 			/**

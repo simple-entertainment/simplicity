@@ -31,7 +31,7 @@ namespace simplicity
 	 * An engine that renders a scene.
 	 * </p>
 	 */
-	class RenderingEngine : public Engine
+	class SIMPLE_API RenderingEngine : public Engine
 	{
 		public:
 			/**

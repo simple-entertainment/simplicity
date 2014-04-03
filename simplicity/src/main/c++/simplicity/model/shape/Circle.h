@@ -26,7 +26,7 @@ namespace simplicity
 	 * A circle.
 	 * </p>
 	 */
-	class Circle : public Shape
+	class SIMPLE_API Circle : public Shape
 	{
 		public:
 			/**

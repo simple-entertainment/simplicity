@@ -37,7 +37,7 @@ namespace simplicity
 	 * Renders models.
 	 * </p>
 	 */
-	class Renderer
+	class SIMPLE_API Renderer
 	{
 		public:
 			/**

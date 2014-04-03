@@ -19,6 +19,8 @@
 
 #include <map>
 
+#include "../common/Defines.h"
+
 namespace simplicity
 {
 	namespace Keyboard
@@ -92,7 +94,7 @@ namespace simplicity
 			BACKSPACE,
 			COLON,
 			COMMA,
-			DELETE,
+			DEL,
 			END,
 			ESCAPE,
 			EQUALS,
@@ -129,7 +131,7 @@ namespace simplicity
 	 *
 	 * @return A map from ASCII characters to Keyboard::Button enum values.
 	 */
-	std::map<unsigned char, Keyboard::Button> createAsciiKeyboardButtonMap();
+	SIMPLE_API std::map<unsigned char, Keyboard::Button> createAsciiKeyboardButtonMap();
 }
 
 #endif /* KEYBOARD_H_ */

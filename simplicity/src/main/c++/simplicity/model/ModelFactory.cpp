@@ -169,7 +169,7 @@ namespace simplicity
 			unsigned int maxX, unsigned int minZ, unsigned int maxZ, const Vector4& color)
 	{
 		unsigned int edgeLength = heightMap[0].size();
-		unsigned int halfEdgeLength = floor(edgeLength / 2.0f);
+		unsigned int halfEdgeLength = static_cast<unsigned int>(floor(edgeLength / 2.0f));
 		unsigned int width = maxX - minX;
 		unsigned int depth = maxZ - minZ;
 

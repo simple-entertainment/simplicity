@@ -26,7 +26,7 @@ namespace simplicity
 	 * A sphere.
 	 * </p>
 	 */
-	class Sphere : public Shape
+	class SIMPLE_API Sphere : public Shape
 	{
 		public:
 			/**

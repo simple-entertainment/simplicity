@@ -19,6 +19,7 @@
 
 #include <vector>
 
+#include "../common/NonCopyable.h"
 #include "../model/Model.h"
 #include "../model/shape/Cube.h"
 #include "Graph.h"
@@ -34,7 +35,7 @@ namespace simplicity
 	 * subdivision threshold.
 	 * </p>
 	 */
-	class OcTree : public Graph
+	class SIMPLE_API OcTree : public Graph, private NonCopyable
 	{
 		public:
 			/**

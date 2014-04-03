@@ -26,7 +26,7 @@ namespace simplicity
 	 * A triangle.
 	 * </p>
 	 */
-	class Triangle : public Shape
+	class SIMPLE_API Triangle : public Shape
 	{
 		public:
 			/**

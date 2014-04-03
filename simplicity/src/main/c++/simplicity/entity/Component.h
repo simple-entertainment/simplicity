@@ -28,7 +28,7 @@ namespace simplicity
 	 * An object that can be added to an entity. Components describe the way an entity looks and behaves.
 	 * </p>
 	 */
-	class Component
+	class SIMPLE_API Component
 	{
 		public:
 			Component();

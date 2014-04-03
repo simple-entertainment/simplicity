@@ -26,7 +26,7 @@ namespace simplicity
 	 * A plane. Not the flying kind, the mathematical kind.
 	 * </p>
 	 */
-	class Plane : public Model
+	class SIMPLE_API Plane : public Model
 	{
 		public:
 			/**

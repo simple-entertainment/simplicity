@@ -63,8 +63,7 @@ namespace simplicity
 			}
 		};
 
-		vector<MeshIntersection> getIntersections(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform,
-				bool returnNonIntersectingData = false);
+		vector<MeshIntersection> getIntersections(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform);
 
 		void getSortedEdgePoints(const vector<MeshIntersection>& intersections, const Line& lhsEdge,
 				map<float, Vector3>& sortedEdgePoints);
@@ -142,7 +141,7 @@ namespace simplicity
 			{
 				center += vertex.position;
 			}
-			center /= vertices.size();
+			center /= static_cast<float>(vertices.size());
 
 			for (const Vertex& vertex : vertices)
 			{
@@ -160,8 +159,7 @@ namespace simplicity
 			return move(bounds);
 		}
 
-		vector<MeshIntersection> getIntersections(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform,
-				bool returnNonIntersectingData)
+		vector<MeshIntersection> getIntersections(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform)
 		{
 			vector<MeshIntersection> intersections;
 
@@ -327,7 +325,7 @@ namespace simplicity
 			Matrix44 inverseRelativeTransform = relativeTransform;
 			inverseRelativeTransform.invert();
 
-			vector<MeshIntersection> intersections = getIntersections(lhs, rhs, relativeTransform, true);
+			vector<MeshIntersection> intersections = getIntersections(lhs, rhs, relativeTransform);
 			Triangle lhsTriangle = intersections[0].lhsTriangle;
 			unsigned int lhsTriangleIndex = 0;
 
@@ -610,7 +608,7 @@ namespace simplicity
 			Matrix44 inverseRelativeTransform = relativeTransform;
 			inverseRelativeTransform.invert();
 
-			vector<MeshIntersection> intersections = getIntersections(lhs, rhs, relativeTransform, true);
+			vector<MeshIntersection> intersections = getIntersections(lhs, rhs, relativeTransform);
 			Triangle lhsTriangle = intersections[0].lhsTriangle;
 			unsigned int lhsTriangleIndex = 0;
 
@@ -744,7 +742,7 @@ namespace simplicity
 			{
 				center += intersectionPoint;
 			}
-			center /= sortedIntersectionPoints.size();
+			center /= static_cast<float>(sortedIntersectionPoints.size());
 
 			Vertex templateVertex = lhs.getVertices()[lhs.getIndices()[lhsTriangleIndex * 3]];
 			for (unsigned int index = 0; index < sortedIntersectionPoints.size(); index++)
