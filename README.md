@@ -1,4 +1,2 @@
 simplicity
 ===================
-
-The Simplicity Engine
