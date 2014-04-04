@@ -25,88 +25,6 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * Calculates the cross product of two vectors.
-	 * </p>
-	 *
-	 * @param lhs The vector on the left-hand-side of the equation.
-	 * @param rhs The vector on the right-hand-side of the equation.
-	 *
-	 * @return The cross product of two vectors.
-	 */
-	template<typename Data>
-	Data crossProduct(const Vector<Data, 2>& lhs, const Vector<Data, 2>& rhs);
-
-	/**
-	 * <p>
-	 * Calculates the cross product of two vectors.
-	 * </p>
-	 *
-	 * @param lhs The vector on the left-hand-side of the equation.
-	 * @param rhs The vector on the right-hand-side of the equation.
-	 *
-	 * @return The cross product of two vectors.
-	 */
-	template<typename Data>
-	Vector<Data, 3> crossProduct(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs);
-
-	/**
-	 * <p>
-	 * Calculates the angle between two vectors (in radians).
-	 * </p>
-	 *
-	 * @param lhs The vector on the left-hand-side of the equation.
-	 * @param rhs The vector on the right-hand-side of the equation.
-	 *
-	 * @return The angle between two vectors (in radians).
-	 */
-	template<typename Data>
-	float getAngleBetween(const Vector<Data, 2>& lhs, const Vector<Data, 2>& rhs);
-
-	/**
-	 * <p>
-	 * Calculates the angle between two vectors (in radians).
-	 * </p>
-	 *
-	 * @param lhs The vector on the left-hand-side of the equation.
-	 * @param rhs The vector on the right-hand-side of the equation.
-	 *
-	 * @return The angle between two vectors (in radians).
-	 */
-	template<typename Data>
-	float getAngleBetween(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs);
-
-	/**
-	 * <p>
-	 * Calculates the angle between two vectors (in radians). Both vectors are assumed to be normalized i.e. unit
-	 * length vectors. This version is faster than the one that does not assume the vectors to be normalized as it has
-	 * to normalize them to determine the angle.
-	 * </p>
-	 *
-	 * @param lhs The vector on the left-hand-side of the equation.
-	 * @param rhs The vector on the right-hand-side of the equation.
-	 *
-	 * @return The angle between two vectors (in radians).
-	 */
-	template<typename Data>
-	float getAngleBetweenNormalized(const Vector<Data, 2>& lhs, const Vector<Data, 2>& rhs);
-
-	/**
-	 * <p>
-	 * Calculates the angle between two vectors (in radians). Both vectors are assumed to be normalized i.e. unit
-	 * length vectors. This version is faster than the one that does not assume the vectors to be normalized as it has
-	 * to normalize them to determine the angle.
-	 * </p>
-	 *
-	 * @param lhs The vector on the left-hand-side of the equation.
-	 * @param rhs The vector on the right-hand-side of the equation.
-	 *
-	 * @return The angle between two vectors (in radians).
-	 */
-	template<typename Data>
-	float getAngleBetweenNormalized(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs);
-
-	/**
-	 * <p>
 	 * Retrieves the outward facing (negative z) axis of a transformation matrix.
 	 * </p>
 	 *
@@ -230,52 +148,13 @@ namespace simplicity
 	 * Retrieves the projection of a vector onto a plane.
 	 * </p>
 	 *
-	 * @param lhs The vector to project.
-	 * @param rhs The plane to project onto.
+	 * @param projectee The vector to project.
+	 * @param target The plane to project onto.
 	 *
 	 * @return The projection.
 	 */
 	template<typename Data>
-	Vector<Data, 3> getProjection(const Vector<Data, 3>& lhs, const Plane& rhs);
-
-	/**
-	 * <p>
-	 * Retrieves the projection of one vector onto another.
-	 * </p>
-	 *
-	 * @param lhs The vector to project.
-	 * @param rhs The vector to project onto.
-	 *
-	 * @return The projection.
-	 */
-	template<typename Data, unsigned int Size>
-	Vector<Data, Size> getProjection(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
-
-	/**
-	 * <p>
-	 * Retrieves the proximity of two vectors i.e. the shortest distance between them.
-	 * </p>
-	 *
-	 * @param lhs The vector on the left-hand-side of the equation.
-	 * @param rhs The vector on the right-hand-side of the equation.
-	 *
-	 * @return The proximity.
-	 */
-	template<typename Data>
-	Data getProximity(const Vector<Data, 2>& lhs, const Vector<Data, 2>& rhs);
-
-	/**
-	 * <p>
-	 * Retrieves the proximity of two vectors i.e. the shortest distance between them.
-	 * </p>
-	 *
-	 * @param lhs The vector on the left-hand-side of the equation.
-	 * @param rhs The vector on the right-hand-side of the equation.
-	 *
-	 * @return The proximity.
-	 */
-	template<typename Data>
-	Data getProximity(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs);
+	Vector<Data, 3> getProjection(const Vector<Data, 3>& projectee, const Plane& target);
 
 	/**
 	 * <p>
@@ -372,19 +251,6 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Retrieves the scalar projection of one vector onto another.
-	 * </p>
-	 *
-	 * @param lhs The vector to project.
-	 * @param rhs The vector to project onto.
-	 *
-	 * @return The scalar projection.
-	 */
-	template<typename Data, unsigned int Size>
-	float getScalarProjection(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
-
-	/**
-	 * <p>
 	 * Retrieves the rightward facing (positive y) axis of a transformation matrix.
 	 * </p>
 	 *
@@ -433,16 +299,6 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * Homogenizes a homogeneous 3D vector.
-	 * </p>
-	 *
-	 * @param vector The vector.
-	 */
-	template<typename Data>
-	void homogenize(Vector<Data, 4>& vector);
-
-	/**
-	 * <p>
 	 * Determines if two floating point values are 'near' to each-other. This helps to determine equality of values
 	 * which have been derived through different calculations and as a result of floating point inaccuracy are slightly
 	 * different.
@@ -462,13 +318,13 @@ namespace simplicity
 	 * inaccuracy are slightly different.
 	 * </p>
 	 *
-	 * @param a The first floating point value.
-	 * @param b The second floating point value.
+	 * @param a The first vector.
+	 * @param b The second vector.
 	 *
 	 * @return True if all the corresponding values of the vectors are within 4dp of each-other, false otherwise.
 	 */
 	template<typename Data, unsigned int Size>
-	bool near(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs);
+	bool near(const Vector<Data, Size>& a, const Vector<Data, Size>& b);
 
 	/**
 	 * <p>
@@ -553,17 +409,6 @@ namespace simplicity
 	 */
 	template<typename Data>
 	void rotate(Matrix<Data, 4, 4>& matrix, const Data angle, const Vector<Data, 4>& axis);
-
-	/**
-	 * <p>
-	 * Rotates a 2D vector.
-	 * </p>
-	 *
-	 * @param vector The vector to rotate.
-	 * @param angle The angle to rotate the vector.
-	 */
-	template<typename Data>
-	void rotate(Vector<Data, 2>& vector, const Data angle);
 
 	/**
 	 * <p>

@@ -327,6 +327,24 @@ namespace simplicity
 	{
 		return data[2];
 	}
+	
+	template<typename Data>
+	Data crossProduct(const Vector<Data, 2>& lhs, const Vector<Data, 2>& rhs)
+	{
+		return lhs.X() * rhs.X() + lhs.Y() * rhs.Y();
+	}
+
+	template<typename Data>
+	Vector<Data, 3> crossProduct(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs)
+	{
+		Vector<Data, 3> crossProduct;
+
+		crossProduct.X() = lhs.Y() * rhs.Z() - lhs.Z() * rhs.Y();
+		crossProduct.Y() = lhs.Z() * rhs.X() - lhs.X() * rhs.Z();
+		crossProduct.Z() = lhs.X() * rhs.Y() - lhs.Y() * rhs.X();
+
+		return crossProduct;
+	}
 
 	template<typename Data, unsigned int Size>
 	Data dotProduct(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
@@ -339,6 +357,81 @@ namespace simplicity
 		}
 
 		return dot;
+	}
+	
+	template<typename Data>
+	float getAngleBetween(const Vector<Data, 2>& a, const Vector<Data, 2>& b)
+	{
+		float dotProductNormalized = dotProduct(a, b) / (a.getMagnitude() * b.getMagnitude());
+		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
+		float clampedDotProductNormalized = max(min(dotProductNormalized, 1.0f), -1.0f);
+		return acos(clampedDotProductNormalized);
+	}
+
+	template<typename Data>
+	float getAngleBetween(const Vector<Data, 3>& a, const Vector<Data, 3>& b)
+	{
+		float dotProductNormalized = dotProduct(a, b) / (a.getMagnitude() * b.getMagnitude());
+		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
+		float clampedDotProductNormalized = max(min(dotProductNormalized, 1.0f), -1.0f);
+		return acos(clampedDotProductNormalized);
+	}
+
+	template<typename Data>
+	float getAngleBetweenNormalized(const Vector<Data, 2>& normalizedA, const Vector<Data, 2>& normalizedB)
+	{
+		float dotProduct = dotProduct(normalizedA, normalizedB);
+		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
+		float clampedDotProduct = max(min(dotProduct, 1.0f), -1.0f);
+		return acos(clampedDotProduct);
+	}
+
+	template<typename Data>
+	float getAngleBetweenNormalized(const Vector<Data, 3>& normalizedA, const Vector<Data, 3>& normalizedB)
+	{
+		float dotProduct = dotProduct(normalizedA, normalizedB);
+		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
+		float clampedDotProduct = max(min(dotProduct, 1.0f), -1.0f);
+		return acos(clampedDotProduct);
+	}
+
+	template<typename Data, unsigned int Size>
+	Vector<Data, Size> getProjection(const Vector<Data, Size>& projectee, const Vector<Data, Size>& target)
+	{
+		Vector<Data, Size> targetNormalized = target;
+		targetNormalized.normalize();
+
+		return targetNormalized * getScalarProjection(projectee, target);
+	}
+
+	template<typename Data>
+	Data getProximity(const Vector<Data, 2>& a, const Vector<Data, 2>& b)
+	{
+		Vector<Data, 2> difference = a;
+		difference -= b;
+
+		return difference.getMagnitude();
+	}
+
+	template<typename Data>
+	Data getProximity(const Vector<Data, 3>& a, const Vector<Data, 3>& b)
+	{
+		Vector<Data, 3> difference = a;
+		difference -= b;
+
+		return difference.getMagnitude();
+	}
+
+	template<typename Data, unsigned int Size>
+	float getScalarProjection(const Vector<Data, Size>& projectee, const Vector<Data, Size>& target)
+	{
+	    return projectee.getMagnitude() * cos(getAngleBetween(projectee, target));
+	}
+
+	template<typename Data>
+	void homogenize(Vector<Data, 4>& vector)
+	{
+		vector /= vector.W();
 	}
 
 	template<typename Data, unsigned int Size>
@@ -441,5 +534,15 @@ namespace simplicity
 		}
 
 		return true;
+	}
+
+	template<typename Data>
+	void rotate(Vector<Data, 2>& vector, const Data angle)
+	{
+		Data cosine = cos(angle);
+		Data sine = sin(angle);
+
+		vector.X(vector.X() * cosine - vector.Y() * sine);
+		vector.Y(vector.X() * sine + vector.Y() * cosine);
 	}
 }

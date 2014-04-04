@@ -21,60 +21,6 @@ using namespace std;
 namespace simplicity
 {
 	template<typename Data>
-	Data crossProduct(const Vector<Data, 2>& lhs, const Vector<Data, 2>& rhs)
-	{
-		return lhs.X() * rhs.X() + lhs.Y() * rhs.Y();
-	}
-
-	template<typename Data>
-	Vector<Data, 3> crossProduct(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs)
-	{
-		Vector<Data, 3> crossProduct;
-
-		crossProduct.X() = lhs.Y() * rhs.Z() - lhs.Z() * rhs.Y();
-		crossProduct.Y() = lhs.Z() * rhs.X() - lhs.X() * rhs.Z();
-		crossProduct.Z() = lhs.X() * rhs.Y() - lhs.Y() * rhs.X();
-
-		return crossProduct;
-	}
-
-	template<typename Data>
-	float getAngleBetween(const Vector<Data, 2>& lhs, const Vector<Data, 2>& rhs)
-	{
-		float dotProductNormalized = dotProduct(lhs, rhs) / (lhs.getMagnitude() * rhs.getMagnitude());
-		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
-		float clampedDotProductNormalized = max(min(dotProductNormalized, 1.0f), -1.0f);
-		return acos(clampedDotProductNormalized);
-	}
-
-	template<typename Data>
-	float getAngleBetween(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs)
-	{
-		float dotProductNormalized = dotProduct(lhs, rhs) / (lhs.getMagnitude() * rhs.getMagnitude());
-		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
-		float clampedDotProductNormalized = max(min(dotProductNormalized, 1.0f), -1.0f);
-		return acos(clampedDotProductNormalized);
-	}
-
-	template<typename Data>
-	float getAngleBetweenNormalized(const Vector<Data, 2>& lhs, const Vector<Data, 2>& rhs)
-	{
-		float dotProduct = dotProduct(lhs, rhs);
-		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
-		float clampedDotProduct = max(min(dotProduct, 1.0f), -1.0f);
-		return acos(clampedDotProduct);
-	}
-
-	template<typename Data>
-	float getAngleBetweenNormalized(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs)
-	{
-		float dotProduct = dotProduct(lhs, rhs);
-		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
-		float clampedDotProduct = max(min(dotProduct, 1.0f), -1.0f);
-		return acos(clampedDotProduct);
-	}
-
-	template<typename Data>
 	Vector<Data, 3> getOut3(Matrix<Data, 4, 4>& matrix)
 	{
 		return Vector<Data, 3>(&matrix[8]);
@@ -135,46 +81,20 @@ namespace simplicity
 	}
 
 	template<typename Data>
-	Vector<Data, 3> getProjection(const Vector<Data, 3>& lhs, const Plane& rhs)
+	Vector<Data, 3> getProjection(const Vector<Data, 3>& projectee, const Plane& target)
 	{
 		// TODO Test! Not sure if this works!
 
-		Vector<Data, 3> lhsNormalized = lhs;
-		lhsNormalized.normalize();
+		Vector<Data, 3> projecteeNormalized = projectee;
+		projecteeNormalized.normalize();
 
-		return crossProduct(crossProduct(lhsNormalized, rhs.getNormal()), rhs.getNormal()) * lhs.getMagnitude();
+		return crossProduct(crossProduct(projecteeNormalized, target.getNormal()), target.getNormal()) *
+			projectee.getMagnitude();
 
-		//Vector<Data, 3> acrossPlane = crossProduct(lhsNormalized, rhs.getNormal());
-		//Vector<Data, 3> projectionVector = crossProduct(rhs.getNormal(), acrossPlane);
+		//Vector<Data, 3> acrossPlane = crossProduct(projecteeNormalized, target.getNormal());
+		//Vector<Data, 3> projectionVector = crossProduct(target.getNormal(), acrossPlane);
 
-		//return getProjection<Data, 3>(lhs, projectionVector);
-	}
-
-	template<typename Data, unsigned int Size>
-	Vector<Data, Size> getProjection(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
-	{
-		Vector<Data, Size> rhsNormalized = rhs;
-		rhsNormalized.normalize();
-
-		return rhsNormalized * getScalarProjection(lhs, rhs);
-	}
-
-	template<typename Data>
-	Data getProximity(const Vector<Data, 2>& lhs, const Vector<Data, 2>& rhs)
-	{
-		Vector<Data, 2> difference = lhs;
-		difference -= rhs;
-
-		return difference.getMagnitude();
-	}
-
-	template<typename Data>
-	Data getProximity(const Vector<Data, 3>& lhs, const Vector<Data, 3>& rhs)
-	{
-		Vector<Data, 3> difference = lhs;
-		difference -= rhs;
-
-		return difference.getMagnitude();
+		//return getProjection<Data, 3>(projectee, projectionVector);
 	}
 
 	template<typename Data>
@@ -201,12 +121,6 @@ namespace simplicity
 		return Vector<Data, 4>(const_cast<Data*>(&matrix[0]));
 	}
 
-	template<typename Data, unsigned int Size>
-	float getScalarProjection(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
-	{
-	    return lhs.getMagnitude() * cos(getAngleBetween(lhs, rhs));
-	}
-
 	template<typename Data>
 	Vector<Data, 3> getUp3(Matrix<Data, 4, 4>& matrix)
 	{
@@ -231,18 +145,12 @@ namespace simplicity
 		return Vector<Data, 4>(const_cast<Data*>(&matrix[4]));
 	}
 
-	template<typename Data>
-	void homogenize(Vector<Data, 4>& vector)
-	{
-		vector /= vector.W();
-	}
-
 	template<typename Data, unsigned int Size>
-	bool near(const Vector<Data, Size>& lhs, const Vector<Data, Size>& rhs)
+	bool near(const Vector<Data, Size>& a, const Vector<Data, Size>& b)
 	{
 		for (unsigned int index = 0; index < Size; index++)
 		{
-			if (!near(lhs[index], rhs[index]))
+			if (!near(a[index], b[index]))
 			{
 				return false;
 			}
@@ -404,16 +312,6 @@ namespace simplicity
 		matrix[5] = temp11;
 		matrix[6] = temp12;
 		matrix[7] = temp13;
-	}
-
-	template<typename Data>
-	void rotate(Vector<Data, 2>& vector, const Data angle)
-	{
-		Data cosine = cos(angle);
-		Data sine = sin(angle);
-
-		vector.X(vector.X() * cosine - vector.Y() * sine);
-		vector.Y(vector.X() * sine + vector.Y() * cosine);
 	}
 
 	template<typename Data>
