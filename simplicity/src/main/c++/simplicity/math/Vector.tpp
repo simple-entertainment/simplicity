@@ -364,7 +364,7 @@ namespace simplicity
 	{
 		float dotProductNormalized = dotProduct(a, b) / (a.getMagnitude() * b.getMagnitude());
 		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
-		float clampedDotProductNormalized = max(min(dotProductNormalized, 1.0f), -1.0f);
+		float clampedDotProductNormalized = std::max(std::min(dotProductNormalized, 1.0f), -1.0f);
 		return acos(clampedDotProductNormalized);
 	}
 
@@ -373,7 +373,7 @@ namespace simplicity
 	{
 		float dotProductNormalized = dotProduct(a, b) / (a.getMagnitude() * b.getMagnitude());
 		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
-		float clampedDotProductNormalized = max(min(dotProductNormalized, 1.0f), -1.0f);
+		float clampedDotProductNormalized = std::max(std::min(dotProductNormalized, 1.0f), -1.0f);
 		return acos(clampedDotProductNormalized);
 	}
 
@@ -382,7 +382,7 @@ namespace simplicity
 	{
 		float dotProduct = dotProduct(normalizedA, normalizedB);
 		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
-		float clampedDotProduct = max(min(dotProduct, 1.0f), -1.0f);
+		float clampedDotProduct = std::max(std::min(dotProduct, 1.0f), -1.0f);
 		return acos(clampedDotProduct);
 	}
 
@@ -391,7 +391,7 @@ namespace simplicity
 	{
 		float dotProduct = dotProduct(normalizedA, normalizedB);
 		// Clamp to [-1,1] in case floating point inaccuracy manages to put it out of that range...
-		float clampedDotProduct = max(min(dotProduct, 1.0f), -1.0f);
+		float clampedDotProduct = std::max(std::min(dotProduct, 1.0f), -1.0f);
 		return acos(clampedDotProduct);
 	}
 
