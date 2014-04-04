@@ -55,29 +55,29 @@ namespace simplicity
 
 		bool contains(const Model& a, const Model& b, const Vector3& relativePosition)
 		{
-			const Cube* cubeA = dynamic_cast<const Cube*>(&a);
-			if (cubeA != NULL)
+			if (a.getTypeID() == Cube::TYPE_ID)
 			{
-				const Cube* cubeB = dynamic_cast<const Cube*>(&b);
-				if (cubeB != NULL)
+				const Cube* cubeA = static_cast<const Cube*>(&a);
+				if (b.getTypeID() == Cube::TYPE_ID)
 				{
+					const Cube* cubeB = static_cast<const Cube*>(&b);
 					return contains(*cubeA, *cubeB, relativePosition);
 				}
 			}
 
-			const Square* squareA = dynamic_cast<const Square*>(&a);
-			if (squareA != NULL)
+			if (a.getTypeID() == Square::TYPE_ID)
 			{
-				const Circle* circleB = dynamic_cast<const Circle*>(&b);
-				if (circleB != NULL)
+				const Square* squareA = static_cast<const Square*>(&a);
+				if (b.getTypeID() == Circle::TYPE_ID)
 				{
+					const Circle* circleB = static_cast<const Circle*>(&b);
 					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
 					return contains(*squareA, *circleB, relativePosition2);
 				}
 
-				const Square* squareB = dynamic_cast<const Square*>(&b);
-				if (squareB != NULL)
+				if (b.getTypeID() == Square::TYPE_ID)
 				{
+					const Square* squareB = static_cast<const Square*>(&b);
 					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
 					return contains(*squareA, *squareB, relativePosition2);
 				}
@@ -453,47 +453,47 @@ namespace simplicity
 
 		bool intersect(const Model& a, const Model& b, const Vector3& relativePosition)
 		{
-			const Circle* circleA = dynamic_cast<const Circle*>(&a);
-			if (circleA != NULL)
+			if (a.getTypeID() == Circle::TYPE_ID)
 			{
-				const Circle* circleB = dynamic_cast<const Circle*>(&b);
-				if (circleB != NULL)
+				const Circle* circleA = static_cast<const Circle*>(&a);
+				if (b.getTypeID() == Circle::TYPE_ID)
 				{
+					const Circle* circleB = static_cast<const Circle*>(&b);
 					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
 					return intersect(*circleA, *circleB, relativePosition2);
 				}
 
-				const Square* squareB = dynamic_cast<const Square*>(&b);
-				if (squareB != NULL)
+				if (b.getTypeID() == Square::TYPE_ID)
 				{
+					const Square* squareB = static_cast<const Square*>(&b);
 					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
 					return intersect(*circleA, *squareB, relativePosition2);
 				}
 			}
 
-			const Cube* cubeA = dynamic_cast<const Cube*>(&a);
-			if (cubeA != NULL)
+			if (a.getTypeID() == Cube::TYPE_ID)
 			{
-				const Cube* cubeB = dynamic_cast<const Cube*>(&b);
-				if (cubeB != NULL)
+				const Cube* cubeA = static_cast<const Cube*>(&a);
+				if (b.getTypeID() == Cube::TYPE_ID)
 				{
+					const Cube* cubeB = static_cast<const Cube*>(&b);
 					return intersect(*cubeA, *cubeB, relativePosition);
 				}
 			}
 
-			const Square* squareA = dynamic_cast<const Square*>(&a);
-			if (squareA != NULL)
+			if (a.getTypeID() == Square::TYPE_ID)
 			{
-				const Circle* circleB = dynamic_cast<const Circle*>(&b);
-				if (circleB != NULL)
+				const Square* squareA = static_cast<const Square*>(&a);
+				if (b.getTypeID() == Circle::TYPE_ID)
 				{
+					const Circle* circleB = static_cast<const Circle*>(&b);
 					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
 					return intersect(*circleB, *squareA, relativePosition2);
 				}
 
-				const Square* squareB = dynamic_cast<const Square*>(&b);
-				if (squareB != NULL)
+				if (b.getTypeID() == Square::TYPE_ID)
 				{
+					const Square* squareB = static_cast<const Square*>(&b);
 					Vector2 relativePosition2(relativePosition.X(), relativePosition.Y());
 					return intersect(*squareA, *squareB, relativePosition2);
 				}

@@ -34,9 +34,9 @@ namespace simplicity
 		return outerRadius;
 	}
 
-	void Torus::render(Renderer& renderer) const
+	unsigned short Torus::getTypeID() const
 	{
-		renderer.render(*this);
+		return TYPE_ID;
 	}
 
 	void Torus::setInnerRadius(const float innerRadius)

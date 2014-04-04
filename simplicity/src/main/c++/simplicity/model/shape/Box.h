@@ -30,6 +30,13 @@ namespace simplicity
 	{
 		public:
 			/**
+			 * <p>
+			 * An ID unique to the this model class.
+			 * </p>
+			 */
+			static const unsigned int TYPE_ID = 5;
+
+			/**
 			 * @param halfXLength Half the length on the x axis.
 			 * @param halfYLength Half the length on the y axis.
 			 * @param halfZLength Half the length on the z axis.
@@ -63,7 +70,7 @@ namespace simplicity
 			 */
 			float getHalfZLength() const;
 
-			void render(Renderer& renderer) const;
+			unsigned short getTypeID() const;
 
 			/**
 			 * <p>

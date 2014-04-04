@@ -30,6 +30,13 @@ namespace simplicity
 	{
 		public:
 			/**
+			 * <p>
+			 * An ID unique to the this model class.
+			 * </p>
+			 */
+			static const unsigned int TYPE_ID = 12;
+
+			/**
 			 * @param pointA The position of the first corner of the triangle.
 			 * @param pointB The position of the second corner of the triangle.
 			 * @param pointC The position of the third corner of the triangle.
@@ -63,7 +70,7 @@ namespace simplicity
 			 */
 			const Vector3& getPointC() const;
 
-			void render(Renderer& renderer) const;
+			unsigned short getTypeID() const;
 
 			/**
 			 * <p>

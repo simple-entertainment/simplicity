@@ -19,7 +19,6 @@
 
 #include "../entity/Component.h"
 #include "../math/Vector.h"
-#include "../rendering/Renderer.h"
 #include "../rendering/Texture.h"
 
 namespace simplicity
@@ -82,6 +81,23 @@ namespace simplicity
 				TRIANGLE_STRIP
 			};
 
+			/**
+			 * <p>
+			 * User defined type IDs should start with this ID.
+			 * </p>
+			 *
+			 * <p>
+			 * For example:
+			 * </p>
+			 *
+			 * <pre><code>
+			 * static const unsigned short TYPE_ID = USER_ID_0;
+			 * ...
+			 * static const unsigned short TYPE_ID = USER_ID_0 + 1;
+			 * </code></pre>
+			 */
+			static const unsigned short USER_TYPE_ID_0 = 128;
+
 			Model();
 
 			/**
@@ -131,22 +147,57 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Retrieves an ID unique to the class this model is an instance of. This is part of the ID member +
+			 * static_cast pattern for faster 'dynamic' casting.
+			 * </p>
+			 *
+			 * <p>
+			 * Instead of this:
+			 * </p>
+			 *
+			 * <pre>
+			 * <code>
+			 * Model* model = // some model...
+			 * Square* square = dynamic_cast<Square*>(model);
+			 * if (square != NULL)
+			 * {
+			 *     // do stuff...
+			 * }
+			 * </code>
+			 * </pre>
+			 *
+			 * <p>
+			 * You can do this to avoid the expensive dynamic_cast operation:
+			 * </p>
+			 *
+			 * <pre>
+			 * <code>
+			 * Model* model = // some model...
+			 * if (model->getTypeID() == Square::TYPE_ID)
+			 * {
+			 *     Square* square = static_cast<Square*>(model);
+			 *     // do stuff...
+			 * }
+			 * </code>
+			 * </pre>
+			 *
+			 * <p>
+			 * Each model implementation should provide a public static TYPE_ID member whose value is returned by this
+			 * function.
+			 * </p>
+			 *
+			 * @return An ID unique to the class this model is an instance of.
+			 */
+			virtual unsigned short getTypeID() const = 0;
+
+			/**
+			 * <p>
 			 * Determines if this model is visible.
 			 * </p>
 			 *
 			 * @return True if this model is visible, false otherwise.
 			 */
 			virtual bool isVisible() const = 0;
-
-			/**
-			 * <p>
-			 * Renders this model using the specified renderer. This is provided to allow double-dispatch so that the
-			 * type of the model is known to the renderer.
-			 * </p>
-			 *
-			 * @param renderer The renderer.
-			 */
-			virtual void render(Renderer& renderer) const = 0;
 
 			/**
 			 * <p>

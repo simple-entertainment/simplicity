@@ -30,6 +30,13 @@ namespace simplicity
 	{
 		public:
 			/**
+			 * <p>
+			 * An ID unique to the this model class.
+			 * </p>
+			 */
+			static const unsigned int TYPE_ID = 11;
+
+			/**
 			 * @param innerRadius The radius of the inner edge of the torus.
 			 * @param outerRadius The radius of the outer edge of the torus.
 			 */
@@ -53,7 +60,7 @@ namespace simplicity
 			 */
 			float getOuterRadius() const;
 
-			void render(Renderer& renderer) const;
+			unsigned short getTypeID() const;
 
 			/**
 			 * <p>

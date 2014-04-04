@@ -34,9 +34,9 @@ namespace simplicity
 		return radius;
 	}
 
-	void Capsule::render(Renderer& renderer) const
+	unsigned short Capsule::getTypeID() const
 	{
-		renderer.render(*this);
+		return TYPE_ID;
 	}
 
 	void Capsule::setLength(const float length)

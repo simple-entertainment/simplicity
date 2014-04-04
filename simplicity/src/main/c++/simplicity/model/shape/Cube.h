@@ -30,6 +30,13 @@ namespace simplicity
 	{
 		public:
 			/**
+			 * <p>
+			 * An ID unique to the this model class.
+			 * </p>
+			 */
+			static const unsigned int TYPE_ID = 7;
+
+			/**
 			 * @param halfEdgeLength Half the length of all dimensions of the cube.
 			 */
 			Cube(float halfEdgeLength);
@@ -43,7 +50,7 @@ namespace simplicity
 			 */
 			float getHalfEdgeLength() const;
 
-			void render(Renderer& renderer) const;
+			unsigned short getTypeID() const;
 
 			/**
 			 * <p>

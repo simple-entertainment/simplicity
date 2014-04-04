@@ -30,6 +30,13 @@ namespace simplicity
 	{
 		public:
 			/**
+			 * <p>
+			 * An ID unique to the this model class.
+			 * </p>
+			 */
+			static const unsigned int TYPE_ID = 8;
+
+			/**
 			 * @param length The length of the cylinder.
 			 * @param radius The radius of the cylinder.
 			 */
@@ -53,7 +60,7 @@ namespace simplicity
 			 */
 			float getRadius() const;
 
-			void render(Renderer& renderer) const;
+			unsigned short getTypeID() const;
 
 			/**
 			 * <p>

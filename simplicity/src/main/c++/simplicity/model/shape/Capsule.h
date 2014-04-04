@@ -30,6 +30,13 @@ namespace simplicity
 	{
 		public:
 			/**
+			 * <p>
+			 * An ID unique to the this model class.
+			 * </p>
+			 */
+			static const unsigned int TYPE_ID = 6;
+
+			/**
 			 * @param length The length of the capsule.
 			 * @param radius The radius of the capsule.
 			 */
@@ -53,7 +60,7 @@ namespace simplicity
 			 */
 			float getRadius() const;
 
-			void render(Renderer& renderer) const;
+			unsigned short getTypeID() const;
 
 			/**
 			 * <p>

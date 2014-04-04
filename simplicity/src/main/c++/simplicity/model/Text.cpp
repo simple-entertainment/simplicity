@@ -52,14 +52,14 @@ namespace simplicity
 		return NULL;
 	}
 
+	unsigned short Text::getTypeID() const
+	{
+		return TYPE_ID;
+	}
+
 	bool Text::isVisible() const
 	{
 		return visible;
-	}
-
-	void Text::render(Renderer& renderer) const
-	{
-		renderer.render(*this);
 	}
 
 	void Text::setColor(const Vector4& color)

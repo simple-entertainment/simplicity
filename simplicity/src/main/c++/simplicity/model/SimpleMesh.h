@@ -32,6 +32,13 @@ namespace simplicity
 	class SIMPLE_API SimpleMesh : public Mesh
 	{
 		public:
+			/**
+			 * <p>
+			 * An ID unique to the this model class.
+			 * </p>
+			 */
+			static const unsigned int TYPE_ID = 13;
+
 			SimpleMesh();
 
 			/**
@@ -52,13 +59,13 @@ namespace simplicity
 
 			Texture* getTexture() const;
 
+			unsigned short getTypeID() const;
+
 			std::vector<Vertex>& getVertices();
 
 			const std::vector<Vertex>& getVertices() const;
 
 			bool isVisible() const;
-
-			void render(Renderer& renderer) const;
 
 			void setColor(const Vector4& color);
 

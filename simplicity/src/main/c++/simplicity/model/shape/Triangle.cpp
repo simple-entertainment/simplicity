@@ -40,9 +40,9 @@ namespace simplicity
 		return pointC;
 	}
 
-	void Triangle::render(Renderer& renderer) const
+	unsigned short Triangle::getTypeID() const
 	{
-		renderer.render(*this);
+		return TYPE_ID;
 	}
 
 	void Triangle::setPointA(const Vector3& pointA)

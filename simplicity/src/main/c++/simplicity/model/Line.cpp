@@ -56,14 +56,14 @@ namespace simplicity
 		return NULL;
 	}
 
+	unsigned short Line::getTypeID() const
+	{
+		return TYPE_ID;
+	}
+
 	bool Line::isVisible() const
 	{
 		return visible;
-	}
-
-	void Line::render(Renderer& renderer) const
-	{
-		renderer.render(*this);
 	}
 
 	void Line::setColor(const Vector4& color)

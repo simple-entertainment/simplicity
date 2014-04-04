@@ -28,9 +28,9 @@ namespace simplicity
 		return radius;
 	}
 
-	void Sphere::render(Renderer& renderer) const
+	unsigned short Sphere::getTypeID() const
 	{
-		renderer.render(*this);
+		return TYPE_ID;
 	}
 
 	void Sphere::setRadius(const float radius)

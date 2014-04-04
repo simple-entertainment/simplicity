@@ -30,6 +30,13 @@ namespace simplicity
 	{
 		public:
 			/**
+			 * <p>
+			 * An ID unique to the this model class.
+			 * </p>
+			 */
+			static const unsigned int TYPE_ID = 1;
+
+			/**
 			 * @param normal The normal of the plane.
 			 * @param positionOnPlane A position on the plane.
 			 */
@@ -61,9 +68,9 @@ namespace simplicity
 
 			Texture* getTexture() const;
 
-			bool isVisible() const;
+			unsigned short getTypeID() const;
 
-			void render(Renderer& renderer) const;
+			bool isVisible() const;
 
 			void setColor(const Vector4& color);
 

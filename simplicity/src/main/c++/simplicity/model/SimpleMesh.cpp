@@ -68,6 +68,11 @@ namespace simplicity
 		return NULL;
 	}
 
+	unsigned short SimpleMesh::getTypeID() const
+	{
+		return TYPE_ID;
+	}
+
 	vector<Vertex>& SimpleMesh::getVertices()
 	{
 		return vertices;
@@ -81,11 +86,6 @@ namespace simplicity
 	bool SimpleMesh::isVisible() const
 	{
 		return visible;
-	}
-
-	void SimpleMesh::render(Renderer& renderer) const
-	{
-		renderer.render(*this);
 	}
 
 	void SimpleMesh::setColor(const Vector4& color)

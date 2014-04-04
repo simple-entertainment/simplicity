@@ -28,9 +28,9 @@ namespace simplicity
 		return halfEdgeLength;
 	}
 
-	void Cube::render(Renderer& renderer) const
+	unsigned short Cube::getTypeID() const
 	{
-		renderer.render(*this);
+		return TYPE_ID;
 	}
 
 	void Cube::setHalfEdgeLength(float halfEdgeLength)

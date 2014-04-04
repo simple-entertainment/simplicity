@@ -14,24 +14,11 @@
 
 #include <memory>
 
+#include "../model/Model.h"
 #include "Shader.h"
 
 namespace simplicity
 {
-	class Box;
-	class Capsule;
-	class Circle;
-	class Cube;
-	class Cylinder;
-	class Line;
-	class Mesh;
-	class Point;
-	class Sphere;
-	class Square;
-	class Text;
-	class Torus;
-	class Triangle;
-
 	/**
 	 * <p>
 	 * Renders models.
@@ -119,120 +106,12 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Renders a box.
+			 * Renders a model.
 			 * </p>
 			 *
-			 * @param model The box.
+			 * @param model The model.
 			 */
-			virtual void render(const Box& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders a capsule.
-			 * </p>
-			 *
-			 * @param model The capsule.
-			 */
-			virtual void render(const Capsule& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders a circle.
-			 * </p>
-			 *
-			 * @param model The circle.
-			 */
-			virtual void render(const Circle& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders a cube.
-			 * </p>
-			 *
-			 * @param model The cube.
-			 */
-			virtual void render(const Cube& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders a cylinder.
-			 * </p>
-			 *
-			 * @param model The cylinder.
-			 */
-			virtual void render(const Cylinder& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders a line.
-			 * </p>
-			 *
-			 * @param model The line.
-			 */
-			virtual void render(const Line& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders a mesh.
-			 * </p>
-			 *
-			 * @param model The mesh.
-			 */
-			virtual void render(const Mesh& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders a point.
-			 * </p>
-			 *
-			 * @param model The point.
-			 */
-			virtual void render(const Point& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders a sphere.
-			 * </p>
-			 *
-			 * @param model The sphere.
-			 */
-			virtual void render(const Sphere& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders a square.
-			 * </p>
-			 *
-			 * @param model The square.
-			 */
-			virtual void render(const Square& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders text.
-			 * </p>
-			 *
-			 * @param model The text.
-			 */
-			virtual void render(const Text& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders a torus.
-			 * </p>
-			 *
-			 * @param model The torus.
-			 */
-			virtual void render(const Torus& model) = 0;
-
-			/**
-			 * <p>
-			 * Renders a triangle.
-			 * </p>
-			 *
-			 * @param model The triangle.
-			 */
-			virtual void render(const Triangle& model) = 0;
+			virtual void render(const Model& model) = 0;
 
 			/**
 			 * <p>

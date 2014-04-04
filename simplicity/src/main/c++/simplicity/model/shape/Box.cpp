@@ -40,9 +40,9 @@ namespace simplicity
 		return halfZLength;
 	}
 
-	void Box::render(Renderer& renderer) const
+	unsigned short Box::getTypeID() const
 	{
-		renderer.render(*this);
+		return TYPE_ID;
 	}
 
 	void Box::setHalfXLength(float halfXLength)

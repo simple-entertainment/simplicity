@@ -56,13 +56,14 @@ namespace simplicity
 		return NULL;
 	}
 
+	unsigned short Plane::getTypeID() const
+	{
+		return TYPE_ID;
+	}
+
 	bool Plane::isVisible() const
 	{
 		return visible;
-	}
-
-	void Plane::render(Renderer&) const
-	{
 	}
 
 	void Plane::setColor(const Vector4& color)

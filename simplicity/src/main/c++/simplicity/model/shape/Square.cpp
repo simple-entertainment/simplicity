@@ -28,9 +28,9 @@ namespace simplicity
 		return halfEdgeLength;
 	}
 
-	void Square::render(Renderer& renderer) const
+	unsigned short Square::getTypeID() const
 	{
-		renderer.render(*this);
+		return TYPE_ID;
 	}
 
 	void Square::setHalfEdgeLength(float halfEdgeLength)

@@ -30,6 +30,13 @@ namespace simplicity
 	{
 		public:
 			/**
+			 * <p>
+			 * An ID unique to the this model class.
+			 * </p>
+			 */
+			static const unsigned int TYPE_ID = 2;
+
+			/**
 			 * @param point The point.
 			 */
 			Point(const Vector3& point);
@@ -51,9 +58,9 @@ namespace simplicity
 
 			Texture* getTexture() const;
 
-			bool isVisible() const;
+			unsigned short getTypeID() const;
 
-			void render(Renderer& renderer) const;
+			bool isVisible() const;
 
 			void setColor(const Vector4& color);
 

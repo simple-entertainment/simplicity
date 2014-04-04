@@ -50,14 +50,14 @@ namespace simplicity
 		return NULL;
 	}
 
+	unsigned short Point::getTypeID() const
+	{
+		return TYPE_ID;
+	}
+
 	bool Point::isVisible() const
 	{
 		return visible;
-	}
-
-	void Point::render(Renderer& renderer) const
-	{
-		renderer.render(*this);
 	}
 
 	void Point::setColor(const Vector4& color)

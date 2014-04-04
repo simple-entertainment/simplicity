@@ -34,9 +34,9 @@ namespace simplicity
 		return radius;
 	}
 
-	void Cylinder::render(Renderer& renderer) const
+	unsigned short Cylinder::getTypeID() const
 	{
-		renderer.render(*this);
+		return TYPE_ID;
 	}
 
 	void Cylinder::setLength(const float length)

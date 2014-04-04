@@ -30,6 +30,13 @@ namespace simplicity
 	{
 		public:
 			/**
+			 * <p>
+			 * An ID unique to the this model class.
+			 * </p>
+			 */
+			static const unsigned int TYPE_ID = 9;
+
+			/**
 			 * @param radius The radius of this sphere.
 			 */
 			Sphere(float radius);
@@ -43,7 +50,7 @@ namespace simplicity
 			 */
 			float getRadius() const;
 
-			void render(Renderer& renderer) const;
+			unsigned short getTypeID() const;
 
 			/**
 			 * <p>
