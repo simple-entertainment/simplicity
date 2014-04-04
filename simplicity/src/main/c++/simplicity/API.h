@@ -20,6 +20,7 @@
 
 // Common
 #include "common/AddressEquals.h"
+#include "common/Category.h"
 #include "common/Defines.h"
 #include "common/Timer.h"
 
@@ -30,7 +31,6 @@
 #include "engine/SerialCompositeEngine.h"
 
 // Entity
-#include "entity/Categories.h"
 #include "entity/Component.h"
 #include "entity/Entity.h"
 
@@ -61,8 +61,8 @@
 #include "math/Vector.h"
 
 // Messaging
-#include "messaging/Events.h"
 #include "messaging/Messages.h"
+#include "messaging/Subject.h"
 
 // Model
 #include "model/Line.h"

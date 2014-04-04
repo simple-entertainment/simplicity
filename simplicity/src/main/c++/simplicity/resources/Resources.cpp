@@ -16,7 +16,7 @@
  */
 #include <map>
 
-#include "../entity/Categories.h"
+#include "../common/Category.h"
 #include "Resources.h"
 
 using namespace std;
@@ -64,7 +64,7 @@ namespace simplicity
 
 		void setDataStore(unique_ptr<DataStore> dataStore, unsigned short category)
 		{
-			if (category == Categories::ALL_CATEGORIES)
+			if (category == Category::ALL_CATEGORIES)
 			{
 				defaultDataStore = move(dataStore);
 			}

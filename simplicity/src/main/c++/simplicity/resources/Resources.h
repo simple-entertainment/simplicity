@@ -19,7 +19,7 @@
 
 #include <memory>
 
-#include "../entity/Categories.h"
+#include "../common/Category.h"
 #include "DataStore.h"
 
 namespace simplicity

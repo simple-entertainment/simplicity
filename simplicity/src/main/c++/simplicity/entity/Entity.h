@@ -21,9 +21,9 @@
 #include <string>
 #include <vector>
 
+#include "../common/Category.h"
 #include "../common/NonCopyable.h"
 #include "../math/Matrix.h"
-#include "Categories.h"
 #include "Component.h"
 
 // STL Instantiations for Export/Import
@@ -46,7 +46,7 @@ namespace simplicity
 			 * @param category The category this entity will belong to (Categories::UNCATEGORIZED is the default).
 			 * @param name The name of this entity (an empty name is the default).
 			 */
-			Entity(unsigned short category = Categories::UNCATEGORIZED, const std::string& name = std::string());
+			Entity(unsigned short category = Category::UNCATEGORIZED, const std::string& name = std::string());
 
 			/**
 			 * <p>
@@ -87,7 +87,7 @@ namespace simplicity
 			 * @return The single component.
 			 */
 			template<typename ComponentType>
-			ComponentType* getComponent(unsigned short category = Categories::ALL_CATEGORIES) const;
+			ComponentType* getComponent(unsigned short category = Category::ALL_CATEGORIES) const;
 
 			/**
 			 * <p>
@@ -100,7 +100,7 @@ namespace simplicity
 			 * @return The components.
 			 */
 			template<typename ComponentType>
-			std::vector<ComponentType*> getComponents(unsigned short category = Categories::ALL_CATEGORIES) const;
+			std::vector<ComponentType*> getComponents(unsigned short category = Category::ALL_CATEGORIES) const;
 
 			/**
 			 * <p>

@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "Categories.h"
+#include "../common/Category.h"
 #include "Component.h"
 #include "Entity.h"
 
 namespace simplicity
 {
 	Component::Component() :
-		category(Categories::UNCATEGORIZED),
+		category(Category::UNCATEGORIZED),
 		transform()
 	{
 		transform.setIdentity();

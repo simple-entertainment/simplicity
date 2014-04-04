@@ -68,7 +68,7 @@ namespace simplicity
 
     	for (unsigned int index = 0; index < entities.size(); index++)
     	{
-    		if (category == Categories::ALL_CATEGORIES || entities[index]->getCategory() == category)
+			if (category == Category::ALL_CATEGORIES || entities[index]->getCategory() == category)
     		{
     			rawEntities.push_back(entities[index].get());
     		}

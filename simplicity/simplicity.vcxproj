@@ -155,7 +155,7 @@
     <ClInclude Include="src\main\c++\simplicity\engine\DebugSerialCompositeEngine.h" />
     <ClInclude Include="src\main\c++\simplicity\engine\Engine.h" />
     <ClInclude Include="src\main\c++\simplicity\engine\SerialCompositeEngine.h" />
-    <ClInclude Include="src\main\c++\simplicity\entity\Categories.h" />
+    <ClInclude Include="src\main\c++\simplicity\common\Category.h" />
     <ClInclude Include="src\main\c++\simplicity\entity\Component.h" />
     <ClInclude Include="src\main\c++\simplicity\entity\Entity.h" />
     <ClInclude Include="src\main\c++\simplicity\graph\Graph.h" />
@@ -176,7 +176,7 @@
     <ClInclude Include="src\main\c++\simplicity\math\MathFunctions.h" />
     <ClInclude Include="src\main\c++\simplicity\math\Matrix.h" />
     <ClInclude Include="src\main\c++\simplicity\math\Vector.h" />
-    <ClInclude Include="src\main\c++\simplicity\messaging\Events.h" />
+    <ClInclude Include="src\main\c++\simplicity\messaging\Subject.h" />
     <ClInclude Include="src\main\c++\simplicity\messaging\Messages.h" />
     <ClInclude Include="src\main\c++\simplicity\model\Line.h" />
     <ClInclude Include="src\main\c++\simplicity\model\Mesh.h" />

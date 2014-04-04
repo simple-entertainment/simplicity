@@ -127,7 +127,7 @@ namespace simplicity
 
 		for (Entity* entity : entities)
 		{
-			Model* entityBounds = entity->getComponent<Model>(Categories::BOUNDS);
+			Model* entityBounds = entity->getComponent<Model>(Category::BOUNDS);
 			if (entityBounds == NULL)
 			{
 				// If the entity has no bounds we take the safe option and assume that it intersects.
@@ -171,7 +171,7 @@ namespace simplicity
 
 	bool OcTree::insert(Entity& entity)
 	{
-		Model* bounds = entity.getComponent<Model>(Categories::BOUNDS);
+		Model* bounds = entity.getComponent<Model>(Category::BOUNDS);
 		if (bounds == NULL)
 		{
 			// If the entity has no bounds we insert it here.

@@ -2,8 +2,8 @@
 
 //#include <CL/opencl.h>
 
+#include "../common/Category.h"
 #include "../common/Timer.h"
-#include "../entity/Categories.h"
 #include "../logging/Logs.h"
 
 using namespace std;

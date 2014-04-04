@@ -17,7 +17,7 @@
 #ifndef DATASTORE_H_
 #define DATASTORE_H_
 
-#include "../entity/Categories.h"
+#include "../common/Category.h"
 #include "Resource.h"
 
 namespace simplicity

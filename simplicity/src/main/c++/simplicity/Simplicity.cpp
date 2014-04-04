@@ -20,7 +20,7 @@
 
 #include "common/Timer.h"
 #include "engine/SerialCompositeEngine.h"
-#include "messaging/Events.h"
+#include "messaging/Subject.h"
 #include "Simplicity.h"
 
 using namespace std;

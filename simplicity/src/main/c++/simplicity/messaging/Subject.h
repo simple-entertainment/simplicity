@@ -14,13 +14,12 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef EVENTS_H_
-#define EVENTS_H_
+#ifndef SUBJECT_H_
+#define SUBJECT_H_
 
 namespace simplicity
 {
-	// TODO Move to messages API and rename to Subjects.
-	namespace Events
+	namespace Subject
 	{
 		/**
 		 * <p>
@@ -68,4 +67,4 @@ namespace simplicity
 	}
 }
 
-#endif /* EVENTS_H_ */
+#endif /* SUBJECT_H_ */

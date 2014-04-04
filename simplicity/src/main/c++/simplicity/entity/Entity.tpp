@@ -24,7 +24,7 @@ namespace simplicity
 	{
 		for (unsigned int index = 0; index < uniqueComponents.size(); index++)
 		{
-			if (category == Categories::ALL_CATEGORIES || uniqueComponents[index]->getCategory() == category)
+			if (category == Category::ALL_CATEGORIES || uniqueComponents[index]->getCategory() == category)
 			{
 				ComponentType* component = dynamic_cast<ComponentType*>(uniqueComponents[index].get());
 				if (component != NULL)
@@ -36,7 +36,7 @@ namespace simplicity
 
 		for (unsigned int index = 0; index < sharedComponents.size(); index++)
 		{
-			if (category == Categories::ALL_CATEGORIES || sharedComponents[index]->getCategory() == category)
+			if (category == Category::ALL_CATEGORIES || sharedComponents[index]->getCategory() == category)
 			{
 				ComponentType* component = dynamic_cast<ComponentType*>(sharedComponents[index].get());
 				if (component != NULL)
@@ -56,7 +56,7 @@ namespace simplicity
 
 		for (unsigned int index = 0; index < uniqueComponents.size(); index++)
 		{
-			if (category == Categories::ALL_CATEGORIES || uniqueComponents[index]->getCategory() == category)
+			if (category == Category::ALL_CATEGORIES || uniqueComponents[index]->getCategory() == category)
 			{
 				ComponentType* component = dynamic_cast<ComponentType*>(uniqueComponents[index].get());
 				if (component != NULL)
@@ -68,7 +68,7 @@ namespace simplicity
 
 		for (unsigned int index = 0; index < sharedComponents.size(); index++)
 		{
-			if (category == Categories::ALL_CATEGORIES || sharedComponents[index]->getCategory() == category)
+			if (category == Category::ALL_CATEGORIES || sharedComponents[index]->getCategory() == category)
 			{
 				ComponentType* component = dynamic_cast<ComponentType*>(sharedComponents[index].get());
 				if (component != NULL)

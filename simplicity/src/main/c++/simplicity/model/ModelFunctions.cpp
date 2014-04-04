@@ -16,7 +16,7 @@
  */
 #include <map>
 
-#include "../entity/Categories.h"
+#include "../common/Category.h"
 #include "../math/Distance.h"
 #include "../math/Intersection.h"
 #include "../math/MathFunctions.h"
@@ -153,7 +153,7 @@ namespace simplicity
 			}
 
 			unique_ptr<Circle> bounds(new Circle(sqrt(maxMagnitudeSquared)));
-			bounds->setCategory(Categories::BOUNDS);
+			bounds->setCategory(Category::BOUNDS);
 			setPosition(bounds->getTransform(), Vector3(center.X(), 0.0f, center.Z()));
 
 			return move(bounds);
@@ -313,7 +313,7 @@ namespace simplicity
 			float centerZ = maxZ - halfRangeZ;
 
 			unique_ptr<Square> bounds(new Square(max(halfRangeX, halfRangeZ)));
-			bounds->setCategory(Categories::BOUNDS);
+			bounds->setCategory(Category::BOUNDS);
 			setPosition(bounds->getTransform(), Vector3(centerX, 0.0f, centerZ));
 
 			return move(bounds);

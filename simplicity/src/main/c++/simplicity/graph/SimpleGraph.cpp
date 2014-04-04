@@ -118,7 +118,7 @@ namespace simplicity
 
 		for (Entity* entity : entities)
 		{
-			Model* entityBounds = entity->getComponent<Model>(Categories::BOUNDS);
+			Model* entityBounds = entity->getComponent<Model>(Category::BOUNDS);
 			if (entityBounds == NULL)
 			{
 				continue;

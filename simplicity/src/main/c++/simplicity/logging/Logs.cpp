@@ -53,7 +53,7 @@ namespace simplicity
 
 		void setResource(Resource* resource, unsigned short category)
 		{
-			if (category == Categories::ALL_CATEGORIES)
+			if (category == Category::ALL_CATEGORIES)
 			{
 				defaultResource = resource;
 			}

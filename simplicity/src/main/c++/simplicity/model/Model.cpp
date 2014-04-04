@@ -14,13 +14,13 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../entity/Categories.h"
+#include "../common/Category.h"
 #include "Model.h"
 
 namespace simplicity
 {
 	Model::Model()
 	{
-		setCategory(Categories::RENDER);
+		setCategory(Category::RENDER);
 	}
 }

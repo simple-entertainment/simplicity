@@ -19,8 +19,8 @@
 #include "../input/KeyboardButtonEvent.h"
 #include "../input/MouseMoveEvent.h"
 #include "../math/MathFunctions.h"
-#include "../messaging/Events.h"
 #include "../messaging/Messages.h"
+#include "../messaging/Subject.h"
 #include "FlyingCameraEngine.h"
 
 using namespace std;
@@ -64,9 +64,9 @@ namespace simplicity
 
 	void FlyingCameraEngine::destroy()
 	{
-		Messages::deregisterRecipient(Events::KEYBOARD_BUTTON, bind(&FlyingCameraEngine::onKeyboardButton, this,
+		Messages::deregisterRecipient(Subject::KEYBOARD_BUTTON, bind(&FlyingCameraEngine::onKeyboardButton, this,
 				placeholders::_1));
-		Messages::deregisterRecipient(Events::MOUSE_MOVE, bind(&FlyingCameraEngine::onMouseMove, this,
+		Messages::deregisterRecipient(Subject::MOUSE_MOVE, bind(&FlyingCameraEngine::onMouseMove, this,
 				placeholders::_1));
 	}
 
@@ -77,9 +77,9 @@ namespace simplicity
 		buttonStates[Keyboard::Button::S] = Button::State::UP;
 		buttonStates[Keyboard::Button::D] = Button::State::UP;
 
-		Messages::registerRecipient(Events::KEYBOARD_BUTTON, bind(&FlyingCameraEngine::onKeyboardButton, this,
+		Messages::registerRecipient(Subject::KEYBOARD_BUTTON, bind(&FlyingCameraEngine::onKeyboardButton, this,
 				placeholders::_1));
-		Messages::registerRecipient(Events::MOUSE_MOVE, bind(&FlyingCameraEngine::onMouseMove, this,
+		Messages::registerRecipient(Subject::MOUSE_MOVE, bind(&FlyingCameraEngine::onMouseMove, this,
 				placeholders::_1));
 	}
 

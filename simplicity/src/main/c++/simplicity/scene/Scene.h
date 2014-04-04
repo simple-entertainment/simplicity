@@ -75,7 +75,7 @@ namespace simplicity
 			 *
 			 * @return The entities.
 			 */
-			std::vector<Entity*> getEntities(unsigned short category = Categories::ALL_CATEGORIES);
+			std::vector<Entity*> getEntities(unsigned short category = Category::ALL_CATEGORIES);
 
 			/**
 			 * <p>

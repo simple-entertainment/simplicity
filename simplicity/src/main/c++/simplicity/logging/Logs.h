@@ -17,9 +17,8 @@
 #ifndef LOGS_H_
 #define LOGS_H_
 
+#include "../common/Category.h"
 #include "../resources/Resource.h"
-
-#include "../entity/Categories.h"
 
 namespace simplicity
 {

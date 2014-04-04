@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef CATEGORIES_H_
-#define CATEGORIES_H_
+#ifndef CATEGORY_H_
+#define CATEGORY_H_
 
 namespace simplicity
 {
-	namespace Categories
+	namespace Category
 	{
 		/**
 		 * <p>
@@ -54,35 +54,35 @@ namespace simplicity
 		 * The debug log.
 		 * </p>
 		 */
-		static const unsigned short DEBUG = 4;
+		static const unsigned short DEBUG_LOG = 4;
 
 		/**
 		 * <p>
 		 * The error log.
 		 * </p>
 		 */
-		static const unsigned short ERR = 5;
+		static const unsigned short ERROR_LOG = 5;
 
 		/**
 		 * <p>
 		 * The fatal log.
 		 * </p>
 		 */
-		static const unsigned short FATAL = 6;
+		static const unsigned short FATAL_LOG = 6;
 
 		/**
 		 * <p>
 		 * The info log.
 		 * </p>
 		 */
-		static const unsigned short INFO = 7;
+		static const unsigned short INFO_LOG = 7;
 
 		/**
 		 * <p>
 		 * The fatal log.
 		 * </p>
 		 */
-		static const unsigned short TRACE = 8;
+		static const unsigned short TRACE_LOG = 8;
 
 		/**
 		 * <p>
@@ -109,4 +109,4 @@ namespace simplicity
 	}
 }
 
-#endif /* CATEGORIES_H_ */
+#endif /* CATEGORY_H_ */
