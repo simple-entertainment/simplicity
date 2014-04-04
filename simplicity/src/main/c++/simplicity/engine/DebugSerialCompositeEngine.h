@@ -39,11 +39,7 @@ namespace simplicity
 
 			void addEngine(std::unique_ptr<Engine> engine);
 
-			void addEntity(Entity& entity);
-
 			void advance();
-
-			void destroy();
 
 			/**
 			 * <p>
@@ -74,11 +70,27 @@ namespace simplicity
 			 */
 			float getFrameTime() const;
 
-			void init();
+			void onAddEntity(Entity& entity);
+			
+			void onCloseScene(Scene& scene);
+
+			void onOpenScene(Scene& scene);
+
+			void onPause();
+
+			void onPauseScene(Scene& scene);
+
+			void onPlay();
+
+			void onRemoveEntity(Entity& entity);
+
+			void onResume();
+
+			void onResumeScene(Scene& scene);
+
+			void onStop();
 
 			std::unique_ptr<Engine> removeEngine(Engine* engine);
-
-			void removeEntity(const Entity& entity);
 
 		private:
 			std::vector<float> engineFrameTimes;

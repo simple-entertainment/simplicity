@@ -42,7 +42,7 @@ namespace simplicity
 	{
 		for (unsigned int entityIndex = 0; entityIndex < entitiesToBeAdded.size(); entityIndex++)
 		{
-			Simplicity::getCompositeEngine()->addEntity(*entitiesToBeAdded[entityIndex]);
+			Simplicity::getCompositeEngine()->onAddEntity(*entitiesToBeAdded[entityIndex]);
 
 			for (unsigned int graphIndex = 0; graphIndex < graphs.size(); graphIndex++)
 			{
@@ -91,7 +91,7 @@ namespace simplicity
 
 			if (result != entities.end())
 			{
-				Simplicity::getCompositeEngine()->removeEntity(**result);
+				Simplicity::getCompositeEngine()->onRemoveEntity(**result);
 
 				for (unsigned int graphIndex = 0; graphIndex < graphs.size(); graphIndex++)
 				{

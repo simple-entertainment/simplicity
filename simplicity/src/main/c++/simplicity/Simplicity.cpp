@@ -34,6 +34,7 @@ namespace simplicity
 		Scene* currentScene = NULL;
 		float frameTime = 0.0f;
 		unsigned short maxFrameRate = 0;
+		bool newlyOpenedScene = true;
 		bool paused = false;
 		map<string, unique_ptr<Scene>> scenes;
 		bool stopped = true;
@@ -42,11 +43,6 @@ namespace simplicity
 
 		void addEngine(unique_ptr<Engine> engine)
 		{
-			if (!stopped)
-			{
-				engine->init();
-			}
-
 			compositeEngine->addEngine(move(engine));
 		}
 
@@ -93,6 +89,11 @@ namespace simplicity
 		void openScene(const string& name)
 		{
 			currentScene = scenes[name].get();
+
+			if (isPlaying())
+			{
+				newlyOpenedScene = true;
+			}
 		}
 
 		void pause()
@@ -104,13 +105,15 @@ namespace simplicity
 		{
 			if (paused)
 			{
+				compositeEngine->onResume();
+
 				paused = false;
 				totalTimer.resume();
 			}
 
 			if (stopped)
 			{
-				compositeEngine->init();
+				compositeEngine->onPlay();
 
 				stopped = false;
 				totalTimer.reset();
@@ -121,7 +124,15 @@ namespace simplicity
 				Timer frameTimer;
 
 				currentScene->addPendingEntities();
+
+				if (newlyOpenedScene)
+				{
+					compositeEngine->onOpenScene(*currentScene);
+					newlyOpenedScene = false;
+				}
+
 				compositeEngine->advance();
+
 				currentScene->removePendingEntities();
 
 				frameTime = frameTimer.getElapsedTime();
@@ -142,11 +153,13 @@ namespace simplicity
 			if (paused)
 			{
 				totalTimer.pause();
+
+				compositeEngine->onPause();
 			}
 
 			if (stopped)
 			{
-				compositeEngine->destroy();
+				compositeEngine->onStop();
 			}
 		}
 

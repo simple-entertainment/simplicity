@@ -31,14 +31,6 @@ namespace simplicity
 		engines.push_back(move(engine));
 	}
 
-	void SerialCompositeEngine::addEntity(Entity& entity)
-	{
-		for (unsigned int index = 0; index < engines.size(); index++)
-		{
-			engines[index]->addEntity(entity);
-		}
-	}
-
 	void SerialCompositeEngine::advance()
 	{
 		for (unsigned int index = 0; index < engines.size(); index++)
@@ -47,24 +39,88 @@ namespace simplicity
 		}
 	}
 
-	void SerialCompositeEngine::destroy()
-	{
-		for (unsigned int index = 0; index < engines.size(); index++)
-		{
-			engines[index]->destroy();
-		}
-	}
-
 	const vector<unique_ptr<Engine>>& SerialCompositeEngine::getEngines() const
 	{
 		return engines;
 	}
 
-	void SerialCompositeEngine::init()
+	void SerialCompositeEngine::onAddEntity(Entity& entity)
 	{
 		for (unsigned int index = 0; index < engines.size(); index++)
 		{
-			engines[index]->init();
+			engines[index]->onAddEntity(entity);
+		}
+	}
+
+	void SerialCompositeEngine::onCloseScene(Scene& scene)
+	{
+		for (unsigned int index = 0; index < engines.size(); index++)
+		{
+			engines[index]->onCloseScene(scene);
+		}
+	}
+
+	void SerialCompositeEngine::onOpenScene(Scene& scene)
+	{
+		for (unsigned int index = 0; index < engines.size(); index++)
+		{
+			engines[index]->onOpenScene(scene);
+		}
+	}
+
+	void SerialCompositeEngine::onPause()
+	{
+		for (unsigned int index = 0; index < engines.size(); index++)
+		{
+			engines[index]->onPause();
+		}
+	}
+
+	void SerialCompositeEngine::onPauseScene(Scene& scene)
+	{
+		for (unsigned int index = 0; index < engines.size(); index++)
+		{
+			engines[index]->onPauseScene(scene);
+		}
+	}
+
+	void SerialCompositeEngine::onPlay()
+	{
+		for (unsigned int index = 0; index < engines.size(); index++)
+		{
+			engines[index]->onPlay();
+		}
+	}
+
+	void SerialCompositeEngine::onRemoveEntity(Entity& entity)
+	{
+		for (unsigned int index = 0; index < engines.size(); index++)
+		{
+			engines[index]->onRemoveEntity(entity);
+		}
+	}
+
+	void SerialCompositeEngine::onResume()
+	{
+		for (unsigned int index = 0; index < engines.size(); index++)
+		{
+			engines[index]->onResume();
+		}
+	}
+
+	void SerialCompositeEngine::onResumeScene(Scene& scene)
+	{
+		for (unsigned int index = 0; index < engines.size(); index++)
+		{
+			engines[index]->onResumeScene(scene);
+		}
+	}
+
+	void SerialCompositeEngine::onStop()
+	{
+		for (unsigned int index = 0; index < engines.size(); index++)
+		{
+			engines[index]->onStop();
 		}
 	}
 
@@ -82,13 +138,5 @@ namespace simplicity
 		}
 
 		return move(removedEngine);
-	}
-
-	void SerialCompositeEngine::removeEntity(const Entity& entity)
-	{
-		for (unsigned int index = 0; index < engines.size(); index++)
-		{
-			engines[index]->removeEntity(entity);
-		}
 	}
 }

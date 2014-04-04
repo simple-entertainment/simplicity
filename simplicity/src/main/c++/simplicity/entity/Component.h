@@ -53,32 +53,6 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Retrieves the entity this component belongs to. Note that this connection has to be created manually.
-			 * </p>
-			 *
-			 * <p>
-			 * Components that are shared may belong to more than one entity making this connection meaningless.
-			 * </p>
-			 *
-			 * @return The entity this component belongs to.
-			 */
-			Entity* getEntity();
-
-			/**
-			 * <p>
-			 * Retrieves the entity this component belongs to. Note that this connection has to be created manually.
-			 * </p>
-			 *
-			 * <p>
-			 * Components that are shared may belong to more than one entity making this connection meaningless.
-			 * </p>
-			 *
-			 * @return The entity this component belongs to.
-			 */
-			const Entity* getEntity() const;
-
-			/**
-			 * <p>
 			 * Retrieves the position and orientation of this component relative to the entity (or entities) to which
 			 * it is attached.
 			 * </p>
@@ -108,19 +82,6 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Sets the entity this component belongs to. Note that this connection has to be created manually.
-			 * </p>
-			 *
-			 * <p>
-			 * Components that are shared may belong to more than one entity making this connection meaningless.
-			 * </p>
-			 *
-			 * @param entity The entity this component belongs to.
-			 */
-			void setEntity(Entity* entity);
-
-			/**
-			 * <p>
 			 * Sets the position and orientation of this component relative to the entity (or entities) to which it is
 			 * attached.
 			 * </p>
@@ -131,8 +92,6 @@ namespace simplicity
 
 		private:
 			unsigned short category;
-
-			Entity* entity; // TODO review! Is this necessary?
 
 			Matrix44 transform; // TODO review! Is this a good idea?
 	};

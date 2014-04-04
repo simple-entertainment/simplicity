@@ -19,6 +19,7 @@
 
 #include "../common/NonCopyable.h"
 #include "../entity/Entity.h"
+#include "../scene/Scene.h"
 
 namespace simplicity
 {
@@ -41,15 +42,6 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 *	Called when an entity is added to the scene.
-			 * </p>
-			 *
-			 * @param entity The entity being added.
-			 */
-			virtual void addEntity(Entity& entity) = 0;
-
-			/**
-			 * <p>
 			 * Advances the engine, performing any tasks required for the current frame.
 			 * </p>
 			 *
@@ -60,35 +52,106 @@ namespace simplicity
 			virtual void advance() = 0;
 
 			/**
-			 * <p>
-			 * Destroys the engine.
-			 * </p>
-			 *
-			 * <p>
-			 * Called after the last call to advance().
-			 * </p>
-			 */
-			virtual void destroy() = 0;
+			* <p>
+			* Called when an entity is added to the scene.
+			* </p>
+			*
+			* @param entity The entity being added.
+			*/
+			virtual void onAddEntity(Entity& /* entity */)
+			{
+			}
+
+			/**
+			* <p>
+			* Called after a scene is closed and the last frame of that scene has finished.
+			* </p>
+			* 
+			* @param scene The scene.
+			*/
+			virtual void onCloseScene(Scene& /* scene */)
+			{
+			}
+
+			/**
+			* <p>
+			* Called after a scene is opened and before the first frame of that scene has started.
+			* </p>
+			* 
+			* @param scene The scene.
+			*/
+			virtual void onOpenScene(Scene& /* scene */)
+			{
+			}
+
+			/**
+			* <p>
+			* Called after a scene is paused and the last frame has finished.
+			* </p>
+			*/
+			virtual void onPause()
+			{
+			}
+
+			/**
+			* <p>
+			* Called after simplicity is paused and the last frame has finished.
+			* </p>
+			* 
+			* @param scene The scene.
+			*/
+			virtual void onPauseScene(Scene& /* scene */)
+			{
+			}
+
+			/**
+			* <p>
+			* Called after simplicity is played and before the first frame has started.
+			* </p>
+			*/
+			virtual void onPlay()
+			{
+			}
+
+			/**
+			* <p>
+			* Called when an entity is removed from the scene.
+			* </p>
+			*
+			* @param entity The entity being removed.
+			*/
+			virtual void onRemoveEntity(Entity& /* entity */)
+			{
+			}
+
+			/**
+			* <p>
+			* Called after simplicity is resumed and before the first frame has started.
+			* </p>
+			*/
+			virtual void onResume()
+			{
+			}
+
+			/**
+			* <p>
+			* Called after a scene is resumed and before the first frame has started.
+			* </p>
+			*
+			* @param scene The scene.
+			*/
+			virtual void onResumeScene(Scene& /* scene */)
+			{
+			}
 
 			/**
 			 * <p>
-			 * Initializes the engine.
-			 * </p>
-			 *
-			 * <p>
-			 * Called before the first call to advance().
+			 * Called after simplicity is stopped and the last frame has finished.
 			 * </p>
 			 */
-			virtual void init() = 0;
-
-			/**
-			 * <p>
-			 *	Called when an entity is removed from the scene.
-			 * </p>
-			 *
-			 * @param entity The entity being removed.
-			 */
-			virtual void removeEntity(const Entity& entity) = 0;
+			virtual void onStop()
+			{
+			}
 	};
 }
 

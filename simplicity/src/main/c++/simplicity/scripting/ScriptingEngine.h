@@ -32,18 +32,22 @@ namespace simplicity
 		public:
 			ScriptingEngine();
 
-			void addEntity(Entity& entity);
-
 			void advance();
 
-			void destroy();
+			void onAddEntity(Entity& entity);
 
-			void init();
+			void onCloseScene(Scene& scene);
 
-			void removeEntity(const Entity& entity);
+			void onOpenScene(Scene& scene);
+
+			void onPauseScene(Scene& scene);
+
+			void onRemoveEntity(Entity& entity);
+
+			void onResumeScene(Scene& scene);
 
 		private:
-			std::vector<Script*> scripts;
+			std::map<Entity*, std::vector<Script*>> scriptsByEntity;
 	};
 }
 

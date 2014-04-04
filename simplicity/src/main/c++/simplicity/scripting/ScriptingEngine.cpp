@@ -17,44 +17,87 @@
 #include "../common/AddressEquals.h"
 #include "ScriptingEngine.h"
 
+using namespace std;
+
 namespace simplicity
 {
 	ScriptingEngine::ScriptingEngine() :
-		scripts()
+		scriptsByEntity()
 	{
-	}
-
-	void ScriptingEngine::addEntity(Entity& entity)
-	{
-		for (Script* script : entity.getComponents<Script>())
-		{
-			script->init();
-			scripts.push_back(script);
-		}
 	}
 
 	void ScriptingEngine::advance()
 	{
-		for (Script* script : scripts)
+		for (pair<Entity*, vector<Script*>> entityScripts : scriptsByEntity)
 		{
-			script->execute();
+			for (Script* script : entityScripts.second)
+			{
+				script->execute(*entityScripts.first);
+			}
 		}
 	}
 
-	void ScriptingEngine::destroy()
+	void ScriptingEngine::onAddEntity(Entity& entity)
 	{
-	}
+		scriptsByEntity[&entity] = entity.getComponents<Script>();
 
-	void ScriptingEngine::init()
-	{
-	}
-
-	void ScriptingEngine::removeEntity(const Entity& entity)
-	{
-		for (Script* script : entity.getComponents<Script>())
+		for (Script* script : scriptsByEntity[&entity])
 		{
-			scripts.erase(remove(scripts.begin(), scripts.end(), script));
-			script->destroy();
+			script->onAddEntity(entity);
+		}
+	}
+
+	void ScriptingEngine::onCloseScene(Scene& scene)
+	{
+		for (pair<Entity*, vector<Script*>> entityScripts : scriptsByEntity)
+		{
+			for (Script* script : entityScripts.second)
+			{
+				script->onCloseScene(scene, *entityScripts.first);
+			}
+		}
+	}
+
+	void ScriptingEngine::onOpenScene(Scene& scene)
+	{
+		for (pair<Entity*, vector<Script*>> entityScripts : scriptsByEntity)
+		{
+			for (Script* script : entityScripts.second)
+			{
+				script->onOpenScene(scene, *entityScripts.first);
+			}
+		}
+	}
+
+	void ScriptingEngine::onPauseScene(Scene& scene)
+	{
+		for (pair<Entity*, vector<Script*>> entityScripts : scriptsByEntity)
+		{
+			for (Script* script : entityScripts.second)
+			{
+				script->onPauseScene(scene, *entityScripts.first);
+			}
+		}
+	}
+
+	void ScriptingEngine::onRemoveEntity(Entity& entity)
+	{
+		for (Script* script : scriptsByEntity[&entity])
+		{
+			script->onRemoveEntity(entity);
+		}
+
+		scriptsByEntity.erase(&entity);
+	}
+
+	void ScriptingEngine::onResumeScene(Scene& scene)
+	{
+		for (pair<Entity*, vector<Script*>> entityScripts : scriptsByEntity)
+		{
+			for (Script* script : entityScripts.second)
+			{
+				script->onResumeScene(scene, *entityScripts.first);
+			}
 		}
 	}
 }
