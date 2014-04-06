@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include <sstream>
+
 #include "../math/MathConstants.h"
 #include "../math/MathFunctions.h"
 #include "ModelFactory.h"
@@ -23,7 +25,11 @@ using namespace std;
 // TODO All the doubleSided meshes have incorrect normals on the back side... they need to be reversed.
 namespace simplicity
 {
+	vector<string> splitString(string& split, istream& source, char delimiter, unsigned int estimatedSplitCount);
+
 	unique_ptr<ModelFactory> ModelFactory::instance = unique_ptr<ModelFactory>();
+
+	const unsigned int MAX_SPLIT_LENGTH = 256;
 
 	unique_ptr<Mesh> ModelFactory::createBoxMesh(const Vector3& halfExtents, const Vector4& color, bool doubleSided)
 	{
@@ -732,8 +738,137 @@ namespace simplicity
 		}
 	}
 
+	unique_ptr<Mesh> ModelFactory::loadObj(Resource& resource, const Vector4& color, float scale = 1.0f)
+	{
+		return loadObj(resource, color, scale, 0, 0, 0, 0);
+	}
+
+	unique_ptr<Mesh> ModelFactory::loadObj(Resource& resource, const Vector4& color, float scale,
+		unsigned int normalCount, unsigned int positionCount, unsigned int texCoordCount, unsigned int vertexCount)
+	{
+		vector<Vertex> vertices;
+		vertices.reserve(vertexCount);
+
+		unique_ptr<istream> inputStream = resource.getInputStream();
+
+		// This is constructed here and passed to splitString each time for performance reasons... should probably
+		// profile this though.
+		string split(' ', MAX_SPLIT_LENGTH);
+
+		vector<string> lines = splitString(split, *inputStream, '\n',
+			normalCount + positionCount + texCoordCount + vertexCount / 3 + 50);
+
+		vector<vector<string>> faces;
+		faces.reserve(vertexCount / 3);
+		vector<Vector3> normals;
+		normals.reserve(normalCount);
+		vector<Vector3> positions;
+		positions.reserve(positionCount);
+		vector<Vector2> texCoords;
+		texCoords.reserve(texCoordCount);
+
+		for (unsigned int lineIndex = 0; lineIndex < lines.size(); lineIndex++)
+		{
+			if (lines[lineIndex].empty())
+			{
+				continue;
+			}
+
+			istringstream inputLineStream(lines[lineIndex]);
+			vector<string> splitLine = splitString(split, inputLineStream, ' ', 4);
+
+			if (splitLine[0] == "v")
+			{
+				Vector3 position(
+					(float) atof(splitLine[1].c_str()) * scale,
+					(float) atof(splitLine[2].c_str()) * scale,
+					(float) atof(splitLine[3].c_str()) * scale);
+				positions.push_back(position);
+			}
+			else if (splitLine[0] == "vn")
+			{
+				Vector3 normal(
+					(float) atof(splitLine[1].c_str()),
+					(float) atof(splitLine[2].c_str()),
+					(float) atof(splitLine[3].c_str()));
+				normals.push_back(normal);
+			}
+			else if (splitLine[0] == "vt")
+			{
+				Vector2 texCoord(
+					(float) atof(splitLine[1].c_str()),
+					1.0f - (float) atof(splitLine[2].c_str()));
+				texCoords.push_back(texCoord);
+			}
+			else if (splitLine[0] == "f")
+			{
+				faces.push_back(splitLine);
+			}
+		}
+
+		// Read the faces from the file and populate the arrays.
+		for (unsigned int faceIndex = 0; faceIndex < faces.size(); faceIndex++)
+		{
+			vector<string> face = faces[faceIndex];
+
+			for (unsigned int vertexIndex = 1; vertexIndex < face.size() - 1; vertexIndex++)
+			{
+				istringstream inputFaceStream(face[vertexIndex]);
+				vector<string> splitVertex = splitString(split, inputFaceStream, '/', 3);
+
+				Vertex vertex;
+				vertex.color = color;
+
+				if (!normals.empty())
+				{
+					vertex.normal = normals[atoi(splitVertex[2].c_str()) - 1];
+				}
+
+				vertex.position = positions[atoi(splitVertex[0].c_str()) - 1];
+
+				if (!texCoords.empty())
+				{
+					vertex.texCoord = texCoords[atoi(splitVertex[1].c_str()) - 1];
+				}
+
+				vertices.push_back(vertex);
+			}
+
+			// Create face normals if none were provided.
+			if (normals.empty())
+			{
+				unsigned int vertexCount = vertices.size();
+
+				Vector3 edge0 = vertices[vertexCount - 1].position - vertices[vertexCount - 2].position;
+				Vector3 edge1 = vertices[vertexCount - 1].position - vertices[vertexCount - 3].position;
+				Vector3 faceNormal = crossProduct(edge0, edge1);
+				faceNormal.normalize();
+
+				vertices[vertexCount - 1].normal = faceNormal;
+				vertices[vertexCount - 2].normal = faceNormal;
+				vertices[vertexCount - 3].normal = faceNormal;
+			}
+		}
+
+		return createMesh(vertices);
+	}
+
 	void ModelFactory::setInstance(unique_ptr<ModelFactory> instance)
 	{
 		ModelFactory::instance = move(instance);
+	}
+
+	vector<string> splitString(string& split, istream& source, char delimiter, unsigned int estimatedSplitCount)
+	{
+		vector<string> splits;
+		splits.reserve(estimatedSplitCount);
+
+		while (!source.eof())
+		{
+			source.getline(&split[0], split.size(), delimiter);
+			splits.push_back(split);
+		}
+
+		return splits;
 	}
 }

@@ -20,6 +20,7 @@
 #include <memory>
 #include <vector>
 
+#include "../resources/Resource.h"
 #include "Mesh.h"
 #include "Vertex.h"
 
@@ -353,6 +354,46 @@ namespace simplicity
 			static void insertTunnelVertices(std::vector<Vertex>& vertices, unsigned int index, float radius,
 					float length, unsigned int divisions, const Vector3& center, const Vector4& color,
 					bool smooth = true);
+
+			/**
+			 * <p>
+			 * Loads a model from OBJ data.
+			 * </p>
+			 *
+			 * <p>
+			 * NOTE: The Model described in the .OBJ data must be constructed entirely from triangle polygons.
+			 * </p>
+			 *
+			 * @param resource The resource containing the OBJ data.
+			 * @param color The color of the model.
+			 * @param scale The scale of the model.
+			 *
+			 * @return The model created from the OBJ data.
+			 */
+			std::unique_ptr<Mesh> loadObj(Resource& resource, const Vector4& color, float scale = 1.0f);
+
+			/**
+			 * <p>
+			 * Loads a model from OBJ data. This is faster than the version that does not take countsas it is able to
+			 * pre-allocate the correctly-sized memory blocks.
+			 * </p>
+			 *
+			 * <p>
+			 * NOTE: The Model described in the .OBJ data must be constructed entirely from triangle polygons.
+			 * </p>
+			 *
+			 * @param resource The resource containing the OBJ data.
+			 * @param color The color of the model.
+			 * @param scale The scale of the model.
+			 * @param normalCount The number of normals in the mesh.
+			 * @param positionCount The number of positions in the mesh.
+			 * @param texCoordCount The number of texture coordinates in the mesh.
+			 * @param vertexCount The number of vertices in the mesh.
+			 *
+			 * @return The model created from the OBJ data.
+			 */
+			unique_ptr<Mesh> loadObj(Resource& resource, const Vector4& color, float scale, unsigned int normalCount,
+				unsigned int positionCount, unsigned int texCoordCount, unsigned int vertexCount);
 
 			/**
 			 * <p>
