@@ -26,13 +26,14 @@ namespace simplicity
 	{
 		/**
 		 * <p>
-		 * Logs a message.
+		 * Logs a message using printf formatting.
 		 * </p>
 		 *
 		 * @param category The category to log the message in.
 		 * @param message The message to log.
+		 * @param ... The arguments to include in the message.
 		 */
-		SIMPLE_API void log(unsigned short category, const std::string& message);
+		SIMPLE_API void log(unsigned short category, const std::string& message, ...);
 
 		/**
 		 * <p>

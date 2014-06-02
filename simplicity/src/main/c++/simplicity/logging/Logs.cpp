@@ -14,11 +14,15 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include <cassert>
+#include <cstdarg>
 #include <map>
 
 #include "Logs.h"
 
 using namespace std;
+
+const unsigned int MAX_ARG_BUFFER_SIZE = 1024;
 
 namespace simplicity
 {
@@ -41,13 +45,25 @@ namespace simplicity
 			return resource;
 		}
 
-		void log(unsigned short category, const string& message)
+		void log(unsigned short category, const string& message, ...)
 		{
-			Resource* resource = getResource(category);
+			if (category == Category::ERROR_LOG ||
+				category == Category::FATAL_LOG)
+			{
+				assert(false);
+			}
 
+			Resource* resource = getResource(category);
 			if (resource != NULL)
 			{
-				resource->appendData(message + '\n');
+				std::string buffer(message.size() + MAX_ARG_BUFFER_SIZE, ' ');
+
+				va_list args;
+				va_start(args, message);
+				vsnprintf(&buffer[0], buffer.size(), message.data(), args);
+				va_end(args);
+
+				resource->appendData(buffer + '\n');
 			}
 		}
 
