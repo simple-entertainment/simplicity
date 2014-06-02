@@ -101,9 +101,15 @@ namespace simplicity
 
 		void colorizeVertices(vector<Vertex>& vertices, const Vector4& color, unsigned int begin, unsigned int end)
 		{
+			colorizeVertices(vertices.data(), vertices.size(), color, begin, end);
+		}
+
+		void colorizeVertices(Vertex* vertices, unsigned int vertexCount, const Vector4& color, unsigned int begin,
+				unsigned int end)
+		{
 			if (end == 0)
 			{
-				end = vertices.size();
+				end = vertexCount;
 			}
 
 			for (unsigned int index = begin; index < end; index++)
@@ -112,40 +118,51 @@ namespace simplicity
 			}
 		}
 
-		void flipTriangles(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, unsigned int begin,
+		void flipTriangles(std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int begin,
+				unsigned int end)
+		{
+			flipTriangles(vertices.data(), indices.data(), indices.size(), begin, end);
+		}
+
+		void flipTriangles(Vertex* vertices, const unsigned int* indices, unsigned int indexCount, unsigned int begin,
 				unsigned int end)
 		{
 			if (end == 0)
 			{
-				end = indices.size();
+				end = indexCount;
 			}
 
 			for (unsigned int index = begin; index < end; index += 3)
 			{
-				Vertex temp = vertices[index + 1];
-				vertices[index + 1] = vertices[index + 2];
-				vertices[index + 2] = temp;
+				Vertex temp = vertices[indices[index + 1]];
+				vertices[indices[index + 1]] = vertices[indices[index + 2]];
+				vertices[indices[index + 2]] = temp;
 
-				vertices[index].normal.negate();
-				vertices[index + 1].normal.negate();
-				vertices[index + 2].normal.negate();
+				vertices[indices[index]].normal.negate();
+				vertices[indices[index + 1]].normal.negate();
+				vertices[indices[index + 2]].normal.negate();
 			}
 		}
 
 		unique_ptr<Circle> getCircleBoundsXZ(const std::vector<Vertex>& vertices)
 		{
+			return getCircleBoundsXZ(vertices.data(), vertices.size());
+		}
+
+		unique_ptr<Circle> getCircleBoundsXZ(const Vertex* vertices, unsigned int vertexCount)
+		{
 			Vector3 center(0.0f, 0.0f, 0.0f);
 			float maxMagnitudeSquared = 0.0f;
 
-			for (const Vertex& vertex : vertices)
+			for (unsigned int index = 0; index < vertexCount; index++)
 			{
-				center += vertex.position;
+				center += vertices[index].position;
 			}
-			center /= static_cast<float>(vertices.size());
+			center /= static_cast<float>(vertexCount);
 
-			for (const Vertex& vertex : vertices)
+			for (unsigned int index = 0; index < vertexCount; index++)
 			{
-				float magnitudeSquared = (vertex.position - center).getMagnitudeSquared();
+				float magnitudeSquared = (vertices[index].position - center).getMagnitudeSquared();
 				if (magnitudeSquared > maxMagnitudeSquared)
 				{
 					maxMagnitudeSquared = magnitudeSquared;
@@ -166,7 +183,7 @@ namespace simplicity
 			Matrix44 inverseRelativeTransform = relativeTransform;
 			inverseRelativeTransform.invert();
 
-			for (unsigned int lhsIndex = 0; lhsIndex < lhs.getIndices().size(); lhsIndex += 3)
+			for (unsigned int lhsIndex = 0; lhsIndex < lhs.getIndexCount(); lhsIndex += 3)
 			{
 				Triangle lhsTriangle(lhs.getVertices()[lhs.getIndices()[lhsIndex]].position,
 						lhs.getVertices()[lhs.getIndices()[lhsIndex + 1]].position,
@@ -177,7 +194,7 @@ namespace simplicity
 				Vector3 lhsNormal = crossProduct(lhsEdge0, lhsEdge1);
 				lhsNormal.normalize();
 
-				for (unsigned int rhsIndex = 0; rhsIndex < rhs.getIndices().size(); rhsIndex += 3)
+				for (unsigned int rhsIndex = 0; rhsIndex < rhs.getIndexCount(); rhsIndex += 3)
 				{
 					Vector3 rhsPointA((relativeTransform *
 							Vector4(rhs.getVertices()[rhs.getIndices()[rhsIndex]].position, 1.0f)).getData());
@@ -282,28 +299,33 @@ namespace simplicity
 
 		unique_ptr<Square> getSquareBoundsXZ(const std::vector<Vertex>& vertices)
 		{
+			return getSquareBoundsXZ(vertices.data(), vertices.size());
+		}
+
+		unique_ptr<Square> getSquareBoundsXZ(const Vertex* vertices, unsigned int vertexCount)
+		{
 			float minX = 1000000.0f;
 			float maxX = -1000000.0f;
 			float minZ = 1000000.0f;
 			float maxZ = -1000000.0f;
 
-			for (const Vertex& vertex : vertices)
+			for (unsigned int index = 0; index < vertexCount; index++)
 			{
-				if (vertex.position.X() < minX)
+				if (vertices[index].position.X() < minX)
 				{
-					minX = vertex.position.X();
+					minX = vertices[index].position.X();
 				}
-				if (vertex.position.X() > maxX)
+				if (vertices[index].position.X() > maxX)
 				{
-					maxX = vertex.position.X();
+					maxX = vertices[index].position.X();
 				}
-				if (vertex.position.Z() < minZ)
+				if (vertices[index].position.Z() < minZ)
 				{
-					minZ = vertex.position.Z();
+					minZ = vertices[index].position.Z();
 				}
-				if (vertex.position.Z() > maxZ)
+				if (vertices[index].position.Z() > maxZ)
 				{
-					maxZ = vertex.position.Z();
+					maxZ = vertices[index].position.Z();
 				}
 			}
 
@@ -433,7 +455,7 @@ namespace simplicity
 			}
 
 			removeIntersection(lhs, rhs, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
-					lhs.getIndices().size() / 3, currentIntersections, currentIntersectionsAtEdge,
+					lhs.getIndexCount() / 3, currentIntersections, currentIntersectionsAtEdge,
 					inverseRelativeTransform);
 		}
 
@@ -688,7 +710,7 @@ namespace simplicity
 			}
 
 			retainIntersection(lhs, rhs, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
-					lhs.getIndices().size() / 3, currentIntersections, inverseRelativeTransform);
+					lhs.getIndexCount() / 3, currentIntersections, inverseRelativeTransform);
 		}
 
 		void retainIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
@@ -811,9 +833,15 @@ namespace simplicity
 		void rotateVertices(vector<Vertex>& vertices, float angle, const Vector3& axis, unsigned int begin,
 				unsigned int end)
 		{
+			rotateVertices(vertices.data(), vertices.size(), angle, axis, begin, end);
+		}
+
+		void rotateVertices(Vertex* vertices, unsigned int vertexCount, float angle, const Vector3& axis,
+				unsigned int begin, unsigned int end)
+		{
 			if (end == 0)
 			{
-				end = vertices.size();
+				end = vertexCount;
 			}
 
 			Matrix33 rotationMatrix;
@@ -829,9 +857,15 @@ namespace simplicity
 
 		void scaleVertices(vector<Vertex>& vertices, float scale, unsigned int begin, unsigned int end)
 		{
+			scaleVertices(vertices.data(), vertices.size(), scale, begin, end);
+		}
+
+		void scaleVertices(Vertex* vertices, unsigned int vertexCount, float scale, unsigned int begin,
+				unsigned int end)
+		{
 			if (end == 0)
 			{
-				end = vertices.size();
+				end = vertexCount;
 			}
 
 			for (unsigned int index = begin; index < end; index++)
@@ -846,8 +880,8 @@ namespace simplicity
 			vector<unsigned int> newIndices;
 
 			// Guesstimate to avoid too much allocations.
-			newVertices.reserve(lhs.getVertices().size() + rhs.getVertices().size());
-			newIndices.reserve(lhs.getIndices().size() + rhs.getIndices().size());
+			newVertices.reserve(lhs.getVertexCount() + rhs.getVertexCount());
+			newIndices.reserve(lhs.getIndexCount() + rhs.getIndexCount());
 
 			removeIntersection(lhs, rhs, newVertices, newIndices, relativeTransform);
 			unsigned int removeEnd = newIndices.size();
@@ -864,9 +898,15 @@ namespace simplicity
 		void transformVertices(std::vector<Vertex>& vertices, const Matrix44& transformation, unsigned int begin,
 				unsigned int end)
 		{
+			transformVertices(vertices.data(), vertices.size(), transformation, begin, end);
+		}
+
+		void transformVertices(Vertex* vertices, unsigned int vertexCount, const Matrix44& transformation,
+				unsigned int begin, unsigned int end)
+		{
 			if (end == 0)
 			{
-				end = vertices.size();
+				end = vertexCount;
 			}
 
 			for (unsigned int index = begin; index < end; index++)
@@ -879,9 +919,15 @@ namespace simplicity
 		void translateVertices(vector<Vertex>& vertices, const Vector3& translation, unsigned int begin,
 				unsigned int end)
 		{
+			translateVertices(vertices.data(), vertices.size(), translation, begin, end);
+		}
+
+		void translateVertices(Vertex* vertices, unsigned int vertexCount, const Vector3& translation,
+				unsigned int begin, unsigned int end)
+		{
 			if (end == 0)
 			{
-				end = vertices.size();
+				end = vertexCount;
 			}
 
 			for (unsigned int index = begin; index < end; index++)

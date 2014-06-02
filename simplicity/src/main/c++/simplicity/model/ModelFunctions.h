@@ -45,6 +45,21 @@ namespace simplicity
 
 		/**
 		 * <p>
+		 * Sets the color of the specified vertices.
+		 * </p>
+		 *
+		 * @param vertices The vertices to colorize.
+		 * @param vertexCount The number of vertices to colorize.
+		 * @param color The color of the vertices.
+		 * @param begin The index of the first vertex to colorize (default is 0).
+		 * @param end The index of the last vertex to colorize (exclusive, default is 0 which is used to signify the
+		 * end of the vertices).
+		 */
+		SIMPLE_API void colorizeVertices(Vertex* vertices, unsigned int vertexCount,  const Vector4& color,
+				unsigned int begin = 0, unsigned int end = 0);
+
+		/**
+		 * <p>
 		 * Flips the specified faces to face the opposite direction.
 		 * </p>
 		 *
@@ -54,7 +69,22 @@ namespace simplicity
 		 * @param end The index of the last face to flip (exclusive, default is 0 which is used to signify the end of
 		 * the faces).
 		 */
-		SIMPLE_API void flipTriangles(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices,
+		SIMPLE_API void flipTriangles(std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices,
+				unsigned int begin = 0, unsigned int end = 0);
+
+		/**
+		 * <p>
+		 * Flips the specified faces to face the opposite direction.
+		 * </p>
+		 *
+		 * @param vertices The faces to flip.
+		 * @param indices The indices of the faces to flip.
+		 * @param indexCount The number of indices in the faces to flip.
+		 * @param begin The index of the first face to flip (default is 0).
+		 * @param end The index of the last face to flip (exclusive, default is 0 which is used to signify the end of
+		 * the faces).
+		 */
+		SIMPLE_API void flipTriangles(Vertex* vertices, const unsigned int* indices, unsigned int indexCount,
 				unsigned int begin = 0, unsigned int end = 0);
 
 		/**
@@ -70,6 +100,18 @@ namespace simplicity
 
 		/**
 		 * <p>
+		 * Calculates a circular bounding volume on the XZ plane for the given vertices.
+		 * </p>
+		 *
+		 * @param vertices The vertices.
+		 * @param vertexCount The number of vertices.
+		 *
+		 * @return A circular bounding volume on the XZ plane.
+		 */
+		SIMPLE_API std::unique_ptr<Circle> getCircleBoundsXZ(const Vertex* vertices, unsigned int vertexCount);
+
+		/**
+		 * <p>
 		 * Calculates a square bounding volume on the XZ plane for the given vertices.
 		 * </p>
 		 *
@@ -78,6 +120,18 @@ namespace simplicity
 		 * @return A square bounding volume on the XZ plane.
 		 */
 		SIMPLE_API std::unique_ptr<Square> getSquareBoundsXZ(const std::vector<Vertex>& vertices);
+
+		/**
+		 * <p>
+		 * Calculates a square bounding volume on the XZ plane for the given vertices.
+		 * </p>
+		 *
+		 * @param vertices The vertices.
+		 * @param vertexCount The number of vertices.
+		 *
+		 * @return A square bounding volume on the XZ plane.
+		 */
+		SIMPLE_API std::unique_ptr<Square> getSquareBoundsXZ(const Vertex* vertices, unsigned int vertexCount);
 
 		/**
 		 * <p>
@@ -92,7 +146,23 @@ namespace simplicity
 		 * of the vertices).
 		 */
 		SIMPLE_API void rotateVertices(std::vector<Vertex>& vertices, float angle, const Vector3& axis,
-				unsigned int begin = 0, unsigned int end = 0);
+			unsigned int begin = 0, unsigned int end = 0);
+
+		/**
+		 * <p>
+		 * Rotates the specified vertices.
+		 * </p>
+		 *
+		 * @param vertices The vertices to rotate.
+		 * @param vertexCount The number of vertices to rotate.
+		 * @param angle The angle to rotate the vertices.
+		 * @param axis The axis to rotate the vertices around.
+		 * @param begin The index of the first vertex to rotate (default is 0).
+		 * @param end The index of the last vertex to rotate (exclusive, default is 0 which is used to signify the end
+		 * of the vertices).
+		 */
+		SIMPLE_API void rotateVertices(Vertex* vertices, unsigned int vertexCount, float angle, const Vector3& axis,
+			unsigned int begin = 0, unsigned int end = 0);
 
 		/**
 		 * <p>
@@ -106,7 +176,22 @@ namespace simplicity
 		 * of the vertices).
 		 */
 		SIMPLE_API void scaleVertices(std::vector<Vertex>& vertices, float scale, unsigned int begin = 0,
-				unsigned int end = 0);
+			unsigned int end = 0);
+
+		/**
+		 * <p>
+		 * Scales the specified vertices.
+		 * </p>
+		 *
+		 * @param vertices The vertices to scale.
+		 * @param vertexCount The number of vertices to scale.
+		 * @param scale The scalar.
+		 * @param begin The index of the first vertex to scale (default is 0).
+		 * @param end The index of the last vertex to scale (exclusive, default is 0 which is used to signify the end
+		 * of the vertices).
+		 */
+		SIMPLE_API void scaleVertices(Vertex* vertices, unsigned int vertexCount, float scale, unsigned int begin = 0,
+			unsigned int end = 0);
 
 		/**
 		 * <p>
@@ -138,7 +223,22 @@ namespace simplicity
 		 * end of the vertices).
 		 */
 		SIMPLE_API void transformVertices(std::vector<Vertex>& vertices, const Matrix44& transformation,
-				unsigned int begin = 0, unsigned int end = 0);
+			unsigned int begin = 0, unsigned int end = 0);
+
+		/**
+		 * <p>
+		 * Transforms the specified vertices.
+		 * </p>
+		 *
+		 * @param vertices The vertices to transform.
+		 * @param vertexCount The number of vertices to transform.
+		 * @param transformation The transformation.
+		 * @param begin The index of the first vertex to transform (default is 0).
+		 * @param end The index of the last vertex to transform (exclusive, default is 0 which is used to signify the
+		 * end of the vertices).
+		 */
+		SIMPLE_API void transformVertices(Vertex* vertices, unsigned int vertexCount, const Matrix44& transformation,
+			unsigned int begin = 0, unsigned int end = 0);
 
 		/**
 		 * <p>
@@ -152,7 +252,22 @@ namespace simplicity
 		 * end of the vertices).
 		 */
 		SIMPLE_API void translateVertices(std::vector<Vertex>& vertices, const Vector3& translation,
-				unsigned int begin = 0, unsigned int end = 0);
+			unsigned int begin = 0, unsigned int end = 0);
+
+		/**
+		 * <p>
+		 * Translates the specified vertices.
+		 * </p>
+		 *
+		 * @param vertices The vertices to translate.
+		 * @param vertexCount The number of vertices to translate.
+		 * @param translation The translation.
+		 * @param begin The index of the first vertex to translate (default is 0).
+		 * @param end The index of the last vertex to translate (exclusive, default is 0 which is used to signify the
+		 * end of the vertices).
+		 */
+		SIMPLE_API void translateVertices(Vertex* vertices, unsigned int vertexCount, const Vector3& translation,
+			unsigned int begin = 0, unsigned int end = 0);
 	}
 }
 
