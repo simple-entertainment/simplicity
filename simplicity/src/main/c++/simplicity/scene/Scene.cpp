@@ -46,8 +46,8 @@ namespace simplicity
 
 			for (unsigned int graphIndex = 0; graphIndex < graphs.size(); graphIndex++)
 			{
-				const Entity* parent = NULL;//entitiesToBeAddedParents[entitiesToBeAdded[entityIndex].get()];
-				if (parent == NULL)
+				const Entity* parent = nullptr;//entitiesToBeAddedParents[entitiesToBeAdded[entityIndex].get()];
+				if (parent == nullptr)
 				{
 					graphs[graphIndex]->insert(*entitiesToBeAdded[entityIndex]);
 				}

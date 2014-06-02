@@ -28,7 +28,7 @@ namespace simplicity
 
 	Resource* ConsoleDataStore::create(const string& /* name */, unsigned short /* category */, bool /* binary */)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	bool ConsoleDataStore::exists(const string& name)
@@ -40,11 +40,11 @@ namespace simplicity
 	{
 		if (!exists(name))
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		// If we do not have a resource for this console, create one.
-		if (resources[name] == NULL)
+		if (resources[name] == nullptr)
 		{
 			resources[name] = unique_ptr<Resource>(new ConsoleResource(category, name));
 		}

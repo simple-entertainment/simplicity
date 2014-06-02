@@ -32,7 +32,7 @@ namespace simplicity
 
 	Texture* Point::getNormalMap() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	const Vector3& Point::getPoint() const
@@ -47,7 +47,7 @@ namespace simplicity
 
 	Texture* Point::getTexture() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	unsigned short Point::getTypeID() const

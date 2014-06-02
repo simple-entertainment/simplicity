@@ -34,7 +34,7 @@ namespace simplicity
 
 	Texture* Text::getNormalMap() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	Model::PrimitiveType Text::getPrimitiveType() const
@@ -49,7 +49,7 @@ namespace simplicity
 
 	Texture* Text::getTexture() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	unsigned short Text::getTypeID() const

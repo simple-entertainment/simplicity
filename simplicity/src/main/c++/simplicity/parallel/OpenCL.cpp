@@ -34,7 +34,7 @@ namespace simplicity
 			}
 
 			// Builds the program
-			error = clBuildProgram(program, 1, &device, NULL, NULL, NULL);
+			error = clBuildProgram(program, 1, &device, nullptr, nullptr, nullptr);
 			if (error != CL_SUCCESS) {
 				Logs::log(Categories::ERROR, "Error building program: " + error);
 				return false;
@@ -42,11 +42,11 @@ namespace simplicity
 
 			// First call to know the proper size
 			size_t logSize;
-			clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, 0, NULL, &logSize);
+			clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, 0, nullptr, &logSize);
 
 			// Second call to get the log
 			string log(logSize, 'a');
-			clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, logSize, &log[0], NULL);
+			clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, logSize, &log[0], nullptr);
 			Logs::log(Categories::INFO, log);
 
 			programs[name] = program;*/
@@ -93,7 +93,7 @@ namespace simplicity
 			// Launching kernel
 			size_t one = 1;
 			size_t workItems = 16;
-			error = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &workItems, &one, 0, NULL, NULL);
+			error = clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, &workItems, &one, 0, nullptr, nullptr);
 			if (error != CL_SUCCESS) {
 				Logs::log(Categories::ERROR, "Error executing kernel: " + error);
 				return false;
@@ -102,7 +102,7 @@ namespace simplicity
 			float timer3 = timer.getElapsedTime();
 
 			// Reading back
-			clEnqueueReadBuffer(queue, clProduct, CL_TRUE, 0, sizeof(float) * 16, product, 0, NULL, NULL);
+			clEnqueueReadBuffer(queue, clProduct, CL_TRUE, 0, sizeof(float) * 16, product, 0, nullptr, nullptr);
 
 			float timer4 = timer.getElapsedTime();
 
@@ -124,19 +124,19 @@ namespace simplicity
 			/*cl_int error = 0;
 
 			// Platform
-			error = clGetPlatformIDs(1, &platform, NULL);
+			error = clGetPlatformIDs(1, &platform, nullptr);
 			if (error != CL_SUCCESS) {
 				Logs::log(Categories::ERROR, "Error getting platform id: " + error);
 			    exit(error);
 			}
 			// Device
-			error = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL);
+			error = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, nullptr);
 			if (error != CL_SUCCESS) {
 				Logs::log(Categories::ERROR, "Error getting device ids: " + error);
 			    exit(error);
 			}
 			// Context
-			context = clCreateContext(0, 1, &device, NULL, NULL, &error);
+			context = clCreateContext(0, 1, &device, nullptr, nullptr, &error);
 			if (error != CL_SUCCESS) {
 				Logs::log(Categories::ERROR, "Error creating context: " + error);
 			    exit(error);

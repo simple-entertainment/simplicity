@@ -30,7 +30,7 @@ namespace simplicity
 		children(),
 		connections(),
 		entities(),
-		parent(NULL),
+		parent(nullptr),
 		transform()
 	{
 		transform.setIdentity();
@@ -44,7 +44,7 @@ namespace simplicity
 
 	Matrix44 SimpleGraph::calculateRelativeTransform(const Matrix44& absoluteTransform) const
 	{
-		if (parent == NULL)
+		if (parent == nullptr)
 		{
 			return absoluteTransform;
 		}
@@ -77,7 +77,7 @@ namespace simplicity
 		Matrix44 absoluteMatrix;
 		absoluteMatrix.setIdentity();
 		const Graph* currentGraph = this;
-		while (currentGraph != NULL)
+		while (currentGraph != nullptr)
 		{
 			absoluteMatrix *= currentGraph->getTransform();
 			currentGraph = currentGraph->getParent();
@@ -119,7 +119,7 @@ namespace simplicity
 		for (Entity* entity : entities)
 		{
 			Model* entityBounds = entity->getComponent<Model>(Category::BOUNDS);
-			if (entityBounds == NULL)
+			if (entityBounds == nullptr)
 			{
 				continue;
 			}

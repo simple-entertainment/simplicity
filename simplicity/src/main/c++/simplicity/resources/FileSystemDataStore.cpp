@@ -34,11 +34,11 @@ namespace simplicity
 		// Attempt to create a file.
 		if (ofstream(getUri(name)).fail())
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		// Maybe the file already existed after-all and we already have a resource for it...
-		if (resources[name] == NULL)
+		if (resources[name] == nullptr)
 		{
 			resources[name] = unique_ptr<Resource>(new FileSystemResource(category, name, getUri(name), binary));
 		}
@@ -61,11 +61,11 @@ namespace simplicity
 	{
 		if (!exists(name))
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		// If we do not have a resource for this file, create one.
-		if (resources[name] == NULL)
+		if (resources[name] == nullptr)
 		{
 			resources[name] = unique_ptr<Resource>(new FileSystemResource(category, name, getUri(name), binary));
 		}
@@ -84,8 +84,8 @@ namespace simplicity
 		// Attempt to delete the file.
 		if (std::remove(resource->getUri().c_str()))
 		{
-			resources[resource->getName()] = NULL;
-			resource = NULL;
+			resources[resource->getName()] = nullptr;
+			resource = nullptr;
 
 			return true;
 		}

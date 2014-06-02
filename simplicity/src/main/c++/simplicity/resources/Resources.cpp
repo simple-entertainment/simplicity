@@ -49,7 +49,7 @@ namespace simplicity
 		{
 			DataStore* dataStore = dataStores[category].get();
 
-			if (dataStore == NULL)
+			if (dataStore == nullptr)
 			{
 				dataStore = defaultDataStore.get();
 			}

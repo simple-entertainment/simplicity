@@ -24,13 +24,13 @@ namespace simplicity
 		for (unsigned int index = 0; index < graphs.size(); index++)
 		{
 			GraphType* graph = dynamic_cast<GraphType*>(graphs[index].get());
-			if (graph != NULL)
+			if (graph != nullptr)
 			{
 				return graph;
 			}
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	template<typename GraphType>
@@ -41,7 +41,7 @@ namespace simplicity
 		for (unsigned int index = 0; index < graphs.size(); index++)
 		{
 			GraphType* graph = dynamic_cast<GraphType*>(graphs[index].get());
-			if (graph != NULL)
+			if (graph != nullptr)
 			{
 				typedGraphs.push_back(graph);
 			}

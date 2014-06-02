@@ -60,7 +60,7 @@ namespace simplicity
 
 	Texture* SimpleMesh::getNormalMap() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	Model::PrimitiveType SimpleMesh::getPrimitiveType() const
@@ -70,7 +70,7 @@ namespace simplicity
 
 	Texture* SimpleMesh::getTexture() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	unsigned short SimpleMesh::getTypeID() const

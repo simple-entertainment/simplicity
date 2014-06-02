@@ -38,7 +38,7 @@ namespace simplicity
 	 *
 	 * <p>
 	 * This resources in this data store do not support the getInputStream() or getOutputStream(bool) functions and
-	 * will return NULL.
+	 * will return nullptr.
 	 * </p>
 	 */
 	class SIMPLE_API ConsoleDataStore : public DataStore, private NonCopyable

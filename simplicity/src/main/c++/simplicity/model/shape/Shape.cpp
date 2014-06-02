@@ -37,7 +37,7 @@ namespace simplicity
 
 	Texture* Shape::getNormalMap() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	Model::PrimitiveType Shape::getPrimitiveType() const
@@ -47,7 +47,7 @@ namespace simplicity
 
 	Texture* Shape::getTexture() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	bool Shape::isVisible() const

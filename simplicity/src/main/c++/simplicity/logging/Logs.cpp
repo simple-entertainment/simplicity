@@ -37,7 +37,7 @@ namespace simplicity
 		{
 			Resource* resource = resources[category];
 
-			if (resource == NULL)
+			if (resource == nullptr)
 			{
 				resource = defaultResource;
 			}
@@ -54,7 +54,7 @@ namespace simplicity
 			}
 
 			Resource* resource = getResource(category);
-			if (resource != NULL)
+			if (resource != nullptr)
 			{
 				std::string buffer(message.size() + MAX_ARG_BUFFER_SIZE, ' ');
 

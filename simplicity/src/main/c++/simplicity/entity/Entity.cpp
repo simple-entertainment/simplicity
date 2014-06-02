@@ -82,7 +82,7 @@ namespace simplicity
 		{
 			removedComponent = *result;
 			sharedComponents.erase(result);
-			component = NULL;
+			component = nullptr;
 		}
 
 		return removedComponent;
@@ -98,7 +98,7 @@ namespace simplicity
 		{
 			removedComponent = move(*result);
 			uniqueComponents.erase(result);
-			component = NULL;
+			component = nullptr;
 		}
 
 		return move(removedComponent);

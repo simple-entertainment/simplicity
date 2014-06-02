@@ -27,7 +27,7 @@ namespace simplicity
 			if (category == Category::ALL_CATEGORIES || uniqueComponents[index]->getCategory() == category)
 			{
 				ComponentType* component = dynamic_cast<ComponentType*>(uniqueComponents[index].get());
-				if (component != NULL)
+				if (component != nullptr)
 				{
 					return component;
 				}
@@ -39,14 +39,14 @@ namespace simplicity
 			if (category == Category::ALL_CATEGORIES || sharedComponents[index]->getCategory() == category)
 			{
 				ComponentType* component = dynamic_cast<ComponentType*>(sharedComponents[index].get());
-				if (component != NULL)
+				if (component != nullptr)
 				{
 					return component;
 				}
 			}
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	template<typename ComponentType>
@@ -59,7 +59,7 @@ namespace simplicity
 			if (category == Category::ALL_CATEGORIES || uniqueComponents[index]->getCategory() == category)
 			{
 				ComponentType* component = dynamic_cast<ComponentType*>(uniqueComponents[index].get());
-				if (component != NULL)
+				if (component != nullptr)
 				{
 					typedComponents.push_back(component);
 				}
@@ -71,7 +71,7 @@ namespace simplicity
 			if (category == Category::ALL_CATEGORIES || sharedComponents[index]->getCategory() == category)
 			{
 				ComponentType* component = dynamic_cast<ComponentType*>(sharedComponents[index].get());
-				if (component != NULL)
+				if (component != nullptr)
 				{
 					typedComponents.push_back(component);
 				}

@@ -33,7 +33,7 @@ namespace simplicity
 
 	Texture* Line::getNormalMap() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	const Vector3& Line::getPointA() const
@@ -53,7 +53,7 @@ namespace simplicity
 
 	Texture* Line::getTexture() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	unsigned short Line::getTypeID() const

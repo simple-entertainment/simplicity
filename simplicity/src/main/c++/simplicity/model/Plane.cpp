@@ -38,7 +38,7 @@ namespace simplicity
 
 	Texture* Plane::getNormalMap() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	const Vector3& Plane::getPositionOnPlane() const
@@ -53,7 +53,7 @@ namespace simplicity
 
 	Texture* Plane::getTexture() const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	unsigned short Plane::getTypeID() const

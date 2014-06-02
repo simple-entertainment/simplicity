@@ -177,7 +177,7 @@ namespace simplicity
 		{
 			removedEngine = move(*result);
 			engines.erase(result);
-			engine = NULL;
+			engine = nullptr;
 		}
 
 		return move(removedEngine);

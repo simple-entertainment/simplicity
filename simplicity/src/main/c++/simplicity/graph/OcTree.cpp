@@ -30,7 +30,7 @@ namespace simplicity
 		children(),
 		connections(),
 		entities(),
-		parent(NULL),
+		parent(nullptr),
 		subdivideThreshold(subdivideThreshold),
 		transform()
 	{
@@ -69,7 +69,7 @@ namespace simplicity
 		Matrix44 absoluteMatrix;
 		absoluteMatrix.setIdentity();
 		const Graph* currentGraph = this;
-		while (currentGraph != NULL)
+		while (currentGraph != nullptr)
 		{
 			absoluteMatrix *= currentGraph->getTransform();
 			currentGraph = currentGraph->getParent();
@@ -128,7 +128,7 @@ namespace simplicity
 		for (Entity* entity : entities)
 		{
 			Model* entityBounds = entity->getComponent<Model>(Category::BOUNDS);
-			if (entityBounds == NULL)
+			if (entityBounds == nullptr)
 			{
 				// If the entity has no bounds we take the safe option and assume that it intersects.
 				entitiesWithinBounds.push_back(entity);
@@ -172,7 +172,7 @@ namespace simplicity
 	bool OcTree::insert(Entity& entity)
 	{
 		Model* bounds = entity.getComponent<Model>(Category::BOUNDS);
-		if (bounds == NULL)
+		if (bounds == nullptr)
 		{
 			// If the entity has no bounds we insert it here.
 			entities.push_back(&entity);

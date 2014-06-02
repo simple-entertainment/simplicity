@@ -48,7 +48,7 @@ namespace simplicity
 			 * @param category The category to create the resource in.
 			 * @param binary Is it a binary resource?
 			 *
-			 * @return The resource if it was created, NULL otherwise.
+			 * @return The resource if it was created, nullptr otherwise.
 			 */
 			virtual Resource* create(const std::string& name, unsigned short category, bool binary = false) = 0;
 
@@ -72,7 +72,7 @@ namespace simplicity
 			 * @param category The category to retrieve from.
 			 * @param binary Is it a binary resource?
 			 *
-			 * @return The resource if it exists, NULL otherwise.
+			 * @return The resource if it exists, nullptr otherwise.
 			 */
 			virtual Resource* get(const std::string& name, unsigned short category, bool binary = false) = 0;
 

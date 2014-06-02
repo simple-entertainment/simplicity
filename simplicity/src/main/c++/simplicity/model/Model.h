@@ -159,7 +159,7 @@ namespace simplicity
 			 * <code>
 			 * Model* model = // some model...
 			 * Square* square = dynamic_cast<Square*>(model);
-			 * if (square != NULL)
+			 * if (square != nullptr)
 			 * {
 			 *     // do stuff...
 			 * }

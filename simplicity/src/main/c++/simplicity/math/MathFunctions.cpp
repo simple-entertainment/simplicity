@@ -36,7 +36,7 @@ namespace simplicity
 	{
 		if (!randomIsSeeded)
 		{
-			setRandomSeed((unsigned) time(NULL));
+			setRandomSeed((unsigned) time(nullptr));
 		}
 
 		return min + (float) rand() / ((float) RAND_MAX / (max - min));
@@ -46,7 +46,7 @@ namespace simplicity
 	{
 		if (!randomIsSeeded)
 		{
-			setRandomSeed((unsigned) time(NULL));
+			setRandomSeed((unsigned) time(nullptr));
 		}
 
 		return rand() % (max - min + 1) + min;

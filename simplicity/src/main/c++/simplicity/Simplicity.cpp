@@ -31,7 +31,7 @@ namespace simplicity
 	namespace Simplicity
 	{
 		unique_ptr<CompositeEngine> compositeEngine(new SerialCompositeEngine);
-		Scene* currentScene = NULL;
+		Scene* currentScene = nullptr;
 		float frameTime = 0.0f;
 		unsigned short maxFrameRate = 0;
 		bool newlyOpenedScene = true;
@@ -48,7 +48,7 @@ namespace simplicity
 
 		void addScene(const string& name, unique_ptr<Scene> scene)
 		{
-			if (currentScene == NULL)
+			if (currentScene == nullptr)
 			{
 				currentScene = scene.get();
 			}

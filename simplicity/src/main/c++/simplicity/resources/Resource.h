@@ -96,7 +96,7 @@ namespace simplicity
 			 * </p>
 			 *
 			 * <p>
-			 * Some resources may not support this function and will return NULL.
+			 * Some resources may not support this function and will return nullptr.
 			 * </p>
 			 *
 			 * @return An input stream for this resource.
@@ -119,7 +119,7 @@ namespace simplicity
 			 * </p>
 			 *
 			 * <p>
-			 * Some resources may not support this function and will return NULL.
+			 * Some resources may not support this function and will return nullptr.
 			 * </p>
 			 *
 			 * @return An output stream for this resource.

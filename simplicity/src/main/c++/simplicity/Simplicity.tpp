@@ -26,13 +26,13 @@ namespace simplicity
 			for (unsigned int index = 0; index < Simplicity::getCompositeEngine()->getEngines().size(); index++)
 			{
 				EngineType* engine = dynamic_cast<EngineType*>(Simplicity::getCompositeEngine()->getEngines()[index].get());
-				if (engine != NULL)
+				if (engine != nullptr)
 				{
 					return engine;
 				}
 			}
 
-			return NULL;
+			return nullptr;
 		}
 
 		template<typename EngineType>
@@ -43,7 +43,7 @@ namespace simplicity
 			for (unsigned int index = 0; index < Simplicity::getCompositeEngine()->getEngines().size(); index++)
 			{
 				EngineType* engine = dynamic_cast<EngineType*>(Simplicity::getCompositeEngine()->getEngines()[index].get());
-				if (engine != NULL)
+				if (engine != nullptr)
 				{
 					typedEngines.push_back(engine);
 				}

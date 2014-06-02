@@ -53,7 +53,7 @@ namespace simplicity
 			 * Removes an engine.
 			 * </p>
 			 *
-			 * @param engine The engine to be removed. This parameter will be set to NULL if the engine is found.
+			 * @param engine The engine to be removed. This parameter will be set to nullptr if the engine is found.
 			 *
 			 * @return The removed engine.
 			 */

@@ -35,7 +35,7 @@ namespace simplicity
 		 * @param category The category to create the resource in.
 		 * @param binary Deterimes whether the resource should contain binary data.
 		 *
-		 * @return The resource if it was created, NULL otherwise.
+		 * @return The resource if it was created, nullptr otherwise.
 		 */
 		SIMPLE_API Resource* create(const std::string& name, unsigned short category, bool binary = false);
 
@@ -60,7 +60,7 @@ namespace simplicity
 		 * @param category The category to retrieve from.
 		 * @param binary Deterimes whether the resource contains binary data.
 		 *
-		 * @return The resource if it exists, NULL otherwise.
+		 * @return The resource if it exists, nullptr otherwise.
 		 */
 		SIMPLE_API Resource* get(const std::string& name, unsigned short category, bool binary = false);
 
