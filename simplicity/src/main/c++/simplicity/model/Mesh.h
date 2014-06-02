@@ -33,13 +33,13 @@ namespace simplicity
 	{
 		public:
 			/**
-			 * <p>
-			 * Retrieves the indices into the collection of vertices.
-			 * </p>
-			 *
-			 * @return The indices into the collection of vertices.
-			 */
-			virtual std::vector<unsigned int>& getIndices() = 0;
+			* <p>
+			* Retrieves the number of indices in this mesh.
+			* </p>
+			*
+			* @return The number of indices in this mesh.
+			*/
+			virtual unsigned int getIndexCount() const = 0;
 
 			/**
 			 * <p>
@@ -48,7 +48,25 @@ namespace simplicity
 			 *
 			 * @return The indices into the collection of vertices.
 			 */
-			virtual const std::vector<unsigned int>& getIndices() const = 0;
+			virtual unsigned int* getIndices() = 0;
+
+			/**
+			 * <p>
+			 * Retrieves the indices into the collection of vertices.
+			 * </p>
+			 *
+			 * @return The indices into the collection of vertices.
+			 */
+			virtual const unsigned int* getIndices() const = 0;
+
+			/**
+			* <p>
+			* Retrieves the number of vertices in this mesh.
+			* </p>
+			*
+			* @return The number of vertices in this mesh.
+			*/
+			virtual unsigned int getVertexCount() const = 0;
 
 			/**
 			 * <p>
@@ -57,7 +75,7 @@ namespace simplicity
 			 *
 			 * @return The collection of vertices.
 			 */
-			virtual std::vector<Vertex>& getVertices() = 0;
+			virtual Vertex* getVertices() = 0;
 
 			/**
 			 * <p>
@@ -66,7 +84,32 @@ namespace simplicity
 			 *
 			 * @return The collection of vertices.
 			 */
-			virtual const std::vector<Vertex>& getVertices() const = 0;
+			virtual const Vertex* getVertices() const = 0;
+
+			/**
+			 * <p>
+			 * Initializes this mesh.
+			 * </p>
+			 */
+			virtual void init() = 0;
+
+			/**
+			 * <p>
+			 * Resizes the indices into the collection of vertices.
+			 * </p>
+			 *
+			 * @param size The new size of the indices into the collection of vertices.
+			 */
+			virtual void resizeIndices(unsigned int size) = 0;
+
+			/**
+			 * <p>
+			 * Resizes the collection of vertices.
+			 * </p>
+			 *
+			 * @param size The new size of the collection of vertices.
+			 */
+			virtual void resizeVertices(unsigned int size) = 0;
 	};
 }
 

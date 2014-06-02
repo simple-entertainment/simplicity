@@ -49,9 +49,11 @@ namespace simplicity
 
 			const Vector4& getColor() const;
 
-			std::vector<unsigned int>& getIndices();
+			unsigned int getIndexCount() const;
 
-			const std::vector<unsigned int>& getIndices() const;
+			unsigned int* getIndices();
+
+			const unsigned int* getIndices() const;
 
 			Texture* getNormalMap() const;
 
@@ -61,11 +63,19 @@ namespace simplicity
 
 			unsigned short getTypeID() const;
 
-			std::vector<Vertex>& getVertices();
+			unsigned int getVertexCount() const;
 
-			const std::vector<Vertex>& getVertices() const;
+			Vertex* getVertices();
+
+			const Vertex* getVertices() const;
+
+			void init();
 
 			bool isVisible() const;
+
+			void resizeIndices(unsigned int size);
+
+			void resizeVertices(unsigned int size);
 
 			void setColor(const Vector4& color);
 

@@ -56,7 +56,7 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Creates a texture from in-memory data.
+			 * Creates a texture from raw (i.e. non-encoded RGBA float) in-memory data.
 			 * </p>
 			 *
 			 * @param data The texture data.
@@ -65,7 +65,7 @@ namespace simplicity
 			 *
 			 * @return The texture.
 			 */
-			virtual std::unique_ptr<Texture> createTexture(const char* data, unsigned int width,
+			virtual std::unique_ptr<Texture> createTexture(const char* rawData, unsigned int width,
 					unsigned int height) = 0;
 
 			/**

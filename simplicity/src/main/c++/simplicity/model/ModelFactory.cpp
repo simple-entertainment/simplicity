@@ -738,7 +738,7 @@ namespace simplicity
 		}
 	}
 
-	unique_ptr<Mesh> ModelFactory::loadObj(Resource& resource, const Vector4& color, float scale = 1.0f)
+	unique_ptr<Mesh> ModelFactory::loadObj(Resource& resource, const Vector4& color, float scale)
 	{
 		return loadObj(resource, color, scale, 0, 0, 0, 0);
 	}
@@ -753,7 +753,7 @@ namespace simplicity
 
 		// This is constructed here and passed to splitString each time for performance reasons... should probably
 		// profile this though.
-		string split(' ', MAX_SPLIT_LENGTH);
+		string split(MAX_SPLIT_LENGTH, ' ');
 
 		vector<string> lines = splitString(split, *inputStream, '\n',
 			normalCount + positionCount + texCoordCount + vertexCount / 3 + 50);

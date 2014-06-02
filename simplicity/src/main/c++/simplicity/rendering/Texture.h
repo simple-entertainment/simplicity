@@ -17,7 +17,7 @@
 #ifndef TEXTURE_H_
 #define TEXTURE_H_
 
-#include "Shader.h"
+#include "Pipeline.h"
 
 namespace simplicity
 {
@@ -40,12 +40,12 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Applies this texture to a shader.
+			 * Applies this texture to a pipeline.
 			 * </p>
 			 *
-			 * @param shader The shader to apply this texture to.
+			 * @param pipeline The pipeline to apply this texture to.
 			 */
-			virtual void apply(Shader& shader) = 0;
+			virtual void apply(Pipeline& pipeline) = 0;
 
 			/**
 			 * <p>

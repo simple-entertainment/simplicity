@@ -15,7 +15,7 @@
 #include <memory>
 
 #include "../model/Model.h"
-#include "Shader.h"
+#include "Pipeline.h"
 
 namespace simplicity
 {
@@ -81,12 +81,13 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Retrieves the shader to be applied when rendering.
+			 * Retrieves the default pipeline to be applied when rendering models that do not specify their own
+			 * pipeline.
 			 * </p>
 			 *
-			 * @return The shader to be applied when rendering.
+			 * @return The default pipeline to be applied when rendering models that do not specify their own pipeline.
 			 */
-			virtual Shader* getShader() = 0;
+			virtual Pipeline* getDefaultPipeline() = 0;
 
 			/**
 			 * <p>
@@ -159,6 +160,16 @@ namespace simplicity
 			virtual void setClearStencilBuffer(bool clearStencilBuffer) = 0;
 
 			/**
+			* <p>
+			* Sets the default pipeline to be applied when rendering models that do not specify their own pipeline.
+			* </p>
+			*
+			* @param defaultPipeline The default pipeline to be applied when rendering models that do not specify
+			* their own pipeline.
+			*/
+			virtual void setDefaultPipeline(std::unique_ptr<Pipeline> defaultPipeline) = 0;
+
+			/**
 			 * <p>
 			 * Sets the region the scissor test will crop to.
 			 * </p>
@@ -177,15 +188,6 @@ namespace simplicity
 			 * @param scissorEnabled Enable the scissor test?
 			 */
 			virtual void setScissorEnabled(bool scissorEnabled) = 0;
-
-			/**
-			 * <p>
-			 * Sets the shader to be applied when rendering.
-			 * </p>
-			 *
-			 * @param shader The shader to be applied when rendering.
-			 */
-			virtual void setShader(std::unique_ptr<Shader> shader) = 0;
 	};
 }
 

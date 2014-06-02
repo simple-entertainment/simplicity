@@ -86,7 +86,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>SIMPLE_SHARED;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;SIMPLE_SHARED;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4351</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -98,7 +98,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4351</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -112,7 +112,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>SIMPLE_SHARED;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;SIMPLE_SHARED;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4351</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -128,7 +128,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4351</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -207,6 +207,7 @@
     <ClInclude Include="src\main\c++\simplicity\rendering\Renderer.h" />
     <ClInclude Include="src\main\c++\simplicity\rendering\RenderingEngine.h" />
     <ClInclude Include="src\main\c++\simplicity\rendering\RenderingFactory.h" />
+    <ClInclude Include="src\main\c++\simplicity\rendering\Pipeline.h" />
     <ClInclude Include="src\main\c++\simplicity\rendering\Shader.h" />
     <ClInclude Include="src\main\c++\simplicity\rendering\Texture.h" />
     <ClInclude Include="src\main\c++\simplicity\resources\ConsoleDataStore.h" />
@@ -261,6 +262,8 @@
     <ClCompile Include="src\main\c++\simplicity\model\Text.cpp" />
     <ClCompile Include="src\main\c++\simplicity\parallel\OpenCL.cpp" />
     <ClCompile Include="src\main\c++\simplicity\physics\PhysicsFactory.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\rendering\Camera.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\rendering\Light.cpp" />
     <ClCompile Include="src\main\c++\simplicity\rendering\RenderingFactory.cpp" />
     <ClCompile Include="src\main\c++\simplicity\resources\ConsoleDataStore.cpp" />
     <ClCompile Include="src\main\c++\simplicity\resources\ConsoleResource.cpp" />

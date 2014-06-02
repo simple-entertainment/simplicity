@@ -88,9 +88,9 @@ namespace simplicity
 
 		bool contains(const Mesh& mesh, const Point& point, const Matrix44& relativeTransform)
 		{
-			const vector<unsigned int>& indices = mesh.getIndices();
-			const vector<Vertex>& vertices = mesh.getVertices();
-			for (unsigned int index = 0; index < indices.size(); index += 3)
+			const unsigned int* indices = mesh.getIndices();
+			const Vertex* vertices = mesh.getVertices();
+			for (unsigned int index = 0; index < mesh.getIndexCount(); index += 3)
 			{
 				Vector3 edge0 = vertices[indices[index + 1]].position - vertices[indices[index]].position;
 				Vector3 edge1 = vertices[indices[index + 2]].position - vertices[indices[index]].position;
@@ -111,9 +111,9 @@ namespace simplicity
 
 		bool contains(const Mesh& mesh, const Triangle& triangle, const Matrix44& relativeTransform)
 		{
-			const vector<unsigned int>& indices = mesh.getIndices();
-			const vector<Vertex>& vertices = mesh.getVertices();
-			for (unsigned int index = 0; index < indices.size(); index += 3)
+			const unsigned int* indices = mesh.getIndices();
+			const Vertex* vertices = mesh.getVertices();
+			for (unsigned int index = 0; index < mesh.getIndexCount(); index += 3)
 			{
 				Vector3 edge0 = vertices[indices[index + 1]].position - vertices[indices[index]].position;
 				Vector3 edge1 = vertices[indices[index + 2]].position - vertices[indices[index]].position;

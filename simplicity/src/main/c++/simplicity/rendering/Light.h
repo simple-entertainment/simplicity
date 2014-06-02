@@ -21,7 +21,7 @@
 
 #include "../entity/Component.h"
 #include "../math/Vector.h"
-#include "../rendering/Shader.h"
+#include "../rendering/Pipeline.h"
 
 namespace simplicity
 {
@@ -35,37 +35,33 @@ namespace simplicity
 	{
 		public:
 			/**
-			 * <p>
-			 * Allows polymorphism.
-			 * </p>
+			 * @param name The name of the light source.
 			 */
-			virtual ~Light()
-			{
-			}
+			Light(const std::string& name);
 
 			/**
 			 * <p>
 			 * Activates this light source. Models will be illuminated by it.
 			 * </p>
 			 */
-			virtual void activate() = 0;
+			void activate();
 
 			/**
 			 * <p>
-			 * Applies this light source to a shader.
+			 * Applies this light source to a pipeline.
 			 * </p>
 			 *
-			 * @param shader The shader to apply this light source to.
+			 * @param pipeline The pipeline to apply this light source to.
 			 * @param position The position of this light source.
 			 */
-			virtual void apply(Shader& shader, const Vector3& position) = 0;
+			void apply(Pipeline& pipeline, const Vector3& position);
 
 			/**
 			 * <p>
 			 * Deactivates this light source. Models will not be illuminated by it.
 			 * </p>
 			 */
-			virtual void deactivate() = 0;
+			void deactivate();
 
 			/**
 			 * <p>
@@ -74,7 +70,7 @@ namespace simplicity
 			 *
 			 * @return The ambient light provided by this light source.
 			 */
-			virtual const Vector4& getAmbient() const = 0;
+			const Vector4& getAmbient() const;
 
 			/**
 			 * <p>
@@ -86,7 +82,7 @@ namespace simplicity
 			 * @return The rate at which the intensity of the light provided by this light source will decrease at
 			 * longer range.
 			 */
-			virtual const Vector3& getAttenuation() const = 0;
+			const Vector3& getAttenuation() const;
 
 			/**
 			 * <p>
@@ -95,7 +91,7 @@ namespace simplicity
 			 *
 			 * @return The diffuse light provided by this light source.
 			 */
-			virtual const Vector4& getDiffuse() const = 0;
+			const Vector4& getDiffuse() const;
 
 			/**
 			 * <p>
@@ -104,7 +100,7 @@ namespace simplicity
 			 *
 			 * @return The direction in which this light source is pointed.
 			 */
-			virtual const Vector3& getDirection() const = 0;
+			const Vector3& getDirection() const;
 
 			/**
 			 * <p>
@@ -113,7 +109,7 @@ namespace simplicity
 			 *
 			 * @return The name of the light source.
 			 */
-			virtual const std::string& getName() const = 0;
+			const std::string& getName() const;
 
 			/**
 			 * <p>
@@ -122,7 +118,7 @@ namespace simplicity
 			 *
 			 * @return The distance that the light from this light source will reach.
 			 */
-			virtual float getRange() const = 0;
+			float getRange() const;
 
 			/**
 			 * <p>
@@ -131,7 +127,7 @@ namespace simplicity
 			 *
 			 * @return The specular light provided by this light source.
 			 */
-			virtual const Vector4& getSpecular() const = 0;
+			const Vector4& getSpecular() const;
 
 			/**
 			 * <p>
@@ -140,14 +136,14 @@ namespace simplicity
 			 *
 			 * @return The strength of this light source.
 			 */
-			virtual float getStrength() const = 0;
+			float getStrength() const;
 
 			/**
 			 * <p>
 			 * Determines if this light source is active. Models will only be illuminated by an active light source.
 			 * </p>
 			 */
-			virtual bool isActive() const = 0;
+			bool isActive() const;
 
 			/**
 			 * <p>
@@ -156,7 +152,7 @@ namespace simplicity
 			 *
 			 * @param ambient The ambient light provided by this light source.
 			 */
-			virtual void setAmbient(const Vector4& ambient) = 0;
+			void setAmbient(const Vector4& ambient);
 
 			/**
 			 * <p>
@@ -168,7 +164,7 @@ namespace simplicity
 			 * @param attenuation The rate at which the intensity of the light provided by this light source will
 			 * decrease at longer range.
 			 */
-			virtual void setAttenuation(const Vector3& attenuation) = 0;
+			void setAttenuation(const Vector3& attenuation);
 
 			/**
 			 * <p>
@@ -177,7 +173,7 @@ namespace simplicity
 			 *
 			 * @param diffuse The diffuse light provided by this light source.
 			 */
-			virtual void setDiffuse(const Vector4& diffuse) = 0;
+			void setDiffuse(const Vector4& diffuse);
 
 			/**
 			 * <p>
@@ -186,7 +182,7 @@ namespace simplicity
 			 *
 			 * @param direction The direction in which this light source is pointed.
 			 */
-			virtual void setDirection(const Vector3& direction) = 0;
+			void setDirection(const Vector3& direction);
 
 			/**
 			 * <p>
@@ -195,7 +191,7 @@ namespace simplicity
 			 *
 			 * @param range The distance that the light from this light source will reach.
 			 */
-			virtual void setRange(float range) = 0;
+			void setRange(float range);
 
 			/**
 			 * <p>
@@ -204,7 +200,7 @@ namespace simplicity
 			 *
 			 * @param specular The specular light provided by this light source.
 			 */
-			virtual void setSpecular(const Vector4& specular) = 0;
+			void setSpecular(const Vector4& specular);
 
 			/**
 			 * <p>
@@ -213,7 +209,26 @@ namespace simplicity
 			 *
 			 * @param strength The strength of this light source.
 			 */
-			virtual void setStrength(float strength) = 0;
+			void setStrength(float strength);
+
+		private:
+			bool active;
+
+			Vector4 ambient;
+
+			Vector3 attenuation;
+
+			Vector4 diffuse;
+
+			Vector3 direction;
+
+			std::string name;
+
+			float range;
+
+			Vector4 specular;
+
+			float strength;
 	};
 }
 

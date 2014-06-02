@@ -392,7 +392,7 @@ namespace simplicity
 			 *
 			 * @return The model created from the OBJ data.
 			 */
-			unique_ptr<Mesh> loadObj(Resource& resource, const Vector4& color, float scale, unsigned int normalCount,
+			std::unique_ptr<Mesh> loadObj(Resource& resource, const Vector4& color, float scale, unsigned int normalCount,
 				unsigned int positionCount, unsigned int texCoordCount, unsigned int vertexCount);
 
 			/**

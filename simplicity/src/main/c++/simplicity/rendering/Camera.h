@@ -31,14 +31,7 @@ namespace simplicity
 	class SIMPLE_API Camera : public Component
 	{
 		public:
-			/**
-			 * <p>
-			 * Allows polymorphism.
-			 * </p>
-			 */
-			virtual ~Camera()
-			{
-			}
+			Camera();
 
 			/**
 			 * <p>
@@ -47,7 +40,7 @@ namespace simplicity
 			 *
 			 * @return The far clipping distance.
 			 */
-			virtual float getFarClippingDistance() const = 0;
+			float getFarClippingDistance() const;
 
 			/**
 			 * <p>
@@ -56,7 +49,7 @@ namespace simplicity
 			 *
 			 * @return The height of the camera frame.
 			 */
-			virtual float getFrameHeight() const = 0;
+			float getFrameHeight() const;
 
 			/**
 			 * <p>
@@ -65,7 +58,7 @@ namespace simplicity
 			 *
 			 * @return The width of the camera frame.
 			 */
-			virtual float getFrameWidth() const = 0;
+			float getFrameWidth() const;
 
 			/**
 			 * <p>
@@ -74,7 +67,7 @@ namespace simplicity
 			 *
 			 * @return The near clipping distance.
 			 */
-			virtual float getNearClippingDistance() const = 0;
+			float getNearClippingDistance() const;
 
 			/**
 			 * <p>
@@ -83,7 +76,7 @@ namespace simplicity
 			 *
 			 * @return The projection.
 			 */
-			virtual const Matrix44& getProjection() const = 0;
+			const Matrix44& getProjection() const;
 
 			/**
 			 * <p>
@@ -92,7 +85,7 @@ namespace simplicity
 			 *
 			 * @param farClippingDistance The far clipping distance.
 			 */
-			virtual void setFarClippingDistance(float farClippingDistance) = 0;
+			void setFarClippingDistance(float farClippingDistance);
 
 			/**
 			 * <p>
@@ -101,7 +94,7 @@ namespace simplicity
 			 *
 			 * @param nearClippingDistance The near clipping distance.
 			 */
-			virtual void setNearClippingDistance(float nearClippingDistance) = 0;
+			void setNearClippingDistance(float nearClippingDistance);
 
 			/**
 			 * <p>
@@ -111,7 +104,7 @@ namespace simplicity
 			 * @param width The width of the camera frame.
 			 * @param height The height of the camera frame.
 			 */
-			virtual void setOrthogonal(float width, float height) = 0;
+			void setOrthogonal(float width, float height);
 
 			/**
 			 * <p>
@@ -121,7 +114,18 @@ namespace simplicity
 			 * @param yAxisFieldOfView The field of view on the Y axis.
 			 * @param aspectRatio The aspect ratio.
 			 */
-			virtual void setPerspective(float yAxisFieldOfView, float aspectRatio) = 0;
+			void setPerspective(float yAxisFieldOfView, float aspectRatio);
+
+		private:
+			float farClippingDistance;
+
+			float frameHeight;
+
+			float frameWidth;
+
+			float nearClippingDistance;
+
+			Matrix44 projection;
 	};
 }
 

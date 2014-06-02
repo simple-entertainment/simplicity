@@ -96,6 +96,7 @@
 // Rendering
 #include "rendering/Camera.h"
 #include "rendering/Light.h"
+#include "rendering/Pipeline.h"
 #include "rendering/Renderer.h"
 #include "rendering/RenderingEngine.h"
 #include "rendering/RenderingFactory.h"

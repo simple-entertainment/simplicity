@@ -30,9 +30,9 @@ namespace simplicity
 		map<unsigned short, unique_ptr<DataStore>> dataStores;
 		unique_ptr<DataStore> defaultDataStore;
 
-		Resource* create(const string& name, unsigned short category)
+		Resource* create(const string& name, unsigned short category, bool binary)
 		{
-			return getDataStore(category)->create(name, category);
+			return getDataStore(category)->create(name, category, binary);
 		}
 
 		bool exists(const string& name, unsigned short category)
@@ -40,9 +40,9 @@ namespace simplicity
 			return getDataStore(category)->exists(name);
 		}
 
-		Resource* get(const string& name, unsigned short category)
+		Resource* get(const string& name, unsigned short category, bool binary)
 		{
-			return getDataStore(category)->get(name, category);
+			return getDataStore(category)->get(name, category, binary);
 		}
 
 		DataStore* getDataStore(unsigned short category)

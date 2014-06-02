@@ -23,13 +23,6 @@ namespace simplicity
 	{
 		/**
 		 * <p>
-		 * Raised when a shader is being applied.
-		 * </p>
-		 */
-		static const unsigned short APPLY_SHADER = 0;
-
-		/**
-		 * <p>
 		 * Raised when a keyboard button changes state.
 		 * </p>
 		 */

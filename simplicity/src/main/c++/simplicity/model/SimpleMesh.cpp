@@ -43,14 +43,19 @@ namespace simplicity
 		return color;
 	}
 
-	vector<unsigned int>& SimpleMesh::getIndices()
+	unsigned int SimpleMesh::getIndexCount() const
 	{
-		return indices;
+		return indices.size();
 	}
 
-	const vector<unsigned int>& SimpleMesh::getIndices() const
+	unsigned int* SimpleMesh::getIndices()
 	{
-		return indices;
+		return indices.data();
+	}
+
+	const unsigned int* SimpleMesh::getIndices() const
+	{
+		return indices.data();
 	}
 
 	Texture* SimpleMesh::getNormalMap() const
@@ -73,19 +78,38 @@ namespace simplicity
 		return TYPE_ID;
 	}
 
-	vector<Vertex>& SimpleMesh::getVertices()
+	unsigned int SimpleMesh::getVertexCount() const
 	{
-		return vertices;
+		return vertices.size();
 	}
 
-	const vector<Vertex>& SimpleMesh::getVertices() const
+	Vertex* SimpleMesh::getVertices()
 	{
-		return vertices;
+		return vertices.data();
+	}
+
+	const Vertex* SimpleMesh::getVertices() const
+	{
+		return vertices.data();
+	}
+
+	void SimpleMesh::init()
+	{
 	}
 
 	bool SimpleMesh::isVisible() const
 	{
 		return visible;
+	}
+
+	void SimpleMesh::resizeIndices(unsigned int size)
+	{
+		indices.resize(size);
+	}
+
+	void SimpleMesh::resizeVertices(unsigned int size)
+	{
+		vertices.resize(size);
 	}
 
 	void SimpleMesh::setColor(const Vector4& color)

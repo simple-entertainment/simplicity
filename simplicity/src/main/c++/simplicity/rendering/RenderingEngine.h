@@ -45,7 +45,8 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Adss a renderer. Every renderer added acts as a rendering pass.
+			 * Adds a renderer. Every renderer added acts as a rendering pass. Passes will be performed in the order that they
+			 * are added.
 			 * </p>
 			 *
 			 * @param renderer The renderer.
@@ -127,17 +128,6 @@ namespace simplicity
 			 * @param height The height of the viewport.
 			 */
 			virtual void setHeight(int height) = 0;
-
-			/**
-			 * <p>
-			 * Sets the graph that will be searched when rendering using a particular render. If this is not called for
-			 * a particular renderer it will use the graph provided in setGraph(Graph*).
-			 * </p>
-			 *
-			 * @param renderer
-			 * @param root
-			 */
-			virtual void setRendererRoot(const Renderer& renderer, const Graph& root) = 0;
 
 			/**
 			 * <p>
