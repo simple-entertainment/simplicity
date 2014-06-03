@@ -32,7 +32,7 @@ namespace simplicity
 		 *
 		 * @param The message being received.
 		 */
-		typedef void(Recipient)(const void*);
+		using Recipient = void(const void*);
 
 		/**
 		 * <p>

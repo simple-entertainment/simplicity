@@ -171,14 +171,14 @@ namespace simplicity
 	 * A 3x3 floating point matrix.
 	 * </p>
 	 */
-	typedef Matrix<float, 3, 3> Matrix33;
+	using Matrix33 = Matrix<float, 3, 3>;
 
 	/**
 	 * <p>
 	 * A 4x4 floating point matrix.
 	 * </p>
 	 */
-	typedef Matrix<float, 4, 4> Matrix44;
+	using Matrix44 = Matrix<float, 4, 4>;
 
 	/**
 	 * <p>

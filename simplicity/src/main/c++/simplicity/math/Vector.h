@@ -396,21 +396,21 @@ namespace simplicity
 	 * A 2 floating point vector.
 	 * </p>
 	 */
-	typedef Vector<float, 2> Vector2;
+	using Vector2 = Vector<float, 2>;
 
 	/**
 	 * <p>
 	 * A 3 floating point vector.
 	 * </p>
 	 */
-	typedef Vector<float, 3> Vector3;
+	using Vector3 = Vector<float, 3>;
 
 	/**
 	 * <p>
 	 * A 4 floating point vector.
 	 * </p>
 	 */
-	typedef Vector<float, 4> Vector4;
+	using Vector4 = Vector<float, 4>;
 	
 	/**
 	 * <p>
