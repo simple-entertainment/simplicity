@@ -30,7 +30,7 @@ namespace simplicity
 		 * The buttons on a keyboard.
 		 * </p>
 		 */
-		enum Button
+		enum class Button
 		{
 			ZERO,
 			ONE,

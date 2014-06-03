@@ -36,7 +36,7 @@ namespace simplicity
 			 * The type of primitive a model is constructed from.
 			 * </p>
 			 */
-			enum PrimitiveType
+			enum class PrimitiveType
 			{
 				/**
 				 * <p>

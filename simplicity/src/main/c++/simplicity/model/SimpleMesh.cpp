@@ -23,7 +23,7 @@ namespace simplicity
 	SimpleMesh::SimpleMesh() :
 		color(0.0f, 0.0f, 0.0f, 1.0f),
 		indices(),
-		primitiveType(TRIANGLE_LIST),
+		primitiveType(PrimitiveType::TRIANGLE_LIST),
 		vertices(),
 		visible(true)
 	{
@@ -32,7 +32,7 @@ namespace simplicity
 	SimpleMesh::SimpleMesh(const vector<unsigned int>& indices, const vector<Vertex>& vertices) :
 		color(0.0f, 0.0f, 0.0f, 1.0f),
 		indices(indices),
-		primitiveType(TRIANGLE_LIST),
+		primitiveType(PrimitiveType::TRIANGLE_LIST),
 		vertices(vertices),
 		visible(true)
 	{

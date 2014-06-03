@@ -422,10 +422,10 @@ namespace simplicity
 			RelativePosition startPosition = intersect(plane, lineSegment.getPointA());
 			RelativePosition finishPosition = intersect(plane, lineSegment.getPointB());
 
-			if ((startPosition == BEHIND && finishPosition == INFRONT) ||
-				(startPosition == INFRONT && finishPosition == BEHIND) ||
-				startPosition == ON_PLANE ||
-				finishPosition == ON_PLANE)
+			if ((startPosition == RelativePosition::BEHIND && finishPosition == RelativePosition::INFRONT) ||
+				(startPosition == RelativePosition::INFRONT && finishPosition == RelativePosition::BEHIND) ||
+				startPosition == RelativePosition::ON_PLANE ||
+				finishPosition == RelativePosition::ON_PLANE)
 			{
 				return true;
 			}
@@ -534,15 +534,15 @@ namespace simplicity
 
 			if (distance < 0.0f)
 			{
-				return BEHIND;
+				return RelativePosition::BEHIND;
 			}
 			else if (distance > 0.0f)
 			{
-				return INFRONT;
+				return RelativePosition::INFRONT;
 			}
 			else
 			{
-				return ON_PLANE;
+				return RelativePosition::ON_PLANE;
 			}
 		}
 

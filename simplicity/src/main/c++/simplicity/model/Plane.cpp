@@ -48,7 +48,7 @@ namespace simplicity
 
 	Model::PrimitiveType Plane::getPrimitiveType() const
 	{
-		return NA;
+		return PrimitiveType::NA;
 	}
 
 	Texture* Plane::getTexture() const

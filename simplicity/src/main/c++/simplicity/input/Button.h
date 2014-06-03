@@ -26,7 +26,7 @@ namespace simplicity
 		 * The different states a physical button can be in.
 		 * </p>
 		 */
-		enum State
+		enum class State
 		{
 			/**
 			 * <p>

@@ -26,7 +26,7 @@ namespace simplicity
 		 * The buttons on a mouse.
 		 * </p>
 		 */
-		enum Button
+		enum class Button
 		{
 			MIDDLE,
 			LEFT,

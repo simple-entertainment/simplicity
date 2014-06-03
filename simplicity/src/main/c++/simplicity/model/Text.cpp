@@ -39,7 +39,7 @@ namespace simplicity
 
 	Model::PrimitiveType Text::getPrimitiveType() const
 	{
-		return NA;
+		return PrimitiveType::NA;
 	}
 
 	const string& Text::getText() const

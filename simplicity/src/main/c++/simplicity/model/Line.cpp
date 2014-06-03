@@ -48,7 +48,7 @@ namespace simplicity
 
 	Model::PrimitiveType Line::getPrimitiveType() const
 	{
-		return Model::NA;
+		return PrimitiveType::NA;
 	}
 
 	Texture* Line::getTexture() const

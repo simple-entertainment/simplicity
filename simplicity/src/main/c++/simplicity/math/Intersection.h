@@ -36,7 +36,7 @@ namespace simplicity
 		 * The relative position of a point in relation to a plane.
 		 * </p>
 		 */
-		enum RelativePosition
+		enum class RelativePosition
 		{
 			/**
 			 * <p>

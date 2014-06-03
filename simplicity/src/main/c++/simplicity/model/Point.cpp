@@ -42,7 +42,7 @@ namespace simplicity
 
 	Model::PrimitiveType Point::getPrimitiveType() const
 	{
-		return Model::NA;
+		return PrimitiveType::NA;
 	}
 
 	Texture* Point::getTexture() const

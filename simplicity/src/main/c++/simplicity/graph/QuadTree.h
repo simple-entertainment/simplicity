@@ -48,7 +48,7 @@ namespace simplicity
 			 * THe plane that the bounding volume is placed on.
 			 * </p>
 			 */
-			enum Plane
+			enum class Plane
 			{
 				XY,
 				XZ//,
