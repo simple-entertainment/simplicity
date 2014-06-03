@@ -38,13 +38,13 @@ namespace simplicity
 			 */
 			FileSystemDataStore(const std::string& directory);
 
-			Resource* create(const std::string& name, unsigned short category, bool binary);
+			Resource* create(const std::string& name, unsigned short category, bool binary) override;
 
-			bool exists(const std::string& name);
+			bool exists(const std::string& name) override;
 
-			Resource* get(const std::string& name, unsigned short category, bool binary);
+			Resource* get(const std::string& name, unsigned short category, bool binary) override;
 
-			bool remove(Resource* resource);
+			bool remove(Resource* resource) override;
 
 		private:
 			std::string directory;

@@ -47,45 +47,45 @@ namespace simplicity
 			 */
 			SimpleMesh(const std::vector<unsigned int>& indices, const std::vector<Vertex>& vertices);
 
-			const Vector4& getColor() const;
+			const Vector4& getColor() const override;
 
-			unsigned int getIndexCount() const;
+			unsigned int getIndexCount() const override;
 
-			unsigned int* getIndices();
+			unsigned int* getIndices() override;
 
-			const unsigned int* getIndices() const;
+			const unsigned int* getIndices() const override;
 
-			Texture* getNormalMap() const;
+			Texture* getNormalMap() const override;
 
-			PrimitiveType getPrimitiveType() const;
+			PrimitiveType getPrimitiveType() const override;
 
-			Texture* getTexture() const;
+			Texture* getTexture() const override;
 
-			unsigned short getTypeID() const;
+			unsigned short getTypeID() const override;
 
-			unsigned int getVertexCount() const;
+			unsigned int getVertexCount() const override;
 
-			Vertex* getVertices();
+			Vertex* getVertices() override;
 
-			const Vertex* getVertices() const;
+			const Vertex* getVertices() const override;
 
-			void init();
+			void init() override;
 
-			bool isVisible() const;
+			bool isVisible() const override;
 
-			void resizeIndices(unsigned int size);
+			void resizeIndices(unsigned int size) override;
 
-			void resizeVertices(unsigned int size);
+			void resizeVertices(unsigned int size) override;
 
-			void setColor(const Vector4& color);
+			void setColor(const Vector4& color) override;
 
-			void setNormalMap(Texture* texture);
+			void setNormalMap(Texture* texture) override;
 
-			void setPrimitiveType(PrimitiveType primitiveType);
+			void setPrimitiveType(PrimitiveType primitiveType) override;
 
-			void setTexture(Texture* texture);
+			void setTexture(Texture* texture) override;
 
-			void setVisible(bool visible);
+			void setVisible(bool visible) override;
 
 		private:
 			Vector4 color;

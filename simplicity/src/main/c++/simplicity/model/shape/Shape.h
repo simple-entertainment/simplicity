@@ -32,7 +32,7 @@ namespace simplicity
 		public:
 			Shape();
 
-			const Vector4& getColor() const;
+			const Vector4& getColor() const override;
 
 			/**
 			 * <p>
@@ -43,15 +43,15 @@ namespace simplicity
 			 */
 			unsigned int getLevelOfDetail() const;
 
-			Texture* getNormalMap() const;
+			Texture* getNormalMap() const override;
 
-			PrimitiveType getPrimitiveType() const;
+			PrimitiveType getPrimitiveType() const override;
 
-			Texture* getTexture() const;
+			Texture* getTexture() const override;
 
-			bool isVisible() const;
+			bool isVisible() const override;
 
-			void setColor(const Vector4& color);
+			void setColor(const Vector4& color) override;
 
 			/**
 			 * <p>
@@ -62,13 +62,13 @@ namespace simplicity
 			 */
 			void setLevelOfDetail(unsigned int levelOfDetail);
 
-			void setNormalMap(Texture* texture);
+			void setNormalMap(Texture* texture) override;
 
-			void setPrimitiveType(PrimitiveType primitiveType);
+			void setPrimitiveType(PrimitiveType primitiveType) override;
 
-			void setTexture(Texture* texture);
+			void setTexture(Texture* texture) override;
 
-			void setVisible(bool visible);
+			void setVisible(bool visible) override;
 
 		private:
 			Vector4 color;

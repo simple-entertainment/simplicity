@@ -70,7 +70,7 @@ namespace simplicity
 			 */
 			float getHalfZLength() const;
 
-			unsigned short getTypeID() const;
+			unsigned short getTypeID() const override;
 
 			/**
 			 * <p>

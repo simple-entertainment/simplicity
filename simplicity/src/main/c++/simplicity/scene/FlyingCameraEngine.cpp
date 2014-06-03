@@ -35,10 +35,6 @@ namespace simplicity
 	{
 	}
 
-	void FlyingCameraEngine::addEntity(Entity&)
-	{
-	}
-
 	void FlyingCameraEngine::advance()
 	{
 		if (buttonStates[Keyboard::Button::W] == Button::State::DOWN)
@@ -60,27 +56,6 @@ namespace simplicity
 		{
 			translate(camera.getTransform(), Vector4(0.1f, 0.0f, 0.0f, 1.0f));
 		}
-	}
-
-	void FlyingCameraEngine::destroy()
-	{
-		Messages::deregisterRecipient(Subject::KEYBOARD_BUTTON, bind(&FlyingCameraEngine::onKeyboardButton, this,
-				placeholders::_1));
-		Messages::deregisterRecipient(Subject::MOUSE_MOVE, bind(&FlyingCameraEngine::onMouseMove, this,
-				placeholders::_1));
-	}
-
-	void FlyingCameraEngine::init()
-	{
-		buttonStates[Keyboard::Button::W] = Button::State::UP;
-		buttonStates[Keyboard::Button::A] = Button::State::UP;
-		buttonStates[Keyboard::Button::S] = Button::State::UP;
-		buttonStates[Keyboard::Button::D] = Button::State::UP;
-
-		Messages::registerRecipient(Subject::KEYBOARD_BUTTON, bind(&FlyingCameraEngine::onKeyboardButton, this,
-				placeholders::_1));
-		Messages::registerRecipient(Subject::MOUSE_MOVE, bind(&FlyingCameraEngine::onMouseMove, this,
-				placeholders::_1));
 	}
 
 	void FlyingCameraEngine::onKeyboardButton(const void* message)
@@ -105,7 +80,24 @@ namespace simplicity
 		y = event->y;
 	}
 
-	void FlyingCameraEngine::removeEntity(const Entity&)
+	void FlyingCameraEngine::onPlay()
 	{
+		buttonStates[Keyboard::Button::W] = Button::State::UP;
+		buttonStates[Keyboard::Button::A] = Button::State::UP;
+		buttonStates[Keyboard::Button::S] = Button::State::UP;
+		buttonStates[Keyboard::Button::D] = Button::State::UP;
+
+		Messages::registerRecipient(Subject::KEYBOARD_BUTTON, bind(&FlyingCameraEngine::onKeyboardButton, this,
+			placeholders::_1));
+		Messages::registerRecipient(Subject::MOUSE_MOVE, bind(&FlyingCameraEngine::onMouseMove, this,
+			placeholders::_1));
+	}
+
+	void FlyingCameraEngine::onStop()
+	{
+		Messages::deregisterRecipient(Subject::KEYBOARD_BUTTON, bind(&FlyingCameraEngine::onKeyboardButton, this,
+			placeholders::_1));
+		Messages::deregisterRecipient(Subject::MOUSE_MOVE, bind(&FlyingCameraEngine::onMouseMove, this,
+			placeholders::_1));
 	}
 }

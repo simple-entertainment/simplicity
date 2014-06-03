@@ -42,9 +42,9 @@ namespace simplicity
 			 */
 			Line(const Vector3& pointA, const Vector3& pointB);
 
-			const Vector4& getColor() const;
+			const Vector4& getColor() const override;
 
-			Texture* getNormalMap() const;
+			Texture* getNormalMap() const override;
 
 			/**
 			 * <p>
@@ -64,17 +64,17 @@ namespace simplicity
 			 */
 			const Vector3& getPointB() const;
 
-			PrimitiveType getPrimitiveType() const;
+			PrimitiveType getPrimitiveType() const override;
 
-			Texture* getTexture() const;
+			Texture* getTexture() const override;
 
-			unsigned short getTypeID() const;
+			unsigned short getTypeID() const override;
 
-			bool isVisible() const;
+			bool isVisible() const override;
 
-			void setColor(const Vector4& color);
+			void setColor(const Vector4& color) override;
 
-			void setNormalMap(Texture* texture);
+			void setNormalMap(Texture* texture) override;
 
 			/**
 			 * <p>
@@ -94,11 +94,11 @@ namespace simplicity
 			 */
 			void setPointB(const Vector3& pointB);
 
-			void setPrimitiveType(PrimitiveType primitiveType);
+			void setPrimitiveType(PrimitiveType primitiveType) override;
 
-			void setTexture(Texture* texture);
+			void setTexture(Texture* texture) override;
 
-			void setVisible(bool visible);
+			void setVisible(bool visible) override;
 
 		private:
 			Vector4 color;

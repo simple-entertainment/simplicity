@@ -42,7 +42,7 @@ namespace simplicity
 			 */
 			Plane(const Vector3& normal, const Vector3& positionOnPlane);
 
-			const Vector4& getColor() const;
+			const Vector4& getColor() const override;
 
 			/**
 			 * <p>
@@ -53,7 +53,7 @@ namespace simplicity
 			 */
 			const Vector3& getNormal() const;
 
-			Texture* getNormalMap() const;
+			Texture* getNormalMap() const override;
 
 			/**
 			 * <p>
@@ -64,15 +64,15 @@ namespace simplicity
 			 */
 			const Vector3& getPositionOnPlane() const;
 
-			PrimitiveType getPrimitiveType() const;
+			PrimitiveType getPrimitiveType() const override;
 
-			Texture* getTexture() const;
+			Texture* getTexture() const override;
 
-			unsigned short getTypeID() const;
+			unsigned short getTypeID() const override;
 
-			bool isVisible() const;
+			bool isVisible() const override;
 
-			void setColor(const Vector4& color);
+			void setColor(const Vector4& color) override;
 
 			/**
 			 * <p>
@@ -83,7 +83,7 @@ namespace simplicity
 			 */
 			void setNormal(const Vector3& normal);
 
-			void setNormalMap(Texture* texture);
+			void setNormalMap(Texture* texture) override;
 
 			/**
 			 * <p>
@@ -94,11 +94,11 @@ namespace simplicity
 			 */
 			void setPositionOnPlane(const Vector3& positionOnPlane);
 
-			void setPrimitiveType(PrimitiveType primitiveType);
+			void setPrimitiveType(PrimitiveType primitiveType) override;
 
-			void setTexture(Texture* texture);
+			void setTexture(Texture* texture) override;
 
-			void setVisible(bool visible);
+			void setVisible(bool visible) override;
 
 		private:
 			Vector4 color;

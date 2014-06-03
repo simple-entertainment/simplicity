@@ -63,31 +63,31 @@ namespace simplicity
 			 */
 			QuadTree(unsigned int subdivideThreshold, const Square& boundary, Plane plane = Plane::XY);
 
-			void connectTo(Graph& graph);
+			void connectTo(Graph& graph) override;
 
-			void disconnectFrom(Graph& graph);
+			void disconnectFrom(Graph& graph) override;
 
-			Matrix44 getAbsoluteTransform() const;
+			Matrix44 getAbsoluteTransform() const override;
 
-			const Model& getBoundary() const;
+			const Model& getBoundary() const override;
 
-			std::vector<Graph*> getChildren() const;
+			std::vector<Graph*> getChildren() const override;
 
-			std::vector<Entity*>& getEntities();
+			std::vector<Entity*>& getEntities() override;
 
-			const std::vector<Entity*>& getEntities() const;
+			const std::vector<Entity*>& getEntities() const override;
 
-			std::vector<Entity*> getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const;
+			std::vector<Entity*> getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const override;
 
-			Graph* getParent();
+			Graph* getParent() override;
 
-			const Graph* getParent() const;
+			const Graph* getParent() const override;
 
-			Matrix44& getTransform();
+			Matrix44& getTransform() override;
 
-			const Matrix44& getTransform() const;
+			const Matrix44& getTransform() const override;
 
-			bool insert(Entity& entity);
+			bool insert(Entity& entity) override;
 
 			/**
 			 * <p>
@@ -100,15 +100,15 @@ namespace simplicity
 			 *
 			 * @return True if the insertion was successful, false otherwise.
 			 */
-			bool insert(Entity& entity, const Entity& parent);
+			bool insert(Entity& entity, const Entity& parent) override;
 
-			bool remove(const Entity& entity);
+			bool remove(const Entity& entity) override;
 
-			void setParent(Graph* parent);
+			void setParent(Graph* parent) override;
 
-			void setTransform(const Matrix44& transform);
+			void setTransform(const Matrix44& transform) override;
 
-			void update(Entity& entity);
+			void update(Entity& entity) override;
 
 		private:
 			Matrix44 absoluteTransform;

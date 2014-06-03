@@ -28,27 +28,27 @@ namespace simplicity
 		public:
 			ConsoleResource(unsigned short category, const std::string& name);
 
-			void appendData(const char* data, unsigned int length);
+			void appendData(const char* data, unsigned int length) override;
 
-			void appendData(const std::string& data);
+			void appendData(const std::string& data) override;
 
-			unsigned short getCategory() const;
+			unsigned short getCategory() const override;
 
-			std::string getData();
+			std::string getData() override;
 
-			std::unique_ptr<std::istream> getInputStream();
+			std::unique_ptr<std::istream> getInputStream() override;
 
-			const std::string& getName() const;
+			const std::string& getName() const override;
 
-			std::unique_ptr<std::ostream> getOutputStream(bool append = true);
+			std::unique_ptr<std::ostream> getOutputStream(bool append = true) override;
 
-			const std::string& getUri() const;
+			const std::string& getUri() const override;
 
-			bool isBinary() const;
+			bool isBinary() const override;
 
-			void setData(const char* data, unsigned int length);
+			void setData(const char* data, unsigned int length) override;
 
-			void setData(const std::string& data);
+			void setData(const std::string& data) override;
 
 		private:
 			unsigned short category;

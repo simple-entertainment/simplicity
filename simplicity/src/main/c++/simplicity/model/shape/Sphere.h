@@ -50,7 +50,7 @@ namespace simplicity
 			 */
 			float getRadius() const;
 
-			unsigned short getTypeID() const;
+			unsigned short getTypeID() const override;
 
 			/**
 			 * <p>

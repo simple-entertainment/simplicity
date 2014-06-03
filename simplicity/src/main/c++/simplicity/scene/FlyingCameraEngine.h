@@ -30,15 +30,11 @@ namespace simplicity
 		public:
 			FlyingCameraEngine(Entity& camera);
 
-			void addEntity(Entity& entity);
+			void advance() override;
 
-			void advance();
+			void onPlay() override;
 
-			void destroy();
-
-			void init();
-
-			void removeEntity(const Entity& entity);
+			void onStop() override;
 
 		private:
 			std::map<Keyboard::Button, Button::State> buttonStates;

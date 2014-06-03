@@ -70,7 +70,7 @@ namespace simplicity
 			 */
 			const Vector3& getPointC() const;
 
-			unsigned short getTypeID() const;
+			unsigned short getTypeID() const override;
 
 			/**
 			 * <p>

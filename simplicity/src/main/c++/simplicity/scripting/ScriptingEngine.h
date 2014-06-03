@@ -32,19 +32,19 @@ namespace simplicity
 		public:
 			ScriptingEngine();
 
-			void advance();
+			void advance() override;
 
-			void onAddEntity(Entity& entity);
+			void onAddEntity(Entity& entity) override;
 
-			void onCloseScene(Scene& scene);
+			void onCloseScene(Scene& scene) override;
 
-			void onOpenScene(Scene& scene);
+			void onOpenScene(Scene& scene) override;
 
-			void onPauseScene(Scene& scene);
+			void onPauseScene(Scene& scene) override;
 
-			void onRemoveEntity(Entity& entity);
+			void onRemoveEntity(Entity& entity) override;
 
-			void onResumeScene(Scene& scene);
+			void onResumeScene(Scene& scene) override;
 
 		private:
 			std::map<Entity*, std::vector<Script*>> scriptsByEntity;

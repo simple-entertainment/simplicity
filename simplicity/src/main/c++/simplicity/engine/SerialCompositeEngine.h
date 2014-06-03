@@ -33,31 +33,31 @@ namespace simplicity
 
 			void addEngine(std::unique_ptr<Engine> engine);
 
-			void advance();
+			void advance() override;
 
-			const std::vector<std::unique_ptr<Engine>>& getEngines() const;
+			const std::vector<std::unique_ptr<Engine>>& getEngines() const override;
 
-			void onAddEntity(Entity& entity);
+			void onAddEntity(Entity& entity) override;
 
-			void onCloseScene(Scene& scene);
+			void onCloseScene(Scene& scene) override;
 
-			void onOpenScene(Scene& scene);
+			void onOpenScene(Scene& scene) override;
 
-			void onPause();
+			void onPause() override;
 
-			void onPauseScene(Scene& scene);
+			void onPauseScene(Scene& scene) override;
 
-			void onPlay();
+			void onPlay() override;
 
-			void onRemoveEntity(Entity& entity);
+			void onRemoveEntity(Entity& entity) override;
 
-			void onResume();
+			void onResume() override;
 
-			void onResumeScene(Scene& scene);
+			void onResumeScene(Scene& scene) override;
 
-			void onStop();
+			void onStop() override;
 
-			std::unique_ptr<Engine> removeEngine(Engine* engine);
+			std::unique_ptr<Engine> removeEngine(Engine* engine) override;
 
 		private:
 			std::vector<std::unique_ptr<Engine>> engines;
