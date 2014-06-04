@@ -39,13 +39,13 @@ namespace simplicity
 			 */
 			static const unsigned int TYPE_ID = 13;
 
-			SimpleMesh();
-
 			/**
 			 * @param indices The indices into the collection of vertices.
 			 * @param vertices The collection of vertices.
 			 */
 			SimpleMesh(const std::vector<unsigned int>& indices, const std::vector<Vertex>& vertices);
+
+			Access getAccess() const override;
 
 			const Vector4& getColor() const override;
 

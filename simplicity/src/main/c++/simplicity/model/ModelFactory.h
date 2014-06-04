@@ -112,11 +112,13 @@ namespace simplicity
 			 * @param minZ The minimum position on the y axis.
 			 * @param maxZ The maximum position on the y axis.
 			 * @param color The color of the height map mesh.
+			 * @param access The accessibility of the height map mesh's internal data.
 			 *
 			 * @return A height map mesh.
 			 */
 			std::unique_ptr<Mesh> createHeightMapMesh(const std::vector<std::vector<float>>& heightMap,
-					unsigned int minX, unsigned int maxX, unsigned int minZ, unsigned int maxZ, const Vector4& color);
+					unsigned int minX, unsigned int maxX, unsigned int minZ, unsigned int maxZ, const Vector4& color,
+					Mesh::Access access = Mesh::Access::NONE);
 
 			/**
 			 * <p>
@@ -140,10 +142,13 @@ namespace simplicity
 			 * </p>
 			 *
 			 * @param vertices The vertices of the mesh.
+			 * @param access The access to grant to the mesh's internal data i.e. vertices and indices after
+			 * initialization.
 			 *
 			 * @return A mesh.
 			 */
-			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices) = 0;
+			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices,
+				Mesh::Access access = Mesh::Access::NONE) = 0;
 
 			/**
 			 * <p>
@@ -152,11 +157,13 @@ namespace simplicity
 			 *
 			 * @param vertices The vertices of the mesh.
 			 * @param indices The indices of the mesh.
+			 * @param access The access to grant to the mesh's internal data i.e. vertices and indices after
+			 * initialization.
 			 *
 			 * @return A mesh.
 			 */
 			virtual std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices,
-				const std::vector<unsigned int>& indices) = 0;
+				const std::vector<unsigned int>& indices, Mesh::Access access = Mesh::Access::NONE) = 0;
 
 			/**
 			 * <p>

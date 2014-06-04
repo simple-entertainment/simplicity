@@ -33,6 +33,53 @@ namespace simplicity
 	{
 		public:
 			/**
+			 * <p>
+			 * The accessibility of the mesh's internal data i.e. vertices and indices after initialization. Before the mesh is
+			 * initialized, it's internal data can be read from and written to without restriction.
+			 * </p>
+			 */
+			enum class Access
+			{
+				/**
+				 * <p>
+				 * No access is provided after initialization.
+				 * </p>
+				 */
+				NONE,
+
+				/**
+				 * <p>
+				 * Read-only access is provided after initialization.
+				 * </p>
+				 */
+				READ,
+
+				/**
+				 * <p>
+				 * Read-only access is provided after initialization. A local copy of the data is stored for access.
+				 * </p>
+				 */
+				READ_LOCAL,
+
+				/**
+				 * <p>
+				 * Read and write access is provided after initialization.
+				 * </p>
+				 */
+				READ_WRITE
+			};
+
+			/**
+			 * <p>
+			 * Retrieves the access granted to this mesh's internal data i.e. vertices and indices after
+			 * initialization.
+			 * </p>
+			 *
+			 * @return The access granted to this mesh's internal data.
+			 */
+			virtual Access getAccess() const = 0;
+
+			/**
 			* <p>
 			* Retrieves the number of indices in this mesh.
 			* </p>

@@ -172,7 +172,7 @@ namespace simplicity
 	}
 
 	unique_ptr<Mesh> ModelFactory::createHeightMapMesh(const vector<vector<float>>& heightMap, unsigned int minX,
-			unsigned int maxX, unsigned int minZ, unsigned int maxZ, const Vector4& color)
+			unsigned int maxX, unsigned int minZ, unsigned int maxZ, const Vector4& color, Mesh::Access access)
 	{
 		unsigned int edgeLength = heightMap[0].size();
 		unsigned int halfEdgeLength = static_cast<unsigned int>(floor(edgeLength / 2.0f));
@@ -208,7 +208,7 @@ namespace simplicity
 			}
 		}
 
-		return createMesh(vertices);
+		return createMesh(vertices, access);
 	}
 
 	unique_ptr<Mesh> ModelFactory::createHemisphereMesh(float radius, unsigned int divisions, const Vector4& color,

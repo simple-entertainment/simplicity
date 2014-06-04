@@ -20,15 +20,6 @@ using namespace std;
 
 namespace simplicity
 {
-	SimpleMesh::SimpleMesh() :
-		color(0.0f, 0.0f, 0.0f, 1.0f),
-		indices(),
-		primitiveType(PrimitiveType::TRIANGLE_LIST),
-		vertices(),
-		visible(true)
-	{
-	}
-
 	SimpleMesh::SimpleMesh(const vector<unsigned int>& indices, const vector<Vertex>& vertices) :
 		color(0.0f, 0.0f, 0.0f, 1.0f),
 		indices(indices),
@@ -36,6 +27,11 @@ namespace simplicity
 		vertices(vertices),
 		visible(true)
 	{
+	}
+
+	Mesh::Access SimpleMesh::getAccess() const
+	{
+		return Access::READ_WRITE;
 	}
 
 	const Vector4& SimpleMesh::getColor() const

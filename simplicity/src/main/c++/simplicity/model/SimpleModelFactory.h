@@ -29,10 +29,10 @@ namespace simplicity
 	class SIMPLE_API SimpleModelFactory : public ModelFactory
 	{
 		public:
-			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices);
+			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices, Mesh::Access access) override;
 
 			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices,
-				const std::vector<unsigned int>& indices);
+				const std::vector<unsigned int>& indices, Mesh::Access access) override;
 	};
 }
 
