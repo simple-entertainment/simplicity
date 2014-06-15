@@ -14,22 +14,30 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef CODEC_H_
-#define CODEC_H_
-
-#include <vector>
-
-#include "../common/Defines.h"
+#include "SimpleCodec.h"
 
 namespace simplicity
 {
-	class SIMPLE_API Codec
+	template<typename MessageType>
+	SimpleCodec<MessageType>::SimpleCodec() :
+		decodedMessage()
 	{
-		public:
-			virtual void* decode(const byte* data) = 0;
+	}
 
-			virtual std::vector<byte> encode(const void* message) = 0;
-	};
+	template<typename MessageType>
+	void* SimpleCodec<MessageType>::decode(const byte* data)
+	{
+		memcpy(&decodedMessage, data, sizeof(MessageType));
+
+		return &decodedMessage;
+	}
+
+	template<typename MessageType>
+	std::vector<byte> SimpleCodec<MessageType>::encode(const void* message)
+	{
+		std::vector<byte> data(sizeof(MessageType));
+		memcpy(data.data(), message, sizeof(MessageType));
+
+		return data;
+	}
 }
-
-#endif /* CODEC_H_ */

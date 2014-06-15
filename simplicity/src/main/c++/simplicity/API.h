@@ -62,9 +62,10 @@
 
 // Messaging
 #include "messaging/Codec.h"
-#include "messaging/DeliveryOptions.h"
+#include "messaging/EmptyCodec.h"
 #include "messaging/Messages.h"
 #include "messaging/MessagingEngine.h"
+#include "messaging/SimpleCodec.h"
 #include "messaging/SimpleMessagingEngine.h"
 #include "messaging/Subject.h"
 

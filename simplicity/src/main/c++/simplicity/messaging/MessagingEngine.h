@@ -20,7 +20,7 @@
 #include <functional>
 
 #include "../engine/Engine.h"
-#include "DeliveryOptions.h"
+#include "Codec.h"
 
 namespace simplicity
 {

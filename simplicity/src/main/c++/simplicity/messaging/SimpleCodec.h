@@ -1,5 +1,5 @@
 /*
- * Copyright Â© 2014 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,22 +14,30 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef CODEC_H_
-#define CODEC_H_
+#ifndef SIMPLECODEC_H_
+#define SIMPLECODEC_H_
 
-#include <vector>
+#include <memory>
 
-#include "../common/Defines.h"
+#include "Codec.h"
 
 namespace simplicity
 {
-	class SIMPLE_API Codec
+	template<typename MessageType>
+	class SimpleCodec : public simplicity::Codec
 	{
 		public:
-			virtual void* decode(const byte* data) = 0;
+			SimpleCodec();
 
-			virtual std::vector<byte> encode(const void* message) = 0;
+			void* decode(const simplicity::byte* data) override;
+
+			std::vector<simplicity::byte> encode(const void* message) override;
+
+		private:
+			MessageType decodedMessage;
 	};
 }
 
-#endif /* CODEC_H_ */
+#include "SimpleCodec.tpp"
+
+#endif /* SIMPLECODEC_H_ */

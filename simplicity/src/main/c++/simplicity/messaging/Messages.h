@@ -17,7 +17,6 @@
 #ifndef MESSAGES_H_
 #define MESSAGES_H_
 
-#include "DeliveryOptions.h"
 #include "MessagingEngine.h"
 
 namespace simplicity
@@ -46,7 +45,7 @@ namespace simplicity
 		*/
 		SIMPLE_API void deregisterRecipient(unsigned short subject, unsigned short recipientCategory);
 
-		SIMPLE_API const DeliveryOptions& getDeliveryOptions(unsigned short subject);
+		SIMPLE_API Codec* getCodec(unsigned short subject);
 
 		/**
 		 * <p>
@@ -80,7 +79,7 @@ namespace simplicity
 		 */
 		SIMPLE_API void send(unsigned short subject, const void* message);
 
-		SIMPLE_API void setDeliveryOptions(unsigned short subject, const DeliveryOptions& deliveryOptions);
+		SIMPLE_API void setCodec(unsigned short subject, std::unique_ptr<Codec> codec);
 	}
 }
 

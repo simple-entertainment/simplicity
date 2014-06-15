@@ -176,9 +176,10 @@
     <ClInclude Include="src\main\c++\simplicity\math\MathFunctions.h" />
     <ClInclude Include="src\main\c++\simplicity\math\Matrix.h" />
     <ClInclude Include="src\main\c++\simplicity\math\Vector.h" />
-    <ClInclude Include="src\main\c++\simplicity\messaging\DeliveryOptions.h" />
+    <ClInclude Include="src\main\c++\simplicity\messaging\EmptyCodec.h" />
     <ClInclude Include="src\main\c++\simplicity\messaging\MessagingEngine.h" />
     <ClInclude Include="src\main\c++\simplicity\messaging\Codec.h" />
+    <ClInclude Include="src\main\c++\simplicity\messaging\SimpleCodec.h" />
     <ClInclude Include="src\main\c++\simplicity\messaging\SimpleMessagingEngine.h" />
     <ClInclude Include="src\main\c++\simplicity\messaging\Subject.h" />
     <ClInclude Include="src\main\c++\simplicity\messaging\Messages.h" />
@@ -244,7 +245,11 @@
     <ClCompile Include="src\main\c++\simplicity\math\Intersection.cpp" />
     <ClCompile Include="src\main\c++\simplicity\math\MathFunctions.cpp" />
     <ClCompile Include="src\main\c++\simplicity\math\Matrix.cpp" />
+    <ClCompile Include="src\main\c++\simplicity\messaging\EmptyCodec.cpp" />
     <ClCompile Include="src\main\c++\simplicity\messaging\Messages.cpp" />
+    <None Include="src\main\c++\simplicity\messaging\SimpleCodec.tpp">
+      <FileType>CppCode</FileType>
+    </None>
     <ClCompile Include="src\main\c++\simplicity\messaging\SimpleMessagingEngine.cpp" />
     <ClCompile Include="src\main\c++\simplicity\model\Line.cpp" />
     <ClCompile Include="src\main\c++\simplicity\model\Model.cpp" />

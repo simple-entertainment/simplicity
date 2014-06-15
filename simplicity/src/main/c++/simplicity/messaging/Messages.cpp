@@ -25,7 +25,7 @@ namespace simplicity
 {
 	namespace Messages
 	{
-		map<unsigned int, DeliveryOptions> deliveryOptions;
+		map<unsigned int, unique_ptr<Codec>> codecs;
 
 		vector<MessagingEngine*> engines;
 
@@ -50,9 +50,9 @@ namespace simplicity
 			}
 		}
 
-		const DeliveryOptions& getDeliveryOptions(unsigned short subject)
+		Codec* getCodec(unsigned short subject)
 		{
-			return deliveryOptions[subject];
+			return codecs[subject].get();
 		}
 
 		void registerRecipient(unsigned short subject, function<Recipient> recipient)
@@ -83,10 +83,10 @@ namespace simplicity
 				engine->send(subject, message);
 			}
 		}
-	}
 
-	void setDeliveryOptions(unsigned short subject, const DeliveryOptions& deliveryOptions)
-	{
-		Messages::deliveryOptions[subject] = deliveryOptions;
+		void setCodec(unsigned short subject, unique_ptr<Codec> codec)
+		{
+			Messages::codecs[subject] = move(codec);
+		}
 	}
 }
