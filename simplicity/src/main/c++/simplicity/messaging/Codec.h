@@ -14,44 +14,24 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef DEFINES_H_
-#define DEFINES_H_
+#ifndef CODEC_H_
+#define CODEC_H_
 
-// Platforms
-#if defined(_WIN32)
-#	define SIMPLE_WINDOWS
-#elif defined(__linux__)
-#	define SIMPLE_LINUX
-#endif
+#include <vector>
 
-// Configurations
-#if defined(_DEBUG) || defined(DEBUG)
-#	define SIMPLE_DEBUG
-#endif
-
-// Export/Import
-#if defined(SIMPLE_WINDOWS) && defined(SIMPLE_SHARED)
-#	define SIMPLE_API __declspec(dllexport)
-#	define SIMPLE_API_TEMPLATE
-#elif defined(SIMPLE_WINDOWS) && defined(SIMPLE_SHARED_EXE)
-#	define SIMPLE_API __declspec(dllimport)
-#	define SIMPLE_API_TEMPLATE extern
-#else
-#	define SIMPLE_API 
-#endif
-
-// Debug Breaking
-#ifdef SIMPLE_WINDOWS
-#   define DEBUG_BREAK __debugbreak()
-#else
-#   define DEBUG_BREAK 
-#endif
+#include "../common/Defines.h"
 
 namespace simplicity
 {
-	using byte = char;
+	class SIMPLE_API Codec
+	{
+		public:
+			virtual void* decode(const byte* data) = 0;
+
+			virtual std::vector<byte> encode(unsigned short subject, const void* message) = 0;
+
+			virtual unsigned int getDecodeReadLength() = 0;
+	};
 }
 
-namespace sim = simplicity;
-
-#endif /* DEFINES_H_ */
+#endif /* CODEC_H_ */

@@ -61,7 +61,11 @@
 #include "math/Vector.h"
 
 // Messaging
+#include "messaging/Codec.h"
+#include "messaging/DeliveryOptions.h"
 #include "messaging/Messages.h"
+#include "messaging/MessagingEngine.h"
+#include "messaging/SimpleMessagingEngine.h"
 #include "messaging/Subject.h"
 
 // Model

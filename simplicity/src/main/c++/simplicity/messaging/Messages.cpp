@@ -25,49 +25,68 @@ namespace simplicity
 {
 	namespace Messages
 	{
-		map<unsigned short, vector<function<Recipient>>> recipients;
+		map<unsigned int, DeliveryOptions> deliveryOptions;
+
+		vector<MessagingEngine*> engines;
+
+		void addEngine(MessagingEngine* engine)
+		{
+			engines.push_back(engine);
+		}
 
 		void deregisterRecipient(unsigned short subject, function<Recipient> recipient)
 		{
-			vector<function<Recipient>>& registeredRecipients = recipients.find(subject)->second;
-
-			for (vector<function<Recipient>>::iterator registeredRecipient = registeredRecipients.begin();
-				registeredRecipient != registeredRecipients.end(); registeredRecipient++)
+			for (MessagingEngine* engine : engines)
 			{
-				if (registeredRecipient->target_type() == recipient.target_type())
-				{
-					registeredRecipients.erase(registeredRecipient);
-					return;
-				}
+				engine->deregisterRecipient(subject, recipient);
 			}
+		}
+
+		void deregisterRecipient(unsigned short subject, unsigned short recipientCategory)
+		{
+			for (MessagingEngine* engine : engines)
+			{
+				engine->deregisterRecipient(subject, recipientCategory);
+			}
+		}
+
+		const DeliveryOptions& getDeliveryOptions(unsigned short subject)
+		{
+			return deliveryOptions[subject];
 		}
 
 		void registerRecipient(unsigned short subject, function<Recipient> recipient)
 		{
-			if (recipients.find(subject) == recipients.end())
+			for (MessagingEngine* engine : engines)
 			{
-				recipients.insert(
-					pair<unsigned short, vector<function<Recipient>>>(subject, vector<function<Recipient>>()));
+				engine->registerRecipient(subject, recipient);
 			}
+		}
 
-			recipients.find(subject)->second.push_back(recipient);
+		void registerRecipient(unsigned short subject, unsigned short recipientCategory)
+		{
+			for (MessagingEngine* engine : engines)
+			{
+				engine->registerRecipient(subject, recipientCategory);
+			}
+		}
+
+		void removeEngine(const MessagingEngine& engine)
+		{
+			engines.erase(remove(engines.begin(), engines.end(), &engine));
 		}
 
 		void send(unsigned short subject, const void* message)
 		{
-			if (recipients.find(subject) == recipients.end())
+			for (MessagingEngine* engine : engines)
 			{
-				return;
-			}
-
-			vector<function<Recipient>>& registeredRecipients = recipients.find(subject)->second;
-
-			// Does not use C++11 for loop as elements could be added to the vector while iterating.
-			// Take care - this is a fragile 'solution'.
-			for (unsigned int index = 0; index < registeredRecipients.size(); index++)
-			{
-				registeredRecipients.at(index)(message);
+				engine->send(subject, message);
 			}
 		}
+	}
+
+	void setDeliveryOptions(unsigned short subject, const DeliveryOptions& deliveryOptions)
+	{
+		Messages::deliveryOptions[subject] = deliveryOptions;
 	}
 }

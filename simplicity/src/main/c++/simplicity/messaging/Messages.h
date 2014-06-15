@@ -17,26 +17,18 @@
 #ifndef MESSAGES_H_
 #define MESSAGES_H_
 
-#include <functional>
-
-#include "../common/Defines.h"
+#include "DeliveryOptions.h"
+#include "MessagingEngine.h"
 
 namespace simplicity
 {
 	namespace Messages
 	{
-		/**
-		 * <p>
-		 * The function signature required to receive messages.
-		 * </p>
-		 *
-		 * @param The message being received.
-		 */
-		using Recipient = void(const void*);
+		SIMPLE_API void addEngine(MessagingEngine* engine);
 
 		/**
 		 * <p>
-		 * Deregisters the given recipient from the given subject. Standard simplicity events can be found in Events.h.
+		 * Deregisters the given recipient from the given subject.
 		 * </p>
 		 *
 		 * @param subject The subject to deregister the recipient from.
@@ -45,14 +37,38 @@ namespace simplicity
 		SIMPLE_API void deregisterRecipient(unsigned short subject, std::function<Recipient> recipient);
 
 		/**
+		* <p>
+		* Deregisters the given recipient category from the given subject.
+		* </p>
+		*
+		* @param subject The subject to deregister the recipient from.
+		* @param recipientCategory The recipient category to deregister.
+		*/
+		SIMPLE_API void deregisterRecipient(unsigned short subject, unsigned short recipientCategory);
+
+		SIMPLE_API const DeliveryOptions& getDeliveryOptions(unsigned short subject);
+
+		/**
 		 * <p>
-		 * Registers a recipient for the given subject. Standard simplicity events can be found in Events.h.
+		 * Registers a recipient for the given subject.
 		 * </p>
 		 *
 		 * @param subject The subject to register the recipient with.
 		 * @param recipient The recipient to send messages of the given subject to.
 		 */
 		SIMPLE_API void registerRecipient(unsigned short subject, std::function<Recipient> recipient);
+
+		/**
+		* <p>
+		* Registers a recipient category for the given subject.
+		* </p>
+		*
+		* @param subject The subject to register the recipient with.
+		* @param recipientCategory The recipient category to send messages of the given subject to.
+		*/
+		SIMPLE_API void registerRecipient(unsigned short subject, unsigned short recipientCategory);
+
+		SIMPLE_API void removeEngine(const MessagingEngine& engine);
 
 		/**
 		 * <p>
@@ -63,6 +79,8 @@ namespace simplicity
 		 * @param message The message to send.
 		 */
 		SIMPLE_API void send(unsigned short subject, const void* message);
+
+		SIMPLE_API void setDeliveryOptions(unsigned short subject, const DeliveryOptions& deliveryOptions);
 	}
 }
 
