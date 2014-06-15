@@ -29,11 +29,15 @@ namespace simplicity
 		 * Logs a message using printf formatting.
 		 * </p>
 		 *
+		 * <p>
+		 * message is not a const reference because MSVC can't handle variadics after reference types...
+		 * </p>
+		 *
 		 * @param category The category to log the message in.
 		 * @param message The message to log.
 		 * @param ... The arguments to include in the message.
 		 */
-		SIMPLE_API void log(unsigned short category, const std::string& message, ...);
+		SIMPLE_API void log(unsigned short category, std::string message, ...);
 
 		/**
 		 * <p>

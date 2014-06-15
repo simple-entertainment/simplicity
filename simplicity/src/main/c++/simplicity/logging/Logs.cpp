@@ -45,26 +45,30 @@ namespace simplicity
 			return resource;
 		}
 
-		void log(unsigned short category, const string& message, ...)
+		void log(unsigned short category, string message, ...)
 		{
+			// For error and fatal logs, cause the debugger to break.
 			if (category == Category::ERROR_LOG ||
 				category == Category::FATAL_LOG)
 			{
-				assert(false);
+				DEBUG_BREAK;
 			}
 
 			Resource* resource = getResource(category);
-			if (resource != nullptr)
+			if (resource == nullptr)
 			{
-				std::string buffer(message.size() + MAX_ARG_BUFFER_SIZE, ' ');
-
-				va_list args;
-				va_start(args, message);
-				vsnprintf(&buffer[0], buffer.size(), message.data(), args);
-				va_end(args);
-
-				resource->appendData(buffer + '\n');
+				return;
 			}
+
+			std::string buffer(message.size() + MAX_ARG_BUFFER_SIZE, 'x');
+
+			va_list args;
+			va_start(args, message);
+			vsnprintf(&buffer[0], buffer.size(), message.c_str(), args);
+			va_end(args);
+
+			buffer = buffer.c_str();
+			resource->appendData(buffer + '\n');
 		}
 
 		void setResource(Resource* resource, unsigned short category)
