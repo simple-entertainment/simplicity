@@ -527,7 +527,7 @@ namespace simplicity
 	{
 		for (unsigned int index = 0; index < Size; index++)
 		{
-			if (lhs[index] == rhs[index])
+			if (lhs[index] != rhs[index])
 			{
 				return false;
 			}
