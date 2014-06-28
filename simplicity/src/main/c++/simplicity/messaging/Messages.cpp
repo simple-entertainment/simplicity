@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "Messages.h"
+#include "MessagingEngine.h"
 
 using namespace std;
 
@@ -76,11 +77,11 @@ namespace simplicity
 			engines.erase(remove(engines.begin(), engines.end(), &engine));
 		}
 
-		void send(unsigned short subject, const void* message)
+		void send(const Message& message)
 		{
 			for (MessagingEngine* engine : engines)
 			{
-				engine->send(subject, message);
+				engine->send(message);
 			}
 		}
 

@@ -58,15 +58,17 @@ namespace simplicity
 		}
 	}
 
-	void FlyingCameraEngine::onKeyboardButton(const void* message)
+	bool FlyingCameraEngine::onKeyboardButton(const Message& message)
 	{
-		const KeyboardButtonEvent* event = static_cast<const KeyboardButtonEvent*>(message);
+		const KeyboardButtonEvent* event = static_cast<const KeyboardButtonEvent*>(message.body);
 		buttonStates[event->button] = event->buttonState;
+
+		return false;
 	}
 
-	void FlyingCameraEngine::onMouseMove(const void* message)
+	bool FlyingCameraEngine::onMouseMove(const Message& message)
 	{
-		const MouseMoveEvent* event = static_cast<const MouseMoveEvent*>(message);
+		const MouseMoveEvent* event = static_cast<const MouseMoveEvent*>(message.body);
 
 		if (x != -1)
 		{
@@ -78,6 +80,8 @@ namespace simplicity
 
 		x = event->x;
 		y = event->y;
+
+		return false;
 	}
 
 	void FlyingCameraEngine::onPlay()

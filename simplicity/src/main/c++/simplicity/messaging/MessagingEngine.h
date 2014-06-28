@@ -17,22 +17,11 @@
 #ifndef MESSAGINGENGINE_H_
 #define MESSAGINGENGINE_H_
 
-#include <functional>
-
 #include "../engine/Engine.h"
-#include "Codec.h"
+#include "Messages.h"
 
 namespace simplicity
 {
-	/**
-	* <p>
-	* The function signature required to receive messages.
-	* </p>
-	*
-	* @param The message being received.
-	*/
-	using Recipient = void(const void*);
-
 	namespace RecipientCategory
 	{
 		static const unsigned short CLIENT = 0;
@@ -93,10 +82,9 @@ namespace simplicity
 			 * Sends the given message to all registered recipients.
 			 * </p>
 			 *
-			 * @param subject The subject of the message.
 			 * @param message The message to send.
 			 */
-			virtual void send(unsigned short subject, const void* message) = 0;
+			virtual void send(const Message& message) = 0;
 	};
 }
 

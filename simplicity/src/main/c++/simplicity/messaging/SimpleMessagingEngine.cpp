@@ -54,9 +54,9 @@ namespace simplicity
 	{
 	}
 
-	void SimpleMessagingEngine::send(unsigned short subject, const void* message)
+	void SimpleMessagingEngine::send(const Message& message)
 	{
-		auto recipientsIter = recipients.find(subject);
+		auto recipientsIter = recipients.find(message.subject);
 		if (recipientsIter == recipients.end() || recipientsIter->second.empty())
 		{
 			return;
@@ -67,7 +67,10 @@ namespace simplicity
 		vector<function<Recipient>> subjectRecipients = recipientsIter->second;
 		for (function<Recipient> subjectRecipient : subjectRecipients)
 		{
-			subjectRecipient(message);
+			if (subjectRecipient(message))
+			{
+				break;
+			}
 		}
 	}
 }

@@ -17,10 +17,28 @@
 #ifndef MESSAGES_H_
 #define MESSAGES_H_
 
-#include "MessagingEngine.h"
+#include <functional>
+#include <memory>
+
+#include "Codec.h"
+#include "Message.h"
 
 namespace simplicity
 {
+	class MessagingEngine;
+
+	/**
+	* <p>
+	* The function signature required to receive messages. A recipient can consume a message, stopping it from being
+	* sent to any remaining recipients.
+	* </p>
+	*
+	* @param The message being received.
+	*
+	* @return True if the message has been consumed, false otherwise.
+	*/
+	using Recipient = bool(const Message&);
+
 	namespace Messages
 	{
 		SIMPLE_API void addEngine(MessagingEngine* engine);
@@ -74,10 +92,9 @@ namespace simplicity
 		 * Sends the given message to all registered recipients.
 		 * </p>
 		 *
-		 * @param subject The subject of the message.
 		 * @param message The message to send.
 		 */
-		SIMPLE_API void send(unsigned short subject, const void* message);
+		SIMPLE_API void send(const Message& message);
 
 		SIMPLE_API void setCodec(unsigned short subject, std::unique_ptr<Codec> codec);
 	}

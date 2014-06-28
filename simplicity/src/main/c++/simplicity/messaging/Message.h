@@ -14,19 +14,50 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "EmptyCodec.h"
+#ifndef MESSAGE_H_
+#define MESSAGE_H_
 
-using namespace std;
+#include "../common/Defines.h"
 
 namespace simplicity
 {
-	void* EmptyCodec::decode(const byte* /* data */)
+	/**
+	 * <p>
+	 * A message.
+	 * </p>
+	 */
+	struct SIMPLE_API Message
 	{
-		return nullptr;
-	}
+		Message();
 
-	vector<byte> EmptyCodec::encode(const void* /* message */)
-	{
-		return vector<byte>();
-	}
+		/**
+		 * @param subject The purpose for sending the information.
+		 * @param body The information being sent.
+		 */
+		Message(unsigned short subject, const void* body);
+		
+		/**
+		 * <p>
+		 * The information being sent.
+		 * </p>
+		 */
+		const void* body;
+		
+		/**
+		 * <p>
+		 * The ID of the system where this message originated. This is only relevant if the message is being sent from
+		 * one system to another e.g. across a network.
+		 * </p>
+		 */
+		unsigned long senderSystemId;
+
+		/**
+		 * <p>
+		 * The purpose for sending the information.
+		 * </p>
+		 */
+		unsigned short subject;
+	};
 }
+
+#endif /* MESSAGE_H_ */

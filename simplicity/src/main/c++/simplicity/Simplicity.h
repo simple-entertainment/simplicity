@@ -84,6 +84,8 @@ namespace simplicity
 		template<typename EngineType>
 		std::vector<EngineType*> getEngines();
 
+		SIMPLE_API unsigned long getId();
+
         /**
          * <p>
          * Retrieves the maximum frame rate allowed by simplicity. A value of 0 signifies that there is no maximum
@@ -163,6 +165,8 @@ namespace simplicity
 		 * @param compositeEngine The composite engine.
 		 */
 		SIMPLE_API void setCompositeEngine(std::unique_ptr<CompositeEngine> compositeEngine);
+
+		SIMPLE_API void setId(unsigned long id);
 
         /**
          * <p>

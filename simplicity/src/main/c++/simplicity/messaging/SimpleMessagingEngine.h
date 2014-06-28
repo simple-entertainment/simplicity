@@ -43,7 +43,7 @@ namespace simplicity
 
 			void registerRecipient(unsigned short subject, unsigned short recipientCategory) override;
 
-			void send(unsigned short subject, const void* message) override;
+			void send(const Message& message) override;
 
 		private:
 			std::map<unsigned short, std::vector<std::function<Recipient>>> recipients;

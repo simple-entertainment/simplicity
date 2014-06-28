@@ -21,6 +21,8 @@ namespace simplicity
 {
 	namespace Subject
 	{
+		static const unsigned short CLIENT_CONNECTED = 0;
+
 		/**
 		 * <p>
 		 * Raised when a keyboard button changes state.

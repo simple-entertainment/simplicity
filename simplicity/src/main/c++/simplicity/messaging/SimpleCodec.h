@@ -23,18 +23,27 @@
 
 namespace simplicity
 {
-	template<typename MessageType>
+	template<typename BodyType>
 	class SimpleCodec : public simplicity::Codec
 	{
 		public:
 			SimpleCodec();
 
-			void* decode(const simplicity::byte* data) override;
+			Message decode(const byte* data) override;
 
-			std::vector<simplicity::byte> encode(const void* message) override;
+			std::vector<simplicity::byte> encode(const Message& message) override;
 
 		private:
-			MessageType decodedMessage;
+			BodyType decodedBody;
+	};
+
+	template<>
+	class SimpleCodec<nullptr_t> : public simplicity::Codec
+	{
+		public:
+			Message decode(const byte* data) override;
+
+			std::vector<simplicity::byte> encode(const Message& message) override;
 	};
 }
 

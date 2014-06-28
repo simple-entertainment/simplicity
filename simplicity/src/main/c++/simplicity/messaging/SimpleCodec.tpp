@@ -18,25 +18,31 @@
 
 namespace simplicity
 {
-	template<typename MessageType>
-	SimpleCodec<MessageType>::SimpleCodec() :
-		decodedMessage()
+	template<typename BodyType>
+	SimpleCodec<BodyType>::SimpleCodec() :
+		decodedBody()
 	{
 	}
 
-	template<typename MessageType>
-	void* SimpleCodec<MessageType>::decode(const byte* data)
+	template<typename BodyType>
+	Message SimpleCodec<BodyType>::decode(const byte* data)
 	{
-		memcpy(&decodedMessage, data, sizeof(MessageType));
+		Message message;
 
-		return &decodedMessage;
+		memcpy(&message.subject, data, sizeof(unsigned short));
+		memcpy(&decodedBody, data + sizeof(unsigned short), sizeof(BodyType));
+		message.body = &decodedBody;
+
+		return message;
 	}
 
-	template<typename MessageType>
-	std::vector<byte> SimpleCodec<MessageType>::encode(const void* message)
+	template<typename BodyType>
+	std::vector<byte> SimpleCodec<BodyType>::encode(const Message& message)
 	{
-		std::vector<byte> data(sizeof(MessageType));
-		memcpy(data.data(), message, sizeof(MessageType));
+		std::vector<byte> data(sizeof(unsigned short) + sizeof(BodyType));
+
+		memcpy(&data[0], &message.subject, sizeof(unsigned short));
+		memcpy(&data[sizeof(unsigned short)], message.body, sizeof(BodyType));
 
 		return data;
 	}

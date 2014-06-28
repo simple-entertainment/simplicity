@@ -33,6 +33,7 @@ namespace simplicity
 		unique_ptr<CompositeEngine> compositeEngine(new SerialCompositeEngine);
 		Scene* currentScene = nullptr;
 		float frameTime = 0.0f;
+		unsigned long id = 0;
 		unsigned short maxFrameRate = 0;
 		bool newlyOpenedScene = true;
 		bool paused = false;
@@ -64,6 +65,11 @@ namespace simplicity
 		float getDeltaTime()
 		{
 			return frameTime;
+		}
+
+		unsigned long getId()
+		{
+			return id;
 		}
 
 		unsigned short getMaxFrameRate()
@@ -171,6 +177,11 @@ namespace simplicity
 		void setCompositeEngine(unique_ptr<CompositeEngine> compositeEngine)
 		{
 			Simplicity::compositeEngine = move(compositeEngine);
+		}
+
+		void setId(unsigned long id)
+		{
+			Simplicity::id = id;
 		}
 
 		void setMaxFrameRate(unsigned short maxFrameRate)

@@ -45,9 +45,9 @@ namespace simplicity
 
 			int y;
 
-			void onKeyboardButton(const void* message);
+			bool onKeyboardButton(const Message& message);
 
-			void onMouseMove(const void* message);
+			bool onMouseMove(const Message& message);
 	};
 }
 
