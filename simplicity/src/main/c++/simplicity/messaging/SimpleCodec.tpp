@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include <cstring>
+
 #include "SimpleCodec.h"
 
 namespace simplicity
@@ -29,8 +31,8 @@ namespace simplicity
 	{
 		Message message;
 
-		memcpy(&message.subject, data, sizeof(unsigned short));
-		memcpy(&decodedBody, data + sizeof(unsigned short), sizeof(BodyType));
+		std::memcpy(&message.subject, data, sizeof(unsigned short));
+		std::memcpy(&decodedBody, data + sizeof(unsigned short), sizeof(BodyType));
 		message.body = &decodedBody;
 
 		return message;
@@ -41,8 +43,8 @@ namespace simplicity
 	{
 		std::vector<byte> data(sizeof(unsigned short) + sizeof(BodyType));
 
-		memcpy(&data[0], &message.subject, sizeof(unsigned short));
-		memcpy(&data[sizeof(unsigned short)], message.body, sizeof(BodyType));
+		std::memcpy(&data[0], &message.subject, sizeof(unsigned short));
+		std::memcpy(&data[sizeof(unsigned short)], message.body, sizeof(BodyType));
 
 		return data;
 	}

@@ -14,7 +14,11 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+#include <cstring>
+
 #include "SimpleCodec.h"
+
+using namespace std;
 
 namespace simplicity
 {

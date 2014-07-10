@@ -26,6 +26,10 @@ namespace simplicity
 	class SIMPLE_API Codec
 	{
 		public:
+			virtual ~Codec()
+			{
+			}
+
 			virtual Message decode(const byte* data) = 0;
 
 			virtual std::vector<byte> encode(const Message& message) = 0;

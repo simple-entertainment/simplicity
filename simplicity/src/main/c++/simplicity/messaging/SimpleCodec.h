@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 Simple Entertainment Limited
+ * Copyright ï¿½ 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -17,6 +17,7 @@
 #ifndef SIMPLECODEC_H_
 #define SIMPLECODEC_H_
 
+#include <cstddef>
 #include <memory>
 
 #include "Codec.h"
@@ -38,7 +39,7 @@ namespace simplicity
 	};
 
 	template<>
-	class SimpleCodec<nullptr_t> : public simplicity::Codec
+	class SimpleCodec<std::nullptr_t> : public simplicity::Codec
 	{
 		public:
 			Message decode(const byte* data) override;
