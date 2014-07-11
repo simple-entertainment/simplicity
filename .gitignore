@@ -1,15 +1,24 @@
+# CMake
+#########################
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles
+Debug
+MinSizeRel
+Release
+RelWithDebInfo
+
 # Eclipse
 #########################
+*.cproject
 *.metadata
+*.project
 *.settings
 
 # Visual Studio
 #########################
 *.filters
+*.sln
 *.user
-
-# Output
-#########################
-Debug*/
-Release*/
+*.vcxproj
 
