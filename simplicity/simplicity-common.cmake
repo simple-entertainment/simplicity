@@ -1,9 +1,18 @@
-# Configuration
-IF(CMAKE_COMPILER_IS_GNUCXX)
-	# Add C++11 support
+# C++11
+IF(UNIX)
 	add_compile_options(-std=c++11)
-ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ENDIF(UNIX)
 
+# Debugging
+IF(CMAKE_BUILD_TYPE MATCHES Debug)
+	add_definitions(-D_DEBUG)
+ELSE(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
+	add_definitions(-D_DEBUG)
+ELSE()
+	add_definitions(-DNDEBUG)
+ENDIF()
+
+# Warnings
 IF(MSVC)
 	# new behavior: elements of array 'x' will be default initialized
 	add_compile_options(/wd4351)

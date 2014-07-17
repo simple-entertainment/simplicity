@@ -15,6 +15,18 @@ RelWithDebInfo
 *.project
 *.settings
 
+# Make
+#########################
+Makefile
+
+# Misc
+#########################
+*~
+
+# Output
+#########################
+libsimplicity.a
+
 # Visual Studio
 #########################
 *.filters

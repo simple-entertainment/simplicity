@@ -24,11 +24,6 @@
 #	define SIMPLE_LINUX
 #endif
 
-// Configurations
-#if defined(_DEBUG) || defined(DEBUG)
-#	define SIMPLE_DEBUG
-#endif
-
 // Export/Import
 #if defined(SIMPLE_WINDOWS) && defined(SIMPLE_SHARED)
 #	define SIMPLE_API __declspec(dllexport)
