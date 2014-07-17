@@ -14,10 +14,8 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef CODEC_H_
-#define CODEC_H_
-
-#include <vector>
+#ifndef RECIPIENT_H_
+#define RECIPIENT_H_
 
 #include "Message.h"
 
@@ -25,43 +23,33 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * Encodes and decodes messages to and from raw bytes.
+	 * The function signature required to receive messages. A recipient can consume a message, stopping it from being
+	 * sent to any remaining recipients.
 	 * </p>
+	 *
+	 * @param The message being received.
+	 *
+	 * @return True if the message has been consumed, false otherwise.
 	 */
-	class SIMPLE_API Codec
+	using Recipient = bool(const Message&);
+
+	// TODO Replace with system ID based sending (0 = all connected systems)
+	namespace RecipientCategory
 	{
-		public:
-			/**
-			 * <p>
-			 * Allows polymorphism.
-			 * </p>
-			 */
-			virtual ~Codec()
-			{
-			}
+		/**
+		 * <p>
+		 * All clients.
+		 * </p>
+		 */
+		static const unsigned short CLIENT = 0;
 
-			/**
-			 * <p>
-			 * Decodes a message from raw bytes.
-			 * </p>
-			 *
-			 * @param data The raw bytes to decode the message from.
-			 *
-			 * @return The decoded message.
-			 */
-			virtual Message decode(const byte* data) = 0;
-
-			/**
-			 * <p>
-			 * Encodes a message to raw bytes.
-			 * </p>
-			 *
-			 * @param message The message to encode.
-			 *
-			 * @return The encoded message.
-			 */
-			virtual std::vector<byte> encode(const Message& message) = 0;
-	};
+		/**
+		 * <p>
+		 * The server.
+		 * </p>
+		 */
+		static const unsigned short SERVER = 1;
+	}
 }
 
-#endif /* CODEC_H_ */
+#endif /* RECIPIENT_H_ */

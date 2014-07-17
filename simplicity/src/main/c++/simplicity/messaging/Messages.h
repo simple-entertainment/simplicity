@@ -21,26 +21,21 @@
 #include <memory>
 
 #include "Codec.h"
-#include "Message.h"
+#include "Recipient.h"
 
 namespace simplicity
 {
 	class MessagingEngine;
 
-	/**
-	* <p>
-	* The function signature required to receive messages. A recipient can consume a message, stopping it from being
-	* sent to any remaining recipients.
-	* </p>
-	*
-	* @param The message being received.
-	*
-	* @return True if the message has been consumed, false otherwise.
-	*/
-	using Recipient = bool(const Message&);
-
 	namespace Messages
 	{
+		/**
+		 * <p>
+		 * Adds an engine that will forward the messages.
+		 * </p>
+		 *
+		 * @param engine The engine to add.
+		 */
 		SIMPLE_API void addEngine(MessagingEngine* engine);
 
 		/**
@@ -54,15 +49,24 @@ namespace simplicity
 		SIMPLE_API void deregisterRecipient(unsigned short subject, std::function<Recipient> recipient);
 
 		/**
-		* <p>
-		* Deregisters the given recipient category from the given subject.
-		* </p>
-		*
-		* @param subject The subject to deregister the recipient from.
-		* @param recipientCategory The recipient category to deregister.
-		*/
+		 * <p>
+		 * Deregisters the given recipient category from the given subject.
+		 * </p>
+		 *
+		 * @param subject The subject to deregister the recipient from.
+		 * @param recipientCategory The recipient category to deregister.
+		 */
 		SIMPLE_API void deregisterRecipient(unsigned short subject, unsigned short recipientCategory);
 
+		/**
+		 * <p>
+		 * Retrieves the codec used to encode and decode messages for the given subject.
+		 * </p>
+		 *
+		 * @param subject The subject to rertieve the codec for.
+		 *
+		 * @return The codec used to encode and decode messages for the given subject.
+		 */
 		SIMPLE_API Codec* getCodec(unsigned short subject);
 
 		/**
@@ -76,15 +80,22 @@ namespace simplicity
 		SIMPLE_API void registerRecipient(unsigned short subject, std::function<Recipient> recipient);
 
 		/**
-		* <p>
-		* Registers a recipient category for the given subject.
-		* </p>
-		*
-		* @param subject The subject to register the recipient with.
-		* @param recipientCategory The recipient category to send messages of the given subject to.
-		*/
+		 * <p>
+		 * Registers a recipient category for the given subject.
+		 * </p>
+		 *
+		 * @param subject The subject to register the recipient with.
+		 * @param recipientCategory The recipient category to send messages of the given subject to.
+		 */
 		SIMPLE_API void registerRecipient(unsigned short subject, unsigned short recipientCategory);
 
+		/**
+		 * <p>
+		 * Removes an engine that was forward the messages.
+		 * </p>
+		 *
+		 * @param engine The engine to remove.
+		 */
 		SIMPLE_API void removeEngine(const MessagingEngine& engine);
 
 		/**
@@ -96,6 +107,14 @@ namespace simplicity
 		 */
 		SIMPLE_API void send(const Message& message);
 
+		/**
+		 * <p>
+		 * Sets the codec used to encode and decode messages for the given subject.
+		 * </p>
+		 *
+		 * @param subject The subject to set the codec for.
+		 * @param codec The codec used to encode and decode messages for the given subject.
+		 */
 		SIMPLE_API void setCodec(unsigned short subject, std::unique_ptr<Codec> codec);
 	}
 }

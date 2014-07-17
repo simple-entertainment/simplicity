@@ -24,6 +24,12 @@
 
 namespace simplicity
 {
+	/**
+	 * <p>
+	 * A codec that can be used to encode and decode basic value types such as structs. A SimpleCodec<nullptr_t> will
+	 * produce zero bytes when encoded.
+	 * </p>
+	 */
 	template<typename BodyType>
 	class SimpleCodec : public simplicity::Codec
 	{

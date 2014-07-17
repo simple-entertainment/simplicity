@@ -65,6 +65,7 @@
 #include "messaging/Message.h"
 #include "messaging/Messages.h"
 #include "messaging/MessagingEngine.h"
+#include "messaging/Recipient.h"
 #include "messaging/SimpleCodec.h"
 #include "messaging/SimpleMessagingEngine.h"
 #include "messaging/Subject.h"

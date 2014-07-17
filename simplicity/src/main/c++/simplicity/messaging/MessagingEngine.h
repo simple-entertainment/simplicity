@@ -22,13 +22,6 @@
 
 namespace simplicity
 {
-	namespace RecipientCategory
-	{
-		static const unsigned short CLIENT = 0;
-
-		static const unsigned short SERVER = 1;
-	}
-
 	/**
 	 * <p>
 	 * An engine that forwards messages from senders to receivers.
