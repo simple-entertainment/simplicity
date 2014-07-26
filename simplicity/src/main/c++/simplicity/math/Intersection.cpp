@@ -88,15 +88,24 @@ namespace simplicity
 
 		bool contains(const Mesh& mesh, const Point& point, const Matrix44& relativeTransform)
 		{
-			const unsigned int* indices = mesh.getIndices();
-			const Vertex* vertices = mesh.getVertices();
-			for (unsigned int index = 0; index < mesh.getIndexCount(); index += 3)
+			const MeshData& meshData = mesh.getData();
+
+			bool result = contains(meshData, point, relativeTransform);
+
+			mesh.releaseData();
+
+			return result;
+		}
+
+		bool contains(const MeshData& meshData, const Point& point, const Matrix44& relativeTransform)
+		{
+			for (unsigned int index = 0; index < meshData.size(); index += 3)
 			{
-				Vector3 edge0 = vertices[indices[index + 1]].position - vertices[indices[index]].position;
-				Vector3 edge1 = vertices[indices[index + 2]].position - vertices[indices[index]].position;
+				Vector3 edge0 = meshData[index + 1].position - meshData[index].position;
+				Vector3 edge1 = meshData[index + 2].position - meshData[index].position;
 
 				Vector3 normal = crossProduct(edge0, edge1);
-				Plane plane(normal, vertices[indices[index]].position);
+				Plane plane(normal, meshData[index].position);
 
 				Vector3 pointVector((relativeTransform * Vector4(point.getPoint(), 1.0f)).getData());
 
@@ -111,15 +120,24 @@ namespace simplicity
 
 		bool contains(const Mesh& mesh, const Triangle& triangle, const Matrix44& relativeTransform)
 		{
-			const unsigned int* indices = mesh.getIndices();
-			const Vertex* vertices = mesh.getVertices();
-			for (unsigned int index = 0; index < mesh.getIndexCount(); index += 3)
+			const MeshData& meshData = mesh.getData();
+
+			bool result = contains(meshData, triangle, relativeTransform);
+
+			mesh.releaseData();
+
+			return result;
+		}
+
+		bool contains(const MeshData& meshData, const Triangle& triangle, const Matrix44& relativeTransform)
+		{
+			for (unsigned int index = 0; index < meshData.size(); index += 3)
 			{
-				Vector3 edge0 = vertices[indices[index + 1]].position - vertices[indices[index]].position;
-				Vector3 edge1 = vertices[indices[index + 2]].position - vertices[indices[index]].position;
+				Vector3 edge0 = meshData[index + 1].position - meshData[index].position;
+				Vector3 edge1 = meshData[index + 2].position - meshData[index].position;
 
 				Vector3 normal = crossProduct(edge0, edge1);
-				Plane plane(normal, vertices[indices[index]].position);
+				Plane plane(normal, meshData[index].position);
 
 				Vector3 pointA((relativeTransform * Vector4(triangle.getPointA(), 1.0f)).getData());
 				Vector3 pointB((relativeTransform * Vector4(triangle.getPointB(), 1.0f)).getData());

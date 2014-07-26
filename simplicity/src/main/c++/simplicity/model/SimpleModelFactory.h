@@ -23,16 +23,14 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * An ModelFactory implementation that uses the SimpleMesh.
+	 * An ModelFactory implementation that uses the SimpleMeshBuffer.
 	 * </p>
 	 */
 	class SIMPLE_API SimpleModelFactory : public ModelFactory
 	{
 		public:
-			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices, Mesh::Access access) override;
-
-			std::unique_ptr<Mesh> createMesh(const std::vector<Vertex>& vertices,
-				const std::vector<unsigned int>& indices, Mesh::Access access) override;
+			std::shared_ptr<MeshBuffer> createBuffer(unsigned int vertexCount, unsigned int indexCount,
+					MeshBuffer::AccessHint accessHint) override;
 	};
 }
 

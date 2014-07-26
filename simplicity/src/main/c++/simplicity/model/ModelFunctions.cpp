@@ -63,7 +63,8 @@ namespace simplicity
 			}
 		};
 
-		vector<MeshIntersection> getIntersections(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform);
+		vector<MeshIntersection> getIntersections(const MeshData& lhsData, const MeshData& rhsData,
+				const Matrix44& relativeTransform);
 
 		void getSortedEdgePoints(const vector<MeshIntersection>& intersections, const Line& lhsEdge,
 				map<float, Vector3>& sortedEdgePoints);
@@ -71,14 +72,14 @@ namespace simplicity
 		void getSortedIntersectionPoints(const vector<MeshIntersection>& intersections, const Line& lhsEdge,
 				map<float, Vector3>& sortedIntersectionPoints);
 
-		void removeIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+		void removeIntersection(const MeshData& lhsData, const MeshData& rhsData, vector<Vertex>& newVertices,
 				vector<unsigned int>& newIndices, const Matrix44& relativeTransform);
 
 		/*
 		 * TODO Instead of using a 'template' vertex we should really be interpolating the normal, color and texture
 		 * coordinates from the original vertices of the lhs triangle.
 		 */
-		void removeIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+		void removeIntersection(const MeshData& lhsData, const MeshData& rhsData, vector<Vertex>& newVertices,
 				vector<unsigned int>& newIndices, const Triangle& lhsTriangle, unsigned int lhsTriangleIndex,
 				unsigned int nextLhsTriangleIndex, const vector<MeshIntersection>* intersections,
 				bool* currentIntersectionsAtEdge, const Matrix44& inverseRelativeTransform);
@@ -87,14 +88,14 @@ namespace simplicity
 				const vector<MeshIntersection>& intersections, const Line& lhsEdge, const Vertex& templateVertex,
 				bool intersectionAtEdge);
 
-		void retainIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+		void retainIntersection(const MeshData& lhsData, const Mesh& rhsData, vector<Vertex>& newVertices,
 				vector<unsigned int>& newIndices, const Matrix44& relativeTransform);
 
 		/*
 		 * TODO Instead of using a 'template' vertex we should really be interpolating the normal, color and texture
 		 * coordinates from the original vertices of the lhs triangle.
 		 */
-		void retainIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+		void retainIntersection(const MeshData& lhsData, const MeshData& rhsData, vector<Vertex>& newVertices,
 				vector<unsigned int>& newIndices, const Triangle& lhsTriangle, unsigned int lhsTriangleIndex,
 				unsigned int nextLhsTriangleIndex, const vector<MeshIntersection>* intersections,
 				const Matrix44& inverseRelativeTransform);
@@ -176,32 +177,29 @@ namespace simplicity
 			return move(bounds);
 		}
 
-		vector<MeshIntersection> getIntersections(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform)
+		vector<MeshIntersection> getIntersections(const MeshData& lhsData, const MeshData& rhsData,
+				const Matrix44& relativeTransform)
 		{
 			vector<MeshIntersection> intersections;
 
 			Matrix44 inverseRelativeTransform = relativeTransform;
 			inverseRelativeTransform.invert();
 
-			for (unsigned int lhsIndex = 0; lhsIndex < lhs.getIndexCount(); lhsIndex += 3)
+			for (unsigned int lhsIndex = 0; lhsIndex < lhsData.indexCount; lhsIndex += 3)
 			{
-				Triangle lhsTriangle(lhs.getVertices()[lhs.getIndices()[lhsIndex]].position,
-						lhs.getVertices()[lhs.getIndices()[lhsIndex + 1]].position,
-						lhs.getVertices()[lhs.getIndices()[lhsIndex + 2]].position);
+				Triangle lhsTriangle(lhsData[lhsIndex].position, lhsData[lhsIndex + 1].position,
+						lhsData[lhsIndex + 2].position);
 
 				Vector3 lhsEdge0 = lhsTriangle.getPointB() - lhsTriangle.getPointA();
 				Vector3 lhsEdge1 = lhsTriangle.getPointC() - lhsTriangle.getPointA();
 				Vector3 lhsNormal = crossProduct(lhsEdge0, lhsEdge1);
 				lhsNormal.normalize();
 
-				for (unsigned int rhsIndex = 0; rhsIndex < rhs.getIndexCount(); rhsIndex += 3)
+				for (unsigned int rhsIndex = 0; rhsIndex < rhsData.indexCount; rhsIndex += 3)
 				{
-					Vector3 rhsPointA((relativeTransform *
-							Vector4(rhs.getVertices()[rhs.getIndices()[rhsIndex]].position, 1.0f)).getData());
-					Vector3 rhsPointB((relativeTransform *
-							Vector4(rhs.getVertices()[rhs.getIndices()[rhsIndex + 1]].position, 1.0f)).getData());
-					Vector3 rhsPointC((relativeTransform *
-							Vector4(rhs.getVertices()[rhs.getIndices()[rhsIndex + 2]].position, 1.0f)).getData());
+					Vector3 rhsPointA((relativeTransform * Vector4(rhsData[rhsIndex].position, 1.0f)).getData());
+					Vector3 rhsPointB((relativeTransform * Vector4(rhsData[rhsIndex + 1].position, 1.0f)).getData());
+					Vector3 rhsPointC((relativeTransform * Vector4(rhsData[rhsIndex + 2].position, 1.0f)).getData());
 					Triangle rhsTriangle(rhsPointA, rhsPointB, rhsPointC);
 
 					Vector3 rhsEdge0 = rhsPointB - rhsPointA;
@@ -341,13 +339,13 @@ namespace simplicity
 			return move(bounds);
 		}
 
-		void removeIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+		void removeIntersection(const MeshData& lhsData, const MeshData& rhsData, vector<Vertex>& newVertices,
 				vector<unsigned int>& newIndices, const Matrix44& relativeTransform)
 		{
 			Matrix44 inverseRelativeTransform = relativeTransform;
 			inverseRelativeTransform.invert();
 
-			vector<MeshIntersection> intersections = getIntersections(lhs, rhs, relativeTransform);
+			vector<MeshIntersection> intersections = getIntersections(lhsData, rhsData, relativeTransform);
 			Triangle lhsTriangle = intersections[0].lhsTriangle;
 			unsigned int lhsTriangleIndex = 0;
 
@@ -383,7 +381,7 @@ namespace simplicity
 				// If we've finished processing an lhs triangle.
 				if (intersection.lhsTriangleIndex != lhsTriangleIndex)
 				{
-					removeIntersection(lhs, rhs, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
+					removeIntersection(lhsData, rhsData, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
 							intersection.lhsTriangleIndex, currentIntersections, currentIntersectionsAtEdge,
 							inverseRelativeTransform);
 
@@ -454,17 +452,17 @@ namespace simplicity
 				}
 			}
 
-			removeIntersection(lhs, rhs, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
-					lhs.getIndexCount() / 3, currentIntersections, currentIntersectionsAtEdge,
+			removeIntersection(lhsData, rhsData, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
+					lhsData.indexCount / 3, currentIntersections, currentIntersectionsAtEdge,
 					inverseRelativeTransform);
 		}
 
-		void removeIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+		void removeIntersection(const MeshData& lhsData, const MeshData& rhsData, vector<Vertex>& newVertices,
 				vector<unsigned int>& newIndices, const Triangle& lhsTriangle, unsigned int lhsTriangleIndex,
 				unsigned int nextLhsTriangleIndex, const vector<MeshIntersection>* intersections,
 				bool* currentIntersectionsAtEdge, const Matrix44& inverseRelativeTransform)
 		{
-			Vertex templateVertex = lhs.getVertices()[lhs.getIndices()[lhsTriangleIndex * 3]];
+			Vertex templateVertex = lhsData[lhsTriangleIndex * 3];
 
 			if (!intersections[0].empty())
 			{
@@ -500,19 +498,18 @@ namespace simplicity
 			{
 				unsigned int vertexIndex = lhsTriangleIndex * 3;
 
-				Triangle lhsTriangle(lhs.getVertices()[lhs.getIndices()[vertexIndex]].position,
-						lhs.getVertices()[lhs.getIndices()[vertexIndex + 1]].position,
-						lhs.getVertices()[lhs.getIndices()[vertexIndex + 2]].position);
+				Triangle lhsTriangle(lhsData[vertexIndex].position, lhsData[vertexIndex + 1].position,
+						lhsData[vertexIndex + 2].position);
 
-				if (Intersection::contains(rhs, lhsTriangle, inverseRelativeTransform))
+				if (Intersection::contains(rhsData, lhsTriangle, inverseRelativeTransform))
 				{
 					lhsTriangleIndex++;
 					continue;
 				}
 
-				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex]]);
-				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex + 1]]);
-				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex + 2]]);
+				newVertices.push_back(lhsData[vertexIndex]);
+				newVertices.push_back(lhsData[vertexIndex + 1]);
+				newVertices.push_back(lhsData[vertexIndex + 2]);
 
 				newIndices.push_back(newVertices.size() - 3);
 				newIndices.push_back(newVertices.size() - 2);
@@ -624,13 +621,13 @@ namespace simplicity
 			}
 		}
 
-		void retainIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+		void retainIntersection(const MeshData& lhsData, const MeshData& rhsData, vector<Vertex>& newVertices,
 				vector<unsigned int>& newIndices, const Matrix44& relativeTransform)
 		{
 			Matrix44 inverseRelativeTransform = relativeTransform;
 			inverseRelativeTransform.invert();
 
-			vector<MeshIntersection> intersections = getIntersections(lhs, rhs, relativeTransform);
+			vector<MeshIntersection> intersections = getIntersections(lhsData, rhsData, relativeTransform);
 			Triangle lhsTriangle = intersections[0].lhsTriangle;
 			unsigned int lhsTriangleIndex = 0;
 
@@ -663,7 +660,7 @@ namespace simplicity
 				// If we've finished processing an lhs triangle.
 				if (intersection.lhsTriangleIndex != lhsTriangleIndex)
 				{
-					retainIntersection(lhs, rhs, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
+					retainIntersection(lhsData, rhsData, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
 							intersection.lhsTriangleIndex, currentIntersections, inverseRelativeTransform);
 
 					lhsTriangle = intersection.lhsTriangle;
@@ -709,11 +706,11 @@ namespace simplicity
 				}
 			}
 
-			retainIntersection(lhs, rhs, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
-					lhs.getIndexCount() / 3, currentIntersections, inverseRelativeTransform);
+			retainIntersection(lhsData, rhsData, newVertices, newIndices, lhsTriangle, lhsTriangleIndex,
+					lhsData.indexCount / 3, currentIntersections, inverseRelativeTransform);
 		}
 
-		void retainIntersection(const Mesh& lhs, const Mesh& rhs, vector<Vertex>& newVertices,
+		void retainIntersection(const MeshData& lhsData, const MeshData& rhsData, vector<Vertex>& newVertices,
 				vector<unsigned int>& newIndices, const Triangle& lhsTriangle, unsigned int lhsTriangleIndex,
 				unsigned int nextLhsTriangleIndex, const vector<MeshIntersection>* intersections,
 				const Matrix44& inverseRelativeTransform)
@@ -766,7 +763,7 @@ namespace simplicity
 			}
 			center /= static_cast<float>(sortedIntersectionPoints.size());
 
-			Vertex templateVertex = lhs.getVertices()[lhs.getIndices()[lhsTriangleIndex * 3]];
+			Vertex templateVertex = lhsData[lhsTriangleIndex * 3];
 			for (unsigned int index = 0; index < sortedIntersectionPoints.size(); index++)
 			{
 				Vertex vertexA = templateVertex;
@@ -808,19 +805,18 @@ namespace simplicity
 			{
 				unsigned int vertexIndex = lhsTriangleIndex * 3;
 
-				Triangle lhsTriangle(lhs.getVertices()[lhs.getIndices()[vertexIndex]].position,
-						lhs.getVertices()[lhs.getIndices()[vertexIndex + 1]].position,
-						lhs.getVertices()[lhs.getIndices()[vertexIndex + 2]].position);
+				Triangle lhsTriangle(lhsData[vertexIndex].position, lhsData[vertexIndex + 1].position,
+						lhsData[vertexIndex + 2].position);
 
-				if (!Intersection::contains(rhs, lhsTriangle, inverseRelativeTransform))
+				if (!Intersection::contains(rhsData, lhsTriangle, inverseRelativeTransform))
 				{
 					lhsTriangleIndex++;
 					continue;
 				}
 
-				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex]]);
-				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex + 1]]);
-				newVertices.push_back(lhs.getVertices()[lhs.getIndices()[vertexIndex + 2]]);
+				newVertices.push_back(lhsData[vertexIndex]);
+				newVertices.push_back(lhsData[vertexIndex + 1]);
+				newVertices.push_back(lhsData[vertexIndex + 2]);
 
 				newIndices.push_back(newVertices.size() - 3);
 				newIndices.push_back(newVertices.size() - 2);
@@ -874,25 +870,48 @@ namespace simplicity
 			}
 		}
 
-		unique_ptr<Mesh> subtract(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform)
+		unique_ptr<Mesh> subtract(const Mesh& lhs, const Mesh& rhs, const Matrix44& relativeTransform,
+				shared_ptr<MeshBuffer> buffer)
 		{
 			vector<Vertex> newVertices;
 			vector<unsigned int> newIndices;
 
-			// Guesstimate to avoid too much allocations.
-			newVertices.reserve(lhs.getVertexCount() + rhs.getVertexCount());
-			newIndices.reserve(lhs.getIndexCount() + rhs.getIndexCount());
+			// TODO Cannot access multiple meshes at once with glMapBuffer!!! Persistent mapping will help here!
+			const MeshData& lhsData = lhs.getData();
+			const MeshData& rhsData = rhs.getData();
 
-			removeIntersection(lhs, rhs, newVertices, newIndices, relativeTransform);
+			// Guesstimate to avoid too much allocations.
+			// TODO Why bother with this? Just go direct to the buffer!!!
+			newVertices.reserve(lhsData.vertexCount + rhsData.vertexCount);
+			newIndices.reserve(lhsData.indexCount + rhsData.indexCount);
+
+			removeIntersection(lhsData, rhsData, newVertices, newIndices, relativeTransform);
 			unsigned int removeEnd = newIndices.size();
 
 			Matrix44 inverseRelativeTransform = relativeTransform;
 			inverseRelativeTransform.invert();
-			retainIntersection(rhs, lhs, newVertices, newIndices, inverseRelativeTransform);
+			retainIntersection(rhsData, lhsData, newVertices, newIndices, inverseRelativeTransform);
 			transformVertices(newVertices, relativeTransform, removeEnd);
 			flipTriangles(newVertices, newIndices, removeEnd);
 
-			return ModelFactory::getInstance().createMesh(newVertices, newIndices);
+			lhs.releaseData();
+			rhs.releaseData();
+
+			if (buffer == nullptr)
+			{
+				buffer = ModelFactory::getInstance()->createBuffer(newVertices.size(), newIndices.size());
+			}
+
+			unique_ptr<Mesh> difference(new Mesh(buffer));
+
+			MeshData& differenceData = difference->getData(false, true);
+			differenceData.vertexCount = newVertices.size();
+			memcpy(differenceData.vertexData, newVertices.data(), newVertices.size());
+			differenceData.indexCount = newIndices.size();
+			memcpy(differenceData.indexData, newIndices.data(), newIndices.size());
+			difference->releaseData();
+
+			return move(difference);
 		}
 
 		void transformVertices(std::vector<Vertex>& vertices, const Matrix44& transformation, unsigned int begin,

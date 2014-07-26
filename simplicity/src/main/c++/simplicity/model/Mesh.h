@@ -17,16 +17,21 @@
 #ifndef MESH_H_
 #define MESH_H_
 
+#include <memory>
 #include <vector>
 
+#include <GL/glew.h>
+
+#include "MeshData.h"
 #include "Model.h"
-#include "Vertex.h"
 
 namespace simplicity
 {
+	class MeshBuffer;
+
 	/**
 	 * <p>
-	 * A collection of indexed vertices.
+	 * A collection of (possibly indexed) vertices stored in a buffer.
 	 * </p>
 	 */
 	class SIMPLE_API Mesh : public Model
@@ -34,129 +39,87 @@ namespace simplicity
 		public:
 			/**
 			 * <p>
-			 * The accessibility of the mesh's internal data i.e. vertices and indices after initialization. Before the mesh is
-			 * initialized, it's internal data can be read from and written to without restriction.
+			 * An ID unique to the this model class.
 			 * </p>
 			 */
-			enum class Access
-			{
-				/**
-				 * <p>
-				 * No access is provided after initialization.
-				 * </p>
-				 */
-				NONE,
-
-				/**
-				 * <p>
-				 * Read-only access is provided after initialization.
-				 * </p>
-				 */
-				READ,
-
-				/**
-				 * <p>
-				 * Read-only access is provided after initialization. A local copy of the data is stored for access.
-				 * </p>
-				 */
-				READ_LOCAL,
-
-				/**
-				 * <p>
-				 * Read and write access is provided after initialization.
-				 * </p>
-				 */
-				READ_WRITE
-			};
+			static const unsigned int TYPE_ID = 13;
 
 			/**
 			 * <p>
-			 * Retrieves the access granted to this mesh's internal data i.e. vertices and indices after
-			 * initialization.
+			 * @param buffer The buffer to store the (possibly indexed) vertices in.
+			 * </p>
+			 */
+			Mesh(std::shared_ptr<MeshBuffer> buffer);
+
+			/**
+			 * <p>
+			 * Retrieves the buffeer the (possibly indexed) vertices are stored in.
 			 * </p>
 			 *
-			 * @return The access granted to this mesh's internal data.
+			 * @return The buffeer the (possibly indexed) vertices are stored in.
 			 */
-			virtual Access getAccess() const = 0;
+			MeshBuffer* getBuffer() const;
 
-			/**
-			* <p>
-			* Retrieves the number of indices in this mesh.
-			* </p>
-			*
-			* @return The number of indices in this mesh.
-			*/
-			virtual unsigned int getIndexCount() const = 0;
+			const Vector4& getColor() const override;
 
 			/**
 			 * <p>
-			 * Retrieves the indices into the collection of vertices.
+			 * Retrieves the (possibly indexed) vertex data. Every call to this function should be matched with a call
+			 * to releaseData when you are finished with the data.
 			 * </p>
 			 *
-			 * @return The indices into the collection of vertices.
+			 * @param readable Determines whether the data returned should be readable.
+			 * @param writable Determines whether the data returned should be writable.
+			 *
+			 * @return The (possibly indexed) vertex data.
 			 */
-			virtual unsigned int* getIndices() = 0;
+			MeshData& getData(bool readable, bool writable);
 
 			/**
 			 * <p>
-			 * Retrieves the indices into the collection of vertices.
+			 * Retrieves the (possibly indexed) vertex data. Every call to this function should be matched with a call
+			 * to releaseData when you are finished with the data.
 			 * </p>
 			 *
-			 * @return The indices into the collection of vertices.
+			 * @return The (possibly indexed) vertex data.
 			 */
-			virtual const unsigned int* getIndices() const = 0;
+			const MeshData& getData() const;
 
-			/**
-			* <p>
-			* Retrieves the number of vertices in this mesh.
-			* </p>
-			*
-			* @return The number of vertices in this mesh.
-			*/
-			virtual unsigned int getVertexCount() const = 0;
+			Texture* getNormalMap() const override;
 
-			/**
-			 * <p>
-			 * Retrieves the collection of vertices.
-			 * </p>
-			 *
-			 * @return The collection of vertices.
-			 */
-			virtual Vertex* getVertices() = 0;
+			PrimitiveType getPrimitiveType() const override;
+
+			Texture* getTexture() const override;
+
+			unsigned short getTypeID() const override;
+
+			bool isVisible() const override;
 
 			/**
 			 * <p>
-			 * Retrieves the collection of vertices.
+			 * Releases the (possibly indexed) vertex data.
 			 * </p>
-			 *
-			 * @return The collection of vertices.
 			 */
-			virtual const Vertex* getVertices() const = 0;
+			void releaseData() const;
 
-			/**
-			 * <p>
-			 * Initializes this mesh.
-			 * </p>
-			 */
-			virtual void init() = 0;
+			void setColor(const Vector4& color) override;
 
-			/**
-			 * <p>
-			 * Resizes the indices into the collection of vertices.
-			 * </p>
-			 *
-			 * @param size The new size of the indices into the collection of vertices.
-			 */
-			virtual void resizeIndices(unsigned int size) = 0;
+			void setNormalMap(Texture* normalMap) override;
 
-			/**
-			 * <p>
-			 * Resizes the collection of vertices.
-			 * </p>
-			 *
-			 * @param size The new size of the collection of vertices.
-			 */
-			virtual void resizeVertices(unsigned int size) = 0;
+			void setPrimitiveType(PrimitiveType primitiveType) override;
+
+			void setTexture(Texture* texture) override;
+
+			void setVisible(bool visible) override;
+
+		private:
+			std::shared_ptr<MeshBuffer> buffer;
+
+			Vector4 color;
+
+			PrimitiveType primitiveType;
+
+			bool visible;
 	};
 }
 

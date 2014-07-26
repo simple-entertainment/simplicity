@@ -73,6 +73,8 @@
 // Model
 #include "model/Line.h"
 #include "model/Mesh.h"
+#include "model/MeshBuffer.h"
+#include "model/MeshData.h"
 #include "model/Model.h"
 #include "model/ModelFactory.h"
 #include "model/ModelFunctions.h"
@@ -87,7 +89,6 @@
 #include "model/shape/Square.h"
 #include "model/shape/Torus.h"
 #include "model/shape/Triangle.h"
-#include "model/SimpleMesh.h"
 #include "model/SimpleModelFactory.h"
 #include "model/Text.h"
 #include "model/Vertex.h"

@@ -92,6 +92,19 @@ namespace simplicity
 
 		/**
 		 * <p>
+		 * Determines if a mesh contains a point.
+		 * </p>
+		 *
+		 * @param meshData The container.
+		 * @param point The containee.
+		 * @param relativeTransform The position and orientation of the point relative to the mesh.
+		 *
+		 * @return True if the mesh contains the point, false otherwise.
+		 */
+		SIMPLE_API bool contains(const MeshData& meshData, const Point& point, const Matrix44& relativeTransform);
+
+		/**
+		 * <p>
 		 * Determines if a mesh contains a triangle.
 		 * </p>
 		 *
@@ -102,6 +115,19 @@ namespace simplicity
 		 * @return True if the mesh contains the triangle, false otherwise.
 		 */
 		SIMPLE_API bool contains(const Mesh& mesh, const Triangle& triangle, const Matrix44& relativeTransform);
+
+		/**
+		 * <p>
+		 * Determines if a mesh contains a triangle.
+		 * </p>
+		 *
+		 * @param meshData The container.
+		 * @param triangle The containee.
+		 * @param relativeTransform The position and orientation of the triangle relative to the mesh.
+		 *
+		 * @return True if the mesh contains the triangle, false otherwise.
+		 */
+		SIMPLE_API bool contains(const MeshData& meshData, const Triangle& triangle, const Matrix44& relativeTransform);
 
 		/**
 		 * <p>

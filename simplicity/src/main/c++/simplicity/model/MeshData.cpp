@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,16 +14,45 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "SimpleMeshBuffer.h"
-#include "SimpleModelFactory.h"
-
-using namespace std;
+#include "MeshData.h"
 
 namespace simplicity
 {
-	shared_ptr<MeshBuffer> SimpleModelFactory::createBuffer(unsigned int vertexCount, unsigned int indexCount,
-			MeshBuffer::AccessHint accessHint)
+	MeshData::MeshData() :
+		vertexCount(0),
+		vertexData(nullptr),
+		indexCount(0),
+		indexData(nullptr)
 	{
-		return shared_ptr<MeshBuffer>(new SimpleMeshBuffer(vertexCount, indexCount, accessHint));
+	}
+
+	Vertex& MeshData::operator[](unsigned int index)
+	{
+		if (indexCount == 0)
+		{
+			return vertexData[index];
+		}
+
+		return vertexData[indexData[index]];
+	}
+
+	const Vertex& MeshData::operator[](unsigned int index) const
+	{
+		if (indexCount == 0)
+		{
+			return vertexData[index];
+		}
+
+		return vertexData[indexData[index]];
+	}
+
+	unsigned int MeshData::size() const
+	{
+		if (indexCount == 0)
+		{
+			return vertexCount;
+		}
+
+		return indexCount;
 	}
 }

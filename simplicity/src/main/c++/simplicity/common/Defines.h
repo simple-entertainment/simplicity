@@ -39,7 +39,8 @@
 #ifdef SIMPLE_WINDOWS
 #   define DEBUG_BREAK __debugbreak()
 #else
-#   define DEBUG_BREAK 
+#   include <signal.h>
+#   define DEBUG_BREAK raise(SIGTRAP)
 #endif
 
 namespace simplicity

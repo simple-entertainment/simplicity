@@ -204,12 +204,13 @@ namespace simplicity
 		 *
 		 * @param lhs The model to subtract from.
 		 * @param rhs The model to subtract.
+	     * @param buffer The buffer used to store the difference mesh data (optional).
 		 * @param relativeTransform The position and orientation of the rhs model relative to the lhs model.
 		 *
-		 * @return The result of the subtraction.
+		 * @return The difference.
 		 */
 		SIMPLE_API std::unique_ptr<Mesh> subtract(const Mesh& lhs, const Mesh& rhs,
-				const Matrix44& relativeTransform);
+				const Matrix44& relativeTransform, std::shared_ptr<MeshBuffer> buffer = nullptr);
 
 		/**
 		 * <p>
