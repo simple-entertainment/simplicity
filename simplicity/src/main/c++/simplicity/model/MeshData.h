@@ -32,6 +32,20 @@ namespace simplicity
 
 		/**
 		 * <p>
+		 * The number of indices in the mesh.
+		 * </p>
+		 */
+		unsigned int indexCount;
+
+		/**
+		 * <p>
+		 * The indices in the mesh.
+		 * </p>
+		 */
+		unsigned int* indexData;
+
+		/**
+		 * <p>
 		 * The number of vertices in the mesh.
 		 * </p>
 		 */
@@ -43,20 +57,6 @@ namespace simplicity
 		 * </p>
 		 */
 		Vertex* vertexData;
-
-		/**
-		 * <p>
-		 * The number of indices in the mesh.
-		 * </p>
-		 */
-		unsigned int vertexData;
-
-		/**
-		 * <p>
-		 * The indices in the mesh.
-		 * </p>
-		 */
-		unsigned int* indexData;
 
 		/**
 		 * <p>
