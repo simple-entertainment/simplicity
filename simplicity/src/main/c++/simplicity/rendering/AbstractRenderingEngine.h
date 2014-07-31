@@ -78,8 +78,7 @@ namespace simplicity
 
 			Entity* camera;
 
-			// TODO Support all model types?
-			std::map<Mesh*, std::set<Entity*>> entitiesByModel;
+			std::map<Model*, std::set<Entity*>> entitiesByModel;
 
 			Graph* graph;
 
@@ -87,14 +86,11 @@ namespace simplicity
 
 			std::vector<Entity*> lights;
 
-			// TODO Support all model types?
-			std::map<MeshBuffer*, std::set<Mesh*>> modelsByBuffer;
+			std::map<MeshBuffer*, std::set<Model*>> modelsByBuffer;
 
 			std::vector<std::unique_ptr<Renderer>> renderers;
 
 			int width;
-
-			virtual void bind(const MeshBuffer& buffer) = 0;
 
 			virtual void dispose() = 0;
 
@@ -105,8 +101,6 @@ namespace simplicity
 			virtual void postAdvance() = 0;
 
 			virtual bool preAdvance() = 0;
-
-			void render(Renderer& renderer, const Entity& entity);
 	};
 }
 

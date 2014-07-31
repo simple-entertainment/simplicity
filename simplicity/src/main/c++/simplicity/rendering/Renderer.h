@@ -14,6 +14,7 @@
 
 #include <memory>
 
+#include "../model/MeshBuffer.h"
 #include "../model/Model.h"
 #include "Pipeline.h"
 
@@ -107,12 +108,14 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Renders a model.
+			 * Renders models in a buffer.
 			 * </p>
 			 *
-			 * @param model The model.
+			 * @param buffer The buffer the models are contained in.
+			 * @param modelsAndTransforms The models to render and the transforms to apply to them.
 			 */
-			virtual void render(const Model& model) = 0;
+			virtual void render(const MeshBuffer& buffer,
+					const std::vector<std::pair<Model*, Matrix44>>& modelsAndTransforms) = 0;
 
 			/**
 			 * <p>

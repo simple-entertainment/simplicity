@@ -60,7 +60,6 @@ namespace simplicity
 
 		CameraProperties cameraProperties = getCameraProperties();
 
-		// TODO This is currently ignored...
 		std::vector<Entity*> entities;
 		if (cameraProperties.bounds == nullptr || graph == nullptr)
 		{
@@ -87,23 +86,23 @@ namespace simplicity
 						getPosition3(lights[index]->getTransform()));
 			}
 
-			int bufferCount = modelsByBuffer.size();
-			for (pair<MeshBuffer* const, set<Mesh*>>& bufferAndModels : modelsByBuffer)
+			for (pair<MeshBuffer* const, set<Model*>>& bufferAndModels : modelsByBuffer)
 			{
-				bind(*bufferAndModels.first);
+				vector<pair<Model*, Matrix44>> modelsAndTransforms;
+				modelsAndTransforms.reserve(bufferAndModels.second.size());
 
-				int modelCount = bufferAndModels.second.size();
-				for (Mesh* model : bufferAndModels.second)
+				for (Model* model : bufferAndModels.second)
 				{
-					int entityCount = entitiesByModel[model].size();
 					for (Entity* entity : entitiesByModel[model])
 					{
-						renderer->getDefaultPipeline()->set("worldTransform", entity->getTransform() *
-								model->getTransform());
-
-						renderer->render(*model);
+						// TODO Should check whether enitiy is in the entities vector...
+						// maybe a set would be faster to check?
+						modelsAndTransforms.push_back(pair<Model*, Matrix44>(model, entity->getTransform() *
+								model->getTransform()));
 					}
 				}
+
+				renderer->render(*bufferAndModels.first, modelsAndTransforms);
 			}
 
 			renderer->dispose();
@@ -169,10 +168,11 @@ namespace simplicity
 
 	void AbstractRenderingEngine::onAddEntity(Entity& entity)
 	{
-		for (Mesh* model : entity.getComponents<Mesh>(Category::RENDER))
+		// TODO Support all model types?
+		for (Mesh* mesh : entity.getComponents<Mesh>(Category::RENDER))
 		{
-			entitiesByModel[model].insert(&entity);
-			modelsByBuffer[model->getBuffer()].insert(model);
+			entitiesByModel[mesh].insert(&entity);
+			modelsByBuffer[mesh->getBuffer()].insert(mesh);
 		}
 	}
 
