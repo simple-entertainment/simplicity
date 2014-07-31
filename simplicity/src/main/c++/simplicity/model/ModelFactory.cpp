@@ -427,8 +427,8 @@ namespace simplicity
 	unique_ptr<Mesh> ModelFactory::createSphereMesh(float radius, unsigned int divisions,
 			shared_ptr<MeshBuffer> buffer, const Vector4& color, bool smooth)
 	{
-		unsigned int vertexCount = (divisions + 1) * (divisions + 1);
-		unsigned int indexCount = divisions * divisions * 6;
+		unsigned int vertexCount = pow(divisions + 1, 2);
+		unsigned int indexCount = pow(divisions, 2) * 6;
 		if (!smooth)
 		{
 			vertexCount *= 4;

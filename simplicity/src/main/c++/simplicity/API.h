@@ -101,6 +101,7 @@
 #include "physics/PhysicsFactory.h"
 
 // Rendering
+#include "rendering/AbstractRenderingEngine.h"
 #include "rendering/Camera.h"
 #include "rendering/Light.h"
 #include "rendering/Pipeline.h"

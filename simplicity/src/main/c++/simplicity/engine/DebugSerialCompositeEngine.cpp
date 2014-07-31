@@ -16,6 +16,7 @@
  */
 #include "../common/AddressEquals.h"
 #include "../common/Timer.h"
+#include "../logging/Logs.h"
 #include "DebugSerialCompositeEngine.h"
 
 using namespace std;
@@ -63,6 +64,8 @@ namespace simplicity
 			framesPerSecond = frameCount;
 			frameCount = 0;
 		}
+
+		Logs::log(Category::DEBUG_LOG, "%f\t%f\t%f", frameTime, engineFrameTimes[0], engineFrameTimes[1]);
 	}
 
 	const vector<float>& DebugSerialCompositeEngine::getEngineFrameTimes() const
