@@ -46,11 +46,6 @@ namespace simplicity
 		return positionOnPlane;
 	}
 
-	Model::PrimitiveType Plane::getPrimitiveType() const
-	{
-		return PrimitiveType::NA;
-	}
-
 	Texture* Plane::getTexture() const
 	{
 		return nullptr;
@@ -83,10 +78,6 @@ namespace simplicity
 	void Plane::setPositionOnPlane(const Vector3& positionOnPlane)
 	{
 		this->positionOnPlane = positionOnPlane;
-	}
-
-	void Plane::setPrimitiveType(PrimitiveType)
-	{
 	}
 
 	void Plane::setTexture(Texture*)

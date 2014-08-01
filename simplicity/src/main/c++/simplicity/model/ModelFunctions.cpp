@@ -899,12 +899,12 @@ namespace simplicity
 
 			if (buffer == nullptr)
 			{
-				buffer = ModelFactory::getInstance()->createBuffer(newVertices.size(), newIndices.size());
+				buffer = ModelFactory::getInstance()->createMeshBuffer(newVertices.size(), newIndices.size());
 			}
 
 			unique_ptr<Mesh> difference(new Mesh(buffer));
 
-			MeshData& differenceData = difference->getData(false, true);
+			MeshData& differenceData = difference->getData(false);
 			differenceData.vertexCount = newVertices.size();
 			memcpy(differenceData.vertexData, newVertices.data(), newVertices.size());
 			differenceData.indexCount = newIndices.size();

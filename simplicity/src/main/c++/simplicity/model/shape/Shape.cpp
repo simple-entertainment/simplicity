@@ -40,11 +40,6 @@ namespace simplicity
 		return nullptr;
 	}
 
-	Model::PrimitiveType Shape::getPrimitiveType() const
-	{
-		return PrimitiveType::NA;
-	}
-
 	Texture* Shape::getTexture() const
 	{
 		return nullptr;
@@ -66,10 +61,6 @@ namespace simplicity
 	}
 
 	void Shape::setNormalMap(Texture*)
-	{
-	}
-
-	void Shape::setPrimitiveType(PrimitiveType /* primitiveType */)
 	{
 	}
 

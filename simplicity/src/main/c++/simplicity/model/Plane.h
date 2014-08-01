@@ -64,8 +64,6 @@ namespace simplicity
 			 */
 			const Vector3& getPositionOnPlane() const;
 
-			PrimitiveType getPrimitiveType() const override;
-
 			Texture* getTexture() const override;
 
 			unsigned short getTypeID() const override;
@@ -93,8 +91,6 @@ namespace simplicity
 			 * @param positionOnPlane A position on the plane.
 			 */
 			void setPositionOnPlane(const Vector3& positionOnPlane);
-
-			void setPrimitiveType(PrimitiveType primitiveType) override;
 
 			void setTexture(Texture* texture) override;
 

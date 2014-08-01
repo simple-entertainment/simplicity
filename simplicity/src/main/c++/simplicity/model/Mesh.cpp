@@ -24,7 +24,6 @@ namespace simplicity
 	Mesh::Mesh(shared_ptr<MeshBuffer> buffer) :
 			buffer(buffer),
 			color(0.0f, 0.0f, 0.0f, 1.0f),
-			primitiveType(PrimitiveType::TRIANGLE_LIST),
 			visible(true)
 	{
 	}
@@ -39,9 +38,9 @@ namespace simplicity
 		return color;
 	}
 
-	MeshData& Mesh::getData(bool readable, bool writable)
+	MeshData& Mesh::getData(bool readable)
 	{
-		return buffer->getData(*this, readable, writable);
+		return buffer->getData(*this, readable);
 	}
 
 	const MeshData& Mesh::getData() const
@@ -52,11 +51,6 @@ namespace simplicity
 	Texture* Mesh::getNormalMap() const
 	{
 		return nullptr;
-	}
-
-	Model::PrimitiveType Mesh::getPrimitiveType() const
-	{
-		return primitiveType;
 	}
 
 	Texture* Mesh::getTexture() const
@@ -86,11 +80,6 @@ namespace simplicity
 
 	void Mesh::setNormalMap(Texture* /* normalMap */)
 	{
-	}
-
-	void Mesh::setPrimitiveType(PrimitiveType)
-	{
-		this->primitiveType = primitiveType;
 	}
 
 	void Mesh::setTexture(Texture* /* texture */)

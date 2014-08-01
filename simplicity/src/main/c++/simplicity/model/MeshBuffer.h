@@ -17,6 +17,7 @@
 #ifndef MESHBUFFER_H_
 #define MESHBUFFER_H_
 
+#include "../common/Buffer.h"
 #include "Mesh.h"
 
 namespace simplicity
@@ -31,38 +32,45 @@ namespace simplicity
 		public:
 			/**
 			 * <p>
-			 * A hint for the accessibility of the buffer's data.
+			 * The type of primitive the models in a buffer are constructed from.
 			 * </p>
 			 */
-			enum class AccessHint
+			enum class PrimitiveType
 			{
 				/**
 				 * <p>
-				 * No access is required.
+				 * A list of lines.
 				 * </p>
 				 */
-				NONE,
+				LINE_LIST,
 
 				/**
 				 * <p>
-				 * Read-only access is required.
+				 * A strip of lines.
 				 * </p>
 				 */
-				READ,
+				LINE_STRIP,
 
 				/**
 				 * <p>
-				 * Read and write access is required.
+				 * A list of points.
 				 * </p>
 				 */
-				READ_WRITE,
+				POINTS,
 
 				/**
 				 * <p>
-				 * Write access is required.
+				 * A list of triangles.
 				 * </p>
 				 */
-				WRITE
+				TRIANGLE_LIST,
+
+				/**
+				 * <p>
+				 * A strip of triangles.
+				 * </p>
+				 */
+				TRIANGLE_STRIP
 			};
 
 			/**
@@ -81,7 +89,7 @@ namespace simplicity
 			 *
 			 * @return The hinted accessibility of this buffer's data.
 			 */
-			virtual AccessHint getAccessHint() const = 0;
+			virtual Buffer::AccessHint getAccessHint() const = 0;
 
 			/**
 			 * <p>
@@ -111,13 +119,16 @@ namespace simplicity
 			 * matched with a call to releaseData with the same mesh when you are finished with the data.
 			 * </p>
 			 *
+			 * <p>
+			 * Prefer the const overload of this function if you do not need to write to this buffer.
+			 * </p>
+			 *
 			 * @param mesh The mesh to retrieve the data for.
 			 * @param readable Determines whether the data returned should be readable.
-			 * @param writable Determines whether the data returned should be writable.
 			 *
 			 * @return The (possibly indexed) vertex data for the given mesh.
 			 */
-			virtual MeshData& getData(const Mesh& mesh, bool readable, bool writable) = 0;
+			virtual MeshData& getData(const Mesh& mesh, bool readable) = 0;
 
 			/**
 			 * <p>
@@ -141,6 +152,15 @@ namespace simplicity
 			 * @return The number of indices stored for the given mesh. Returns 0 if this buffer is not indexed.
 			 */
 			virtual unsigned int getIndexCount(const Mesh& mesh) const = 0;
+
+			/**
+			 * <p>
+			 * Retrieves the type of primitive the models in is buffer are constructed from.
+			 * </p>
+			 *
+			 * @return The type of primitive the models in is buffer are constructed from.
+			 */
+			virtual PrimitiveType getPrimitiveType() const = 0;
 
 			/**
 			 * <p>
@@ -170,6 +190,15 @@ namespace simplicity
 			 * @param mesh The mesh to release the data for.
 			 */
 			virtual void releaseData(const Mesh& mesh) const = 0;
+
+			/**
+			 * <p>
+			 * Sets the type of primitive the models in is buffer are constructed from.
+			 * </p>
+			 *
+			 * @param primitiveType The type of primitive the models in is buffer are constructed from.
+			 */
+			virtual void setPrimitiveType(PrimitiveType primitiveType) = 0;
 	};
 }
 

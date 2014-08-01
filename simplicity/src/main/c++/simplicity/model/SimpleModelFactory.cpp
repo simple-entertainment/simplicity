@@ -21,8 +21,8 @@ using namespace std;
 
 namespace simplicity
 {
-	shared_ptr<MeshBuffer> SimpleModelFactory::createBuffer(unsigned int vertexCount, unsigned int indexCount,
-			MeshBuffer::AccessHint accessHint)
+	shared_ptr<MeshBuffer> SimpleModelFactory::createMeshBuffer(unsigned int vertexCount, unsigned int indexCount,
+			Buffer::AccessHint accessHint)
 	{
 		return shared_ptr<MeshBuffer>(new SimpleMeshBuffer(vertexCount, indexCount, accessHint));
 	}

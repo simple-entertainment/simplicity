@@ -19,6 +19,7 @@
 
 #include <string>
 
+#include "../common/Buffer.h"
 #include "../math/Matrix.h"
 #include "../math/Vector.h"
 
@@ -47,6 +48,16 @@ namespace simplicity
 			 * </p>
 			 */
 			virtual void apply() = 0;
+
+			/**
+			 * <p>
+			 * Sets a variable for use in the shaders.
+			 * </p>
+			 *
+			 * @param name The name of the variable to set.
+			 * @param value The value to set.
+			 */
+			virtual void set(const std::string& name, const Buffer& value) = 0;
 
 			/**
 			 * <p>

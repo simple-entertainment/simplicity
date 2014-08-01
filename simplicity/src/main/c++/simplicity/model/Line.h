@@ -64,8 +64,6 @@ namespace simplicity
 			 */
 			const Vector3& getPointB() const;
 
-			PrimitiveType getPrimitiveType() const override;
-
 			Texture* getTexture() const override;
 
 			unsigned short getTypeID() const override;
@@ -93,8 +91,6 @@ namespace simplicity
 			 * @param pointB The point the line ends at.
 			 */
 			void setPointB(const Vector3& pointB);
-
-			void setPrimitiveType(PrimitiveType primitiveType) override;
 
 			void setTexture(Texture* texture) override;
 

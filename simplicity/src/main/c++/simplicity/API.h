@@ -20,6 +20,7 @@
 
 // Common
 #include "common/AddressEquals.h"
+#include "common/Buffer.h"
 #include "common/Category.h"
 #include "common/Defines.h"
 #include "common/Timer.h"

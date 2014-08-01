@@ -45,8 +45,6 @@ namespace simplicity
 
 			Texture* getNormalMap() const override;
 
-			PrimitiveType getPrimitiveType() const override;
-
 			Texture* getTexture() const override;
 
 			bool isVisible() const override;
@@ -63,8 +61,6 @@ namespace simplicity
 			void setLevelOfDetail(unsigned int levelOfDetail);
 
 			void setNormalMap(Texture* texture) override;
-
-			void setPrimitiveType(PrimitiveType primitiveType) override;
 
 			void setTexture(Texture* texture) override;
 

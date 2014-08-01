@@ -62,7 +62,7 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Creates an allocated buffer with enough space for the given quantities of vertices and indices.
+			 * Creates an allocated mesh buffer with enough space for the given quantities of vertices and indices.
 			 * </p>
 			 *
 			 * @param vertexCount The number of vertices to allocate space for.
@@ -70,10 +70,10 @@ namespace simplicity
 			 * assumed to be non-indexed.
 			 * @param accessHint The hinted accessibility of the buffer's data.
 			 *
-			 * @return An allocated buffer with enough space for the given quantities of vertices and indices.
+			 * @return An allocated mesh buffer with enough space for the given quantities of vertices and indices.
 			 */
-			virtual std::shared_ptr<MeshBuffer> createBuffer(unsigned int vertexCount, unsigned int indexCount = 0,
-					MeshBuffer::AccessHint accessHint = MeshBuffer::AccessHint::NONE) = 0;
+			virtual std::shared_ptr<MeshBuffer> createMeshBuffer(unsigned int vertexCount, unsigned int indexCount = 0,
+					Buffer::AccessHint accessHint = Buffer::AccessHint::NONE) = 0;
 
 			/**
 			 * <p>

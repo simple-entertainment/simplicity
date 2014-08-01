@@ -45,8 +45,6 @@ namespace simplicity
 
 			Texture* getNormalMap() const override;
 
-			PrimitiveType getPrimitiveType() const override;
-
 			/**
 			 * <p>
 			 * Retrieves the text.
@@ -65,8 +63,6 @@ namespace simplicity
 			void setColor(const Vector4& color) override;
 
 			void setNormalMap(Texture* texture) override;
-
-			void setPrimitiveType(PrimitiveType primitiveType) override;
 
 			/**
 			 * <p>

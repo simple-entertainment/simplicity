@@ -20,22 +20,24 @@ using namespace std;
 
 namespace simplicity
 {
-	SimpleMeshBuffer::SimpleMeshBuffer(const unsigned int vertexCount, unsigned int indexCount, AccessHint accessHint) :
-			accessHint(accessHint),
-			baseIndices(),
-			baseVertices(),
-			indexCounts(),
-			indexData(indexCount),
-			indexed(indexCount > 0),
-			meshData(),
-			nextFreeIndex(0),
-			nextFreeVertex(0),
-			vertexCounts(),
-			vertexData(vertexCount)
+	SimpleMeshBuffer::SimpleMeshBuffer(const unsigned int vertexCount, unsigned int indexCount,
+			Buffer::AccessHint accessHint) :
+					accessHint(accessHint),
+					baseIndices(),
+					baseVertices(),
+					indexCounts(),
+					indexData(indexCount),
+					indexed(indexCount > 0),
+					meshData(),
+					nextFreeIndex(0),
+					nextFreeVertex(0),
+					primitiveType(PrimitiveType::TRIANGLE_LIST),
+					vertexCounts(),
+					vertexData(vertexCount)
 	{
 	}
 
-	MeshBuffer::AccessHint SimpleMeshBuffer::getAccessHint() const
+	Buffer::AccessHint SimpleMeshBuffer::getAccessHint() const
 	{
 		return accessHint;
 	}
@@ -50,7 +52,7 @@ namespace simplicity
 		return baseVertices[&mesh];
 	}
 
-	MeshData& SimpleMeshBuffer::getData(const Mesh& mesh, bool /* readable */, bool /* writable */)
+	MeshData& SimpleMeshBuffer::getData(const Mesh& mesh, bool /* readable */)
 	{
 		const MeshData& meshData = static_cast<const SimpleMeshBuffer*>(this)->getData(mesh);
 		return const_cast<MeshData&>(meshData);
@@ -90,6 +92,11 @@ namespace simplicity
 		return indexCounts[&mesh];
 	}
 
+	MeshBuffer::PrimitiveType SimpleMeshBuffer::getPrimitiveType() const
+	{
+		return primitiveType;
+	}
+
 	unsigned int SimpleMeshBuffer::getVertexCount(const Mesh& mesh) const
 	{
 		return vertexCounts[&mesh];
@@ -120,5 +127,10 @@ namespace simplicity
 				nextFreeIndex = indicesEnd;
 			}
 		}
+	}
+
+	void SimpleMeshBuffer::setPrimitiveType(PrimitiveType primitiveType)
+	{
+		this->primitiveType = primitiveType;
 	}
 }

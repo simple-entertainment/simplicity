@@ -33,56 +33,6 @@ namespace simplicity
 		public:
 			/**
 			 * <p>
-			 * The type of primitive a model is constructed from.
-			 * </p>
-			 */
-			enum class PrimitiveType
-			{
-				/**
-				 * <p>
-				 * A list of lines.
-				 * </p>
-				 */
-				LINE_LIST,
-
-				/**
-				 * <p>
-				 * A strip of lines.
-				 * </p>
-				 */
-				LINE_STRIP,
-
-				/**
-				 * <p>
-				 * The model is not constructed from primitives.
-				 * </p>
-				 */
-				NA,
-
-				/**
-				 * <p>
-				 * A list of points.
-				 * </p>
-				 */
-				POINTS,
-
-				/**
-				 * <p>
-				 * A list of triangles.
-				 * </p>
-				 */
-				TRIANGLE_LIST,
-
-				/**
-				 * <p>
-				 * A strip of triangles.
-				 * </p>
-				 */
-				TRIANGLE_STRIP
-			};
-
-			/**
-			 * <p>
 			 * User defined type IDs should start with this ID.
 			 * </p>
 			 *
@@ -126,15 +76,6 @@ namespace simplicity
 			 * @return The normal map applied to this model.
 			 */
 			virtual Texture* getNormalMap() const = 0;
-
-			/**
-			 * <p>
-			 * Retrieves the type of primitive this model is constructed from.
-			 * </p>
-			 *
-			 * @return The type of primitive this model is constructed from.
-			 */
-			virtual PrimitiveType getPrimitiveType() const = 0;
 
 			/**
 			 * <p>
@@ -216,15 +157,6 @@ namespace simplicity
 			 * @param normalMap The normal map applied to this model.
 			 */
 			virtual void setNormalMap(Texture* normalMap) = 0;
-
-			/**
-			 * <p>
-			 * Sets the type of primitive this model is constructed from.
-			 * </p>
-			 *
-			 * @param primitiveType The type of primitive this model is constructed from.
-			 */
-			virtual void setPrimitiveType(PrimitiveType primitiveType) = 0;
 
 			/**
 			 * <p>

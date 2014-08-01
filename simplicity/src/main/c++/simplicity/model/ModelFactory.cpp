@@ -42,7 +42,7 @@ namespace simplicity
 		}
 
 		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false, true);
+		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
 		meshData.vertexCount = vertexCount;
@@ -103,7 +103,7 @@ namespace simplicity
 		unsigned int indexCount = divisions * 3;
 
 		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false, true);
+		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
 		meshData.vertexCount = vertexCount;
@@ -144,7 +144,7 @@ namespace simplicity
 		}
 
 		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false, true);
+		MeshData& meshData = mesh->getData(false);
 
 		Vector3 center(0.0f, 0.0f, 0.0f);
 		Vector3 toBack(0.0f, 0.0f, -length);
@@ -202,7 +202,7 @@ namespace simplicity
 		unsigned int vertexCount = width * depth * 6;
 
 		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, vertexCount);
-		MeshData& meshData = mesh->getData(false, true);
+		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
 		meshData.vertexCount = vertexCount;
@@ -259,7 +259,7 @@ namespace simplicity
 		}
 
 		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false, true);
+		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
 		unsigned int index = 0;
@@ -318,7 +318,7 @@ namespace simplicity
 	{
 		if (buffer == nullptr)
 		{
-			buffer = createBuffer(vertexCount, indexCount);
+			buffer = createMeshBuffer(vertexCount, indexCount);
 		}
 
 		return unique_ptr<Mesh>(new Mesh(buffer));
@@ -331,7 +331,7 @@ namespace simplicity
 		unsigned int indexCount = 24;
 
 		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false, true);
+		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
 		meshData.vertexCount = vertexCount;
@@ -381,7 +381,7 @@ namespace simplicity
 		unsigned int indexCount = 18;
 
 		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false, true);
+		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
 		meshData.vertexCount = vertexCount;
@@ -435,7 +435,7 @@ namespace simplicity
 		}
 
 		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false, true);
+		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
 		unsigned int index = 0;
@@ -540,7 +540,7 @@ namespace simplicity
 		}
 
 		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false, true);
+		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
 		meshData.vertexCount = vertexCount;
@@ -574,7 +574,7 @@ namespace simplicity
 		}
 
 		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false, true);
+		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
 		meshData.vertexCount = vertexCount;
@@ -967,7 +967,7 @@ namespace simplicity
 		}
 
 		unique_ptr<Mesh> mesh = createMesh(buffer, vertices.size(), 0);
-		MeshData& meshData = mesh->getData(false, true);
+		MeshData& meshData = mesh->getData(false);
 
 		meshData.vertexCount = vertices.size();
 		memcpy(meshData.vertexData, vertices.data(), vertices.size());

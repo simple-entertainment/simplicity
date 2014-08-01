@@ -40,11 +40,6 @@ namespace simplicity
 		return point;
 	}
 
-	Model::PrimitiveType Point::getPrimitiveType() const
-	{
-		return PrimitiveType::NA;
-	}
-
 	Texture* Point::getTexture() const
 	{
 		return nullptr;
@@ -72,10 +67,6 @@ namespace simplicity
 	void Point::setPoint(const Vector3& point)
 	{
 		this->point = point;
-	}
-
-	void Point::setPrimitiveType(PrimitiveType)
-	{
 	}
 
 	void Point::setTexture(Texture*)

@@ -37,11 +37,6 @@ namespace simplicity
 		return nullptr;
 	}
 
-	Model::PrimitiveType Text::getPrimitiveType() const
-	{
-		return PrimitiveType::NA;
-	}
-
 	const string& Text::getText() const
 	{
 		return text;
@@ -68,10 +63,6 @@ namespace simplicity
 	}
 
 	void Text::setNormalMap(Texture*)
-	{
-	}
-
-	void Text::setPrimitiveType(PrimitiveType)
 	{
 	}
 

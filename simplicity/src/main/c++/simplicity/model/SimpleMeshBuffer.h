@@ -37,19 +37,21 @@ namespace simplicity
 			 * @param indexCount The number of indices to allocate space for.
 			 * @param accessHint The hinted accessibility of this buffer's data.
 			 */
-			SimpleMeshBuffer(const unsigned int vertexCount, unsigned int indexCount, AccessHint accessHint);
+			SimpleMeshBuffer(const unsigned int vertexCount, unsigned int indexCount, Buffer::AccessHint accessHint);
 
-			AccessHint getAccessHint() const override;
+			Buffer::AccessHint getAccessHint() const override;
 
 			unsigned int getBaseIndex(const Mesh& mesh) const override;
 
 			unsigned int getBaseVertex(const Mesh& mesh) const override;
 
-			MeshData& getData(const Mesh& mesh, bool readable, bool writable) override;
+			MeshData& getData(const Mesh& mesh, bool readable) override;
 
 			const MeshData& getData(const Mesh& mesh) const override;
 
 			unsigned int getIndexCount(const Mesh& mesh) const override;
+
+			PrimitiveType getPrimitiveType() const override;
 
 			unsigned int getVertexCount(const Mesh& mesh) const override;
 
@@ -57,8 +59,10 @@ namespace simplicity
 
 			void releaseData(const Mesh& mesh) const override;
 
+			void setPrimitiveType(PrimitiveType primitiveType) override;
+
 		private:
-			AccessHint accessHint;
+			Buffer::AccessHint accessHint;
 
 			mutable Mesh* accessingMesh;
 
@@ -77,6 +81,8 @@ namespace simplicity
 			mutable unsigned int nextFreeIndex;
 
 			mutable unsigned int nextFreeVertex;
+
+			PrimitiveType primitiveType;
 
 			mutable std::map<const Mesh*, unsigned int> vertexCounts;
 

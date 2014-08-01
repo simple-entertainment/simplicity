@@ -68,12 +68,15 @@ namespace simplicity
 			 * to releaseData when you are finished with the data.
 			 * </p>
 			 *
+			 * <p>
+			 * Prefer the const overload of this function if you do not need to write to this buffer.
+			 * </p>
+			 *
 			 * @param readable Determines whether the data returned should be readable.
-			 * @param writable Determines whether the data returned should be writable.
 			 *
 			 * @return The (possibly indexed) vertex data.
 			 */
-			MeshData& getData(bool readable, bool writable);
+			MeshData& getData(bool readable);
 
 			/**
 			 * <p>
@@ -86,8 +89,6 @@ namespace simplicity
 			const MeshData& getData() const;
 
 			Texture* getNormalMap() const override;
-
-			PrimitiveType getPrimitiveType() const override;
 
 			Texture* getTexture() const override;
 
@@ -106,8 +107,6 @@ namespace simplicity
 
 			void setNormalMap(Texture* normalMap) override;
 
-			void setPrimitiveType(PrimitiveType primitiveType) override;
-
 			void setTexture(Texture* texture) override;
 
 			void setVisible(bool visible) override;
@@ -116,8 +115,6 @@ namespace simplicity
 			std::shared_ptr<MeshBuffer> buffer;
 
 			Vector4 color;
-
-			PrimitiveType primitiveType;
 
 			bool visible;
 	};
