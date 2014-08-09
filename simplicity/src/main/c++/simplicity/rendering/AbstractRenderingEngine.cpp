@@ -60,16 +60,14 @@ namespace simplicity
 
 		CameraProperties cameraProperties = getCameraProperties();
 
-		std::vector<Entity*> entities;
-		if (cameraProperties.bounds == nullptr || graph == nullptr)
+		std::set<Entity*> entities;
+		if (cameraProperties.bounds != nullptr && graph != nullptr)
 		{
-			entities = Simplicity::getScene()->getEntities();
-		}
-		else
-		{
-			entities =
+			std::vector<Entity*> entityVector =
 				graph->getEntitiesWithinBounds(*cameraProperties.bounds,
 				cameraProperties.boundsPosition);
+
+			entities.insert(entityVector.begin(), entityVector.end());
 		}
 
 		for (unique_ptr<Renderer>& renderer : renderers)
@@ -95,10 +93,11 @@ namespace simplicity
 				{
 					for (Entity* entity : entitiesByModel[model])
 					{
-						// TODO Should check whether enitiy is in the entities vector...
-						// maybe a set would be faster to check?
-						modelsAndTransforms.push_back(pair<Model*, Matrix44>(model, entity->getTransform() *
-								model->getTransform()));
+						if (entities.empty() || entities.find(entity) != entities.end())
+						{
+							modelsAndTransforms.push_back(pair<Model*, Matrix44>(model, entity->getTransform() *
+									model->getTransform()));
+						}
 					}
 				}
 

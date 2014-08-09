@@ -148,10 +148,9 @@ namespace simplicity
 				{
 					// Limit the frame rate.
 					float sleepTime = 1.0f / maxFrameRate - frameTime;
-					sleepTime *= 1000.0f;
 					if (sleepTime > 0.0f)
 					{
-						this_thread::sleep_for(milliseconds(static_cast<long>(sleepTime)));
+						this_thread::sleep_for(milliseconds(static_cast<long>(sleepTime * 1000)));
 					}
 				}
 			}

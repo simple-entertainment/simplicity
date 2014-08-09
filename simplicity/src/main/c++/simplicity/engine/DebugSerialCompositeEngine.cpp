@@ -63,9 +63,11 @@ namespace simplicity
 			lastFrameCountTime = frameEndTime;
 			framesPerSecond = frameCount;
 			frameCount = 0;
+
+			//Logs::log(Category::DEBUG_LOG, "FPS: %i", framesPerSecond);
 		}
 
-		Logs::log(Category::DEBUG_LOG, "%f\t%f\t%f", frameTime, engineFrameTimes[0], engineFrameTimes[1]);
+		//Logs::log(Category::DEBUG_LOG, "%f\t%f\t%f", frameTime, engineFrameTimes[0], engineFrameTimes[1]);
 	}
 
 	const vector<float>& DebugSerialCompositeEngine::getEngineFrameTimes() const
