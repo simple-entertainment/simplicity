@@ -20,6 +20,13 @@ using namespace std;
 
 namespace simplicity
 {
+	AbstractModel::AbstractModel() :
+			color(),
+			texture(nullptr),
+			visible(true)
+	{
+	}
+
 	const Vector4& AbstractModel::getColor() const
 	{
 		return color;

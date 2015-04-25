@@ -29,6 +29,8 @@ namespace simplicity
 	class SIMPLE_API AbstractModel : public Model
 	{
 		public:
+			AbstractModel();
+
 			const Vector4& getColor() const override;
 
 			Texture* getTexture() const override;

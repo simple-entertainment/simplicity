@@ -57,8 +57,6 @@ namespace simplicity
 			 */
 			MeshBuffer* getBuffer() const;
 
-			const Vector4& getColor() const override;
-
 			/**
 			 * <p>
 			 * Retrieves the (possibly indexed) vertex data. Every call to this function should be matched with a call
