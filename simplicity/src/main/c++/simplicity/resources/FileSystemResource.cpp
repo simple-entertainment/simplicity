@@ -78,7 +78,7 @@ namespace simplicity
 		ios_base::openmode mode = ios_base::out;
 		if (append)
 		{
-			mode |= ios_base::ate;
+			mode |= ios_base::app;
 		}
 		if (binary)
 		{
