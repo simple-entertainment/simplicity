@@ -67,6 +67,9 @@ namespace simplicity
 
 			void setWidth(int width) override;
 
+		protected:
+			bool hasRenderers();
+
 		private:
 			struct CameraProperties
 			{

@@ -17,6 +17,8 @@
 #include <map>
 
 #include "../common/Category.h"
+#include "ConsoleDataStore.h"
+#include "FileSystemDataStore.h"
 #include "Resources.h"
 
 using namespace std;
@@ -28,7 +30,7 @@ namespace simplicity
 		DataStore* getDataStore(unsigned short category);
 
 		map<unsigned short, unique_ptr<DataStore>> dataStores;
-		unique_ptr<DataStore> defaultDataStore;
+		unique_ptr<DataStore> defaultDataStore = nullptr;
 
 		Resource* create(const string& name, unsigned short category, bool binary)
 		{
@@ -51,6 +53,24 @@ namespace simplicity
 
 			if (dataStore == nullptr)
 			{
+				// Provide the default datastores.
+				if (defaultDataStore == nullptr)
+				{
+					unique_ptr<DataStore> defaultDataStore(new FileSystemDataStore("."));
+					setDataStore(move(defaultDataStore), Category::ALL_CATEGORIES);
+
+					if (dataStores[Category::CONSOLE] == nullptr)
+					{
+						unique_ptr<DataStore> consoleDataStore(new ConsoleDataStore);
+						setDataStore(move(consoleDataStore), Category::CONSOLE);
+					}
+
+					if (category == Category::CONSOLE)
+					{
+						return dataStores[category].get();
+					}
+				}
+
 				dataStore = defaultDataStore.get();
 			}
 

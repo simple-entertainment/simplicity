@@ -18,6 +18,7 @@
 #include <cstdarg>
 #include <map>
 
+#include "../resources/Resources.h"
 #include "Logs.h"
 
 using namespace std;
@@ -31,7 +32,7 @@ namespace simplicity
 		Resource* getResource(unsigned short category);
 
 		map<unsigned short, Resource*> resources;
-		Resource* defaultResource;
+		Resource* defaultResource = nullptr;
 
 		Resource* getResource(unsigned short category)
 		{
@@ -39,6 +40,12 @@ namespace simplicity
 
 			if (resource == nullptr)
 			{
+				// Provide the default logging resource.
+				if (defaultResource == nullptr)
+				{
+					setResource(Resources::get("out", Category::CONSOLE), Category::ALL_CATEGORIES);
+				}
+
 				resource = defaultResource;
 			}
 

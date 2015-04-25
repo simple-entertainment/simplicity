@@ -17,8 +17,10 @@
 #include <map>
 #include <vector>
 
+#include "../Simplicity.h"
 #include "Messages.h"
 #include "MessagingEngine.h"
+#include "SimpleMessagingEngine.h"
 
 using namespace std;
 
@@ -26,9 +28,18 @@ namespace simplicity
 {
 	namespace Messages
 	{
+		void addDefaultMessagingEngine();
+
 		map<unsigned int, unique_ptr<Codec>> codecs;
 
 		vector<MessagingEngine*> engines;
+
+		void addDefaultMessagingEngine()
+		{
+			unique_ptr<MessagingEngine> defaultMessagingEngine(new SimpleMessagingEngine);
+			addEngine(defaultMessagingEngine.get());
+			Simplicity::addEngine(move(defaultMessagingEngine));
+		}
 
 		void addEngine(MessagingEngine* engine)
 		{
@@ -58,6 +69,12 @@ namespace simplicity
 
 		void registerRecipient(unsigned short subject, function<Recipient> recipient)
 		{
+			// Provide the default messaging engine.
+			if (engines.size() == 0)
+			{
+				addDefaultMessagingEngine();
+			}
+
 			for (MessagingEngine* engine : engines)
 			{
 				engine->registerRecipient(subject, recipient);
@@ -66,6 +83,12 @@ namespace simplicity
 
 		void registerRecipient(unsigned short subject, unsigned short recipientCategory)
 		{
+			// Provide the default messaging engine.
+			if (engines.size() == 0)
+			{
+				addDefaultMessagingEngine();
+			}
+
 			for (MessagingEngine* engine : engines)
 			{
 				engine->registerRecipient(subject, recipientCategory);

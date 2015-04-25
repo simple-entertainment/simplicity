@@ -30,7 +30,7 @@ namespace simplicity
 {
 	namespace Simplicity
 	{
-		unique_ptr<CompositeEngine> compositeEngine(new SerialCompositeEngine);
+		unique_ptr<CompositeEngine> compositeEngine;
 		Scene* currentScene = nullptr;
 		float frameTime = 0.0f;
 		unsigned long id = 0;
@@ -44,6 +44,12 @@ namespace simplicity
 
 		void addEngine(unique_ptr<Engine> engine)
 		{
+			// Provide the default composite engine.
+			if (compositeEngine == nullptr)
+			{
+				compositeEngine = unique_ptr<CompositeEngine>(new SerialCompositeEngine);
+			}
+
 			compositeEngine->addEngine(move(engine));
 		}
 
@@ -79,6 +85,13 @@ namespace simplicity
 
 		Scene* getScene()
 		{
+			// Provide a default scene.
+			if (currentScene == nullptr)
+			{
+				unique_ptr<Scene> defaultScene(new Scene);
+				addScene("default", move(defaultScene));
+			}
+
 			return currentScene;
 		}
 

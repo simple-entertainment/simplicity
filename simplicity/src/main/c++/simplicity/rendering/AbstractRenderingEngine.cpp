@@ -118,10 +118,10 @@ namespace simplicity
 	AbstractRenderingEngine::CameraProperties AbstractRenderingEngine::getCameraProperties() const
 	{
 		CameraProperties properties;
-		properties.bounds = nullptr;
 
 		if (camera == nullptr)
 		{
+			properties.bounds = nullptr;
 			properties.position = Vector3(0.0f, 0.0f, 0.0f);
 			properties.transform.setIdentity();
 		}
@@ -163,6 +163,11 @@ namespace simplicity
 	int AbstractRenderingEngine::getWidth() const
 	{
 		return width;
+	}
+
+	bool AbstractRenderingEngine::hasRenderers()
+	{
+		return renderers.size() > 0;
 	}
 
 	void AbstractRenderingEngine::onAddEntity(Entity& entity)
