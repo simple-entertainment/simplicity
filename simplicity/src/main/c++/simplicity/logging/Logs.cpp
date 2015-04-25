@@ -47,6 +47,16 @@ namespace simplicity
 
 		void log(unsigned short category, string message, ...)
 		{
+			std::string formattedMessage(message.size() + MAX_ARG_BUFFER_SIZE, 'x');
+
+			va_list args;
+			va_start(args, message);
+			vsnprintf(&formattedMessage[0], formattedMessage.size(), message.c_str(), args);
+			va_end(args);
+
+			// Cut off the trailing 'x's.
+			formattedMessage = formattedMessage.c_str();
+
 			// For error and fatal logs, cause the debugger to break.
 			if (category == Category::ERROR_LOG ||
 				category == Category::FATAL_LOG)
@@ -60,15 +70,7 @@ namespace simplicity
 				return;
 			}
 
-			std::string buffer(message.size() + MAX_ARG_BUFFER_SIZE, 'x');
-
-			va_list args;
-			va_start(args, message);
-			vsnprintf(&buffer[0], buffer.size(), message.c_str(), args);
-			va_end(args);
-
-			buffer = buffer.c_str();
-			resource->appendData(buffer + '\n');
+			resource->appendData(formattedMessage + '\n');
 		}
 
 		void setResource(Resource* resource, unsigned short category)
