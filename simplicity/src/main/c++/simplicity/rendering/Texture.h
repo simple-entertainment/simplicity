@@ -71,6 +71,15 @@ namespace simplicity
 			 * </p>
 			 */
 			virtual void init() = 0;
+
+			/**
+			 * <p>
+			 * Sets the raw texture data.
+			 * </p>
+			 *
+			 * @param rawData The raw texture data.
+			 */
+			virtual void setRawData(const char* rawData) = 0;
 	};
 }
 
