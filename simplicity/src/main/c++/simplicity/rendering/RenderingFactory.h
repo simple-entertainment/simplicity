@@ -21,6 +21,7 @@
 #include <string>
 
 #include "../resources/Resource.h"
+#include "PixelFormat.h"
 #include "Texture.h"
 
 namespace simplicity
@@ -49,10 +50,11 @@ namespace simplicity
 			 *
 			 * @param data The texture data.
 			 * @param length The length of the data.
+			 * @param format The format of the texture.
 			 *
 			 * @return The texture.
 			 */
-			virtual std::unique_ptr<Texture> createTexture(const char* data, unsigned int length) = 0;
+			virtual std::unique_ptr<Texture> createTexture(const char* data, unsigned int length, PixelFormat format) = 0;
 
 			/**
 			 * <p>
@@ -62,11 +64,12 @@ namespace simplicity
 			 * @param data The texture data.
 			 * @param width The width of the texture.
 			 * @param height The height of the texture.
+			 * @param format The format of the texture.
 			 *
 			 * @return The texture.
 			 */
 			virtual std::unique_ptr<Texture> createTexture(const char* rawData, unsigned int width,
-					unsigned int height) = 0;
+					unsigned int height, PixelFormat format) = 0;
 
 			/**
 			 * <p>
@@ -74,10 +77,11 @@ namespace simplicity
 			 * </p>
 			 *
 			 * @param image The image resource.
+			 * @param format The format of the texture.
 			 *
 			 * @return The texture.
 			 */
-			virtual std::unique_ptr<Texture> createTexture(Resource& image) = 0;
+			virtual std::unique_ptr<Texture> createTexture(Resource& image, PixelFormat format) = 0;
 
 			/**
 			 * <p>
