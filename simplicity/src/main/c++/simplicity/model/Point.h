@@ -17,7 +17,7 @@
 #ifndef POINT_H_
 #define POINT_H_
 
-#include "Model.h"
+#include "AbstractModel.h"
 
 namespace simplicity
 {
@@ -26,7 +26,7 @@ namespace simplicity
 	 * A lonesome point in space... just used as a container so that a point can be used polymorphically as a model.
 	 * </p>
 	 */
-	class SIMPLE_API Point : public Model
+	class SIMPLE_API Point : public AbstractModel
 	{
 		public:
 			/**
@@ -41,10 +41,6 @@ namespace simplicity
 			 */
 			Point(const Vector3& point);
 
-			const Vector4& getColor() const override;
-
-			Texture* getNormalMap() const override;
-
 			/**
 			 * <p>
 			 * Retrieves the point.
@@ -54,15 +50,7 @@ namespace simplicity
 			 */
 			const Vector3& getPoint() const;
 
-			Texture* getTexture() const override;
-
 			unsigned short getTypeID() const override;
-
-			bool isVisible() const override;
-
-			void setColor(const Vector4& color) override;
-
-			void setNormalMap(Texture* texture) override;
 
 			/**
 			 * <p>
@@ -73,16 +61,8 @@ namespace simplicity
 			 */
 			void setPoint(const Vector3& point);
 
-			void setTexture(Texture* texture) override;
-
-			void setVisible(bool visible) override;
-
 		private:
-			Vector4 color;
-
 			Vector3 point;
-
-			bool visible;
 	};
 }
 

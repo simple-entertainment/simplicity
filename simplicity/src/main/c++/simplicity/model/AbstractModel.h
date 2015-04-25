@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Simple Entertainment Limited
+ * Copyright © 2015 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,22 +14,40 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "Shape.h"
+#ifndef ABSTRACTMODEL_H_
+#define ABSTRACTMODEL_H_
+
+#include "Model.h"
 
 namespace simplicity
 {
-	Shape::Shape() :
-		levelOfDetail(1)
+	/**
+	 * <p>
+	 * An abstract model that implements the basic setters and getters declared in Model.
+	 * </p>
+	 */
+	class SIMPLE_API AbstractModel : public Model
 	{
-	}
+		public:
+			const Vector4& getColor() const override;
 
-	unsigned int Shape::getLevelOfDetail() const
-	{
-		return levelOfDetail;
-	}
+			Texture* getTexture() const override;
 
-	void Shape::setLevelOfDetail(unsigned int levelOfDetail)
-	{
-		this->levelOfDetail = levelOfDetail;
-	}
+			bool isVisible() const override;
+
+			void setColor(const Vector4& color) override;
+
+			void setTexture(Texture* texture) override;
+
+			void setVisible(bool visible) override;
+
+		private:
+			Vector4 color;
+
+			Texture* texture;
+
+			bool visible;
+	};
 }
+
+#endif /* ABSTRACTMODEL_H_ */

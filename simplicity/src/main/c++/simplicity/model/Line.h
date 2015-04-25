@@ -17,7 +17,7 @@
 #ifndef LINE_H_
 #define LINE_H_
 
-#include "Model.h"
+#include "AbstractModel.h"
 
 namespace simplicity
 {
@@ -26,7 +26,7 @@ namespace simplicity
 	 * A line between two points, A and B.
 	 * </p>
 	 */
-	class SIMPLE_API Line : public Model
+	class SIMPLE_API Line : public AbstractModel
 	{
 		public:
 			/**
@@ -41,10 +41,6 @@ namespace simplicity
 			 * @param pointB The point the line ends at.
 			 */
 			Line(const Vector3& pointA, const Vector3& pointB);
-
-			const Vector4& getColor() const override;
-
-			Texture* getNormalMap() const override;
 
 			/**
 			 * <p>
@@ -64,15 +60,7 @@ namespace simplicity
 			 */
 			const Vector3& getPointB() const;
 
-			Texture* getTexture() const override;
-
 			unsigned short getTypeID() const override;
-
-			bool isVisible() const override;
-
-			void setColor(const Vector4& color) override;
-
-			void setNormalMap(Texture* texture) override;
 
 			/**
 			 * <p>
@@ -92,18 +80,10 @@ namespace simplicity
 			 */
 			void setPointB(const Vector3& pointB);
 
-			void setTexture(Texture* texture) override;
-
-			void setVisible(bool visible) override;
-
 		private:
-			Vector4 color;
-
 			Vector3 pointA;
 
 			Vector3 pointB;
-
-			bool visible;
 	};
 }
 

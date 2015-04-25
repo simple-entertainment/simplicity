@@ -22,20 +22,13 @@ using namespace std;
 namespace simplicity
 {
 	Mesh::Mesh(shared_ptr<MeshBuffer> buffer) :
-			buffer(buffer),
-			color(0.0f, 0.0f, 0.0f, 1.0f),
-			visible(true)
+			buffer(buffer)
 	{
 	}
 
 	MeshBuffer* Mesh::getBuffer() const
 	{
 		return buffer.get();
-	}
-
-	const Vector4& Mesh::getColor() const
-	{
-		return color;
 	}
 
 	MeshData& Mesh::getData(bool readable)
@@ -48,46 +41,13 @@ namespace simplicity
 		return buffer->getData(*this);
 	}
 
-	Texture* Mesh::getNormalMap() const
-	{
-		return nullptr;
-	}
-
-	Texture* Mesh::getTexture() const
-	{
-		return nullptr;
-	}
-
 	unsigned short Mesh::getTypeID() const
 	{
 		return TYPE_ID;
 	}
 
-	bool Mesh::isVisible() const
-	{
-		return visible;
-	}
-
 	void Mesh::releaseData() const
 	{
 		buffer->releaseData(*this);
-	}
-
-	void Mesh::setColor(const Vector4& color)
-	{
-		this->color = color;
-	}
-
-	void Mesh::setNormalMap(Texture* /* normalMap */)
-	{
-	}
-
-	void Mesh::setTexture(Texture* /* texture */)
-	{
-	}
-
-	void Mesh::setVisible(bool visible)
-	{
-		this->visible = visible;
 	}
 }

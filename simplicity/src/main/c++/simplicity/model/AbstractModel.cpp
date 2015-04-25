@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Simple Entertainment Limited
+ * Copyright © 2015 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,22 +14,39 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "Shape.h"
+#include "AbstractModel.h"
+
+using namespace std;
 
 namespace simplicity
 {
-	Shape::Shape() :
-		levelOfDetail(1)
+	const Vector4& AbstractModel::getColor() const
 	{
+		return color;
 	}
 
-	unsigned int Shape::getLevelOfDetail() const
+	Texture* AbstractModel::getTexture() const
 	{
-		return levelOfDetail;
+		return texture;
 	}
 
-	void Shape::setLevelOfDetail(unsigned int levelOfDetail)
+	bool AbstractModel::isVisible() const
 	{
-		this->levelOfDetail = levelOfDetail;
+		return visible;
+	}
+
+	void AbstractModel::setColor(const Vector4& color)
+	{
+		this->color = color;
+	}
+
+	void AbstractModel::setTexture(Texture* texture)
+	{
+		this->texture = texture;
+	}
+
+	void AbstractModel::setVisible(bool visible)
+	{
+		this->visible = visible;
 	}
 }

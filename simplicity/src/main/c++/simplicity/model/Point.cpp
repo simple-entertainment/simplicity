@@ -19,20 +19,8 @@
 namespace simplicity
 {
 	Point::Point(const Vector3& point) :
-		color(0.0f, 0.0f, 0.0f),
-		point(point),
-		visible(true)
+		point(point)
 	{
-	}
-
-	const Vector4& Point::getColor() const
-	{
-		return color;
-	}
-
-	Texture* Point::getNormalMap() const
-	{
-		return nullptr;
 	}
 
 	const Vector3& Point::getPoint() const
@@ -40,41 +28,13 @@ namespace simplicity
 		return point;
 	}
 
-	Texture* Point::getTexture() const
-	{
-		return nullptr;
-	}
-
 	unsigned short Point::getTypeID() const
 	{
 		return TYPE_ID;
 	}
 
-	bool Point::isVisible() const
-	{
-		return visible;
-	}
-
-	void Point::setColor(const Vector4& color)
-	{
-		this->color = color;
-	}
-
-	void Point::setNormalMap(Texture*)
-	{
-	}
-
 	void Point::setPoint(const Vector3& point)
 	{
 		this->point = point;
-	}
-
-	void Point::setTexture(Texture*)
-	{
-	}
-
-	void Point::setVisible(bool visible)
-	{
-		this->visible = visible;
 	}
 }

@@ -19,21 +19,9 @@
 namespace simplicity
 {
 	Line::Line(const Vector3& pointA, const Vector3& pointB) :
-		color(0.0f, 0.0f, 0.0f),
 		pointA(pointA),
-		pointB(pointB),
-		visible(true)
+		pointB(pointB)
 	{
-	}
-
-	const Vector4& Line::getColor() const
-	{
-		return color;
-	}
-
-	Texture* Line::getNormalMap() const
-	{
-		return nullptr;
 	}
 
 	const Vector3& Line::getPointA() const
@@ -46,28 +34,9 @@ namespace simplicity
 		return pointB;
 	}
 
-	Texture* Line::getTexture() const
-	{
-		return nullptr;
-	}
-
 	unsigned short Line::getTypeID() const
 	{
 		return TYPE_ID;
-	}
-
-	bool Line::isVisible() const
-	{
-		return visible;
-	}
-
-	void Line::setColor(const Vector4& color)
-	{
-		this->color = color;
-	}
-
-	void Line::setNormalMap(Texture*)
-	{
 	}
 
 	void Line::setPointA(const Vector3& pointA)
@@ -78,14 +47,5 @@ namespace simplicity
 	void Line::setPointB(const Vector3& pointB)
 	{
 		this->pointB = pointB;
-	}
-
-	void Line::setTexture(Texture*)
-	{
-	}
-
-	void Line::setVisible(bool visible)
-	{
-		this->visible = visible;
 	}
 }

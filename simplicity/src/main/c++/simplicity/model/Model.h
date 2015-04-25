@@ -70,15 +70,6 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Retrieves the normal map applied to this model.
-			 * </p>
-			 *
-			 * @return The normal map applied to this model.
-			 */
-			virtual Texture* getNormalMap() const = 0;
-
-			/**
-			 * <p>
 			 * Retrieves the texture applied to this model.
 			 * </p>
 			 *
@@ -148,15 +139,6 @@ namespace simplicity
 			 * @param color The color of this model.
 			 */
 			virtual void setColor(const Vector4& color) = 0;
-
-			/**
-			 * <p>
-			 * Sets the normal map applied to this model.
-			 * </p>
-			 *
-			 * @param normalMap The normal map applied to this model.
-			 */
-			virtual void setNormalMap(Texture* normalMap) = 0;
 
 			/**
 			 * <p>

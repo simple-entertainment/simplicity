@@ -17,7 +17,7 @@
 #ifndef TEXT_H_
 #define TEXT_H_
 
-#include "Model.h"
+#include "AbstractModel.h"
 
 namespace simplicity
 {
@@ -26,7 +26,7 @@ namespace simplicity
 	 * Some text. TODO Is this really a model?
 	 * </p>
 	 */
-	class SIMPLE_API Text : public Model
+	class SIMPLE_API Text : public AbstractModel
 	{
 		public:
 			/**
@@ -41,10 +41,6 @@ namespace simplicity
 			 */
 			Text(const std::string& text);
 
-			const Vector4& getColor() const override;
-
-			Texture* getNormalMap() const override;
-
 			/**
 			 * <p>
 			 * Retrieves the text.
@@ -54,15 +50,7 @@ namespace simplicity
 			 */
 			const std::string& getText() const;
 
-			Texture* getTexture() const override;
-
 			unsigned short getTypeID() const override;
-
-			bool isVisible() const override;
-
-			void setColor(const Vector4& color) override;
-
-			void setNormalMap(Texture* texture) override;
 
 			/**
 			 * <p>
@@ -73,16 +61,8 @@ namespace simplicity
 			 */
 			void setText(const std::string& text);
 
-			void setTexture(Texture* texture) override;
-
-			void setVisible(bool visible) override;
-
 		private:
-			Vector4 color;
-
 			std::string text;
-
-			bool visible;
 	};
 }
 

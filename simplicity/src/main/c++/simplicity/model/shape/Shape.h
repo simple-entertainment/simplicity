@@ -17,7 +17,7 @@
 #ifndef SHAPE_H_
 #define SHAPE_H_
 
-#include "../Model.h"
+#include "../AbstractModel.h"
 
 namespace simplicity
 {
@@ -27,12 +27,10 @@ namespace simplicity
 	 * is a hint used by renderers etc. when they convert them to meshes.
 	 * </p>
 	 */
-	class SIMPLE_API Shape : public Model
+	class SIMPLE_API Shape : public AbstractModel
 	{
 		public:
 			Shape();
-
-			const Vector4& getColor() const override;
 
 			/**
 			 * <p>
@@ -43,14 +41,6 @@ namespace simplicity
 			 */
 			unsigned int getLevelOfDetail() const;
 
-			Texture* getNormalMap() const override;
-
-			Texture* getTexture() const override;
-
-			bool isVisible() const override;
-
-			void setColor(const Vector4& color) override;
-
 			/**
 			 * <p>
 			 * Applies a level of detail to this shape.
@@ -60,18 +50,8 @@ namespace simplicity
 			 */
 			void setLevelOfDetail(unsigned int levelOfDetail);
 
-			void setNormalMap(Texture* texture) override;
-
-			void setTexture(Texture* texture) override;
-
-			void setVisible(bool visible) override;
-
 		private:
-			Vector4 color;
-
 			unsigned int levelOfDetail;
-
-			bool visible;
 	};
 }
 

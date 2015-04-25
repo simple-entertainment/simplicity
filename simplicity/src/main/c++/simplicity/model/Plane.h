@@ -17,7 +17,7 @@
 #ifndef PLANE_H_
 #define PLANE_H_
 
-#include "Model.h"
+#include "AbstractModel.h"
 
 namespace simplicity
 {
@@ -26,7 +26,7 @@ namespace simplicity
 	 * A plane. Not the flying kind, the mathematical kind.
 	 * </p>
 	 */
-	class SIMPLE_API Plane : public Model
+	class SIMPLE_API Plane : public AbstractModel
 	{
 		public:
 			/**
@@ -42,8 +42,6 @@ namespace simplicity
 			 */
 			Plane(const Vector3& normal, const Vector3& positionOnPlane);
 
-			const Vector4& getColor() const override;
-
 			/**
 			 * <p>
 			 * Retrieves the normal of the plane.
@@ -52,8 +50,6 @@ namespace simplicity
 			 * @return The normal of the plane.
 			 */
 			const Vector3& getNormal() const;
-
-			Texture* getNormalMap() const override;
 
 			/**
 			 * <p>
@@ -64,13 +60,7 @@ namespace simplicity
 			 */
 			const Vector3& getPositionOnPlane() const;
 
-			Texture* getTexture() const override;
-
 			unsigned short getTypeID() const override;
-
-			bool isVisible() const override;
-
-			void setColor(const Vector4& color) override;
 
 			/**
 			 * <p>
@@ -81,8 +71,6 @@ namespace simplicity
 			 */
 			void setNormal(const Vector3& normal);
 
-			void setNormalMap(Texture* texture) override;
-
 			/**
 			 * <p>
 			 * Sets a position on the plane.
@@ -92,18 +80,10 @@ namespace simplicity
 			 */
 			void setPositionOnPlane(const Vector3& positionOnPlane);
 
-			void setTexture(Texture* texture) override;
-
-			void setVisible(bool visible) override;
-
 		private:
-			Vector4 color;
-
 			Vector3 normal;
 
 			Vector3 positionOnPlane;
-
-			bool visible;
 	};
 }
 

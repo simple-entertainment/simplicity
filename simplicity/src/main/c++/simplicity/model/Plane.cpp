@@ -19,16 +19,9 @@
 namespace simplicity
 {
 	Plane::Plane(const Vector3& normal, const Vector3& positionOnPlane) :
-		color(),
 		normal(normal),
-		positionOnPlane(positionOnPlane),
-		visible(true)
+		positionOnPlane(positionOnPlane)
 	{
-	}
-
-	const Vector4& Plane::getColor() const
-	{
-		return color;
 	}
 
 	const Vector3& Plane::getNormal() const
@@ -36,19 +29,9 @@ namespace simplicity
 		return normal;
 	}
 
-	Texture* Plane::getNormalMap() const
-	{
-		return nullptr;
-	}
-
 	const Vector3& Plane::getPositionOnPlane() const
 	{
 		return positionOnPlane;
-	}
-
-	Texture* Plane::getTexture() const
-	{
-		return nullptr;
 	}
 
 	unsigned short Plane::getTypeID() const
@@ -56,36 +39,13 @@ namespace simplicity
 		return TYPE_ID;
 	}
 
-	bool Plane::isVisible() const
-	{
-		return visible;
-	}
-
-	void Plane::setColor(const Vector4& color)
-	{
-		this->color = color;
-	}
-
 	void Plane::setNormal(const Vector3& normal)
 	{
 		this->normal = normal;
 	}
 
-	void Plane::setNormalMap(Texture*)
-	{
-	}
-
 	void Plane::setPositionOnPlane(const Vector3& positionOnPlane)
 	{
 		this->positionOnPlane = positionOnPlane;
-	}
-
-	void Plane::setTexture(Texture*)
-	{
-	}
-
-	void Plane::setVisible(bool visible)
-	{
-		this->visible = visible;
 	}
 }

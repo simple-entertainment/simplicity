@@ -18,12 +18,9 @@
 #define MESH_H_
 
 #include <memory>
-#include <vector>
-
-#include <GL/glew.h>
 
 #include "MeshData.h"
-#include "Model.h"
+#include "AbstractModel.h"
 
 namespace simplicity
 {
@@ -34,7 +31,7 @@ namespace simplicity
 	 * A collection of (possibly indexed) vertices stored in a buffer.
 	 * </p>
 	 */
-	class SIMPLE_API Mesh : public Model
+	class SIMPLE_API Mesh : public AbstractModel
 	{
 		public:
 			/**
@@ -88,13 +85,7 @@ namespace simplicity
 			 */
 			const MeshData& getData() const;
 
-			Texture* getNormalMap() const override;
-
-			Texture* getTexture() const override;
-
 			unsigned short getTypeID() const override;
-
-			bool isVisible() const override;
 
 			/**
 			 * <p>
@@ -103,20 +94,8 @@ namespace simplicity
 			 */
 			void releaseData() const;
 
-			void setColor(const Vector4& color) override;
-
-			void setNormalMap(Texture* normalMap) override;
-
-			void setTexture(Texture* texture) override;
-
-			void setVisible(bool visible) override;
-
 		private:
 			std::shared_ptr<MeshBuffer> buffer;
-
-			Vector4 color;
-
-			bool visible;
 	};
 }
 

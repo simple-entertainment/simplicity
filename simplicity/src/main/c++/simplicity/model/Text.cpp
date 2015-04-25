@@ -21,20 +21,8 @@ using namespace std;
 namespace simplicity
 {
 	Text::Text(const std::string& text) :
-		color(0.0f, 0.0f, 0.0f, 1.0f),
-		text(text),
-		visible(true)
+		text(text)
 	{
-	}
-
-	const Vector4& Text::getColor() const
-	{
-		return color;
-	}
-
-	Texture* Text::getNormalMap() const
-	{
-		return nullptr;
 	}
 
 	const string& Text::getText() const
@@ -42,41 +30,13 @@ namespace simplicity
 		return text;
 	}
 
-	Texture* Text::getTexture() const
-	{
-		return nullptr;
-	}
-
 	unsigned short Text::getTypeID() const
 	{
 		return TYPE_ID;
 	}
 
-	bool Text::isVisible() const
-	{
-		return visible;
-	}
-
-	void Text::setColor(const Vector4& color)
-	{
-		this->color = color;
-	}
-
-	void Text::setNormalMap(Texture*)
-	{
-	}
-
 	void Text::setText(const std::string& text)
 	{
 		this->text = text;
-	}
-
-	void Text::setTexture(Texture*)
-	{
-	}
-
-	void Text::setVisible(bool visible)
-	{
-		this->visible = visible;
 	}
 }
