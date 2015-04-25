@@ -710,19 +710,19 @@ namespace simplicity
 		vertices[index].color = color;
 		vertices[index].normal = normal;
 		vertices[index].position = topLeft;
-		vertices[index].texCoord = Vector2(texWidth, 0.0f);
+		vertices[index].texCoord = Vector2(0.0f, 0.0f);
 		vertices[index + 1].color = color;
 		vertices[index + 1].normal = normal;
-		vertices[index + 1].position = topLeft + toTopRight;
-		vertices[index + 1].texCoord = Vector2(0.0f, 0.0f);
+		vertices[index + 1].position = topLeft + toBottomLeft;
+		vertices[index + 1].texCoord = Vector2(0.0f, texHeight);
 		vertices[index + 2].color = color;
 		vertices[index + 2].normal = normal;
 		vertices[index + 2].position = topLeft + toTopRight + toBottomLeft;
-		vertices[index + 2].texCoord = Vector2(0.0f, texHeight);
+		vertices[index + 2].texCoord = Vector2(texWidth, texHeight);
 		vertices[index + 3].color = color;
 		vertices[index + 3].normal = normal;
-		vertices[index + 3].position = topLeft + toBottomLeft;
-		vertices[index + 3].texCoord = Vector2(texWidth, texHeight);
+		vertices[index + 3].position = topLeft + toTopRight;
+		vertices[index + 3].texCoord = Vector2(texWidth, 0.0f);
 	}
 
 	void ModelFactory::insertTriangleIndices(unsigned int* indices, unsigned int index, unsigned int vertexIndex,
@@ -730,9 +730,9 @@ namespace simplicity
 	{
 		if (reverse)
 		{
-			indices[index] = vertexIndex;
-			indices[index + 1] = vertexIndex + 2;
-			indices[index + 2] = vertexIndex + 1;
+			indices[index] = vertexIndex + 2;
+			indices[index + 1] = vertexIndex + 1;
+			indices[index + 2] = vertexIndex;
 		}
 		else
 		{
@@ -764,11 +764,11 @@ namespace simplicity
 		vertices[index + 1].color = color;
 		vertices[index + 1].normal = normal;
 		vertices[index + 1].position = top + toBottomLeft;
-		vertices[index + 1].texCoord = Vector2(1.0f, texHeightAtBottom);
+		vertices[index + 1].texCoord = Vector2(0.0f, texHeightAtBottom);
 		vertices[index + 2].color = color;
 		vertices[index + 2].normal = normal;
 		vertices[index + 2].position = top + toBottomRight;
-		vertices[index + 2].texCoord = Vector2(0.0f, texHeightAtBottom);
+		vertices[index + 2].texCoord = Vector2(1.0f, texHeightAtBottom);
 	}
 
 	void ModelFactory::insertTunnelIndices(unsigned int* indices, unsigned int index, unsigned int vertexIndex,
