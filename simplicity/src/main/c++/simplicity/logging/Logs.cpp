@@ -77,7 +77,15 @@ namespace simplicity
 				return;
 			}
 
-			resource->appendData(formattedMessage + '\n');
+			time_t now;
+			time(&now);
+			string timeString(80, 'x');
+			strftime(&timeString[0], timeString.size(), "%d-%m-%Y %I:%M:%S", localtime(&now));
+
+			// Remove the trailing 'x's.
+			timeString = timeString.c_str();
+
+			resource->appendData(timeString + " :: " + formattedMessage + '\n');
 		}
 
 		void setResource(Resource* resource, unsigned short category)
