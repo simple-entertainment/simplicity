@@ -17,7 +17,7 @@
 #ifndef TEXTURE_H_
 #define TEXTURE_H_
 
-#include "Pipeline.h"
+#include "../common/Defines.h"
 
 namespace simplicity
 {
@@ -40,12 +40,10 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Applies this texture to a pipeline.
+			 * Applies this texture.
 			 * </p>
-			 *
-			 * @param pipeline The pipeline to apply this texture to.
 			 */
-			virtual void apply(Pipeline& pipeline) = 0;
+			virtual void apply() = 0;
 
 			/**
 			 * <p>
@@ -54,7 +52,16 @@ namespace simplicity
 			 *
 			 * @return The height of this texture.
 			 */
-			virtual unsigned int getHeight() = 0;
+			virtual unsigned int getHeight() const = 0;
+
+			/**
+			 * <p>
+			 * Retrieves the raw texture data.
+			 * </p>
+			 *
+			 * @return The raw texture data.
+			 */
+			virtual const char* getRawData() const = 0;
 
 			/**
 			 * <p>
@@ -63,7 +70,7 @@ namespace simplicity
 			 *
 			 * @return The width of this texture.
 			 */
-			virtual unsigned int getWidth() = 0;
+			virtual unsigned int getWidth() const = 0;
 
 			/**
 			 * <p>
@@ -79,7 +86,7 @@ namespace simplicity
 			 *
 			 * @param rawData The raw texture data.
 			 */
-			virtual void setRawData(const char* rawData) = 0;
+			virtual void setRawData(char* rawData) = 0;
 	};
 }
 

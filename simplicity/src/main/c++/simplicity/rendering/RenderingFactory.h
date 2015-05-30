@@ -68,8 +68,8 @@ namespace simplicity
 			 *
 			 * @return The texture.
 			 */
-			virtual std::unique_ptr<Texture> createTexture(const char* rawData, unsigned int width,
-					unsigned int height, PixelFormat format) = 0;
+			virtual std::unique_ptr<Texture> createTexture(char* rawData, unsigned int width, unsigned int height,
+					PixelFormat format) = 0;
 
 			/**
 			 * <p>
