@@ -52,7 +52,7 @@ namespace simplicity
 		return category;
 	}
 
-	string ConsoleResource::getData()
+	string ConsoleResource::getData() const
 	{
 		string data;
 
@@ -70,7 +70,7 @@ namespace simplicity
 		return data;
 	}
 
-	unique_ptr<istream> ConsoleResource::getInputStream()
+	unique_ptr<istream> ConsoleResource::getInputStream() const
 	{
 		return unique_ptr<istream>();
 	}

@@ -34,9 +34,9 @@ namespace simplicity
 
 			unsigned short getCategory() const override;
 
-			std::string getData() override;
+			std::string getData() const override;
 
-			std::unique_ptr<std::istream> getInputStream() override;
+			std::unique_ptr<std::istream> getInputStream() const override;
 
 			const std::string& getName() const override;
 

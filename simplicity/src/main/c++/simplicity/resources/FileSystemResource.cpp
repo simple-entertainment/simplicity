@@ -47,7 +47,7 @@ namespace simplicity
 		return category;
 	}
 
-	string FileSystemResource::getData()
+	string FileSystemResource::getData() const
 	{
 		unique_ptr<istream> inputStream = getInputStream();
 
@@ -57,7 +57,7 @@ namespace simplicity
 		return string(begin, end);
 	}
 
-	unique_ptr<istream> FileSystemResource::getInputStream()
+	unique_ptr<istream> FileSystemResource::getInputStream() const
 	{
 		ios_base::openmode mode = ios_base::in;
 		if (binary)

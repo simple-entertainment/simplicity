@@ -87,7 +87,7 @@ namespace simplicity
 			 *
 			 * @return The data.
 			 */
-			virtual std::string getData() = 0;
+			virtual std::string getData() const = 0;
 
 			/**
 			 * <p>
@@ -101,7 +101,7 @@ namespace simplicity
 			 *
 			 * @return An input stream for this resource.
 			 */
-			virtual std::unique_ptr<std::istream> getInputStream() = 0;
+			virtual std::unique_ptr<std::istream> getInputStream() const = 0;
 
 			/**
 			 * <p>
