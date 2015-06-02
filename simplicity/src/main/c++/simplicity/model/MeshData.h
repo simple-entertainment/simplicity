@@ -68,7 +68,7 @@ namespace simplicity
 		 * this function is equivalent to vertexData[index].
 		 * </p>
 		 *
-		 * @param index The index of the vertetx to access.
+		 * @param index The index of the vertex to access.
 		 *
 		 * @return The vertex in the mesh at the given index.
 		 */

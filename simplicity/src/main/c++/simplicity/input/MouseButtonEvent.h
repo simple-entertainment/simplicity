@@ -17,6 +17,7 @@
 #ifndef MOUSEBUTTONEVENT_H_
 #define MOUSEBUTTONEVENT_H_
 
+#include "../common/Defines.h"
 #include "Button.h"
 #include "Mouse.h"
 

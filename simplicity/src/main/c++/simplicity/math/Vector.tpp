@@ -36,7 +36,7 @@ namespace simplicity
 	}
 
 	template<typename Data, unsigned int Size>
-	Vector<Data, Size>::Vector(Data* data) :
+	Vector<Data, Size>::Vector(const Data* data) :
 		data()
 	{
 		setData(data);
@@ -275,7 +275,7 @@ namespace simplicity
 	}
 
 	template<typename Data, unsigned int Size>
-	void Vector<Data, Size>::setData(Data* data)
+	void Vector<Data, Size>::setData(const Data* data)
 	{
 		std::copy(data, data + Size, std::begin(this->data));
 	}

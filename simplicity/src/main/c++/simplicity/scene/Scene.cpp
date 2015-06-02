@@ -22,6 +22,15 @@ using namespace std;
 
 namespace simplicity
 {
+	Scene::Scene() :
+			entities(),
+			entitiesToBeAdded(),
+			entitiesToBeAddedParents(),
+			entitiesToBeRemoved(),
+			graphs()
+	{
+	}
+
 	void Scene::addEntity(unique_ptr<Entity> entity)
 	{
 		entitiesToBeAdded.push_back(move(entity));

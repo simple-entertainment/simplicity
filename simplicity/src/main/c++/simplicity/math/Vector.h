@@ -41,7 +41,7 @@ namespace simplicity
 			/**
 			 * @param data The data to copy into the vector.
 			 */
-			Vector(Data* data);
+			Vector(const Data* data);
 
 			/**
 			 * @param d0 The first element of the vector.
@@ -313,7 +313,7 @@ namespace simplicity
 			 *
 			 * @param data The data.
 			 */
-			void setData(Data* data);
+			void setData(const Data* data);
 
 			/**
 			 * <p>

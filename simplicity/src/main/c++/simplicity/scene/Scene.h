@@ -33,6 +33,8 @@ namespace simplicity
 	class SIMPLE_API Scene : private NonCopyable
 	{
 		public:
+			Scene();
+
 			/**
 			 * <p>
 			 * Queues an entity to be added to the scene before the next frame.

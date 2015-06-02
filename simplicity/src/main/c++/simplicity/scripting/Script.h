@@ -18,6 +18,7 @@
 #define SCRIPT_H_
 
 #include "../entity/Component.h"
+#include "../scene/Scene.h"
 
 namespace simplicity
 {
