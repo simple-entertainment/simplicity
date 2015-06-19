@@ -16,6 +16,8 @@
  */
 #include <sstream>
 
+#include "../logging/Logs.h"
+
 #include "../math/MathConstants.h"
 #include "../math/MathFunctions.h"
 #include "ModelFactory.h"
@@ -667,9 +669,9 @@ namespace simplicity
 	{
 		if (reverse)
 		{
-			indices[index] = vertexIndex + 2;
-			indices[index + 1] = vertexIndex + 1;
-			indices[index + 2] = vertexIndex;
+			indices[index] = vertexIndex;
+			indices[index + 1] = vertexIndex + 2;
+			indices[index + 2] = vertexIndex + 1;
 			indices[index + 3] = vertexIndex;
 			indices[index + 4] = vertexIndex + 3;
 			indices[index + 5] = vertexIndex + 2;
@@ -679,9 +681,9 @@ namespace simplicity
 			indices[index] = vertexIndex;
 			indices[index + 1] = vertexIndex + 1;
 			indices[index + 2] = vertexIndex + 2;
-			indices[index + 3] = vertexIndex + 2;
-			indices[index + 4] = vertexIndex + 3;
-			indices[index + 5] = vertexIndex;
+			indices[index + 3] = vertexIndex;
+			indices[index + 4] = vertexIndex + 2;
+			indices[index + 5] = vertexIndex + 3;
 		}
 	}
 
@@ -885,6 +887,8 @@ namespace simplicity
 
 		for (unsigned int lineIndex = 0; lineIndex < lines.size(); lineIndex++)
 		{
+			Logs::debug("simplicity", lines[lineIndex].c_str());
+
 			if (lines[lineIndex].empty())
 			{
 				continue;
@@ -892,6 +896,8 @@ namespace simplicity
 
 			istringstream inputLineStream(lines[lineIndex]);
 			vector<string> splitLine = splitString(split, inputLineStream, ' ', 4);
+
+			Logs::debug("simplicity", "\"%s\"", splitLine[0].c_str());
 
 			if (splitLine[0] == "v")
 			{

@@ -1,5 +1,5 @@
 /*
-* Copyright © 2014 Simple Entertainment Limited
+* Copyright ï¿½ 2014 Simple Entertainment Limited
 *
 * This file is part of The Simplicity Engine.
 *
@@ -67,7 +67,27 @@ namespace simplicity
 
 	void Camera::setOrthogonal(float width, float height)
 	{
-		// TODO
+		// TODO Untested!
+
+		frameHeight = height;
+		frameWidth = width;
+
+		projection[0] = 2 / frameWidth;
+		projection[1] = 0.0f;
+		projection[2] = 0.0f;
+		projection[3] = 0.0f;
+		projection[4] = 0.0f;
+		projection[5] = 2 / frameHeight;
+		projection[6] = 0.0f;
+		projection[7] = 0.0f;
+		projection[8] = 0.0f;
+		projection[9] = 0.0f;
+		projection[10] = -2 / (farClippingDistance - nearClippingDistance);
+		projection[11] = 0.0f;
+		projection[12] = 0.0f;
+		projection[13] = 0.0f;
+		projection[14] = (farClippingDistance + nearClippingDistance) / (farClippingDistance - nearClippingDistance);
+		projection[15] = 1.0f;
 	}
 
 	void Camera::setPerspective(float yAxisFieldOfView, float aspectRatio)
@@ -97,5 +117,10 @@ namespace simplicity
 		projection[13] = 0.0f;
 		projection[14] = -twoNearClippingDistance * farClippingDistance / depth;
 		projection[15] = 0.0f;
+	}
+
+	void Camera::setProjection(const Matrix44& projection)
+	{
+		this->projection = projection;
 	}
 }

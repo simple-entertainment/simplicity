@@ -60,7 +60,7 @@ namespace simplicity
 			 *
 			 * @return The entity containing the camera component.
 			 */
-			virtual const Entity* getCamera() const = 0;
+			virtual Entity* getCamera() const = 0;
 
 			/**
 			 * <p>

@@ -27,7 +27,6 @@
 
 // Engine
 #include "engine/CompositeEngine.h"
-#include "engine/DebugSerialCompositeEngine.h"
 #include "engine/Engine.h"
 #include "engine/SerialCompositeEngine.h"
 
@@ -120,7 +119,7 @@
 #include "resources/Resources.h"
 
 // Scene
-#include "scene/FlyingCameraEngine.h"
+#include "scene/Scene.h"
 
 // Scripting
 #include "scripting/Script.h"

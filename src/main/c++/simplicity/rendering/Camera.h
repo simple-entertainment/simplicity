@@ -116,6 +116,15 @@ namespace simplicity
 			 */
 			void setPerspective(float yAxisFieldOfView, float aspectRatio);
 
+			/**
+			 * <p>
+			 * Sets a projection.
+			 * </p>
+			 *
+			 * @param projection The projection.
+			 */
+			void setProjection(const Matrix44& projection);
+
 		private:
 			float farClippingDistance;
 

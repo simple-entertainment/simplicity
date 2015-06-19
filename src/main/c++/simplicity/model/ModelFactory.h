@@ -397,8 +397,8 @@ namespace simplicity
 			 *
 			 * @return The model created from the OBJ data.
 			 */
-			std::unique_ptr<Mesh> loadObj(Resource& resource, std::shared_ptr<MeshBuffer> buffer, const Vector4& color,
-					float scale = 1.0f);
+			std::unique_ptr<Mesh> loadObj(Resource& resource, std::shared_ptr<MeshBuffer> buffer = nullptr,
+					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f);
 
 			/**
 			 * <p>
