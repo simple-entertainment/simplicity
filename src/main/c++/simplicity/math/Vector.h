@@ -393,24 +393,87 @@ namespace simplicity
 
 	/**
 	 * <p>
-	 * A 2 floating point vector.
+	 * A floating point vector with 2 elements.
 	 * </p>
 	 */
 	using Vector2 = Vector<float, 2>;
 
 	/**
 	 * <p>
-	 * A 3 floating point vector.
+	 * A floating point vector with 3 elements.
 	 * </p>
 	 */
 	using Vector3 = Vector<float, 3>;
 
 	/**
 	 * <p>
-	 * A 4 floating point vector.
+	 * A floating point vector with 4 elements.
 	 * </p>
 	 */
 	using Vector4 = Vector<float, 4>;
+
+	/**
+	 * <p>
+	 * A floating point vector with 2 elements.
+	 * </p>
+	 */
+	using Vector2f = Vector<float, 2>;
+
+	/**
+	 * <p>
+	 * A floating point vector with 3 elements.
+	 * </p>
+	 */
+	using Vector3f = Vector<float, 3>;
+
+	/**
+	 * <p>
+	 * A floating point vector with 4 elements.
+	 * </p>
+	 */
+	using Vector4f = Vector<float, 4>;
+
+	/**
+	 * <p>
+	 * A integer vector with 2 elements.
+	 * </p>
+	 */
+	using Vector2i = Vector<int, 2>;
+
+	/**
+	 * <p>
+	 * A integer vector with 3 elements.
+	 * </p>
+	 */
+	using Vector3i = Vector<int, 3>;
+
+	/**
+	 * <p>
+	 * A integer vector with 4 elements.
+	 * </p>
+	 */
+	using Vector4i = Vector<int, 4>;
+
+	/**
+	 * <p>
+	 * A unsigned integer vector with 2 elements.
+	 * </p>
+	 */
+	using Vector2ui = Vector<unsigned int, 2>;
+
+	/**
+	 * <p>
+	 * A unsigned integer vector with 3 elements.
+	 * </p>
+	 */
+	using Vector3ui = Vector<unsigned int, 3>;
+
+	/**
+	 * <p>
+	 * A unsigned integer vector with 4 elements.
+	 * </p>
+	 */
+	using Vector4ui = Vector<unsigned int, 4>;
 	
 	/**
 	 * <p>

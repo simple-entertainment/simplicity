@@ -180,8 +180,8 @@ namespace simplicity
 			 * @param topLeft The top left corner of the cropped area.
 			 * @param bottomRight The bottom right corner of the cropped area.
 			 */
-			virtual void setScissor(const Vector<unsigned int, 2>& topLeft,
-					const Vector<unsigned int, 2>& bottomRight) = 0;
+			virtual void setScissor(const Vector2ui& topLeft,
+					const Vector2ui& bottomRight) = 0;
 
 			/**
 			 * <p>
