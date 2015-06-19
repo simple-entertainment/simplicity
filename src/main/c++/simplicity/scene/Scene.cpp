@@ -15,7 +15,11 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include "../common/AddressEquals.h"
+#include "../input/MouseButtonEvent.h"
+#include "../messaging/Messages.h"
+#include "../messaging/Subject.h"
 #include "../Simplicity.h"
+#include "../windowing/WindowEngine.h"
 #include "Scene.h"
 
 using namespace std;
@@ -27,7 +31,9 @@ namespace simplicity
 			entitiesToBeAdded(),
 			entitiesToBeAddedParents(),
 			entitiesToBeRemoved(),
-			graphs()
+			graphs(),
+			mouseCaptureEnabled(true),
+			windowEngine(nullptr)
 	{
 	}
 
@@ -71,6 +77,20 @@ namespace simplicity
 		entitiesToBeAdded.clear();
 	}
 
+	bool Scene::capturesMouse()
+	{
+		return mouseCaptureEnabled;
+	}
+
+	void Scene::close()
+	{
+		if (mouseCaptureEnabled && windowEngine != nullptr)
+		{
+			windowEngine->releaseMouse();
+			Messages::deregisterRecipient(Subject::MOUSE_BUTTON, bind(&Scene::onMouseButton, this, placeholders::_1));
+		}
+	}
+
     vector<Entity*> Scene::getEntities(unsigned short category)
 	{
     	vector<Entity*> rawEntities;
@@ -84,6 +104,30 @@ namespace simplicity
     	}
 
     	return rawEntities;
+	}
+
+	bool Scene::onMouseButton(const Message& message)
+	{
+		const MouseButtonEvent* event = static_cast<const MouseButtonEvent*>(message.body);
+		if (event->button == Mouse::Button::LEFT && event->buttonState == Button::State::UP)
+		{
+			if (!windowEngine->isMouseCaptured())
+			{
+				windowEngine->captureMouse();
+			}
+		}
+
+		return false;
+	}
+
+	void Scene::open()
+	{
+		windowEngine = Simplicity::getEngine<WindowEngine>();
+		if (mouseCaptureEnabled && windowEngine != nullptr)
+		{
+			windowEngine->captureMouse();
+			Messages::registerRecipient(Subject::MOUSE_BUTTON, bind(&Scene::onMouseButton, this, placeholders::_1));
+		}
 	}
 
 	void Scene::removeEntity(Entity* entity)
@@ -111,6 +155,11 @@ namespace simplicity
 			}
 		}
 		entitiesToBeRemoved.clear();
+	}
+
+	void Scene::setCapturesMouse(bool capturesMouse)
+	{
+		mouseCaptureEnabled = capturesMouse;
 	}
 
     void Scene::updateGraphs(Entity& entity)

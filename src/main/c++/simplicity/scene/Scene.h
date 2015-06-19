@@ -22,9 +22,12 @@
 #include "../common/NonCopyable.h"
 #include "../entity/Entity.h"
 #include "../graph/Graph.h"
+#include "../messaging/Message.h"
 
 namespace simplicity
 {
+	class WindowEngine;
+
 	/**
 	 * <p>
 	 * A scene.
@@ -72,6 +75,22 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Determines if the mouse should be captured while this scene is open.
+			 * </p>
+			 *
+			 * @return True if the mouse should be captured while this scene is open, false otherwise.
+			 */
+			bool capturesMouse();
+
+			/**
+			 * <p>
+			 * Closes this scene.
+			 * </p>
+			 */
+			void close();
+
+			/**
+			 * <p>
 			 * Retrieves the entities.
 			 * </p>
 			 *
@@ -102,6 +121,13 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Opens this scene.
+			 * </p>
+			 */
+			void open();
+
+			/**
+			 * <p>
 			 * Queues an entity to be removed from the scene before the next frame.
 			 * </p>
 			 *
@@ -115,6 +141,15 @@ namespace simplicity
 			 * </p>
 			 */
 			void removePendingEntities();
+
+			/**
+			 * <p>
+			 * Sets if the mouse should be captured while this scene is open.
+			 * </p>
+			 *
+			 * @param capturesMouse True if the mouse should be captured while this scene is open, false otherwise.
+			 */
+			void setCapturesMouse(bool capturesMouse);
 
 			/**
 			 * <p>
@@ -135,6 +170,12 @@ namespace simplicity
 			std::vector<const Entity*> entitiesToBeRemoved;
 
 			std::vector<std::unique_ptr<Graph>> graphs;
+
+			bool mouseCaptureEnabled;
+
+			WindowEngine* windowEngine;
+
+			bool onMouseButton(const Message& message);
 	};
 }
 

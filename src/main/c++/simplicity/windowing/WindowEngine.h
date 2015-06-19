@@ -31,6 +31,13 @@ namespace simplicity
 		public:
 			/**
 			 * <p>
+			 * "Captures" the mouse pointer so that it can no longer be seen.
+			 * </p>
+			 */
+			virtual void captureMouse() = 0;
+
+			/**
+			 * <p>
 			 * Retrieves the height of the window.
 			 * </p>
 			 *
@@ -55,6 +62,20 @@ namespace simplicity
 			 * @return True if the window is in fullscreen mode, false otherwise.
 			 */
 			virtual bool isFullscreen() const = 0;
+
+			/**
+			 * <p>
+			 * Determines if the mouse pointer has been "captured".
+			 * </p>
+			 */
+			virtual bool isMouseCaptured() const = 0;
+
+			/**
+			 * <p>
+			 * "Releases" the mouse pointer so that it can be seen.
+			 * </p>
+			 */
+			virtual void releaseMouse() = 0;
 
 			/**
 			 * <p>

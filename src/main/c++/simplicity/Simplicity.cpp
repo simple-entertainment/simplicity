@@ -20,7 +20,6 @@
 
 #include "common/Timer.h"
 #include "engine/SerialCompositeEngine.h"
-#include "messaging/Subject.h"
 #include "Simplicity.h"
 
 using namespace std;
@@ -31,13 +30,13 @@ namespace simplicity
 	namespace Simplicity
 	{
 		unique_ptr<CompositeEngine> compositeEngine;
-		Scene* currentScene = nullptr;
 		float frameTime = 0.0f;
 		unsigned long id = 0;
 		unsigned short maxFrameRate = 0;
-		bool newlyOpenedScene = true;
 		bool paused = false;
+		Scene* scene = nullptr;
 		map<string, unique_ptr<Scene>> scenes;
+		Scene* sceneToBeOpened = nullptr;
 		bool stopped = true;
 		float totalTime = 0.0f;
 		Timer totalTimer;
@@ -55,9 +54,9 @@ namespace simplicity
 
 		void addScene(const string& name, unique_ptr<Scene> scene)
 		{
-			if (currentScene == nullptr)
+			if (scenes.size() == 0)
 			{
-				currentScene = scene.get();
+				sceneToBeOpened = scene.get();
 			}
 
 			scenes[name] = move(scene);
@@ -85,14 +84,19 @@ namespace simplicity
 
 		Scene* getScene()
 		{
-			// Provide a default scene.
-			if (currentScene == nullptr)
+			if (scene == nullptr)
 			{
-				unique_ptr<Scene> defaultScene(new Scene);
-				addScene("default", move(defaultScene));
+				if (sceneToBeOpened == nullptr)
+				{
+					// Provide a default scene.
+					unique_ptr<Scene> defaultScene(new Scene);
+					addScene("default", move(defaultScene));
+				}
+
+				return sceneToBeOpened;
 			}
 
-			return currentScene;
+			return scene;
 		}
 
 		float getTotalTime()
@@ -107,12 +111,7 @@ namespace simplicity
 
 		void openScene(const string& name)
 		{
-			currentScene = scenes[name].get();
-
-			if (isPlaying())
-			{
-				newlyOpenedScene = true;
-			}
+			sceneToBeOpened = scenes[name].get();
 		}
 
 		void pause()
@@ -142,17 +141,27 @@ namespace simplicity
 			{
 				Timer frameTimer;
 
-				currentScene->addPendingEntities();
-
-				if (newlyOpenedScene)
+				if (sceneToBeOpened != nullptr)
 				{
-					compositeEngine->onOpenScene(*currentScene);
-					newlyOpenedScene = false;
+					if (scene != nullptr)
+					{
+						compositeEngine->onCloseScene(*scene);
+						scene->close();
+					}
+
+					scene = sceneToBeOpened;
+					sceneToBeOpened = nullptr;
+
+					scene->open();
+					scene->addPendingEntities();
+					compositeEngine->onOpenScene(*scene);
 				}
+
+				scene->addPendingEntities();
 
 				compositeEngine->advance();
 
-				currentScene->removePendingEntities();
+				scene->removePendingEntities();
 
 				frameTime = frameTimer.getElapsedTime();
 				totalTime = totalTimer.getElapsedTime();
@@ -178,6 +187,8 @@ namespace simplicity
 			if (stopped)
 			{
 				compositeEngine->onStop();
+
+				// TODO Close all scenes.
 			}
 		}
 
