@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include <cassert>
 #include <cstdarg>
 #include <map>
 
@@ -29,21 +28,62 @@ namespace simplicity
 {
 	namespace Logs
 	{
-		Resource* getResource(unsigned short category);
+		Resource* getResource(const string& tag);
+		void log(const string& severity, const string& tag, string message, ...);
 
-		map<unsigned short, Resource*> resources;
+		map<string, Resource*> resources;
 		Resource* defaultResource = nullptr;
 
-		Resource* getResource(unsigned short category)
+		void debug(const string& tag, string message, ...)
 		{
-			Resource* resource = resources[category];
+			va_list args;
+			va_start(args, message);
+			log("DEBUG", tag, message, args);
+			va_end(args);
+		}
+
+		void error(const string& tag, string message, ...)
+		{
+			va_list args;
+			va_start(args, message);
+			log("ERROR", tag, message, args);
+			va_end(args);
+		}
+
+		void fatal(const string& tag, string message, ...)
+		{
+			va_list args;
+			va_start(args, message);
+			log("FATAL", tag, message, args);
+			va_end(args);
+		}
+
+		Resource* getResource(const string& tag)
+		{
+			Resource* resource = nullptr;
+
+			unsigned int matchingPrefixLength = 0;
+			for (pair<string, Resource*> candidateResource : resources)
+			{
+				unsigned int prefixLength = candidateResource.first.size();
+				if (prefixLength <= matchingPrefixLength)
+				{
+					continue;
+				}
+
+				if (prefixLength <= tag.size() && candidateResource.first == tag.substr(0, prefixLength))
+				{
+					resource = candidateResource.second;
+					matchingPrefixLength = prefixLength;
+				}
+			}
 
 			if (resource == nullptr)
 			{
 				// Provide the default logging resource.
 				if (defaultResource == nullptr)
 				{
-					setResource(Resources::get("out", Category::CONSOLE), Category::ALL_CATEGORIES);
+					setResource(Resources::get("out", Category::CONSOLE), "");
 				}
 
 				resource = defaultResource;
@@ -52,7 +92,15 @@ namespace simplicity
 			return resource;
 		}
 
-		void log(unsigned short category, string message, ...)
+		void info(const string& tag, string message, ...)
+		{
+			va_list args;
+			va_start(args, message);
+			log("INFO", tag, message, args);
+			va_end(args);
+		}
+
+		void log(const string& severity, const string& tag, string message, ...)
 		{
 			std::string formattedMessage(message.size() + MAX_ARG_BUFFER_SIZE, 'x');
 
@@ -65,13 +113,13 @@ namespace simplicity
 			formattedMessage = formattedMessage.c_str();
 
 			// For error and fatal logs, cause the debugger to break.
-			if (category == Category::ERROR_LOG ||
-				category == Category::FATAL_LOG)
+			if (severity == "ERROR" ||
+				severity == "FATAL")
 			{
 				DEBUG_BREAK;
 			}
 
-			Resource* resource = getResource(category);
+			Resource* resource = getResource(tag);
 			if (resource == nullptr)
 			{
 				return;
@@ -85,19 +133,27 @@ namespace simplicity
 			// Remove the trailing 'x's.
 			timeString = timeString.c_str();
 
-			resource->appendData(timeString + " :: " + formattedMessage + '\n');
+			resource->appendData(timeString + " || " + tag + " || " + severity + " || " + formattedMessage + '\n');
 		}
 
-		void setResource(Resource* resource, unsigned short category)
+		void setResource(Resource* resource, const string& tagPrefix)
 		{
-			if (category == Category::ALL_CATEGORIES)
+			if (tagPrefix.size() == 0)
 			{
 				defaultResource = resource;
 			}
 			else
 			{
-				resources[category] = resource;
+				resources[tagPrefix] = resource;
 			}
+		}
+
+		void warning(const string& tag, string message, ...)
+		{
+			va_list args;
+			va_start(args, message);
+			log("WARNING", tag, message, args);
+			va_end(args);
 		}
 	}
 }

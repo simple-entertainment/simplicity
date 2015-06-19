@@ -51,41 +51,6 @@ namespace simplicity
 
 		/**
 		 * <p>
-		 * The debug log.
-		 * </p>
-		 */
-		static const unsigned short DEBUG_LOG = 4;
-
-		/**
-		 * <p>
-		 * The error log.
-		 * </p>
-		 */
-		static const unsigned short ERROR_LOG = 5;
-
-		/**
-		 * <p>
-		 * The fatal log.
-		 * </p>
-		 */
-		static const unsigned short FATAL_LOG = 6;
-
-		/**
-		 * <p>
-		 * The info log.
-		 * </p>
-		 */
-		static const unsigned short INFO_LOG = 7;
-
-		/**
-		 * <p>
-		 * The fatal log.
-		 * </p>
-		 */
-		static const unsigned short TRACE_LOG = 8;
-
-		/**
-		 * <p>
 		 * The console resource category.
 		 * </p>
 		 */

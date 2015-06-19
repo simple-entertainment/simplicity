@@ -26,30 +26,90 @@ namespace simplicity
 	{
 		/**
 		 * <p>
-		 * Logs a message using printf formatting.
+		 * Logs a debug message using printf formatting.
 		 * </p>
 		 *
 		 * <p>
 		 * message is not a const reference because MSVC can't handle variadics after reference types...
 		 * </p>
 		 *
-		 * @param category The category to log the message in.
+		 * @param tag The tag to log the message with.
 		 * @param message The message to log.
 		 * @param ... The arguments to include in the message.
 		 */
-		SIMPLE_API void log(unsigned short category, std::string message, ...);
+		SIMPLE_API void debug(const std::string& tag, std::string message, ...);
 
 		/**
 		 * <p>
-		 * Sets the resource for a particular category. Setting the resource for the Categories::ALL_CATEGORIES
-		 * category will set the default resource which will be used for categories that do not have a resource
-		 * explicitly set for them.
+		 * Logs an error message using printf formatting.
+		 * </p>
+		 *
+		 * <p>
+		 * message is not a const reference because MSVC can't handle variadics after reference types...
+		 * </p>
+		 *
+		 * @param tag The tag to log the message with.
+		 * @param message The message to log.
+		 * @param ... The arguments to include in the message.
+		 */
+		SIMPLE_API void error(const std::string& tag, std::string message, ...);
+
+		/**
+		 * <p>
+		 * Logs a fatal message using printf formatting.
+		 * </p>
+		 *
+		 * <p>
+		 * message is not a const reference because MSVC can't handle variadics after reference types...
+		 * </p>
+		 *
+		 * @param tag The tag to log the message with.
+		 * @param message The message to log.
+		 * @param ... The arguments to include in the message.
+		 */
+		SIMPLE_API void fatal(const std::string& tag, std::string message, ...);
+
+		/**
+		 * <p>
+		 * Logs an info message using printf formatting.
+		 * </p>
+		 *
+		 * <p>
+		 * message is not a const reference because MSVC can't handle variadics after reference types...
+		 * </p>
+		 *
+		 * @param tag The tag to log the message with.
+		 * @param message The message to log.
+		 * @param ... The arguments to include in the message.
+		 */
+		SIMPLE_API void info(const std::string& tag, std::string message, ...);
+
+		/**
+		 * <p>
+		 * Logs a warning message using printf formatting.
+		 * </p>
+		 *
+		 * <p>
+		 * message is not a const reference because MSVC can't handle variadics after reference types...
+		 * </p>
+		 *
+		 * @param tag The tag to log the message with.
+		 * @param message The message to log.
+		 * @param ... The arguments to include in the message.
+		 */
+		SIMPLE_API void warning(const std::string& tag, std::string message, ...);
+
+		/**
+		 * <p>
+		 * Sets the resource for a particular tag prefix. Logs will be sent to the resource for the longest matching tag
+		 * prefix. Setting the resource for the empty string ("") tag prefix will set the default resource which will be
+		 * used for tags that do not have a resource set for a matching tag prefix.
 		 * </p>
 		 *
 		 * @param resource The resource.
-		 * @param category The category the resource will be used for.
+		 * @param tagPrefix The prefix of the tags to send to the resource.
 		 */
-		SIMPLE_API void setResource(Resource* resource, unsigned short category);
+		SIMPLE_API void setResource(Resource* resource, const std::string& tagPrefix);
 	}
 }
 
