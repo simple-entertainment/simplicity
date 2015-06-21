@@ -84,13 +84,6 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Closes this scene.
-			 * </p>
-			 */
-			void close();
-
-			/**
-			 * <p>
 			 * Retrieves the entities.
 			 * </p>
 			 *
@@ -121,10 +114,10 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Opens this scene.
+			 * Pauses this scene.
 			 * </p>
 			 */
-			void open();
+			void pause();
 
 			/**
 			 * <p>
@@ -141,6 +134,13 @@ namespace simplicity
 			 * </p>
 			 */
 			void removePendingEntities();
+
+			/**
+			 * <p>
+			 * Resumes this scene.
+			 * </p>
+			 */
+			void resume();
 
 			/**
 			 * <p>

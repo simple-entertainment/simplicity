@@ -26,6 +26,15 @@ namespace simplicity
 {
 	namespace Simplicity
 	{
+		enum class State
+		{
+			PAUSED,
+			PAUSING,
+			PLAYING,
+			STOPPED,
+			STOPPING
+		};
+
 		/**
 		 * <p>
 		 * Adds an engine to simplicity.
@@ -44,6 +53,14 @@ namespace simplicity
 		 * @param scene The scene.
 		 */
 		SIMPLE_API void addScene(const std::string& name, std::unique_ptr<Scene> scene);
+
+		/**
+		 * <p>
+		 * When manually controlling simplicity with playOneFrame(), this function must be called after calling pause()
+		 * or stop().
+		 * </p>
+		 */
+		SIMPLE_API void finishPlayback();
 
 		/**
 		 * <p>
@@ -105,6 +122,15 @@ namespace simplicity
 		 */
 		SIMPLE_API Scene* getScene();
 
+		/**
+		 * <p>
+		 * Retrieves the state of simplicity.
+		 * </p>
+		 *
+		 * @return The state of simplicity.
+		 */
+		SIMPLE_API State getState();
+
         /**
          * <p>
          * Retrieves the elapsed time since simplicity started playing.
@@ -113,15 +139,6 @@ namespace simplicity
          * @return The elapsed time since simplicity started playing.
          */
 		SIMPLE_API float getTotalTime();
-
-		/**
-		 * <p>
-         * Determines if simplicity is currently playing.
-         * </p>
-         *
-         * @return True if simplicity is currently playing, false otherwise.
-		 */
-		SIMPLE_API bool isPlaying();
 
 		/**
 		 * <p>
@@ -145,6 +162,13 @@ namespace simplicity
 		 * </p>
 		 */
 		SIMPLE_API void play();
+
+		/**
+		 * <p>
+		 * Starts/resumes all engines.
+		 * </p>
+		 */
+		SIMPLE_API void playOneFrame();
 
 		/**
 		 * <p>
@@ -177,6 +201,14 @@ namespace simplicity
          * @param maxFrameRate The maximum frame rate allowed by simplicity.
          */
 		SIMPLE_API void setMaxFrameRate(unsigned short maxFrameRate);
+
+		/**
+		 * <p>
+		 * When manually controlling simplicity with playOneFrame(), this function must be called before calling
+		 * playOneFrame().
+		 * </p>
+		 */
+		SIMPLE_API void startPlayback();
 
 		/**
 		 * <p>

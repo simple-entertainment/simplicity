@@ -33,11 +33,10 @@ namespace simplicity
 		float frameTime = 0.0f;
 		unsigned long id = 0;
 		unsigned short maxFrameRate = 0;
-		bool paused = false;
 		Scene* scene = nullptr;
 		map<string, unique_ptr<Scene>> scenes;
 		Scene* sceneToBeOpened = nullptr;
-		bool stopped = true;
+		State state = State::STOPPED;
 		float totalTime = 0.0f;
 		Timer totalTimer;
 
@@ -60,6 +59,30 @@ namespace simplicity
 			}
 
 			scenes[name] = move(scene);
+		}
+
+		void finishPlayback()
+		{
+			if (state == State::PAUSED || state == State::STOPPED)
+			{
+				return;
+			}
+
+			// TODO Close all scenes?
+			scene->pause();
+			compositeEngine->onPause();
+
+			if (state == State::PAUSING)
+			{
+				totalTimer.pause();
+				state = State::PAUSED;
+			}
+
+			if (state == State::STOPPING)
+			{
+				compositeEngine->onStop();
+				state = State::STOPPED;
+			}
 		}
 
 		CompositeEngine* getCompositeEngine()
@@ -99,14 +122,14 @@ namespace simplicity
 			return scene;
 		}
 
+		State getState()
+		{
+			return state;
+		}
+
 		float getTotalTime()
 		{
 			return totalTime;
-		}
-
-		bool isPlaying()
-		{
-			return !paused && !stopped;
 		}
 
 		void openScene(const string& name)
@@ -116,79 +139,58 @@ namespace simplicity
 
 		void pause()
 		{
-			paused = true;
+			state = State::PAUSING;
 		}
 
 		void play()
 		{
-			if (paused)
-			{
-				compositeEngine->onResume();
+			startPlayback();
 
-				paused = false;
-				totalTimer.resume();
+			while (state == State::PLAYING)
+			{
+				playOneFrame();
 			}
 
-			if (stopped)
+			finishPlayback();
+		}
+
+		void playOneFrame()
+		{
+			Timer frameTimer;
+
+			if (sceneToBeOpened != nullptr)
 			{
-				compositeEngine->onPlay();
-
-				stopped = false;
-				totalTimer.reset();
-			}
-
-			while (!paused && !stopped)
-			{
-				Timer frameTimer;
-
-				if (sceneToBeOpened != nullptr)
+				if (scene != nullptr)
 				{
-					if (scene != nullptr)
-					{
-						compositeEngine->onCloseScene(*scene);
-						scene->close();
-					}
-
-					scene = sceneToBeOpened;
-					sceneToBeOpened = nullptr;
-
-					scene->open();
-					scene->addPendingEntities();
-					compositeEngine->onOpenScene(*scene);
+					scene->pause();
+					compositeEngine->onCloseScene(*scene);
 				}
+
+				scene = sceneToBeOpened;
+				sceneToBeOpened = nullptr;
 
 				scene->addPendingEntities();
+				compositeEngine->onOpenScene(*scene);
+				scene->resume();
+			}
 
-				compositeEngine->advance();
+			scene->addPendingEntities();
 
-				scene->removePendingEntities();
+			compositeEngine->advance();
 
-				frameTime = frameTimer.getElapsedTime();
-				totalTime = totalTimer.getElapsedTime();
+			scene->removePendingEntities();
 
-				if (maxFrameRate != 0)
+			frameTime = frameTimer.getElapsedTime();
+			totalTime = totalTimer.getElapsedTime();
+
+			if (maxFrameRate != 0)
+			{
+				// Limit the frame rate.
+				float sleepTime = 1.0f / maxFrameRate - frameTime;
+				if (sleepTime > 0.0f)
 				{
-					// Limit the frame rate.
-					float sleepTime = 1.0f / maxFrameRate - frameTime;
-					if (sleepTime > 0.0f)
-					{
-						this_thread::sleep_for(milliseconds(static_cast<long>(sleepTime * 1000)));
-					}
+					this_thread::sleep_for(milliseconds(static_cast<long>(sleepTime * 1000)));
 				}
-			}
-
-			if (paused)
-			{
-				totalTimer.pause();
-
-				compositeEngine->onPause();
-			}
-
-			if (stopped)
-			{
-				compositeEngine->onStop();
-
-				// TODO Close all scenes.
 			}
 		}
 
@@ -212,9 +214,37 @@ namespace simplicity
 			Simplicity::maxFrameRate = maxFrameRate;
 		}
 
+		void startPlayback()
+		{
+			if (state == State::PLAYING)
+			{
+				return;
+			}
+
+			if (state == State::PAUSED)
+			{
+				totalTimer.resume();
+			}
+
+			if (state == State::STOPPED)
+			{
+				compositeEngine->onPlay();
+
+				totalTimer.reset();
+			}
+
+			compositeEngine->onResume();
+			if (scene != nullptr)
+			{
+				scene->resume();
+			}
+
+			state = State::PLAYING;
+		}
+
 		void stop()
 		{
-			stopped = true;
+			state = State::STOPPING;
 		}
 	}
 }

@@ -82,15 +82,6 @@ namespace simplicity
 		return mouseCaptureEnabled;
 	}
 
-	void Scene::close()
-	{
-		if (mouseCaptureEnabled && windowEngine != nullptr)
-		{
-			windowEngine->releaseMouse();
-			Messages::deregisterRecipient(Subject::MOUSE_BUTTON, bind(&Scene::onMouseButton, this, placeholders::_1));
-		}
-	}
-
     vector<Entity*> Scene::getEntities(unsigned short category)
 	{
     	vector<Entity*> rawEntities;
@@ -120,13 +111,12 @@ namespace simplicity
 		return false;
 	}
 
-	void Scene::open()
+	void Scene::pause()
 	{
-		windowEngine = Simplicity::getEngine<WindowEngine>();
 		if (mouseCaptureEnabled && windowEngine != nullptr)
 		{
-			windowEngine->captureMouse();
-			Messages::registerRecipient(Subject::MOUSE_BUTTON, bind(&Scene::onMouseButton, this, placeholders::_1));
+			windowEngine->releaseMouse();
+			Messages::deregisterRecipient(Subject::MOUSE_BUTTON, bind(&Scene::onMouseButton, this, placeholders::_1));
 		}
 	}
 
@@ -155,6 +145,16 @@ namespace simplicity
 			}
 		}
 		entitiesToBeRemoved.clear();
+	}
+
+	void Scene::resume()
+	{
+		windowEngine = Simplicity::getEngine<WindowEngine>();
+		if (mouseCaptureEnabled && windowEngine != nullptr)
+		{
+			windowEngine->captureMouse();
+			Messages::registerRecipient(Subject::MOUSE_BUTTON, bind(&Scene::onMouseButton, this, placeholders::_1));
+		}
 	}
 
 	void Scene::setCapturesMouse(bool capturesMouse)
