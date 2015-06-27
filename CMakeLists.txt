@@ -3,11 +3,14 @@ cmake_minimum_required(VERSION 3.2)
 include(simplicity-common.cmake)
 
 # Project
+#########################
 project(simplicity)
 
-# Paths
+# Source
+#########################
 file(GLOB_RECURSE SRC_FILES src/main/c++/*.cpp src/main/c++/*.h)
-include_directories(src/main/c++)
 
-# Output
+# Target
+#########################
 add_library(simplicity STATIC ${SRC_FILES})
+target_include_directories(simplicity PUBLIC src/main/c++)
