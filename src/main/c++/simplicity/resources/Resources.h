@@ -37,7 +37,8 @@ namespace simplicity
 		 *
 		 * @return The resource if it was created, nullptr otherwise.
 		 */
-		SIMPLE_API Resource* create(const std::string& name, unsigned short category, bool binary = false);
+		SIMPLE_API Resource* create(const std::string& name, unsigned short category = Category::UNCATEGORIZED,
+									bool binary = false);
 
 		/**
 		 * <p>
@@ -49,7 +50,7 @@ namespace simplicity
 		 *
 		 * @return True if the resource exists, false otherwise.
 		 */
-		SIMPLE_API bool exists(const std::string& name, unsigned short category);
+		SIMPLE_API bool exists(const std::string& name, unsigned short category = Category::UNCATEGORIZED);
 
 		/**
 		 * <p>
@@ -62,7 +63,8 @@ namespace simplicity
 		 *
 		 * @return The resource if it exists, nullptr otherwise.
 		 */
-		SIMPLE_API Resource* get(const std::string& name, unsigned short category, bool binary = false);
+		SIMPLE_API Resource* get(const std::string& name, unsigned short category = Category::UNCATEGORIZED,
+								 bool binary = false);
 
 		/**
 		 * <p>

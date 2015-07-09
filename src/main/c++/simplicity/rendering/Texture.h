@@ -18,6 +18,7 @@
 #define TEXTURE_H_
 
 #include "../common/Defines.h"
+#include "PixelFormat.h"
 
 namespace simplicity
 {
@@ -56,6 +57,15 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Retrieves the format of this texture.
+			 * </p>
+			 *
+			 * @return The format of this texture.
+			 */
+			virtual PixelFormat getPixelFormat() const = 0;
+
+			/**
+			 * <p>
 			 * Retrieves the raw texture data.
 			 * </p>
 			 *
@@ -86,7 +96,7 @@ namespace simplicity
 			 *
 			 * @param rawData The raw texture data.
 			 */
-			virtual void setRawData(char* rawData) = 0;
+			virtual void setRawData(const char* rawData) = 0;
 	};
 }
 

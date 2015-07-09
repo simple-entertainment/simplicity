@@ -34,7 +34,7 @@ namespace simplicity
 
 	Texture* AbstractModel::getTexture() const
 	{
-		return texture;
+		return texture.get();
 	}
 
 	bool AbstractModel::isVisible() const
@@ -47,7 +47,7 @@ namespace simplicity
 		this->color = color;
 	}
 
-	void AbstractModel::setTexture(Texture* texture)
+	void AbstractModel::setTexture(shared_ptr<Texture> texture)
 	{
 		this->texture = texture;
 	}

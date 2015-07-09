@@ -390,7 +390,7 @@ namespace simplicity
 
 		// Bottom
 		insertRectangleVertices(meshData.vertexData, 0, Vector3(-halfBaseExtent, -height * 0.5f, -halfBaseExtent),
-			Vector3(halfBaseExtent * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfBaseExtent * 2.0f), color);
+				Vector3(0.0f, 0.0f, halfBaseExtent * 2.0f), Vector3(halfBaseExtent * 2.0f, 0.0f, 0.0f), color);
 
 		// North
 		insertTriangleVertices(meshData.vertexData, 4, Vector3(0.0f, height * 0.5f, 0.0f),
@@ -420,6 +420,40 @@ namespace simplicity
 		insertTriangleIndices(meshData.indexData, 9, 7);
 		insertTriangleIndices(meshData.indexData, 12, 10);
 		insertTriangleIndices(meshData.indexData, 15, 13);
+
+		mesh->releaseData();
+
+		return move(mesh);
+	}
+
+	unique_ptr<Mesh> ModelFactory::createRectangleMesh(float halfWidth, float halfHeight, shared_ptr<MeshBuffer> buffer,
+													   const Vector4& color, bool doubleSided)
+	{
+		unsigned int vertexCount = 4;
+		unsigned int indexCount = 6;
+		if (doubleSided)
+		{
+			indexCount *= 2;
+		}
+
+		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
+		MeshData& meshData = mesh->getData(false);
+
+		// Vertices
+		meshData.vertexCount = vertexCount;
+
+		insertRectangleVertices(meshData.vertexData, 0, Vector3(-halfWidth, halfHeight, 0.0f),
+								Vector3(halfWidth * 2.0f, 0.0f, 0.0f), Vector3(0.0f, -halfHeight * 2.0f, 0.0f), color);
+
+		// Indices
+		meshData.indexCount = indexCount;
+
+		insertRectangleIndices(meshData.indexData, 0, 0);
+
+		if (doubleSided)
+		{
+			insertRectangleIndices(meshData.indexData, 6, 0, true);
+		}
 
 		mesh->releaseData();
 
@@ -532,37 +566,9 @@ namespace simplicity
 	}
 
 	unique_ptr<Mesh> ModelFactory::createSquareMesh(float halfExtent, shared_ptr<MeshBuffer> buffer,
-			const Vector4& color, bool doubleSided)
+													const Vector4& color, bool doubleSided)
 	{
-		unsigned int vertexCount = 4;
-		unsigned int indexCount = 6;
-		if (doubleSided)
-		{
-			indexCount *= 2;
-		}
-
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false);
-
-		// Vertices
-		meshData.vertexCount = vertexCount;
-
-		insertRectangleVertices(meshData.vertexData, 0, Vector3(-halfExtent, halfExtent, 0.0f),
-			Vector3(halfExtent * 2.0f, 0.0f, 0.0f), Vector3(0.0f, -halfExtent * 2.0f, 0.0f), color);
-
-		// Indices
-		meshData.indexCount = indexCount;
-
-		insertRectangleIndices(meshData.indexData, 0, 0);
-
-		if (doubleSided)
-		{
-			insertRectangleIndices(meshData.indexData, 6, 0, true);
-		}
-
-		mesh->releaseData();
-
-		return move(mesh);
+		return createRectangleMesh(halfExtent, halfExtent, buffer, color, doubleSided);
 	}
 
 	unique_ptr<Mesh> ModelFactory::createTriangleMesh(const Vector3& top, const Vector3& toBottomLeft,
@@ -693,22 +699,6 @@ namespace simplicity
 		Vector3 normal = crossProduct(toTopRight, toBottomLeft);
 		normal.normalize();
 
-		float height = toBottomLeft.getMagnitude();
-		float width = toTopRight.getMagnitude();
-
-		float texHeight;
-		float texWidth;
-		if (height > width)
-		{
-			texHeight = height / width;
-			texWidth = 1.0f;
-		}
-		else
-		{
-			texHeight = 1.0f;
-			texWidth = width / height;
-		}
-
 		vertices[index].color = color;
 		vertices[index].normal = normal;
 		vertices[index].position = topLeft;
@@ -716,15 +706,15 @@ namespace simplicity
 		vertices[index + 1].color = color;
 		vertices[index + 1].normal = normal;
 		vertices[index + 1].position = topLeft + toBottomLeft;
-		vertices[index + 1].texCoord = Vector2(0.0f, texHeight);
+		vertices[index + 1].texCoord = Vector2(0.0f, 1.0f);
 		vertices[index + 2].color = color;
 		vertices[index + 2].normal = normal;
 		vertices[index + 2].position = topLeft + toTopRight + toBottomLeft;
-		vertices[index + 2].texCoord = Vector2(texWidth, texHeight);
+		vertices[index + 2].texCoord = Vector2(1.0f, 1.0f);
 		vertices[index + 3].color = color;
 		vertices[index + 3].normal = normal;
 		vertices[index + 3].position = topLeft + toTopRight;
-		vertices[index + 3].texCoord = Vector2(texWidth, 0.0f);
+		vertices[index + 3].texCoord = Vector2(1.0f, 0.0f);
 	}
 
 	void ModelFactory::insertTriangleIndices(unsigned int* indices, unsigned int index, unsigned int vertexIndex,

@@ -15,6 +15,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include <fstream>
+#include <unistd.h>
 
 #include "FileSystemDataStore.h"
 #include "FileSystemResource.h"
@@ -32,7 +33,7 @@ namespace simplicity
 	Resource* FileSystemDataStore::create(const string& name, unsigned short category, bool binary)
 	{
 		// Attempt to create a file.
-		if (ofstream(getUri(name)).fail())
+		if (ofstream(getAbsolutePath(name)).fail())
 		{
 			return nullptr;
 		}
@@ -40,7 +41,8 @@ namespace simplicity
 		// Maybe the file already existed after-all and we already have a resource for it...
 		if (resources[name] == nullptr)
 		{
-			resources[name] = unique_ptr<Resource>(new FileSystemResource(category, name, getUri(name), binary));
+			resources[name] =
+					unique_ptr<Resource>(new FileSystemResource(category, name, getAbsolutePath(name), binary));
 		}
 
 		return resources[name].get();
@@ -49,7 +51,7 @@ namespace simplicity
 	bool FileSystemDataStore::exists(const string& name)
 	{
 		// Attempt to open an existing file.
-		if (ifstream(getUri(name)).fail())
+		if (ifstream(getAbsolutePath(name)).fail())
 		{
 			return false;
 		}
@@ -67,16 +69,20 @@ namespace simplicity
 		// If we do not have a resource for this file, create one.
 		if (resources[name] == nullptr)
 		{
-			resources[name] = unique_ptr<Resource>(new FileSystemResource(category, name, getUri(name), binary));
+			resources[name] =
+					unique_ptr<Resource>(new FileSystemResource(category, name, getAbsolutePath(name), binary));
 		}
 
 		return resources[name].get();
 	}
 
-	string FileSystemDataStore::getUri(const string& name)
+	string FileSystemDataStore::getAbsolutePath(const string& name)
 	{
-		// TODO Absolute path with protocol i.e. "file:///" + cwd + ...
-		return directory + "/" + name;
+		char* cwd = getcwd(nullptr, 0);
+		string currentWorkingDirectory = cwd;
+		delete[] cwd;
+
+		return currentWorkingDirectory + "/" + directory + "/" + name;
 	}
 
 	bool FileSystemDataStore::remove(Resource* resource)

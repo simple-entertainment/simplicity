@@ -33,22 +33,17 @@ namespace simplicity
 		camera(nullptr),
 		entitiesByModel(),
 		graph(nullptr),
-		height(768),
+		height(600),
 		lights(),
 		modelsByBuffer(),
-		renderers(),
-		width(1024)
+		pipeline(nullptr),
+		width(800)
 	{
 	}
 
 	void AbstractRenderingEngine::addLight(Entity& light)
 	{
 		lights.push_back(&light);
-	}
-
-	void AbstractRenderingEngine::addRenderer(unique_ptr<Renderer> renderer)
-	{
-		renderers.push_back(move(renderer));
 	}
 
 	void AbstractRenderingEngine::advance()
@@ -60,54 +55,56 @@ namespace simplicity
 
 		CameraProperties cameraProperties = getCameraProperties();
 
-		std::set<Entity*> entities;
+		set<Entity*> entities;
 		if (cameraProperties.bounds != nullptr && graph != nullptr)
 		{
-			std::vector<Entity*> entityVector =
+			vector<Entity*> entityVector =
 				graph->getEntitiesWithinBounds(*cameraProperties.bounds,
 				cameraProperties.boundsPosition);
 
 			entities.insert(entityVector.begin(), entityVector.end());
 		}
 
-		for (unique_ptr<Renderer>& renderer : renderers)
+		for (pair<MeshBuffer* const, set<Model*>>& bufferAndModels : modelsByBuffer)
 		{
-			renderer->init();
-
-			renderer->getDefaultPipeline()->apply();
-			renderer->getDefaultPipeline()->set("cameraPosition", cameraProperties.position);
-			renderer->getDefaultPipeline()->set("cameraTransform", cameraProperties.transform);
-
-			for (unsigned int index = 0; index < lights.size(); index++)
+			Pipeline* pipeline = bufferAndModels.first->getPipeline();
+			if (pipeline == nullptr)
 			{
-				lights[index]->getComponent<Light>()->apply(*renderer->getDefaultPipeline(),
-						getPosition3(lights[index]->getTransform()));
+				pipeline = getDefaultPipeline();
 			}
 
-			for (pair<MeshBuffer* const, set<Model*>>& bufferAndModels : modelsByBuffer)
+			applyPipeline(*pipeline, cameraProperties);
+
+			render(entities, *bufferAndModels.first, *pipeline, bufferAndModels.second, false);
+		}
+
+		for (pair<MeshBuffer* const, set<Model*>>& bufferAndModels : modelsByBuffer)
+		{
+			Pipeline* pipeline = bufferAndModels.first->getPipeline();
+			if (pipeline == nullptr)
 			{
-				vector<pair<Model*, Matrix44>> modelsAndTransforms;
-				modelsAndTransforms.reserve(bufferAndModels.second.size());
-
-				for (Model* model : bufferAndModels.second)
-				{
-					for (Entity* entity : entitiesByModel[model])
-					{
-						if (entities.empty() || entities.find(entity) != entities.end())
-						{
-							modelsAndTransforms.push_back(pair<Model*, Matrix44>(model, entity->getTransform() *
-									model->getTransform()));
-						}
-					}
-				}
-
-				renderer->render(*bufferAndModels.first, modelsAndTransforms);
+				pipeline = getDefaultPipeline();
 			}
 
-			renderer->dispose();
+			applyPipeline(*pipeline, cameraProperties);
+
+			render(entities, *bufferAndModels.first, *pipeline, bufferAndModels.second, true);
 		}
 
 		postAdvance();
+	}
+
+	void AbstractRenderingEngine::applyPipeline(Pipeline& pipeline, const CameraProperties& cameraProperties)
+	{
+		pipeline.apply();
+
+		for (Entity* light : lights)
+		{
+			light->getComponent<Light>()->apply(pipeline, getPosition3(light->getTransform()));
+		}
+
+		pipeline.set("cameraPosition", cameraProperties.position);
+		pipeline.set("cameraTransform", cameraProperties.transform);
 	}
 
 	Entity* AbstractRenderingEngine::getCamera() const
@@ -150,6 +147,11 @@ namespace simplicity
 		return properties;
 	}
 
+	Pipeline* AbstractRenderingEngine::getDefaultPipeline()
+	{
+		return pipeline.get();
+	}
+
 	const Graph* AbstractRenderingEngine::getGraph() const
 	{
 		return graph;
@@ -163,11 +165,6 @@ namespace simplicity
 	int AbstractRenderingEngine::getWidth() const
 	{
 		return width;
-	}
-
-	bool AbstractRenderingEngine::hasRenderers()
-	{
-		return renderers.size() > 0;
 	}
 
 	void AbstractRenderingEngine::onAddEntity(Entity& entity)
@@ -190,25 +187,42 @@ namespace simplicity
 		dispose();
 	}
 
-	unique_ptr<Renderer> AbstractRenderingEngine::removeRenderer(Renderer* renderer)
+	void AbstractRenderingEngine::render(const set<Entity*>& entities, const MeshBuffer& buffer, Pipeline& pipeline,
+										 const set<Model*>& models, bool withTransparency)
 	{
-		unique_ptr<Renderer> removedRenderer;
+		vector<pair<Model*, Matrix44>> modelsAndTransforms;
+		modelsAndTransforms.reserve(models.size());
 
-		vector<unique_ptr<Renderer>>::iterator result =
-				find_if(renderers.begin(), renderers.end(), AddressEquals<Renderer>(*renderer));
-		if (result != renderers.end())
+		for (Model* model : models)
 		{
-			removedRenderer = move(*result);
-			renderers.erase(result);
-			renderer = nullptr;
+			bool modelHasTransparency =
+					model->getTexture() != nullptr && hasTransparency(model->getTexture()->getPixelFormat());
+			if (withTransparency != modelHasTransparency)
+			{
+				continue;
+			}
+
+			for (Entity* entity : entitiesByModel[model])
+			{
+				if (entities.empty() || entities.find(entity) != entities.end())
+				{
+					modelsAndTransforms.push_back(pair<Model*, Matrix44>(model, entity->getTransform() *
+																				model->getTransform()));
+				}
+			}
 		}
 
-		return move(removedRenderer);
+		render(buffer, pipeline, modelsAndTransforms);
 	}
 
 	void AbstractRenderingEngine::setCamera(Entity* camera)
 	{
 		this->camera = camera;
+	}
+
+	void AbstractRenderingEngine::setDefaultPipeline(shared_ptr<Pipeline> pipeline)
+	{
+		this->pipeline = pipeline;
 	}
 
 	void AbstractRenderingEngine::setGraph(Graph* graph)

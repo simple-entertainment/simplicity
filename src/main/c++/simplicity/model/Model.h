@@ -17,6 +17,8 @@
 #ifndef MODEL_H_
 #define MODEL_H_
 
+#include <memory>
+
 #include "../entity/Component.h"
 #include "../math/Vector.h"
 #include "../rendering/Texture.h"
@@ -147,7 +149,7 @@ namespace simplicity
 			 *
 			 * @param texture The texture applied to this model.
 			 */
-			virtual void setTexture(Texture* texture) = 0;
+			virtual void setTexture(std::shared_ptr<Texture> texture) = 0;
 
 			/**
 			 * <p>

@@ -33,6 +33,10 @@ namespace simplicity
 		RGB,
 		RGBA
 	};
+
+	unsigned int getPixelDepth(PixelFormat format);
+
+	bool hasTransparency(PixelFormat format);
 }
 
 #endif /* PIXELFORMAT_H_ */

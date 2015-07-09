@@ -39,11 +39,11 @@ namespace simplicity
 
 			void addLight(Entity& light) override;
 
-			void addRenderer(std::unique_ptr<Renderer> renderer) override;
-
 			void advance() override;
 
 			Entity* getCamera() const override;
+
+			Pipeline* getDefaultPipeline() override;
 
 			const Graph* getGraph() const override;
 
@@ -57,18 +57,15 @@ namespace simplicity
 
 			void onStop() override;
 
-			std::unique_ptr<Renderer> removeRenderer(Renderer* renderer) override;
-
 			void setCamera(Entity* camera) override;
+
+			void setDefaultPipeline(std::shared_ptr<Pipeline> pipeline) override;
 
 			void setGraph(Graph* graph) override;
 
 			void setHeight(int height) override;
 
 			void setWidth(int width) override;
-
-		protected:
-			bool hasRenderers();
 
 		private:
 			struct CameraProperties
@@ -91,9 +88,11 @@ namespace simplicity
 
 			std::map<MeshBuffer*, std::set<Model*>> modelsByBuffer;
 
-			std::vector<std::unique_ptr<Renderer>> renderers;
+			std::shared_ptr<Pipeline> pipeline;
 
 			int width;
+
+			void applyPipeline(Pipeline& pipeline, const CameraProperties& cameraProperties);
 
 			virtual void dispose() = 0;
 
@@ -104,6 +103,12 @@ namespace simplicity
 			virtual void postAdvance() = 0;
 
 			virtual bool preAdvance() = 0;
+
+			virtual void render(const MeshBuffer& buffer, Pipeline& pipeline,
+								const std::vector<std::pair<Model*, Matrix44>>& modelsAndTransforms) const = 0;
+
+			void render(const std::set<Entity*>& entities, const MeshBuffer& buffer, Pipeline& pipeline,
+						const std::set<Model*>& models, bool withTransparency);
 	};
 }
 

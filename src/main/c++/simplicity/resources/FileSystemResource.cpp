@@ -22,11 +22,14 @@ using namespace std;
 
 namespace simplicity
 {
-	FileSystemResource::FileSystemResource(unsigned short category, const string& name, const string& uri, bool binary) :
-		binary(binary),
-		category(category),
-		name(name),
-		uri(uri)
+	const string FILE_PROTOCOL_PREFIX = "file://";
+
+	FileSystemResource::FileSystemResource(unsigned short category, const string& name, const string& absolutePath,
+										   bool binary) :
+			absolutePath(absolutePath),
+			binary(binary),
+			category(category),
+			name(name)
 	{
 	}
 
@@ -65,7 +68,7 @@ namespace simplicity
 			mode |= ios_base::binary;
 		}
 
-		return unique_ptr<istream>(new ifstream(uri, mode));
+		return unique_ptr<istream>(new ifstream(absolutePath, mode));
 	}
 
 	const string& FileSystemResource::getName() const
@@ -85,12 +88,12 @@ namespace simplicity
 			mode |= ios_base::binary;
 		}
 
-		return unique_ptr<ostream>(new ofstream(uri, mode));
+		return unique_ptr<ostream>(new ofstream(absolutePath, mode));
 	}
 
 	const string& FileSystemResource::getUri() const
 	{
-		return uri;
+		return FILE_PROTOCOL_PREFIX + absolutePath;
 	}
 
 	bool FileSystemResource::isBinary() const
@@ -106,7 +109,7 @@ namespace simplicity
 			mode |= ios_base::binary;
 		}
 
-		ofstream stream(uri, mode);
+		ofstream stream(absolutePath, mode);
 
 		stream.write(data, length);
 	}

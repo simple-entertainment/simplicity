@@ -26,7 +26,8 @@ namespace simplicity
 	class SIMPLE_API FileSystemResource : public Resource
 	{
 		public:
-			FileSystemResource(unsigned short category, const std::string& name, const std::string& uri, bool binary);
+			FileSystemResource(unsigned short category, const std::string& name, const std::string& absolutePath,
+							   bool binary);
 
 			void appendData(const char* data, unsigned int length) override;
 
@@ -51,13 +52,13 @@ namespace simplicity
 			void setData(const std::string& data) override;
 
 		private:
+			std::string absolutePath;
+
 			bool binary;
 
 			unsigned short category;
 
 			std::string name;
-
-			std::string uri;
 	};
 }
 

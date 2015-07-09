@@ -51,7 +51,7 @@ namespace simplicity
 
 			std::map<std::string, std::unique_ptr<Resource>> resources;
 
-			std::string getUri(const std::string& name);
+			std::string getAbsolutePath(const std::string& name);
 	};
 }
 

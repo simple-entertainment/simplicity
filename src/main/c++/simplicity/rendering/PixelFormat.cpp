@@ -14,42 +14,27 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef ABSTRACTMODEL_H_
-#define ABSTRACTMODEL_H_
-
-#include "Model.h"
+#include "PixelFormat.h"
 
 namespace simplicity
 {
-	/**
-	 * <p>
-	 * An abstract model that implements the basic setters and getters declared in Model.
-	 * </p>
-	 */
-	class SIMPLE_API AbstractModel : public Model
+	unsigned int getPixelDepth(PixelFormat format)
 	{
-		public:
-			AbstractModel();
+		if (format == PixelFormat::BGR || format == PixelFormat::RGB)
+		{
+			return 3;
+		}
 
-			const Vector4& getColor() const override;
+		if (format == PixelFormat::BGRA || format == PixelFormat::RGBA)
+		{
+			return 4;
+		}
 
-			Texture* getTexture() const override;
+		return 0;
+	}
 
-			bool isVisible() const override;
-
-			void setColor(const Vector4& color) override;
-
-			void setTexture(std::shared_ptr<Texture> texture) override;
-
-			void setVisible(bool visible) override;
-
-		private:
-			Vector4 color;
-
-			std::shared_ptr<Texture> texture;
-
-			bool visible;
-	};
+	bool hasTransparency(PixelFormat format)
+	{
+		return format == PixelFormat::BGRA || format == PixelFormat::RGBA;
+	}
 }
-
-#endif /* ABSTRACTMODEL_H_ */

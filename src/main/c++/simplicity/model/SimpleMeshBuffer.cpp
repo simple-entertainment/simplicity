@@ -21,19 +21,20 @@ using namespace std;
 namespace simplicity
 {
 	SimpleMeshBuffer::SimpleMeshBuffer(const unsigned int vertexCount, unsigned int indexCount,
-			Buffer::AccessHint accessHint) :
-					accessHint(accessHint),
-					baseIndices(),
-					baseVertices(),
-					indexCounts(),
-					indexData(indexCount),
-					indexed(indexCount > 0),
-					meshData(),
-					nextFreeIndex(0),
-					nextFreeVertex(0),
-					primitiveType(PrimitiveType::TRIANGLE_LIST),
-					vertexCounts(),
-					vertexData(vertexCount)
+									   Buffer::AccessHint accessHint) :
+			accessHint(accessHint),
+			baseIndices(),
+			baseVertices(),
+			indexCounts(),
+			indexData(indexCount),
+			indexed(indexCount > 0),
+			meshData(),
+			nextFreeIndex(0),
+			nextFreeVertex(0),
+			pipeline(nullptr),
+			primitiveType(PrimitiveType::TRIANGLE_LIST),
+			vertexCounts(),
+			vertexData(vertexCount)
 	{
 	}
 
@@ -92,6 +93,11 @@ namespace simplicity
 		return indexCounts[&mesh];
 	}
 
+	Pipeline* SimpleMeshBuffer::getPipeline() const
+	{
+		return pipeline.get();
+	}
+
 	MeshBuffer::PrimitiveType SimpleMeshBuffer::getPrimitiveType() const
 	{
 		return primitiveType;
@@ -127,6 +133,11 @@ namespace simplicity
 				nextFreeIndex = indicesEnd;
 			}
 		}
+	}
+
+	void SimpleMeshBuffer::setPipeline(shared_ptr<Pipeline> pipeline)
+	{
+		this->pipeline = pipeline;
 	}
 
 	void SimpleMeshBuffer::setPrimitiveType(PrimitiveType primitiveType)

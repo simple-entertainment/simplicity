@@ -18,6 +18,7 @@
 #define MESHBUFFER_H_
 
 #include "../common/Buffer.h"
+#include "../rendering/Pipeline.h"
 #include "Mesh.h"
 
 namespace simplicity
@@ -155,6 +156,15 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Retrieves the pipeline used to render this buffer.
+			 * </p>
+			 *
+			 * @return The pipeline used to render this buffer.
+			 */
+			virtual Pipeline* getPipeline() const = 0;
+
+			/**
+			 * <p>
 			 * Retrieves the type of primitive the models in is buffer are constructed from.
 			 * </p>
 			 *
@@ -190,6 +200,15 @@ namespace simplicity
 			 * @param mesh The mesh to release the data for.
 			 */
 			virtual void releaseData(const Mesh& mesh) const = 0;
+
+			/**
+			 * <p>
+			 * Sets the pipeline used to render this buffer.
+			 * </p>
+			 *
+			 * @param pipeline The pipeline used to render this buffer.
+			 */
+			virtual void setPipeline(std::shared_ptr<Pipeline> pipeline) = 0;
 
 			/**
 			 * <p>

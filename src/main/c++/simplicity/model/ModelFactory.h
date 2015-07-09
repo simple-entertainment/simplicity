@@ -202,6 +202,24 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Creates a rectangle mesh.
+			 * </p>
+			 *
+			 * @param halfWidth The half extent (half the length) of the width of the rectangle.
+			 * @param halfHeight The half extent (half the length) of the height of the rectangle.
+			 * @param buffer The buffer used to store the mesh data (optional).
+			 * @param color The color of the rectangle.
+			 * @param doubleSided Determines if the rectangle should be double-sided (face both ways).
+			 *
+			 * @return A rectangle mesh.
+			 */
+			std::unique_ptr<Mesh> createRectangleMesh(float halfWidth, float halfHeight,
+													  std::shared_ptr<MeshBuffer> buffer = nullptr,
+													  const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+													  bool doubleSided = false);
+
+			/**
+			 * <p>
 			 * Creates a sphere mesh.
 			 * </p>
 			 *

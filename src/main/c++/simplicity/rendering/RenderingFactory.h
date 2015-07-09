@@ -54,7 +54,7 @@ namespace simplicity
 			 *
 			 * @return The texture.
 			 */
-			virtual std::unique_ptr<Texture> createTexture(const char* data, unsigned int length, PixelFormat format) = 0;
+			virtual std::shared_ptr<Texture> createTexture(const char* data, unsigned int length, PixelFormat format) = 0;
 
 			/**
 			 * <p>
@@ -68,7 +68,7 @@ namespace simplicity
 			 *
 			 * @return The texture.
 			 */
-			virtual std::unique_ptr<Texture> createTexture(char* rawData, unsigned int width, unsigned int height,
+			virtual std::shared_ptr<Texture> createTexture(char* rawData, unsigned int width, unsigned int height,
 					PixelFormat format) = 0;
 
 			/**
@@ -81,7 +81,7 @@ namespace simplicity
 			 *
 			 * @return The texture.
 			 */
-			virtual std::unique_ptr<Texture> createTexture(Resource& image, PixelFormat format) = 0;
+			virtual std::shared_ptr<Texture> createTexture(Resource& image, PixelFormat format) = 0;
 
 			/**
 			 * <p>

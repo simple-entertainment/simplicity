@@ -22,7 +22,7 @@
 #include "../engine/Engine.h"
 #include "../entity/Entity.h"
 #include "../graph/Graph.h"
-#include "Renderer.h"
+#include "Pipeline.h"
 
 namespace simplicity
 {
@@ -45,22 +45,22 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Adds a renderer. Every renderer added acts as a rendering pass. Passes will be performed in the order that they
-			 * are added.
-			 * </p>
-			 *
-			 * @param renderer The renderer.
-			 */
-			virtual void addRenderer(std::unique_ptr<Renderer> renderer) = 0;
-
-			/**
-			 * <p>
 			 * Retrieves the camera through which the scene will be rendered.
 			 * </p>
 			 *
 			 * @return The entity containing the camera component.
 			 */
 			virtual Entity* getCamera() const = 0;
+
+			/**
+			 * <p>
+			 * Retrieves the default pipeline to be applied when rendering buffers that do not specify their own
+			 * pipeline.
+			 * </p>
+			 *
+			 * @return The default pipeline to be applied when rendering buffers that do not specify their own pipeline.
+			 */
+			virtual Pipeline* getDefaultPipeline() = 0;
 
 			/**
 			 * <p>
@@ -91,23 +91,22 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Removes the specified renderer.
-			 * </p>
-			 *
-			 * @param renderer The renderer.
-			 *
-			 * @return The removed renderer.
-			 */
-			virtual std::unique_ptr<Renderer> removeRenderer(Renderer* renderer) = 0;
-
-			/**
-			 * <p>
 			 * Sets the camera through which the scene will be rendered.
 			 * </p>
 			 *
 			 * @param camera The entity containing the camera component.
 			 */
 			virtual void setCamera(Entity* camera) = 0;
+
+			/**
+			 * <p>
+			 * Sets the default pipeline to be applied when rendering buffers that do not specify their own pipeline.
+			 * </p>
+			 *
+			 * @param defaultPipeline The default pipeline to be applied when rendering buffers that do not specify
+			 * their own pipeline.
+			 */
+			virtual void setDefaultPipeline(std::shared_ptr<Pipeline> defaultPipeline) = 0;
 
 			/**
 			 * <p>
