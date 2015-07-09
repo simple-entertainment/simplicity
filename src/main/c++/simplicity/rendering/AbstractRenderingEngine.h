@@ -17,6 +17,7 @@
 #ifndef ABSTRACTRENDERINGENGINE_H_
 #define ABSTRACTRENDERINGENGINE_H_
 
+#include <list>
 #include <map>
 #include <set>
 
@@ -67,6 +68,14 @@ namespace simplicity
 
 			void setWidth(int width) override;
 
+		protected:
+			struct RenderList
+			{
+				MeshBuffer* buffer;
+				std::list<std::pair<Model*, Matrix44>> list;
+				Pipeline* pipeline;
+			};
+
 		private:
 			struct CameraProperties
 			{
@@ -94,6 +103,8 @@ namespace simplicity
 
 			void applyPipeline(Pipeline& pipeline, const CameraProperties& cameraProperties);
 
+			std::list<RenderList> buildRenderLists(const std::set<Entity*>& entities);
+
 			virtual void dispose() = 0;
 
 			CameraProperties getCameraProperties() const;
@@ -104,11 +115,7 @@ namespace simplicity
 
 			virtual bool preAdvance() = 0;
 
-			virtual void render(const MeshBuffer& buffer, Pipeline& pipeline,
-								const std::vector<std::pair<Model*, Matrix44>>& modelsAndTransforms) const = 0;
-
-			void render(const std::set<Entity*>& entities, const MeshBuffer& buffer, Pipeline& pipeline,
-						const std::set<Model*>& models, bool withTransparency);
+			virtual void render(const RenderList& renderList) const = 0;
 	};
 }
 
