@@ -115,7 +115,7 @@ namespace simplicity
 
 			virtual bool preAdvance() = 0;
 
-			virtual void render(const RenderList& renderList) const = 0;
+			virtual void render(const RenderList& renderList) = 0;
 	};
 }
 

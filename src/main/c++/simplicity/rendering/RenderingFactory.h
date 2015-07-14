@@ -21,7 +21,9 @@
 #include <string>
 
 #include "../resources/Resource.h"
+#include "Pipeline.h"
 #include "PixelFormat.h"
+#include "Shader.h"
 #include "Texture.h"
 
 namespace simplicity
@@ -45,6 +47,56 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Creates the named pipeline, see the documentation of the plugin you are using for supported pipelines.
+			 * </p>
+			 *
+			 * @param name The name of the pipeline to create.
+			 *
+			 * @return The pipeline.
+			 */
+			virtual std::shared_ptr<Pipeline> createPipeline(const std::string& name = "simple") = 0;
+
+			/**
+			 * <p>
+			 * Creates a pipeline composed from the given shaders.
+			 * </p>
+			 *
+			 * @param vertexShader The vertex shader.
+			 * @param geometryShader The geometry shader.
+			 * @param fragmentShader The fragment shader.
+			 *
+			 * @return The pipeline.
+			 */
+			virtual std::shared_ptr<Pipeline> createPipeline(std::unique_ptr<Shader> vertexShader,
+															 std::unique_ptr<Shader> geometryShader,
+															 std::unique_ptr<Shader> fragmentShader) = 0;
+
+			/**
+			 * <p>
+			 * Creates a shader from the given resource.
+			 * </p>
+			 *
+			 * @param type The type of shader to create.
+			 * @param resource The resource to create the shader from.
+			 *
+			 * @return The shader.
+			 */
+			virtual std::unique_ptr<Shader> createShader(Shader::Type type, const Resource& resource) = 0;
+
+			/**
+			 * <p>
+			 * Creates the named shader, see the documentation of the plugin you are using for supported shaders.
+			 * </p>
+			 *
+			 * @param type The type of shader to create.
+			 * @param name The name of the shader to create.
+			 *
+			 * @return The shader.
+			 */
+			virtual std::unique_ptr<Shader> createShader(Shader::Type type, const std::string& name = "simple") = 0;
+
+			/**
+			 * <p>
 			 * Creates a texture from in-memory data.
 			 * </p>
 			 *
@@ -54,7 +106,8 @@ namespace simplicity
 			 *
 			 * @return The texture.
 			 */
-			virtual std::shared_ptr<Texture> createTexture(const char* data, unsigned int length, PixelFormat format) = 0;
+			virtual std::shared_ptr<Texture> createTexture(const char* data, unsigned int length,
+														   PixelFormat format) = 0;
 
 			/**
 			 * <p>
