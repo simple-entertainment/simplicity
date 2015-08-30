@@ -1,6 +1,6 @@
 # C++11
 IF(UNIX)
-	add_compile_options(-std=c++11)
+	add_compile_options(-fPIC -std=c++11)
 ENDIF(UNIX)
 
 # Debugging
@@ -21,4 +21,3 @@ IF(MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 	add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 ENDIF(MSVC)
-
