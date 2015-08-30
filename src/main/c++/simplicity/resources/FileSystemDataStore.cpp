@@ -28,6 +28,14 @@ namespace simplicity
 		directory(directory),
 		resources()
 	{
+		if (directory[0] != '/')
+		{
+			char* cwd = getcwd(nullptr, 0);
+			string currentWorkingDirectory = cwd;
+			delete[] cwd;
+
+			this->directory = currentWorkingDirectory + "/" + directory;
+		}
 	}
 
 	Resource* FileSystemDataStore::create(const string& name, unsigned short category, bool binary)
@@ -51,12 +59,7 @@ namespace simplicity
 	bool FileSystemDataStore::exists(const string& name)
 	{
 		// Attempt to open an existing file.
-		if (ifstream(getAbsolutePath(name)).fail())
-		{
-			return false;
-		}
-
-		return true;
+		return !ifstream(getAbsolutePath(name)).fail();
 	}
 
 	Resource* FileSystemDataStore::get(const string& name, unsigned short category, bool binary)
@@ -78,11 +81,7 @@ namespace simplicity
 
 	string FileSystemDataStore::getAbsolutePath(const string& name)
 	{
-		char* cwd = getcwd(nullptr, 0);
-		string currentWorkingDirectory = cwd;
-		delete[] cwd;
-
-		return currentWorkingDirectory + "/" + directory + "/" + name;
+		return directory + "/" + name;
 	}
 
 	bool FileSystemDataStore::remove(Resource* resource)
