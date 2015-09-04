@@ -47,6 +47,15 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Retrieves the title of the window.
+			 * </p>
+			 *
+			 * @return The title of the window.
+			 */
+			virtual std::string getTitle() const = 0;
+
+			/**
+			 * <p>
 			 * Retrieves the width of the window.
 			 * </p>
 			 *
@@ -97,12 +106,28 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Sets the title of the window.
+			 * </p>
+			 *
+			 * @param title The title of the window.
+			 */
+			virtual void setTitle(const std::string& title) = 0;
+
+			/**
+			 * <p>
 			 * Sets the width of the window.
 			 * </p>
 			 *
 			 * @param width The width of the window.
 			 */
 			virtual void setWidth(int width) = 0;
+
+			/**
+			 * <p>
+			 * Displays the window.
+			 * </p>
+			 */
+			virtual void show() = 0;
 	};
 }
 
