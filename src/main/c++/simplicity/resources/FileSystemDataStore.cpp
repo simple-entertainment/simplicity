@@ -24,9 +24,10 @@ using namespace std;
 
 namespace simplicity
 {
-	FileSystemDataStore::FileSystemDataStore(const string& directory) :
+	FileSystemDataStore::FileSystemDataStore(Resource::Type type, const string& directory) :
 		directory(directory),
-		resources()
+		resources(),
+		type(type)
 	{
 		if (directory[0] != '/')
 		{
@@ -38,7 +39,7 @@ namespace simplicity
 		}
 	}
 
-	Resource* FileSystemDataStore::create(const string& name, unsigned short category, bool binary)
+	Resource* FileSystemDataStore::create(const string& name, bool binary)
 	{
 		// Attempt to create a file.
 		if (ofstream(getAbsolutePath(name)).fail())
@@ -50,7 +51,7 @@ namespace simplicity
 		if (resources[name] == nullptr)
 		{
 			resources[name] =
-					unique_ptr<Resource>(new FileSystemResource(category, name, getAbsolutePath(name), binary));
+					unique_ptr<Resource>(new FileSystemResource(type, name, getAbsolutePath(name), binary));
 		}
 
 		return resources[name].get();
@@ -62,7 +63,7 @@ namespace simplicity
 		return !ifstream(getAbsolutePath(name)).fail();
 	}
 
-	Resource* FileSystemDataStore::get(const string& name, unsigned short category, bool binary)
+	Resource* FileSystemDataStore::get(const string& name, bool binary)
 	{
 		if (!exists(name))
 		{
@@ -73,7 +74,7 @@ namespace simplicity
 		if (resources[name] == nullptr)
 		{
 			resources[name] =
-					unique_ptr<Resource>(new FileSystemResource(category, name, getAbsolutePath(name), binary));
+					unique_ptr<Resource>(new FileSystemResource(type, name, getAbsolutePath(name), binary));
 		}
 
 		return resources[name].get();
@@ -84,7 +85,7 @@ namespace simplicity
 		return directory + "/" + name;
 	}
 
-	bool FileSystemDataStore::remove(Resource* resource)
+	bool FileSystemDataStore::remove(const Resource* resource)
 	{
 		// Attempt to delete the file.
 		if (std::remove(resource->getUri().c_str()))

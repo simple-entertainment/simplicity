@@ -1,16 +1,23 @@
 # C++11
 IF(UNIX)
-	add_compile_options(-fPIC -std=c++11)
+	add_compile_options(-std=c++11)
 ENDIF(UNIX)
+
+# Linking
+IF(SIMPLE_LINK_TYPE MATCHES SHARED)
+	add_compile_options(-fPIC)
+ELSE()
+	set(SIMPLE_LINK_TYPE STATIC)
+ENDIF(SIMPLE_LINK_TYPE MATCHES SHARED)
 
 # Debugging
 IF(CMAKE_BUILD_TYPE MATCHES Debug)
 	add_definitions(-D_DEBUG)
-ELSE(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
+ELSEIF(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
 	add_definitions(-D_DEBUG)
 ELSE()
 	add_definitions(-DNDEBUG)
-ENDIF()
+ENDIF(CMAKE_BUILD_TYPE MATCHES Debug)
 
 # Warnings
 IF(MSVC)

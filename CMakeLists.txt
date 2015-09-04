@@ -12,5 +12,5 @@ file(GLOB_RECURSE SRC_FILES src/main/c++/*.cpp src/main/c++/*.h)
 
 # Target
 #########################
-add_library(simplicity STATIC ${SRC_FILES})
+add_library(simplicity ${SIMPLE_LINK_TYPE} ${SRC_FILES})
 target_include_directories(simplicity PUBLIC src/main/c++)

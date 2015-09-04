@@ -17,7 +17,6 @@
 #ifndef DATASTORE_H_
 #define DATASTORE_H_
 
-#include "../common/Category.h"
 #include "Resource.h"
 
 namespace simplicity
@@ -45,12 +44,11 @@ namespace simplicity
 			 * </p>
 			 *
 			 * @param name The name of the resource.
-			 * @param category The category to create the resource in.
 			 * @param binary Is it a binary resource?
 			 *
 			 * @return The resource if it was created, nullptr otherwise.
 			 */
-			virtual Resource* create(const std::string& name, unsigned short category, bool binary = false) = 0;
+			virtual Resource* create(const std::string& name, bool binary = false) = 0;
 
 			/**
 			 * <p>
@@ -69,12 +67,11 @@ namespace simplicity
 			 * </p>
 			 *
 			 * @param name The name of the resource.
-			 * @param category The category to retrieve from.
 			 * @param binary Is it a binary resource?
 			 *
 			 * @return The resource if it exists, nullptr otherwise.
 			 */
-			virtual Resource* get(const std::string& name, unsigned short category, bool binary = false) = 0;
+			virtual Resource* get(const std::string& name, bool binary = false) = 0;
 
 			/**
 			 * <p>
@@ -85,7 +82,7 @@ namespace simplicity
 			 *
 			 * @return True if the resource was deleted, false otherwise.
 			 */
-			virtual bool remove(Resource* resource) = 0;
+			virtual bool remove(const Resource* resource) = 0;
 	};
 }
 

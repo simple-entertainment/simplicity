@@ -26,7 +26,7 @@ namespace simplicity
 	{
 	}
 
-	Resource* ConsoleDataStore::create(const string& /* name */, unsigned short /* category */, bool /* binary */)
+	Resource* ConsoleDataStore::create(const string& /* name */, bool /* binary */)
 	{
 		return nullptr;
 	}
@@ -36,7 +36,7 @@ namespace simplicity
 		return name == "err" || name == "in" || name == "out";
 	}
 
-	Resource* ConsoleDataStore::get(const string& name, unsigned short category, bool /* binary */)
+	Resource* ConsoleDataStore::get(const string& name, bool /* binary */)
 	{
 		if (!exists(name))
 		{
@@ -46,13 +46,13 @@ namespace simplicity
 		// If we do not have a resource for this console, create one.
 		if (resources[name] == nullptr)
 		{
-			resources[name] = unique_ptr<Resource>(new ConsoleResource(category, name));
+			resources[name] = unique_ptr<Resource>(new ConsoleResource(name));
 		}
 
 		return resources[name].get();
 	}
 
-	bool ConsoleDataStore::remove(Resource* /* resource */)
+	bool ConsoleDataStore::remove(const Resource* /* resource */)
 	{
 		return false;
 	}

@@ -51,13 +51,6 @@ namespace simplicity
 
 		/**
 		 * <p>
-		 * The console resource category.
-		 * </p>
-		 */
-		static const unsigned short CONSOLE = 9;
-
-		/**
-		 * <p>
 		 * User defined categories should start with this ID.
 		 * </p>
 		 *

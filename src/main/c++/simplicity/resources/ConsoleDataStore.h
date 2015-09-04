@@ -46,13 +46,13 @@ namespace simplicity
 		public:
 			ConsoleDataStore();
 
-			Resource* create(const std::string& name, unsigned short category, bool binary) override;
+			Resource* create(const std::string& name, bool binary) override;
 
 			bool exists(const std::string& name) override;
 
-			Resource* get(const std::string& name, unsigned short category, bool binary) override;
+			Resource* get(const std::string& name, bool binary) override;
 
-			bool remove(Resource* resource) override;
+			bool remove(const Resource* resource) override;
 
 		private:
 			std::map<std::string, std::unique_ptr<Resource>> resources;

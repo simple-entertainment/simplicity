@@ -34,22 +34,25 @@ namespace simplicity
 	{
 		public:
 			/**
+			 * @param type The type of resources kept in this data store.
 			 * @param directory The directory this data store represents.
 			 */
-			FileSystemDataStore(const std::string& directory);
+			FileSystemDataStore(Resource::Type type, const std::string& directory);
 
-			Resource* create(const std::string& name, unsigned short category, bool binary) override;
+			Resource* create(const std::string& name, bool binary) override;
 
 			bool exists(const std::string& name) override;
 
-			Resource* get(const std::string& name, unsigned short category, bool binary) override;
+			Resource* get(const std::string& name, bool binary) override;
 
-			bool remove(Resource* resource) override;
+			bool remove(const Resource* resource) override;
 
 		private:
 			std::string directory;
 
 			std::map<std::string, std::unique_ptr<Resource>> resources;
+
+			Resource::Type type;
 
 			std::string getAbsolutePath(const std::string& name);
 	};

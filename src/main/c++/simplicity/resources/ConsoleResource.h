@@ -26,13 +26,11 @@ namespace simplicity
 	class SIMPLE_API ConsoleResource : public Resource
 	{
 		public:
-			ConsoleResource(unsigned short category, const std::string& name);
+			ConsoleResource(const std::string& name);
 
 			void appendData(const char* data, unsigned int length) override;
 
 			void appendData(const std::string& data) override;
-
-			unsigned short getCategory() const override;
 
 			std::string getData() const override;
 
@@ -42,7 +40,9 @@ namespace simplicity
 
 			std::unique_ptr<std::ostream> getOutputStream(bool append = true) override;
 
-			const std::string& getUri() const override;
+			Type getType() const override;
+
+			std::string getUri() const override;
 
 			bool isBinary() const override;
 
@@ -51,8 +51,6 @@ namespace simplicity
 			void setData(const std::string& data) override;
 
 		private:
-			unsigned short category;
-
 			std::string name;
 	};
 }

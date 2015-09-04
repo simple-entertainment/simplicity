@@ -83,7 +83,7 @@ namespace simplicity
 				// Provide the default logging resource.
 				if (defaultResource == nullptr)
 				{
-					setResource(Resources::get("out", Category::CONSOLE), "");
+					setResource(Resources::get("out", Resource::Type::CONSOLE), "");
 				}
 
 				resource = defaultResource;

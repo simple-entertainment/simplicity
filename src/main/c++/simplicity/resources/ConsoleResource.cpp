@@ -22,10 +22,7 @@ using namespace std;
 
 namespace simplicity
 {
-	const unsigned int IN_BUFFER_SIZE = 1024;
-
-	ConsoleResource::ConsoleResource(unsigned short category, const string& name) :
-		category(category),
+	ConsoleResource::ConsoleResource(const string& name) :
 		name(name)
 	{
 	}
@@ -45,11 +42,6 @@ namespace simplicity
 	void ConsoleResource::appendData(const string& data)
 	{
 		appendData(data.data(), data.size());
-	}
-
-	unsigned short ConsoleResource::getCategory() const
-	{
-		return category;
 	}
 
 	string ConsoleResource::getData() const
@@ -85,7 +77,12 @@ namespace simplicity
 		return unique_ptr<ostream>();
 	}
 
-	const string& ConsoleResource::getUri() const
+	Resource::Type ConsoleResource::getType() const
+	{
+		return Type::CONSOLE;
+	}
+
+	string ConsoleResource::getUri() const
 	{
 		return name;
 	}

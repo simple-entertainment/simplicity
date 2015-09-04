@@ -27,71 +27,62 @@ namespace simplicity
 {
 	namespace Resources
 	{
-		DataStore* getDataStore(unsigned short category);
+		DataStore* getDataStore(Resource::Type type);
 
-		map<unsigned short, unique_ptr<DataStore>> dataStores;
-		unique_ptr<DataStore> defaultDataStore = nullptr;
+		map<Resource::Type, unique_ptr<DataStore>> dataStores;
 
-		Resource* create(const string& name, unsigned short category, bool binary)
+		Resource* create(const string& name, bool binary)
 		{
-			return getDataStore(category)->create(name, category, binary);
+			return getDataStore(Resource::Type::USER)->create(name, binary);
 		}
 
-		bool exists(const string& name, unsigned short category)
+		bool exists(const string& name, Resource::Type type)
 		{
-			return getDataStore(category)->exists(name);
+			return getDataStore(type)->exists(name);
 		}
 
-		Resource* get(const string& name, unsigned short category, bool binary)
+		Resource* get(const string& name, Resource::Type type, bool binary)
 		{
-			return getDataStore(category)->get(name, category, binary);
+			return getDataStore(type)->get(name, binary);
 		}
 
-		DataStore* getDataStore(unsigned short category)
+		DataStore* getDataStore(Resource::Type type)
 		{
-			DataStore* dataStore = dataStores[category].get();
+			DataStore* dataStore = dataStores[type].get();
 
 			if (dataStore == nullptr)
 			{
-				// Provide the default datastores.
-				if (defaultDataStore == nullptr)
+				// Provide the default data store.
+				if (type == Resource::Type::ASSET)
 				{
-					unique_ptr<DataStore> defaultDataStore(new FileSystemDataStore("."));
-					setDataStore(move(defaultDataStore), Category::ALL_CATEGORIES);
-
-					if (dataStores[Category::CONSOLE] == nullptr)
-					{
-						unique_ptr<DataStore> consoleDataStore(new ConsoleDataStore);
-						setDataStore(move(consoleDataStore), Category::CONSOLE);
-					}
-
-					if (category == Category::CONSOLE)
-					{
-						return dataStores[category].get();
-					}
+					unique_ptr<DataStore> assetDataStore(new FileSystemDataStore(type, "assets"));
+					dataStores[type] = move(assetDataStore);
+				}
+				else if (type == Resource::Type::CONSOLE)
+				{
+					unique_ptr<DataStore> consoleDataStore(new ConsoleDataStore);
+					dataStores[type] = move(consoleDataStore);
+				}
+				else if (type == Resource::Type::USER)
+				{
+					unique_ptr<DataStore> userDataStore(new FileSystemDataStore(type, "~/simplicity-user"));
+					dataStores[type] = move(userDataStore);
 				}
 
-				dataStore = defaultDataStore.get();
+				dataStore = dataStores[type].get();
 			}
 
 			return dataStore;
 		}
 
-		bool remove(Resource* resource)
+		bool remove(const Resource* resource)
 		{
-			return getDataStore(resource->getCategory())->remove(resource);
+			return getDataStore(resource->getType())->remove(resource);
 		}
 
-		void setDataStore(unique_ptr<DataStore> dataStore, unsigned short category)
+		void setDataStore(unique_ptr<DataStore> dataStore, Resource::Type type)
 		{
-			if (category == Category::ALL_CATEGORIES)
-			{
-				defaultDataStore = move(dataStore);
-			}
-			else
-			{
-				dataStores[category] = move(dataStore);
-			}
+			dataStores[type] = move(dataStore);
 		}
 	}
 }

@@ -24,12 +24,11 @@ namespace simplicity
 {
 	const string FILE_PROTOCOL_PREFIX = "file://";
 
-	FileSystemResource::FileSystemResource(unsigned short category, const string& name, const string& absolutePath,
-										   bool binary) :
+	FileSystemResource::FileSystemResource(Type type, const string& name, const string& absolutePath, bool binary) :
 			absolutePath(absolutePath),
 			binary(binary),
-			category(category),
-			name(name)
+			name(name),
+			type(type)
 	{
 	}
 
@@ -43,11 +42,6 @@ namespace simplicity
 	void FileSystemResource::appendData(const string& data)
 	{
 		appendData(data.data(), data.size());
-	}
-
-	unsigned short FileSystemResource::getCategory() const
-	{
-		return category;
 	}
 
 	string FileSystemResource::getData() const
@@ -91,7 +85,12 @@ namespace simplicity
 		return unique_ptr<ostream>(new ofstream(absolutePath, mode));
 	}
 
-	const string& FileSystemResource::getUri() const
+	Resource::Type FileSystemResource::getType() const
+	{
+		return type;
+	}
+
+	string FileSystemResource::getUri() const
 	{
 		return FILE_PROTOCOL_PREFIX + absolutePath;
 	}

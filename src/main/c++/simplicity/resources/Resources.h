@@ -19,7 +19,6 @@
 
 #include <memory>
 
-#include "../common/Category.h"
 #include "DataStore.h"
 
 namespace simplicity
@@ -28,17 +27,15 @@ namespace simplicity
 	{
 		/**
 		 * <p>
-		 * Creates a resource.
+		 * Creates a USER resource.
 		 * </p>
 		 *
 		 * @param name The name of the resource.
-		 * @param category The category to create the resource in.
-		 * @param binary Deterimes whether the resource should contain binary data.
+		 * @param binary Is it a binary resource?
 		 *
 		 * @return The resource if it was created, nullptr otherwise.
 		 */
-		SIMPLE_API Resource* create(const std::string& name, unsigned short category = Category::UNCATEGORIZED,
-									bool binary = false);
+		SIMPLE_API Resource* create(const std::string& name, bool binary = false);
 
 		/**
 		 * <p>
@@ -46,11 +43,11 @@ namespace simplicity
 		 * </p>
 		 *
 		 * @param name The name of the resource.
-		 * @param category The category to search in.
+		 * @param type The type of resource to search for.
 		 *
 		 * @return True if the resource exists, false otherwise.
 		 */
-		SIMPLE_API bool exists(const std::string& name, unsigned short category = Category::UNCATEGORIZED);
+		SIMPLE_API bool exists(const std::string& name, Resource::Type type = Resource::Type::ASSET);
 
 		/**
 		 * <p>
@@ -58,12 +55,12 @@ namespace simplicity
 		 * </p>
 		 *
 		 * @param name The name of the resource.
-		 * @param category The category to retrieve from.
-		 * @param binary Deterimes whether the resource contains binary data.
+		 * @param type The type of resource to retrieve.
+		 * @param binary Is it a binary resource?
 		 *
 		 * @return The resource if it exists, nullptr otherwise.
 		 */
-		SIMPLE_API Resource* get(const std::string& name, unsigned short category = Category::UNCATEGORIZED,
+		SIMPLE_API Resource* get(const std::string& name, Resource::Type type = Resource::Type::ASSET,
 								 bool binary = false);
 
 		/**
@@ -75,19 +72,17 @@ namespace simplicity
 		 *
 		 * @return True if the resource was deleted, false otherwise.
 		 */
-		SIMPLE_API bool remove(Resource* resource);
+		SIMPLE_API bool remove(const Resource* resource);
 
 		/**
 		 * <p>
-		 * Sets the data store for a particular category. Setting the data store for the Categories::ALL_CATEGORIES
-		 * category will set the default data store which will be used for categories that do not have a data store
-		 * explicitly set for them.
+		 * Sets the data store for a particular type of resource.
 		 * </p>
 		 *
 		 * @param dataStore The data store.
-		 * @param category The category the data store will be used for.
+		 * @param type The resource type the data store will be used for.
 		 */
-		SIMPLE_API void setDataStore(std::unique_ptr<DataStore> dataStore, unsigned short category);
+		SIMPLE_API void setDataStore(std::unique_ptr<DataStore> dataStore, Resource::Type type);
 	}
 }
 

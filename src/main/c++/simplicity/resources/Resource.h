@@ -20,6 +20,7 @@
 #include <istream>
 #include <memory>
 #include <ostream>
+#include <string>
 
 #include "../common/Defines.h"
 
@@ -33,6 +34,23 @@ namespace simplicity
 	class SIMPLE_API Resource
 	{
 		public:
+			/**
+			 * <p>
+			 * The type of the resource.
+			 * </p>
+			 *
+			 * <p>
+			 * Different resource types are kept in different (platform-specific) locations and have different
+			 * permissions.
+			 * </p>
+			 */
+			enum class Type
+			{
+				ASSET, /**< Read-only resources packaged with the application. */
+				CONSOLE, /**< The console... */ // TODO Does this make sense?
+				USER /**< Read-write resources specific to the current user. */
+			};
+
 			/**
 			 * <p>
 			 * Allows polymorphism.
@@ -70,15 +88,6 @@ namespace simplicity
 			 * @param data The data.
 			 */
 			virtual void appendData(const std::string& data) = 0;
-
-			/**
-			 * <p>
-			 * Retrieves the category this resource resides in.
-			 * </p>
-			 *
-			 * @return The category this resource resides in.
-			 */
-			virtual unsigned short getCategory() const = 0;
 
 			/**
 			 * <p>
@@ -128,12 +137,21 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Retrieves the type of this resource.
+			 * </p>
+			 *
+			 * @return The type of this resource.
+			 */
+			virtual Type getType() const = 0;
+
+			/**
+			 * <p>
 			 * Retrieves the URI of this resource.
 			 * </p>
 			 *
 			 * @return The URI of this resource.
 			 */
-			virtual const std::string& getUri() const = 0;
+			virtual std::string getUri() const = 0;
 
 			/**
 			 * <p>
