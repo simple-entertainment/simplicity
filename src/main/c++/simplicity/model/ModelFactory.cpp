@@ -27,51 +27,67 @@ using namespace std;
 // TODO All the doubleSided meshes have incorrect normals on the back side... they need to be reversed.
 namespace simplicity
 {
-	vector<string> splitString(string& split, istream& source, char delimiter, unsigned int estimatedSplitCount);
-
 	unique_ptr<ModelFactory> ModelFactory::instance = unique_ptr<ModelFactory>();
 
 	const unsigned int MAX_SPLIT_LENGTH = 256;
 
-	unique_ptr<Mesh> ModelFactory::createBoxMesh(const Vector3& halfExtents, shared_ptr<MeshBuffer> buffer,
-			const Vector4& color, bool doubleSided)
+	unique_ptr<Mesh> ModelFactory::cookBoxMesh(const Recipe& recipe)
 	{
 		unsigned int vertexCount = 24;
 		unsigned int indexCount = 36;
-		if (doubleSided)
+		if (recipe.doubleSided)
 		{
 			indexCount *= 2;
 		}
 
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
+		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
 		meshData.vertexCount = vertexCount;
+		Vector3 halfDimensions = recipe.dimensions / 2.0f;
 
 		// Top
-		insertRectangleVertices(meshData.vertexData, 0, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * -2.0f), color);
+		insertRectangleVertices(meshData.vertexData, 0,
+								Vector3(-halfDimensions.X(), halfDimensions.Y(), halfDimensions.Z()),
+								Vector3(halfDimensions.X() * 2.0f, 0.0f, 0.0f),
+								Vector3(0.0f, 0.0f, halfDimensions.Z() * -2.0f),
+								recipe.color);
 
 		// Bottom
-		insertRectangleVertices(meshData.vertexData, 4, Vector3(-halfExtents.X(), -halfExtents.Y(), -halfExtents.Z()),
-			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f), color);
+		insertRectangleVertices(meshData.vertexData, 4,
+								Vector3(-halfDimensions.X(), -halfDimensions.Y(), -halfDimensions.Z()),
+								Vector3(halfDimensions.X() * 2.0f, 0.0f, 0.0f),
+								Vector3(0.0f, 0.0f, halfDimensions.Z() * 2.0f),
+								recipe.color);
 
 		// North
-		insertRectangleVertices(meshData.vertexData, 8, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(halfExtents.X() * -2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
+		insertRectangleVertices(meshData.vertexData, 8,
+								Vector3(halfDimensions.X(), halfDimensions.Y(), halfDimensions.Z()),
+								Vector3(halfDimensions.X() * -2.0f, 0.0f, 0.0f),
+								Vector3(0.0f, halfDimensions.Y() * -2.0f, 0.0f),
+								recipe.color);
 
 		// East
-		insertRectangleVertices(meshData.vertexData, 12, Vector3(halfExtents.X(), halfExtents.Y(), -halfExtents.Z()),
-			Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
+		insertRectangleVertices(meshData.vertexData, 12,
+								Vector3(halfDimensions.X(), halfDimensions.Y(), -halfDimensions.Z()),
+								Vector3(0.0f, 0.0f, halfDimensions.Z() * 2.0f),
+								Vector3(0.0f, halfDimensions.Y() * -2.0f, 0.0f),
+								recipe.color);
 
 		// South
-		insertRectangleVertices(meshData.vertexData, 16, Vector3(-halfExtents.X(), halfExtents.Y(), -halfExtents.Z()),
-			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
+		insertRectangleVertices(meshData.vertexData, 16,
+								Vector3(-halfDimensions.X(), halfDimensions.Y(), -halfDimensions.Z()),
+								Vector3(halfDimensions.X() * 2.0f, 0.0f, 0.0f),
+								Vector3(0.0f, halfDimensions.Y() * -2.0f, 0.0f),
+								recipe.color);
 
 		// West
-		insertRectangleVertices(meshData.vertexData, 20, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(0.0f, 0.0f, halfExtents.Z() * -2.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
+		insertRectangleVertices(meshData.vertexData, 20,
+								Vector3(-halfDimensions.X(), halfDimensions.Y(), halfDimensions.Z()),
+								Vector3(0.0f, 0.0f, halfDimensions.Z() * -2.0f),
+								Vector3(0.0f, halfDimensions.Y() * -2.0f, 0.0f),
+								recipe.color);
 
 		// Indices
 		meshData.indexCount = indexCount;
@@ -83,7 +99,7 @@ namespace simplicity
 		insertRectangleIndices(meshData.indexData, 24, 16);
 		insertRectangleIndices(meshData.indexData, 30, 20);
 
-		if (doubleSided)
+		if (recipe.doubleSided)
 		{
 			insertRectangleIndices(meshData.indexData, 36, 0, true);
 			insertRectangleIndices(meshData.indexData, 42, 4, true);
@@ -98,95 +114,456 @@ namespace simplicity
 		return move(mesh);
 	}
 
-	unique_ptr<Mesh> ModelFactory::createCircleMesh(float radius, unsigned int divisions,
-			shared_ptr<MeshBuffer> buffer, const Vector4& color)
+	unique_ptr<Mesh> ModelFactory::cookCircleMesh(const Recipe& recipe)
 	{
-		unsigned int vertexCount = divisions + 1;
-		unsigned int indexCount = divisions * 3;
+		unsigned int vertexCount = recipe.divisions + 1;
+		unsigned int indexCount = recipe.divisions * 3;
 
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
+		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
+
+		float radius = recipe.dimensions[0] * 0.5f;
 
 		// Vertices
 		meshData.vertexCount = vertexCount;
-		insertCircleVertices(meshData.vertexData, 0, radius, divisions, Vector3(0.0f, 0.0f, 0.0f), color);
+		insertCircleVertices(meshData.vertexData, 0, radius, recipe.divisions, Vector3(0.0f, 0.0f, 0.0f),
+							 recipe.color);
 
 		// Indices
 		meshData.indexCount = indexCount;
-		insertCircleIndices(meshData.indexData, 0, 0, divisions);
+		insertCircleIndices(meshData.indexData, 0, 0, recipe.divisions);
 
 		mesh->releaseData();
 
 		return move(mesh);
 	}
 
-	unique_ptr<Mesh> ModelFactory::createCubeMesh(float halfExtent, shared_ptr<MeshBuffer> buffer,
-			const Vector4& color, bool doubleSided)
+	unique_ptr<Mesh> ModelFactory::cookCylinderMesh(const Recipe& recipe)
 	{
-		return createBoxMesh(Vector3(halfExtent, halfExtent, halfExtent), buffer, color, doubleSided);
-	}
-
-	unique_ptr<Mesh> ModelFactory::createCylinderMesh(float radius, float length, unsigned int divisions,
-			shared_ptr<MeshBuffer> buffer, const Vector4& color, bool doubleSided, bool smooth)
-	{
-		unsigned int verticesInEnd = divisions + 1;
+		unsigned int verticesInEnd = recipe.divisions + 1;
 		unsigned int verticesInEnds = verticesInEnd * 2;
 		unsigned int verticesInSide = 4;
-		unsigned int verticesInSides = verticesInSide * divisions;
+		unsigned int verticesInSides = verticesInSide * recipe.divisions;
 		unsigned int vertexCount = verticesInEnds + verticesInSides;
 
-		unsigned int indicesInEnd = divisions * 3;
+		unsigned int indicesInEnd = recipe.divisions * 3;
 		unsigned int indicesInEnds = indicesInEnd * 2;
 		unsigned int indicesInSide = 3 * 2;
-		unsigned int indicesInSides = indicesInSide * divisions;
+		unsigned int indicesInSides = indicesInSide * recipe.divisions;
 		unsigned int indexCount = indicesInEnds + indicesInSides;
-		if (doubleSided)
+		if (recipe.doubleSided)
 		{
 			indexCount *= 2;
 		}
 
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
+		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount,recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
 
+		float radius = recipe.dimensions[0] * 0.5f;
+		float length = recipe.dimensions[1];
 		Vector3 center(0.0f, 0.0f, 0.0f);
 		Vector3 toBack(0.0f, 0.0f, -length);
 
 		// Vertices
 		meshData.vertexCount = vertexCount;
-
 		// Front
-		insertCircleVertices(meshData.vertexData, 0, radius, divisions, center, color);
-
+		insertCircleVertices(meshData.vertexData, 0, radius, recipe.divisions, center, recipe.color);
 		// Back
-		insertCircleVertices(meshData.vertexData, verticesInEnd, radius, divisions, toBack, color);
-
+		insertCircleVertices(meshData.vertexData, verticesInEnd, radius, recipe.divisions, toBack, recipe.color);
 		// Sides
-		insertTunnelVertices(meshData.vertexData, verticesInEnds, radius, length, divisions, center, color, smooth);
+		insertTunnelVertices(meshData.vertexData, verticesInEnds, radius, length, recipe.divisions, center,
+							 recipe.color, recipe.smooth);
+
+		// Indices
+		meshData.indexCount = indexCount;
+		// Front
+		insertCircleIndices(meshData.indexData, 0, 0, recipe.divisions);
+		// Back
+		insertCircleIndices(meshData.indexData, indicesInEnd, verticesInEnd, recipe.divisions, true);
+		//Sides
+		insertTunnelIndices(meshData.indexData, indicesInEnds, verticesInEnds, recipe.divisions);
+
+		if (recipe.doubleSided)
+		{
+			// Front
+			insertCircleIndices(meshData.indexData, indicesInEnds + indicesInSides, 0, recipe.divisions, true);
+			// Back
+			insertCircleIndices(meshData.indexData, indicesInEnds + indicesInSides + indicesInEnd, verticesInEnd,
+								recipe.divisions);
+			//Sides
+			insertTunnelIndices(meshData.indexData, indicesInEnds + indicesInSides + indicesInEnds, verticesInEnds,
+								recipe.divisions, true);
+		}
+
+		mesh->releaseData();
+
+		return move(mesh);
+	}
+
+	unique_ptr<Mesh> ModelFactory::cookHemisphereMesh(const Recipe& recipe)
+	{
+		unsigned int vertexCount = (recipe.divisions / 2 + 1) * (recipe.divisions + 1);
+		unsigned int indexCount = (recipe.divisions / 2) * (recipe.divisions) * 6;
+		if (recipe.doubleSided)
+		{
+			indexCount *= 2;
+		}
+
+		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		MeshData& meshData = mesh->getData(false);
+
+		float radius = recipe.dimensions[0] * 0.5f;
+
+		// Vertices
+		unsigned int index = 0;
+		for (unsigned int latitude = 0; latitude <= recipe.divisions / 2; latitude++)
+		{
+			for (unsigned int longitude = 0; longitude <= recipe.divisions; longitude++)
+			{
+				meshData.vertexData[index].color = recipe.color;
+				meshData.vertexData[index].position = getPointOnSphere(radius, recipe.divisions, latitude, longitude);
+				meshData.vertexData[index].normal = meshData.vertexData[index].position;
+				meshData.vertexData[index].normal.normalize();
+				index++;
+			}
+		}
+
+		meshData.vertexCount = index;
+
+		// Indices
+		index = 0;
+		for (unsigned int latitude = 0; latitude < recipe.divisions / 2; latitude++)
+		{
+			for (unsigned int longitude = 0; longitude < recipe.divisions; longitude++)
+			{
+				meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
+				meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude;
+				meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
+
+				meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
+				meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
+				meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude + 1;
+
+				if (recipe.doubleSided)
+				{
+					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
+					meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
+					meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude;
+
+					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
+					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude + 1;
+					meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
+				}
+			}
+		}
+
+		meshData.indexCount = index;
+
+		mesh->releaseData();
+
+		return move(mesh);
+	}
+
+	unique_ptr<Mesh> ModelFactory::cookMesh(const Recipe& recipe)
+	{
+		if (recipe.shape == Recipe::Shape::BOX)
+		{
+			return cookBoxMesh(recipe);
+		}
+		else if (recipe.shape == Recipe::Shape::CIRCLE)
+		{
+			return cookCircleMesh(recipe);
+		}
+		else if (recipe.shape == Recipe::Shape::CYLINDER)
+		{
+			return cookCylinderMesh(recipe);
+		}
+		else if (recipe.shape == Recipe::Shape::HEMISPHERE)
+		{
+			return cookHemisphereMesh(recipe);
+		}
+		else if (recipe.shape == Recipe::Shape::PRISM)
+		{
+			return cookPrismMesh(recipe);
+		}
+		else if (recipe.shape == Recipe::Shape::PYRAMID)
+		{
+			return cookPyramidMesh(recipe);
+		}
+		else if (recipe.shape == Recipe::Shape::RECTANGLE)
+		{
+			return cookRectangleMesh(recipe);
+		}
+		else if (recipe.shape == Recipe::Shape::SPHERE)
+		{
+			return cookSphereMesh(recipe);
+		}
+
+		return nullptr;
+	}
+
+	unique_ptr<Mesh> ModelFactory::cookPrismMesh(const Recipe& recipe)
+	{
+		unsigned int vertexCount = 18;
+		unsigned int indexCount = 24;
+
+		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		MeshData& meshData = mesh->getData(false);
+
+		// Vertices
+		meshData.vertexCount = vertexCount;
+		const Vector3& dimensions = recipe.dimensions;
+
+		// Bottom
+		insertRectangleVertices(meshData.vertexData, 0,
+								Vector3(-dimensions.X(), -dimensions.Y(), -dimensions.Z()),
+								Vector3(dimensions.X() * 2.0f, 0.0f, 0.0f),
+								Vector3(0.0f, 0.0f, dimensions.Z() * 2.0f),
+								recipe.color);
+
+		// North
+		insertRectangleVertices(meshData.vertexData, 4,
+								Vector3(dimensions.X(), dimensions.Y(), dimensions.Z()),
+								Vector3(dimensions.X() * -2.0f, 0.0f, 0.0f),
+								Vector3(0.0f, dimensions.Y() * -2.0f, 0.0f),
+								recipe.color);
+
+		// East
+		insertTriangleVertices(meshData.vertexData, 8,
+							   Vector3(dimensions.X(), dimensions.Y(), dimensions.Z()),
+							   Vector3(0.0f, dimensions.Y() * -2.0f, 0.0f),
+							   Vector3(0.0f, dimensions.Y() * -2.0f, dimensions.Z() * -2.0f),
+							   recipe.color);
+
+		// South (slope)
+		insertRectangleVertices(meshData.vertexData, 11,
+								Vector3(-dimensions.X(), dimensions.Y(), dimensions.Z()),
+								Vector3(dimensions.X() * 2.0f, 0.0f, 0.0f),
+								Vector3(0.0f, dimensions.Y() * -2.0f, dimensions.Z() * -2.0f),
+								recipe.color);
+
+		// West
+		insertTriangleVertices(meshData.vertexData, 15,
+							   Vector3(-dimensions.X(), dimensions.Y(), dimensions.Z()),
+							   Vector3(0.0f, dimensions.Y() * -2.0f, dimensions.Z() * -2.0f),
+							   Vector3(0.0f, dimensions.Y() * -2.0f, 0.0f),
+							   recipe.color);
 
 		// Indices
 		meshData.indexCount = indexCount;
 
-		// Front
-		insertCircleIndices(meshData.indexData, 0, 0, divisions);
+		insertRectangleIndices(meshData.indexData, 0, 0);
+		insertRectangleIndices(meshData.indexData, 6, 4);
+		insertTriangleIndices(meshData.indexData, 12, 8);
+		insertRectangleIndices(meshData.indexData, 15, 11);
+		insertTriangleIndices(meshData.indexData, 21, 15);
 
-		// Back
-		insertCircleIndices(meshData.indexData, indicesInEnd, verticesInEnd, divisions, true);
+		mesh->releaseData();
 
-		//Sides
-		insertTunnelIndices(meshData.indexData, indicesInEnds, verticesInEnds, divisions);
+		return move(mesh);
+	}
 
-		if (doubleSided)
+	unique_ptr<Mesh> ModelFactory::cookPyramidMesh(const Recipe& recipe)
+	{
+		unsigned int vertexCount = 16;
+		unsigned int indexCount = 18;
+
+		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		MeshData& meshData = mesh->getData(false);
+
+		float halfBaseExtent = recipe.dimensions[0] / 2.0f;
+		float height = recipe.dimensions[1];
+		float halfHeight = height / 2.0f;
+
+		// Vertices
+		meshData.vertexCount = vertexCount;
+
+		// Bottom
+		insertRectangleVertices(meshData.vertexData, 0,
+								Vector3(-halfBaseExtent, -halfHeight, -halfBaseExtent),
+								Vector3(0.0f, 0.0f, halfBaseExtent * 2.0f),
+								Vector3(halfBaseExtent * 2.0f, 0.0f, 0.0f),
+								recipe.color);
+
+		// North
+		insertTriangleVertices(meshData.vertexData, 4,
+							   Vector3(0.0f, halfHeight, 0.0f),
+							   Vector3(-halfBaseExtent, -height, halfBaseExtent),
+							   Vector3(halfBaseExtent, -height, halfBaseExtent),
+							   recipe.color);
+
+		// East
+		insertTriangleVertices(meshData.vertexData, 7,
+							   Vector3(0.0f, halfHeight, 0.0f),
+							   Vector3(halfBaseExtent, -height, halfBaseExtent),
+							   Vector3(halfBaseExtent, -height, -halfBaseExtent),
+							   recipe.color);
+
+		// South
+		insertTriangleVertices(meshData.vertexData, 10,
+							   Vector3(0.0f, halfHeight, 0.0f),
+							   Vector3(halfBaseExtent, -height, -halfBaseExtent),
+							   Vector3(-halfBaseExtent, -height, -halfBaseExtent),
+							   recipe.color);
+
+		// West
+		insertTriangleVertices(meshData.vertexData, 13,
+							   Vector3(0.0f, halfHeight, 0.0f),
+							   Vector3(-halfBaseExtent, -height, -halfBaseExtent),
+							   Vector3(-halfBaseExtent, -height, halfBaseExtent),
+							   recipe.color);
+
+		// Indices
+		meshData.indexCount = indexCount;
+
+		insertRectangleIndices(meshData.indexData, 0, 0);
+		insertTriangleIndices(meshData.indexData, 6, 4);
+		insertTriangleIndices(meshData.indexData, 9, 7);
+		insertTriangleIndices(meshData.indexData, 12, 10);
+		insertTriangleIndices(meshData.indexData, 15, 13);
+
+		mesh->releaseData();
+
+		return move(mesh);
+	}
+
+	unique_ptr<Mesh> ModelFactory::cookRectangleMesh(const Recipe& recipe)
+	{
+		unsigned int vertexCount = 4;
+		unsigned int indexCount = 6;
+		if (recipe.doubleSided)
 		{
-			// Front
-			insertCircleIndices(meshData.indexData, indicesInEnds + indicesInSides, 0, divisions, true);
-
-			// Back
-			insertCircleIndices(meshData.indexData, indicesInEnds + indicesInSides + indicesInEnd, verticesInEnd, divisions);
-
-			//Sides
-			insertTunnelIndices(meshData.indexData, indicesInEnds + indicesInSides + indicesInEnds, verticesInEnds, divisions,
-					true);
+			indexCount *= 2;
 		}
+
+		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		MeshData& meshData = mesh->getData(false);
+
+		// Vertices
+		meshData.vertexCount = vertexCount;
+
+		insertRectangleVertices(meshData.vertexData, 0,
+								Vector3(-recipe.dimensions.X() * 0.5f, recipe.dimensions.Y() * 0.5f, 0.0f),
+								Vector3(recipe.dimensions.X(), 0.0f, 0.0f),
+								Vector3(0.0f, -recipe.dimensions.Y(), 0.0f),
+								recipe.color);
+
+		// Indices
+		meshData.indexCount = indexCount;
+
+		insertRectangleIndices(meshData.indexData, 0, 0);
+
+		if (recipe.doubleSided)
+		{
+			insertRectangleIndices(meshData.indexData, 6, 0, true);
+		}
+
+		mesh->releaseData();
+
+		return move(mesh);
+	}
+
+	unique_ptr<Mesh> ModelFactory::cookSphereMesh(const Recipe& recipe)
+	{
+		unsigned int vertexCount = pow(recipe.divisions + 1, 2);
+		unsigned int indexCount = pow(recipe.divisions, 2) * 6;
+		if (!recipe.smooth)
+		{
+			vertexCount *= 4;
+		}
+
+		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		MeshData& meshData = mesh->getData(false);
+
+		float radius = recipe.dimensions[0] * 0.5f;
+
+		// Vertices
+		unsigned int index = 0;
+
+		for (unsigned int latitude = 0; latitude <= recipe.divisions; latitude++)
+		{
+			for (unsigned int longitude = 0; longitude <= recipe.divisions; longitude++)
+			{
+				if (recipe.smooth)
+				{
+					meshData.vertexData[index].color = recipe.color;
+					meshData.vertexData[index].position =
+							getPointOnSphere(radius, recipe.divisions, latitude, longitude);
+					meshData.vertexData[index].normal = meshData.vertexData[index].position;
+					meshData.vertexData[index].normal.normalize();
+					index++;
+				}
+				else if (latitude != recipe.divisions && longitude != recipe.divisions)
+				{
+					Vector3 position0 = getPointOnSphere(radius, recipe.divisions, latitude, longitude);
+					Vector3 position1 = getPointOnSphere(radius, recipe.divisions, latitude + 1, longitude);
+					Vector3 position2 = getPointOnSphere(radius, recipe.divisions, latitude + 1, longitude + 1);
+					Vector3 position3 = getPointOnSphere(radius, recipe.divisions, latitude, longitude + 1);
+
+					Vector3 edge0 = position1 - position0;
+					Vector3 edge1 = position2 - position0;
+					if (latitude == recipe.divisions - 1)
+					{
+						edge1 = position3 - position0;
+					}
+					Vector3 normal = crossProduct(edge0, edge1);
+					normal.normalize();
+
+					meshData.vertexData[index].color = recipe.color;
+					meshData.vertexData[index].position = position0;
+					meshData.vertexData[index].normal = normal;
+					index++;
+					meshData.vertexData[index].color = recipe.color;
+					meshData.vertexData[index].position = position1;
+					meshData.vertexData[index].normal = normal;
+					index++;
+					meshData.vertexData[index].color = recipe.color;
+					meshData.vertexData[index].position = position2;
+					meshData.vertexData[index].normal = normal;
+					index++;
+					meshData.vertexData[index].color = recipe.color;
+					meshData.vertexData[index].position = position3;
+					meshData.vertexData[index].normal = normal;
+					index++;
+				}
+			}
+		}
+
+		meshData.vertexCount = index;
+
+		// Indices
+		index = 0;
+
+		for (unsigned int latitude = 0; latitude < recipe.divisions; latitude++)
+		{
+			for (unsigned int longitude = 0; longitude < recipe.divisions; longitude++)
+			{
+				if (recipe.smooth)
+				{
+					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
+					meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude;
+					meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
+
+					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
+					meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
+					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude + 1;
+				}
+				else
+				{
+					unsigned int segmentIndex = (latitude * recipe.divisions + longitude) * 4;
+
+					meshData.indexData[index++] = segmentIndex;
+					meshData.indexData[index++] = segmentIndex + 1;
+					meshData.indexData[index++] = segmentIndex + 2;
+
+					meshData.indexData[index++] = segmentIndex;
+					meshData.indexData[index++] = segmentIndex + 2;
+					meshData.indexData[index++] = segmentIndex + 3;
+				}
+			}
+		}
+
+		meshData.indexCount = index;
 
 		mesh->releaseData();
 
@@ -194,16 +571,16 @@ namespace simplicity
 	}
 
 	unique_ptr<Mesh> ModelFactory::createHeightMapMesh(const vector<vector<float>>& heightMap, unsigned int minX,
-			unsigned int maxX, unsigned int minZ, unsigned int maxZ, shared_ptr<MeshBuffer> buffer,
-			const Vector4& color)
+													   unsigned int maxX, unsigned int minZ, unsigned int maxZ,
+													   shared_ptr<MeshBuffer> buffer, const Vector4& color)
 	{
-		unsigned int edgeLength = heightMap[0].size();
+		unsigned int edgeLength = static_cast<unsigned int>(heightMap[0].size());
 		unsigned int halfEdgeLength = static_cast<unsigned int>(floor(edgeLength / 2.0f));
 		unsigned int width = maxX - minX;
 		unsigned int depth = maxZ - minZ;
 		unsigned int vertexCount = width * depth * 6;
 
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, vertexCount);
+		unique_ptr<Mesh> mesh = createMesh(vertexCount, vertexCount, buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
@@ -216,13 +593,13 @@ namespace simplicity
 				unsigned int vertexIndex = ((x - minX) * width + (z - minZ)) * 6;
 
 				Vector3 position0((float) x - halfEdgeLength, heightMap[x][z],
-						(float) z - halfEdgeLength);
+								  (float) z - halfEdgeLength);
 				Vector3 position1((float) x - halfEdgeLength, heightMap[x][z + 1],
-						(float) z - halfEdgeLength + 1.0f);
+								  (float) z - halfEdgeLength + 1.0f);
 				Vector3 position2((float) x - halfEdgeLength + 1.0f, heightMap[x + 1][z + 1],
-						(float) z - halfEdgeLength + 1.0f);
+								  (float) z - halfEdgeLength + 1.0f);
 				Vector3 position3((float) x - halfEdgeLength + 1.0f, heightMap[x + 1][z],
-						(float) z - halfEdgeLength);
+								  (float) z - halfEdgeLength);
 
 				Vector3 toPosition1 = position1 - position0;
 				Vector3 toPosition2 = position2 - position0;
@@ -250,73 +627,8 @@ namespace simplicity
 		return move(mesh);
 	}
 
-	unique_ptr<Mesh> ModelFactory::createHemisphereMesh(float radius, unsigned int divisions,
-			shared_ptr<MeshBuffer> buffer, const Vector4& color, bool doubleSided)
-	{
-		unsigned int vertexCount = (divisions / 2 + 1) * (divisions + 1);
-		unsigned int indexCount = (divisions / 2) * (divisions) * 6;
-		if (doubleSided)
-		{
-			indexCount *= 2;
-		}
-
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false);
-
-		// Vertices
-		unsigned int index = 0;
-
-		for (unsigned int latitude = 0; latitude <= divisions / 2; latitude++)
-		{
-			for (unsigned int longitude = 0; longitude <= divisions; longitude++)
-			{
-				meshData.vertexData[index].color = color;
-				meshData.vertexData[index].position = getPointOnSphere(radius, divisions, latitude, longitude);
-				meshData.vertexData[index].normal = meshData.vertexData[index].position;
-				meshData.vertexData[index].normal.normalize();
-				index++;
-			}
-		}
-
-		meshData.vertexCount = index;
-
-		// Indices
-		index = 0;
-
-		for (unsigned int latitude = 0; latitude < divisions / 2; latitude++)
-		{
-			for (unsigned int longitude = 0; longitude < divisions; longitude++)
-			{
-				meshData.indexData[index++] = latitude * (divisions + 1) + longitude;
-				meshData.indexData[index++] = (latitude + 1) * (divisions + 1) + longitude;
-				meshData.indexData[index++] = (latitude + 1) * (divisions + 1) + longitude + 1;
-
-				meshData.indexData[index++] = latitude * (divisions + 1) + longitude;
-				meshData.indexData[index++] = (latitude + 1) * (divisions + 1) + longitude + 1;
-				meshData.indexData[index++] = latitude * (divisions + 1) + longitude + 1;
-
-				if (doubleSided)
-				{
-					meshData.indexData[index++] = latitude * (divisions + 1) + longitude;
-					meshData.indexData[index++] = (latitude + 1) * (divisions + 1) + longitude + 1;
-					meshData.indexData[index++] = (latitude + 1) * (divisions + 1) + longitude;
-
-					meshData.indexData[index++] = latitude * (divisions + 1) + longitude;
-					meshData.indexData[index++] = latitude * (divisions + 1) + longitude + 1;
-					meshData.indexData[index++] = (latitude + 1) * (divisions + 1) + longitude + 1;
-				}
-			}
-		}
-
-		meshData.indexCount = index;
-
-		mesh->releaseData();
-
-		return move(mesh);
-	}
-
-	unique_ptr<Mesh> ModelFactory::createMesh(shared_ptr<MeshBuffer> buffer, unsigned int vertexCount,
-			unsigned int indexCount)
+	unique_ptr<Mesh> ModelFactory::createMesh(unsigned int vertexCount, unsigned int indexCount,
+											  shared_ptr<MeshBuffer> buffer)
 	{
 		if (buffer == nullptr)
 		{
@@ -326,253 +638,15 @@ namespace simplicity
 		return unique_ptr<Mesh>(new Mesh(buffer));
 	}
 
-	unique_ptr<Mesh> ModelFactory::createPrismMesh(const Vector3& halfExtents, shared_ptr<MeshBuffer> buffer,
-			const Vector4& color)
+	shared_ptr<MeshBuffer> ModelFactory::createMeshBuffer(unsigned int vertexCount, unsigned int indexCount,
+														  Buffer::AccessHint accessHint)
 	{
-		unsigned int vertexCount = 18;
-		unsigned int indexCount = 24;
-
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false);
-
-		// Vertices
-		meshData.vertexCount = vertexCount;
-		Vector3 normal;
-
-		// Bottom
-		insertRectangleVertices(meshData.vertexData, 0, Vector3(-halfExtents.X(), -halfExtents.Y(), -halfExtents.Z()),
-			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, halfExtents.Z() * 2.0f), color);
-
-		// North
-		insertRectangleVertices(meshData.vertexData, 4, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(halfExtents.X() * -2.0f, 0.0f, 0.0f), Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
-
-		// East
-		insertTriangleVertices(meshData.vertexData, 8, Vector3(halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f),
-			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f), color);
-
-		// South (slope)
-		insertRectangleVertices(meshData.vertexData, 11, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(halfExtents.X() * 2.0f, 0.0f, 0.0f),
-			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f), color);
-
-		// West
-		insertTriangleVertices(meshData.vertexData, 15, Vector3(-halfExtents.X(), halfExtents.Y(), halfExtents.Z()),
-			Vector3(0.0f, halfExtents.Y() * -2.0f, halfExtents.Z() * -2.0f),
-			Vector3(0.0f, halfExtents.Y() * -2.0f, 0.0f), color);
-
-		// Indices
-		meshData.indexCount = indexCount;
-
-		insertRectangleIndices(meshData.indexData, 0, 0);
-		insertRectangleIndices(meshData.indexData, 6, 4);
-		insertTriangleIndices(meshData.indexData, 12, 8);
-		insertRectangleIndices(meshData.indexData, 15, 11);
-		insertTriangleIndices(meshData.indexData, 21, 15);
-
-		mesh->releaseData();
-
-		return move(mesh);
-	}
-
-	unique_ptr<Mesh> ModelFactory::createPyramidMesh(float halfBaseExtent, float height, shared_ptr<MeshBuffer> buffer,
-			const Vector4& color)
-	{
-		unsigned int vertexCount = 16;
-		unsigned int indexCount = 18;
-
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false);
-
-		// Vertices
-		meshData.vertexCount = vertexCount;
-
-		// Bottom
-		insertRectangleVertices(meshData.vertexData, 0, Vector3(-halfBaseExtent, -height * 0.5f, -halfBaseExtent),
-				Vector3(0.0f, 0.0f, halfBaseExtent * 2.0f), Vector3(halfBaseExtent * 2.0f, 0.0f, 0.0f), color);
-
-		// North
-		insertTriangleVertices(meshData.vertexData, 4, Vector3(0.0f, height * 0.5f, 0.0f),
-				Vector3(-halfBaseExtent, -height, halfBaseExtent), Vector3(halfBaseExtent, -height, halfBaseExtent),
-				color);
-
-		// East
-		insertTriangleVertices(meshData.vertexData, 7, Vector3(0.0f, height * 0.5f, 0.0f),
-				Vector3(halfBaseExtent, -height, halfBaseExtent), Vector3(halfBaseExtent, -height, -halfBaseExtent),
-			color);
-
-		// South
-		insertTriangleVertices(meshData.vertexData, 10, Vector3(0.0f, height * 0.5f, 0.0f),
-				Vector3(halfBaseExtent, -height, -halfBaseExtent), Vector3(-halfBaseExtent, -height, -halfBaseExtent),
-			color);
-
-		// West
-		insertTriangleVertices(meshData.vertexData, 13, Vector3(0.0f, height * 0.5f, 0.0f),
-				Vector3(-halfBaseExtent, -height, -halfBaseExtent), Vector3(-halfBaseExtent, -height, halfBaseExtent),
-			color);
-
-		// Indices
-		meshData.indexCount = indexCount;
-
-		insertRectangleIndices(meshData.indexData, 0, 0);
-		insertTriangleIndices(meshData.indexData, 6, 4);
-		insertTriangleIndices(meshData.indexData, 9, 7);
-		insertTriangleIndices(meshData.indexData, 12, 10);
-		insertTriangleIndices(meshData.indexData, 15, 13);
-
-		mesh->releaseData();
-
-		return move(mesh);
-	}
-
-	unique_ptr<Mesh> ModelFactory::createRectangleMesh(float halfWidth, float halfHeight, shared_ptr<MeshBuffer> buffer,
-													   const Vector4& color, bool doubleSided)
-	{
-		unsigned int vertexCount = 4;
-		unsigned int indexCount = 6;
-		if (doubleSided)
-		{
-			indexCount *= 2;
-		}
-
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false);
-
-		// Vertices
-		meshData.vertexCount = vertexCount;
-
-		insertRectangleVertices(meshData.vertexData, 0, Vector3(-halfWidth, halfHeight, 0.0f),
-								Vector3(halfWidth * 2.0f, 0.0f, 0.0f), Vector3(0.0f, -halfHeight * 2.0f, 0.0f), color);
-
-		// Indices
-		meshData.indexCount = indexCount;
-
-		insertRectangleIndices(meshData.indexData, 0, 0);
-
-		if (doubleSided)
-		{
-			insertRectangleIndices(meshData.indexData, 6, 0, true);
-		}
-
-		mesh->releaseData();
-
-		return move(mesh);
-	}
-
-	unique_ptr<Mesh> ModelFactory::createSphereMesh(float radius, unsigned int divisions,
-			shared_ptr<MeshBuffer> buffer, const Vector4& color, bool smooth)
-	{
-		unsigned int vertexCount = pow(divisions + 1, 2);
-		unsigned int indexCount = pow(divisions, 2) * 6;
-		if (!smooth)
-		{
-			vertexCount *= 4;
-		}
-
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
-		MeshData& meshData = mesh->getData(false);
-
-		// Vertices
-		unsigned int index = 0;
-
-		for (unsigned int latitude = 0; latitude <= divisions; latitude++)
-		{
-			for (unsigned int longitude = 0; longitude <= divisions; longitude++)
-			{
-				if (smooth)
-				{
-					meshData.vertexData[index].color = color;
-					meshData.vertexData[index].position = getPointOnSphere(radius, divisions, latitude, longitude);
-					meshData.vertexData[index].normal = meshData.vertexData[index].position;
-					meshData.vertexData[index].normal.normalize();
-					index++;
-				}
-				else if (latitude != divisions && longitude != divisions)
-				{
-					Vector3 position0 = getPointOnSphere(radius, divisions, latitude, longitude);
-					Vector3 position1 = getPointOnSphere(radius, divisions, latitude + 1, longitude);
-					Vector3 position2 = getPointOnSphere(radius, divisions, latitude + 1, longitude + 1);
-					Vector3 position3 = getPointOnSphere(radius, divisions, latitude, longitude + 1);
-
-					Vector3 edge0 = position1 - position0;
-					Vector3 edge1 = position2 - position0;
-					if (latitude == divisions - 1)
-					{
-						edge1 = position3 - position0;
-					}
-					Vector3 normal = crossProduct(edge0, edge1);
-					normal.normalize();
-
-					meshData.vertexData[index].color = color;
-					meshData.vertexData[index].position = position0;
-					meshData.vertexData[index].normal = normal;
-					index++;
-					meshData.vertexData[index].color = color;
-					meshData.vertexData[index].position = position1;
-					meshData.vertexData[index].normal = normal;
-					index++;
-					meshData.vertexData[index].color = color;
-					meshData.vertexData[index].position = position2;
-					meshData.vertexData[index].normal = normal;
-					index++;
-					meshData.vertexData[index].color = color;
-					meshData.vertexData[index].position = position3;
-					meshData.vertexData[index].normal = normal;
-					index++;
-				}
-			}
-		}
-
-		meshData.vertexCount = index;
-
-		// Indices
-		index = 0;
-
-		for (unsigned int latitude = 0; latitude < divisions; latitude++)
-		{
-			for (unsigned int longitude = 0; longitude < divisions; longitude++)
-			{
-				if (smooth)
-				{
-					meshData.indexData[index++] = latitude * (divisions + 1) + longitude;
-					meshData.indexData[index++] = (latitude + 1) * (divisions + 1) + longitude;
-					meshData.indexData[index++] = (latitude + 1) * (divisions + 1) + longitude + 1;
-
-					meshData.indexData[index++] = latitude * (divisions + 1) + longitude;
-					meshData.indexData[index++] = (latitude + 1) * (divisions + 1) + longitude + 1;
-					meshData.indexData[index++] = latitude * (divisions + 1) + longitude + 1;
-				}
-				else
-				{
-					unsigned int segmentIndex = (latitude * divisions + longitude) * 4;
-
-					meshData.indexData[index++] = segmentIndex;
-					meshData.indexData[index++] = segmentIndex + 1;
-					meshData.indexData[index++] = segmentIndex + 2;
-
-					meshData.indexData[index++] = segmentIndex;
-					meshData.indexData[index++] = segmentIndex + 2;
-					meshData.indexData[index++] = segmentIndex + 3;
-				}
-			}
-		}
-
-		meshData.indexCount = index;
-
-		mesh->releaseData();
-
-		return move(mesh);
-	}
-
-	unique_ptr<Mesh> ModelFactory::createSquareMesh(float halfExtent, shared_ptr<MeshBuffer> buffer,
-													const Vector4& color, bool doubleSided)
-	{
-		return createRectangleMesh(halfExtent, halfExtent, buffer, color, doubleSided);
+		return instance->createMeshBufferInternal(vertexCount, indexCount, accessHint);
 	}
 
 	unique_ptr<Mesh> ModelFactory::createTriangleMesh(const Vector3& top, const Vector3& toBottomLeft,
-			const Vector3& toBottomRight, shared_ptr<MeshBuffer> buffer, const Vector4& color, bool doubleSided)
+													  const Vector3& toBottomRight, shared_ptr<MeshBuffer> buffer,
+													  const Vector4& color, bool doubleSided)
 	{
 		unsigned int vertexCount = 3;
 		unsigned int indexCount = 3;
@@ -581,7 +655,7 @@ namespace simplicity
 			indexCount *= 2;
 		}
 
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertexCount, indexCount);
+		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
@@ -604,13 +678,8 @@ namespace simplicity
 		return move(mesh);
 	}
 
-	ModelFactory* ModelFactory::getInstance()
-	{
-		return instance.get();
-	}
-
 	Vector3 ModelFactory::getPointOnSphere(float radius, unsigned int divisions, unsigned int latitude,
-			unsigned int longitude)
+										   unsigned int longitude)
 	{
 		float a = MathConstants::PI * latitude / divisions;
 		float b = 2 * MathConstants::PI * longitude / divisions;
@@ -619,7 +688,7 @@ namespace simplicity
 	}
 
 	void ModelFactory::insertCircleIndices(unsigned int* indices, unsigned int index, unsigned int vertexIndex,
-			unsigned int divisions, bool reverse)
+										   unsigned int divisions, bool reverse)
 	{
 		for (unsigned int division = 0; division < divisions; division++)
 		{
@@ -650,7 +719,7 @@ namespace simplicity
 	}
 
 	void ModelFactory::insertCircleVertices(Vertex* vertices, unsigned int index, float radius, unsigned int divisions,
-			const Vector3& center, const Vector4& color)
+											const Vector3& center, const Vector4& color)
 	{
 		Vector3 normal(0.0f, 0.0f, 1.0f);
 
@@ -671,7 +740,7 @@ namespace simplicity
 	}
 
 	void ModelFactory::insertRectangleIndices(unsigned int* indices, unsigned int index, unsigned int vertexIndex,
-			bool reverse)
+											  bool reverse)
 	{
 		if (reverse)
 		{
@@ -694,7 +763,8 @@ namespace simplicity
 	}
 
 	void ModelFactory::insertRectangleVertices(Vertex* vertices, unsigned int index, const Vector3& topLeft,
-			const Vector3& toTopRight, const Vector3& toBottomLeft, const Vector4& color)
+											   const Vector3& toTopRight, const Vector3& toBottomLeft,
+											   const Vector4& color)
 	{
 		Vector3 normal = crossProduct(toTopRight, toBottomLeft);
 		normal.normalize();
@@ -718,7 +788,7 @@ namespace simplicity
 	}
 
 	void ModelFactory::insertTriangleIndices(unsigned int* indices, unsigned int index, unsigned int vertexIndex,
-			bool reverse)
+											 bool reverse)
 	{
 		if (reverse)
 		{
@@ -735,7 +805,8 @@ namespace simplicity
 	}
 
 	void ModelFactory::insertTriangleVertices(Vertex* vertices, unsigned int index, const Vector3& top,
-			const Vector3& toBottomLeft, const Vector3& toBottomRight, const Vector4& color)
+											  const Vector3& toBottomLeft, const Vector3& toBottomRight,
+											  const Vector4& color)
 	{
 		Vector3 normal = crossProduct(toBottomRight, toBottomLeft);
 		normal.normalize();
@@ -764,7 +835,7 @@ namespace simplicity
 	}
 
 	void ModelFactory::insertTunnelIndices(unsigned int* indices, unsigned int index, unsigned int vertexIndex,
-			unsigned int divisions, bool reverse)
+										   unsigned int divisions, bool reverse)
 	{
 		for (unsigned int division = 0; division < divisions; division++)
 		{
@@ -795,7 +866,8 @@ namespace simplicity
 	}
 
 	void ModelFactory::insertTunnelVertices(Vertex* vertices, unsigned int index, float radius, float length,
-			unsigned int divisions, const Vector3& center, const Vector4& color, bool smooth)
+											unsigned int divisions, const Vector3& center, const Vector4& color,
+											bool smooth)
 	{
 		Vector3 toEnd(0.0f, 0.0f, -length);
 
@@ -845,14 +917,14 @@ namespace simplicity
 	}
 
 	unique_ptr<Mesh> ModelFactory::loadObj(Resource& resource, shared_ptr<MeshBuffer> buffer, const Vector4& color,
-			float scale)
+										   float scale)
 	{
 		return loadObj(resource, buffer, color, scale, 0, 0, 0, 0);
 	}
 
 	unique_ptr<Mesh> ModelFactory::loadObj(Resource& resource, shared_ptr<MeshBuffer> buffer, const Vector4& color,
-			float scale, unsigned int normalCount, unsigned int positionCount, unsigned int texCoordCount,
-			unsigned int vertexCount)
+										   float scale, unsigned int normalCount, unsigned int positionCount,
+										   unsigned int texCoordCount, unsigned int vertexCount)
 	{
 		vector<Vertex> vertices;
 		vertices.reserve(vertexCount);
@@ -949,7 +1021,7 @@ namespace simplicity
 			// Create face normals if none were provided.
 			if (normals.empty())
 			{
-				unsigned int vertexCount = vertices.size();
+				unsigned int vertexCount = static_cast<unsigned int>(vertices.size());
 
 				Vector3 edge0 = vertices[vertexCount - 1].position - vertices[vertexCount - 2].position;
 				Vector3 edge1 = vertices[vertexCount - 1].position - vertices[vertexCount - 3].position;
@@ -962,10 +1034,10 @@ namespace simplicity
 			}
 		}
 
-		unique_ptr<Mesh> mesh = createMesh(buffer, vertices.size(), 0);
+		unique_ptr<Mesh> mesh = createMesh(static_cast<unsigned int>(vertices.size()), 0, buffer);
 		MeshData& meshData = mesh->getData(false);
 
-		meshData.vertexCount = vertices.size();
+		meshData.vertexCount = static_cast<unsigned int>(vertices.size());
 		memcpy(meshData.vertexData, vertices.data(), vertices.size());
 
 		mesh->releaseData();
@@ -978,7 +1050,8 @@ namespace simplicity
 		ModelFactory::instance = move(instance);
 	}
 
-	vector<string> splitString(string& split, istream& source, char delimiter, unsigned int estimatedSplitCount)
+	vector<string> ModelFactory::splitString(string& split, istream& source, char delimiter,
+											 unsigned int estimatedSplitCount)
 	{
 		vector<string> splits;
 		splits.reserve(estimatedSplitCount);

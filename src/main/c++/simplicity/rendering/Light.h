@@ -37,7 +37,7 @@ namespace simplicity
 			/**
 			 * @param name The name of the light source.
 			 */
-			Light(const std::string& name);
+			Light();
 
 			/**
 			 * <p>
@@ -183,6 +183,15 @@ namespace simplicity
 			 * @param direction The direction in which this light source is pointed.
 			 */
 			void setDirection(const Vector3& direction);
+
+			/**
+			 * <p>
+			 * Sets the name of the light source. This name will be used to identify it in the shader code.
+			 * </p>
+			 *
+			 * @param name The name of the light source.
+			 */
+			 void setName(const std::string& name);
 
 			/**
 			 * <p>

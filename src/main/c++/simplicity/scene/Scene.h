@@ -84,6 +84,15 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Retrieves the entity with the given name.
+			 * </p>
+			 *
+			 * @return The entity with the given name.
+			 */
+			Entity* getEntity(const std::string& name);
+
+			/**
+			 * <p>
 			 * Retrieves the entities.
 			 * </p>
 			 *

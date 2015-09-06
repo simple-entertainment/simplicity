@@ -82,6 +82,27 @@ namespace simplicity
 		return mouseCaptureEnabled;
 	}
 
+	Entity* Scene::getEntity(const std::string& name)
+	{
+		for (unique_ptr<Entity>& entity : entities)
+		{
+			if (entity->getName() == name)
+			{
+				return entity.get();
+			}
+		}
+
+		for (unique_ptr<Entity>& entity : entitiesToBeAdded)
+		{
+			if (entity->getName() == name)
+			{
+				return entity.get();
+			}
+		}
+
+		return nullptr;
+	}
+
     vector<Entity*> Scene::getEntities(unsigned short category)
 	{
     	vector<Entity*> rawEntities;

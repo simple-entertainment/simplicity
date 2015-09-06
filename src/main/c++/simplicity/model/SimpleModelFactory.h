@@ -29,8 +29,9 @@ namespace simplicity
 	class SIMPLE_API SimpleModelFactory : public ModelFactory
 	{
 		public:
-			std::shared_ptr<MeshBuffer> createMeshBuffer(unsigned int vertexCount, unsigned int indexCount,
-					Buffer::AccessHint accessHint) override;
+			std::shared_ptr<MeshBuffer> createMeshBufferInternal(unsigned int vertexCount,
+																 unsigned int indexCount,
+																 Buffer::AccessHint accessHint) override;
 	};
 }
 

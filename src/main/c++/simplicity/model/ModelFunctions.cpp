@@ -899,7 +899,7 @@ namespace simplicity
 
 			if (buffer == nullptr)
 			{
-				buffer = ModelFactory::getInstance()->createMeshBuffer(newVertices.size(), newIndices.size());
+				buffer = ModelFactory::createMeshBuffer(newVertices.size(), newIndices.size());
 			}
 
 			unique_ptr<Mesh> difference(new Mesh(buffer));

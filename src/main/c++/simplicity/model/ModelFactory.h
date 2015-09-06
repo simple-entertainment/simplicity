@@ -36,6 +36,102 @@ namespace simplicity
 		public:
 			/**
 			 * <p>
+			 * Contains all the information required to cook a simple-shaped mesh.
+			 * </p>
+			 */
+			struct Recipe
+			{
+				enum class Shape
+				{
+					BOX,
+					CIRCLE,
+					CYLINDER,
+					HEMISPHERE,
+					PRISM,
+					PYRAMID,
+					RECTANGLE,
+					SPHERE
+				};
+
+				Recipe() :
+						buffer(nullptr),
+						color(1.0f, 1.0f, 1.0f, 1.0f),
+						dimensions(1.0f, 1.0f, 1.0f),
+						divisions(10),
+						doubleSided(false),
+						shape(Shape::BOX),
+						smooth(false)
+				{
+				}
+
+				/**
+				 * <p>
+				 * The buffer used to store the mesh data (optional).
+				 * </p>
+				 */
+				std::shared_ptr<MeshBuffer> buffer;
+
+				/**
+				 * <p>
+				 * The color to apply to all vertices.
+				 * </p>
+				 */
+				Vector4 color;
+
+				/**
+				 * <p>
+				 * The dimensions of the shape. Different shapes interpret these dimensions differently:
+				 * </p>
+				 *
+				 * <p>
+				 * <pre>
+				 * BOX			[width, height, depth]
+				 * CIRCLE		[diameter, <ignored>, <ignored>]
+				 * CYLINDER		[diameter, length, <ignored>]
+				 * HEMISPHERE	[diameter, <ignored>, <ignored>]
+				 * PRISM		[width, height, depth]
+				 * PYRAMID		[width/depth, height, <ignored>]
+				 * RECTANGLE	[width, height, <ignored>]
+				 * SPHERE		[diameter, <ignored>, <ignored>]
+				 * </pre>
+				 * </p>
+				 */
+				Vector3 dimensions;
+
+				/**
+				 * <p>
+				 * The number of divisions in the shape (more divisions result in a more rounded surface). This value is
+				 * only used by the CIRCLE, CYLINDER, HEMISPHERE and SPHERE shapes.
+				 * </p>
+				 */
+				unsigned int divisions;
+
+				/**
+				 * <p>
+				 * Determines if the faces should be double-sided (i.e. face inward and outward). If this is false, the
+				 * faces will only face outward (what?).
+				 * </p>
+				 */
+				bool doubleSided;
+
+				/**
+				 * <p>
+				 * The shape to cook.
+				 * </p>
+				 */
+				Shape shape;
+
+				/**
+				 * <p>
+				 * Determines if the normals should simulate a smooth rounded surface. This value is only used by the
+				 * CIRCLE, CYLINDER, HEMISPHERE and SPHERE shapes.
+				 * </p>
+				 */
+				bool smooth;
+			};
+
+			/**
+			 * <p>
 			 * Allows polymorphism.
 			 * </p>
 			 */
@@ -45,90 +141,18 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Creates a box mesh.
+			 * Cooks a simple-shaped mesh using the given recipe.
 			 * </p>
 			 *
-			 * @param halfExtents The half extents (half the lengths on each dimension) of the box.
-			 * @param buffer The buffer used to store the mesh data (optional).
-			 * @param color The color of the box.
-			 * @param doubleSided Determines if the box should be double-sided (face inward and outward).
-			 *
-			 * @return A box mesh.
-			 */
-			std::unique_ptr<Mesh> createBoxMesh(const Vector3& halfExtents,
-					std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
-					bool doubleSided = false);
-
-			/**
 			 * <p>
-			 * Creates an allocated mesh buffer with enough space for the given quantities of vertices and indices.
+			 * This is a work in progress so some recipe information may be ignored by some shapes.
 			 * </p>
 			 *
-			 * @param vertexCount The number of vertices to allocate space for.
-			 * @param indexCount The number of indices to allocate space for. If this is set to 0, the vertices are
-			 * assumed to be non-indexed.
-			 * @param accessHint The hinted accessibility of the buffer's data.
+			 * @param recipe The recipe to cook.
 			 *
-			 * @return An allocated mesh buffer with enough space for the given quantities of vertices and indices.
+			 * @return The simple-shaped mesh.
 			 */
-			virtual std::shared_ptr<MeshBuffer> createMeshBuffer(unsigned int vertexCount, unsigned int indexCount = 0,
-					Buffer::AccessHint accessHint = Buffer::AccessHint::NONE) = 0;
-
-			/**
-			 * <p>
-			 * Creates a circle mesh.
-			 * </p>
-			 *
-			 * @param radius The radius of the circle.
-			 * @param divisions The number of divisions in the circle (more divisions result in a more rounded surface).
-			 * @param buffer The buffer used to store the mesh data (optional).
-			 * @param color The color of the circle.
-			 *
-			 * @return A circle mesh.
-			 */
-			std::unique_ptr<Mesh> createCircleMesh(float radius, unsigned int divisions,
-					std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-
-			/**
-			 * <p>
-			 * Creates a cube mesh.
-			 * </p>
-			 *
-			 * @param halfExtent The half extents (half the lengths on all dimensions) of the cube.
-			 * @param buffer The buffer used to store the mesh data (optional).
-			 * @param color The color of the cube.
-			 * @param doubleSided Determines if the cube should be double-sided (face inward and outward).
-			 *
-			 * @return A cube mesh.
-			 */
-			std::unique_ptr<Mesh> createCubeMesh(float halfExtent,
-					std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
-					bool doubleSided = false);
-
-			/**
-			 * <p>
-			 * Creates a cylinder mesh.
-			 * </p>
-			 *
-			 * @param radius The radius of the cylinder.
-			 * @param length The length of the cylinder.
-			 * @param divisions The number of divisions in the cylinder (more divisions result in a more rounded
-			 * surface).
-			 * @param buffer The buffer used to store the mesh data (optional).
-			 * @param color The color of the cylinder.
-			 * @param doubleSided Determines if the cylinder should be double-sided (face inward and outward).
-			 * @param smooth Determines if the normals should simulate a smooth rounded surface.
-			 *
-			 * @return A cylinder mesh.
-			 */
-			std::unique_ptr<Mesh> createCylinderMesh(float radius, float length, unsigned int divisions,
-					std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
-					bool doubleSided = false,
-					bool smooth = true);
+			static std::unique_ptr<Mesh> cookMesh(const Recipe& recipe);
 
 			/**
 			 * <p>
@@ -145,114 +169,41 @@ namespace simplicity
 			 *
 			 * @return A height map mesh.
 			 */
-			std::unique_ptr<Mesh> createHeightMapMesh(const std::vector<std::vector<float>>& heightMap,
-					unsigned int minX, unsigned int maxX, unsigned int minZ, unsigned int maxZ,
-					std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+			static std::unique_ptr<Mesh> createHeightMapMesh(const std::vector<std::vector<float>>& heightMap,
+															 unsigned int minX, unsigned int maxX, unsigned int minZ,
+															 unsigned int maxZ,
+															 std::shared_ptr<MeshBuffer> buffer = nullptr,
+															 const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 
 			/**
 			 * <p>
-			 * Creates a hemisphere mesh.
+			 * Creates an empty mesh.
 			 * </p>
 			 *
-			 * @param radius The radius of the hemisphere.
-			 * @param divisions The number of divisions in the hemisphere (more divisions result in a more rounded
-			 * surface).
-			 * @param buffer The buffer used to store the mesh data (optional).
-			 * @param color The color of the hemisphere.
-			 * @param doubleSided Determines if the hemisphere should be double-sided (face inward and outward).
+			 * @param vertexCount The number of vertices to allocate space for.
+			 * @param indexCount The number of indices to allocate space for. If this is set to 0, the vertices are
+			 * assumed to be non-indexed.
+			 * @param buffer The recipe to cook.
 			 *
-			 * @return A hemisphere mesh.
+			 * @return The empty mesh.
 			 */
-			std::unique_ptr<Mesh> createHemisphereMesh(float radius, unsigned int divisions,
-					std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
-					bool doubleSided = false);
+			static std::unique_ptr<Mesh> createMesh(unsigned int vertexCount, unsigned int indexCount = 0,
+													std::shared_ptr<MeshBuffer> buffer = nullptr);
 
 			/**
 			 * <p>
-			 * Creates a prism mesh.
+			 * Creates an allocated mesh buffer with enough space for the given quantities of vertices and indices.
 			 * </p>
 			 *
-			 * @param halfExtents The half extents (half the lengths on each dimension) of the prism.
-			 * @param buffer The buffer used to store the mesh data (optional).
-			 * @param color The color of the prism.
+			 * @param vertexCount The number of vertices to allocate space for.
+			 * @param indexCount The number of indices to allocate space for. If this is set to 0, the vertices are
+			 * assumed to be non-indexed.
+			 * @param accessHint The hinted accessibility of the buffer's data.
 			 *
-			 * @return A prism mesh.
+			 * @return An allocated mesh buffer with enough space for the given quantities of vertices and indices.
 			 */
-			std::unique_ptr<Mesh> createPrismMesh(const Vector3& halfExtents,
-					std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-
-			/**
-			 * <p>
-			 * Creates a pyramid mesh.
-			 * </p>
-			 *
-			 * @param halfBaseExtent The half extents (half the lengths on the base dimensions) of the pyramid.
-			 * @param height The height of the pyramid.
-			 * @param buffer The buffer used to store the mesh data (optional).
-			 * @param color The color of the pyramid.
-			 *
-			 * @return A pyramid mesh.
-			 */
-			std::unique_ptr<Mesh> createPyramidMesh(float halfBaseExtent, float height,
-					std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-
-			/**
-			 * <p>
-			 * Creates a rectangle mesh.
-			 * </p>
-			 *
-			 * @param halfWidth The half extent (half the length) of the width of the rectangle.
-			 * @param halfHeight The half extent (half the length) of the height of the rectangle.
-			 * @param buffer The buffer used to store the mesh data (optional).
-			 * @param color The color of the rectangle.
-			 * @param doubleSided Determines if the rectangle should be double-sided (face both ways).
-			 *
-			 * @return A rectangle mesh.
-			 */
-			std::unique_ptr<Mesh> createRectangleMesh(float halfWidth, float halfHeight,
-													  std::shared_ptr<MeshBuffer> buffer = nullptr,
-													  const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
-													  bool doubleSided = false);
-
-			/**
-			 * <p>
-			 * Creates a sphere mesh.
-			 * </p>
-			 *
-			 * @param radius The radius of the sphere.
-			 * @param divisions The number of divisions in the sphere (more divisions result in a more rounded
-			 * surface).
-			 * @param buffer The buffer used to store the mesh data (optional).
-			 * @param color The color of the sphere.
-			 * @param smooth Determines if the normals should simulate a smooth rounded surface.
-			 *
-			 * @return A sphere mesh.
-			 */
-			std::unique_ptr<Mesh> createSphereMesh(float radius, unsigned int divisions,
-					std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
-					bool smooth = true);
-
-			/**
-			 * <p>
-			 * Creates a square mesh.
-			 * </p>
-			 *
-			 * @param halfExtent The half extents (half the lengths on both dimensions) of the square.
-			 * @param buffer The buffer used to store the mesh data (optional).
-			 * @param color The color of the square.
-			 * @param doubleSided Determines if the square should be double-sided (face both ways).
-			 *
-			 * @return A square mesh.
-			 */
-			std::unique_ptr<Mesh> createSquareMesh(float halfExtent,
-					std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
-					bool doubleSided = false);
+			static std::shared_ptr<MeshBuffer> createMeshBuffer(unsigned int vertexCount, unsigned int indexCount = 0,
+																Buffer::AccessHint accessHint = Buffer::AccessHint::NONE);
 
 			/**
 			 * <p>
@@ -268,20 +219,11 @@ namespace simplicity
 			 *
 			 * @return A triangle mesh.
 			 */
-			std::unique_ptr<Mesh> createTriangleMesh(const Vector3& top, const Vector3& toBottomLeft,
-					const Vector3& toBottomRight,
-					std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
-					bool doubleSided = false);
-
-			/**
-			 * <p>
-			 * Retrieves the concrete factory instance used to create the meshes.
-			 * </p>
-			 *
-			 * @return The concrete factory instance.
-			 */
-			static ModelFactory* getInstance();
+			static std::unique_ptr<Mesh> createTriangleMesh(const Vector3& top, const Vector3& toBottomLeft,
+															const Vector3& toBottomRight,
+															std::shared_ptr<MeshBuffer> buffer = nullptr,
+															const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+															bool doubleSided = false);
 
 			/**
 			 * <p>
@@ -295,7 +237,7 @@ namespace simplicity
 			 * @param reverse Determines if the circle should be reversed (face the opposite direction).
 			 */
 			static void insertCircleIndices(unsigned int* indices, unsigned int index, unsigned int vertexIndex,
-					unsigned int divisions, bool reverse = false);
+											unsigned int divisions, bool reverse = false);
 
 			/**
 			 * <p>
@@ -309,8 +251,8 @@ namespace simplicity
 			 * @param center The center position of the circle.
 			 * @param color The color of the circle.
 			 */
-			static void insertCircleVertices(Vertex* vertices, unsigned int index, float radius,
-					unsigned int divisions, const Vector3& center, const Vector4& color);
+			static void insertCircleVertices(Vertex* vertices, unsigned int index, float radius, unsigned int divisions,
+											 const Vector3& center, const Vector4& color);
 
 			/**
 			 * <p>
@@ -323,7 +265,7 @@ namespace simplicity
 			 * @param reverse Determines if the rectangle should be reversed (face the opposite direction).
 			 */
 			static void insertRectangleIndices(unsigned int* indices, unsigned int index, unsigned int vertexIndex,
-					bool reverse = false);
+											   bool reverse = false);
 
 			/**
 			 * <p>
@@ -338,7 +280,8 @@ namespace simplicity
 			 * @param color The color of the rectangle.
 			 */
 			static void insertRectangleVertices(Vertex* vertices, unsigned int index, const Vector3& topLeft,
-					const Vector3& toTopRight, const Vector3& toBottomLeft, const Vector4& color);
+												const Vector3& toTopRight, const Vector3& toBottomLeft,
+												const Vector4& color);
 
 			/**
 			 * <p>
@@ -351,7 +294,7 @@ namespace simplicity
 			 * @param reverse Determines if the triangle should be reversed (face the opposite direction).
 			 */
 			static void insertTriangleIndices(unsigned int* indices, unsigned int index, unsigned int vertexIndex,
-					bool reverse = false);
+											  bool reverse = false);
 
 			/**
 			 * <p>
@@ -366,7 +309,8 @@ namespace simplicity
 			 * @param color The color of the triangle.
 			 */
 			static void insertTriangleVertices(Vertex* vertices, unsigned int index, const Vector3& top,
-					const Vector3& toBottomLeft, const Vector3& toBottomRight, const Vector4& color);
+											   const Vector3& toBottomLeft, const Vector3& toBottomRight,
+											   const Vector4& color);
 
 			/**
 			 * <p>
@@ -380,7 +324,7 @@ namespace simplicity
 			 * @param reverse Determines if the tunnel should be reversed (face inward instead of outward).
 			 */
 			static void insertTunnelIndices(unsigned int* indices, unsigned int index, unsigned int vertexIndex,
-					unsigned int divisions, bool reverse = false);
+											unsigned int divisions, bool reverse = false);
 
 			/**
 			 * <p>
@@ -397,7 +341,8 @@ namespace simplicity
 			 * @param smooth Determines if the normals should simulate a smooth rounded surface.
 			 */
 			static void insertTunnelVertices(Vertex* vertices, unsigned int index, float radius, float length,
-					unsigned int divisions, const Vector3& center, const Vector4& color, bool smooth = true);
+											 unsigned int divisions, const Vector3& center, const Vector4& color,
+											 bool smooth = true);
 
 			/**
 			 * <p>
@@ -415,12 +360,13 @@ namespace simplicity
 			 *
 			 * @return The model created from the OBJ data.
 			 */
-			std::unique_ptr<Mesh> loadObj(Resource& resource, std::shared_ptr<MeshBuffer> buffer = nullptr,
-					const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f);
+			static std::unique_ptr<Mesh> loadObj(Resource& resource, std::shared_ptr<MeshBuffer> buffer = nullptr,
+												 const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+												 float scale = 1.0f);
 
 			/**
 			 * <p>
-			 * Loads a model from OBJ data. This is faster than the version that does not take countsas it is able to
+			 * Loads a model from OBJ data. This is faster than the version that does not take counts as it is able to
 			 * pre-allocate the correctly-sized memory blocks.
 			 * </p>
 			 *
@@ -439,9 +385,10 @@ namespace simplicity
 			 *
 			 * @return The model created from the OBJ data.
 			 */
-			std::unique_ptr<Mesh> loadObj(Resource& resource, std::shared_ptr<MeshBuffer> buffer, const Vector4& color,
-					float scale, unsigned int normalCount, unsigned int positionCount, unsigned int texCoordCount,
-					unsigned int vertexCount);
+			static std::unique_ptr<Mesh> loadObj(Resource& resource, std::shared_ptr<MeshBuffer> buffer,
+												 const Vector4& color, float scale, unsigned int normalCount,
+												 unsigned int positionCount, unsigned int texCoordCount,
+												 unsigned int vertexCount);
 
 			/**
 			 * <p>
@@ -455,11 +402,31 @@ namespace simplicity
 		private:
 			static std::unique_ptr<ModelFactory> instance;
 
-			std::unique_ptr<Mesh> createMesh(std::shared_ptr<MeshBuffer> buffer, unsigned int vertexCount,
-					unsigned int indexCount);
+			static std::unique_ptr<Mesh> cookBoxMesh(const Recipe& recipe);
 
-			Vector3 getPointOnSphere(float radius, unsigned int divisions, unsigned int latitude,
-					unsigned int longitude);
+			static std::unique_ptr<Mesh> cookCircleMesh(const Recipe& recipe);
+
+			static std::unique_ptr<Mesh> cookCylinderMesh(const Recipe& recipe);
+
+			static std::unique_ptr<Mesh> cookHemisphereMesh(const Recipe& recipe);
+
+			static std::unique_ptr<Mesh> cookPrismMesh(const Recipe& recipe);
+
+			static std::unique_ptr<Mesh> cookPyramidMesh(const Recipe& recipe);
+
+			static std::unique_ptr<Mesh> cookRectangleMesh(const Recipe& recipe);
+
+			static std::unique_ptr<Mesh> cookSphereMesh(const Recipe& recipe);
+
+			virtual std::shared_ptr<MeshBuffer> createMeshBufferInternal(unsigned int vertexCount,
+																		 unsigned int indexCount,
+																		 Buffer::AccessHint accessHint) = 0;
+
+			static Vector3 getPointOnSphere(float radius, unsigned int divisions, unsigned int latitude,
+											unsigned int longitude);
+
+			static std::vector<std::string> splitString(std::string& split, std::istream& source, char delimiter,
+														unsigned int estimatedSplitCount);
 	};
 }
 

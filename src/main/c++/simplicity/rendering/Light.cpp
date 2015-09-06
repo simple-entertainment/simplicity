@@ -1,5 +1,5 @@
 /*
-* Copyright © 2014 Simple Entertainment Limited
+* Copyright ï¿½ 2014 Simple Entertainment Limited
 *
 * This file is part of The Simplicity Engine.
 *
@@ -20,18 +20,17 @@ using namespace std;
 
 namespace simplicity
 {
-	Light::Light(const string& name) :
-		active(false),
+	Light::Light() :
+		active(true),
 		ambient(),
 		attenuation(),
 		diffuse(),
 		direction(),
-		name(name),
+		name(),
 		range(100.0f),
 		specular(),
 		strength(1.0f)
 	{
-		activate();
 	}
 
 	void Light::activate()
@@ -130,6 +129,11 @@ namespace simplicity
 	void Light::setDirection(const Vector3& direction)
 	{
 		this->direction = direction;
+	}
+
+	void Light::setName(const string& name)
+	{
+		this->name = name;
 	}
 
 	void Light::setRange(float range)
