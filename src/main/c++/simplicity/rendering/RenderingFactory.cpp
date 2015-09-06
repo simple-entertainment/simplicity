@@ -22,9 +22,42 @@ namespace simplicity
 {
 	unique_ptr<RenderingFactory> RenderingFactory::instance;
 
-	RenderingFactory* RenderingFactory::getInstance()
+	shared_ptr<Pipeline> RenderingFactory::createPipeline(const string& name)
 	{
-		return instance.get();
+		return instance->createPipelineInternal(name);
+	}
+
+	shared_ptr<Pipeline> RenderingFactory::createPipeline(unique_ptr<Shader> vertexShader,
+														  unique_ptr<Shader> geometryShader,
+														  unique_ptr<Shader> fragmentShader)
+	{
+		return instance->createPipelineInternal(move(vertexShader), move(geometryShader), move(fragmentShader));
+	}
+
+	unique_ptr<Shader> RenderingFactory::createShader(Shader::Type type, const Resource& resource)
+	{
+		return instance->createShaderInternal(type, resource);
+	}
+
+	unique_ptr<Shader> RenderingFactory::createShader(Shader::Type type, const string& name)
+	{
+		return instance->createShaderInternal(type, name);
+	}
+
+	shared_ptr<Texture> RenderingFactory::createTexture(const char* data, unsigned int length, PixelFormat format)
+	{
+		return instance->createTextureInternal(data, length, format);
+	}
+
+	shared_ptr<Texture> RenderingFactory::createTexture(char* rawData, unsigned int width, unsigned int height,
+														PixelFormat format)
+	{
+		return instance->createTextureInternal(rawData, width, height, format);
+	}
+
+	shared_ptr<Texture> RenderingFactory::createTexture(Resource& image, PixelFormat format)
+	{
+		return instance->createTextureInternal(image, format);
 	}
 
 	void RenderingFactory::setInstance(unique_ptr<RenderingFactory> instance)

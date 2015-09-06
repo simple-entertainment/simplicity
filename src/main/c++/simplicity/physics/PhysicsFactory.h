@@ -52,17 +52,8 @@ namespace simplicity
 			 *
 			 * @return A physical body.
 			 */
-			virtual std::unique_ptr<Body> createBody(const Body::Material& material, Model* model,
-					const Matrix44& transform, bool dynamic = true) = 0;
-
-			/**
-			 * <p>
-			 * Retrieves the concrete factory instance used to create the physical bodies.
-			 * </p>
-			 *
-			 * @return The concrete factory instance.
-			 */
-			static PhysicsFactory* getInstance();
+			static std::unique_ptr<Body> createBody(const Body::Material& material, Model* model,
+													const Matrix44& transform, bool dynamic = true);
 
 			/**
 			 * <p>
@@ -75,6 +66,9 @@ namespace simplicity
 
 		private:
 			static std::unique_ptr<PhysicsFactory> instance;
+
+			virtual std::unique_ptr<Body> createBodyInternal(const Body::Material& material, Model* model,
+															 const Matrix44& transform, bool dynamic = true) = 0;
 	};
 }
 

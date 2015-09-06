@@ -54,7 +54,7 @@ namespace simplicity
 			 *
 			 * @return The pipeline.
 			 */
-			virtual std::shared_ptr<Pipeline> createPipeline(const std::string& name = "simple") = 0;
+			static std::shared_ptr<Pipeline> createPipeline(const std::string& name = "simple");
 
 			/**
 			 * <p>
@@ -67,9 +67,9 @@ namespace simplicity
 			 *
 			 * @return The pipeline.
 			 */
-			virtual std::shared_ptr<Pipeline> createPipeline(std::unique_ptr<Shader> vertexShader,
-															 std::unique_ptr<Shader> geometryShader,
-															 std::unique_ptr<Shader> fragmentShader) = 0;
+			static std::shared_ptr<Pipeline> createPipeline(std::unique_ptr<Shader> vertexShader,
+															std::unique_ptr<Shader> geometryShader,
+															std::unique_ptr<Shader> fragmentShader);
 
 			/**
 			 * <p>
@@ -81,7 +81,7 @@ namespace simplicity
 			 *
 			 * @return The shader.
 			 */
-			virtual std::unique_ptr<Shader> createShader(Shader::Type type, const Resource& resource) = 0;
+			static std::unique_ptr<Shader> createShader(Shader::Type type, const Resource& resource);
 
 			/**
 			 * <p>
@@ -93,7 +93,7 @@ namespace simplicity
 			 *
 			 * @return The shader.
 			 */
-			virtual std::unique_ptr<Shader> createShader(Shader::Type type, const std::string& name = "simple") = 0;
+			static std::unique_ptr<Shader> createShader(Shader::Type type, const std::string& name = "simple");
 
 			/**
 			 * <p>
@@ -106,8 +106,7 @@ namespace simplicity
 			 *
 			 * @return The texture.
 			 */
-			virtual std::shared_ptr<Texture> createTexture(const char* data, unsigned int length,
-														   PixelFormat format) = 0;
+			static std::shared_ptr<Texture> createTexture(const char* data, unsigned int length, PixelFormat format);
 
 			/**
 			 * <p>
@@ -121,8 +120,8 @@ namespace simplicity
 			 *
 			 * @return The texture.
 			 */
-			virtual std::shared_ptr<Texture> createTexture(char* rawData, unsigned int width, unsigned int height,
-					PixelFormat format) = 0;
+			static std::shared_ptr<Texture> createTexture(char* rawData, unsigned int width, unsigned int height,
+														  PixelFormat format);
 
 			/**
 			 * <p>
@@ -134,16 +133,7 @@ namespace simplicity
 			 *
 			 * @return The texture.
 			 */
-			virtual std::shared_ptr<Texture> createTexture(Resource& image, PixelFormat format) = 0;
-
-			/**
-			 * <p>
-			 * Retrieves the concrete factory instance used to create the textures.
-			 * </p>
-			 *
-			 * @return The concrete factory instance.
-			 */
-			static RenderingFactory* getInstance();
+			static std::shared_ptr<Texture> createTexture(Resource& image, PixelFormat format);
 
 			/**
 			 * <p>
@@ -156,6 +146,25 @@ namespace simplicity
 
 		private:
 			static std::unique_ptr<RenderingFactory> instance;
+
+			virtual std::shared_ptr<Pipeline> createPipelineInternal(const std::string& name = "simple") = 0;
+
+			virtual std::shared_ptr<Pipeline> createPipelineInternal(std::unique_ptr<Shader> vertexShader,
+																	std::unique_ptr<Shader> geometryShader,
+																	std::unique_ptr<Shader> fragmentShader) = 0;
+
+			virtual std::unique_ptr<Shader> createShaderInternal(Shader::Type type, const Resource& resource) = 0;
+
+			virtual std::unique_ptr<Shader> createShaderInternal(Shader::Type type, const std::string& name = "simple") = 0;
+
+			virtual std::shared_ptr<Texture> createTextureInternal(const char* data, unsigned int length,
+																  PixelFormat format) = 0;
+
+			virtual std::shared_ptr<Texture> createTextureInternal(char* rawData, unsigned int width,
+																  unsigned int height,
+																  PixelFormat format) = 0;
+
+			virtual std::shared_ptr<Texture> createTextureInternal(Resource& image, PixelFormat format) = 0;
 	};
 }
 

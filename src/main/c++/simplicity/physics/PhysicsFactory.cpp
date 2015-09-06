@@ -14,8 +14,6 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../math/MathConstants.h"
-#include "../math/MathFunctions.h"
 #include "PhysicsFactory.h"
 
 using namespace std;
@@ -24,9 +22,10 @@ namespace simplicity
 {
 	unique_ptr<PhysicsFactory> PhysicsFactory::instance = unique_ptr<PhysicsFactory>();
 
-	PhysicsFactory* PhysicsFactory::getInstance()
+	unique_ptr<Body> PhysicsFactory::createBody(const Body::Material& material, Model* model, const Matrix44& transform,
+												bool dynamic)
 	{
-		return instance.get();
+		return instance->createBodyInternal(material, model, transform, dynamic);
 	}
 
 	void PhysicsFactory::setInstance(unique_ptr<PhysicsFactory> instance)
