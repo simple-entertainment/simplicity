@@ -45,48 +45,49 @@ namespace simplicity
 
 		// Vertices
 		meshData.vertexCount = vertexCount;
-		Vector3 halfDimensions = recipe.dimensions / 2.0f;
+		const Vector3& dimensions = recipe.dimensions;
+		Vector3 halfDimensions = dimensions * 0.5f;
 
 		// Top
 		insertRectangleVertices(meshData.vertexData, 0,
-								Vector3(-halfDimensions.X(), halfDimensions.Y(), halfDimensions.Z()),
-								Vector3(halfDimensions.X() * 2.0f, 0.0f, 0.0f),
-								Vector3(0.0f, 0.0f, halfDimensions.Z() * -2.0f),
+								Vector3(-halfDimensions.X(), halfDimensions.Y(), -halfDimensions.Z()),
+								Vector3(dimensions.X(), 0.0f, 0.0f),
+								Vector3(0.0f, 0.0f, dimensions.Z()),
 								recipe.color);
 
 		// Bottom
 		insertRectangleVertices(meshData.vertexData, 4,
-								Vector3(-halfDimensions.X(), -halfDimensions.Y(), -halfDimensions.Z()),
-								Vector3(halfDimensions.X() * 2.0f, 0.0f, 0.0f),
-								Vector3(0.0f, 0.0f, halfDimensions.Z() * 2.0f),
+								Vector3(-halfDimensions.X(), -halfDimensions.Y(), halfDimensions.Z()),
+								Vector3(dimensions.X(), 0.0f, 0.0f),
+								Vector3(0.0f, 0.0f, -dimensions.Z()),
 								recipe.color);
 
 		// North
 		insertRectangleVertices(meshData.vertexData, 8,
-								Vector3(halfDimensions.X(), halfDimensions.Y(), halfDimensions.Z()),
-								Vector3(halfDimensions.X() * -2.0f, 0.0f, 0.0f),
-								Vector3(0.0f, halfDimensions.Y() * -2.0f, 0.0f),
+								Vector3(halfDimensions.X(), halfDimensions.Y(), -halfDimensions.Z()),
+								Vector3(-dimensions.X(), 0.0f, 0.0f),
+								Vector3(0.0f, -dimensions.Y(), 0.0f),
 								recipe.color);
 
 		// East
 		insertRectangleVertices(meshData.vertexData, 12,
-								Vector3(halfDimensions.X(), halfDimensions.Y(), -halfDimensions.Z()),
-								Vector3(0.0f, 0.0f, halfDimensions.Z() * 2.0f),
-								Vector3(0.0f, halfDimensions.Y() * -2.0f, 0.0f),
+								Vector3(halfDimensions.X(), halfDimensions.Y(), halfDimensions.Z()),
+								Vector3(0.0f, 0.0f, -dimensions.Z()),
+								Vector3(0.0f, -dimensions.Y(), 0.0f),
 								recipe.color);
 
 		// South
 		insertRectangleVertices(meshData.vertexData, 16,
-								Vector3(-halfDimensions.X(), halfDimensions.Y(), -halfDimensions.Z()),
-								Vector3(halfDimensions.X() * 2.0f, 0.0f, 0.0f),
-								Vector3(0.0f, halfDimensions.Y() * -2.0f, 0.0f),
+								Vector3(-halfDimensions.X(), halfDimensions.Y(), halfDimensions.Z()),
+								Vector3(dimensions.X(), 0.0f, 0.0f),
+								Vector3(0.0f, -dimensions.Y(), 0.0f),
 								recipe.color);
 
 		// West
 		insertRectangleVertices(meshData.vertexData, 20,
-								Vector3(-halfDimensions.X(), halfDimensions.Y(), halfDimensions.Z()),
-								Vector3(0.0f, 0.0f, halfDimensions.Z() * -2.0f),
-								Vector3(0.0f, halfDimensions.Y() * -2.0f, 0.0f),
+								Vector3(-halfDimensions.X(), halfDimensions.Y(), -halfDimensions.Z()),
+								Vector3(0.0f, 0.0f, dimensions.Z()),
+								Vector3(0.0f, -dimensions.Y(), 0.0f),
 								recipe.color);
 
 		// Indices
@@ -766,7 +767,7 @@ namespace simplicity
 											   const Vector3& toTopRight, const Vector3& toBottomLeft,
 											   const Vector4& color)
 	{
-		Vector3 normal = crossProduct(toTopRight, toBottomLeft);
+		Vector3 normal = crossProduct(toBottomLeft, toTopRight);
 		normal.normalize();
 
 		vertices[index].color = color;
