@@ -44,6 +44,11 @@ namespace simplicity
 		appendData(data.data(), data.size());
 	}
 
+	string ConsoleResource::getAbsolutePath() const
+	{
+		return name;
+	}
+
 	string ConsoleResource::getData() const
 	{
 		string data;

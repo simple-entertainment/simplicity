@@ -32,6 +32,8 @@ namespace simplicity
 
 			void appendData(const std::string& data) override;
 
+			std::string getAbsolutePath() const override;
+
 			std::string getData() const override;
 
 			std::unique_ptr<std::istream> getInputStream() const override;

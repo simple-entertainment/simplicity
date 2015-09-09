@@ -44,6 +44,11 @@ namespace simplicity
 		appendData(data.data(), data.size());
 	}
 
+	string FileSystemResource::getAbsolutePath() const
+	{
+		return absolutePath;
+	}
+
 	string FileSystemResource::getData() const
 	{
 		unique_ptr<istream> inputStream = getInputStream();

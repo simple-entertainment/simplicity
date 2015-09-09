@@ -91,6 +91,15 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Retrieves the absolute path of this resource.
+			 * </p>
+			 *
+			 * @return The absolute path of this resource.
+			 */
+			virtual std::string getAbsolutePath() const = 0;
+
+			/**
+			 * <p>
 			 * Retrieves the data from this resource.
 			 * </p>
 			 *
