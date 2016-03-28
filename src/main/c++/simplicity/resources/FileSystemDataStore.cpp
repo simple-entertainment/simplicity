@@ -29,7 +29,7 @@ namespace simplicity
 		resources(),
 		type(type)
 	{
-		if (directory[0] != '/')
+		if (directory[0] != '/' && directory[0] != '~')
 		{
 			char* cwd = getcwd(nullptr, 0);
 			string currentWorkingDirectory = cwd;

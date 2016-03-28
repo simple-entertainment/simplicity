@@ -24,6 +24,7 @@
 #include "../common/Category.h"
 #include "../common/NonCopyable.h"
 #include "../math/Matrix.h"
+#include "../math/Vector.h"
 #include "Component.h"
 
 // STL Instantiations for Export/Import
@@ -33,6 +34,8 @@
 
 namespace simplicity
 {
+	class Scene;
+
 	/**
 	 * <p>
 	 * An object that can be added to a scene. It is a container for components which describe the way the entity looks
@@ -50,21 +53,12 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Adds a shared component.
+			 * Adds a component.
 			 * </p>
 			 *
 			 * @param component The component to add.
 			 */
-			void addSharedComponent(std::shared_ptr<Component> component);
-
-			/**
-			 * <p>
-			 * Adds a unique component.
-			 * </p>
-			 *
-			 * @param component The component to add.
-			 */
-			void addUniqueComponent(std::unique_ptr<Component> component);
+			void addComponent(std::unique_ptr<Component> component);
 
 			/**
 			 * <p>
@@ -86,7 +80,7 @@ namespace simplicity
 			 *
 			 * @return The single component.
 			 */
-			template<typename ComponentType>
+			template<typename ComponentType = Component>
 			ComponentType* getComponent(unsigned short category = Category::ALL_CATEGORIES) const;
 
 			/**
@@ -99,7 +93,7 @@ namespace simplicity
 			 *
 			 * @return The components.
 			 */
-			template<typename ComponentType>
+			template<typename ComponentType = Component>
 			std::vector<ComponentType*> getComponents(unsigned short category = Category::ALL_CATEGORIES) const;
 
 			/**
@@ -120,9 +114,25 @@ namespace simplicity
 			 */
 			const std::string& getName() const;
 
+			Vector3 getPosition() const;
+
+			/**
+			 * <p>
+			 * Retrieves the scene containing this entity.
+			 * </p>
+			 *
+			 * @return The scene containing this entity.
+			 */
+			Scene* getScene() const;
+
 			/**
 			 * <p>
 			 * Retrieves the position and orientation of this entity.
+			 * </p>
+			 *
+			 * <p>
+			 * When modifying the transform directly, make sure you call Scene#onTransformEntity() to ensure the changes
+			 * are reflected correctly in the scene.
 			 * </p>
 			 *
 			 * @return The position and orientation of this entity.
@@ -138,27 +148,35 @@ namespace simplicity
 			 */
 			const Matrix44& getTransform() const;
 
-			/**
-			 * <p>
-			 * Removes a shared component.
-			 * </p>
-			 *
-			 * @param component The component to remove.
-			 *
-			 * @return The removed component.
-			 */
-			std::shared_ptr<Component> removeSharedComponent(Component* component);
+			Vector3 getUp3() const;
+
+			Vector4 getUp4() const;
 
 			/**
 			 * <p>
-			 * Removes a unique component.
+			 * Removes a component.
 			 * </p>
 			 *
 			 * @param component The component to remove.
 			 *
 			 * @return The removed component.
 			 */
-			std::unique_ptr<Component> removeUniqueComponent(Component* component);
+			std::unique_ptr<Component> removeComponent(Component& component);
+
+			void rotate(float angle, const Vector3& axis);
+
+			void scale(const Vector3& scale);
+
+			void setPosition(const Vector3& position);
+
+			/**
+			 * <p>
+			 * Sets the scene containing this entity.
+			 * </p>
+			 *
+			 * @param scene The scene containing this entity.
+			 */
+			void setScene(Scene* scene);
 
 			/**
 			 * <p>
@@ -169,8 +187,12 @@ namespace simplicity
 			 */
 			void setTransform(const Matrix44& transform);
 
+			void translate(const Vector3& translation);
+
 		private:
 			unsigned short category;
+
+			std::vector<std::unique_ptr<Component>> components;
 
 			unsigned int id;
 
@@ -178,11 +200,9 @@ namespace simplicity
 
 			static unsigned int nextId;
 
-			std::vector<std::shared_ptr<Component>> sharedComponents;
+			Scene* scene;
 
 			Matrix44 transform;
-
-			std::vector<std::unique_ptr<Component>> uniqueComponents;
 	};
 }
 

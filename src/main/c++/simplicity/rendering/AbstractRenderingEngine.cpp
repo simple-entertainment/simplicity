@@ -31,12 +31,11 @@ namespace simplicity
 {
 	AbstractRenderingEngine::AbstractRenderingEngine() :
 		camera(nullptr),
-		entitiesByModel(),
 		graph(nullptr),
 		height(600),
 		lights(),
-		modelsByBuffer(),
 		pipeline(nullptr),
+		state(),
 		width(800)
 	{
 	}
@@ -46,7 +45,7 @@ namespace simplicity
 		lights.push_back(&light);
 	}
 
-	void AbstractRenderingEngine::advance()
+	void AbstractRenderingEngine::advance(Scene& scene)
 	{
 		if (!preAdvance())
 		{
@@ -65,7 +64,7 @@ namespace simplicity
 			entities.insert(entityVector.begin(), entityVector.end());
 		}
 
-		list<RenderList> renderLists = buildRenderLists(entities);
+		list<RenderList> renderLists = buildRenderLists(scene, entities);
 
 		for (RenderList& renderList : renderLists)
 		{
@@ -87,6 +86,65 @@ namespace simplicity
 
 		pipeline.set("cameraPosition", cameraProperties.position);
 		pipeline.set("cameraTransform", cameraProperties.transform);
+	}
+
+	list<AbstractRenderingEngine::RenderList> AbstractRenderingEngine::buildRenderLists(Scene& scene,
+																						const set<Entity*>& entities)
+	{
+		list<RenderList> renderLists;
+		AbstractRenderingEngineState* state = this->state[&scene];
+
+		for (pair<MeshBuffer*, set<Mesh*>> bufferAndMeshes : state->getMeshesByBuffer())
+		{
+			RenderList withoutTransparency;
+			withoutTransparency.buffer = bufferAndMeshes.first;
+			RenderList withTransparency;
+			withTransparency.buffer = bufferAndMeshes.first;
+
+			Pipeline* pipeline = bufferAndMeshes.first->getPipeline();
+			if (pipeline == nullptr)
+			{
+				pipeline = getDefaultPipeline();
+			}
+			withoutTransparency.pipeline = pipeline;
+			withTransparency.pipeline = pipeline;
+
+			for (Mesh* mesh : bufferAndMeshes.second)
+			{
+				bool modelHasTransparency =
+						mesh->getTexture() != nullptr &&
+						hasTransparency(mesh->getTexture()->getPixelFormat());
+
+				Entity* entity = mesh->getEntity();
+				if (!entities.empty() && entities.find(entity) == entities.end())
+				{
+					continue;
+				}
+
+				if (modelHasTransparency)
+				{
+					withTransparency.list.emplace_back(pair<Model*, Matrix44>(mesh, entity->getTransform() *
+																					mesh->getTransform()));
+				}
+				else
+				{
+					withoutTransparency.list.emplace_back(pair<Model*, Matrix44>(mesh, entity->getTransform() *
+																					   mesh->getTransform()));
+				}
+			}
+
+			// Render transparent models last.
+			if (!withoutTransparency.list.empty())
+			{
+				renderLists.push_front(withoutTransparency);
+			}
+			if (!withTransparency.list.empty())
+			{
+				renderLists.push_back(withTransparency);
+			}
+		}
+
+		return renderLists;
 	}
 
 	Entity* AbstractRenderingEngine::getCamera() const
@@ -134,7 +192,7 @@ namespace simplicity
 		return pipeline.get();
 	}
 
-	const Graph* AbstractRenderingEngine::getGraph() const
+	const SceneGraph* AbstractRenderingEngine::getGraph() const
 	{
 		return graph;
 	}
@@ -149,14 +207,17 @@ namespace simplicity
 		return width;
 	}
 
-	void AbstractRenderingEngine::onAddEntity(Entity& entity)
+	void AbstractRenderingEngine::onBeforeOpenScene(Scene& scene)
 	{
-		// TODO Support all model types?
-		for (Mesh* mesh : entity.getComponents<Mesh>(Category::RENDER))
-		{
-			entitiesByModel[mesh].insert(&entity);
-			modelsByBuffer[mesh->getBuffer()].insert(mesh);
-		}
+		unique_ptr<AbstractRenderingEngineState> state(new AbstractRenderingEngineState);
+
+		this->state[&scene] = state.get();
+		scene.addState(move(state));
+	}
+
+	void AbstractRenderingEngine::onCloseScene(Scene& scene)
+	{
+		scene.removeState(*this->state[&scene]);
 	}
 
 	void AbstractRenderingEngine::onPlay()
@@ -169,63 +230,6 @@ namespace simplicity
 		dispose();
 	}
 
-	list<AbstractRenderingEngine::RenderList> AbstractRenderingEngine::buildRenderLists(const set<Entity*>& entities)
-	{
-		list<RenderList> renderLists;
-
-		for (pair<MeshBuffer*, set<Model*>> bufferAndModels : modelsByBuffer)
-		{
-			RenderList withoutTransparency;
-			withoutTransparency.buffer = bufferAndModels.first;
-			RenderList withTransparency;
-			withTransparency.buffer = bufferAndModels.first;
-
-			Pipeline* pipeline = bufferAndModels.first->getPipeline();
-			if (pipeline == nullptr)
-			{
-				pipeline = getDefaultPipeline();
-			}
-			withoutTransparency.pipeline = pipeline;
-			withTransparency.pipeline = pipeline;
-
-			for (Model* model : bufferAndModels.second)
-			{
-				bool modelHasTransparency =
-						model->getTexture() != nullptr &&
-						hasTransparency(model->getTexture()->getPixelFormat());
-
-				for (Entity* entity : entitiesByModel[model])
-				{
-					if (entities.empty() || entities.find(entity) != entities.end())
-					{
-						if (modelHasTransparency)
-						{
-							withTransparency.list.emplace_back(pair<Model*, Matrix44>(model, entity->getTransform() *
-									model->getTransform()));
-						}
-						else
-						{
-							withoutTransparency.list.emplace_back(pair<Model*, Matrix44>(model, entity->getTransform() *
-									model->getTransform()));
-						}
-					}
-				}
-			}
-
-			// Render transparent models last.
-			if (!withoutTransparency.list.empty())
-			{
-				renderLists.push_front(withoutTransparency);
-			}
-			if (!withTransparency.list.empty())
-			{
-				renderLists.push_back(withTransparency);
-			}
-		}
-
-		return renderLists;
-	}
-
 	void AbstractRenderingEngine::setCamera(Entity* camera)
 	{
 		this->camera = camera;
@@ -236,7 +240,7 @@ namespace simplicity
 		this->pipeline = pipeline;
 	}
 
-	void AbstractRenderingEngine::setGraph(Graph* graph)
+	void AbstractRenderingEngine::setGraph(SceneGraph* graph)
 	{
 		this->graph = graph;
 	}

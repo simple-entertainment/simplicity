@@ -53,11 +53,11 @@ namespace simplicity
 			 * Removes an engine.
 			 * </p>
 			 *
-			 * @param engine The engine to be removed. This parameter will be set to nullptr if the engine is found.
+			 * @param engine The engine to be removed.
 			 *
 			 * @return The removed engine.
 			 */
-			virtual std::unique_ptr<Engine> removeEngine(Engine* engine) = 0;
+			virtual std::unique_ptr<Engine> removeEngine(Engine& engine) = 0;
 	};
 }
 

@@ -19,13 +19,13 @@
 #include "../common/AddressEquals.h"
 #include "../math/Intersection.h"
 #include "../math/MathFunctions.h"
-#include "SimpleGraph.h"
+#include "SimpleSceneGraph.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	SimpleGraph::SimpleGraph() :
+	SimpleSceneGraph::SimpleSceneGraph() :
 		boundary(0.0f),
 		children(),
 		connections(),
@@ -36,13 +36,13 @@ namespace simplicity
 		transform.setIdentity();
 	}
 
-	void SimpleGraph::addChild(unique_ptr<SimpleGraph> child)
+	void SimpleSceneGraph::addChild(unique_ptr<SimpleSceneGraph> child)
 	{
 		child->setParent(this);
 		children.push_back(move(child));
 	}
 
-	Matrix44 SimpleGraph::calculateRelativeTransform(const Matrix44& absoluteTransform) const
+	Matrix44 SimpleSceneGraph::calculateRelativeTransform(const Matrix44& absoluteTransform) const
 	{
 		if (parent == nullptr)
 		{
@@ -59,12 +59,12 @@ namespace simplicity
 		return absoluteTransform * inverseParentAbsoluteTransform;
 	}
 
-	void SimpleGraph::connectTo(Graph& graph)
+	void SimpleSceneGraph::connectTo(SceneGraph& graph)
 	{
 		connections.push_back(&graph);
 	}
 
-	void SimpleGraph::disconnectFrom(Graph& graph)
+	void SimpleSceneGraph::disconnectFrom(SceneGraph& graph)
 	{
 		if (find(connections.begin(), connections.end(), &graph) != connections.end())
 		{
@@ -72,11 +72,11 @@ namespace simplicity
 		}
 	}
 
-	Matrix44 SimpleGraph::getAbsoluteTransform() const
+	Matrix44 SimpleSceneGraph::getAbsoluteTransform() const
 	{
 		Matrix44 absoluteMatrix;
 		absoluteMatrix.setIdentity();
-		const Graph* currentGraph = this;
+		const SceneGraph* currentGraph = this;
 		while (currentGraph != nullptr)
 		{
 			absoluteMatrix *= currentGraph->getTransform();
@@ -86,14 +86,14 @@ namespace simplicity
 		return absoluteMatrix;
 	}
 
-	const Model& SimpleGraph::getBoundary() const
+	const Model& SimpleSceneGraph::getBoundary() const
 	{
 		return boundary;
 	}
 
-	vector<Graph*> SimpleGraph::getChildren() const
+	vector<SceneGraph*> SimpleSceneGraph::getChildren() const
 	{
-		vector<Graph*> rawChildren;
+		vector<SceneGraph*> rawChildren;
 		for (unsigned int index = 0; index < children.size(); index++)
 		{
 			rawChildren.push_back(children[index].get());
@@ -102,17 +102,17 @@ namespace simplicity
 		return rawChildren;
 	}
 
-	vector<Entity*>& SimpleGraph::getEntities()
+	vector<Entity*>& SimpleSceneGraph::getEntities()
 	{
 		return entities;
 	}
 
-	const vector<Entity*>& SimpleGraph::getEntities() const
+	const vector<Entity*>& SimpleSceneGraph::getEntities() const
 	{
 		return entities;
 	}
 
-	vector<Entity*> SimpleGraph::getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const
+	vector<Entity*> SimpleSceneGraph::getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const
 	{
 		vector<Entity*> entitiesWithinBounds;
 
@@ -140,29 +140,29 @@ namespace simplicity
 		return entitiesWithinBounds;
 	}
 
-	Graph* SimpleGraph::getParent()
+	SceneGraph* SimpleSceneGraph::getParent()
 	{
 		return parent;
 	}
 
-	const Graph* SimpleGraph::getParent() const
+	const SceneGraph* SimpleSceneGraph::getParent() const
 	{
 		return parent;
 	}
 
-	Matrix44& SimpleGraph::getTransform()
+	Matrix44& SimpleSceneGraph::getTransform()
 	{
 		return transform;
 	}
 
-	const Matrix44& SimpleGraph::getTransform() const
+	const Matrix44& SimpleSceneGraph::getTransform() const
 	{
 		return transform;
 	}
 
-	bool SimpleGraph::insert(Entity& entity)
+	bool SimpleSceneGraph::insert(Entity& entity)
 	{
-		unique_ptr<SimpleGraph> newChild(new SimpleGraph);
+		unique_ptr<SimpleSceneGraph> newChild(new SimpleSceneGraph);
 		bool result = newChild->insertDirect(entity);
 
 		newChild->setParent(this);
@@ -171,7 +171,7 @@ namespace simplicity
 		return result;
 	}
 
-	bool SimpleGraph::insert(Entity& entity, const Entity& parent)
+	bool SimpleSceneGraph::insert(Entity& entity, const Entity& parent)
 	{
 		for (Entity* myEntity : entities)
 		{
@@ -192,13 +192,13 @@ namespace simplicity
 		return false;
 	}
 
-	bool SimpleGraph::insertDirect(Entity& entity)
+	bool SimpleSceneGraph::insertDirect(Entity& entity)
 	{
 		entities.push_back(&entity);
 		return true;
 	}
 
-	bool SimpleGraph::remove(const Entity& entity)
+	bool SimpleSceneGraph::remove(const Entity& entity)
 	{
 		if (find(entities.begin(), entities.end(), &entity) == entities.end())
 		{
@@ -218,12 +218,12 @@ namespace simplicity
 		return true;
 	}
 
-	unique_ptr<SimpleGraph> SimpleGraph::removeChild(SimpleGraph& child)
+	unique_ptr<SimpleSceneGraph> SimpleSceneGraph::removeChild(SimpleSceneGraph& child)
 	{
-		unique_ptr<SimpleGraph> uniqueChild;
+		unique_ptr<SimpleSceneGraph> uniqueChild;
 
-		vector<unique_ptr<SimpleGraph>>::iterator result =
-				find_if(children.begin(), children.end(), AddressEquals<SimpleGraph>(child));
+		vector<unique_ptr<SimpleSceneGraph>>::iterator result =
+				find_if(children.begin(), children.end(), AddressEquals<SimpleSceneGraph>(child));
 
 		if (result != children.end())
 		{
@@ -234,17 +234,17 @@ namespace simplicity
 		return uniqueChild;
 	}
 
-	void SimpleGraph::setParent(Graph* parent)
+	void SimpleSceneGraph::setParent(SceneGraph* parent)
 	{
 		this->parent = parent;
 	}
 
-	void SimpleGraph::setTransform(const Matrix44& transform)
+	void SimpleSceneGraph::setTransform(const Matrix44& transform)
 	{
 		this->transform = transform;
 	}
 
-	void SimpleGraph::update(Entity& entity)
+	void SimpleSceneGraph::update(Entity& entity)
 	{
 		bool entityFound = false;
 		for (Entity* myEntity : entities)
@@ -280,7 +280,7 @@ namespace simplicity
 		}
 	}
 
-	void SimpleGraph::updateSuccessor(Entity& entity)
+	void SimpleSceneGraph::updateSuccessor(Entity& entity)
 	{
 		// Update the entities to match the updated graph.
 		Matrix44 absoluteTransform = getAbsoluteTransform();

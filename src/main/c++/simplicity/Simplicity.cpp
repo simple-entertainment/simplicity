@@ -169,16 +169,14 @@ namespace simplicity
 				scene = sceneToBeOpened;
 				sceneToBeOpened = nullptr;
 
-				scene->addPendingEntities();
+				compositeEngine->onBeforeOpenScene(*scene);
+
+				scene->open();
 				compositeEngine->onOpenScene(*scene);
 				scene->resume();
 			}
 
-			scene->addPendingEntities();
-
-			compositeEngine->advance();
-
-			scene->removePendingEntities();
+			compositeEngine->advance(*scene);
 
 			frameTime = frameTimer.getElapsedTime();
 			totalTime = totalTimer.getElapsedTime();
@@ -194,7 +192,7 @@ namespace simplicity
 			}
 		}
 
-		unique_ptr<Engine> removeEngine(Engine* engine)
+		unique_ptr<Engine> removeEngine(Engine& engine)
 		{
 			return compositeEngine->removeEngine(engine);
 		}

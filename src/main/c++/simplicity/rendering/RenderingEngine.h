@@ -21,7 +21,7 @@
 
 #include "../engine/Engine.h"
 #include "../entity/Entity.h"
-#include "../graph/Graph.h"
+#include "../scene/SceneGraph.h"
 #include "Pipeline.h"
 
 namespace simplicity
@@ -69,7 +69,7 @@ namespace simplicity
 			 *
 			 * @return The graph.
 			 */
-			virtual const Graph* getGraph() const = 0;
+			virtual const SceneGraph* getGraph() const = 0;
 
 			/**
 			 * <p>
@@ -117,7 +117,7 @@ namespace simplicity
 			 *
 			 * @return The graph.
 			 */
-			virtual void setGraph(Graph* graph) = 0;
+			virtual void setGraph(SceneGraph* graph) = 0;
 
 			/**
 			 * <p>

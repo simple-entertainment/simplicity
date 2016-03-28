@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef GRAPH_H_
-#define GRAPH_H_
+#ifndef SCENEGRAPH_H_
+#define SCENEGRAPH_H_
 
 #include <memory>
 #include <vector>
 
-#include "../entity/Entity.h"
 #include "../math/Matrix.h"
 #include "../model/Model.h"
+#include "SceneState.h"
 
 namespace simplicity
 {
@@ -33,18 +33,9 @@ namespace simplicity
 	 * etc. using this interface. Each node can contain multiple entities.
 	 * </p>
 	 */
-	class SIMPLE_API Graph
+	class SIMPLE_API SceneGraph : public SceneState
 	{
 		public:
-			/**
-			 * <p>
-			 * Allows polymorphism.
-			 * </p>
-			 */
-			virtual ~Graph()
-			{
-			}
-
 			/**
 			 * <p>
 			 * Connects this node to another node.
@@ -52,7 +43,7 @@ namespace simplicity
 			 *
 			 * @param graph The node to connect this node to.
 			 */
-			virtual void connectTo(Graph& graph) = 0;
+			virtual void connectTo(SceneGraph& graph) = 0;
 
 			/**
 			 * <p>
@@ -61,7 +52,7 @@ namespace simplicity
 			 *
 			 * @param graph The node to disconnect this node from.
 			 */
-			virtual void disconnectFrom(Graph& graph) = 0;
+			virtual void disconnectFrom(SceneGraph& graph) = 0;
 
 			/**
 			 * <p>
@@ -89,7 +80,7 @@ namespace simplicity
 			 *
 			 * @return The nodes in this graph.
 			 */
-			virtual std::vector<Graph*> getChildren() const = 0;
+			virtual std::vector<SceneGraph*> getChildren() const = 0;
 			// TODO could we just return a const reference to the smart pointer vector?
 
 			/**
@@ -130,7 +121,7 @@ namespace simplicity
 			 *
 			 * @return The parent of this graph.
 			 */
-			virtual Graph* getParent() = 0;
+			virtual SceneGraph* getParent() = 0;
 
 			/**
 			 * <p>
@@ -139,7 +130,7 @@ namespace simplicity
 			 *
 			 * @return The parent of this graph.
 			 */
-			virtual const Graph* getParent() const = 0;
+			virtual const SceneGraph* getParent() const = 0;
 
 			/**
 			 * <p>
@@ -184,6 +175,16 @@ namespace simplicity
 			 */
 			virtual bool insert(Entity& entity, const Entity& parent) = 0;
 
+			void onAddComponent(Component& component) override;
+
+			void onAddEntity(Entity& entity) override;
+
+			void onRemoveComponent(Component& component) override;
+
+			void onRemoveEntity(Entity& entity) override;
+
+			void onTransformEntity(Entity& entity) override;
+
 			/**
 			 * <p>
 			 * Removes an entity from the graph.
@@ -200,7 +201,7 @@ namespace simplicity
 			 *
 			 * @param parent The parent of this graph.
 			 */
-			virtual void setParent(Graph* parent) = 0;
+			virtual void setParent(SceneGraph* parent) = 0;
 
 			/**
 			 * <p>
@@ -223,4 +224,4 @@ namespace simplicity
 	};
 }
 
-#endif /* GRAPH_H_ */
+#endif /* SCENEGRAPH_H_ */

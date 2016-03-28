@@ -28,53 +28,30 @@ namespace simplicity
 {
 	Scene::Scene() :
 			entities(),
-			entitiesToBeAdded(),
-			entitiesToBeAddedParents(),
-			entitiesToBeRemoved(),
-			graphs(),
+			isOpen(false),
 			mouseCaptureEnabled(true),
+			state(),
 			windowEngine(nullptr)
 	{
 	}
 
 	void Scene::addEntity(unique_ptr<Entity> entity)
 	{
-		entitiesToBeAdded.push_back(move(entity));
-	}
+		entity->setScene(this);
+		entities.push_back(move(entity));
 
-	void Scene::addEntity(unique_ptr<Entity> entity, const Entity& parent)
-	{
-		entitiesToBeAddedParents[entity.get()] = &parent;
-		entitiesToBeAdded.push_back(move(entity));
-	}
-
-	void Scene::addGraph(unique_ptr<Graph> graph)
-    {
-    	graphs.push_back(move(graph));
-    }
-
-	void Scene::addPendingEntities()
-	{
-		for (unsigned int entityIndex = 0; entityIndex < entitiesToBeAdded.size(); entityIndex++)
+		if (isOpen)
 		{
-			Simplicity::getCompositeEngine()->onAddEntity(*entitiesToBeAdded[entityIndex]);
-
-			for (unsigned int graphIndex = 0; graphIndex < graphs.size(); graphIndex++)
+			for (unique_ptr<SceneState>& singleState : state)
 			{
-				const Entity* parent = nullptr;//entitiesToBeAddedParents[entitiesToBeAdded[entityIndex].get()];
-				if (parent == nullptr)
-				{
-					graphs[graphIndex]->insert(*entitiesToBeAdded[entityIndex]);
-				}
-				else
-				{
-					graphs[graphIndex]->insert(*entitiesToBeAdded[entityIndex], *parent);
-				}
+				singleState->onAddEntity(*entity);
 			}
-
-			entities.push_back(move(entitiesToBeAdded[entityIndex]));
 		}
-		entitiesToBeAdded.clear();
+	}
+
+	void Scene::addState(unique_ptr<SceneState> state)
+	{
+		this->state.push_back(move(state));
 	}
 
 	bool Scene::capturesMouse()
@@ -85,14 +62,6 @@ namespace simplicity
 	Entity* Scene::getEntity(const std::string& name)
 	{
 		for (unique_ptr<Entity>& entity : entities)
-		{
-			if (entity->getName() == name)
-			{
-				return entity.get();
-			}
-		}
-
-		for (unique_ptr<Entity>& entity : entitiesToBeAdded)
 		{
 			if (entity->getName() == name)
 			{
@@ -118,6 +87,14 @@ namespace simplicity
     	return rawEntities;
 	}
 
+	void Scene::onAddComponent(Component& component)
+	{
+		for (unique_ptr<SceneState>& singleState : state)
+		{
+			singleState->onAddComponent(component);
+		}
+	}
+
 	bool Scene::onMouseButton(const Message& message)
 	{
 		const MouseButtonEvent* event = static_cast<const MouseButtonEvent*>(message.body);
@@ -132,6 +109,35 @@ namespace simplicity
 		return false;
 	}
 
+	void Scene::onRemoveComponent(Component& component)
+	{
+		for (unique_ptr<SceneState>& singleState : state)
+		{
+			singleState->onRemoveComponent(component);
+		}
+	}
+
+	void Scene::onTransformEntity(Entity& entity)
+	{
+		for (unique_ptr<SceneState>& singleState : state)
+		{
+			singleState->onTransformEntity(entity);
+		}
+	}
+
+	void Scene::open()
+	{
+		isOpen = true;
+
+		for (unique_ptr<Entity>& entity : entities)
+		{
+			for (unique_ptr<SceneState>& singleState : state)
+			{
+				singleState->onAddEntity(*entity);
+			}
+		}
+	}
+
 	void Scene::pause()
 	{
 		if (mouseCaptureEnabled && windowEngine != nullptr)
@@ -141,31 +147,40 @@ namespace simplicity
 		}
 	}
 
-	void Scene::removeEntity(Entity* entity)
+	unique_ptr<Entity> Scene::removeEntity(Entity& entity)
 	{
-		entitiesToBeRemoved.push_back(entity);
+		unique_ptr<Entity> removedEntity;
+		vector<unique_ptr<Entity>>::iterator result =
+				find_if(entities.begin(), entities.end(), AddressEquals<Entity>(entity));
+
+		if (result != entities.end())
+		{
+			for (unique_ptr<SceneState>& singleState : state)
+			{
+				singleState->onRemoveEntity(entity);
+			}
+
+			removedEntity = move(*result);
+			removedEntity->setScene(nullptr);
+			entities.erase(result);
+		}
+
+		return move(removedEntity);
 	}
 
-	void Scene::removePendingEntities()
+	unique_ptr<SceneState> Scene::removeState(SceneState& state)
 	{
-		for (unsigned int entityIndex = 0; entityIndex < entitiesToBeRemoved.size(); entityIndex++)
+		unique_ptr<SceneState> removedState;
+		vector<unique_ptr<SceneState>>::iterator result =
+				find_if(this->state.begin(), this->state.end(), AddressEquals<SceneState>(state));
+
+		if (result != this->state.end())
 		{
-			vector<unique_ptr<Entity>>::iterator result =
-					find_if(entities.begin(), entities.end(), AddressEquals<Entity>(*entitiesToBeRemoved[entityIndex]));
-
-			if (result != entities.end())
-			{
-				Simplicity::getCompositeEngine()->onRemoveEntity(**result);
-
-				for (unsigned int graphIndex = 0; graphIndex < graphs.size(); graphIndex++)
-				{
-					graphs[graphIndex]->remove(**result);
-				}
-
-				entities.erase(result);
-			}
+			removedState = move(*result);
+			this->state.erase(result);
 		}
-		entitiesToBeRemoved.clear();
+
+		return move(removedState);
 	}
 
 	void Scene::resume()
@@ -182,12 +197,4 @@ namespace simplicity
 	{
 		mouseCaptureEnabled = capturesMouse;
 	}
-
-    void Scene::updateGraphs(Entity& entity)
-    {
-    	for (unsigned int index = 0; index < graphs.size(); index++)
-    	{
-    		graphs[index]->update(entity);
-    	}
-    }
 }

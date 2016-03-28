@@ -18,12 +18,11 @@
 #define ABSTRACTRENDERINGENGINE_H_
 
 #include <list>
-#include <map>
-#include <set>
 
-#include <simplicity/model/MeshBuffer.h>
-#include <simplicity/model/Model.h>
-#include <simplicity/rendering/RenderingEngine.h>
+#include "../model/MeshBuffer.h"
+#include "../model/Model.h"
+#include "../rendering/RenderingEngine.h"
+#include "AbstractRenderingEngineState.h"
 
 namespace simplicity
 {
@@ -40,19 +39,21 @@ namespace simplicity
 
 			void addLight(Entity& light) override;
 
-			void advance() override;
+			void advance(Scene& scene) override;
 
 			Entity* getCamera() const override;
 
 			Pipeline* getDefaultPipeline() override;
 
-			const Graph* getGraph() const override;
+			const SceneGraph* getGraph() const override;
 
 			int getHeight() const override;
 
 			int getWidth() const override;
 
-			void onAddEntity(Entity& entity) override;
+			void onBeforeOpenScene(Scene& scene) override;
+
+			void onCloseScene(Scene& scene) override;
 
 			void onPlay() override;
 
@@ -62,7 +63,7 @@ namespace simplicity
 
 			void setDefaultPipeline(std::shared_ptr<Pipeline> pipeline) override;
 
-			void setGraph(Graph* graph) override;
+			void setGraph(SceneGraph* graph) override;
 
 			void setHeight(int height) override;
 
@@ -87,23 +88,21 @@ namespace simplicity
 
 			Entity* camera;
 
-			std::map<Model*, std::set<Entity*>> entitiesByModel;
-
-			Graph* graph;
+			SceneGraph* graph;
 
 			int height;
 
 			std::vector<Entity*> lights;
 
-			std::map<MeshBuffer*, std::set<Model*>> modelsByBuffer;
-
 			std::shared_ptr<Pipeline> pipeline;
+
+			std::map<Scene*, AbstractRenderingEngineState*> state;
 
 			int width;
 
 			void applyPipeline(Pipeline& pipeline, const CameraProperties& cameraProperties);
 
-			std::list<RenderList> buildRenderLists(const std::set<Entity*>& entities);
+			std::list<RenderList> buildRenderLists(Scene& scene, const std::set<Entity*>& entities);
 
 			virtual void dispose() = 0;
 

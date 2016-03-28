@@ -17,6 +17,8 @@
 #include <algorithm>
 
 #include "../common/AddressEquals.h"
+#include "../math/MathFunctions.h"
+#include "../scene/Scene.h"
 #include "Component.h"
 #include "Entity.h"
 
@@ -28,23 +30,24 @@ namespace simplicity
 
 	Entity::Entity(unsigned short category, const std::string& name) :
 		category(category),
+		components(),
 		id(nextId++),
 		name(name),
-		sharedComponents(),
-		transform(),
-		uniqueComponents()
+		scene(nullptr),
+		transform()
 	{
 		transform.setIdentity();
 	}
 
-	void Entity::addSharedComponent(shared_ptr<Component> component)
+	void Entity::addComponent(unique_ptr<Component> component)
 	{
-		sharedComponents.push_back(component);
-	}
+		component->setEntity(this);
+		components.push_back(move(component));
 
-	void Entity::addUniqueComponent(unique_ptr<Component> component)
-	{
-		uniqueComponents.push_back(move(component));
+		if (scene != nullptr)
+		{
+			scene->onAddComponent(*components.back());
+		}
 	}
 
 	unsigned short Entity::getCategory() const
@@ -62,6 +65,16 @@ namespace simplicity
 		return name;
 	}
 
+	Vector3 Entity::getPosition() const
+	{
+		return simplicity::getPosition3(transform);
+	}
+
+	Scene* Entity::getScene() const
+	{
+		return scene;
+	}
+
 	Matrix44& Entity::getTransform()
 	{
 		return transform;
@@ -72,40 +85,79 @@ namespace simplicity
 		return transform;
 	}
 
-	shared_ptr<Component> Entity::removeSharedComponent(Component* component)
-	{
-		shared_ptr<Component> removedComponent;
-		vector<shared_ptr<Component>>::iterator result =
-				find_if(sharedComponents.begin(), sharedComponents.end(), AddressEquals<Component>(*component));
-
-		if (result != sharedComponents.end())
-		{
-			removedComponent = *result;
-			sharedComponents.erase(result);
-			component = nullptr;
-		}
-
-		return removedComponent;
-	}
-
-	unique_ptr<Component> Entity::removeUniqueComponent(Component* component)
+	unique_ptr<Component> Entity::removeComponent(Component& component)
 	{
 		unique_ptr<Component> removedComponent;
 		vector<unique_ptr<Component>>::iterator result =
-				find_if(uniqueComponents.begin(), uniqueComponents.end(), AddressEquals<Component>(*component));
+				find_if(components.begin(), components.end(), AddressEquals<Component>(component));
 
-		if (result != uniqueComponents.end())
+		if (result != components.end())
 		{
+			if (scene != nullptr)
+			{
+				scene->onRemoveComponent(component);
+			}
+
 			removedComponent = move(*result);
-			uniqueComponents.erase(result);
-			component = nullptr;
+			removedComponent->setEntity(nullptr);
+			components.erase(result);
 		}
 
 		return move(removedComponent);
 	}
 
+	void Entity::rotate(float angle, const Vector3& axis)
+	{
+		simplicity::rotate(transform, angle, axis);
+
+		if (scene != nullptr)
+		{
+			scene->onTransformEntity(*this);
+		}
+	}
+
+	void Entity::scale(const Vector3& scale)
+	{
+		simplicity::scale(transform, scale);
+
+		if (scene != nullptr)
+		{
+			scene->onTransformEntity(*this);
+		}
+	}
+
+	void Entity::setPosition(const Vector3& position)
+	{
+		simplicity::setPosition(transform, position);
+
+		if (scene != nullptr)
+		{
+			scene->onTransformEntity(*this);
+		}
+	}
+
+	void Entity::setScene(Scene* scene)
+	{
+		this->scene = scene;
+	}
+
 	void Entity::setTransform(const Matrix44& transform)
 	{
 		this->transform = transform;
+
+		if (scene != nullptr)
+		{
+			scene->onTransformEntity(*this);
+		}
+	}
+
+	void Entity::translate(const Vector3& translation)
+	{
+		simplicity::translate(transform, translation);
+
+		if (scene != nullptr)
+		{
+			scene->onTransformEntity(*this);
+		}
 	}
 }

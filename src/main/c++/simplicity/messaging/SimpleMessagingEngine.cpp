@@ -25,7 +25,7 @@ namespace simplicity
 	{
 	}
 
-	void SimpleMessagingEngine::advance()
+	void SimpleMessagingEngine::advance(Scene& scene)
 	{
 	}
 

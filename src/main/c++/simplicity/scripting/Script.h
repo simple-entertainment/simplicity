@@ -43,19 +43,15 @@ namespace simplicity
 			 * <p>
 			 * Executes this script. Called once per frame.
 			 * </p>
-			 *
-			 * @param entity The entity this script is attached to.
 			 */
-			virtual void execute(Entity& /* entity */) = 0;
+			virtual void execute() = 0;
 
 			/**
 			* <p>
-			* Called when an entity this script is attached to is added to the scene.
+			* Called when the entity this script is attached to is added to the scene.
 			* </p>
-			*
-			* @param entity The entity this script is attached to.
 			*/
-			virtual void onAddEntity(Entity& /* entity */)
+			virtual void onAddEntity()
 			{
 			}
 
@@ -63,11 +59,8 @@ namespace simplicity
 			* <p>
 			* Called after a scene is closed and the last frame of that scene has finished.
 			* </p>
-			*
-			* @param scene The scene.
-			* @param entity The entity this script is attached to.
 			*/
-			virtual void onCloseScene(Scene& /* scene */, Entity& /* entity */)
+			virtual void onCloseScene()
 			{
 			}
 
@@ -75,11 +68,8 @@ namespace simplicity
 			* <p>
 			* Called after a scene is opened and before the first frame of that scene has started.
 			* </p>
-			*
-			* @param scene The scene.
-			* @param entity The entity this script is attached to.
 			*/
-			virtual void onOpenScene(Scene& /* scene */, Entity& /* entity */)
+			virtual void onOpenScene()
 			{
 			}
 
@@ -87,22 +77,17 @@ namespace simplicity
 			* <p>
 			* Called after simplicity is paused and the last frame has finished.
 			* </p>
-			*
-			* @param scene The scene.
-			* @param entity The entity this script is attached to.
 			*/
-			virtual void onPauseScene(Scene& /* scene */, Entity& /* entity */)
+			virtual void onPauseScene()
 			{
 			}
 
 			/**
 			* <p>
-			* Called when an entity this script is attached to is removed from the scene.
+			* Called when the entity this script is attached to is removed from the scene.
 			* </p>
-			*
-			* @param entity The entity this script is attached to.
 			*/
-			virtual void onRemoveEntity(Entity& /* entity */)
+			virtual void onRemoveEntity()
 			{
 			}
 
@@ -110,11 +95,8 @@ namespace simplicity
 			* <p>
 			* Called after a scene is resumed and before the first frame has started.
 			* </p>
-			*
-			* @param scene The scene.
-			* @param entity The entity this script is attached to.
 			*/
-			virtual void onResumeScene(Scene& /* scene */, Entity& /* entity */)
+			virtual void onResumeScene()
 			{
 			}
 	};

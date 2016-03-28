@@ -17,8 +17,10 @@
 #ifndef SCRIPTINGENGINE_H_
 #define SCRIPTINGENGINE_H_
 
+#include <map>
+
 #include "../engine/Engine.h"
-#include "Script.h"
+#include "ScriptingEngineState.h"
 
 namespace simplicity
 {
@@ -32,9 +34,9 @@ namespace simplicity
 		public:
 			ScriptingEngine();
 
-			void advance() override;
+			void advance(Scene& scene) override;
 
-			void onAddEntity(Entity& entity) override;
+			void onBeforeOpenScene(Scene& scene) override;
 
 			void onCloseScene(Scene& scene) override;
 
@@ -42,12 +44,10 @@ namespace simplicity
 
 			void onPauseScene(Scene& scene) override;
 
-			void onRemoveEntity(Entity& entity) override;
-
 			void onResumeScene(Scene& scene) override;
 
 		private:
-			std::map<Entity*, std::vector<Script*>> scriptsByEntity;
+			std::map<Scene*, ScriptingEngineState*> state;
 	};
 }
 

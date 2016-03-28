@@ -22,6 +22,7 @@ namespace simplicity
 {
 	Component::Component() :
 		category(Category::UNCATEGORIZED),
+		entity(nullptr),
 		transform()
 	{
 		transform.setIdentity();
@@ -30,6 +31,11 @@ namespace simplicity
 	unsigned short Component::getCategory() const
 	{
 		return category;
+	}
+
+	Entity* Component::getEntity() const
+	{
+		return entity;
 	}
 
 	Matrix44& Component::getTransform()
@@ -45,6 +51,11 @@ namespace simplicity
 	void Component::setCategory(unsigned short category)
 	{
 		this->category = category;
+	}
+
+	void Component::setEntity(Entity* entity)
+	{
+		this->entity = entity;
 	}
 
 	void Component::setTransform(const Matrix44& transform)

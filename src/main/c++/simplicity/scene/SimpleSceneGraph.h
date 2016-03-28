@@ -14,32 +14,32 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLEGRAPH_H_
-#define SIMPLEGRAPH_H_
+#ifndef SIMPLESCENEGRAPH_H_
+#define SIMPLESCENEGRAPH_H_
 
 #include <vector>
 
 #include "../common/NonCopyable.h"
 #include "../math/Matrix.h"
 #include "../model/shape/Cube.h"
-#include "Graph.h"
+#include "SceneGraph.h"
 
 namespace simplicity
 {
-	class SIMPLE_API SimpleGraph : public Graph, private NonCopyable
+	class SIMPLE_API SimpleSceneGraph : public SceneGraph, private NonCopyable
 	{
 		public:
-			SimpleGraph();
+			SimpleSceneGraph();
 
-			void connectTo(Graph& graph) override;
+			void connectTo(SceneGraph& graph) override;
 
-			void disconnectFrom(Graph& graph) override;
+			void disconnectFrom(SceneGraph& graph) override;
 
 			Matrix44 getAbsoluteTransform() const override;
 
 			const Model& getBoundary() const override;
 
-			std::vector<Graph*> getChildren() const override;
+			std::vector<SceneGraph*> getChildren() const override;
 
 			std::vector<Entity*>& getEntities() override;
 
@@ -47,9 +47,9 @@ namespace simplicity
 
 			std::vector<Entity*> getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const override;
 
-			Graph* getParent() override;
+			SceneGraph* getParent() override;
 
-			const Graph* getParent() const override;
+			const SceneGraph* getParent() const override;
 
 			Matrix44& getTransform() override;
 
@@ -61,7 +61,7 @@ namespace simplicity
 
 			bool remove(const Entity& entity) override;
 
-			void setParent(Graph* parent) override;
+			void setParent(SceneGraph* parent) override;
 
 			void setTransform(const Matrix44& transform) override;
 
@@ -70,26 +70,26 @@ namespace simplicity
 		private:
 			Cube boundary;
 
-			std::vector<std::unique_ptr<SimpleGraph>> children;
+			std::vector<std::unique_ptr<SimpleSceneGraph>> children;
 
-			std::vector<Graph*> connections;
+			std::vector<SceneGraph*> connections;
 
 			std::vector<Entity*> entities;
 
-			Graph* parent;
+			SceneGraph* parent;
 
 			Matrix44 transform;
 
-			void addChild(std::unique_ptr<SimpleGraph> child);
+			void addChild(std::unique_ptr<SimpleSceneGraph> child);
 
 			Matrix44 calculateRelativeTransform(const Matrix44& absoluteTransform) const;
 
 			bool insertDirect(Entity& entity);
 
-			std::unique_ptr<SimpleGraph> removeChild(SimpleGraph& child);
+			std::unique_ptr<SimpleSceneGraph> removeChild(SimpleSceneGraph& child);
 
 			void updateSuccessor(Entity& entity);
 	};
 }
 
-#endif /* SIMPLEGRAPH_H_ */
+#endif /* SIMPLESCENEGRAPH_H_ */

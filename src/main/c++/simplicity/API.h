@@ -34,12 +34,6 @@
 #include "entity/Component.h"
 #include "entity/Entity.h"
 
-// Graph
-#include "graph/Graph.h"
-#include "graph/OcTree.h"
-#include "graph/QuadTree.h"
-#include "graph/SimpleGraph.h"
-
 // Input
 #include "input/Button.h"
 #include "input/Keyboard.h"
@@ -119,7 +113,12 @@
 #include "resources/Resources.h"
 
 // Scene
+#include "scene/OcTree.h"
+#include "scene/QuadTree.h"
 #include "scene/Scene.h"
+#include "scene/SceneGraph.h"
+#include "scene/SceneState.h"
+#include "scene/SimpleSceneGraph.h"
 
 // Scripting
 #include "scripting/Script.h"

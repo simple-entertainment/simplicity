@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -19,28 +19,25 @@
 #include "../math/Intersection.h"
 #include "../math/MathFunctions.h"
 #include "../model/shape/Circle.h"
-#include "QuadTree.h"
+#include "OcTree.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	QuadTree::QuadTree(unsigned int subdivideThreshold, const Square& boundary, Plane plane) :
-		absoluteTransform(),
+	OcTree::OcTree(unsigned int subdivideThreshold, const Cube& boundary) :
 		boundary(boundary),
 		children(),
 		connections(),
 		entities(),
 		parent(nullptr),
-		plane(plane),
 		subdivideThreshold(subdivideThreshold),
 		transform()
 	{
-		absoluteTransform.setIdentity();
 		transform.setIdentity();
 	}
 
-	void QuadTree::addEntityFromChild()
+	void OcTree::addEntityFromChild()
 	{
 		for (unsigned int index = 0; index < children.size(); index++)
 		{
@@ -54,12 +51,12 @@ namespace simplicity
 		}
 	}
 
-	void QuadTree::connectTo(Graph& graph)
+	void OcTree::connectTo(SceneGraph& graph)
 	{
 		connections.push_back(&graph);
 	}
 
-	void QuadTree::disconnectFrom(Graph& graph)
+	void OcTree::disconnectFrom(SceneGraph& graph)
 	{
 		if (find(connections.begin(), connections.end(), &graph) != connections.end())
 		{
@@ -67,19 +64,28 @@ namespace simplicity
 		}
 	}
 
-	Matrix44 QuadTree::getAbsoluteTransform() const
+	Matrix44 OcTree::getAbsoluteTransform() const
 	{
-		return absoluteTransform;
+		Matrix44 absoluteMatrix;
+		absoluteMatrix.setIdentity();
+		const SceneGraph* currentGraph = this;
+		while (currentGraph != nullptr)
+		{
+			absoluteMatrix *= currentGraph->getTransform();
+			currentGraph = currentGraph->getParent();
+		}
+
+		return absoluteMatrix;
 	}
 
-	const Model& QuadTree::getBoundary() const
+	const Model& OcTree::getBoundary() const
 	{
 		return boundary;
 	}
 
-	vector<Graph*> QuadTree::getChildren() const
+	vector<SceneGraph*> OcTree::getChildren() const
 	{
-		vector<Graph*> rawChildren;
+		vector<SceneGraph*> rawChildren;
 		for (unsigned int index = 0; index < children.size(); index++)
 		{
 			rawChildren.push_back(children[index].get());
@@ -88,17 +94,17 @@ namespace simplicity
 		return rawChildren;
 	}
 
-	vector<Entity*>& QuadTree::getEntities()
+	vector<Entity*>& OcTree::getEntities()
 	{
 		return entities;
 	}
 
-	const vector<Entity*>& QuadTree::getEntities() const
+	const vector<Entity*>& OcTree::getEntities() const
 	{
 		return entities;
 	}
 
-	vector<Entity*> QuadTree::getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const
+	vector<Entity*> OcTree::getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const
 	{
 		// Create a vector here and reserve some space to avoid lots of copying from one vector to another and to
 		// reduce the amount of allocations.
@@ -110,11 +116,11 @@ namespace simplicity
 		return entitiesWithinBounds;
 	}
 
-	void QuadTree::getEntitiesWithinBounds(const Model& bounds, const Vector3& position,
+	void OcTree::getEntitiesWithinBounds(const Model& bounds, const Vector3& position,
 			vector<Entity*>& entitiesWithinBounds) const
 	{
 		// First check that this node intersects the bounds.
-		if (!Intersection::intersect(boundary, bounds, projectOntoPlane(position - getPosition3(absoluteTransform))))
+		if (!Intersection::intersect(boundary, bounds, position - getPosition3(getAbsoluteTransform())))
 		{
 			return;
 		}
@@ -129,8 +135,8 @@ namespace simplicity
 				continue;
 			}
 
-			Vector3 entityBoundsPosition = getPosition3(entity->getTransform() * entityBounds->getTransform());
-			if (Intersection::intersect(*entityBounds, bounds, projectOntoPlane(position - entityBoundsPosition)))
+			Vector3 modelBoundsPosition = getPosition3(entity->getTransform() * entityBounds->getTransform());
+			if (Intersection::intersect(*entityBounds, bounds, position - modelBoundsPosition))
 			{
 				entitiesWithinBounds.push_back(entity);
 			}
@@ -143,27 +149,27 @@ namespace simplicity
 		}
 	}
 
-	Graph* QuadTree::getParent()
+	SceneGraph* OcTree::getParent()
 	{
 		return parent;
 	}
 
-	const Graph* QuadTree::getParent() const
+	const SceneGraph* OcTree::getParent() const
 	{
 		return parent;
 	}
 
-	Matrix44& QuadTree::getTransform()
+	Matrix44& OcTree::getTransform()
 	{
 		return transform;
 	}
 
-	const Matrix44& QuadTree::getTransform() const
+	const Matrix44& OcTree::getTransform() const
 	{
 		return transform;
 	}
 
-	bool QuadTree::insert(Entity& entity)
+	bool OcTree::insert(Entity& entity)
 	{
 		Model* bounds = entity.getComponent<Model>(Category::BOUNDS);
 		if (bounds == nullptr)
@@ -173,12 +179,12 @@ namespace simplicity
 			return true;
 		}
 
-		Vector3 graphPosition = getPosition3(absoluteTransform);
+		Vector3 graphPosition = getPosition3(getAbsoluteTransform());
 		Vector3 boundsPosition = getPosition3(entity.getTransform() * bounds->getTransform());
 
 		// Check that the entity intersects the bounds.
 		Vector3 relativePosition = boundsPosition - graphPosition;
-		if (!Intersection::contains(boundary, *bounds, projectOntoPlane(relativePosition)))
+		if (!Intersection::contains(boundary, *bounds, relativePosition))
 		{
 			return false;
 		}
@@ -201,27 +207,12 @@ namespace simplicity
 		return true;
 	}
 
-	bool QuadTree::insert(Entity& entity, const Entity& /*parent*/)
+	bool OcTree::insert(Entity& entity, const Entity& /*parent*/)
 	{
 		return insert(entity);
 	}
 
-	Vector3 QuadTree::projectOntoPlane(const Vector3& position) const
-	{
-		if (plane == Plane::XY)
-		{
-			return Vector3(position.X(), position.Y(), 0.0f);
-		}
-
-		if (plane == Plane::XZ)
-		{
-			return Vector3(position.X(), position.Z(), 0.0f);
-		}
-
-		return Vector3(position.Y(), position.Z(), 0.0f);
-	}
-
-	bool QuadTree::remove(const Entity& entity)
+	bool OcTree::remove(const Entity& entity)
 	{
 		if (find(entities.begin(), entities.end(), &entity) == entities.end())
 		{
@@ -254,71 +245,64 @@ namespace simplicity
 		return true;
 	}
 
-	void QuadTree::setParent(Graph* parent)
+	void OcTree::setParent(SceneGraph* parent)
 	{
 		this->parent = parent;
-
-		if (parent == nullptr)
-		{
-			absoluteTransform = transform;
-		}
-		else
-		{
-			absoluteTransform = transform * parent->getAbsoluteTransform();
-		}
 	}
 
-	void QuadTree::setTransform(const Matrix44& transform)
+	void OcTree::setTransform(const Matrix44& transform)
 	{
 		this->transform = transform;
 	}
 
-	void QuadTree::subdivide()
+	void OcTree::subdivide()
 	{
-		children.reserve(4);
+		children.reserve(8);
 
 		float childHalfDimension = boundary.getHalfEdgeLength() / 2.0f;
-		float x = 0.0f;
-		float y = 0.0f;
-		float z = 0.0f;
-		if (plane == Plane::XY)
-		{
-			x = childHalfDimension;
-			y = childHalfDimension;
-		}
-		else if (plane == Plane::XZ)
-		{
-			x = childHalfDimension;
-			z = childHalfDimension;
-		}
-		else
-		{
-			y = childHalfDimension;
-			z = childHalfDimension;
-		}
 
-		unique_ptr<QuadTree> child0(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
-		setPosition(child0->getTransform(), Vector3(x, y, z));
+		unique_ptr<OcTree> child0(new OcTree(subdivideThreshold, Cube(childHalfDimension)));
+		setPosition(child0->getTransform(), Vector3(-childHalfDimension, childHalfDimension, childHalfDimension));
 		child0->setParent(this);
 		children.push_back(move(child0));
 
-		unique_ptr<QuadTree> child1(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
-		setPosition(child1->getTransform(), Vector3(x, -y, -z));
+		unique_ptr<OcTree> child1(new OcTree(subdivideThreshold, Cube(childHalfDimension)));
+		setPosition(child1->getTransform(), Vector3(childHalfDimension, childHalfDimension, childHalfDimension));
 		child1->setParent(this);
 		children.push_back(move(child1));
 
-		unique_ptr<QuadTree> child2(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
-		setPosition(child2->getTransform(), Vector3(-x, y, z));
+		unique_ptr<OcTree> child2(new OcTree(subdivideThreshold, Cube(childHalfDimension)));
+		setPosition(child2->getTransform(), Vector3(-childHalfDimension, -childHalfDimension, childHalfDimension));
 		child2->setParent(this);
 		children.push_back(move(child2));
 
-		unique_ptr<QuadTree> child3(new QuadTree(subdivideThreshold, Square(childHalfDimension), plane));
-		setPosition(child3->getTransform(), Vector3(-x, -y, -z));
+		unique_ptr<OcTree> child3(new OcTree(subdivideThreshold, Cube(childHalfDimension)));
+		setPosition(child3->getTransform(), Vector3(childHalfDimension, -childHalfDimension, childHalfDimension));
 		child3->setParent(this);
 		children.push_back(move(child3));
+
+		unique_ptr<OcTree> child4(new OcTree(subdivideThreshold, Cube(childHalfDimension)));
+		setPosition(child4->getTransform(), Vector3(-childHalfDimension, childHalfDimension, -childHalfDimension));
+		child4->setParent(this);
+		children.push_back(move(child4));
+
+		unique_ptr<OcTree> child5(new OcTree(subdivideThreshold, Cube(childHalfDimension)));
+		setPosition(child5->getTransform(), Vector3(childHalfDimension, childHalfDimension, -childHalfDimension));
+		child5->setParent(this);
+		children.push_back(move(child5));
+
+		unique_ptr<OcTree> child6(new OcTree(subdivideThreshold, Cube(childHalfDimension)));
+		setPosition(child6->getTransform(), Vector3(-childHalfDimension, -childHalfDimension, -childHalfDimension));
+		child6->setParent(this);
+		children.push_back(move(child6));
+
+		unique_ptr<OcTree> child7(new OcTree(subdivideThreshold, Cube(childHalfDimension)));
+		setPosition(child7->getTransform(), Vector3(childHalfDimension, -childHalfDimension, -childHalfDimension));
+		child7->setParent(this);
+		children.push_back(move(child7));
 	}
 
-	void QuadTree::update(Entity& entity)
+	void OcTree::update(Entity& entity)
 	{
 		remove(entity);
 		insert(entity);

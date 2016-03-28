@@ -18,35 +18,20 @@
 
 namespace simplicity
 {
-	template<typename GraphType>
-	GraphType* Scene::getGraph()
+	template<typename StateType>
+	std::vector<StateType*> Scene::getState()
 	{
-		for (unsigned int index = 0; index < graphs.size(); index++)
+		std::vector<StateType*> typedState;
+
+		for (unsigned int index = 0; index < state.size(); index++)
 		{
-			GraphType* graph = dynamic_cast<GraphType*>(graphs[index].get());
-			if (graph != nullptr)
+			StateType* singleState = dynamic_cast<StateType*>(state[index].get());
+			if (singleState != nullptr)
 			{
-				return graph;
+				typedState.push_back(singleState);
 			}
 		}
 
-		return nullptr;
-	}
-
-	template<typename GraphType>
-	std::vector<GraphType*> Scene::getGraphs()
-	{
-		std::vector<GraphType*> typedGraphs;
-
-		for (unsigned int index = 0; index < graphs.size(); index++)
-		{
-			GraphType* graph = dynamic_cast<GraphType*>(graphs[index].get());
-			if (graph != nullptr)
-			{
-				typedGraphs.push_back(graph);
-			}
-		}
-
-		return typedGraphs;
+		return typedState;
 	}
 }

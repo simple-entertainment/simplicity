@@ -31,11 +31,11 @@ namespace simplicity
 		engines.push_back(move(engine));
 	}
 
-	void SerialCompositeEngine::advance()
+	void SerialCompositeEngine::advance(Scene& scene)
 	{
 		for (unsigned int index = 0; index < engines.size(); index++)
 		{
-			engines[index]->advance();
+			engines[index]->advance(scene);
 		}
 	}
 
@@ -44,11 +44,11 @@ namespace simplicity
 		return engines;
 	}
 
-	void SerialCompositeEngine::onAddEntity(Entity& entity)
+	void SerialCompositeEngine::onBeforeOpenScene(Scene& scene)
 	{
 		for (unsigned int index = 0; index < engines.size(); index++)
 		{
-			engines[index]->onAddEntity(entity);
+			engines[index]->onBeforeOpenScene(scene);
 		}
 	}
 
@@ -92,14 +92,6 @@ namespace simplicity
 		}
 	}
 
-	void SerialCompositeEngine::onRemoveEntity(Entity& entity)
-	{
-		for (unsigned int index = 0; index < engines.size(); index++)
-		{
-			engines[index]->onRemoveEntity(entity);
-		}
-	}
-
 	void SerialCompositeEngine::onResume()
 	{
 		for (unsigned int index = 0; index < engines.size(); index++)
@@ -124,17 +116,16 @@ namespace simplicity
 		}
 	}
 
-	unique_ptr<Engine> SerialCompositeEngine::removeEngine(Engine* engine)
+	unique_ptr<Engine> SerialCompositeEngine::removeEngine(Engine& engine)
 	{
 		unique_ptr<Engine> removedEngine;
 		vector<unique_ptr<Engine>>::iterator result =
-				find_if(engines.begin(), engines.end(), AddressEquals<Engine>(*engine));
+				find_if(engines.begin(), engines.end(), AddressEquals<Engine>(engine));
 
 		if (result != engines.end())
 		{
 			removedEngine = move(*result);
 			engines.erase(result);
-			engine = nullptr;
 		}
 
 		return move(removedEngine);

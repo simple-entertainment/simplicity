@@ -21,8 +21,8 @@
 
 #include "../common/NonCopyable.h"
 #include "../entity/Entity.h"
-#include "../graph/Graph.h"
 #include "../messaging/Message.h"
+#include "SceneState.h"
 
 namespace simplicity
 {
@@ -40,7 +40,7 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Queues an entity to be added to the scene before the next frame.
+			 * Adds the given entity to the scene.
 			 * </p>
 			 *
 			 * @param entity The entity.
@@ -49,29 +49,12 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Queues an entity to be added to the scene before the next frame.
+			 * Adds state to the scene.
 			 * </p>
 			 *
-			 * @param entity The entity.
-			 * @param parent The parent under which to add the entity.
+			 * @param state The state.
 			 */
-			void addEntity(std::unique_ptr<Entity> entity, const Entity& parent);
-
-			/**
-			 * <p>
-			 * Adds a graph to the scene.
-			 * </p>
-			 *
-			 * @param graph The graph.
-			 */
-			void addGraph(std::unique_ptr<Graph> graph);
-
-			/**
-			 * <p>
-			 * Adds the entities that have been queued.
-			 * </p>
-			 */
-			void addPendingEntities();
+			void addState(std::unique_ptr<SceneState> state);
 
 			/**
 			 * <p>
@@ -102,24 +85,53 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Retrieves a single graph. If more than one world representation of the specified type exist, the first one
-			 * found will be returned.
+			 * Retrieves the state.
 			 * </p>
 			 *
-			 * @return The graph.
+			 * @return The state.
 			 */
-			template<typename GraphType>
-			GraphType* getGraph();
+			template<typename StateType>
+			std::vector<StateType*> getState();
 
 			/**
 			 * <p>
-			 * Retrieves the graphs.
+			 * Called when a component is added to an entity.
 			 * </p>
 			 *
-			 * @return The graphs.
+			 * @param component The component being added.
 			 */
-			template<typename GraphType>
-			std::vector<GraphType*> getGraphs();
+			void onAddComponent(Component& component);
+
+			/**
+			 * <p>
+			 * Called when a component is removed from an entity.
+			 * </p>
+			 *
+			 * @param component The component being removed.
+			 */
+			void onRemoveComponent(Component& component);
+
+			/**
+			 * <p>
+			 * Updates the scene to reflect any changes to the specified entity.
+			 * </p>
+			 *
+			 * <p>
+			 * This function only needs to be called if you are directly manipulating the transform of the entity. The
+			 * convenience functions of the entity class i.e. rotate(), scale(), setPosition() and translate() will call
+			 * this function for you.
+			 * </p>
+			 *
+			 * @param entity The entity whose changes are to be reflected.
+			 */
+			void onTransformEntity(Entity& entity);
+
+			/**
+			 * <p>
+			 * Opens this scene.
+			 * </p>
+			 */
+			void open();
 
 			/**
 			 * <p>
@@ -130,19 +142,25 @@ namespace simplicity
 
 			/**
 			 * <p>
-			 * Queues an entity to be removed from the scene before the next frame.
+			 * Removes the given entity from the scene.
 			 * </p>
 			 *
 			 * @param entity The entity to remove.
+			 *
+			 * @return The removed entity.
 			 */
-			void removeEntity(Entity* entity);
+			std::unique_ptr<Entity> removeEntity(Entity& entity);
 
 			/**
 			 * <p>
-			 * Removes the entities that have been queued.
+			 * Removes the given state from the scene.
 			 * </p>
+			 *
+			 * @param state The state to remove.
+			 *
+			 * @return The removed state.
 			 */
-			void removePendingEntities();
+			std::unique_ptr<SceneState> removeState(SceneState& state);
 
 			/**
 			 * <p>
@@ -160,27 +178,14 @@ namespace simplicity
 			 */
 			void setCapturesMouse(bool capturesMouse);
 
-			/**
-			 * <p>
-			 * Updates the graphs to reflect any changes to the specified entity.
-			 * </p>
-			 *
-			 * @param entity The entity whose changes are to be reflected.
-			 */
-			void updateGraphs(Entity& entity);
-
 		private:
 			std::vector<std::unique_ptr<Entity>> entities;
 
-			std::vector<std::unique_ptr<Entity>> entitiesToBeAdded;
-
-			std::map<Entity*, const Entity*> entitiesToBeAddedParents;
-
-			std::vector<const Entity*> entitiesToBeRemoved;
-
-			std::vector<std::unique_ptr<Graph>> graphs;
+			bool isOpen;
 
 			bool mouseCaptureEnabled;
+
+			std::vector<std::unique_ptr<SceneState>> state;
 
 			WindowEngine* windowEngine;
 

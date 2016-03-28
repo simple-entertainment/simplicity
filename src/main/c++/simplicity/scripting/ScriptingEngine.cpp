@@ -15,6 +15,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 #include "../common/AddressEquals.h"
+#include "../Simplicity.h"
 #include "ScriptingEngine.h"
 
 using namespace std;
@@ -22,82 +23,67 @@ using namespace std;
 namespace simplicity
 {
 	ScriptingEngine::ScriptingEngine() :
-		scriptsByEntity()
+		state()
 	{
 	}
 
-	void ScriptingEngine::advance()
+	void ScriptingEngine::advance(Scene& scene)
 	{
-		for (pair<Entity*, vector<Script*>> entityScripts : scriptsByEntity)
+		ScriptingEngineState* state = this->state[&scene];
+
+		for (Script* script = state->first(); script != nullptr; script = state->next())
 		{
-			for (Script* script : entityScripts.second)
-			{
-				script->execute(*entityScripts.first);
-			}
+			script->execute();
 		}
 	}
 
-	void ScriptingEngine::onAddEntity(Entity& entity)
+	void ScriptingEngine::onBeforeOpenScene(Scene& scene)
 	{
-		scriptsByEntity[&entity] = entity.getComponents<Script>();
+		unique_ptr<ScriptingEngineState> state(new ScriptingEngineState);
 
-		for (Script* script : scriptsByEntity[&entity])
-		{
-			script->onAddEntity(entity);
-		}
+		this->state[&scene] = state.get();
+		scene.addState(move(state));
 	}
 
 	void ScriptingEngine::onCloseScene(Scene& scene)
 	{
-		for (pair<Entity*, vector<Script*>> entityScripts : scriptsByEntity)
+		ScriptingEngineState* state = this->state[&scene];
+
+		for (Script* script = state->first(); script != nullptr; script = state->next())
 		{
-			for (Script* script : entityScripts.second)
-			{
-				script->onCloseScene(scene, *entityScripts.first);
-			}
+			script->onCloseScene();
 		}
+
+		scene.removeState(*state);
 	}
 
 	void ScriptingEngine::onOpenScene(Scene& scene)
 	{
-		for (pair<Entity*, vector<Script*>> entityScripts : scriptsByEntity)
+		ScriptingEngineState* state = this->state[&scene];
+
+		for (Script* script = state->first(); script != nullptr; script = state->next())
 		{
-			for (Script* script : entityScripts.second)
-			{
-				script->onOpenScene(scene, *entityScripts.first);
-			}
+			script->onOpenScene();
 		}
 	}
 
 	void ScriptingEngine::onPauseScene(Scene& scene)
 	{
-		for (pair<Entity*, vector<Script*>> entityScripts : scriptsByEntity)
-		{
-			for (Script* script : entityScripts.second)
-			{
-				script->onPauseScene(scene, *entityScripts.first);
-			}
-		}
-	}
+		ScriptingEngineState* state = this->state[&scene];
 
-	void ScriptingEngine::onRemoveEntity(Entity& entity)
-	{
-		for (Script* script : scriptsByEntity[&entity])
+		for (Script* script = state->first(); script != nullptr; script = state->next())
 		{
-			script->onRemoveEntity(entity);
+			script->onPauseScene();
 		}
-
-		scriptsByEntity.erase(&entity);
 	}
 
 	void ScriptingEngine::onResumeScene(Scene& scene)
 	{
-		for (pair<Entity*, vector<Script*>> entityScripts : scriptsByEntity)
+		ScriptingEngineState* state = this->state[&scene];
+
+		for (Script* script = state->first(); script != nullptr; script = state->next())
 		{
-			for (Script* script : entityScripts.second)
-			{
-				script->onResumeScene(scene, *entityScripts.first);
-			}
+			script->onResumeScene();
 		}
 	}
 }

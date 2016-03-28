@@ -48,99 +48,90 @@ namespace simplicity
 			 * <p>
 			 * Called once every frame.
 			 * </p>
+			 *
+			 * @param scene The scene.
 			 */
-			virtual void advance() = 0;
+			virtual void advance(Scene& scene) = 0;
 
 			/**
-			* <p>
-			* Called when an entity is added to the scene.
-			* </p>
-			*
-			* @param entity The entity being added.
-			*/
-			virtual void onAddEntity(Entity& /* entity */)
+			 * <p>
+			 * Called before a scene is opened.
+			 * </p>
+			 *
+			 * @param scene The scene.
+			 */
+			virtual void onBeforeOpenScene(Scene& scene)
 			{
 			}
 
 			/**
-			* <p>
-			* Called after a scene is closed and the last frame of that scene has finished.
-			* </p>
-			* 
-			* @param scene The scene.
-			*/
-			virtual void onCloseScene(Scene& /* scene */)
+			 * <p>
+			 * Called after a scene is closed and the last frame of that scene has finished.
+			 * </p>
+			 *
+			 * @param scene The scene.
+			 */
+			virtual void onCloseScene(Scene& scene)
 			{
 			}
 
 			/**
-			* <p>
-			* Called after a scene is opened and before the first frame of that scene has started.
-			* </p>
-			* 
-			* @param scene The scene.
-			*/
-			virtual void onOpenScene(Scene& /* scene */)
+			 * <p>
+			 * Called after a scene is opened and before the first frame of that scene has started.
+			 * </p>
+			 *
+			 * @param scene The scene.
+			 */
+			virtual void onOpenScene(Scene& scene)
 			{
 			}
 
 			/**
-			* <p>
-			* Called after a scene is paused and the last frame has finished.
-			* </p>
-			*/
+			 * <p>
+			 * Called after simplicity is paused and the last frame has finished.
+			 * </p>
+			 */
 			virtual void onPause()
 			{
 			}
 
 			/**
-			* <p>
-			* Called after simplicity is paused and the last frame has finished.
-			* </p>
-			* 
-			* @param scene The scene.
-			*/
-			virtual void onPauseScene(Scene& /* scene */)
+			 * <p>
+			 * Called after a scene is paused and the last frame has finished.
+			 * </p>
+			 *
+			 * @param scene The scene.
+			 */
+			virtual void onPauseScene(Scene& scene)
 			{
 			}
 
 			/**
-			* <p>
-			* Called after simplicity is played and before the first frame has started.
-			* </p>
-			*/
+			 * <p>
+			 * Called after simplicity is played and before the first frame has started.
+			 * </p>
+			 */
 			virtual void onPlay()
 			{
 			}
 
 			/**
-			* <p>
-			* Called when an entity is removed from the scene.
-			* </p>
-			*
-			* @param entity The entity being removed.
-			*/
-			virtual void onRemoveEntity(Entity& /* entity */)
-			{
-			}
-
-			/**
-			* <p>
-			* Called after simplicity is resumed and before the first frame has started.
-			* </p>
-			*/
+			 * <p>
+			 * Called after simplicity is resumed and before the first frame has started.
+			 * </p>
+			 */
 			virtual void onResume()
 			{
 			}
 
 			/**
-			* <p>
-			* Called after a scene is resumed and before the first frame has started.
-			* </p>
-			*
-			* @param scene The scene.
-			*/
-			virtual void onResumeScene(Scene& /* scene */)
+			 * <p>
+			 * Called after a scene is resumed and before the first frame has started.
+			 * </p>
+			 *
+			 * @param scene The scene.
+			 */
+			virtual void onResumeScene(Scene& scene)
 			{
 			}
 

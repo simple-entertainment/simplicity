@@ -19,7 +19,6 @@
 
 #include "engine/CompositeEngine.h"
 #include "engine/Engine.h"
-#include "graph/Graph.h"
 #include "scene/Scene.h"
 
 namespace simplicity
@@ -179,7 +178,7 @@ namespace simplicity
 		 *
 		 * @return The removed engine.
 		 */
-		SIMPLE_API std::unique_ptr<Engine> removeEngine(Engine* engine);
+		SIMPLE_API std::unique_ptr<Engine> removeEngine(Engine& engine);
 
 		/**
 		 * <p>

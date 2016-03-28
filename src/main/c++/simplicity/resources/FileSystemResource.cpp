@@ -37,6 +37,7 @@ namespace simplicity
 		unique_ptr<ostream> outputStream = getOutputStream();
 
 		outputStream->write(data, length);
+		outputStream->flush();
 	}
 
 	void FileSystemResource::appendData(const string& data)
@@ -116,6 +117,7 @@ namespace simplicity
 		ofstream stream(absolutePath, mode);
 
 		stream.write(data, length);
+		stream.flush();
 	}
 
 	void FileSystemResource::setData(const string& data)

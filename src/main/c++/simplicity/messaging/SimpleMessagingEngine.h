@@ -33,7 +33,7 @@ namespace simplicity
 		public:
 			SimpleMessagingEngine();
 
-			void advance() override;
+			void advance(Scene& scene) override;
 
 			void deregisterRecipient(unsigned short subject, std::function<Recipient> recipient)  override;
 
