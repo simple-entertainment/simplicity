@@ -29,7 +29,7 @@ namespace simplicity
 	namespace Logs
 	{
 		Resource* getResource(const string& tag);
-		void log(const string& severity, const string& tag, string message, ...);
+		void log(const string& severity, const string& tag, string message, va_list args);
 
 		map<string, Resource*> resources;
 		Resource* defaultResource = nullptr;
@@ -100,14 +100,11 @@ namespace simplicity
 			va_end(args);
 		}
 
-		void log(const string& severity, const string& tag, string message, ...)
+		void log(const string& severity, const string& tag, string message, va_list args)
 		{
 			std::string formattedMessage(message.size() + MAX_ARG_BUFFER_SIZE, 'x');
 
-			va_list args;
-			va_start(args, message);
 			vsnprintf(&formattedMessage[0], formattedMessage.size(), message.c_str(), args);
-			va_end(args);
 
 			// Cut off the trailing 'x's.
 			formattedMessage = formattedMessage.c_str();
