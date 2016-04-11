@@ -20,7 +20,6 @@
 #include <memory>
 
 #include "MeshData.h"
-#include "AbstractModel.h"
 
 namespace simplicity
 {
@@ -31,16 +30,9 @@ namespace simplicity
 	 * A collection of (possibly indexed) vertices stored in a buffer.
 	 * </p>
 	 */
-	class SIMPLE_API Mesh : public AbstractModel
+	class SIMPLE_API Mesh
 	{
 		public:
-			/**
-			 * <p>
-			 * An ID unique to the this model class.
-			 * </p>
-			 */
-			static const unsigned int TYPE_ID = 13;
-
 			/**
 			 * <p>
 			 * @param buffer The buffer to store the (possibly indexed) vertices in.
@@ -82,8 +74,6 @@ namespace simplicity
 			 * @return The (possibly indexed) vertex data.
 			 */
 			const MeshData& getData() const;
-
-			unsigned short getTypeID() const override;
 
 			/**
 			 * <p>

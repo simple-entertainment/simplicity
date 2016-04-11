@@ -17,13 +17,13 @@
 #ifndef INTERSECTION_H_
 #define INTERSECTION_H_
 
-#include "../model/Line.h"
+#include "../math/Matrix.h"
 #include "../model/Mesh.h"
-#include "../model/Model.h"
-#include "../model/Plane.h"
-#include "../model/Point.h"
 #include "../model/shape/Circle.h"
 #include "../model/shape/Cube.h"
+#include "../model/shape/Line.h"
+#include "../model/shape/Plane.h"
+#include "../model/shape/Point.h"
 #include "../model/shape/Square.h"
 #include "../model/shape/Triangle.h"
 
@@ -66,7 +66,7 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function does not support models with differing orientations.
+		 * This function does not support shapes with differing orientations.
 		 * </p>
 		 *
 		 * @param a The container.
@@ -131,21 +131,21 @@ namespace simplicity
 
 		/**
 		 * <p>
-		 * Determines if model a contains model b. This generic version is provided to handle the case where the types
-		 * of the models are unknown.
+		 * Determines if shape a contains shape b. This generic version is provided to handle the case where the types
+		 * of the shapes are unknown.
 		 * </p>
 		 *
 		 * <p>
-		 * This function does not support models with differing orientations.
+		 * This function does not support shapes with differing orientations.
 		 * </p>
 		 *
 		 * @param a The container.
 		 * @param b The containee.
 		 * @param relativePosition The position of b relative to a.
 		 *
-		 * @return True if model a contains model b, false otherwise.
+		 * @return True if shape a contains shape b, false otherwise.
 		 */
-		SIMPLE_API bool contains(const Model& a, const Model& b, const Vector3& relativePosition);
+		SIMPLE_API bool contains(const Shape& a, const Shape& b, const Vector3& relativePosition);
 
 		/**
 		 * <p>
@@ -153,14 +153,14 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function does not support models with differing orientations.
+		 * This function does not support shapes with differing orientations.
 		 * </p>
 		 *
 		 * @param square The container.
 		 * @param circle The containee.
 		 * @param relativePosition The position of the circle relative to the square.
 		 *
-		 * @return True if the square contains model the circle, false otherwise.
+		 * @return True if the square contains shape the circle, false otherwise.
 		 */
 		SIMPLE_API bool contains(const Square& square, const Circle& circle, const Vector2& relativePosition);
 
@@ -170,7 +170,7 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function does not support models with differing orientations.
+		 * This function does not support shapes with differing orientations.
 		 * </p>
 		 *
 		 * @param a The container.
@@ -187,7 +187,7 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function assumes the points of both models to be in the same space.
+		 * This function assumes the points of both shapes to be in the same space.
 		 * </p>
 		 *
 		 * @param triangle The container.
@@ -275,7 +275,7 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function does not support models with differing orientations.
+		 * This function does not support shapes with differing orientations.
 		 * </p>
 		 *
 		 * @param a The first circle.
@@ -292,7 +292,7 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function does not support models with differing orientations.
+		 * This function does not support shapes with differing orientations.
 		 * </p>
 		 *
 		 * @param circle The circle.
@@ -309,7 +309,7 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function does not support models with differing orientations.
+		 * This function does not support shapes with differing orientations.
 		 * </p>
 		 *
 		 * @param a The first cube.
@@ -326,7 +326,7 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function assumes the points of both models to be in the same space.
+		 * This function assumes the points of both shapes to be in the same space.
 		 * </p>
 		 *
 		 * @param lineSegment The line segment.
@@ -342,7 +342,7 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function assumes the points of both models to be in the same space.
+		 * This function assumes the points of both shapes to be in the same space.
 		 * </p>
 		 *
 		 * @param lineSegment The line segment.
@@ -354,21 +354,21 @@ namespace simplicity
 
 		/**
 		 * <p>
-		 * Determines if model a and model b intersect. This generic version is provided to handle the case where the
-		 * types of the models are unknown.
+		 * Determines if shape a and shape b intersect. This generic version is provided to handle the case where the
+		 * types of the shapes are unknown.
 		 * </p>
 		 *
 		 * <p>
-		 * This function does not support models with differing orientations.
+		 * This function does not support shapes with differing orientations.
 		 * </p>
 		 *
-		 * @param a The first model.
-		 * @param b The second model.
+		 * @param a The first shape.
+		 * @param b The second shape.
 		 * @param relativePosition The position of b relative to a.
 		 *
-		 * @return True if model a and model b intersect, false otherwise.
+		 * @return True if shape a and shape b intersect, false otherwise.
 		 */
-		SIMPLE_API bool intersect(const Model& a, const Model& b, const Vector3& relativePosition);
+		SIMPLE_API bool intersect(const Shape& a, const Shape& b, const Vector3& relativePosition);
 
 		/**
 		 * <p>
@@ -376,7 +376,7 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function assumes the points of both models to be in the same space.
+		 * This function assumes the points of both shapes to be in the same space.
 		 * </p>
 		 *
 		 * @param plane The plane.
@@ -392,7 +392,7 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function assumes the points of both models to be in the same space.
+		 * This function assumes the points of both shapes to be in the same space.
 		 * </p>
 		 *
 		 * @param plane The plane.
@@ -408,7 +408,7 @@ namespace simplicity
 		 * </p>
 		 *
 		 * <p>
-		 * This function does not support models with differing orientations.
+		 * This function does not support shapes with differing orientations.
 		 * </p>
 		 *
 		 * @param a The first square.

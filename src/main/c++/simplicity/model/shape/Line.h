@@ -14,19 +14,20 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef PLANE_H_
-#define PLANE_H_
+#ifndef LINE_H_
+#define LINE_H_
 
-#include "AbstractModel.h"
+#include "../../math/Vector.h"
+#include "Shape.h"
 
 namespace simplicity
 {
 	/**
 	 * <p>
-	 * A plane. Not the flying kind, the mathematical kind.
+	 * A line between two points, A and B.
 	 * </p>
 	 */
-	class SIMPLE_API Plane : public AbstractModel
+	class SIMPLE_API Line : public Shape
 	{
 		public:
 			/**
@@ -34,57 +35,57 @@ namespace simplicity
 			 * An ID unique to the this model class.
 			 * </p>
 			 */
-			static const unsigned int TYPE_ID = 1;
+			static const unsigned int TYPE_ID = 0;
 
 			/**
-			 * @param normal The normal of the plane.
-			 * @param positionOnPlane A position on the plane.
+			 * @param pointA The point the line begins at.
+			 * @param pointB The point the line ends at.
 			 */
-			Plane(const Vector3& normal, const Vector3& positionOnPlane);
-
-			/**
-			 * <p>
-			 * Retrieves the normal of the plane.
-			 * </p>
-			 *
-			 * @return The normal of the plane.
-			 */
-			const Vector3& getNormal() const;
+			Line(const Vector3& pointA, const Vector3& pointB);
 
 			/**
 			 * <p>
-			 * Retrieves a position on the plane.
+			 * Retrieves the point the line begins at.
 			 * </p>
 			 *
-			 * @return A position on the plane.
+			 * @return The point the line begins at.
 			 */
-			const Vector3& getPositionOnPlane() const;
+			const Vector3& getPointA() const;
+
+			/**
+			 * <p>
+			 * Retrieves the point the line ends at.
+			 * </p>
+			 *
+			 * @return The point the line ends at.
+			 */
+			const Vector3& getPointB() const;
 
 			unsigned short getTypeID() const override;
 
 			/**
 			 * <p>
-			 * Sets the normal of the plane.
+			 * Sets the point the line begins at.
 			 * </p>
 			 *
-			 * @param normal The normal of the plane.
+			 * @param pointA The point the line begins at.
 			 */
-			void setNormal(const Vector3& normal);
+			void setPointA(const Vector3& pointA);
 
 			/**
 			 * <p>
-			 * Sets a position on the plane.
+			 * Sets the point the line ends at.
 			 * </p>
 			 *
-			 * @param positionOnPlane A position on the plane.
+			 * @param pointB The point the line ends at.
 			 */
-			void setPositionOnPlane(const Vector3& positionOnPlane);
+			void setPointB(const Vector3& pointB);
 
 		private:
-			Vector3 normal;
+			Vector3 pointA;
 
-			Vector3 positionOnPlane;
+			Vector3 pointB;
 	};
 }
 
-#endif /* PLANE_H_ */
+#endif /* LINE_H_ */

@@ -17,7 +17,10 @@
 #ifndef COMPONENT_H_
 #define COMPONENT_H_
 
+#include <memory>
+
 #include "../math/Matrix.h"
+#include "../model/shape/Shape.h"
 
 namespace simplicity
 {
@@ -41,6 +44,15 @@ namespace simplicity
 			virtual ~Component()
 			{
 			}
+
+			/**
+			 * <p>
+			 * Retrieves a bounding volume containing this component.
+			 * </p>
+			 *
+			 * @return A bounding volume containing this component.
+			 */
+			Shape* getBounds() const;
 
 			/**
 			 * <p>
@@ -82,6 +94,15 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Sets a bounding volume containing this component.
+			 * </p>
+			 *
+			 * @param bounds A bounding volume containing this component.
+			 */
+			void setBounds(std::unique_ptr<Shape> bounds);
+
+			/**
+			 * <p>
 			 * Sets the category this component belongs to (Categories::UNCATEGORIZED is the default).
 			 * </p>
 			 *
@@ -109,6 +130,8 @@ namespace simplicity
 			void setTransform(const Matrix44& transform);
 
 		private:
+			std::unique_ptr<Shape> bounds;
+
 			unsigned short category;
 
 			Entity* entity;

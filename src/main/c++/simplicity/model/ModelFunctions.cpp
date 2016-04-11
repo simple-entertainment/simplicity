@@ -145,25 +145,13 @@ namespace simplicity
 			}
 		}
 
-		unique_ptr<Circle> getCircleBoundsXZ(const std::vector<Vertex>& vertices)
-		{
-			return getCircleBoundsXZ(vertices.data(), vertices.size());
-		}
-
 		unique_ptr<Circle> getCircleBoundsXZ(const Vertex* vertices, unsigned int vertexCount)
 		{
-			Vector3 center(0.0f, 0.0f, 0.0f);
 			float maxMagnitudeSquared = 0.0f;
 
 			for (unsigned int index = 0; index < vertexCount; index++)
 			{
-				center += vertices[index].position;
-			}
-			center /= static_cast<float>(vertexCount);
-
-			for (unsigned int index = 0; index < vertexCount; index++)
-			{
-				float magnitudeSquared = (vertices[index].position - center).getMagnitudeSquared();
+				float magnitudeSquared = vertices[index].position.getMagnitudeSquared();
 				if (magnitudeSquared > maxMagnitudeSquared)
 				{
 					maxMagnitudeSquared = magnitudeSquared;
@@ -171,9 +159,6 @@ namespace simplicity
 			}
 
 			unique_ptr<Circle> bounds(new Circle(sqrt(maxMagnitudeSquared)));
-			bounds->setCategory(Category::BOUNDS);
-			setPosition(bounds->getTransform(), Vector3(center.X(), 0.0f, center.Z()));
-
 			return move(bounds);
 		}
 
@@ -295,47 +280,34 @@ namespace simplicity
 			}
 		}
 
-		unique_ptr<Square> getSquareBoundsXZ(const std::vector<Vertex>& vertices)
-		{
-			return getSquareBoundsXZ(vertices.data(), vertices.size());
-		}
-
 		unique_ptr<Square> getSquareBoundsXZ(const Vertex* vertices, unsigned int vertexCount)
 		{
-			float minX = 1000000.0f;
-			float maxX = -1000000.0f;
-			float minZ = 1000000.0f;
-			float maxZ = -1000000.0f;
+			float halfEdgeLength = 0.0f;
 
 			for (unsigned int index = 0; index < vertexCount; index++)
 			{
-				if (vertices[index].position.X() < minX)
+				const Vector3& position = vertices[index].position;
+
+				if (position.X() > halfEdgeLength)
 				{
-					minX = vertices[index].position.X();
+					halfEdgeLength = position.X();
 				}
-				if (vertices[index].position.X() > maxX)
+				else if (-position.X() > halfEdgeLength)
 				{
-					maxX = vertices[index].position.X();
+					halfEdgeLength = -position.X();
 				}
-				if (vertices[index].position.Z() < minZ)
+
+				if (position.Z() < halfEdgeLength)
 				{
-					minZ = vertices[index].position.Z();
+					halfEdgeLength = position.Z();
 				}
-				if (vertices[index].position.Z() > maxZ)
+				else if (-position.Z() > halfEdgeLength)
 				{
-					maxZ = vertices[index].position.Z();
+					halfEdgeLength = -position.Z();
 				}
 			}
 
-			float halfRangeX = (maxX - minX) / 2.0f;
-			float centerX = maxX - halfRangeX;
-			float halfRangeZ = (maxZ - minZ) / 2.0f;
-			float centerZ = maxZ - halfRangeZ;
-
-			unique_ptr<Square> bounds(new Square(max(halfRangeX, halfRangeZ)));
-			bounds->setCategory(Category::BOUNDS);
-			setPosition(bounds->getTransform(), Vector3(centerX, 0.0f, centerZ));
-
+			unique_ptr<Square> bounds(new Square(halfEdgeLength));
 			return move(bounds);
 		}
 

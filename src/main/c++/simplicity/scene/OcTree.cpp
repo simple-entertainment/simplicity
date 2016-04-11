@@ -18,15 +18,15 @@
 
 #include "../math/Intersection.h"
 #include "../math/MathFunctions.h"
-#include "../model/shape/Circle.h"
+#include "../model/Model.h"
 #include "OcTree.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	OcTree::OcTree(unsigned int subdivideThreshold, const Cube& boundary) :
-		boundary(boundary),
+	OcTree::OcTree(unsigned int subdivideThreshold, const Cube& bounds) :
+		bounds(bounds),
 		children(),
 		connections(),
 		entities(),
@@ -78,9 +78,9 @@ namespace simplicity
 		return absoluteMatrix;
 	}
 
-	const Model& OcTree::getBoundary() const
+	const Shape& OcTree::getBounds() const
 	{
-		return boundary;
+		return bounds;
 	}
 
 	vector<SceneGraph*> OcTree::getChildren() const
@@ -104,7 +104,7 @@ namespace simplicity
 		return entities;
 	}
 
-	vector<Entity*> OcTree::getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const
+	vector<Entity*> OcTree::getEntitiesWithinBounds(const Shape& bounds, const Vector3& position) const
 	{
 		// Create a vector here and reserve some space to avoid lots of copying from one vector to another and to
 		// reduce the amount of allocations.
@@ -116,27 +116,18 @@ namespace simplicity
 		return entitiesWithinBounds;
 	}
 
-	void OcTree::getEntitiesWithinBounds(const Model& bounds, const Vector3& position,
+	void OcTree::getEntitiesWithinBounds(const Shape& bounds, const Vector3& position,
 			vector<Entity*>& entitiesWithinBounds) const
 	{
 		// First check that this node intersects the bounds.
-		if (!Intersection::intersect(boundary, bounds, position - getPosition3(getAbsoluteTransform())))
+		if (!Intersection::intersect(this->bounds, bounds, position - getPosition3(getAbsoluteTransform())))
 		{
 			return;
 		}
 
 		for (Entity* entity : entities)
 		{
-			Model* entityBounds = entity->getComponent<Model>(Category::BOUNDS);
-			if (entityBounds == nullptr)
-			{
-				// If the entity has no bounds we take the safe option and assume that it intersects.
-				entitiesWithinBounds.push_back(entity);
-				continue;
-			}
-
-			Vector3 modelBoundsPosition = getPosition3(entity->getTransform() * entityBounds->getTransform());
-			if (Intersection::intersect(*entityBounds, bounds, position - modelBoundsPosition))
+			if (isWithinBounds(*entity, bounds, position))
 			{
 				entitiesWithinBounds.push_back(entity);
 			}
@@ -171,45 +162,82 @@ namespace simplicity
 
 	bool OcTree::insert(Entity& entity)
 	{
-		Model* bounds = entity.getComponent<Model>(Category::BOUNDS);
-		if (bounds == nullptr)
+		bool boundsExist = false;
+
+		for (Component* component : entity.getComponents())
+		{
+			if (component->getBounds() == nullptr)
+			{
+				continue;
+			}
+
+			boundsExist = true;
+
+			Vector3 graphPosition = getPosition3(getAbsoluteTransform());
+			Vector3 boundsPosition = getPosition3(entity.getTransform() * component->getTransform());
+
+			// Check that the entity intersects the bounds.
+			Vector3 relativePosition = boundsPosition - graphPosition;
+			if (!Intersection::contains(bounds, *component->getBounds(), relativePosition))
+			{
+				return false;
+			}
+
+			if (entities.size() == subdivideThreshold && children.empty())
+			{
+				subdivide();
+			}
+
+			// Attempt to insert the entity into one of the children (recursive).
+			for (unsigned int index = 0; index < children.size(); index++)
+			{
+				if (children[index]->insert(entity))
+				{
+					return true;
+				}
+			}
+
+			entities.push_back(&entity);
+			return true;
+		}
+
+		if (!boundsExist)
 		{
 			// If the entity has no bounds we insert it here.
 			entities.push_back(&entity);
 			return true;
 		}
 
-		Vector3 graphPosition = getPosition3(getAbsoluteTransform());
-		Vector3 boundsPosition = getPosition3(entity.getTransform() * bounds->getTransform());
-
-		// Check that the entity intersects the bounds.
-		Vector3 relativePosition = boundsPosition - graphPosition;
-		if (!Intersection::contains(boundary, *bounds, relativePosition))
-		{
-			return false;
-		}
-
-		if (entities.size() == subdivideThreshold && children.empty())
-		{
-			subdivide();
-		}
-
-		// Attempt to insert the entity into one of the children (recursive).
-		for (unsigned int index = 0; index < children.size(); index++)
-		{
-			if (children[index]->insert(entity))
-			{
-				return true;
-			}
-		}
-
-		entities.push_back(&entity);
-		return true;
+		return false;
 	}
 
 	bool OcTree::insert(Entity& entity, const Entity& /*parent*/)
 	{
 		return insert(entity);
+	}
+
+	bool OcTree::isWithinBounds(const Entity& entity, const Shape& bounds, const Vector3& position) const
+	{
+		bool boundsExist = false;
+
+		for (Component* component : entity.getComponents())
+		{
+			if (component->getBounds() == nullptr)
+			{
+				continue;
+			}
+
+			boundsExist = true;
+
+			Vector3 componentPosition = getPosition3(entity.getTransform() * component->getTransform());
+			if (Intersection::intersect(*component->getBounds(), bounds, position - componentPosition))
+			{
+				return true;
+			}
+		}
+
+		// If the entity has no bounds we take the safe option and assume that it intersects.
+		return !boundsExist;
 	}
 
 	bool OcTree::remove(const Entity& entity)
@@ -259,7 +287,7 @@ namespace simplicity
 	{
 		children.reserve(8);
 
-		float childHalfDimension = boundary.getHalfEdgeLength() / 2.0f;
+		float childHalfDimension = bounds.getHalfEdgeLength() / 2.0f;
 
 		unique_ptr<OcTree> child0(new OcTree(subdivideThreshold, Cube(childHalfDimension)));
 		setPosition(child0->getTransform(), Vector3(-childHalfDimension, childHalfDimension, childHalfDimension));

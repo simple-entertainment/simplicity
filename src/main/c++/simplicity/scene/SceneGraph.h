@@ -21,7 +21,7 @@
 #include <vector>
 
 #include "../math/Matrix.h"
-#include "../model/Model.h"
+#include "../model/shape/Shape.h"
 #include "SceneState.h"
 
 namespace simplicity
@@ -71,7 +71,7 @@ namespace simplicity
 			 *
 			 * @return The bounding volume for this node.
 			 */
-			virtual const Model& getBoundary() const = 0;
+			virtual const Shape& getBounds() const = 0;
 
 			/**
 			 * <p>
@@ -112,7 +112,7 @@ namespace simplicity
 			 *
 			 * @return The entities within this graph whose bounds intersect with the bounds given.
 			 */
-			virtual std::vector<Entity*> getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const = 0;
+			virtual std::vector<Entity*> getEntitiesWithinBounds(const Shape& bounds, const Vector3& position) const = 0;
 
 			/**
 			 * <p>

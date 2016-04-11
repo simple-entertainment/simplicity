@@ -22,10 +22,10 @@ namespace simplicity
 {
 	unique_ptr<PhysicsFactory> PhysicsFactory::instance = unique_ptr<PhysicsFactory>();
 
-	unique_ptr<Body> PhysicsFactory::createBody(const Body::Material& material, Model* model, const Matrix44& transform,
-												bool dynamic)
+	unique_ptr<Body> PhysicsFactory::createBody(const Body::Material& material, const Mesh& mesh, const Shape& bounds,
+												const Matrix44& transform, bool dynamic)
 	{
-		return instance->createBodyInternal(material, model, transform, dynamic);
+		return instance->createBodyInternal(material, mesh, bounds, transform, dynamic);
 	}
 
 	void PhysicsFactory::setInstance(unique_ptr<PhysicsFactory> instance)

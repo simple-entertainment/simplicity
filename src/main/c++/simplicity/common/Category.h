@@ -37,20 +37,6 @@ namespace simplicity
 
 		/**
 		 * <p>
-		 * A bounding volume model.
-		 * </p>
-		 */
-		static const unsigned short BOUNDS = 2;
-
-		/**
-		 * <p>
-		 * A rendered model.
-		 * </p>
-		 */
-		static const unsigned short RENDER = 3;
-
-		/**
-		 * <p>
 		 * User defined categories should start with this ID.
 		 * </p>
 		 *

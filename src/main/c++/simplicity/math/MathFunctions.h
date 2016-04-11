@@ -17,7 +17,7 @@
 #ifndef MATHFUNCTIONS_H_
 #define MATHFUNCTIONS_H_
 
-#include "../model/Plane.h"
+#include "../model/shape/Plane.h"
 #include "Matrix.h"
 #include "Vector.h"
 

@@ -44,7 +44,7 @@ namespace simplicity
 		{
 			for (unique_ptr<SceneState>& singleState : state)
 			{
-				singleState->onAddEntity(*entity);
+				singleState->onAddEntity(*entities.back());
 			}
 		}
 	}

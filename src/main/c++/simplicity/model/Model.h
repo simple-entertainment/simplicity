@@ -20,8 +20,8 @@
 #include <memory>
 
 #include "../entity/Component.h"
-#include "../math/Vector.h"
 #include "../rendering/Texture.h"
+#include "Mesh.h"
 
 namespace simplicity
 {
@@ -33,42 +33,9 @@ namespace simplicity
 	class SIMPLE_API Model : public Component
 	{
 		public:
-			/**
-			 * <p>
-			 * User defined type IDs should start with this ID.
-			 * </p>
-			 *
-			 * <p>
-			 * For example:
-			 * </p>
-			 *
-			 * <pre><code>
-			 * static const unsigned short TYPE_ID = USER_ID_0;
-			 * ...
-			 * static const unsigned short TYPE_ID = USER_ID_0 + 1;
-			 * </code></pre>
-			 */
-			static const unsigned short USER_TYPE_ID_0 = 128;
-
 			Model();
 
-			/**
-			 * <p>
-			 * Allows polymorphism.
-			 * </p>
-			 */
-			virtual ~Model()
-			{
-			}
-
-			/**
-			 * <p>
-			 * Retrieves the color of this model.
-			 * </p>
-			 *
-			 * @return The color of this model.
-			 */
-			virtual const Vector4& getColor() const = 0;
+			Mesh* getMesh() const;
 
 			/**
 			 * <p>
@@ -77,52 +44,7 @@ namespace simplicity
 			 *
 			 * @return The texture applied to this model.
 			 */
-			virtual Texture* getTexture() const = 0;
-
-			/**
-			 * <p>
-			 * Retrieves an ID unique to the class this model is an instance of. This is part of the ID member +
-			 * static_cast pattern for faster 'dynamic' casting.
-			 * </p>
-			 *
-			 * <p>
-			 * Instead of this:
-			 * </p>
-			 *
-			 * <pre>
-			 * <code>
-			 * Model* model = // some model...
-			 * Square* square = dynamic_cast<Square*>(model);
-			 * if (square != nullptr)
-			 * {
-			 *     // do stuff...
-			 * }
-			 * </code>
-			 * </pre>
-			 *
-			 * <p>
-			 * You can do this to avoid the expensive dynamic_cast operation:
-			 * </p>
-			 *
-			 * <pre>
-			 * <code>
-			 * Model* model = // some model...
-			 * if (model->getTypeID() == Square::TYPE_ID)
-			 * {
-			 *     Square* square = static_cast<Square*>(model);
-			 *     // do stuff...
-			 * }
-			 * </code>
-			 * </pre>
-			 *
-			 * <p>
-			 * Each model implementation should provide a public static TYPE_ID member whose value is returned by this
-			 * function.
-			 * </p>
-			 *
-			 * @return An ID unique to the class this model is an instance of.
-			 */
-			virtual unsigned short getTypeID() const = 0;
+			Texture* getTexture() const;
 
 			/**
 			 * <p>
@@ -131,16 +53,9 @@ namespace simplicity
 			 *
 			 * @return True if this model is visible, false otherwise.
 			 */
-			virtual bool isVisible() const = 0;
+			bool isVisible() const;
 
-			/**
-			 * <p>
-			 * Sets the color of this model.
-			 * </p>
-			 *
-			 * @param color The color of this model.
-			 */
-			virtual void setColor(const Vector4& color) = 0;
+			void setMesh(std::shared_ptr<Mesh> mesh);
 
 			/**
 			 * <p>
@@ -149,7 +64,7 @@ namespace simplicity
 			 *
 			 * @param texture The texture applied to this model.
 			 */
-			virtual void setTexture(std::shared_ptr<Texture> texture) = 0;
+			void setTexture(std::shared_ptr<Texture> texture);
 
 			/**
 			 * <p>
@@ -158,7 +73,14 @@ namespace simplicity
 			 *
 			 * @param visible The visibility of the model.
 			 */
-			virtual void setVisible(bool visible) = 0;
+			void setVisible(bool visible);
+
+		private:
+			std::shared_ptr<Mesh> mesh;
+
+			std::shared_ptr<Texture> texture;
+
+			bool visible;
 	};
 }
 

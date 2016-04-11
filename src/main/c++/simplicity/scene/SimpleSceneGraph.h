@@ -37,7 +37,7 @@ namespace simplicity
 
 			Matrix44 getAbsoluteTransform() const override;
 
-			const Model& getBoundary() const override;
+			const Shape& getBounds() const override;
 
 			std::vector<SceneGraph*> getChildren() const override;
 
@@ -45,7 +45,7 @@ namespace simplicity
 
 			const std::vector<Entity*>& getEntities() const override;
 
-			std::vector<Entity*> getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const override;
+			std::vector<Entity*> getEntitiesWithinBounds(const Shape& bounds, const Vector3& position) const override;
 
 			SceneGraph* getParent() override;
 
@@ -68,7 +68,7 @@ namespace simplicity
 			void update(Entity& entity) override;
 
 		private:
-			Cube boundary;
+			Cube bounds;
 
 			std::vector<std::unique_ptr<SimpleSceneGraph>> children;
 
@@ -80,11 +80,11 @@ namespace simplicity
 
 			Matrix44 transform;
 
-			void addChild(std::unique_ptr<SimpleSceneGraph> child);
-
 			Matrix44 calculateRelativeTransform(const Matrix44& absoluteTransform) const;
 
 			bool insertDirect(Entity& entity);
+
+			bool isWithinBounds(const Entity& entity, const Shape& bounds, const Vector3& position) const;
 
 			std::unique_ptr<SimpleSceneGraph> removeChild(SimpleSceneGraph& child);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Simple Entertainment Limited
+ * Copyright © 2014 Simple Entertainment Limited
  *
  * This file is part of The Simplicity Engine.
  *
@@ -14,19 +14,20 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef TEXT_H_
-#define TEXT_H_
+#ifndef POINT_H_
+#define POINT_H_
 
-#include "AbstractModel.h"
+#include "../../math/Vector.h"
+#include "Shape.h"
 
 namespace simplicity
 {
 	/**
 	 * <p>
-	 * Some text. TODO Is this really a model?
+	 * A lonesome point in space... just used as a container so that a point can be used polymorphically as a model.
 	 * </p>
 	 */
-	class SIMPLE_API Text : public AbstractModel
+	class SIMPLE_API Point : public Shape
 	{
 		public:
 			/**
@@ -34,36 +35,36 @@ namespace simplicity
 			 * An ID unique to the this model class.
 			 * </p>
 			 */
-			static const unsigned int TYPE_ID = 3;
+			static const unsigned int TYPE_ID = 2;
 
 			/**
-			 * @param text The text.
+			 * @param point The point.
 			 */
-			Text(const std::string& text);
+			Point(const Vector3& point);
 
 			/**
 			 * <p>
-			 * Retrieves the text.
+			 * Retrieves the point.
 			 * </p>
 			 *
-			 * @return The text.
+			 * @return The point.
 			 */
-			const std::string& getText() const;
+			const Vector3& getPoint() const;
 
 			unsigned short getTypeID() const override;
 
 			/**
 			 * <p>
-			 * Sets the text.
+			 * Sets the point.
 			 * </p>
 			 *
-			 * @param text The text.
+			 * @param point The point.
 			 */
-			void setText(const std::string& text);
+			void setPoint(const Vector3& point);
 
 		private:
-			std::string text;
+			Vector3 point;
 	};
 }
 
-#endif /* TEXT_H_ */
+#endif /* POINT_H_ */

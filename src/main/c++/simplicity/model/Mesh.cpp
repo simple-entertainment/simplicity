@@ -41,11 +41,6 @@ namespace simplicity
 		return buffer->getData(*this);
 	}
 
-	unsigned short Mesh::getTypeID() const
-	{
-		return TYPE_ID;
-	}
-
 	void Mesh::releaseData() const
 	{
 		buffer->releaseData(*this);

@@ -19,6 +19,7 @@
 
 #include <memory>
 
+#include "../model/Mesh.h"
 #include "Body.h"
 
 namespace simplicity
@@ -46,14 +47,16 @@ namespace simplicity
 			 * </p>
 			 *
 			 * @param material The material to construct the body from.
-			 * @param model The geometry of the body.
+			 * @param mesh The geometry of the body.
+			 * @param bounds a bounding volume containing the body.
 			 * @param transform The position and orientation of the body.
 			 * @param dynamic Dynamic or static?
 			 *
 			 * @return A physical body.
 			 */
-			static std::unique_ptr<Body> createBody(const Body::Material& material, Model* model,
-													const Matrix44& transform, bool dynamic = true);
+			static std::unique_ptr<Body> createBody(const Body::Material& material, const Mesh& mesh,
+													const Shape& bounds, const Matrix44& transform,
+													bool dynamic = true);
 
 			/**
 			 * <p>
@@ -67,8 +70,9 @@ namespace simplicity
 		private:
 			static std::unique_ptr<PhysicsFactory> instance;
 
-			virtual std::unique_ptr<Body> createBodyInternal(const Body::Material& material, Model* model,
-															 const Matrix44& transform, bool dynamic = true) = 0;
+			virtual std::unique_ptr<Body> createBodyInternal(const Body::Material& material, const Mesh& mesh,
+															 const Shape& bounds, const Matrix44& transform,
+															 bool dynamic = true) = 0;
 	};
 }
 

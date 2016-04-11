@@ -16,6 +16,7 @@
 #include <set>
 
 #include "../scene/SceneState.h"
+#include "../model/Model.h"
 
 namespace simplicity
 {
@@ -24,7 +25,7 @@ namespace simplicity
 		public:
 			AbstractRenderingEngineState();
 
-			std::map<MeshBuffer*, std::set<Mesh*>>& getMeshesByBuffer();
+			std::map<MeshBuffer*, std::set<Model*>>& getModelsByBuffer();
 
 			void onAddComponent(Component& component) override;
 
@@ -37,7 +38,7 @@ namespace simplicity
 			void onTransformEntity(Entity& entity) override;
 
 		private:
-			std::map<MeshBuffer*, std::set<Mesh*>> meshesByBuffer;
+			std::map<MeshBuffer*, std::set<Model*>> modelsByBuffer;
 	};
 }
 

@@ -58,10 +58,10 @@ namespace simplicity
 			/**
 			 * @param subdivideThreshold The number of entities that can be inserted into this graph before it creates
 			 * children.
-			 * @param boundary The bounding volume of this graph.
+			 * @param bounds The bounding volume of this graph.
 			 * @param plane The plane that the bounding volume will be placed on.
 			 */
-			QuadTree(unsigned int subdivideThreshold, const Square& boundary, Plane plane = Plane::XY);
+			QuadTree(unsigned int subdivideThreshold, const Square& bounds, Plane plane = Plane::XY);
 
 			void connectTo(SceneGraph& graph) override;
 
@@ -69,7 +69,7 @@ namespace simplicity
 
 			Matrix44 getAbsoluteTransform() const override;
 
-			const Model& getBoundary() const override;
+			const Shape& getBounds() const override;
 
 			std::vector<SceneGraph*> getChildren() const override;
 
@@ -77,7 +77,7 @@ namespace simplicity
 
 			const std::vector<Entity*>& getEntities() const override;
 
-			std::vector<Entity*> getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const override;
+			std::vector<Entity*> getEntitiesWithinBounds(const Shape& bounds, const Vector3& position) const override;
 
 			SceneGraph* getParent() override;
 
@@ -113,7 +113,7 @@ namespace simplicity
 		private:
 			Matrix44 absoluteTransform;
 
-			Square boundary;
+			Square bounds;
 
 			std::vector<std::unique_ptr<QuadTree>> children;
 
@@ -131,12 +131,12 @@ namespace simplicity
 
 			void addEntityFromChild();
 
-			void getEntitiesWithinBounds(const Model& bounds, const Vector3& position,
+			void getEntitiesWithinBounds(const Shape& bounds, const Vector3& position,
 					std::vector<Entity*>& entitiesWithinBounds) const;
 
-			Vector3 projectOntoPlane(const Vector3& position) const;
+			bool isWithinBounds(const Entity& entity, const Shape& bounds, const Vector3& position) const;
 
-			void shiftEntitiesUpward();
+			Vector3 projectOntoPlane(const Vector3& position) const;
 
 			void subdivide();
 	};

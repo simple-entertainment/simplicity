@@ -20,7 +20,6 @@
 #include <vector>
 
 #include "../common/NonCopyable.h"
-#include "../model/Model.h"
 #include "../model/shape/Cube.h"
 #include "SceneGraph.h"
 
@@ -41,9 +40,9 @@ namespace simplicity
 			/**
 			 * @param subdivideThreshold The number of entities that can be inserted into this graph before it creates
 			 * children.
-			 * @param boundary The bounding volume of this graph.
+			 * @param bounds The bounding volume of this graph.
 			 */
-			OcTree(unsigned int subdivideThreshold, const Cube& boundary);
+			OcTree(unsigned int subdivideThreshold, const Cube& bounds);
 
 			void connectTo(SceneGraph& graph) override;
 
@@ -51,7 +50,7 @@ namespace simplicity
 
 			Matrix44 getAbsoluteTransform() const override;
 
-			const Model& getBoundary() const override;
+			const Shape& getBounds() const override;
 
 			std::vector<SceneGraph*> getChildren() const override;
 
@@ -59,7 +58,7 @@ namespace simplicity
 
 			const std::vector<Entity*>& getEntities() const override;
 
-			std::vector<Entity*> getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const override;
+			std::vector<Entity*> getEntitiesWithinBounds(const Shape& bounds, const Vector3& position) const override;
 
 			SceneGraph* getParent() override;
 
@@ -93,7 +92,7 @@ namespace simplicity
 			void update(Entity& entity) override;
 
 		private:
-			Cube boundary;
+			Cube bounds;
 
 			std::vector<std::unique_ptr<OcTree>> children;
 
@@ -109,10 +108,10 @@ namespace simplicity
 
 			void addEntityFromChild();
 
-			void getEntitiesWithinBounds(const Model& bounds, const Vector3& position,
+			void getEntitiesWithinBounds(const Shape& bounds, const Vector3& position,
 					std::vector<Entity*>& entitiesWithinBounds) const;
 
-			void shiftEntitiesUpward();
+			bool isWithinBounds(const Entity& entity, const Shape& bounds, const Vector3& position) const;
 
 			void subdivide();
 	};

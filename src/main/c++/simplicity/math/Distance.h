@@ -17,8 +17,8 @@
 #ifndef DISTANCE_H_
 #define DISTANCE_H_
 
-#include "../model/Line.h"
-#include "../model/Point.h"
+#include "../model/shape/Line.h"
+#include "../model/shape/Point.h"
 
 namespace simplicity
 {

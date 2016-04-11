@@ -19,6 +19,7 @@
 #include "../common/AddressEquals.h"
 #include "../math/Intersection.h"
 #include "../math/MathFunctions.h"
+#include "../model/Model.h"
 #include "SimpleSceneGraph.h"
 
 using namespace std;
@@ -26,7 +27,7 @@ using namespace std;
 namespace simplicity
 {
 	SimpleSceneGraph::SimpleSceneGraph() :
-		boundary(0.0f),
+		bounds(0.0f),
 		children(),
 		connections(),
 		entities(),
@@ -34,12 +35,6 @@ namespace simplicity
 		transform()
 	{
 		transform.setIdentity();
-	}
-
-	void SimpleSceneGraph::addChild(unique_ptr<SimpleSceneGraph> child)
-	{
-		child->setParent(this);
-		children.push_back(move(child));
 	}
 
 	Matrix44 SimpleSceneGraph::calculateRelativeTransform(const Matrix44& absoluteTransform) const
@@ -86,9 +81,9 @@ namespace simplicity
 		return absoluteMatrix;
 	}
 
-	const Model& SimpleSceneGraph::getBoundary() const
+	const Shape& SimpleSceneGraph::getBounds() const
 	{
-		return boundary;
+		return bounds;
 	}
 
 	vector<SceneGraph*> SimpleSceneGraph::getChildren() const
@@ -112,20 +107,13 @@ namespace simplicity
 		return entities;
 	}
 
-	vector<Entity*> SimpleSceneGraph::getEntitiesWithinBounds(const Model& bounds, const Vector3& position) const
+	vector<Entity*> SimpleSceneGraph::getEntitiesWithinBounds(const Shape& bounds, const Vector3& position) const
 	{
 		vector<Entity*> entitiesWithinBounds;
 
 		for (Entity* entity : entities)
 		{
-			Model* entityBounds = entity->getComponent<Model>(Category::BOUNDS);
-			if (entityBounds == nullptr)
-			{
-				continue;
-			}
-
-			Vector3 modelBoundsPosition = getPosition3(entity->getTransform() * entityBounds->getTransform());
-			if (Intersection::intersect(*entityBounds, bounds, position - modelBoundsPosition))
+			if (isWithinBounds(*entity, bounds, position))
 			{
 				entitiesWithinBounds.push_back(entity);
 			}
@@ -196,6 +184,30 @@ namespace simplicity
 	{
 		entities.push_back(&entity);
 		return true;
+	}
+
+	bool SimpleSceneGraph::isWithinBounds(const Entity& entity, const Shape& bounds, const Vector3& position) const
+	{
+		bool boundsExist = false;
+
+		for (Component* component : entity.getComponents())
+		{
+			if (component->getBounds() == nullptr)
+			{
+				continue;
+			}
+
+			boundsExist = true;
+
+			Vector3 componentPosition = getPosition3(entity.getTransform() * component->getTransform());
+			if (Intersection::intersect(*component->getBounds(), bounds, position - componentPosition))
+			{
+				return true;
+			}
+		}
+
+		// If the entity has no bounds we take the safe option and assume that it intersects.
+		return !boundsExist;
 	}
 
 	bool SimpleSceneGraph::remove(const Entity& entity)

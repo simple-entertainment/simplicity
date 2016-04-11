@@ -17,7 +17,7 @@
 #ifndef SHAPE_H_
 #define SHAPE_H_
 
-#include "../AbstractModel.h"
+#include "../../common/Defines.h"
 
 namespace simplicity
 {
@@ -27,10 +27,34 @@ namespace simplicity
 	 * is a hint used by renderers etc. when they convert them to meshes.
 	 * </p>
 	 */
-	class SIMPLE_API Shape : public AbstractModel
+	class SIMPLE_API Shape
 	{
 		public:
+			/**
+			 * <p>
+			 * User defined type IDs should start with this ID.
+			 * </p>
+			 *
+			 * <p>
+			 * For example:
+			 * </p>
+			 *
+			 * <pre><code>
+			 * static const unsigned short TYPE_ID = USER_ID_0;
+			 * ...
+			 * static const unsigned short TYPE_ID = USER_ID_0 + 1;
+			 * </code></pre>
+			 */
+			static const unsigned short USER_TYPE_ID_0 = 128;
+
 			Shape();
+
+			/**
+			 * <p>
+			 * Allows polymorphism.
+			 * </p>
+			 */
+			virtual ~Shape();
 
 			/**
 			 * <p>
@@ -40,6 +64,51 @@ namespace simplicity
 			 * @return The level of detail applied to this shape.
 			 */
 			unsigned int getLevelOfDetail() const;
+
+			/**
+			 * <p>
+			 * Retrieves an ID unique to the class this shape is an instance of. This is part of the ID member +
+			 * static_cast pattern for faster 'dynamic' casting.
+			 * </p>
+			 *
+			 * <p>
+			 * Instead of this:
+			 * </p>
+			 *
+			 * <pre>
+			 * <code>
+			 * Shape* shape = // some shape...
+			 * Square* square = dynamic_cast<Square*>(shape);
+			 * if (square != nullptr)
+			 * {
+			 *     // do stuff...
+			 * }
+			 * </code>
+			 * </pre>
+			 *
+			 * <p>
+			 * You can do this to avoid the expensive dynamic_cast operation:
+			 * </p>
+			 *
+			 * <pre>
+			 * <code>
+			 * Shape* shape = // some shape...
+			 * if (shape->getTypeID() == Square::TYPE_ID)
+			 * {
+			 *     Square* square = static_cast<Square*>(shape);
+			 *     // do stuff...
+			 * }
+			 * </code>
+			 * </pre>
+			 *
+			 * <p>
+			 * Each shape implementation should provide a public static TYPE_ID member whose value is returned by this
+			 * function.
+			 * </p>
+			 *
+			 * @return An ID unique to the class this model is an instance of.
+			 */
+			virtual unsigned short getTypeID() const = 0;
 
 			/**
 			 * <p>

@@ -18,14 +18,22 @@
 #include "Component.h"
 #include "Entity.h"
 
+using namespace std;
+
 namespace simplicity
 {
 	Component::Component() :
+		bounds(nullptr),
 		category(Category::UNCATEGORIZED),
 		entity(nullptr),
 		transform()
 	{
 		transform.setIdentity();
+	}
+
+	Shape* Component::getBounds() const
+	{
+		return bounds.get();
 	}
 
 	unsigned short Component::getCategory() const
@@ -46,6 +54,11 @@ namespace simplicity
 	const Matrix44& Component::getTransform() const
 	{
 		return transform;
+	}
+
+	void Component::setBounds(unique_ptr<Shape> bounds)
+	{
+		this->bounds = move(bounds);
 	}
 
 	void Component::setCategory(unsigned short category)

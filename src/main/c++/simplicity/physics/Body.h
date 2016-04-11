@@ -18,7 +18,7 @@
 #define BODY_H_
 
 #include "../entity/Component.h"
-#include "../model/Model.h"
+#include "../math/Vector.h"
 
 namespace simplicity
 {
@@ -127,15 +127,6 @@ namespace simplicity
 			 * @return The material this body is constructed from.
 			 */
 			virtual const Material& getMaterial() const = 0;
-
-			/**
-			 * <p>
-			 * Retrieves the geometry of the body.
-			 * </p>
-			 *
-			 * @return The geometry of the body.
-			 */
-			virtual const Model* getModel() const = 0;
 
 			/**
 			 * <p>

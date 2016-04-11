@@ -17,6 +17,7 @@
 #ifndef TRIANGLE_H_
 #define TRIANGLE_H_
 
+#include "../../math/Vector.h"
 #include "Shape.h"
 
 namespace simplicity

@@ -80,8 +80,7 @@ namespace simplicity
 		private:
 			struct CameraProperties
 			{
-				Model* bounds;
-				Vector3 boundsPosition;
+				Shape* bounds;
 				Vector3 position;
 				Matrix44 transform;
 			};

@@ -20,8 +20,8 @@
 #include <memory>
 
 #include "../math/Vector.h"
-#include "Point.h"
 #include "shape/Circle.h"
+#include "shape/Point.h"
 #include "shape/Square.h"
 #include "Vertex.h"
 
@@ -93,33 +93,11 @@ namespace simplicity
 		 * </p>
 		 *
 		 * @param vertices The vertices.
-		 *
-		 * @return A circular bounding volume on the XZ plane.
-		 */
-		SIMPLE_API std::unique_ptr<Circle> getCircleBoundsXZ(const std::vector<Vertex>& vertices);
-
-		/**
-		 * <p>
-		 * Calculates a circular bounding volume on the XZ plane for the given vertices.
-		 * </p>
-		 *
-		 * @param vertices The vertices.
 		 * @param vertexCount The number of vertices.
 		 *
 		 * @return A circular bounding volume on the XZ plane.
 		 */
 		SIMPLE_API std::unique_ptr<Circle> getCircleBoundsXZ(const Vertex* vertices, unsigned int vertexCount);
-
-		/**
-		 * <p>
-		 * Calculates a square bounding volume on the XZ plane for the given vertices.
-		 * </p>
-		 *
-		 * @param vertices The vertices.
-		 *
-		 * @return A square bounding volume on the XZ plane.
-		 */
-		SIMPLE_API std::unique_ptr<Square> getSquareBoundsXZ(const std::vector<Vertex>& vertices);
 
 		/**
 		 * <p>

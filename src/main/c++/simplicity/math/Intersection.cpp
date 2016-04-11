@@ -53,7 +53,7 @@ namespace simplicity
 			return false;
 		}
 
-		bool contains(const Model& a, const Model& b, const Vector3& relativePosition)
+		bool contains(const Shape& a, const Shape& b, const Vector3& relativePosition)
 		{
 			if (a.getTypeID() == Cube::TYPE_ID)
 			{
@@ -469,7 +469,7 @@ namespace simplicity
 			return false;
 		}
 
-		bool intersect(const Model& a, const Model& b, const Vector3& relativePosition)
+		bool intersect(const Shape& a, const Shape& b, const Vector3& relativePosition)
 		{
 			if (a.getTypeID() == Circle::TYPE_ID)
 			{

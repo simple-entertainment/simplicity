@@ -23,6 +23,10 @@ namespace simplicity
 	{
 	}
 
+	Shape::~Shape()
+	{
+	}
+
 	unsigned int Shape::getLevelOfDetail() const
 	{
 		return levelOfDetail;

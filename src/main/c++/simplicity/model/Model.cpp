@@ -14,13 +14,46 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "../common/Category.h"
 #include "Model.h"
+
+using namespace std;
 
 namespace simplicity
 {
-	Model::Model()
+	Model::Model() :
+		mesh(nullptr),
+		texture(nullptr),
+		visible(true)
 	{
-		setCategory(Category::RENDER);
+	}
+
+	Mesh* Model::getMesh() const
+	{
+		return mesh.get();
+	}
+
+	Texture* Model::getTexture() const
+	{
+		return texture.get();
+	}
+
+	bool Model::isVisible() const
+	{
+		return visible;
+	}
+
+	void Model::setMesh(shared_ptr<Mesh> mesh)
+	{
+		this->mesh = mesh;
+	}
+
+	void Model::setTexture(shared_ptr<Texture> texture)
+	{
+		this->texture = texture;
+	}
+
+	void Model::setVisible(bool visible)
+	{
+		this->visible = visible;
 	}
 }

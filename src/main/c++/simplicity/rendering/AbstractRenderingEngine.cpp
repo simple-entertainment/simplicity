@@ -59,7 +59,7 @@ namespace simplicity
 		{
 			vector<Entity*> entityVector =
 				graph->getEntitiesWithinBounds(*cameraProperties.bounds,
-				cameraProperties.boundsPosition);
+				cameraProperties.position);
 
 			entities.insert(entityVector.begin(), entityVector.end());
 		}
@@ -94,14 +94,14 @@ namespace simplicity
 		list<RenderList> renderLists;
 		AbstractRenderingEngineState* state = this->state[&scene];
 
-		for (pair<MeshBuffer*, set<Mesh*>> bufferAndMeshes : state->getMeshesByBuffer())
+		for (pair<MeshBuffer*, set<Model*>> bufferAndModels : state->getModelsByBuffer())
 		{
 			RenderList withoutTransparency;
-			withoutTransparency.buffer = bufferAndMeshes.first;
+			withoutTransparency.buffer = bufferAndModels.first;
 			RenderList withTransparency;
-			withTransparency.buffer = bufferAndMeshes.first;
+			withTransparency.buffer = bufferAndModels.first;
 
-			Pipeline* pipeline = bufferAndMeshes.first->getPipeline();
+			Pipeline* pipeline = bufferAndModels.first->getPipeline();
 			if (pipeline == nullptr)
 			{
 				pipeline = getDefaultPipeline();
@@ -109,13 +109,13 @@ namespace simplicity
 			withoutTransparency.pipeline = pipeline;
 			withTransparency.pipeline = pipeline;
 
-			for (Mesh* mesh : bufferAndMeshes.second)
+			for (Model* model : bufferAndModels.second)
 			{
 				bool modelHasTransparency =
-						mesh->getTexture() != nullptr &&
-						hasTransparency(mesh->getTexture()->getPixelFormat());
+						model->getTexture() != nullptr &&
+						hasTransparency(model->getTexture()->getPixelFormat());
 
-				Entity* entity = mesh->getEntity();
+				Entity* entity = model->getEntity();
 				if (!entities.empty() && entities.find(entity) == entities.end())
 				{
 					continue;
@@ -123,13 +123,13 @@ namespace simplicity
 
 				if (modelHasTransparency)
 				{
-					withTransparency.list.emplace_back(pair<Model*, Matrix44>(mesh, entity->getTransform() *
-																					mesh->getTransform()));
+					withTransparency.list.emplace_back(
+							pair<Model*, Matrix44>(model, entity->getTransform() * model->getTransform()));
 				}
 				else
 				{
-					withoutTransparency.list.emplace_back(pair<Model*, Matrix44>(mesh, entity->getTransform() *
-																					   mesh->getTransform()));
+					withoutTransparency.list.emplace_back(
+							pair<Model*, Matrix44>(model, entity->getTransform() * model->getTransform()));
 				}
 			}
 
@@ -164,17 +164,11 @@ namespace simplicity
 		}
 		else
 		{
-			properties.bounds = camera->getComponent<Model>(Category::BOUNDS);
-			if (properties.bounds != nullptr)
-			{
-				properties.boundsPosition = getPosition3(camera->getTransform() *
-						properties.bounds->getTransform());
-			}
-
 			Camera* cameraComponent = camera->getComponent<Camera>();
 			if (cameraComponent != nullptr)
 			{
 				Matrix44 view = camera->getTransform() * cameraComponent->getTransform();
+				properties.bounds = cameraComponent->getBounds();
 				properties.position = getPosition3(view);
 				view.invert();
 

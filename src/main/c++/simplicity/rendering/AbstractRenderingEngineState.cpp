@@ -9,7 +9,7 @@
  *
  * This file is part of simplicity. See the LICENSE file for the full license governing this code.
  */
-#include <simplicity/model/Mesh.h>
+#include <simplicity/model/Model.h>
 #include "AbstractRenderingEngineState.h"
 
 using namespace std;
@@ -17,27 +17,27 @@ using namespace std;
 namespace simplicity
 {
 	AbstractRenderingEngineState::AbstractRenderingEngineState() :
-		meshesByBuffer()
+		modelsByBuffer()
 	{
 	}
 
-	map<MeshBuffer*, set<Mesh*>>& AbstractRenderingEngineState::getMeshesByBuffer()
+	map<MeshBuffer*, set<Model*>>& AbstractRenderingEngineState::getModelsByBuffer()
 	{
-		return meshesByBuffer;
+		return modelsByBuffer;
 	}
 
 	void AbstractRenderingEngineState::onAddComponent(Component& component)
 	{
-		Mesh* mesh = dynamic_cast<Mesh*>(&component);
-		if (mesh != nullptr)
+		Model* model = dynamic_cast<Model*>(&component);
+		if (model != nullptr)
 		{
-			meshesByBuffer[mesh->getBuffer()].insert(mesh);
+			modelsByBuffer[model->getMesh()->getBuffer()].insert(model);
 		}
 	}
 
 	void AbstractRenderingEngineState::onAddEntity(Entity& entity)
 	{
-		for (Component* component : entity.getComponents<>(Category::RENDER))
+		for (Component* component : entity.getComponents<Model>())
 		{
 			onAddComponent(*component);
 		}
@@ -45,20 +45,20 @@ namespace simplicity
 
 	void AbstractRenderingEngineState::onRemoveComponent(Component& component)
 	{
-		Mesh* mesh = dynamic_cast<Mesh*>(&component);
-		if (mesh != nullptr)
+		Model* model = dynamic_cast<Model*>(&component);
+		if (model != nullptr)
 		{
-			meshesByBuffer[mesh->getBuffer()].erase(mesh);
-			if (meshesByBuffer[mesh->getBuffer()].size() == 0)
+			modelsByBuffer[model->getMesh()->getBuffer()].erase(model);
+			if (modelsByBuffer[model->getMesh()->getBuffer()].size() == 0)
 			{
-				meshesByBuffer.erase(mesh->getBuffer());
+				modelsByBuffer.erase(model->getMesh()->getBuffer());
 			}
 		}
 	}
 
 	void AbstractRenderingEngineState::onRemoveEntity(Entity& entity)
 	{
-		for (Component* component : entity.getComponents<>(Category::RENDER))
+		for (Component* component : entity.getComponents<Model>())
 		{
 			onRemoveComponent(*component);
 		}
