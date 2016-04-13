@@ -45,6 +45,7 @@ namespace simplicity
 				{
 					BOX,
 					CIRCLE,
+					CUBE,
 					CYLINDER,
 					HEMISPHERE,
 					PRISM,
@@ -54,13 +55,14 @@ namespace simplicity
 				};
 
 				Recipe() :
-						buffer(nullptr),
-						color(1.0f, 1.0f, 1.0f, 1.0f),
-						dimensions(1.0f, 1.0f, 1.0f),
-						divisions(10),
-						doubleSided(false),
-						shape(Shape::BOX),
-						smooth(false)
+					buffer(nullptr),
+					color(1.0f, 1.0f, 1.0f, 1.0f),
+					dimensions(1.0f, 1.0f, 1.0f),
+					divisions(10),
+					inwardFaces(false),
+					outwardFaces(true),
+					shape(Shape::BOX),
+					smooth(false)
 				{
 				}
 
@@ -87,6 +89,7 @@ namespace simplicity
 				 * <pre>
 				 * BOX			[width, height, depth]
 				 * CIRCLE		[diameter, <ignored>, <ignored>]
+				 * CUBE			[width/height/depth, <ignored>, <ignored>]
 				 * CYLINDER		[diameter, length, <ignored>]
 				 * HEMISPHERE	[diameter, <ignored>, <ignored>]
 				 * PRISM		[width, height, depth]
@@ -108,11 +111,19 @@ namespace simplicity
 
 				/**
 				 * <p>
-				 * Determines if the faces should be double-sided (i.e. face inward and outward). If this is false, the
-				 * faces will only face outward (what?).
+				 * Determines if the inward faces should be included. If this is true, the mesh will be visible from
+				 * the inside.
 				 * </p>
 				 */
-				bool doubleSided;
+				bool inwardFaces;
+
+				/**
+				 * <p>
+				 * Determines if the outward faces should be included. If this is true, the mesh will be visible from
+				 * the outside.
+				 * </p>
+				 */
+				bool outwardFaces;
 
 				/**
 				 * <p>
@@ -405,6 +416,8 @@ namespace simplicity
 			static std::unique_ptr<Mesh> cookBoxMesh(const Recipe& recipe);
 
 			static std::unique_ptr<Mesh> cookCircleMesh(const Recipe& recipe);
+
+			static std::unique_ptr<Mesh> cookCubeMesh(const Recipe& recipe);
 
 			static std::unique_ptr<Mesh> cookCylinderMesh(const Recipe& recipe);
 

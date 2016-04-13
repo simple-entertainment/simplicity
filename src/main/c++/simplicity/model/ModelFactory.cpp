@@ -34,10 +34,14 @@ namespace simplicity
 	unique_ptr<Mesh> ModelFactory::cookBoxMesh(const Recipe& recipe)
 	{
 		unsigned int vertexCount = 24;
-		unsigned int indexCount = 36;
-		if (recipe.doubleSided)
+		unsigned int indexCount = 0;
+		if (recipe.inwardFaces)
 		{
-			indexCount *= 2;
+			indexCount += 36;
+		}
+		if (recipe.outwardFaces)
+		{
+			indexCount += 36;
 		}
 
 		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
@@ -93,21 +97,25 @@ namespace simplicity
 		// Indices
 		meshData.indexCount = indexCount;
 
-		insertRectangleIndices(meshData.indexData, 0, 0);
-		insertRectangleIndices(meshData.indexData, 6, 4);
-		insertRectangleIndices(meshData.indexData, 12, 8);
-		insertRectangleIndices(meshData.indexData, 18, 12);
-		insertRectangleIndices(meshData.indexData, 24, 16);
-		insertRectangleIndices(meshData.indexData, 30, 20);
-
-		if (recipe.doubleSided)
+		unsigned int index = 0;
+		unsigned int vertexIndex = 0;
+		if (recipe.inwardFaces)
 		{
-			insertRectangleIndices(meshData.indexData, 36, 0, true);
-			insertRectangleIndices(meshData.indexData, 42, 4, true);
-			insertRectangleIndices(meshData.indexData, 48, 8, true);
-			insertRectangleIndices(meshData.indexData, 54, 12, true);
-			insertRectangleIndices(meshData.indexData, 60, 16, true);
-			insertRectangleIndices(meshData.indexData, 66, 20, true);
+			for (unsigned int faceIndex = 0; faceIndex < 6; faceIndex++)
+			{
+				insertRectangleIndices(meshData.indexData, index, vertexIndex, true);
+				index += 6;
+				vertexIndex += 4;
+			}
+		}
+		if (recipe.outwardFaces)
+		{
+			for (unsigned int faceIndex = 0; faceIndex < 6; faceIndex++)
+			{
+				insertRectangleIndices(meshData.indexData, index, vertexIndex);
+				index += 6;
+				vertexIndex += 4;
+			}
 		}
 
 		mesh->releaseData();
@@ -139,6 +147,20 @@ namespace simplicity
 		return move(mesh);
 	}
 
+	unique_ptr<Mesh> ModelFactory::cookCubeMesh(const Recipe& recipe)
+	{
+		Recipe boxRecipe;
+		boxRecipe.buffer = recipe.buffer;
+		boxRecipe.color = recipe.color;
+		boxRecipe.dimensions[0] = recipe.dimensions[0];
+		boxRecipe.dimensions[1] = recipe.dimensions[0];
+		boxRecipe.dimensions[2] = recipe.dimensions[0];
+		boxRecipe.inwardFaces = recipe.inwardFaces;
+		boxRecipe.outwardFaces = recipe.outwardFaces;
+
+		return cookBoxMesh(boxRecipe);
+	}
+
 	unique_ptr<Mesh> ModelFactory::cookCylinderMesh(const Recipe& recipe)
 	{
 		unsigned int verticesInEnd = recipe.divisions + 1;
@@ -151,10 +173,14 @@ namespace simplicity
 		unsigned int indicesInEnds = indicesInEnd * 2;
 		unsigned int indicesInSide = 3 * 2;
 		unsigned int indicesInSides = indicesInSide * recipe.divisions;
-		unsigned int indexCount = indicesInEnds + indicesInSides;
-		if (recipe.doubleSided)
+		unsigned int indexCount = 0;
+		if (recipe.inwardFaces)
 		{
-			indexCount *= 2;
+			indexCount += indicesInEnds + indicesInSides;
+		}
+		if (recipe.outwardFaces)
+		{
+			indexCount += indicesInEnds + indicesInSides;
 		}
 
 		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount,recipe.buffer);
@@ -175,25 +201,28 @@ namespace simplicity
 		insertTunnelVertices(meshData.vertexData, verticesInEnds, radius, length, recipe.divisions, center,
 							 recipe.color, recipe.smooth);
 
-		// Indices
-		meshData.indexCount = indexCount;
-		// Front
-		insertCircleIndices(meshData.indexData, 0, 0, recipe.divisions);
-		// Back
-		insertCircleIndices(meshData.indexData, indicesInEnd, verticesInEnd, recipe.divisions, true);
-		//Sides
-		insertTunnelIndices(meshData.indexData, indicesInEnds, verticesInEnds, recipe.divisions);
-
-		if (recipe.doubleSided)
+		unsigned int index = 0;
+		if (recipe.inwardFaces)
 		{
 			// Front
-			insertCircleIndices(meshData.indexData, indicesInEnds + indicesInSides, 0, recipe.divisions, true);
+			insertCircleIndices(meshData.indexData, index, 0, recipe.divisions, true);
 			// Back
-			insertCircleIndices(meshData.indexData, indicesInEnds + indicesInSides + indicesInEnd, verticesInEnd,
-								recipe.divisions);
+			insertCircleIndices(meshData.indexData, index + indicesInEnd, verticesInEnd, recipe.divisions);
 			//Sides
-			insertTunnelIndices(meshData.indexData, indicesInEnds + indicesInSides + indicesInEnds, verticesInEnds,
-								recipe.divisions, true);
+			insertTunnelIndices(meshData.indexData, index + indicesInEnds, verticesInEnds, recipe.divisions, true);
+
+			index += indicesInEnds + indicesInSides;
+		}
+		if (recipe.outwardFaces)
+		{
+			// Indices
+			meshData.indexCount = indexCount;
+			// Front
+			insertCircleIndices(meshData.indexData, index, 0, recipe.divisions);
+			// Back
+			insertCircleIndices(meshData.indexData, index + indicesInEnd, verticesInEnd, recipe.divisions, true);
+			//Sides
+			insertTunnelIndices(meshData.indexData, index + indicesInEnds, verticesInEnds, recipe.divisions);
 		}
 
 		mesh->releaseData();
@@ -204,10 +233,14 @@ namespace simplicity
 	unique_ptr<Mesh> ModelFactory::cookHemisphereMesh(const Recipe& recipe)
 	{
 		unsigned int vertexCount = (recipe.divisions / 2 + 1) * (recipe.divisions + 1);
-		unsigned int indexCount = (recipe.divisions / 2) * (recipe.divisions) * 6;
-		if (recipe.doubleSided)
+		unsigned int indexCount = 0;
+		if (recipe.inwardFaces)
 		{
-			indexCount *= 2;
+			indexCount += (recipe.divisions / 2) * (recipe.divisions) * 6;
+		}
+		if (recipe.outwardFaces)
+		{
+			indexCount += (recipe.divisions / 2) * (recipe.divisions) * 6;
 		}
 
 		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
@@ -237,15 +270,7 @@ namespace simplicity
 		{
 			for (unsigned int longitude = 0; longitude < recipe.divisions; longitude++)
 			{
-				meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
-				meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude;
-				meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
-
-				meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
-				meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
-				meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude + 1;
-
-				if (recipe.doubleSided)
+				if (recipe.inwardFaces)
 				{
 					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
 					meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
@@ -254,6 +279,16 @@ namespace simplicity
 					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
 					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude + 1;
 					meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
+				}
+				if (recipe.outwardFaces)
+				{
+					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
+					meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude;
+					meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
+
+					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude;
+					meshData.indexData[index++] = (latitude + 1) * (recipe.divisions + 1) + longitude + 1;
+					meshData.indexData[index++] = latitude * (recipe.divisions + 1) + longitude + 1;
 				}
 			}
 		}
@@ -274,6 +309,10 @@ namespace simplicity
 		else if (recipe.shape == Recipe::Shape::CIRCLE)
 		{
 			return cookCircleMesh(recipe);
+		}
+		else if (recipe.shape == Recipe::Shape::CUBE)
+		{
+			return cookCubeMesh(recipe);
 		}
 		else if (recipe.shape == Recipe::Shape::CYLINDER)
 		{
@@ -431,10 +470,14 @@ namespace simplicity
 	unique_ptr<Mesh> ModelFactory::cookRectangleMesh(const Recipe& recipe)
 	{
 		unsigned int vertexCount = 4;
-		unsigned int indexCount = 6;
-		if (recipe.doubleSided)
+		unsigned int indexCount = 0;
+		if (recipe.inwardFaces)
 		{
-			indexCount *= 2;
+			indexCount += 6;
+		}
+		if (recipe.outwardFaces)
+		{
+			indexCount += 6;
 		}
 
 		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
@@ -452,11 +495,16 @@ namespace simplicity
 		// Indices
 		meshData.indexCount = indexCount;
 
-		insertRectangleIndices(meshData.indexData, 0, 0);
-
-		if (recipe.doubleSided)
+		unsigned int index = 0;
+		if (recipe.inwardFaces)
 		{
-			insertRectangleIndices(meshData.indexData, 6, 0, true);
+			insertRectangleIndices(meshData.indexData, index, 0, true);
+
+			index += 6;
+		}
+		if (recipe.outwardFaces)
+		{
+			insertRectangleIndices(meshData.indexData, index, 0);
 		}
 
 		mesh->releaseData();
