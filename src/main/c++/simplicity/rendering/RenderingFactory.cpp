@@ -22,6 +22,11 @@ namespace simplicity
 {
 	unique_ptr<RenderingFactory> RenderingFactory::instance;
 
+	unique_ptr<FrameBuffer> RenderingFactory::createFrameBuffer(vector<shared_ptr<Texture>> textures, bool hasDepth)
+	{
+		return instance->createFrameBufferInternal(textures, hasDepth);
+	}
+
 	shared_ptr<Pipeline> RenderingFactory::createPipeline(const string& name)
 	{
 		return instance->createPipelineInternal(name);

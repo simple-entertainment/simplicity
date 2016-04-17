@@ -25,9 +25,19 @@ namespace simplicity
 			return 3;
 		}
 
+		if (format == PixelFormat::BGR_HDR || format == PixelFormat::RGB_HDR)
+		{
+			return 6;
+		}
+
 		if (format == PixelFormat::BGRA || format == PixelFormat::RGBA)
 		{
 			return 4;
+		}
+
+		if (format == PixelFormat::BGRA_HDR || format == PixelFormat::RGBA_HDR)
+		{
+			return 8;
 		}
 
 		return 0;
@@ -35,6 +45,7 @@ namespace simplicity
 
 	bool hasTransparency(PixelFormat format)
 	{
-		return format == PixelFormat::BGRA || format == PixelFormat::RGBA;
+		return format == PixelFormat::BGRA || format == PixelFormat::BGRA_HDR ||
+			   format == PixelFormat::RGBA || format == PixelFormat::RGBA_HDR;
 	}
 }

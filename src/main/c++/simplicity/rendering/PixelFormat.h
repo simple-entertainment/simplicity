@@ -29,9 +29,13 @@ namespace simplicity
 	enum class SIMPLE_API PixelFormat
 	{
 		BGR,
+		BGR_HDR,
 		BGRA,
+		BGRA_HDR,
 		RGB,
-		RGBA
+		RGB_HDR,
+		RGBA,
+		RGBA_HDR
 	};
 
 	unsigned int getPixelDepth(PixelFormat format);

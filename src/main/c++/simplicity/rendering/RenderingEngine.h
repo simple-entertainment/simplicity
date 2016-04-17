@@ -22,7 +22,9 @@
 #include "../engine/Engine.h"
 #include "../entity/Entity.h"
 #include "../scene/SceneGraph.h"
+#include "FrameBuffer.h"
 #include "Pipeline.h"
+#include "PostProcessor.h"
 
 namespace simplicity
 {
@@ -61,6 +63,15 @@ namespace simplicity
 			 * @return The default pipeline to be applied when rendering buffers that do not specify their own pipeline.
 			 */
 			virtual Pipeline* getDefaultPipeline() = 0;
+
+			/**
+			 * <p>
+			 * Retrieves the frame buffer to draw to.
+			 * </p>
+			 *
+			 * @return The frame buffer to draw to.
+			 */
+			virtual FrameBuffer* getFrameBuffer() = 0;
 
 			/**
 			 * <p>
@@ -110,6 +121,16 @@ namespace simplicity
 
 			/**
 			 * <p>
+			 * Sets the frame buffer to draw to. Setting the frame buffer to nullptr will draw to the default frame
+			 * buffer (the screen).
+			 * </p>
+			 *
+			 * @param frameBuffer The frame buffer to draw to.
+			 */
+			virtual void setFrameBuffer(std::unique_ptr<FrameBuffer> frameBuffer) = 0;
+
+			/**
+			 * <p>
 			 * Sets the graph that will be searched to determine which models to render and in which order. Using the
 			 * right graph for your scene can have a dramatic effect on performance. If no graph is specified, all the
 			 * models in the scene will be sent to the GPU.
@@ -127,6 +148,15 @@ namespace simplicity
 			 * @param height The height of the viewport.
 			 */
 			virtual void setHeight(int height) = 0;
+
+			/**
+			 * <p>
+			 * Sets the post processor used to process the output of this rendering engine.
+			 * </p>
+			 *
+			 * @param postProcessor The post processor used to process the output of this rendering engine.
+			 */
+			virtual void setPostProcessor(std::unique_ptr<PostProcessor> postProcessor) = 0;
 
 			/**
 			 * <p>

@@ -21,6 +21,7 @@
 #include <string>
 
 #include "../resources/Resource.h"
+#include "FrameBuffer.h"
 #include "Pipeline.h"
 #include "PixelFormat.h"
 #include "Shader.h"
@@ -44,6 +45,18 @@ namespace simplicity
 			virtual ~RenderingFactory()
 			{
 			}
+
+			/**
+			 * <p>
+			 * Creates a frame buffer composed from the given textures.
+			 * </p>
+			 *
+			 * @param textures The textures to draw to.
+			 * @param hasDepth Determines if the frame buffer should contain a depth buffer.
+			 *
+			 * @return The frame buffer.
+			 */
+			static std::unique_ptr<FrameBuffer> createFrameBuffer(std::vector<std::shared_ptr<Texture>> textures, bool hasDepth);
 
 			/**
 			 * <p>
@@ -146,6 +159,9 @@ namespace simplicity
 
 		private:
 			static std::unique_ptr<RenderingFactory> instance;
+
+			virtual std::unique_ptr<FrameBuffer> createFrameBufferInternal(std::vector<std::shared_ptr<Texture>> textures,
+																		   bool hasDepth) = 0;
 
 			virtual std::shared_ptr<Pipeline> createPipelineInternal(const std::string& name = "simple") = 0;
 

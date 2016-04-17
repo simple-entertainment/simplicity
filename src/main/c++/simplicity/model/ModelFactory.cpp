@@ -147,20 +147,6 @@ namespace simplicity
 		return move(mesh);
 	}
 
-	unique_ptr<Mesh> ModelFactory::cookCubeMesh(const Recipe& recipe)
-	{
-		Recipe boxRecipe;
-		boxRecipe.buffer = recipe.buffer;
-		boxRecipe.color = recipe.color;
-		boxRecipe.dimensions[0] = recipe.dimensions[0];
-		boxRecipe.dimensions[1] = recipe.dimensions[0];
-		boxRecipe.dimensions[2] = recipe.dimensions[0];
-		boxRecipe.inwardFaces = recipe.inwardFaces;
-		boxRecipe.outwardFaces = recipe.outwardFaces;
-
-		return cookBoxMesh(boxRecipe);
-	}
-
 	unique_ptr<Mesh> ModelFactory::cookCylinderMesh(const Recipe& recipe)
 	{
 		unsigned int verticesInEnd = recipe.divisions + 1;
@@ -309,10 +295,6 @@ namespace simplicity
 		else if (recipe.shape == Recipe::Shape::CIRCLE)
 		{
 			return cookCircleMesh(recipe);
-		}
-		else if (recipe.shape == Recipe::Shape::CUBE)
-		{
-			return cookCubeMesh(recipe);
 		}
 		else if (recipe.shape == Recipe::Shape::CYLINDER)
 		{

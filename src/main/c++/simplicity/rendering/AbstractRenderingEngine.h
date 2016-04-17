@@ -35,6 +35,13 @@ namespace simplicity
 	class SIMPLE_API AbstractRenderingEngine : public RenderingEngine
 	{
 		public:
+			struct RenderList
+			{
+				MeshBuffer* buffer;
+				std::list<std::pair<Model*, Matrix44>> list;
+				Pipeline* pipeline;
+			};
+
 			AbstractRenderingEngine();
 
 			void addLight(Entity& light) override;
@@ -59,6 +66,15 @@ namespace simplicity
 
 			void onStop() override;
 
+			/**
+			 * <p>
+			 * Renders the given list.
+			 * </p>
+			 *
+			 * @param renderList The list to render.
+			 */
+			virtual void render(const RenderList& renderList) = 0;
+
 			void setCamera(Entity* camera) override;
 
 			void setDefaultPipeline(std::shared_ptr<Pipeline> pipeline) override;
@@ -68,14 +84,6 @@ namespace simplicity
 			void setHeight(int height) override;
 
 			void setWidth(int width) override;
-
-		protected:
-			struct RenderList
-			{
-				MeshBuffer* buffer;
-				std::list<std::pair<Model*, Matrix44>> list;
-				Pipeline* pipeline;
-			};
 
 		private:
 			struct CameraProperties
@@ -112,8 +120,6 @@ namespace simplicity
 			virtual void postAdvance() = 0;
 
 			virtual bool preAdvance() = 0;
-
-			virtual void render(const RenderList& renderList) = 0;
 	};
 }
 

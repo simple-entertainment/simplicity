@@ -96,8 +96,10 @@
 // Rendering
 #include "rendering/AbstractRenderingEngine.h"
 #include "rendering/Camera.h"
+#include "rendering/FrameBuffer.h"
 #include "rendering/Light.h"
 #include "rendering/Pipeline.h"
+#include "rendering/PostProcessor.h"
 #include "rendering/Renderer.h"
 #include "rendering/RenderingEngine.h"
 #include "rendering/RenderingFactory.h"

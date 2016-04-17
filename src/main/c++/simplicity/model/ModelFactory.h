@@ -45,7 +45,6 @@ namespace simplicity
 				{
 					BOX,
 					CIRCLE,
-					CUBE,
 					CYLINDER,
 					HEMISPHERE,
 					PRISM,
@@ -89,7 +88,6 @@ namespace simplicity
 				 * <pre>
 				 * BOX			[width, height, depth]
 				 * CIRCLE		[diameter, <ignored>, <ignored>]
-				 * CUBE			[width/height/depth, <ignored>, <ignored>]
 				 * CYLINDER		[diameter, length, <ignored>]
 				 * HEMISPHERE	[diameter, <ignored>, <ignored>]
 				 * PRISM		[width, height, depth]
@@ -416,8 +414,6 @@ namespace simplicity
 			static std::unique_ptr<Mesh> cookBoxMesh(const Recipe& recipe);
 
 			static std::unique_ptr<Mesh> cookCircleMesh(const Recipe& recipe);
-
-			static std::unique_ptr<Mesh> cookCubeMesh(const Recipe& recipe);
 
 			static std::unique_ptr<Mesh> cookCylinderMesh(const Recipe& recipe);
 
