@@ -111,15 +111,20 @@ namespace simplicity
 
 			for (Model* model : bufferAndModels.second)
 			{
-				bool modelHasTransparency =
-						model->getTexture() != nullptr &&
-						hasTransparency(model->getTexture()->getPixelFormat());
+				if (!model->isVisible())
+				{
+					continue;
+				}
 
 				Entity* entity = model->getEntity();
 				if (!entities.empty() && entities.find(entity) == entities.end())
 				{
 					continue;
 				}
+
+				bool modelHasTransparency =
+						model->getTexture() != nullptr &&
+						hasTransparency(model->getTexture()->getPixelFormat());
 
 				if (modelHasTransparency)
 				{
