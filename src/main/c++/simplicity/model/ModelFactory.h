@@ -408,6 +408,8 @@ namespace simplicity
 			 */
 			static void setInstance(std::unique_ptr<ModelFactory> instance);
 
+			static std::unique_ptr<Mesh> cookGridMesh(const Recipe& recipe);
+
 		private:
 			static std::unique_ptr<ModelFactory> instance;
 

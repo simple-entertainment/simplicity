@@ -286,6 +286,62 @@ namespace simplicity
 		return move(mesh);
 	}
 
+	unique_ptr<Mesh> ModelFactory::cookGridMesh(const Recipe& recipe)
+	{
+		unsigned int samples = recipe.divisions + 1;
+		unsigned int rectangleCount = recipe.divisions * recipe.divisions;
+
+		unsigned int vertexCount = samples * samples;
+		unsigned int indexCount = rectangleCount * 6;
+
+		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		MeshData& meshData = mesh->getData(false);
+
+		// Vertices
+		meshData.vertexCount = vertexCount;
+
+		Vector3 northWest(recipe.dimensions.X() * -0.5f, 0.0f, recipe.dimensions.Y() * -0.5f);
+		Vector3 scale(recipe.dimensions.X() / recipe.divisions, 0.0f, recipe.dimensions.Y() / recipe.divisions);
+
+		for (unsigned int row = 0; row < samples; row++)
+		{
+			for (unsigned int column = 0; column < samples; column++)
+			{
+				Vertex& vertex = meshData.vertexData[row * samples + column];
+
+				vertex.color = recipe.color;
+				vertex.normal = Vector3(0.0f, 1.0f, 0.0f);
+
+				vertex.position.X() = northWest.X() + static_cast<float>(column) * scale.X();
+				vertex.position.Y() = 0.0f;
+				vertex.position.Z() = northWest.Z() + static_cast<float>(row) * scale.Z();
+			}
+		}
+
+		// Indices
+		meshData.indexCount = indexCount;
+
+		unsigned int index = 0;
+		for (unsigned int row = 0; row < recipe.divisions; row++)
+		{
+			for (unsigned int column = 0; column < recipe.divisions; column++)
+			{
+				unsigned int baseVertexIndex = row * samples + column;
+
+				meshData.indexData[index++] = baseVertexIndex;
+				meshData.indexData[index++] = baseVertexIndex + samples;
+				meshData.indexData[index++] = baseVertexIndex + samples + 1;
+				meshData.indexData[index++] = baseVertexIndex;
+				meshData.indexData[index++] = baseVertexIndex + samples + 1;
+				meshData.indexData[index++] = baseVertexIndex + 1;
+			}
+		}
+
+		mesh->releaseData();
+
+		return move(mesh);
+	}
+
 	unique_ptr<Mesh> ModelFactory::cookMesh(const Recipe& recipe)
 	{
 		if (recipe.shape == Recipe::Shape::BOX)
