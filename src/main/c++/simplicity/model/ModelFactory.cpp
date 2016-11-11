@@ -31,7 +31,7 @@ namespace simplicity
 
 	const unsigned int MAX_SPLIT_LENGTH = 256;
 
-	unique_ptr<Mesh> ModelFactory::cookBoxMesh(const Recipe& recipe)
+	shared_ptr<Mesh> ModelFactory::cookBoxMesh(const Recipe& recipe)
 	{
 		unsigned int vertexCount = 24;
 		unsigned int indexCount = 0;
@@ -44,7 +44,7 @@ namespace simplicity
 			indexCount += 36;
 		}
 
-		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		shared_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
@@ -120,15 +120,15 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
-	unique_ptr<Mesh> ModelFactory::cookCircleMesh(const Recipe& recipe)
+	shared_ptr<Mesh> ModelFactory::cookCircleMesh(const Recipe& recipe)
 	{
 		unsigned int vertexCount = recipe.divisions + 1;
 		unsigned int indexCount = recipe.divisions * 3;
 
-		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		shared_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		float radius = recipe.dimensions[0] * 0.5f;
@@ -144,10 +144,10 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
-	unique_ptr<Mesh> ModelFactory::cookCylinderMesh(const Recipe& recipe)
+	shared_ptr<Mesh> ModelFactory::cookCylinderMesh(const Recipe& recipe)
 	{
 		unsigned int verticesInEnd = recipe.divisions + 1;
 		unsigned int verticesInEnds = verticesInEnd * 2;
@@ -169,7 +169,7 @@ namespace simplicity
 			indexCount += indicesInEnds + indicesInSides;
 		}
 
-		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount,recipe.buffer);
+		shared_ptr<Mesh> mesh = createMesh(vertexCount, indexCount,recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		float radius = recipe.dimensions[0] * 0.5f;
@@ -213,10 +213,10 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
-	unique_ptr<Mesh> ModelFactory::cookHemisphereMesh(const Recipe& recipe)
+	shared_ptr<Mesh> ModelFactory::cookHemisphereMesh(const Recipe& recipe)
 	{
 		unsigned int vertexCount = (recipe.divisions / 2 + 1) * (recipe.divisions + 1);
 		unsigned int indexCount = 0;
@@ -229,7 +229,7 @@ namespace simplicity
 			indexCount += (recipe.divisions / 2) * (recipe.divisions) * 6;
 		}
 
-		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		shared_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		float radius = recipe.dimensions[0] * 0.5f;
@@ -283,10 +283,10 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
-	unique_ptr<Mesh> ModelFactory::cookGridMesh(const Recipe& recipe)
+	shared_ptr<Mesh> ModelFactory::cookGridMesh(const Recipe& recipe)
 	{
 		unsigned int samples = recipe.divisions + 1;
 		unsigned int rectangleCount = recipe.divisions * recipe.divisions;
@@ -294,7 +294,7 @@ namespace simplicity
 		unsigned int vertexCount = samples * samples;
 		unsigned int indexCount = rectangleCount * 6;
 
-		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		shared_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
@@ -339,10 +339,10 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
-	unique_ptr<Mesh> ModelFactory::cookMesh(const Recipe& recipe)
+	shared_ptr<Mesh> ModelFactory::cookMesh(const Recipe& recipe)
 	{
 		if (recipe.shape == Recipe::Shape::BOX)
 		{
@@ -380,12 +380,12 @@ namespace simplicity
 		return nullptr;
 	}
 
-	unique_ptr<Mesh> ModelFactory::cookPrismMesh(const Recipe& recipe)
+	shared_ptr<Mesh> ModelFactory::cookPrismMesh(const Recipe& recipe)
 	{
 		unsigned int vertexCount = 18;
 		unsigned int indexCount = 24;
 
-		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		shared_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
@@ -438,15 +438,15 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
-	unique_ptr<Mesh> ModelFactory::cookPyramidMesh(const Recipe& recipe)
+	shared_ptr<Mesh> ModelFactory::cookPyramidMesh(const Recipe& recipe)
 	{
 		unsigned int vertexCount = 16;
 		unsigned int indexCount = 18;
 
-		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		shared_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		float halfBaseExtent = recipe.dimensions[0] / 2.0f;
@@ -502,10 +502,10 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
-	unique_ptr<Mesh> ModelFactory::cookRectangleMesh(const Recipe& recipe)
+	shared_ptr<Mesh> ModelFactory::cookRectangleMesh(const Recipe& recipe)
 	{
 		unsigned int vertexCount = 4;
 		unsigned int indexCount = 0;
@@ -518,7 +518,7 @@ namespace simplicity
 			indexCount += 6;
 		}
 
-		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		shared_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
@@ -547,10 +547,10 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
-	unique_ptr<Mesh> ModelFactory::cookSphereMesh(const Recipe& recipe)
+	shared_ptr<Mesh> ModelFactory::cookSphereMesh(const Recipe& recipe)
 	{
 		unsigned int vertexCount = pow(recipe.divisions + 1, 2);
 		unsigned int indexCount = pow(recipe.divisions, 2) * 6;
@@ -559,7 +559,7 @@ namespace simplicity
 			vertexCount *= 4;
 		}
 
-		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
+		shared_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, recipe.buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		float radius = recipe.dimensions[0] * 0.5f;
@@ -654,10 +654,10 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
-	unique_ptr<Mesh> ModelFactory::createHeightMapMesh(const vector<vector<float>>& heightMap, unsigned int minX,
+	shared_ptr<Mesh> ModelFactory::createHeightMapMesh(const vector<vector<float>>& heightMap, unsigned int minX,
 													   unsigned int maxX, unsigned int minZ, unsigned int maxZ,
 													   shared_ptr<MeshBuffer> buffer, const Vector4& color)
 	{
@@ -667,7 +667,7 @@ namespace simplicity
 		unsigned int depth = maxZ - minZ;
 		unsigned int vertexCount = width * depth * 6;
 
-		unique_ptr<Mesh> mesh = createMesh(vertexCount, vertexCount, buffer);
+		shared_ptr<Mesh> mesh = createMesh(vertexCount, vertexCount, buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
@@ -711,10 +711,10 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
-	unique_ptr<Mesh> ModelFactory::createMesh(unsigned int vertexCount, unsigned int indexCount,
+	shared_ptr<Mesh> ModelFactory::createMesh(unsigned int vertexCount, unsigned int indexCount,
 											  shared_ptr<MeshBuffer> buffer)
 	{
 		if (buffer == nullptr)
@@ -722,7 +722,7 @@ namespace simplicity
 			buffer = createMeshBuffer(vertexCount, indexCount);
 		}
 
-		return unique_ptr<Mesh>(new Mesh(buffer));
+		return shared_ptr<Mesh>(new Mesh(buffer));
 	}
 
 	shared_ptr<MeshBuffer> ModelFactory::createMeshBuffer(unsigned int vertexCount, unsigned int indexCount,
@@ -731,7 +731,7 @@ namespace simplicity
 		return instance->createMeshBufferInternal(vertexCount, indexCount, accessHint);
 	}
 
-	unique_ptr<Mesh> ModelFactory::createTriangleMesh(const Vector3& top, const Vector3& toBottomLeft,
+	shared_ptr<Mesh> ModelFactory::createTriangleMesh(const Vector3& top, const Vector3& toBottomLeft,
 													  const Vector3& toBottomRight, shared_ptr<MeshBuffer> buffer,
 													  const Vector4& color, bool doubleSided)
 	{
@@ -742,7 +742,7 @@ namespace simplicity
 			indexCount *= 2;
 		}
 
-		unique_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, buffer);
+		shared_ptr<Mesh> mesh = createMesh(vertexCount, indexCount, buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		// Vertices
@@ -762,7 +762,7 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
 	Vector3 ModelFactory::getPointOnSphere(float radius, unsigned int divisions, unsigned int latitude,
@@ -1003,13 +1003,13 @@ namespace simplicity
 		}
 	}
 
-	unique_ptr<Mesh> ModelFactory::loadObj(Resource& resource, shared_ptr<MeshBuffer> buffer, const Vector4& color,
+	shared_ptr<Mesh> ModelFactory::loadObj(Resource& resource, shared_ptr<MeshBuffer> buffer, const Vector4& color,
 										   float scale)
 	{
 		return loadObj(resource, buffer, color, scale, 0, 0, 0, 0);
 	}
 
-	unique_ptr<Mesh> ModelFactory::loadObj(Resource& resource, shared_ptr<MeshBuffer> buffer, const Vector4& color,
+	shared_ptr<Mesh> ModelFactory::loadObj(Resource& resource, shared_ptr<MeshBuffer> buffer, const Vector4& color,
 										   float scale, unsigned int normalCount, unsigned int positionCount,
 										   unsigned int texCoordCount, unsigned int vertexCount)
 	{
@@ -1121,7 +1121,7 @@ namespace simplicity
 			}
 		}
 
-		unique_ptr<Mesh> mesh = createMesh(static_cast<unsigned int>(vertices.size()), 0, buffer);
+		shared_ptr<Mesh> mesh = createMesh(static_cast<unsigned int>(vertices.size()), 0, buffer);
 		MeshData& meshData = mesh->getData(false);
 
 		meshData.vertexCount = static_cast<unsigned int>(vertices.size());
@@ -1129,7 +1129,7 @@ namespace simplicity
 
 		mesh->releaseData();
 
-		return move(mesh);
+		return mesh;
 	}
 
 	void ModelFactory::setInstance(unique_ptr<ModelFactory> instance)

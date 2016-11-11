@@ -161,7 +161,7 @@ namespace simplicity
 			 *
 			 * @return The simple-shaped mesh.
 			 */
-			static std::unique_ptr<Mesh> cookMesh(const Recipe& recipe);
+			static std::shared_ptr<Mesh> cookMesh(const Recipe& recipe);
 
 			/**
 			 * <p>
@@ -178,7 +178,7 @@ namespace simplicity
 			 *
 			 * @return A height map mesh.
 			 */
-			static std::unique_ptr<Mesh> createHeightMapMesh(const std::vector<std::vector<float>>& heightMap,
+			static std::shared_ptr<Mesh> createHeightMapMesh(const std::vector<std::vector<float>>& heightMap,
 															 unsigned int minX, unsigned int maxX, unsigned int minZ,
 															 unsigned int maxZ,
 															 std::shared_ptr<MeshBuffer> buffer = nullptr,
@@ -196,7 +196,7 @@ namespace simplicity
 			 *
 			 * @return The empty mesh.
 			 */
-			static std::unique_ptr<Mesh> createMesh(unsigned int vertexCount, unsigned int indexCount = 0,
+			static std::shared_ptr<Mesh> createMesh(unsigned int vertexCount, unsigned int indexCount = 0,
 													std::shared_ptr<MeshBuffer> buffer = nullptr);
 
 			/**
@@ -228,7 +228,7 @@ namespace simplicity
 			 *
 			 * @return A triangle mesh.
 			 */
-			static std::unique_ptr<Mesh> createTriangleMesh(const Vector3& top, const Vector3& toBottomLeft,
+			static std::shared_ptr<Mesh> createTriangleMesh(const Vector3& top, const Vector3& toBottomLeft,
 															const Vector3& toBottomRight,
 															std::shared_ptr<MeshBuffer> buffer = nullptr,
 															const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
@@ -369,7 +369,7 @@ namespace simplicity
 			 *
 			 * @return The model created from the OBJ data.
 			 */
-			static std::unique_ptr<Mesh> loadObj(Resource& resource, std::shared_ptr<MeshBuffer> buffer = nullptr,
+			static std::shared_ptr<Mesh> loadObj(Resource& resource, std::shared_ptr<MeshBuffer> buffer = nullptr,
 												 const Vector4& color = Vector4(1.0f, 1.0f, 1.0f, 1.0f),
 												 float scale = 1.0f);
 
@@ -394,7 +394,7 @@ namespace simplicity
 			 *
 			 * @return The model created from the OBJ data.
 			 */
-			static std::unique_ptr<Mesh> loadObj(Resource& resource, std::shared_ptr<MeshBuffer> buffer,
+			static std::shared_ptr<Mesh> loadObj(Resource& resource, std::shared_ptr<MeshBuffer> buffer,
 												 const Vector4& color, float scale, unsigned int normalCount,
 												 unsigned int positionCount, unsigned int texCoordCount,
 												 unsigned int vertexCount);
@@ -408,26 +408,26 @@ namespace simplicity
 			 */
 			static void setInstance(std::unique_ptr<ModelFactory> instance);
 
-			static std::unique_ptr<Mesh> cookGridMesh(const Recipe& recipe);
+			static std::shared_ptr<Mesh> cookGridMesh(const Recipe& recipe);
 
 		private:
 			static std::unique_ptr<ModelFactory> instance;
 
-			static std::unique_ptr<Mesh> cookBoxMesh(const Recipe& recipe);
+			static std::shared_ptr<Mesh> cookBoxMesh(const Recipe& recipe);
 
-			static std::unique_ptr<Mesh> cookCircleMesh(const Recipe& recipe);
+			static std::shared_ptr<Mesh> cookCircleMesh(const Recipe& recipe);
 
-			static std::unique_ptr<Mesh> cookCylinderMesh(const Recipe& recipe);
+			static std::shared_ptr<Mesh> cookCylinderMesh(const Recipe& recipe);
 
-			static std::unique_ptr<Mesh> cookHemisphereMesh(const Recipe& recipe);
+			static std::shared_ptr<Mesh> cookHemisphereMesh(const Recipe& recipe);
 
-			static std::unique_ptr<Mesh> cookPrismMesh(const Recipe& recipe);
+			static std::shared_ptr<Mesh> cookPrismMesh(const Recipe& recipe);
 
-			static std::unique_ptr<Mesh> cookPyramidMesh(const Recipe& recipe);
+			static std::shared_ptr<Mesh> cookPyramidMesh(const Recipe& recipe);
 
-			static std::unique_ptr<Mesh> cookRectangleMesh(const Recipe& recipe);
+			static std::shared_ptr<Mesh> cookRectangleMesh(const Recipe& recipe);
 
-			static std::unique_ptr<Mesh> cookSphereMesh(const Recipe& recipe);
+			static std::shared_ptr<Mesh> cookSphereMesh(const Recipe& recipe);
 
 			virtual std::shared_ptr<MeshBuffer> createMeshBufferInternal(unsigned int vertexCount,
 																		 unsigned int indexCount,
