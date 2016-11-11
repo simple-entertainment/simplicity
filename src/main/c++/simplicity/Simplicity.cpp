@@ -174,6 +174,7 @@ namespace simplicity
 				scene->open();
 				compositeEngine->onOpenScene(*scene);
 				scene->resume();
+				compositeEngine->onResumeScene(*scene);
 			}
 
 			compositeEngine->advance(*scene);
