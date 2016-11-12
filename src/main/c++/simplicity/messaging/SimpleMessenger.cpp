@@ -14,22 +14,18 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include "SimpleMessagingEngine.h"
+#include "SimpleMessenger.h"
 
 using namespace std;
 
 namespace simplicity
 {
-	SimpleMessagingEngine::SimpleMessagingEngine() :
+	SimpleMessenger::SimpleMessenger() :
 		recipients()
 	{
 	}
 
-	void SimpleMessagingEngine::advance(Scene& scene)
-	{
-	}
-
-	void SimpleMessagingEngine::deregisterRecipient(unsigned short subject, function<Recipient> recipient)
+	void SimpleMessenger::deregisterRecipient(unsigned short subject, function<Recipient> recipient)
 	{
 		vector<function<Recipient>>& subjectRecipients = recipients[subject];
 
@@ -40,21 +36,21 @@ namespace simplicity
 			}));
 	}
 
-	void SimpleMessagingEngine::deregisterRecipient(unsigned short /* subject */,
+	void SimpleMessenger::deregisterRecipient(unsigned short /* subject */,
 		unsigned short /* recipientCategory */)
 	{
 	}
 
-	void SimpleMessagingEngine::registerRecipient(unsigned short subject, function<Recipient> recipient)
+	void SimpleMessenger::registerRecipient(unsigned short subject, function<Recipient> recipient)
 	{
 		recipients[subject].push_back(recipient);
 	}
 
-	void SimpleMessagingEngine::registerRecipient(unsigned short /* subject */, unsigned short /* recipientCategory */)
+	void SimpleMessenger::registerRecipient(unsigned short /* subject */, unsigned short /* recipientCategory */)
 	{
 	}
 
-	void SimpleMessagingEngine::send(const Message& message)
+	void SimpleMessenger::send(const Message& message)
 	{
 		auto recipientsIter = recipients.find(message.subject);
 		if (recipientsIter == recipients.end() || recipientsIter->second.empty())

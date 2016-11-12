@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef MESSAGINGENGINE_H_
-#define MESSAGINGENGINE_H_
+#ifndef MESSENGER_H_
+#define MESSENGER_H_
 
 #include "../engine/Engine.h"
 #include "Messages.h"
@@ -24,10 +24,10 @@ namespace simplicity
 {
 	/**
 	 * <p>
-	 * An engine that forwards messages from senders to receivers.
+	 * Delivers messages.
 	 * </p>
 	 */
-	class SIMPLE_API MessagingEngine : public Engine
+	class SIMPLE_API Messenger
 	{
 		public:
 			/**
@@ -81,4 +81,4 @@ namespace simplicity
 	};
 }
 
-#endif /* MESSAGINGENGINE_H_ */
+#endif /* MESSENGER_H_ */

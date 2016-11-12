@@ -19,8 +19,8 @@
 
 #include "../Simplicity.h"
 #include "Messages.h"
-#include "MessagingEngine.h"
-#include "SimpleMessagingEngine.h"
+#include "Messenger.h"
+#include "SimpleMessenger.h"
 
 using namespace std;
 
@@ -28,37 +28,30 @@ namespace simplicity
 {
 	namespace Messages
 	{
-		void addDefaultMessagingEngine();
-
 		map<unsigned int, unique_ptr<Codec>> codecs;
 
-		vector<MessagingEngine*> engines;
+		unique_ptr<Messenger> defaultMessenger(new SimpleMessenger);
 
-		void addDefaultMessagingEngine()
-		{
-			unique_ptr<MessagingEngine> defaultMessagingEngine(new SimpleMessagingEngine);
-			addEngine(defaultMessagingEngine.get());
-			Simplicity::addEngine(move(defaultMessagingEngine));
-		}
+		vector<Messenger*> messengers;
 
-		void addEngine(MessagingEngine* engine)
+		void addMessenger(Messenger* engine)
 		{
-			engines.push_back(engine);
+			messengers.push_back(engine);
 		}
 
 		void deregisterRecipient(unsigned short subject, function<Recipient> recipient)
 		{
-			for (MessagingEngine* engine : engines)
+			for (Messenger* messenger : messengers)
 			{
-				engine->deregisterRecipient(subject, recipient);
+				messenger->deregisterRecipient(subject, recipient);
 			}
 		}
 
 		void deregisterRecipient(unsigned short subject, unsigned short recipientCategory)
 		{
-			for (MessagingEngine* engine : engines)
+			for (Messenger* messenger : messengers)
 			{
-				engine->deregisterRecipient(subject, recipientCategory);
+				messenger->deregisterRecipient(subject, recipientCategory);
 			}
 		}
 
@@ -69,48 +62,48 @@ namespace simplicity
 
 		void registerRecipient(unsigned short subject, function<Recipient> recipient)
 		{
-			// Provide the default messaging engine.
-			if (engines.size() == 0)
+			// Provide the default messenger.
+			if (messengers.size() == 0)
 			{
-				addDefaultMessagingEngine();
+				addMessenger(defaultMessenger.get());
 			}
 
-			for (MessagingEngine* engine : engines)
+			for (Messenger* messenger : messengers)
 			{
-				engine->registerRecipient(subject, recipient);
+				messenger->registerRecipient(subject, recipient);
 			}
 		}
 
 		void registerRecipient(unsigned short subject, unsigned short recipientCategory)
 		{
-			// Provide the default messaging engine.
-			if (engines.size() == 0)
+			// Provide the default messenger.
+			if (messengers.size() == 0)
 			{
-				addDefaultMessagingEngine();
+				addMessenger(defaultMessenger.get());
 			}
 
-			for (MessagingEngine* engine : engines)
+			for (Messenger* messenger : messengers)
 			{
-				engine->registerRecipient(subject, recipientCategory);
+				messenger->registerRecipient(subject, recipientCategory);
 			}
 		}
 
-		void removeEngine(const MessagingEngine& engine)
+		void removeMessenger(const Messenger& messenger)
 		{
-			engines.erase(remove(engines.begin(), engines.end(), &engine));
+			messengers.erase(remove(messengers.begin(), messengers.end(), &messenger));
 		}
 
 		void send(const Message& message)
 		{
-			for (MessagingEngine* engine : engines)
+			for (Messenger* messenger : messengers)
 			{
-				engine->send(message);
+				messenger->send(message);
 			}
 		}
 
 		void setCodec(unsigned short subject, unique_ptr<Codec> codec)
 		{
-			Messages::codecs[subject] = move(codec);
+			codecs[subject] = move(codec);
 		}
 	}
 }

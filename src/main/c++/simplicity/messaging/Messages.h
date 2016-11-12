@@ -25,18 +25,18 @@
 
 namespace simplicity
 {
-	class MessagingEngine;
+	class Messenger;
 
 	namespace Messages
 	{
 		/**
 		 * <p>
-		 * Adds an engine that will forward the messages.
+		 * Adds a messenger that will deliver the messages.
 		 * </p>
 		 *
-		 * @param engine The engine to add.
+		 * @param messenger The messenger to add.
 		 */
-		SIMPLE_API void addEngine(MessagingEngine* engine);
+		SIMPLE_API void addMessenger(Messenger* messenger);
 
 		/**
 		 * <p>
@@ -91,12 +91,12 @@ namespace simplicity
 
 		/**
 		 * <p>
-		 * Removes an engine that was forward the messages.
+		 * Removes a messenger that was delivering the messages.
 		 * </p>
 		 *
-		 * @param engine The engine to remove.
+		 * @param messenger The messenger to remove.
 		 */
-		SIMPLE_API void removeEngine(const MessagingEngine& engine);
+		SIMPLE_API void removeMessenger(const Messenger& messenger);
 
 		/**
 		 * <p>

@@ -58,10 +58,10 @@
 #include "messaging/Codec.h"
 #include "messaging/Message.h"
 #include "messaging/Messages.h"
-#include "messaging/MessagingEngine.h"
+#include "messaging/Messenger.h"
 #include "messaging/Recipient.h"
 #include "messaging/SimpleCodec.h"
-#include "messaging/SimpleMessagingEngine.h"
+#include "messaging/SimpleMessenger.h"
 #include "messaging/Subject.h"
 
 // Model

@@ -16,10 +16,13 @@
  */
 #include "Message.h"
 
+using namespace std;
+
 namespace simplicity
 {
 	Message::Message() :
 		body(nullptr),
+		bodyType("unknown"),
 		senderSystemId(0),
 		subject(0)
 	{
@@ -27,8 +30,17 @@ namespace simplicity
 
 	Message::Message(unsigned short subject, const void* body) :
 		body(body),
+		bodyType("unknown"),
 		senderSystemId(0),
 		subject(subject)
+	{
+	}
+
+	Message::Message(unsigned short subject, const void* body, const string& bodyType) :
+			body(body),
+			bodyType(bodyType),
+			senderSystemId(0),
+			subject(subject)
 	{
 	}
 }

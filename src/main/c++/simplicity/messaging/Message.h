@@ -17,6 +17,8 @@
 #ifndef MESSAGE_H_
 #define MESSAGE_H_
 
+#include <string>
+
 #include "../common/Defines.h"
 
 namespace simplicity
@@ -35,6 +37,13 @@ namespace simplicity
 		 * @param body The information being sent.
 		 */
 		Message(unsigned short subject, const void* body);
+
+		/**
+		 * @param subject The purpose for sending the information.
+		 * @param body The information being sent.
+		 * @param bodyType The type of information being sent.
+		 */
+		Message(unsigned short subject, const void* body, const std::string& bodyType);
 		
 		/**
 		 * <p>
@@ -42,7 +51,14 @@ namespace simplicity
 		 * </p>
 		 */
 		const void* body;
-		
+
+		/**
+		 * <p>
+		 * The type of information being sent.
+		 * </p>
+		 */
+		std::string bodyType;
+
 		/**
 		 * <p>
 		 * The ID of the system where this message originated. This is only relevant if the message is being sent from

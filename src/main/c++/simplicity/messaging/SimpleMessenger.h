@@ -14,26 +14,24 @@
  * You should have received a copy of the GNU General Public License along with The Simplicity Engine. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLEMESSAGINGENGINE_H_
-#define SIMPLEMESSAGINGENGINE_H_
+#ifndef SIMPLEMESSENGER_H_
+#define SIMPLEMESSENGER_H_
 
 #include <queue>
 
-#include "MessagingEngine.h"
+#include "Messenger.h"
 
 namespace simplicity
 {
 	/**
 	 * <p>
-	 * A messaging engine that sends messages to local receivers.
+	 * A messenger that delivers messages to local receivers.
 	 * </p>
 	 */
-	class SIMPLE_API SimpleMessagingEngine : public MessagingEngine
+	class SIMPLE_API SimpleMessenger : public Messenger
 	{
 		public:
-			SimpleMessagingEngine();
-
-			void advance(Scene& scene) override;
+			SimpleMessenger();
 
 			void deregisterRecipient(unsigned short subject, std::function<Recipient> recipient)  override;
 
@@ -50,4 +48,4 @@ namespace simplicity
 	};
 }
 
-#endif /* SIMPLEMESSAGINGENGINE_H_ */
+#endif /* SIMPLEMESSENGER_H_ */

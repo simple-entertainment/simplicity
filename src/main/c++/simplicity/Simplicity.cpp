@@ -236,6 +236,7 @@ namespace simplicity
 			if (scene != nullptr)
 			{
 				scene->resume();
+				compositeEngine->onResumeScene(*scene);
 			}
 
 			state = State::PLAYING;
